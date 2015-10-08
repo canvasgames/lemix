@@ -1,8 +1,11 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace />
-  <MonoDevelop.Ide.Workbench ActiveDocument="..\..\G2M\Lemix\Assets\Lemix\scripts\Tile.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Lemix\scripts\bt\cancel_bt.cs">
     <Files>
-      <File FileName="..\..\G2M\Lemix\Assets\Lemix\scripts\Tile.cs" Line="120" Column="1" />
+      <File FileName="Assets\Photon Unity Networking\UtilityScripts\Lobby_Master.cs" Line="35" Column="1" />
+      <File FileName="Assets\Lemix\scripts\bt\bt_multiplayer.cs" Line="30" Column="29" />
+      <File FileName="Assets\Lemix\scripts\WController.cs" Line="1" Column="1" />
+      <File FileName="Assets\Lemix\scripts\bt\cancel_bt.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

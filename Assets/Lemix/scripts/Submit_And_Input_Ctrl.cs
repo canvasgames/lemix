@@ -6,16 +6,15 @@ using System.Collections;
 public class Submit_And_Input_Ctrl : MonoBehaviour {
 
 	private int changed = 0;
-
+	public GameObject LeftBar;
+	public GameObject RightBar;
 
 	public int submitFullTrigger=0;
 	float timer2Submit;
+
 	// Use this for initialization
 	void Start () {
-		//gController = otherGameObject.GetComponent<GameController>();
-		//transform.localScale = new Vector3(1, 1, 1);
-		//WController[] wordCTRL = FindObjectsOfType(typeof(WController)) as WController[];
-		//changeScale(wordCTRL[0].word.Length+1);
+
 
 	}
 
@@ -50,6 +49,7 @@ public class Submit_And_Input_Ctrl : MonoBehaviour {
 			}
 			else if(Input.GetKeyDown("return"))
 			{
+				submitFullTrigger =0;
 				submitLetters();
 
 			}
@@ -119,35 +119,28 @@ public class Submit_And_Input_Ctrl : MonoBehaviour {
 	
 	public void ResizeandReposite()
 	{
-		//Seta posiçao do bt submit de acordo com o tamanho da palavra
+		//Seta posiçao do bt submit na primeira rodada de acordo com o tamanho da palavra
 		WController[] wordCTRL = FindObjectsOfType(typeof(WController)) as WController[];
-		//Green_Left[] gleft = FindObjectsOfType(typeof(Green_Left)) as Green_Left[];
-		//Green_Right[] gright = FindObjectsOfType(typeof(Green_Right)) as Green_Right[];
-		//gleft[0].transform.localScale  = new Vector3(0f, 1, 1);
-		//gright[0].transform.localScale  = new Vector3(0f, 1, 1);
-
 
 		if(wordCTRL[0].word.Length==5)
 		{
-			//Debug.Log("555555555555555");
-			transform.position -= new Vector3(210, 0, 0);
+			transform.position -= new Vector3(240, 0, 0);
+
 		}
 		if(wordCTRL[0].word.Length==6)
 		{
-			//Debug.Log("66666666666666666");
-			transform.position -= new Vector3(140, 0, 0);
+			transform.position -= new Vector3(160, 0, 0);
 		}
 		if(wordCTRL[0].word.Length==7)
 		{
-			//Debug.Log("7777777777777");
-			transform.position -= new Vector3(70, 0, 0);
+			transform.position -= new Vector3(80, 0, 0);
 		}
 		if(wordCTRL[0].word.Length==8)
 		{	
-			//Debug.Log("888888888888888");
-			transform.position -= new Vector3(0, 0, 0);
-
+			transform.position -= new Vector3(-10, 0, 0);
 		}
+
+
 	}
 	void OnMouseDown() 
 	{
@@ -161,7 +154,7 @@ public class Submit_And_Input_Ctrl : MonoBehaviour {
 		//Se todas letras estao na mesa ativa o trigger para submeter automaticamente a palavra
 		if(numberOfLetters == wordCTRL[0].word.Length)
 		{
-			timer2Submit = 0.5f;
+			timer2Submit = 0.7f;
 			submitFullTrigger = 1;
 		}
 		
@@ -215,10 +208,6 @@ public class Submit_And_Input_Ctrl : MonoBehaviour {
 	//Muda o tamanho do bt Submit conforme o numero de letras no tabuleiro
 	public void changeScale(int numOfLetters)
 	{
-		//Green_Left[] gleft = FindObjectsOfType(typeof(Green_Left)) as Green_Left[];
-		//Green_Right[] gright = FindObjectsOfType(typeof(Green_Right)) as Green_Right[];
-
-		//GameObject umnome = GameObject.Find ("bt-submit-corner"); 
 		WController[] wordCTRL = FindObjectsOfType(typeof(WController)) as WController[];
 		TextSubmitBT[] SubmitTxt = FindObjectsOfType(typeof(TextSubmitBT)) as TextSubmitBT[];
 
@@ -229,54 +218,72 @@ public class Submit_And_Input_Ctrl : MonoBehaviour {
 		changed += 1;
 
 			if(numOfLetters == 8)
-				transform.localScale = new Vector3(3.53f, 1, 1);
+				transform.localScale = new Vector3(3.417f, 1, 1);
 			if(numOfLetters == 7)
-				transform.localScale = new Vector3(3f, 1, 1);
+				transform.localScale = new Vector3(2.92f, 1, 1);
 			if(numOfLetters == 6)
-				transform.localScale = new Vector3(2.5f, 1, 1);
+				transform.localScale = new Vector3(2.42f, 1, 1);
 			if(numOfLetters == 5)
-				transform.localScale = new Vector3(1.99f, 1, 1);
+				transform.localScale = new Vector3(1.9f, 1, 1);
 			if(numOfLetters == 4)
-				transform.localScale = new Vector3(1.49f, 1, 1);
+				transform.localScale = new Vector3(1.42f, 1, 1);
 			if(numOfLetters == 3)
-				transform.localScale = new Vector3(1f, 1, 1);
+				transform.localScale = new Vector3(0.91f, 1, 1);
 			if(numOfLetters == 2)
-				transform.localScale = new Vector3(0.52f, 1, 1);
+				transform.localScale = new Vector3(0.407f, 1, 1);
 			if(numOfLetters == 1)
 			{
 
 				transform.localScale = new Vector3(0f, 1, 1);
+				LeftBar.transform.localScale = new Vector3(0f, 1, 1);
+				RightBar.transform.localScale = new Vector3(0f, 1, 1);
 			}
+			else
+			{
+				LeftBar.transform.localScale = new Vector3(1, 1, 1);
+				RightBar.transform.localScale = new Vector3(1, 1, 1);
+			}
+
+		//Guarda cor dos objetos do bt de submit
+		Color corleft = LeftBar.GetComponent<Renderer>().material.color;
+		Color corright = RightBar.GetComponent<Renderer>().material.color;
+		Color colorida = GetComponent<Renderer>().material.color;
+
+		//Verifica quantas letras foram colocadas no tabuleiro e muda a cor e o txt do bt
 		if(numOfLetters == wordCTRL[0].word.Length+1)
 		{
-			SubmitTxt[0].GetComponent<TextMesh> ().text = "+3 LETTER";
+			SubmitTxt[0].GetComponent<TextMesh> ().text = "+3 LETTERS";
 
-			Color colorida = GetComponent<Renderer>().material.color;
 			colorida.a = 0.4f;
-			GetComponent<Renderer>().material.color= colorida;
+			corright.a = 0.4f;
+			corleft.a = 0.4f;
+		
 
 		}
 		else if (numOfLetters == wordCTRL[0].word.Length)
 		{
-			SubmitTxt[0].GetComponent<TextMesh> ().text = "+2 LETTER";
+			SubmitTxt[0].GetComponent<TextMesh> ().text = "+2 LETTERS";
 
-			Color colorida = GetComponent<Renderer>().material.color;
+			corright.a = 0.4f;
+			corleft.a = 0.4f;
 			colorida.a = 0.4f;
-			GetComponent<Renderer>().material.color= colorida;
+
 		}
 		else if (numOfLetters == wordCTRL[0].word.Length-1)
 		{
-			SubmitTxt[0].GetComponent<TextMesh> ().text = "+1 LETTER";
+			SubmitTxt[0].GetComponent<TextMesh> ().text = "+1 LETTERS";
 
-			Color colorida = GetComponent<Renderer>().material.color;
+
+			corright.a = 0.4f;
+			corleft.a = 0.4f;
 			colorida.a = 0.4f;
-			GetComponent<Renderer>().material.color= colorida;
 		}
 		else
 		{
-			Color colorida = GetComponent<Renderer>().material.color;
+			corright.a = 1f;
+			corleft.a = 1f;
 			colorida.a = 1f;
-			GetComponent<Renderer>().material.color= colorida;
+
 
 			if(numOfLetters == 1)
 				SubmitTxt[0].GetComponent<TextMesh> ().text = "";
@@ -284,21 +291,16 @@ public class Submit_And_Input_Ctrl : MonoBehaviour {
 				SubmitTxt[0].GetComponent<TextMesh> ().text = "ENTER";
 		}
 
+		//muda o alpha do bt
+		GetComponent<Renderer>().material.color= colorida;
+		LeftBar.GetComponent<Renderer>().material.color = corleft;
+		RightBar.GetComponent<Renderer>().material.color = corright;
+
+		// posiçao do txt e das bordas
+		var renderer = gameObject.GetComponent<Renderer>();
 		SubmitTxt[0].transform.position = new Vector3(transform.position.x - (transform.lossyScale.x*157),SubmitTxt[0].transform.position.y ,SubmitTxt[0].transform.position.z);
-		/*if(numOfLetters == 1)
-		{
-			gright[0].transform.localScale = new Vector3(0,0,0);
-			gleft[0].transform.localScale = new Vector3(0,0,0);
-		}
-		else
-		{
-			gright[0].transform.localScale = new Vector3(1, 1, 1);
-			gleft[0].transform.localScale = new Vector3(1, 1, 1);
-			gright[0].transform.position  = transform.position;
-			float tempposx;
-			tempposx = transform.position.x -  renderer.bounds.size.x;
-			gleft[0].transform.position  = new Vector3(tempposx, gleft[0].transform.position.y, gleft[0].transform.position.z);
-		}*/
+		LeftBar.transform.position = new Vector3((transform.position.x - renderer.bounds.size.x), transform.position.y, transform.position.z) ;
+		RightBar.transform.position = new Vector3((transform.position.x), transform.position.y, transform.position.z) ;
 	}
 
 	void inputBackspaceCase()
@@ -322,7 +324,6 @@ public class Submit_And_Input_Ctrl : MonoBehaviour {
 			wordCTRL[0].atable [i-1] = '\0';
 		
 			//Muda scale do BT submit
-			//if((i-1)>=1)
 			if((i-1)>=0)
 				submitBT[0].changeScale(wordCTRL[0].word.Length - (i-2));
 			else 

@@ -8,6 +8,8 @@ using System.Linq;
 using Thinksquirrel.WordGameBuilder;
 using Thinksquirrel.WordGameBuilder.Gameplay;
 using Thinksquirrel.WordGameBuilder.ObjectModel;
+using DG.Tweening;
+using UnityEngine.UI;
 
 public class WController : MonoBehaviour {
 
@@ -33,10 +35,12 @@ public class WController : MonoBehaviour {
 	Vector3 scaleB;
 	int triggerBallonP1 =0;
 	int triggerBallonP2 =0;
-	GameObject BalonP1;
-	GameObject BalonP2;
+	GameObject BalonP1,BalonP2;
 	public float smooth;
 	GameObject wfounded; 
+
+	public GameObject walready, wnotfound; 
+	Vector3 walreadypos, wnotfoundpos;
 
 	//Classe da lista de palavras
 	public class MyWordInList
@@ -60,6 +64,11 @@ public class WController : MonoBehaviour {
 		//Debug.Log(numberOfFiles);
 		//Sorteia um dos arquivos de palavras
 
+		wnotfoundpos = wnotfound.transform.position;
+		walreadypos = walready.transform.position;
+		wnotfound.GetComponent<SpriteRenderer>().DOFade(0f,0f);
+		walready.GetComponent<SpriteRenderer>().DOFade(0f,0f);
+
 		//Ballon adjust
 		BalonP1 = GameObject.Find ("dialog blue"); 
 		BalonP2 = GameObject.Find ("dialog red"); 
@@ -72,7 +81,7 @@ public class WController : MonoBehaviour {
 		wfounded.GetComponentInChildren<TextMesh> ().GetComponent<Renderer>().sortingOrder = 10; 
 
 		int rand = SAFFER.Singleton.ANAGRAM_ID;
-		// DEBUG SORTING CASE
+		// Sorteia arquivo de palavra
 		if (rand == 0) {
 			int numberOfFiles = SAFFER.Singleton.NumberOfWordFiles;
 			Debug.Log (numberOfFiles);
@@ -82,9 +91,9 @@ public class WController : MonoBehaviour {
 		}
 
 		Debug.Log("ANAGRAM ID: " + rand);
-	
+		
 		string number = rand.ToString();
-		//number = "5";
+		//number = "4";
 		string path = Application.dataPath;
 		string file = "Word_" + number;
 		//string file = "pt_Word_" + number;
@@ -96,7 +105,7 @@ public class WController : MonoBehaviour {
 
 		LoadDictionary(file);
 
-
+		//Seta variaveis das palavras
 		int numberofWordstemp;
 		
 		numberofWordstemp = (int)numberofWords;
@@ -116,7 +125,6 @@ public class WController : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		ballonsstatus();
-
 	}
 	
 	private bool LoadDictionary(string fileName)
@@ -211,7 +219,7 @@ public class WController : MonoBehaviour {
 			//Console.WriteLine("{0}\n", e.Message);
 			return false;
 		}*/
-		Debug.Log ("LOAD DICTIONARY ENDED!");
+		//Debug.Log ("LOAD DICTIONARY ENDED!");
 	}
 	
 	//Chamado pelo botao shuffle para reorganizar as tiles
@@ -313,6 +321,12 @@ public class WController : MonoBehaviour {
 				else
 				{
 					GetComponent<AudioSource>().PlayOneShot(AudioAlready);
+
+					dessapear_not_found();
+					dessapear_already();
+					
+					walready.transform.DOMoveY(-43f,0.5f).OnComplete(wait_msg_already);
+					walready.GetComponent<SpriteRenderer>().DOFade(1f,0.6f);
 					return;
 				}
 			}
@@ -320,7 +334,42 @@ public class WController : MonoBehaviour {
 
 		GetComponent<AudioSource>().PlayOneShot(AudioError);
 
+		//Reposiciona msg 
+		dessapear_not_found();
+		dessapear_already();
+
+		wnotfound.transform.DOMoveY(-43f,0.5f).OnComplete(wait_msg_not_found);
+		wnotfound.GetComponent<SpriteRenderer>().DOFade(1f,0.6f);
+
 	}
+
+	//Deixa a msg um pouco na tela
+	void wait_msg_not_found()
+	{
+		wnotfound.GetComponent<SpriteRenderer>().DOFade(1f,1f).OnComplete(dessapear_not_found);
+	}
+	//Desaparece a msg
+	void dessapear_not_found()
+	{
+		wnotfound.transform.DOKill();
+		wnotfound.GetComponent<SpriteRenderer>().DOKill();
+		wnotfound.transform.DOMoveY(wnotfoundpos.y,0f);
+		wnotfound.GetComponent<SpriteRenderer>().DOFade(0f,0f);
+	}
+
+	void wait_msg_already()
+	{
+		walready.GetComponent<SpriteRenderer>().DOFade(1f,1f).OnComplete(dessapear_already);
+	}
+
+	void dessapear_already()
+	{
+		walready.transform.DOKill();
+		walready.GetComponent<SpriteRenderer>().DOKill();
+		walready.transform.DOMoveY(wnotfoundpos.y,0f);
+		walready.GetComponent<SpriteRenderer>().DOFade(0f,0f);
+	}
+
 
 	public void wordfound(int player, int word_id)
 	{
@@ -384,8 +433,7 @@ public class WController : MonoBehaviour {
 		{
 			if(triggerBallonP1 == 2)
 			{
-               
-                BalonP1.transform.localScale = Vector3.Lerp(BalonP1.transform.localScale,new Vector3 (0,0,0), smooth * Time.deltaTime);
+				BalonP1.transform.localScale = Vector3.Lerp(BalonP1.transform.localScale,new Vector3 (0,0,0), smooth * Time.deltaTime);
 				if(BalonP1.transform.localScale == Vector3.zero)
 					triggerBallonP1 = 0;
 				

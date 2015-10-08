@@ -29,6 +29,7 @@ public class WhiteSquare : MonoBehaviour {
 		{
 			showed = 1;
 			GetComponent<TextMesh> ().text = myLetter.ToString ();
+			GetComponent<TextMesh> ().color = Color.white;
 			if(player == 1)
 				GetComponentInChildren<SpriteRenderer> ().color = new Color32(52, 152, 219,255);
 			else if(player == 2)
@@ -39,6 +40,7 @@ public class WhiteSquare : MonoBehaviour {
 	public void appearPowerUp()
 	{
 		GetComponent<TextMesh> ().text = myLetter.ToString ();
+		GetComponent<TextMesh> ().color = Color.black;
 		showed = 1;
 
 	}

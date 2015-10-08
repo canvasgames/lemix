@@ -5,6 +5,9 @@ using System.Collections.Generic;
 using System.Text;
 using System.IO;  
 using System.Linq;
+using DG.Tweening;
+using UnityEngine.UI;
+
 /// <summary>
 /// This script automatically connects to Photon (using the settings file), 
 /// tries to join a random room and creates one if none was found (which is ok).
@@ -29,12 +32,15 @@ public class Lobby_Master : Photon.MonoBehaviour
     public virtual void Start()
     {
 		ScenePhotonView = this.GetComponent<PhotonView>();
+
 		SAFFER[] single2 = FindObjectsOfType (typeof(SAFFER)) as SAFFER[];
 		if (single2.Length == 0) {
 			GameObject obj = (GameObject)Instantiate (single, new Vector3 (0, 0, 0), transform.rotation);
 			SAFFER final = obj.GetComponent<SAFFER> ();
 		}
-        PhotonNetwork.autoJoinLobby = false;    // we join randomly. always. no need to join a lobby to get the list of rooms.
+       
+
+		PhotonNetwork.autoJoinLobby = false;    // we join randomly. always. no need to join a lobby to get the list of rooms.
     }
 
     public virtual void Update()
