@@ -16,18 +16,19 @@ public class bt_multiplayer : MonoBehaviour {
 	}
 
 	void OnMouseDown(){
+
+	}
+
+	public void pressed()
+	{
+		SAFFER.Singleton.Reset_Globals ();
 		Debug.Log ("CONNECT !");
 		lobbymaster.SetActive(true);
 		cancelbt.SetActive(true);
 		botbt.SetActive(false);
+		gameObject.SetActive(false);
 		lb = FindObjectsOfType(typeof(Lobby_Master)) as Lobby_Master[];
 		lb[0].Connect_to_photon();
 	}
 
-	void active_bts()
-	{
-		lobbymaster.SetActive(false);
-		cancelbt.SetActive(false);
-		botbt.SetActive(true);
-	}
 }

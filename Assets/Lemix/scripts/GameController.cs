@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
@@ -13,16 +13,11 @@ using Thinksquirrel.WordGameBuilder.ObjectModel;
 
 public class GameController : MonoBehaviour {
 	float matchTotaltime = 120f;
-
+	//float matchTotaltime = 3f;
 	
-	public GameObject fail;
-	public GameObject win;
-	public GameObject draw;
+	public GameObject fail,win, draw;
 
-	
-	public GameObject failTitle;
-	public GameObject winTitle;
-	public GameObject drawTitle;
+	public GameObject failTitle, winTitle, drawTitle;
 	GameObject clock;
 	
 	public GameObject restartBT;
@@ -54,6 +49,7 @@ public class GameController : MonoBehaviour {
 	}
 
 	void Update () {
+
 		if (matchTotaltime > 0) {
 			// SHOW TIME 
 			matchTotaltime -= Time.deltaTime;
@@ -64,7 +60,7 @@ public class GameController : MonoBehaviour {
 			//Debug.Log(matchTotaltime);
 		}
 
-
+		//Debug.Log(SAFFER.Singleton.DRAW);
 		if(matchTotaltime<=0 && SAFFER.Singleton.WIN == false && SAFFER.Singleton.LOOSE == false && SAFFER.Singleton.DRAW == false)
 		{
 			//Debug.Log(SAFFER.Singleton.MY_SCORE);
@@ -76,6 +72,7 @@ public class GameController : MonoBehaviour {
 				{
 					GameObject empate = (GameObject)Instantiate (draw, new Vector3 (0,0 , 100), transform.rotation);
 					SAFFER.Singleton.DRAW = true;
+
 					//empate.renderer.sortingOrder = 5;
 					//GameObject empateTit = (GameObject)Instantiate (drawTitle, new Vector3 (0,80 , 100), transform.rotation);
 					//empateTit.renderer.sortingOrder = 10;
@@ -101,8 +98,9 @@ public class GameController : MonoBehaviour {
 			}
 			//GameObject rstt = (GameObject)Instantiate (restartBT, new Vector3 (0,-120 , 100), transform.rotation);
 			//rstt.renderer.sortingOrder = 10;
+			Time.timeScale = 0 ;
 		}
-
+		//
 	}
 
 

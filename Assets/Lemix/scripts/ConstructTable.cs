@@ -9,7 +9,8 @@ public class ConstructTable : MonoBehaviour {
 	public int x_pos_init;
 
 	//Posiçao inicial dos tiles e espaçamento
-	int y_pos_init = -370;
+	int y_pos_init = -420;
+	public int y_pos_submit_table = -220;
 	public int tiles_space, x_space, wordsPerCollumn, superior_Y, y_space, square_width;
 	public string rand_word;
 	// Use this for initialization
@@ -155,6 +156,7 @@ public class ConstructTable : MonoBehaviour {
 			int lengtword = wordCTRL[0].list[i].myWord.Length;
 			for(j=0;lengtword>0;j++)		
 			{
+				SAFFER.Singleton.MAX_SCORE += 10;
 				GameObject go = (GameObject)Instantiate (whiteSquare, new Vector3 (initial_x_pos+square_width*j, superior_Y - y_space*k , 0), transform.rotation);
 				WhiteSquare wtSquare = go.GetComponent<WhiteSquare> ();
 				lengtword --;
@@ -213,7 +215,7 @@ public class ConstructTable : MonoBehaviour {
 			GameObject tilegray = (GameObject)Instantiate (tileSpace, new Vector3 (pos, y_pos_init, 0), transform.rotation);
 			Tile tgray = go.GetComponent<Tile> ();
 
-			GameObject tilegrayUP = (GameObject)Instantiate (tileSpace, new Vector3 (pos,-190, 0), transform.rotation);
+			GameObject tilegrayUP = (GameObject)Instantiate (tileSpace, new Vector3 (pos,y_pos_submit_table, 0), transform.rotation);
 			Tile tgrayUP = go.GetComponent<Tile> ();
 
 			tgray.GetComponent<Renderer>().sortingOrder = 5;

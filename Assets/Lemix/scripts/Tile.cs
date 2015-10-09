@@ -130,7 +130,7 @@ public class Tile : MonoBehaviour {
 
 			//Movimenta o tile
 			float pos = constTab[0].x_pos_init + i * constTab[0].tiles_space;
-			target = new Vector3 (pos, -190, 0);
+			target = new Vector3 (pos, constTab[0].y_pos_submit_table, 0);
 			onTheTable = 2;
 
 			//Muda scale do BT submit

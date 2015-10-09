@@ -31,6 +31,7 @@ public class SAFFER : MonoBehaviour {
 	//SCORE
 	[HideInInspector] public int MY_SCORE = 0;
 	[HideInInspector] public int OP_SCORE = 0;
+	[HideInInspector] public int MAX_SCORE = 0;
 
 	[HideInInspector] public int USER_HAT_POWER = 0;
 
@@ -63,6 +64,7 @@ public class SAFFER : MonoBehaviour {
 	}
 
 	public void Reset_Globals(){
+		Time.timeScale = 1;
 		WIN = false;
 		LOOSE = false;
 		DRAW = false;

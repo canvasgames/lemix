@@ -48,6 +48,7 @@
      <Compile Include="Assets\AvatarManager.cs" />
      <Compile Include="Assets\Demigiant\DOTween\Examples\Basics.cs" />
      <Compile Include="Assets\Demigiant\DOTween\Examples\Sequences.cs" />
+     <Compile Include="Assets\Lemix\scripts\Bot_controller.cs" />
      <Compile Include="Assets\Lemix\scripts\ConstructTable.cs" />
      <Compile Include="Assets\Lemix\scripts\CreateDictionary.cs" />
      <Compile Include="Assets\Lemix\scripts\GameController.cs" />
@@ -66,7 +67,9 @@
      <Compile Include="Assets\Lemix\scripts\bt\bt_menu.cs" />
      <Compile Include="Assets\Lemix\scripts\bt\bt_multiplayer.cs" />
      <Compile Include="Assets\Lemix\scripts\bt\cancel_bt.cs" />
+     <Compile Include="Assets\Lemix\scripts\bt\power_bar.cs" />
      <Compile Include="Assets\Lemix\scripts\ctrl_Photon.cs" />
+     <Compile Include="Assets\Lemix\scripts\eraser_sprite.cs" />
      <Compile Include="Assets\Lemix\scripts\mp_controller.cs" />
      <Compile Include="Assets\Photon Unity Networking\Plugins\PhotonNetwork\CustomTypes.cs" />
      <Compile Include="Assets\Photon Unity Networking\Plugins\PhotonNetwork\Enums.cs" />
@@ -128,6 +131,8 @@
      <Compile Include="Assets\Photon Unity Networking\UtilityScripts\SmoothSyncMovement.cs" />
      <Compile Include="Assets\Photon Unity Networking\UtilityScripts\SupportLogger.cs" />
      <Compile Include="Assets\Photon Unity Networking\UtilityScripts\TimeKeeper.cs" />
+     <Compile Include="Assets\bot_bt_main.cs" />
+     <Compile Include="Assets\bt_pause.cs" />
      <Compile Include="Assets\send_mess.cs" />
      <Compile Include="Assets\xvvxc.cs" />
      <None Include="Assets\Demigiant\DOTween\readme.txt" />

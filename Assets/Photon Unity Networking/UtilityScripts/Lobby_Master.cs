@@ -44,7 +44,8 @@ public class Lobby_Master : Photon.MonoBehaviour
     }
 
     public virtual void Update()
-    {    }
+    {    
+	}
 
 	public void Connect_to_photon(){
 		if (ConnectInUpdate && AutoConnect && !PhotonNetwork.connected)

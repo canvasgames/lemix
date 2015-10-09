@@ -16,6 +16,8 @@ public class bt_menu : MonoBehaviour {
 
 	void OnMouseDown(){
 		Debug.Log ("GO TO LOBBY NOW !");
+		Time.timeScale = 1;
 		gc [0].go_to_lobby ();
+
 	}
 }

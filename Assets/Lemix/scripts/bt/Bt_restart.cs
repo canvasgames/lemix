@@ -17,7 +17,8 @@ public class Bt_restart : MonoBehaviour {
 		//var objects = GameObject.FindObjectsOfType(GameObject);
 		foreach (GameObject o in Object.FindObjectsOfType<GameObject>()) 
 			Destroy(o);
+		Time.timeScale = 1;
 		Application.LoadLevel ("Gameplay");
-	
+
 	}
 }

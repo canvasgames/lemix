@@ -37,7 +37,7 @@ public class Power_Up_BT : MonoBehaviour {
 		mp = FindObjectsOfType(typeof(mp_controller)) as mp_controller[];
 
 		originalPos = transform.position;
-		outofScreenPos = new Vector3(890,-387,0);
+		outofScreenPos = new Vector3(970,-387,0);
 		isOut = 0;
 		isIn = 1;
 		moveIn1moveOut2 = 0;
@@ -45,6 +45,7 @@ public class Power_Up_BT : MonoBehaviour {
 		isIn = 0;
 		moveIn1moveOut2 = 2;
 		appearTimer =10f;
+		//appearTimer =2f;
 
 
 
@@ -125,6 +126,7 @@ public class Power_Up_BT : MonoBehaviour {
 			isIn = 0;
 			moveIn1moveOut2 = 2;
 			appearTimer =25f;
+			//appearTimer =2f;
 			/*if(turn_0def_1att == 0)
 			{
 				actBT(my_type_Defense);
@@ -242,13 +244,17 @@ public class Power_Up_BT : MonoBehaviour {
 				letterCase();
 				break;
 			case 7:
-				mp[0].send_frozen_letter();
+				pwctrl[0].freezeOPSprite();
+				if(SAFFER.Singleton.MP_MODE == 1)
+					mp[0].send_frozen_letter();
 				break;
 			case 8:
-				mp[0].send_dark();
+				pwctrl[0].curtainOPSprite();
+				if(SAFFER.Singleton.MP_MODE == 1)
+					mp[0].send_dark();
 				break;
 			case 9:
-				pwctrl[0].eraseWord();
+				pwctrl[0].eraseWord(SAFFER.Singleton.OP_PLAYER );
 				break;
 		}
 	}

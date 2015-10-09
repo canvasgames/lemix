@@ -1,16 +1,17 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-
+using DG.Tweening;
+using UnityEngine.UI;
 public class PowerUpCtrl : MonoBehaviour {
 
 	GameObject curtain;
-	public GameObject BlackNight;
+	public GameObject BlackNight, Eraser, Frozen, CurtainOP ;
 	public float smooth;
-	float curtainTimer = 0f;
+	float curtainTimer = 0f, freezeOPTime=0f, curtainTimerOP;
 	private Vector3 newPosition;
-	Vector3 positionA;
-	Vector3 positionB;
+	Vector3 positionACurtain;
+	Vector3 positionBCurtain;
 
 	float goldLetterTime = 0f;
 
@@ -21,8 +22,10 @@ public class PowerUpCtrl : MonoBehaviour {
 	void Start () 
 	{
 		smooth = 2.7f;
-		positionA = new Vector3(0, 200, 0);
-		positionB = new Vector3(0,750,0);
+
+		//Posiçao da curtinada
+		positionACurtain = new Vector3(0, 220, 0);
+		positionBCurtain = new Vector3(0,950,0);
 
 		mp = FindObjectsOfType(typeof(mp_controller)) as mp_controller[];
 	}
@@ -51,16 +54,30 @@ public class PowerUpCtrl : MonoBehaviour {
 				endGoldLetter();
 			}
 		}
+
+		if(freezeOPTime >0)
+		{
+			freezeOPTime  -= Time.deltaTime;
+			if(freezeOPTime <0)
+				unfreezeOPSprite();
+		}
+
+		if(curtainTimerOP >0)
+		{
+			curtainTimerOP  -= Time.deltaTime;
+			if(curtainTimerOP <0)
+				uncurtainOPSprite();
+		}
 	}
 
 	void PositionChangingGoing ()
 	{
-		curtain.transform.position = Vector3.Lerp(curtain.transform.position, positionA, smooth * Time.deltaTime);
+		curtain.transform.position = Vector3.Lerp(curtain.transform.position, positionACurtain, smooth * Time.deltaTime);
 	}
 	void PositionChangingBack ()
 	{
-		curtain.transform.position = Vector3.Lerp(curtain.transform.position, positionB, smooth * Time.deltaTime);
-		if(curtain.transform.position.y>740)
+		curtain.transform.position = Vector3.Lerp(curtain.transform.position, positionBCurtain, smooth * Time.deltaTime);
+		if(curtain.transform.position.y>(int)positionBCurtain.y)
 		{
 			curtainTimer = 0;
 			Destroy(curtain);
@@ -209,7 +226,17 @@ public class PowerUpCtrl : MonoBehaviour {
 	}
 
 
-
+	public void freezeOPSprite()
+	{
+		Frozen.SetActive(true);
+		if(SAFFER.Singleton.MP_MODE == 0)
+			freezeOPTime =Random.Range(3f,7f);
+	}
+	public void unfreezeOPSprite()
+	{
+		freezeOPTime = 0;
+		Frozen.SetActive(false);
+	}
 	public void freezeLetter()
 	{
 		Tile[] myTiles = FindObjectsOfType(typeof(Tile)) as Tile[];
@@ -241,11 +268,31 @@ public class PowerUpCtrl : MonoBehaviour {
 		if(curtainTimer == 0)
 		{
 
-			curtain = (GameObject)Instantiate (BlackNight, new Vector3(0,700,0), transform.rotation);
+			curtain = (GameObject)Instantiate (BlackNight, new Vector3(0,880,0), transform.rotation);
+
+			curtain.transform.localScale = new Vector3(1f,1.09f,1f);
 			curtain.GetComponent<Renderer>().sortingOrder = 50;
 			curtainTimer = 10f;
 		}
 
+	}
+
+	public void curtainOPSprite()
+	{
+		CurtainOP.SetActive(true);
+		CurtainOP.transform.DOLocalMoveY(445,0.5f);
+		curtainTimerOP = 10f;
+	}
+
+	public void uncurtainOPSprite()
+	{
+		curtainTimerOP = 0;
+		CurtainOP.transform.DOLocalMoveY(650,0.5f).OnComplete(unactiveCurtain);
+	}
+
+	void unactiveCurtain()
+	{
+		CurtainOP.SetActive(false);
 	}
 
 	//Hit me baby one more time
@@ -287,7 +334,7 @@ public class PowerUpCtrl : MonoBehaviour {
 		}
 	}
 
-	public void eraseWord()
+	public void eraseWord(int player)
 	{
 
 		WController[] wctrl = FindObjectsOfType(typeof(WController)) as WController[];
@@ -297,8 +344,10 @@ public class PowerUpCtrl : MonoBehaviour {
 		//Procura palavras ja encontradas
 		for(i=0;i<wctrl[0].list.Count;i++)
 		{
-			if(wctrl[0].list[i].foundedByPlayer == SAFFER.Singleton.OP_PLAYER )
+			//Se foi encontrada pelo player passado (OP ou MP)
+			if(wctrl[0].list[i].foundedByPlayer == player)
 			{
+					//Adiciona no temporario
 					temp.Add(i);
 			}
 		}
@@ -324,7 +373,14 @@ public class PowerUpCtrl : MonoBehaviour {
 				}
 			
 			}
-			mp[0].send_erase(temp[sortID]);
+			Eraser.SetActive(true);
+			eraser_sprite[] eraser = FindObjectsOfType(typeof(eraser_sprite)) as eraser_sprite[];
+
+		
+			eraser[0].step1();
+			//se esta no MP envia a palavra
+			if(SAFFER.Singleton.MP_MODE == 1)
+				mp[0].send_erase(temp[sortID]);
 		}
 
 

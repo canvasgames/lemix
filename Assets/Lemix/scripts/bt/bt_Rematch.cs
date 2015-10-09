@@ -17,5 +17,6 @@ public class bt_revenge : MonoBehaviour {
 	void OnMouseDown(){
 		Debug.Log ("ASK FOR REMATCH BUTTON PRESSED");
 		mp[0].send_ask_for_rematch ();
+		//Time.timeScale = 1 ;
 	}
 }

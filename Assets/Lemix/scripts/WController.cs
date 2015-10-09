@@ -22,25 +22,20 @@ public class WController : MonoBehaviour {
 
 
 	//Sons
-	public AudioClip AudioAlready;
-	public AudioClip AudioFound;
-	public AudioClip AudioError;
- 
+	public AudioClip AudioAlready, AudioFound, AudioError;
+
 	//Lista de palavras
 	public List<MyWordInList> list = new List<MyWordInList>();
 	public float numberofWords;
 	private float wordsFounded;
 
 	//Ballons
-	Vector3 scaleB;
-	int triggerBallonP1 =0;
-	int triggerBallonP2 =0;
-	GameObject BalonP1,BalonP2;
+	Vector3 scaleB, walreadypos, wnotfoundpos;
+	int triggerBallonP1 =0, triggerBallonP2 =0;
+	GameObject BalonP1,BalonP2, PowerBarP1, PowerBarP2, wfounded;
 	public float smooth;
-	GameObject wfounded; 
 
 	public GameObject walready, wnotfound; 
-	Vector3 walreadypos, wnotfoundpos;
 
 	//Classe da lista de palavras
 	public class MyWordInList
@@ -72,10 +67,14 @@ public class WController : MonoBehaviour {
 		//Ballon adjust
 		BalonP1 = GameObject.Find ("dialog blue"); 
 		BalonP2 = GameObject.Find ("dialog red"); 
+		PowerBarP1 = GameObject.Find ("Bar-Blue"); 
+		PowerBarP2 = GameObject.Find ("Bar-Red"); 
 		scaleB = BalonP1.transform.localScale;
 
 		BalonP1.transform.localScale = new Vector3(0f, 0f, 1);
 		BalonP2.transform.localScale = new Vector3(0f, 0f, 1);
+
+
 		smooth = 9f;
 		wfounded = GameObject.Find ("word-found-counter"); 
 		wfounded.GetComponentInChildren<TextMesh> ().GetComponent<Renderer>().sortingOrder = 10; 
@@ -93,9 +92,10 @@ public class WController : MonoBehaviour {
 		Debug.Log("ANAGRAM ID: " + rand);
 		
 		string number = rand.ToString();
-		//number = "4";
-		string path = Application.dataPath;
+		//number = "1";
 		string file = "Word_" + number;
+
+		//string path = Application.dataPath;
 		//string file = "pt_Word_" + number;
 		//string file = path+"/Word_" + number +".txt";
 
@@ -325,7 +325,7 @@ public class WController : MonoBehaviour {
 					dessapear_not_found();
 					dessapear_already();
 					
-					walready.transform.DOMoveY(-43f,0.5f).OnComplete(wait_msg_already);
+					walready.transform.DOMoveY(-70f,0.5f).OnComplete(wait_msg_already);
 					walready.GetComponent<SpriteRenderer>().DOFade(1f,0.6f);
 					return;
 				}
@@ -338,9 +338,40 @@ public class WController : MonoBehaviour {
 		dessapear_not_found();
 		dessapear_already();
 
-		wnotfound.transform.DOMoveY(-43f,0.5f).OnComplete(wait_msg_not_found);
+		wnotfound.transform.DOMoveY(-70f,0.5f).OnComplete(wait_msg_not_found);
 		wnotfound.GetComponent<SpriteRenderer>().DOFade(1f,0.6f);
 
+	}
+
+	public bool bot_try_to_submit_word(int i)
+	{
+		if(list[i].found==false)
+		{
+			wordfound(SAFFER.Singleton.OP_PLAYER,i);
+			GetComponent<AudioSource>().PlayOneShot(AudioFound);
+
+			return true;
+
+		}
+		else
+		{
+			return false;
+		}
+	}
+
+	public float bot_number_of_words_founded()
+	{
+		int i;
+		float wordsFounded=0;
+		for(i=0;i<numberofWords;i++)
+		{
+			if(list[i].found==true)
+			{
+				wordsFounded++;
+			}
+		}
+
+		return wordsFounded;
 	}
 
 	//Deixa a msg um pouco na tela
@@ -366,7 +397,7 @@ public class WController : MonoBehaviour {
 	{
 		walready.transform.DOKill();
 		walready.GetComponent<SpriteRenderer>().DOKill();
-		walready.transform.DOMoveY(wnotfoundpos.y,0f);
+		walready.transform.DOMoveY(walreadypos.y,0f);
 		walready.GetComponent<SpriteRenderer>().DOFade(0f,0f);
 	}
 
@@ -389,13 +420,17 @@ public class WController : MonoBehaviour {
 		else
 			SAFFER.Singleton.OP_SCORE+=list[word_id].myWord.Length*10 + (SAFFER.Singleton.PUGOLDLETTERACTIVE*(list[word_id].myWord.Length*10));
 
+		float tempP1 = (100 + ( ((SAFFER.Singleton.MY_SCORE - SAFFER.Singleton.OP_SCORE)  * 100)/ (SAFFER.Singleton.MAX_SCORE)));
+		float tempP2 = (100 - ( ((SAFFER.Singleton.MY_SCORE - SAFFER.Singleton.OP_SCORE)  * 100)/ (SAFFER.Singleton.MAX_SCORE)));
 
+		PowerBarP1.transform.DOScaleX(tempP1/100,1f);
+		PowerBarP2.transform.DOScaleX(tempP2/100,1f);
 
 		wordsFounded++;
 		f5WordsFounded();
 
 
-		if(player == 1)
+		if(player == SAFFER.Singleton.MP_PLAYER)
 		{
 			GameObject umnome = GameObject.Find ("P1 Score"); 
 			umnome.GetComponent<TextMesh> ().text = SAFFER.Singleton.MY_SCORE.ToString ();
@@ -408,7 +443,7 @@ public class WController : MonoBehaviour {
 		{
 			//Write score
 			GameObject umnome = GameObject.Find ("P2 Score"); 
-			umnome.GetComponent<TextMesh> ().text = SAFFER.Singleton.MY_SCORE.ToString ();
+			umnome.GetComponent<TextMesh> ().text = SAFFER.Singleton.OP_SCORE.ToString ();
 
 			//Show balloon
 			triggerBallonP2 = 1;
@@ -440,7 +475,6 @@ public class WController : MonoBehaviour {
 			}
 		}
 
-
 		if(triggerBallonP2 == 1)
 		{
 
@@ -453,7 +487,7 @@ public class WController : MonoBehaviour {
 			if(triggerBallonP2 == 2)
 			{
 				BalonP2.transform.localScale = Vector3.Lerp(BalonP2.transform.localScale,new Vector3 (0,0,0), smooth * Time.deltaTime);
-				if(BalonP1.transform.localScale == Vector3.zero)
+				if(BalonP2.transform.localScale == Vector3.zero)
 					triggerBallonP2 = 0;
 				
 			}
