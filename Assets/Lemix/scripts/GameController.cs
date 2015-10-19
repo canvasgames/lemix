@@ -42,7 +42,7 @@ public class GameController : MonoBehaviour {
 		Debug.Log(submitScp.Length);
 		clock = GameObject.Find ("clock"); 
 		clock.GetComponentInChildren<TextMesh> ().GetComponent<Renderer>().sortingOrder = 10;
-
+		SAFFER.Singleton.Reset_Globals ();
 		//matchTotaltime = 1;
 		//SAFFER.Singleton.MY_SCORE = 5;
 		//SAFFER.Singleton.OP_SCORE = 5;

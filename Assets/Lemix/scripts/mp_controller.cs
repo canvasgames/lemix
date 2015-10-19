@@ -32,12 +32,12 @@ public class mp_controller : Photon.MonoBehaviour {
 
 	void OnGUI () {
 		// Make a background box
-		GUI.Box (new Rect (10, 10, 100, 90), "Loader Menu");
+		//GUI.Box (new Rect (10, 10, 100, 90), "Loader Menu");
 
 		// Make the first button. If it is pressed, Application.Loadlevel (1) will be executed
-		if (GUI.Button (new Rect (20, 40, 80, 20), "SEND")) {
-			ScenePhotonView.RPC ("ChatMessage", PhotonTargets.Others, "OH MY GOD THEY KILLED KENNY");
-		}
+		//if (GUI.Button (new Rect (20, 40, 80, 20), "SEND")) {
+			//ScenePhotonView.RPC ("ChatMessage", PhotonTargets.Others, "OH MY GOD THEY KILLED KENNY");
+		//}
 	}
 
 

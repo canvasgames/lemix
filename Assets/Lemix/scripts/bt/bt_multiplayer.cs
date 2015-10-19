@@ -16,12 +16,6 @@ public class bt_multiplayer : MonoBehaviour {
 	}
 
 	void OnMouseDown(){
-
-	}
-
-	public void pressed()
-	{
-		SAFFER.Singleton.Reset_Globals ();
 		Debug.Log ("CONNECT !");
 		lobbymaster.SetActive(true);
 		cancelbt.SetActive(true);
@@ -30,5 +24,27 @@ public class bt_multiplayer : MonoBehaviour {
 		lb = FindObjectsOfType(typeof(Lobby_Master)) as Lobby_Master[];
 		lb[0].Connect_to_photon();
 	}
+
+	public void pressed()
+	{
+		//SAFFER.Singleton.Reset_Globals ();
+		Debug.Log ("CONNECT !");
+		lobbymaster.SetActive(true);
+		cancelbt.SetActive(true);
+		botbt.SetActive(false);
+		gameObject.SetActive(false);
+		lb = FindObjectsOfType(typeof(Lobby_Master)) as Lobby_Master[];
+		lb[0].Connect_to_photon();
+	}
+	
+
+	void OnMouseEnter() {
+		this.transform.GetComponent<SpriteRenderer> ().color = Color.green;
+	}
+	
+	void OnMouseExit() {
+		this.transform.GetComponent<SpriteRenderer> ().color = Color.white;
+	}
+
 
 }

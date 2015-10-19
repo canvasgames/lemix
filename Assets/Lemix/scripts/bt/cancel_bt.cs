@@ -21,4 +21,13 @@ public class cancel_bt : MonoBehaviour {
 		gameObject.SetActive(false);
 		//sair do lobby no photon
 	}
+
+	public void onMouseDown()
+	{
+		lobbymaster.SetActive(false);
+		multiplayer.SetActive(true);
+		botbt.SetActive(true);
+		gameObject.SetActive(false);
+		//sair do lobby no photon
+	}
 }
