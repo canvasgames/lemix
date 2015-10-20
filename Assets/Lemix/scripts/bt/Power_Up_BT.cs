@@ -163,7 +163,7 @@ public class Power_Up_BT : MonoBehaviour {
 
 	void letterCase ()
 	{
-		SAFFER.Singleton.PUCHOOSELETTER = 1;
+		GLOBALS.Singleton.PUCHOOSELETTER = 1;
 		Tile[] myTiles = FindObjectsOfType(typeof(Tile)) as Tile[];
 		PowerUpCtrl[] pwctrl = FindObjectsOfType(typeof(PowerUpCtrl)) as PowerUpCtrl[];
 		
@@ -245,16 +245,16 @@ public class Power_Up_BT : MonoBehaviour {
 				break;
 			case 7:
 				pwctrl[0].freezeOPSprite();
-				if(SAFFER.Singleton.MP_MODE == 1)
+				if(GLOBALS.Singleton.MP_MODE == 1)
 					mp[0].send_frozen_letter();
 				break;
 			case 8:
 				pwctrl[0].curtainOPSprite();
-				if(SAFFER.Singleton.MP_MODE == 1)
+				if(GLOBALS.Singleton.MP_MODE == 1)
 					mp[0].send_dark();
 				break;
 			case 9:
-				pwctrl[0].eraseWord(SAFFER.Singleton.OP_PLAYER );
+				pwctrl[0].eraseWord(GLOBALS.Singleton.OP_PLAYER );
 				break;
 		}
 	}

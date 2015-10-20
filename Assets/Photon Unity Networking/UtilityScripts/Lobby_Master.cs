@@ -33,10 +33,10 @@ public class Lobby_Master : Photon.MonoBehaviour
     {
 		ScenePhotonView = this.GetComponent<PhotonView>();
 
-		SAFFER[] single2 = FindObjectsOfType (typeof(SAFFER)) as SAFFER[];
+		GLOBALS[] single2 = FindObjectsOfType (typeof(GLOBALS)) as GLOBALS[];
 		if (single2.Length == 0) {
 			GameObject obj = (GameObject)Instantiate (single, new Vector3 (0, 0, 0), transform.rotation);
-			SAFFER final = obj.GetComponent<SAFFER> ();
+			GLOBALS final = obj.GetComponent<GLOBALS> ();
 		}
        
 
@@ -100,15 +100,15 @@ public class Lobby_Master : Photon.MonoBehaviour
 		if(PhotonNetwork.room.playerCount == 1) 
 		{
 			Debug.Log("OnJoinedRoom(): I AM THE HOST");
-			SAFFER.Singleton.MP_PLAYER = 1;
-			SAFFER.Singleton.OP_PLAYER = 2;
-			SAFFER.Singleton.MP_MODE = 1;
+			GLOBALS.Singleton.MP_PLAYER = 1;
+			GLOBALS.Singleton.OP_PLAYER = 2;
+			GLOBALS.Singleton.MP_MODE = 1;
 		}
 		else{
 			Debug.Log("OnJoinedRoom(): I AM NOT THE HOST");
-			SAFFER.Singleton.MP_PLAYER = 2;
-			SAFFER.Singleton.OP_PLAYER = 1;
-			SAFFER.Singleton.MP_MODE = 1;
+			GLOBALS.Singleton.MP_PLAYER = 2;
+			GLOBALS.Singleton.OP_PLAYER = 1;
+			GLOBALS.Singleton.MP_MODE = 1;
 			//Application.LoadLevel("GamePlay");
 			//PhotonNetwork.LoadLevel("GamePlay");
 
@@ -131,9 +131,9 @@ public class Lobby_Master : Photon.MonoBehaviour
 
 		if (PhotonNetwork.room.playerCount == 1) {
 			Debug.Log("OnPhotonPlayerConnected(: I AM THE HOST");
-			SAFFER.Singleton.MP_PLAYER = 1;
-			SAFFER.Singleton.OP_PLAYER = 2;
-			SAFFER.Singleton.MP_MODE = 1;
+			GLOBALS.Singleton.MP_PLAYER = 1;
+			GLOBALS.Singleton.OP_PLAYER = 2;
+			GLOBALS.Singleton.MP_MODE = 1;
 		}
 		else{
 			Debug.Log("OnPhotonPlayerConnected(): ANOTHER PLAYER JOINING THE ROOM");
@@ -156,13 +156,13 @@ public class Lobby_Master : Photon.MonoBehaviour
 	void send_player_info(){
 		Debug.Log("send_player_info()");
 		int word_id = 0;
-		if (SAFFER.Singleton.MP_PLAYER == 1) {
+		if (GLOBALS.Singleton.MP_PLAYER == 1) {
 			Debug.Log("send_player_info(): I am host, generating a anagram... | WORD ID SENT: "+ word_id);
-			int numberOfFiles = SAFFER.Singleton.NumberOfWordFiles;
+			int numberOfFiles = GLOBALS.Singleton.NumberOfWordFiles;
 			Debug.Log(numberOfFiles);
 			//Sorteia um dos arquivos de palavras
 			word_id = Random.Range(1,numberOfFiles);
-			SAFFER.Singleton.ANAGRAM_ID = word_id;
+			GLOBALS.Singleton.ANAGRAM_ID = word_id;
 		}
 
 		ScenePhotonView.RPC("get_player_info", PhotonTargets.Others , word_id);
@@ -174,9 +174,9 @@ public class Lobby_Master : Photon.MonoBehaviour
 	[PunRPC]
 	public void get_player_info(int word_id){
 		Debug.Log("get_player(info)");
-		if (SAFFER.Singleton.MP_PLAYER == 2) {
+		if (GLOBALS.Singleton.MP_PLAYER == 2) {
 			Debug.Log("get_player(info): I am not the host, sending a confirmation and loading next scene | WORD ID RECEIVED: " + word_id);
-			SAFFER.Singleton.ANAGRAM_ID = word_id;
+			GLOBALS.Singleton.ANAGRAM_ID = word_id;
 
 			ScenePhotonView.RPC("confirmation_received", PhotonTargets.Others,0);
 
