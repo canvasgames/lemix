@@ -361,13 +361,14 @@ public class PowerUpCtrl : MonoBehaviour {
 		if(temp.Count>0)
 		{
 
-
+			//Change the word variables
 			wctrl[0].list[temp[sortID]].found = false;
 			wctrl[0].list[temp[sortID]].foundedByPlayer = 0;
 
+
 			WhiteSquare[] squares = FindObjectsOfType(typeof(WhiteSquare)) as WhiteSquare[];
 
-			//Procura white squares da palavra e apaga
+			//Search the white squares of the word and erase
 			for(i=0;i<squares.Length;i++)
 			{
 				if(squares[i].myID == temp[sortID])
@@ -376,14 +377,18 @@ public class PowerUpCtrl : MonoBehaviour {
 				}
 			
 			}
+
+			//Call the big eraser in the screen
 			Eraser.SetActive(true);
 			eraser_sprite[] eraser = FindObjectsOfType(typeof(eraser_sprite)) as eraser_sprite[];
-
-		
 			eraser[0].step1();
-			//se esta no MP envia a palavra
+
+			//If is MP mode send the erased word for the OP
 			if(GLOBALS.Singleton.MP_MODE == 1)
 				mp[0].send_erase(temp[sortID]);
+
+			wctrl[0].eraseWordUpdateScore(player, temp[sortID], wctrl[0].list[temp[sortID]].goldLetterActive);
+			wctrl[0].list[temp[sortID]].goldLetterActive = 0;
 		}
 
 
@@ -391,6 +396,7 @@ public class PowerUpCtrl : MonoBehaviour {
 
 	public void eraseWordReceive(int ID)
 	{
+		WController[] wctrl = FindObjectsOfType(typeof(WController)) as WController[];
 		WhiteSquare[] squares = FindObjectsOfType(typeof(WhiteSquare)) as WhiteSquare[];
 		int i;
 
@@ -399,9 +405,13 @@ public class PowerUpCtrl : MonoBehaviour {
 			if(squares[i].myID == ID)
 			{
 				squares[i].erasePowerUp();
+				wctrl[0].list[ID].found = false;
+				wctrl[0].list[ID].foundedByPlayer = 0;
 			}
-			
+
+			wctrl[0].eraseWordUpdateScore(GLOBALS.Singleton.MP_PLAYER , ID, wctrl[0].list[ID].goldLetterActive);
 		}
+
 	}
 	
 

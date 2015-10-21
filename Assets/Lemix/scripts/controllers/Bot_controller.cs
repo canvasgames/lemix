@@ -98,7 +98,7 @@ public class Bot_controller : MonoBehaviour {
 		
 		rand = Random.Range (0, (int) (wordCTRL[0].numberofWords));
 
-		//tenta submeter a palavra de novo
+		//Try to submit the word again
 		if(wordCTRL[0].bot_try_to_submit_word(rand)==false)
 			wordCTRL[0].bot_try_to_submit_word(rand);
 	}
@@ -112,6 +112,7 @@ public class Bot_controller : MonoBehaviour {
 			botPUTime = Random.Range (25f,27f);
 			int rand;	
 			rand = Random.Range (0, 3);
+
 			if(rand == 0)
 			{
 				pwctrl[0].eraseWord(GLOBALS.Singleton.MP_PLAYER);

@@ -32,6 +32,8 @@ public class WController : MonoBehaviour {
 	//Ballons
 	Vector3 scaleB, walreadypos, wnotfoundpos;
 	int triggerBallonP1 =0, triggerBallonP2 =0;
+	float wAlreadyOrNotFinaltime = 0.6f;
+	float wAlreadyOrNotFinalpos = -140f;
 	GameObject BalonP1,BalonP2, PowerBarP1, PowerBarP2, wfounded;
 	public float smooth;
 
@@ -43,6 +45,7 @@ public class WController : MonoBehaviour {
 		public string myWord { get; set; }
 		public bool found { get; set; }
 		public int foundedByPlayer{ get; set; }
+		public int goldLetterActive{ get; set; }
 	}
 
 	public string word_original_ret()
@@ -301,7 +304,7 @@ public class WController : MonoBehaviour {
 				Debug.Log (" WORD FUCKING FOUND" );
 				if(list[i].found==false)
 				{
-					wordfound(GLOBALS.Singleton.MP_PLAYER,i);
+					wordfound(GLOBALS.Singleton.MP_PLAYER,i,GLOBALS.Singleton.PUGOLDLETTERACTIVE);
 					Debug.Log("MP MODE " + GLOBALS.Singleton.MP_MODE);
 					if(GLOBALS.Singleton.MP_MODE == 1)
 					{
@@ -325,7 +328,7 @@ public class WController : MonoBehaviour {
 					dessapear_not_found();
 					dessapear_already();
 					
-					walready.transform.DOMoveY(-70f,0.5f).OnComplete(wait_msg_already);
+					walready.transform.DOMoveY(wAlreadyOrNotFinalpos,wAlreadyOrNotFinaltime).OnComplete(wait_msg_already);
 					walready.GetComponent<SpriteRenderer>().DOFade(1f,0.6f);
 					return;
 				}
@@ -338,7 +341,7 @@ public class WController : MonoBehaviour {
 		dessapear_not_found();
 		dessapear_already();
 
-		wnotfound.transform.DOMoveY(-70f,0.5f).OnComplete(wait_msg_not_found);
+		wnotfound.transform.DOMoveY(wAlreadyOrNotFinalpos,wAlreadyOrNotFinaltime).OnComplete(wait_msg_not_found);
 		wnotfound.GetComponent<SpriteRenderer>().DOFade(1f,0.6f);
 
 	}
@@ -347,7 +350,7 @@ public class WController : MonoBehaviour {
 	{
 		if(list[i].found==false)
 		{
-			wordfound(GLOBALS.Singleton.OP_PLAYER,i);
+			wordfound(GLOBALS.Singleton.OP_PLAYER,i,0);
 			GetComponent<AudioSource>().PlayOneShot(AudioFound);
 
 			return true;
@@ -402,10 +405,11 @@ public class WController : MonoBehaviour {
 	}
 
 
-	public void wordfound(int player, int word_id)
+	public void wordfound(int player, int word_id, int goldLetterActive)
 	{
 		list[word_id].found = true;
 		list[word_id].foundedByPlayer = player;
+		list[word_id].goldLetterActive = goldLetterActive;
 
 		WhiteSquare[] squares = FindObjectsOfType(typeof(WhiteSquare)) as WhiteSquare[];
 		int i;
@@ -414,26 +418,28 @@ public class WController : MonoBehaviour {
 			squares[i].appear(word_id, player);
 		}
 
-		//SCORE Ctrlr
-		if(player == GLOBALS.Singleton.MP_PLAYER)
-			GLOBALS.Singleton.MY_SCORE+=list[word_id].myWord.Length*10 + (GLOBALS.Singleton.PUGOLDLETTERACTIVE*(list[word_id].myWord.Length*10));
-		else
-			GLOBALS.Singleton.OP_SCORE+=list[word_id].myWord.Length*10 + (GLOBALS.Singleton.PUGOLDLETTERACTIVE*(list[word_id].myWord.Length*10));
-
-		float tempP1 = (100 + ( ((GLOBALS.Singleton.MY_SCORE - GLOBALS.Singleton.OP_SCORE)  * 100)/ (GLOBALS.Singleton.MAX_SCORE)));
-		float tempP2 = (100 - ( ((GLOBALS.Singleton.MY_SCORE - GLOBALS.Singleton.OP_SCORE)  * 100)/ (GLOBALS.Singleton.MAX_SCORE)));
-
-		PowerBarP1.transform.DOScaleX(tempP1/100,1f);
-		PowerBarP2.transform.DOScaleX(tempP2/100,1f);
+		updateScoreWordFound(player,word_id,goldLetterActive);
 
 		wordsFounded++;
 		f5WordsFounded();
+		
+	}
 
+	//UPDATE SCORE AND BARS, SHOW THE BALLOON
+	void updateScoreWordFound(int player, int word_id, int goldLetterActive)
+	{
+		//SCORE Ctrlr
+		if(player == GLOBALS.Singleton.MP_PLAYER)
+			GLOBALS.Singleton.MY_SCORE+=list[word_id].myWord.Length*10 + (goldLetterActive * (list[word_id].myWord.Length*10));
+		else
+			GLOBALS.Singleton.OP_SCORE+=list[word_id].myWord.Length*10 + (goldLetterActive * (list[word_id].myWord.Length*10));
+		
+		updateScoreAndBars(player);
 
+		//Trigger the baloon
 		if(player == GLOBALS.Singleton.MP_PLAYER)
 		{
-			GameObject umnome = GameObject.Find ("hud_p1_score"); 
-			umnome.GetComponent<TextMesh> ().text = GLOBALS.Singleton.MY_SCORE.ToString ();
+			//Show balloon
 			triggerBallonP1 = 1;
 			BalonP1.transform.localScale = new Vector3(0f, 0f, 1);
 			BalonP1.GetComponentInChildren<TextMesh> ().text = list[word_id].myWord;
@@ -441,19 +447,52 @@ public class WController : MonoBehaviour {
 		}
 		else
 		{
-			//Write score
-			GameObject umnome = GameObject.Find ("hud_p2_score"); 
-			umnome.GetComponent<TextMesh> ().text = GLOBALS.Singleton.OP_SCORE.ToString ();
-
 			//Show balloon
 			triggerBallonP2 = 1;
 			BalonP2.transform.localScale = new Vector3(0f, 0f, 1);
 			BalonP2.GetComponentInChildren<TextMesh> ().text = list[word_id].myWord;
 			BalonP2.GetComponentInChildren<TextMesh> ().GetComponent<Renderer>().sortingOrder = 10;
 		}
-		
 	}
 
+	//ERASE POINTS OF ERASED WORD
+	public void eraseWordUpdateScore(int player, int word_id, int goldLetterActive)
+	{ 
+		//SCORE Ctrlr
+		if(player == GLOBALS.Singleton.MP_PLAYER)
+			GLOBALS.Singleton.MY_SCORE-=list[word_id].myWord.Length*10 + (goldLetterActive * (list[word_id].myWord.Length*10));
+		else
+			GLOBALS.Singleton.OP_SCORE-=list[word_id].myWord.Length*10 + (goldLetterActive * (list[word_id].myWord.Length*10));
+
+		updateScoreAndBars(player);
+
+		wordsFounded--;
+		f5WordsFounded();
+	}
+
+	//UPDATE THE SIZE OF BARS AND THE SCORE
+	void updateScoreAndBars(int player)
+	{
+		float tempP1 = (100 + ( ((GLOBALS.Singleton.MY_SCORE - GLOBALS.Singleton.OP_SCORE)  * 100)/ (GLOBALS.Singleton.MAX_SCORE)));
+		float tempP2 = (100 - ( ((GLOBALS.Singleton.MY_SCORE - GLOBALS.Singleton.OP_SCORE)  * 100)/ (GLOBALS.Singleton.MAX_SCORE)));
+		
+		PowerBarP1.transform.DOScaleX(tempP1/100,1f);
+		PowerBarP2.transform.DOScaleX(tempP2/100,1f);
+		if(player == GLOBALS.Singleton.MP_PLAYER)
+		{
+			//Write score
+			GameObject umnome = GameObject.Find ("hud_p1_score"); 
+			umnome.GetComponent<TextMesh> ().text = GLOBALS.Singleton.MY_SCORE.ToString ();
+		}
+		else
+		{
+			//Write score
+			GameObject umnome = GameObject.Find ("hud_p2_score"); 
+			umnome.GetComponent<TextMesh> ().text = GLOBALS.Singleton.OP_SCORE.ToString ();
+		}
+	}
+
+	//TRIGGER FOR THE BALLOON
 	void ballonsstatus()
 	{
         
@@ -494,6 +533,7 @@ public class WController : MonoBehaviour {
 		}
 	}
 
+	//CHANGE THE NUMBER IN THE HUD THING
 	void f5WordsFounded()
 	{
 

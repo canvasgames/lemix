@@ -48,9 +48,7 @@ public class mp_controller : Photon.MonoBehaviour {
 		ScenePhotonView.RPC("get_player_info", PhotonTargets.Others , anagram_id);
 	}
 
-	public void send_word_found(int word_id){
-		ScenePhotonView.RPC("WordFoundByOP", PhotonTargets.Others , word_id);
-	}
+
 
 
 	//======================= GET RPCS =============================
@@ -64,15 +62,19 @@ public class mp_controller : Photon.MonoBehaviour {
 		Bt_restart abc = objj.GetComponent<Bt_restart> ();
 	}
 
+	//====================== WORD FOUND RPCS =============================
 	[PunRPC]
-	public void WordFoundByOP(int word_id)
+	public void WordFoundByOP(int word_id, int goldLetterActive)
 	{
 		Debug.Log("Receveid Word Id " + word_id);
 
 		//wordCTRL[0].wordfound(GLOBALS.Singleton.OP_PLAYER, word_id);
-		w_controller.wordfound(GLOBALS.Singleton.OP_PLAYER, word_id);
+		w_controller.wordfound(GLOBALS.Singleton.OP_PLAYER, word_id, goldLetterActive);
 	}
 
+	public void send_word_found(int word_id){
+		ScenePhotonView.RPC("WordFoundByOP", PhotonTargets.Others , word_id, GLOBALS.Singleton.PUGOLDLETTERACTIVE);
+	}
 	
 	//====================== POWER UP RPCS =============================
 	

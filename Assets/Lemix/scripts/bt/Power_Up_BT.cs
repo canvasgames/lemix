@@ -46,7 +46,6 @@ public class Power_Up_BT : MonoBehaviour {
 		isIn = 0;
 		moveIn1moveOut2 = 2;
 		appearTimer =10f;
-		//appearTimer =2f;
 
 
 
@@ -55,7 +54,6 @@ public class Power_Up_BT : MonoBehaviour {
 
 		sortID =  Random.Range(7,11);
 		my_type_Attack = sortID;
-		//my_type_Attack = 10;
 
 		changeSprite(my_type_Defense);
 	}
@@ -128,7 +126,6 @@ public class Power_Up_BT : MonoBehaviour {
 			isIn = 0;
 			moveIn1moveOut2 = 2;
 			appearTimer =25f;
-			//appearTimer =2f;
 			/*if(turn_0def_1att == 0)
 			{
 				actBT(my_type_Defense);

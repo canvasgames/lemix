@@ -1,16 +1,13 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Lemix\scripts\controllers\PowerUpCtrl.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Lemix\scripts\controllers\WController.cs">
     <Files>
-      <File FileName="..\..\..\GameManagerSample.cs" Line="1" Column="1" />
-      <File FileName="Assets\Lemix\scripts\bt\Power_Up_BT.cs" Line="265" Column="42" />
-      <File FileName="Assets\Lemix\scripts\controllers\PowerUpCtrl.cs" Line="236" Column="7" />
-      <File FileName="Assets\Lemix\scripts\game\Earthquake.cs" Line="1" Column="1" />
-      <File FileName="Assets\Lemix\scripts\controllers\mp\mp_controller.cs" Line="1" Column="1" />
-      <File FileName="Assets\Lemix\scripts\controllers\Bot_controller.cs" Line="1" Column="1" />
-      <File FileName="Assets\Lemix\scripts\game\ConstructTable.cs" Line="36" Column="19" />
-      <File FileName="Assets\Lemix\scripts\game\Tile.cs" Line="213" Column="51" />
-      <File FileName="Assets\Lemix\scripts\GLOBALS.cs" Line="8" Column="2" />
+      <File FileName="Assets\Lemix\scripts\controllers\PowerUpCtrl.cs" Line="390" Column="54" />
+      <File FileName="Assets\Lemix\scripts\game\WhiteSquare.cs" Line="35" Column="8" />
+      <File FileName="Assets\Lemix\scripts\controllers\WController.cs" Line="408" Column="20" />
+      <File FileName="Assets\Lemix\scripts\controllers\mp\mp_controller.cs" Line="72" Column="16" />
+      <File FileName="Assets\Lemix\scripts\GLOBALS.cs" Line="13" Column="34" />
+      <File FileName="Assets\Photon Unity Networking\UtilityScripts\Lobby_Master.cs" Line="109" Column="4" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

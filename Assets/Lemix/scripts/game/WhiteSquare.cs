@@ -30,9 +30,9 @@ public class WhiteSquare : MonoBehaviour {
 			showed = 1;
 			GetComponent<TextMesh> ().text = myLetter.ToString ();
 			GetComponent<TextMesh> ().color = Color.white;
-			if(player == 1)
+			if(player == GLOBALS.Singleton.MP_PLAYER)
 				GetComponentInChildren<SpriteRenderer> ().color = new Color32(52, 152, 219,255);
-			else if(player == 2)
+			else
 				GetComponentInChildren<SpriteRenderer> ().color = new Color32(226, 60, 43,255);  
 		}
 	}
