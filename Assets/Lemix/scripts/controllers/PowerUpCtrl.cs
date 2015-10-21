@@ -61,14 +61,14 @@ public class PowerUpCtrl : MonoBehaviour {
 		if(freezeOPTime >0)
 		{
 			freezeOPTime  -= Time.deltaTime;
-			if(freezeOPTime <0)
+			if(freezeOPTime <=0)
 				unfreezeOPSprite();
 		}
 
 		if(curtainTimerOP >0)
 		{
 			curtainTimerOP  -= Time.deltaTime;
-			if(curtainTimerOP <0)
+			if(curtainTimerOP <=0)
 				uncurtainOPSprite();
 		}
 	}
@@ -233,7 +233,7 @@ public class PowerUpCtrl : MonoBehaviour {
 	{
 		Frozen.SetActive(true);
 		if(GLOBALS.Singleton.MP_MODE == 0)
-			freezeOPTime =Random.Range(3f,7f);
+			freezeOPTime = Random.Range(3f,7f);
 	}
 	public void unfreezeOPSprite()
 	{
@@ -379,9 +379,7 @@ public class PowerUpCtrl : MonoBehaviour {
 			}
 
 			//Call the big eraser in the screen
-			Eraser.SetActive(true);
-			eraser_sprite[] eraser = FindObjectsOfType(typeof(eraser_sprite)) as eraser_sprite[];
-			eraser[0].step1();
+			callEraser();
 
 			//If is MP mode send the erased word for the OP
 			if(GLOBALS.Singleton.MP_MODE == 1)
@@ -409,12 +407,20 @@ public class PowerUpCtrl : MonoBehaviour {
 				wctrl[0].list[ID].foundedByPlayer = 0;
 			}
 
-			wctrl[0].eraseWordUpdateScore(GLOBALS.Singleton.MP_PLAYER , ID, wctrl[0].list[ID].goldLetterActive);
-		}
 
+		}
+		wctrl[0].eraseWordUpdateScore(GLOBALS.Singleton.MP_PLAYER , ID, wctrl[0].list[ID].goldLetterActive);
+		//Call the big eraser in the screen
+		callEraser();
 	}
 	
-
+	void callEraser()
+	{
+		//Call the big eraser in the screen
+		Eraser.SetActive(true);
+		eraser_sprite[] eraser = FindObjectsOfType(typeof(eraser_sprite)) as eraser_sprite[];
+		eraser[0].step1();
+	}
 	public void earthquakeReceive ()
 	{
 		earth[0].startEarthquake(4f,1f,12f);
@@ -422,6 +428,6 @@ public class PowerUpCtrl : MonoBehaviour {
 
 	public void  earthquakeAvatarEffectP2 ()
 	{
-		earthP2[0].startEarthquake(4f,2f);
+		earthP2[0].startEarthquake(4f,7f);
 	}
 }

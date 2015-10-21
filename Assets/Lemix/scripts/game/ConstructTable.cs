@@ -196,7 +196,7 @@ public class ConstructTable : MonoBehaviour {
 		}	
 		
 		
-		int pos = 0;
+		int pos = 0, zorder = 0;
 		int lengthWord = rand_word.Length;
 		//Casos de construir a mesa com numero de tiles par ou impar
 		if (lengthWord % 2 == 0) 
@@ -220,8 +220,10 @@ public class ConstructTable : MonoBehaviour {
 
 			tgray.GetComponent<Renderer>().sortingOrder = 5;
 			tgrayUP.GetComponent<Renderer>().sortingOrder = 5;
-			tCTRL.GetComponent<Renderer>().sortingOrder = 15;
-			tCTRL.GetComponentInChildren<SpriteRenderer> ().GetComponent<Renderer>().sortingOrder = 10;
+			tCTRL.GetComponent<Renderer>().sortingOrder = 11+zorder;
+			tCTRL.GetComponentInChildren<SpriteRenderer> ().GetComponent<Renderer>().sortingOrder = 10+zorder;
+
+			zorder = zorder + 2;
 
 			//Guarda posiçao inicial
 			tCTRL.my_x_pos = pos;	

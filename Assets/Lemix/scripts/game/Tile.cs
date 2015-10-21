@@ -226,6 +226,8 @@ public class Tile : MonoBehaviour {
 			freezed = 0;
 
 			Destroy(freeza);
+
+
 		}
 
 	}

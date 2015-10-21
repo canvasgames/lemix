@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
+using DG.Tweening;
+using UnityEngine.UI;
 
 public class Power_Up_BT : MonoBehaviour {
 
@@ -36,7 +38,7 @@ public class Power_Up_BT : MonoBehaviour {
 	void Start () {
 		pwctrl = FindObjectsOfType(typeof(PowerUpCtrl)) as PowerUpCtrl[];
 		mp = FindObjectsOfType(typeof(mp_controller)) as mp_controller[];
-
+		pulse();
 		originalPos = transform.position;
 		outofScreenPos = new Vector3(970,-387,0);
 		isOut = 0;
@@ -47,12 +49,13 @@ public class Power_Up_BT : MonoBehaviour {
 		moveIn1moveOut2 = 2;
 		appearTimer =10f;
 
-
+		appearTimer =1f;
 
 		sortID =  Random.Range(3,7);
 		my_type_Defense = sortID;
 
 		sortID =  Random.Range(7,11);
+		sortID =  10;
 		my_type_Attack = sortID;
 
 		changeSprite(my_type_Defense);
@@ -112,11 +115,18 @@ public class Power_Up_BT : MonoBehaviour {
 			}
 		}
 	}
+	void pulse()
+	{
+		transform.DOScale(new Vector3(1.3f,1.3f,transform.localScale.z),0.8f).OnComplete(repulse);
+	}
 
+	void repulse()
+	{
+		transform.DOScale(new Vector3(1.5f,1.5f,transform.localScale.z),0.8f).OnComplete(pulse);
+	}
 	void OnMouseDown()
 	{
 		clickOrKeyboard ();
-
 	}
 
 	public void clickOrKeyboard ()
