@@ -9,8 +9,8 @@ public class ConstructTable : MonoBehaviour {
 	public int x_pos_init;
 
 	//Posiçao inicial dos tiles e espaçamento
-	int y_pos_init = -420;
-	public int y_pos_submit_table = -220;
+	int y_pos_init = -490;
+	[HideInInspector] public int y_pos_submit_table = -390;
 	public int tiles_space, x_space, wordsPerCollumn, superior_Y, y_space, square_width;
 	public string rand_word;
 	// Use this for initialization

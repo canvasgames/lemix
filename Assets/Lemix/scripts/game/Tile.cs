@@ -210,7 +210,7 @@ public class Tile : MonoBehaviour {
 	{
 		waitingtoFreeze = 0;
 		freeza = (GameObject)Instantiate (MrFreeze, transform.position, transform.rotation);
-		freeza.GetComponent<Renderer>().sortingOrder = 5;
+		freeza.GetComponent<Renderer>().sortingOrder = 55;
 		freezed = 1;
 		freezeCounter = 5;
 	}

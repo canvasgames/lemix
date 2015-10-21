@@ -108,6 +108,17 @@ public class mp_controller : Photon.MonoBehaviour {
 		Debug.Log ("recebendo");
 		pwctrl[0].eraseWordReceive(IDWord);
 	}
+
+	public void send_earthquake(){
+		ScenePhotonView.RPC("receive_earthquake", PhotonTargets.Others);
+		Debug.Log ("MANDANDO EARTHQUSKE");
+	}
+	
+	[PunRPC]
+	public void receive_earthquake(){
+		Debug.Log ("recebendo earthquake");
+		pwctrl[0].earthquakeReceive();
+	}
 #region Rematch
 //============================ REMATCH ==============================
 	public void send_ask_for_rematch()

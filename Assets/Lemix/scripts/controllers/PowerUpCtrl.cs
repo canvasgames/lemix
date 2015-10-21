@@ -14,7 +14,8 @@ public class PowerUpCtrl : MonoBehaviour {
 	Vector3 positionBCurtain;
 
 	float goldLetterTime = 0f;
-
+	Earthquake[] earth;
+	earthquakePlayer2[] earthP2;
 
 	mp_controller[] mp;
 
@@ -28,6 +29,8 @@ public class PowerUpCtrl : MonoBehaviour {
 		positionBCurtain = new Vector3(0,950,0);
 
 		mp = FindObjectsOfType(typeof(mp_controller)) as mp_controller[];
+		earth = FindObjectsOfType(typeof(Earthquake)) as Earthquake[];
+		earthP2 = FindObjectsOfType(typeof(earthquakePlayer2)) as earthquakePlayer2[];
 	}
 	
 	// Update is called once per frame
@@ -399,5 +402,16 @@ public class PowerUpCtrl : MonoBehaviour {
 			}
 			
 		}
+	}
+	
+
+	public void earthquakeReceive ()
+	{
+		earth[0].startEarthquake(4f,1f,12f);
+	}
+
+	public void  earthquakeAvatarEffectP2 ()
+	{
+		earthP2[0].startEarthquake(4f,2f);
 	}
 }

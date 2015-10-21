@@ -111,16 +111,17 @@ public class Bot_controller : MonoBehaviour {
 		{
 			botPUTime = Random.Range (25f,27f);
 			int rand;	
-			rand = Random.Range (0, 2);
-
+			rand = Random.Range (0, 3);
 			if(rand == 0)
 			{
 				pwctrl[0].eraseWord(GLOBALS.Singleton.MP_PLAYER);
 			}
 			else if(rand == 1)
 				pwctrl[0].night();
-			else
+			else if (rand == 2)
 				pwctrl[0].freezeLetter();
+			else if (rand == 3)
+				pwctrl[0].earthquakeReceive();
 		}
 	}
 }

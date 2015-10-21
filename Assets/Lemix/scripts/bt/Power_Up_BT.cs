@@ -21,6 +21,7 @@ public class Power_Up_BT : MonoBehaviour {
 	public Sprite[] goldletter;
 	public Sprite[] dark;
 	public Sprite[] erase;
+	public Sprite[] earthquake;
 
 	public SpriteRenderer btSprite;
 	public int myType;
@@ -52,8 +53,9 @@ public class Power_Up_BT : MonoBehaviour {
 		sortID =  Random.Range(3,7);
 		my_type_Defense = sortID;
 
-		sortID =  Random.Range(7,10);
+		sortID =  Random.Range(7,11);
 		my_type_Attack = sortID;
+		//my_type_Attack = 10;
 
 		changeSprite(my_type_Defense);
 	}
@@ -218,6 +220,9 @@ public class Power_Up_BT : MonoBehaviour {
 		case 9:
 			btSprite.sprite = erase[0];
 			break;
+		case 10:
+			btSprite.sprite = earthquake[0];
+			break;
 		}
 	}
 
@@ -255,6 +260,11 @@ public class Power_Up_BT : MonoBehaviour {
 				break;
 			case 9:
 				pwctrl[0].eraseWord(GLOBALS.Singleton.OP_PLAYER );
+				break;
+			case 10:
+				pwctrl[0].earthquakeAvatarEffectP2();
+				if(GLOBALS.Singleton.MP_MODE == 1)
+					mp[0].send_earthquake();
 				break;
 		}
 	}
