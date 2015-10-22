@@ -8,6 +8,8 @@ public class mp_controller : Photon.MonoBehaviour {
 	public GameObject ss;
 	private static PhotonView ScenePhotonView;
 	PowerUpCtrl[] pwctrl;
+	Menus_Controller[] menusctrl;
+	Waiting_scrpit[] waitingMenu;
 
 	void Awake () {
 		ScenePhotonView = this.GetComponent<PhotonView>();
@@ -15,7 +17,8 @@ public class mp_controller : Photon.MonoBehaviour {
 	
 	void Start () {
 		pwctrl = FindObjectsOfType(typeof(PowerUpCtrl)) as PowerUpCtrl[];
-		
+		menusctrl = FindObjectsOfType(typeof(Menus_Controller)) as Menus_Controller[];
+		waitingMenu = FindObjectsOfType(typeof(Waiting_scrpit)) as Waiting_scrpit[]; 
 	//	WController[] wordCTRL = FindObjectsOfType(typeof(WController)) as WController[];
 
 		if (GLOBALS.Singleton.MP_PLAYER == 0){
@@ -59,7 +62,7 @@ public class mp_controller : Photon.MonoBehaviour {
 		Debug.Log("ChatMessage: " + a);
 
 		GameObject objj = (GameObject)Instantiate (ss, new Vector3 (0, 0, 0), transform.rotation);
-		Bt_restart abc = objj.GetComponent<Bt_restart> ();
+//		Bt_restart abc = objj.GetComponent<Bt_restart> ();
 	}
 
 	//====================== WORD FOUND RPCS =============================
@@ -179,7 +182,7 @@ public class mp_controller : Photon.MonoBehaviour {
 		if (GLOBALS.Singleton.REMATCH_RECEIVED == 0 && PhotonNetwork.connected && PhotonNetwork.connected != false) {
 			GLOBALS.Singleton.RECEIVED_ANAGRAM_ID = anagram_id;
 			GLOBALS.Singleton.REMATCH_RECEIVED = 1;
-
+			menusctrl[0].rematchMenu();
 			if (GLOBALS.Singleton.REMATCH_SENT == 0) {
 				Debug.Log ("REMATCH REQUEST RECEIVED");
 					//DISPLAY ACCEPT AND REJECT BUTTONS
@@ -203,6 +206,7 @@ public class mp_controller : Photon.MonoBehaviour {
 			else{
 				// DESTROY DIALOG
 				int zero =0;
+				waitingMenu[0].rematchRejected();
 			}
 		}
 	}

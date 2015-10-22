@@ -5,12 +5,9 @@ using UnityEngine.UI;
 
 public class Power_Up_BT : MonoBehaviour {
 
-	int my_type_Attack;
-	int my_type_Defense;
+	int my_type_Attack, my_type_Defense;
 	int turn_0def_1att;
-	int isOut;
-	int isIn;
-	int moveIn1moveOut2;
+	int isOut, isIn, moveIn1moveOut2;
 	mp_controller[] mp;
 	PowerUpCtrl[] pwctrl;
 
@@ -31,7 +28,7 @@ public class Power_Up_BT : MonoBehaviour {
 	Vector3 originalPos;
 	Vector3 outofScreenPos;
 	private int speed = 10;
-	float appearTimer = 0f;
+	float appearTimer = 0f, setAppearTime = 25f;
 	int sortID;
 
 	// Use this for initialization
@@ -47,9 +44,7 @@ public class Power_Up_BT : MonoBehaviour {
 
 		isIn = 0;
 		moveIn1moveOut2 = 2;
-		appearTimer =10f;
-
-		appearTimer =1f;
+		appearTimer = setAppearTime;
 
 		sortID =  Random.Range(3,7);
 		my_type_Defense = sortID;
@@ -135,7 +130,7 @@ public class Power_Up_BT : MonoBehaviour {
 		{
 			isIn = 0;
 			moveIn1moveOut2 = 2;
-			appearTimer =25f;
+			appearTimer = setAppearTime;
 			/*if(turn_0def_1att == 0)
 			{
 				actBT(my_type_Defense);

@@ -1,14 +1,13 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Lemix\scripts\bt\Power_Up_BT.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Lemix\scripts\controllers\Menus_Controller.cs">
     <Files>
-      <File FileName="Assets\Lemix\scripts\controllers\WController.cs" Line="459" Column="14" />
-      <File FileName="Assets\Lemix\scripts\controllers\PowerUpCtrl.cs" Line="293" Column="3" />
-      <File FileName="Assets\Lemix\scripts\controllers\mp\mp_controller.cs" Line="1" Column="1" />
-      <File FileName="Assets\Lemix\scripts\GLOBALS.cs" Line="1" Column="1" />
-      <File FileName="Assets\Lemix\scripts\bt\bt_Rematch.cs" Line="22" Column="2" />
-      <File FileName="Assets\Lemix\scripts\controllers\GameController.cs" Line="14" Column="46" />
-      <File FileName="Assets\Lemix\scripts\bt\Power_Up_BT.cs" Line="41" Column="11" />
+      <File FileName="Assets\Lemix\scripts\bt\Waiting_scrpit.cs" Line="5" Column="28" />
+      <File FileName="Assets\Lemix\scripts\bt\Power_Up_BT.cs" Line="1" Column="1" />
+      <File FileName="Assets\Lemix\scripts\bt\bt_revenge.cs" Line="13" Column="81" />
+      <File FileName="Assets\Lemix\scripts\controllers\mp\mp_controller.cs" Line="209" Column="38" />
+      <File FileName="Assets\Lemix\scripts\controllers\Menus_Controller.cs" Line="30" Column="15" />
+      <File FileName="Assets\Lemix\scripts\controllers\GameController.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

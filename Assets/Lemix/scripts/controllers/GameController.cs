@@ -12,7 +12,7 @@ using Thinksquirrel.WordGameBuilder.ObjectModel;
 
 
 public class GameController : MonoBehaviour {
-	float matchTotaltime = 120f;
+	float matchTotaltime = 2f;
 	//float matchTotaltime = 3f;
 	
 	public GameObject fail,win, draw;
