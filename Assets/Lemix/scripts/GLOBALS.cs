@@ -35,6 +35,8 @@ public class GLOBALS : MonoBehaviour {
 
 	[HideInInspector] public int USER_HAT_POWER = 0;
 
+	[HideInInspector] public int NumberOfWordsFounded = 0;
+
 	// REMATCH
 	[HideInInspector] public int REMATCH_SENT = 0;
 	[HideInInspector] public int REMATCH_RECEIVED = 0; // 1 = ACCEPTED | 2 = REJECTED
@@ -43,6 +45,7 @@ public class GLOBALS : MonoBehaviour {
 
 	void Awake()
 	{
+		Reset_Globals ();
 		Singleton = this;
 		Debug.Log ("SINGLETON INITIALIZED");
 		DontDestroyOnLoad(transform.gameObject);
@@ -54,8 +57,7 @@ public class GLOBALS : MonoBehaviour {
 	}
 	// Use this for initialization
 	void Start () {
-		PlayerPrefs.SetInt("Rank",1);
-		PlayerPrefs.GetInt("Rank",0);
+
 	}
 	
 	// Update is called once per frame
@@ -77,5 +79,7 @@ public class GLOBALS : MonoBehaviour {
 		REMATCH_ACCEPT_STATUS = 0;
 
 		RECEIVED_ANAGRAM_ID = 0;
+
+		NumberOfWordsFounded = 0;
 	}
 }

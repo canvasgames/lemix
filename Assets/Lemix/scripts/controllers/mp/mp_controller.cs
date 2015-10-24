@@ -51,6 +51,17 @@ public class mp_controller : Photon.MonoBehaviour {
 		ScenePhotonView.RPC("get_player_info", PhotonTargets.Others , anagram_id);
 	}
 
+	public void send_lvl(int level){
+		ScenePhotonView.RPC("receive_lvl", PhotonTargets.Others ,level);
+		Debug.Log ("MANDANDO");
+	}
+	
+	[PunRPC]
+	public void receive_lvl(int lvl){
+		Debug.Log ("recebendo");
+		GameObject P2lvl = GameObject.Find ("hud_p2_level"); 
+		P2lvl.GetComponent<TextMesh> ().text = "LVL " + lvl.ToString ();
+	}
 
 
 
@@ -182,8 +193,9 @@ public class mp_controller : Photon.MonoBehaviour {
 		if (GLOBALS.Singleton.REMATCH_RECEIVED == 0 && PhotonNetwork.connected && PhotonNetwork.connected != false) {
 			GLOBALS.Singleton.RECEIVED_ANAGRAM_ID = anagram_id;
 			GLOBALS.Singleton.REMATCH_RECEIVED = 1;
-			menusctrl[0].rematchMenu();
+
 			if (GLOBALS.Singleton.REMATCH_SENT == 0) {
+				menusctrl[0].rematchMenu();
 				Debug.Log ("REMATCH REQUEST RECEIVED");
 					//DISPLAY ACCEPT AND REJECT BUTTONS
 

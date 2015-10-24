@@ -1,8 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class cancel_bt : MonoBehaviour {
-	public GameObject lobbymaster,multiplayer, botbt;
+public class bt_statistics : MonoBehaviour {
+	public GameObject statMenu;
+
 	// Use this for initialization
 	void Start () {
 	
@@ -13,19 +14,9 @@ public class cancel_bt : MonoBehaviour {
 	
 	}
 
-
-
 	void OnMouseDown(){
-		active_bts ();
-	}
-
-	public void active_bts()
-	{
-		lobbymaster.SetActive(false);
-		multiplayer.SetActive(true);
-		botbt.SetActive(true);
-		gameObject.SetActive(false);
-		//sair do lobby no photon
+		GameObject menu = (GameObject)Instantiate (statMenu, new Vector3 (0, 0, -8), transform.rotation);
+		//menu.gameObject.transform.
 	}
 
 	void OnMouseEnter() {
@@ -35,5 +26,4 @@ public class cancel_bt : MonoBehaviour {
 	void OnMouseExit() {
 		this.transform.GetComponent<SpriteRenderer> ().color = Color.white;
 	}
-
 }

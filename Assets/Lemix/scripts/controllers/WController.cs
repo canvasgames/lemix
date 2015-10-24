@@ -86,7 +86,7 @@ public class WController : MonoBehaviour {
 		// Sorteia arquivo de palavra
 		if (rand == 0) {
 			int numberOfFiles = GLOBALS.Singleton.NumberOfWordFiles;
-			Debug.Log (numberOfFiles);
+			//Debug.Log (numberOfFiles);
 			//Sorteia um dos arquivos de palavras
 			rand = Random.Range (1, numberOfFiles);
 			GLOBALS.Singleton.ANAGRAM_ID = rand;
@@ -113,7 +113,7 @@ public class WController : MonoBehaviour {
 		
 		numberofWordstemp = (int)numberofWords;
 		word_original = list[numberofWordstemp-1].myWord;
-		Debug.Log (word_original + "ASDAS");
+//		Debug.Log (word_original + "ASDAS");
 		word = word_original;
 		
 		
@@ -133,7 +133,7 @@ public class WController : MonoBehaviour {
 	private bool LoadDictionary(string fileName)
 	{
 		// Handle any problems that might arise when reading the text
-		Debug.Log ("LOAD DICTIONARY CALLED!");
+	//	Debug.Log ("LOAD DICTIONARY CALLED!");
 		string line;
 		// Create a new StreamReader, tell it which file to read and what encoding the file
 		// was saved as
@@ -144,8 +144,8 @@ public class WController : MonoBehaviour {
 		Debug.Log (texto);
 
 		string[] palavras = anagrama.text.Split("\n"[0]);
-		Debug.Log ("IMPRIMINDO PALAVRAS");
-		Debug.Log (palavras[3]);
+	//	Debug.Log ("IMPRIMINDO PALAVRAS");
+//		Debug.Log (palavras[3]);
 		int i = 0;
 
 		do
@@ -298,17 +298,17 @@ public class WController : MonoBehaviour {
 		int i;
 		for(i=0;i<numberofWords;i++)
 		{
-			Debug.Log ("VERIFY WORD: " + list[i].myWord + " | L: " + list[i].myWord.Length + " | MY WORD " + word + " | L : " + word.Length);
+			//Debug.Log ("VERIFY WORD: " + list[i].myWord + " | L: " + list[i].myWord.Length + " | MY WORD " + word + " | L : " + word.Length);
 			if(list[i].myWord == word)
 			{
-				Debug.Log (" WORD FUCKING FOUND" );
+				//Debug.Log (" WORD FUCKING FOUND" );
 				if(list[i].found==false)
 				{
 					wordfound(GLOBALS.Singleton.MP_PLAYER,i,GLOBALS.Singleton.PUGOLDLETTERACTIVE);
 					Debug.Log("MP MODE " + GLOBALS.Singleton.MP_MODE);
 					if(GLOBALS.Singleton.MP_MODE == 1)
 					{
-						Debug.Log("ENVIANDO PALAVRA DE ID: " + i);
+						//Debug.Log("ENVIANDO PALAVRA DE ID: " + i);
 
 						//mp_controller[] mp_ = FindObjectsOfType(typeof(mp_controller)) as mp_controller[];
 						//mp_[0].send_word_found(i);
@@ -429,8 +429,11 @@ public class WController : MonoBehaviour {
 	void updateScoreWordFound(int player, int word_id, int goldLetterActive)
 	{
 		//SCORE Ctrlr
-		if(player == GLOBALS.Singleton.MP_PLAYER)
-			GLOBALS.Singleton.MY_SCORE+=list[word_id].myWord.Length*10 + (goldLetterActive * (list[word_id].myWord.Length*10));
+		if (player == GLOBALS.Singleton.MP_PLAYER) 
+		{
+			GLOBALS.Singleton.NumberOfWordsFounded++;
+			GLOBALS.Singleton.MY_SCORE += list [word_id].myWord.Length * 10 + (goldLetterActive * (list [word_id].myWord.Length * 10));
+		}
 		else
 			GLOBALS.Singleton.OP_SCORE+=list[word_id].myWord.Length*10 + (goldLetterActive * (list[word_id].myWord.Length*10));
 		

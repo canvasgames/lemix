@@ -12,9 +12,9 @@ using Thinksquirrel.WordGameBuilder.ObjectModel;
 
 
 public class GameController : MonoBehaviour {
-	float matchTotaltime = 2f;
-	//float matchTotaltime = 3f;
-	
+	//float matchTotaltime = 120f;
+	float matchTotaltime = 5f;
+	mp_controller[] mp;
 	public GameObject fail,win, draw;
 
 	public GameObject failTitle, winTitle, drawTitle;
@@ -43,13 +43,58 @@ public class GameController : MonoBehaviour {
 		clock = GameObject.Find ("hud_clock"); 
 		clock.GetComponentInChildren<TextMesh> ().GetComponent<Renderer>().sortingOrder = 10;
 		GLOBALS.Singleton.Reset_Globals ();
+		mp = FindObjectsOfType(typeof(mp_controller)) as mp_controller[];
+		 calculate_and_send_level();
 		//matchTotaltime = 1;
 		//SAFFER.Singleton.MY_SCORE = 5;
 		//SAFFER.Singleton.OP_SCORE = 5;
 	}
 
-	void Update () {
+	void calculate_and_send_level()
+	{
+		int tempWins = PlayerPrefs.GetInt ("NumberofWins");
+		int level;
+		int whatLevel = 1;
+		
+		//Discover the user level ----- x = n((n+1)/2) ------ n is the level x is the number of victories
+		if (tempWins == 0)
+			level = 0;
+		else 
+		{
+			while((whatLevel*((whatLevel+1)/2)) < tempWins)
+			{
+				whatLevel++;
+			}
+			
+			if(whatLevel!=1)
+				level = whatLevel - 1;
+			else
+				level = 1;
+		}
+		
+		GameObject umnome = GameObject.Find ("hud_p1_level"); 
+		umnome.GetComponent<TextMesh> ().text = "LVL " + level.ToString ();
+		
+		if(GLOBALS.Singleton.MP_MODE == 1)
+		{
+			mp[0].send_lvl(level);
+		}
+		else
+		{
+			int temp;
 
+			temp = UnityEngine.Random.Range(level,level+4);
+			GameObject bot = GameObject.Find ("hud_p2_level"); 
+			bot.GetComponent<TextMesh> ().text = "LVL " + temp.ToString ();
+		}
+		
+	}
+
+
+	void Update () {
+		//
+		//
+		//
 		if (matchTotaltime > 0) {
 			// SHOW TIME 
 			matchTotaltime -= Time.deltaTime;
@@ -63,6 +108,14 @@ public class GameController : MonoBehaviour {
 		//Debug.Log(SAFFER.Singleton.DRAW);
 		if(matchTotaltime<=0 && GLOBALS.Singleton.WIN == false && GLOBALS.Singleton.LOOSE == false && GLOBALS.Singleton.DRAW == false)
 		{
+			int tempMatches = PlayerPrefs.GetInt ("NumberofMatches");
+			tempMatches ++;
+			PlayerPrefs.SetInt("NumberofMatches",tempMatches);
+
+			int tempWords  = PlayerPrefs.GetInt ("WordsFounded");
+			tempWords += GLOBALS.Singleton.NumberOfWordsFounded;
+			PlayerPrefs.SetInt("WordsFounded",tempWords);
+
 			//Debug.Log(SAFFER.Singleton.MY_SCORE);
 			//Debug.Log(SAFFER.Singleton.OP_SCORE);
 			if(GLOBALS.Singleton.MY_SCORE <= GLOBALS.Singleton.OP_SCORE)
@@ -70,6 +123,8 @@ public class GameController : MonoBehaviour {
 				// DRAW CASE
 				if(GLOBALS.Singleton.MY_SCORE == GLOBALS.Singleton.OP_SCORE)
 				{
+					PlayerPrefs.SetInt("WinStreak",0);
+
 					GameObject empate = (GameObject)Instantiate (draw, new Vector3 (0,0 , 100), transform.rotation);
 					GLOBALS.Singleton.DRAW = true;
 
@@ -80,6 +135,9 @@ public class GameController : MonoBehaviour {
 				// LOOSE CASE
 				else
 				{
+
+					PlayerPrefs.SetInt("WinStreak",0);
+
 					GameObject lose = (GameObject)Instantiate (fail, new Vector3 (0,0 , 100), transform.rotation);
 					GLOBALS.Singleton.LOOSE = true;
 					//lose.renderer.sortingOrder = 5;
@@ -90,6 +148,15 @@ public class GameController : MonoBehaviour {
 			//WIN CASE
 			else
 			{
+				int tempWins = PlayerPrefs.GetInt ("NumberofWins");
+				tempWins ++;
+				PlayerPrefs.SetInt("NumberofWins",tempWins);
+
+				int tempStreak = PlayerPrefs.GetInt("WinStreak");
+				tempStreak ++;
+				Debug.Log ("Ganhei uru" + tempStreak); 
+				PlayerPrefs.SetInt("WinStreak",tempStreak);
+
 				GameObject vitoria = (GameObject)Instantiate (win, new Vector3 (0,0 , 100), transform.rotation);
 				GLOBALS.Singleton.WIN = true;
 				//vitoria.renderer.sortingOrder = 5;
@@ -117,7 +184,7 @@ public class GameController : MonoBehaviour {
 		//	Destroy(o);
 
 		PhotonNetwork.Disconnect();
-		GLOBALS.Singleton.Reset_Globals ();
+
 		Application.LoadLevel("Lobby");
 	}
 

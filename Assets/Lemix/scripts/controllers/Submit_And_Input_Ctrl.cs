@@ -212,7 +212,7 @@ public class Submit_And_Input_Ctrl : MonoBehaviour {
 		TextSubmitBT[] SubmitTxt = FindObjectsOfType(typeof(TextSubmitBT)) as TextSubmitBT[];
 
 
-		Debug.Log(numOfLetters);
+//		Debug.Log(numOfLetters);
 	
 
 		changed += 1;

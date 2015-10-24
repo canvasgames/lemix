@@ -25,6 +25,7 @@ public class Menus_Controller : MonoBehaviour {
 		wait = (GameObject)Instantiate (wait_title, new Vector3 (0,0 , 100), transform.rotation);
 
 	}
+	
 	public void destructWaiting()
 	{
 		Destroy(wait,3f);

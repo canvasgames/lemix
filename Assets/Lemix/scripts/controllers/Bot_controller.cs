@@ -36,8 +36,8 @@ public class Bot_controller : MonoBehaviour {
 		{
 			
 			// se esta no começo do jogo (30%)
-			Debug.Log(wordCTRL[0].bot_number_of_words_founded());
-			Debug.Log(wordCTRL[0].numberofWords * 0.3f);
+			//Debug.Log(wordCTRL[0].bot_number_of_words_founded());
+			//Debug.Log(wordCTRL[0].numberofWords * 0.3f);
 			if(wordCTRL[0].bot_number_of_words_founded() < (wordCTRL[0].numberofWords * 0.3f) )
 			{
 				//Debug.Log("30%");
