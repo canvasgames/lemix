@@ -27,6 +27,7 @@ public class bt_multiplayer : MonoBehaviour {
 
 	public void pressed()
 	{
+		this.transform.GetComponent<SpriteRenderer> ().color = Color.white;
 		//SAFFER.Singleton.Reset_Globals ();
 		Debug.Log ("CONNECT !");
 		lobbymaster.SetActive(true);

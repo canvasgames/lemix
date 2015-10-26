@@ -5,12 +5,13 @@ public class bt_revenge : MonoBehaviour {
 	mp_controller[] mp;
 	Menus_Controller[] menusctrl;
 	int menuCreated =0;
-
-
+	int deactivate = 0;
 	// Use this for initialization
 	void Start () {
 		mp = FindObjectsOfType(typeof(mp_controller)) as mp_controller[];
 		menusctrl = FindObjectsOfType(typeof(Menus_Controller)) as Menus_Controller[];
+
+
 	}
 	
 	// Update is called once per frame
@@ -20,12 +21,14 @@ public class bt_revenge : MonoBehaviour {
 
 	void OnMouseDown(){
 		//var objects = GameObject.FindObjectsOfType(GameObject);
-		if (menuCreated == 0)
+		if (menuCreated == 0 && deactivate == 0)
 		{
 			menuCreated = 1;
 			menusctrl[0].waiting();
 			Debug.Log ("ASK FOR REMATCH BUTTON PRESSED");
-			mp[0].send_ask_for_rematch ();
+			if(GLOBALS.Singleton.MP_MODE == 1)
+				mp[0].send_ask_for_rematch ();
+
 		}
 
 		/*
@@ -38,13 +41,19 @@ public class bt_revenge : MonoBehaviour {
 		
 	}
 
-	
+	public void deactivate_bt()
+	{
+		deactivate = 1;
+		this.transform.GetComponent<SpriteRenderer> ().color = Color.gray;
+	}
 	void OnMouseEnter() {
-		this.transform.GetComponent<SpriteRenderer> ().color = Color.green;
+		if(deactivate == 0)
+			this.transform.GetComponent<SpriteRenderer> ().color = Color.green;
 		//this.transform.DOScale()
 	}
 
 	void OnMouseExit() {
-		this.transform.GetComponent<SpriteRenderer> ().color = Color.white;
+		if(deactivate == 0)
+			this.transform.GetComponent<SpriteRenderer> ().color = Color.white;
 	}
 }

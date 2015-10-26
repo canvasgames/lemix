@@ -1,18 +1,13 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Lemix\scripts\bt\bt_statistics.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Lemix\scripts\bt\bt_multiplayer.cs">
     <Files>
-      <File FileName="Assets\Lemix\scripts\controllers\GameController.cs" Line="46" Column="3" />
-      <File FileName="Assets\Lemix\scripts\bt\bt_statistics.cs" Line="28" Column="3" />
-      <File FileName="Assets\Lemix\scripts\controllers\mp\mp_controller.cs" Line="1" Column="1" />
-      <File FileName="Assets\Lemix\scripts\bt\bt_revenge.cs" Line="1" Column="1" />
-      <File FileName="Assets\Lemix\scripts\controllers\Menus_Controller.cs" Line="1" Column="1" />
-      <File FileName="Assets\Lemix\scripts\bt\yes_are_you_sure.cs" Line="1" Column="1" />
-      <File FileName="Assets\Lemix\scripts\bt\no_are_you_sure.cs" Line="1" Column="1" />
+      <File FileName="Assets\Lemix\scripts\controllers\GameController.cs" Line="54" Column="9" />
       <File FileName="Assets\Lemix\scripts\bt\Waiting_scrpit.cs" Line="1" Column="1" />
-      <File FileName="Assets\Photon Unity Networking\UtilityScripts\Lobby_Master.cs" Line="1" Column="1" />
-      <File FileName="Assets\Lemix\scripts\bt\cancel_bt.cs" Line="31" Column="1" />
-      <File FileName="Assets\Lemix\scripts\bt\bt_multiplayer.cs" Line="35" Column="31" />
+      <File FileName="Assets\menu_loading_script.cs" Line="1" Column="1" />
+      <File FileName="Assets\Photon Unity Networking\UtilityScripts\Lobby_Master.cs" Line="9" Column="22" />
+      <File FileName="Assets\CreateSingleton.cs" Line="16" Column="18" />
+      <File FileName="Assets\Lemix\scripts\bt\bt_multiplayer.cs" Line="30" Column="70" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

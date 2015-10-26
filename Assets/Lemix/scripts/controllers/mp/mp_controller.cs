@@ -161,7 +161,7 @@ public class mp_controller : Photon.MonoBehaviour {
 			int anagram_id = Random.Range (1, numberOfFiles);
 			GLOBALS.Singleton.ANAGRAM_ID = anagram_id;
 
-			ScenePhotonView.RPC("rematch_request_received", PhotonTargets.All ,anagram_id);
+			ScenePhotonView.RPC("rematch_request_received", PhotonTargets.Others ,anagram_id);
 			// DISPLAY WAITING DIALOG...
 
 		}
@@ -213,7 +213,7 @@ public class mp_controller : Photon.MonoBehaviour {
 			GLOBALS.Singleton.REMATCH_RECEIVED = accept_status;
 
 			if(accept_status == 1){
-				rematch_begins();
+				waitingMenu[0].rematchAcepted();
 			}
 			else{
 				// DESTROY DIALOG

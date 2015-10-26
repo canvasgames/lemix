@@ -13,11 +13,10 @@ using Thinksquirrel.WordGameBuilder.ObjectModel;
 
 public class GameController : MonoBehaviour {
 	//float matchTotaltime = 120f;
-	float matchTotaltime = 5f;
+	float matchTotaltime = 5f, wait_Menu = 1;
 	mp_controller[] mp;
-	public GameObject fail,win, draw;
-
-	public GameObject failTitle, winTitle, drawTitle;
+	public GameObject fail,win, draw, loading;
+	
 	GameObject clock;
 	
 	public GameObject restartBT;
@@ -39,15 +38,22 @@ public class GameController : MonoBehaviour {
 	void Start () {
 
 		GLOBALS[] submitScp = FindObjectsOfType(typeof(GLOBALS)) as GLOBALS[];
-		Debug.Log(submitScp.Length);
+		GLOBALS.Singleton.Reset_Globals ();
+
 		clock = GameObject.Find ("hud_clock"); 
 		clock.GetComponentInChildren<TextMesh> ().GetComponent<Renderer>().sortingOrder = 10;
-		GLOBALS.Singleton.Reset_Globals ();
+
 		mp = FindObjectsOfType(typeof(mp_controller)) as mp_controller[];
-		 calculate_and_send_level();
-		//matchTotaltime = 1;
-		//SAFFER.Singleton.MY_SCORE = 5;
-		//SAFFER.Singleton.OP_SCORE = 5;
+
+		calculate_and_send_level();
+
+		GameObject lose = (GameObject)Instantiate (loading, new Vector3 (0,0 , 100), transform.rotation);
+		Time.timeScale = 0 ;
+	}
+
+	public void start_for_real()
+	{
+		Time.timeScale = 1;
 	}
 
 	void calculate_and_send_level()
@@ -92,79 +98,38 @@ public class GameController : MonoBehaviour {
 
 
 	void Update () {
-		//
-		//
-		//
 		if (matchTotaltime > 0) {
-			// SHOW TIME 
-			matchTotaltime -= Time.deltaTime;
-			if (matchTotaltime % 60 >= 10)
-				clock.GetComponentInChildren<TextMesh> ().text = (Math.Truncate (matchTotaltime / 60)).ToString () + " " + (Math.Truncate (matchTotaltime % 60)).ToString ();
-			else
-				clock.GetComponentInChildren<TextMesh> ().text = (Math.Truncate (matchTotaltime / 60)).ToString () + " 0" + (Math.Truncate (matchTotaltime % 60)).ToString ();
-			//Debug.Log(matchTotaltime);
+			update_clock();
 		}
 
-		//Debug.Log(SAFFER.Singleton.DRAW);
+		//MATCH ENDED
 		if(matchTotaltime<=0 && GLOBALS.Singleton.WIN == false && GLOBALS.Singleton.LOOSE == false && GLOBALS.Singleton.DRAW == false)
 		{
-			int tempMatches = PlayerPrefs.GetInt ("NumberofMatches");
-			tempMatches ++;
-			PlayerPrefs.SetInt("NumberofMatches",tempMatches);
+			match_end_F5_statistics();
 
-			int tempWords  = PlayerPrefs.GetInt ("WordsFounded");
-			tempWords += GLOBALS.Singleton.NumberOfWordsFounded;
-			PlayerPrefs.SetInt("WordsFounded",tempWords);
-
-			//Debug.Log(SAFFER.Singleton.MY_SCORE);
-			//Debug.Log(SAFFER.Singleton.OP_SCORE);
 			if(GLOBALS.Singleton.MY_SCORE <= GLOBALS.Singleton.OP_SCORE)
 			{
 				// DRAW CASE
 				if(GLOBALS.Singleton.MY_SCORE == GLOBALS.Singleton.OP_SCORE)
 				{
-					PlayerPrefs.SetInt("WinStreak",0);
-
-					GameObject empate = (GameObject)Instantiate (draw, new Vector3 (0,0 , 100), transform.rotation);
 					GLOBALS.Singleton.DRAW = true;
+					draw_case_statistics();
 
-					//empate.renderer.sortingOrder = 5;
-					//GameObject empateTit = (GameObject)Instantiate (drawTitle, new Vector3 (0,80 , 100), transform.rotation);
-					//empateTit.renderer.sortingOrder = 10;
+
 				}
-				// LOOSE CASE
+				// LOSE CASE
 				else
 				{
-
-					PlayerPrefs.SetInt("WinStreak",0);
-
-					GameObject lose = (GameObject)Instantiate (fail, new Vector3 (0,0 , 100), transform.rotation);
 					GLOBALS.Singleton.LOOSE = true;
-					//lose.renderer.sortingOrder = 5;
-					//GameObject loseTit = (GameObject)Instantiate (failTitle, new Vector3 (0,80 , 100), transform.rotation);
-					//loseTit.renderer.sortingOrder = 10;
+					lose_case_statistics();
 				}
 			}
 			//WIN CASE
 			else
 			{
-				int tempWins = PlayerPrefs.GetInt ("NumberofWins");
-				tempWins ++;
-				PlayerPrefs.SetInt("NumberofWins",tempWins);
-
-				int tempStreak = PlayerPrefs.GetInt("WinStreak");
-				tempStreak ++;
-				Debug.Log ("Ganhei uru" + tempStreak); 
-				PlayerPrefs.SetInt("WinStreak",tempStreak);
-
-				GameObject vitoria = (GameObject)Instantiate (win, new Vector3 (0,0 , 100), transform.rotation);
 				GLOBALS.Singleton.WIN = true;
-				//vitoria.renderer.sortingOrder = 5;
-				//GameObject vitoriaTit = (GameObject)Instantiate (winTitle, new Vector3 (0,80 , 100), transform.rotation);
-				//vitoriaTit.renderer.sortingOrder = 10;
+				win_case_statistics();
 			}
-			//GameObject rstt = (GameObject)Instantiate (restartBT, new Vector3 (0,-120 , 100), transform.rotation);
-			//rstt.renderer.sortingOrder = 10;
 			Time.timeScale = 0 ;
 		}
 		//
@@ -176,13 +141,63 @@ public class GameController : MonoBehaviour {
 		matchTotaltime +=time;
 	}
 
+	void update_clock()
+	{
+		// SHOW TIME 
+		matchTotaltime -= Time.deltaTime;
+		if (matchTotaltime % 60 >= 10)
+			clock.GetComponentInChildren<TextMesh> ().text = (Math.Truncate (matchTotaltime / 60)).ToString () + " " + (Math.Truncate (matchTotaltime % 60)).ToString ();
+		else
+			clock.GetComponentInChildren<TextMesh> ().text = (Math.Truncate (matchTotaltime / 60)).ToString () + " 0" + (Math.Truncate (matchTotaltime % 60)).ToString ();
+		//Debug.Log(matchTotaltime);
+	}
 
+
+
+	void match_end_F5_statistics()
+	{
+		int tempMatches = PlayerPrefs.GetInt ("NumberofMatches");
+		tempMatches ++;
+		PlayerPrefs.SetInt("NumberofMatches",tempMatches);
+		
+		int tempWords  = PlayerPrefs.GetInt ("WordsFounded");
+		tempWords += GLOBALS.Singleton.NumberOfWordsFounded;
+		PlayerPrefs.SetInt("WordsFounded",tempWords);
+	}
+
+	void win_case_statistics()
+	{
+		int tempWins = PlayerPrefs.GetInt ("NumberofWins");
+		tempWins ++;
+		PlayerPrefs.SetInt("NumberofWins",tempWins);
+		
+		int tempStreak = PlayerPrefs.GetInt("WinStreak");
+		tempStreak ++;
+		Debug.Log ("Ganhei uru" + tempStreak); 
+		PlayerPrefs.SetInt("WinStreak",tempStreak);
+		
+		GameObject vitoria = (GameObject)Instantiate (win, new Vector3 (0,0 , 100), transform.rotation);
+
+	}
+
+	void draw_case_statistics()
+	{
+		PlayerPrefs.SetInt("WinStreak",0);
+
+		GameObject empate = (GameObject)Instantiate (draw, new Vector3 (0,0 , 100), transform.rotation);
+
+	}
+
+	void lose_case_statistics()
+	{
+		PlayerPrefs.SetInt("WinStreak",0);
+		
+		GameObject lose = (GameObject)Instantiate (fail, new Vector3 (0,0 , 100), transform.rotation);
+
+	}
 	//================== CHANGE ROOMS ==================
 
 	public void go_to_lobby(){
-		//foreach (GameObject o in Object.FindObjectsOfType<GameObject>()) 
-		//	Destroy(o);
-
 		PhotonNetwork.Disconnect();
 
 		Application.LoadLevel("Lobby");

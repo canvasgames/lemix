@@ -21,7 +21,7 @@ public class Lobby_Master : Photon.MonoBehaviour
 
     public byte Version = 1;
 
-	public GameObject single;
+
 
 	public static int playerWhoIsIt = 0;
 	private static PhotonView ScenePhotonView;
@@ -33,11 +33,7 @@ public class Lobby_Master : Photon.MonoBehaviour
     {
 		ScenePhotonView = this.GetComponent<PhotonView>();
 
-		GLOBALS[] single2 = FindObjectsOfType (typeof(GLOBALS)) as GLOBALS[];
-		if (single2.Length == 0) {
-			GameObject obj = (GameObject)Instantiate (single, new Vector3 (0, 0, 0), transform.rotation);
-			GLOBALS final = obj.GetComponent<GLOBALS> ();
-		}
+
        
 
 		PhotonNetwork.autoJoinLobby = false;    // we join randomly. always. no need to join a lobby to get the list of rooms.
@@ -89,11 +85,11 @@ public class Lobby_Master : Photon.MonoBehaviour
 		//MASTER TEST
 		if (PhotonNetwork.isMasterClient == true) {
 			GameObject texto = GameObject.Find ("mytext");
-			texto.GetComponent<TextMesh> ().text = "I'M MASTER";
+//			texto.GetComponent<TextMesh> ().text = "I'M MASTER";
 		} 
 		else {
 			GameObject texto = GameObject.Find ("mytext");
-			texto.GetComponent<TextMesh> ().text = "NOT MASTER";
+	//		texto.GetComponent<TextMesh> ().text = "NOT MASTER";
 		}
 
 		Debug.Log ("PLAYER COUNT" + PhotonNetwork.room.playerCount);
