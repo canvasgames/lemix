@@ -18,7 +18,7 @@ public class mp_controller : Photon.MonoBehaviour {
 	void Start () {
 		pwctrl = FindObjectsOfType(typeof(PowerUpCtrl)) as PowerUpCtrl[];
 		menusctrl = FindObjectsOfType(typeof(Menus_Controller)) as Menus_Controller[];
-		waitingMenu = FindObjectsOfType(typeof(Waiting_scrpit)) as Waiting_scrpit[]; 
+
 	//	WController[] wordCTRL = FindObjectsOfType(typeof(WController)) as WController[];
 
 		if (GLOBALS.Singleton.MP_PLAYER == 0){
@@ -211,7 +211,7 @@ public class mp_controller : Photon.MonoBehaviour {
 		if (PhotonNetwork.connected && PhotonNetwork.connected != false) {
 			Debug.Log ("REMATCH ANSWERED!!! STATUS:  "  +accept_status);
 			GLOBALS.Singleton.REMATCH_RECEIVED = accept_status;
-
+			waitingMenu = FindObjectsOfType(typeof(Waiting_scrpit)) as Waiting_scrpit[]; 
 			if(accept_status == 1){
 				waitingMenu[0].rematchAcepted();
 			}

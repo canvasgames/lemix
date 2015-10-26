@@ -1,12 +1,13 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Lemix\scripts\bt\bt_multiplayer.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Lemix\scripts\controllers\mp\mp_controller.cs">
     <Files>
-      <File FileName="Assets\Lemix\scripts\controllers\GameController.cs" Line="54" Column="9" />
-      <File FileName="Assets\Lemix\scripts\bt\Waiting_scrpit.cs" Line="1" Column="1" />
+      <File FileName="Assets\Lemix\scripts\controllers\mp\mp_controller.cs" Line="227" Column="43" />
+      <File FileName="Assets\Lemix\scripts\controllers\GameController.cs" Line="1" Column="1" />
+      <File FileName="Assets\Lemix\scripts\bt\Waiting_scrpit.cs" Line="5" Column="28" />
       <File FileName="Assets\menu_loading_script.cs" Line="1" Column="1" />
-      <File FileName="Assets\Photon Unity Networking\UtilityScripts\Lobby_Master.cs" Line="9" Column="22" />
-      <File FileName="Assets\CreateSingleton.cs" Line="16" Column="18" />
+      <File FileName="Assets\Photon Unity Networking\UtilityScripts\Lobby_Master.cs" Line="1" Column="1" />
+      <File FileName="Assets\CreateSingleton.cs" Line="1" Column="1" />
       <File FileName="Assets\Lemix\scripts\bt\bt_multiplayer.cs" Line="30" Column="70" />
     </Files>
   </MonoDevelop.Ide.Workbench>
