@@ -13,8 +13,8 @@ using Thinksquirrel.WordGameBuilder.ObjectModel;
 
 public class GameController : MonoBehaviour {
 	//float matchTotaltime = 120f;
-	float matchTotaltime = 5f, wait_Menu = 1;
-	mp_controller[] mp;
+	float matchTotaltime = 1f, wait_Menu = 1, time2Sicronize, waitingOtherPlayer, timer2RecallOtherP = 0.1f;
+	mp_controller[] mpCtrl;
 	public GameObject fail,win, draw, loading;
 	
 	GameObject clock;
@@ -43,12 +43,26 @@ public class GameController : MonoBehaviour {
 		clock = GameObject.Find ("hud_clock"); 
 		clock.GetComponentInChildren<TextMesh> ().GetComponent<Renderer>().sortingOrder = 10;
 
-		mp = FindObjectsOfType(typeof(mp_controller)) as mp_controller[];
+
+
+		mpCtrl = FindObjectsOfType(typeof(mp_controller)) as mp_controller[];
+
+		if(GLOBALS.Singleton.MP_PLAYER == 1 && GLOBALS.Singleton.MP_MODE == 1)
+		{
+			waitingOtherPlayer = 1;
+		}
+		else
+		{
+			if(GLOBALS.Singleton.MP_MODE == 0)
+			{
+				GameObject load = (GameObject)Instantiate (loading, new Vector3 (0,0 , 100), transform.rotation);
+			}
+		}
 
 		calculate_and_send_level();
-
-		GameObject lose = (GameObject)Instantiate (loading, new Vector3 (0,0 , 100), transform.rotation);
 		Time.timeScale = 0 ;
+
+
 	}
 
 	public void start_for_real()
@@ -83,7 +97,7 @@ public class GameController : MonoBehaviour {
 		
 		if(GLOBALS.Singleton.MP_MODE == 1)
 		{
-			mp[0].send_lvl(level);
+			mpCtrl[0].send_lvl(level);
 		}
 		else
 		{
@@ -96,41 +110,52 @@ public class GameController : MonoBehaviour {
 		
 	}
 
+	public void sinc_received(float time)
+	{
+		waitingOtherPlayer = 2;
+		time2Sicronize = time;
+	}
 
-	void Update () {
-		if (matchTotaltime > 0) {
-			update_clock();
+
+	void sincronize_issues()
+	{
+		if(waitingOtherPlayer == 1 && GLOBALS.Singleton.MP_PLAYER == 1)
+		{
+			//SENDING AND SENDING ARE YOU HERE?
+			timer2RecallOtherP -= Time.unscaledDeltaTime;
+			if(timer2RecallOtherP == 0)
+			{
+				timer2RecallOtherP = 0.1f;
+				mpCtrl[0].send_are_you_here();
+			}
 		}
+		//ARE YOU HERE RECEIVED
+		else if(waitingOtherPlayer == 2)
+		{
+			time2Sicronize-= Time.unscaledDeltaTime;
+			if(time2Sicronize <= (float) PhotonNetwork.time)
+			{
+				waitingOtherPlayer = 0;
+				GameObject load = (GameObject)Instantiate (loading, new Vector3 (0,0 , 100), transform.rotation);
+			}
+		}
+	}
+	void Update () {
 
+		//SINCRONIZE
+		if(GLOBALS.Singleton.MP_MODE == 1)
+		{
+			sincronize_issues();
+		}
 		//MATCH ENDED
 		if(matchTotaltime<=0 && GLOBALS.Singleton.WIN == false && GLOBALS.Singleton.LOOSE == false && GLOBALS.Singleton.DRAW == false)
 		{
-			match_end_F5_statistics();
-
-			if(GLOBALS.Singleton.MY_SCORE <= GLOBALS.Singleton.OP_SCORE)
-			{
-				// DRAW CASE
-				if(GLOBALS.Singleton.MY_SCORE == GLOBALS.Singleton.OP_SCORE)
-				{
-					GLOBALS.Singleton.DRAW = true;
-					draw_case_statistics();
-
-
-				}
-				// LOSE CASE
-				else
-				{
-					GLOBALS.Singleton.LOOSE = true;
-					lose_case_statistics();
-				}
-			}
-			//WIN CASE
-			else
-			{
-				GLOBALS.Singleton.WIN = true;
-				win_case_statistics();
-			}
+			match_end();
 			Time.timeScale = 0 ;
+		}
+
+		if (matchTotaltime > 0) {
+			update_clock();
 		}
 		//
 	}
@@ -153,6 +178,34 @@ public class GameController : MonoBehaviour {
 	}
 
 
+	void match_end()
+	{
+		match_end_F5_statistics();
+		
+		if(GLOBALS.Singleton.MY_SCORE <= GLOBALS.Singleton.OP_SCORE)
+		{
+			// DRAW CASE
+			if(GLOBALS.Singleton.MY_SCORE == GLOBALS.Singleton.OP_SCORE)
+			{
+				GLOBALS.Singleton.DRAW = true;
+				draw_case_statistics();
+				
+				
+			}
+			// LOSE CASE
+			else
+			{
+				GLOBALS.Singleton.LOOSE = true;
+				lose_case_statistics();
+			}
+		}
+		//WIN CASE
+		else
+		{
+			GLOBALS.Singleton.WIN = true;
+			win_case_statistics();
+		}
+	}
 
 	void match_end_F5_statistics()
 	{

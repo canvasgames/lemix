@@ -10,6 +10,7 @@ public class mp_controller : Photon.MonoBehaviour {
 	PowerUpCtrl[] pwctrl;
 	Menus_Controller[] menusctrl;
 	Waiting_scrpit[] waitingMenu;
+	GameController[] gCtrlr;
 
 	void Awake () {
 		ScenePhotonView = this.GetComponent<PhotonView>();
@@ -18,7 +19,8 @@ public class mp_controller : Photon.MonoBehaviour {
 	void Start () {
 		pwctrl = FindObjectsOfType(typeof(PowerUpCtrl)) as PowerUpCtrl[];
 		menusctrl = FindObjectsOfType(typeof(Menus_Controller)) as Menus_Controller[];
-
+		gCtrlr =  FindObjectsOfType(typeof(GameController)) as GameController[];
+		//
 	//	WController[] wordCTRL = FindObjectsOfType(typeof(WController)) as WController[];
 
 		if (GLOBALS.Singleton.MP_PLAYER == 0){
@@ -46,6 +48,35 @@ public class mp_controller : Photon.MonoBehaviour {
 
 
 	//====================== SEND RPCS =============================
+	public void send_are_you_here(){
+		ScenePhotonView.RPC("receive_are_you_here", PhotonTargets.Others );
+	}
+	
+	[PunRPC]
+	public void receive_are_you_here(){
+		send_i_am_here();
+	}
+
+	public void send_i_am_here(){
+		ScenePhotonView.RPC("receive_i_am_here", PhotonTargets.Others );
+	}
+	
+	[PunRPC]
+	public void receive_i_am_here(){
+		float time = (float) PhotonNetwork.time + 2f;
+		gCtrlr[0].sinc_received(time);
+		send_time_2_OP(time);
+	}
+
+	public void send_time_2_OP(float time){
+		ScenePhotonView.RPC("receive_are_you_here", PhotonTargets.Others,time );
+	}
+	
+	[PunRPC]
+	public void receive_time_from_host(float time){
+		gCtrlr[0].sinc_received(time);
+	}
+
 
 	public void send_player_info(int anagram_id){
 		ScenePhotonView.RPC("get_player_info", PhotonTargets.Others , anagram_id);
@@ -53,18 +84,23 @@ public class mp_controller : Photon.MonoBehaviour {
 
 	public void send_lvl(int level){
 		ScenePhotonView.RPC("receive_lvl", PhotonTargets.Others ,level);
-		Debug.Log ("MANDANDO");
 	}
 	
 	[PunRPC]
 	public void receive_lvl(int lvl){
-		Debug.Log ("recebendo");
 		GameObject P2lvl = GameObject.Find ("hud_p2_level"); 
 		P2lvl.GetComponent<TextMesh> ().text = "LVL " + lvl.ToString ();
 	}
 
+	public void send_time_2_start(float time)
+	{
+		ScenePhotonView.RPC("receive_time_2_start", PhotonTargets.Others ,time);
+	}
 
+	[PunRPC]
+	public void receive_time_2_start(float time){
 
+	}
 	//======================= GET RPCS =============================
 
 	[PunRPC]
