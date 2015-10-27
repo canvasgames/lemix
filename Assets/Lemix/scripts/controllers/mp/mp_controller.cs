@@ -7,6 +7,7 @@ public class mp_controller : Photon.MonoBehaviour {
 	public WController w_controller;
 	public GameObject ss;
 	private static PhotonView ScenePhotonView;
+	bool are_you_here_received= false;
 	PowerUpCtrl[] pwctrl;
 	Menus_Controller[] menusctrl;
 	Waiting_scrpit[] waitingMenu;
@@ -20,7 +21,7 @@ public class mp_controller : Photon.MonoBehaviour {
 		pwctrl = FindObjectsOfType(typeof(PowerUpCtrl)) as PowerUpCtrl[];
 		menusctrl = FindObjectsOfType(typeof(Menus_Controller)) as Menus_Controller[];
 		gCtrlr =  FindObjectsOfType(typeof(GameController)) as GameController[];
-		//
+		are_you_here_received= false;
 	//	WController[] wordCTRL = FindObjectsOfType(typeof(WController)) as WController[];
 
 		if (GLOBALS.Singleton.MP_PLAYER == 0){
@@ -57,13 +58,19 @@ public class mp_controller : Photon.MonoBehaviour {
 	
 	[PunRPC]
 	public void receive_are_you_here(int x){
-		Debug.Log("Are you here? RECEIVED");
-		send_i_am_here();
+
+		if(are_you_here_received == false)
+		{
+			Debug.Log("Are you here? RECEIVED");
+			are_you_here_received= true;
+			send_i_am_here();
+		}
 	}
 
 	public void send_i_am_here(){
 		Debug.Log("SENDING i am here");
 		ScenePhotonView.RPC("receive_i_am_here", PhotonTargets.Others,0 );
+
 	}
 	
 	[PunRPC]
@@ -245,15 +252,20 @@ public class mp_controller : Photon.MonoBehaviour {
 	public void rematch_request_answered(int accept_status){
 		if (PhotonNetwork.connected && PhotonNetwork.connected != false) {
 			Debug.Log ("REMATCH ANSWERED!!! STATUS:  "  +accept_status);
+
 			GLOBALS.Singleton.REMATCH_RECEIVED = accept_status;
 			waitingMenu = FindObjectsOfType(typeof(Waiting_scrpit)) as Waiting_scrpit[]; 
-			if(accept_status == 1){
-				waitingMenu[0].rematchAcepted();
-			}
-			else{
-				// DESTROY DIALOG
-				int zero =0;
-				waitingMenu[0].rematchRejected();
+
+			if(waitingMenu.Length > 0)
+			{
+				if(accept_status == 1){
+					waitingMenu[0].rematchAcepted();
+				}
+				else{
+					// DESTROY DIALOG
+					int zero =0;
+					waitingMenu[0].rematchRejected();
+				}
 			}
 		}
 	}

@@ -135,6 +135,7 @@ public class GameController : MonoBehaviour {
 			if(time2Sicronize <= (float) PhotonNetwork.time)
 			{
 				waitingOtherPlayer = 0;
+				Debug.Log("Create load menu sincronize issues");
 				GameObject load = (GameObject)Instantiate (loading, new Vector3 (0,0 , 100), transform.rotation);
 			}
 		}
