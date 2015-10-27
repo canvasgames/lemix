@@ -16,7 +16,7 @@ public class Shuffle : MonoBehaviour {
 
 	void OnMouseDown() 
 	{
-
-		wordCTRL[0].reorganize();
+		if(GLOBALS.Singleton.GAME_RUNNING == true)
+			wordCTRL[0].reorganize();
 	}
 }

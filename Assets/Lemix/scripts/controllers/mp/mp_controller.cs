@@ -141,7 +141,7 @@ public class mp_controller : Photon.MonoBehaviour {
 
 	public void send_end_of_freeze_time()
 	{
-		ScenePhotonView.RPC("receive_end_frozen_letter", PhotonTargets.Others ,0);
+		ScenePhotonView.RPC("receive_end_frozen_letter", PhotonTargets.Others);
 		Debug.Log ("MANDANDO");
 	}
 
@@ -175,7 +175,7 @@ public class mp_controller : Photon.MonoBehaviour {
 	}
 
 	public void send_earthquake(){
-		ScenePhotonView.RPC("receive_earthquake", PhotonTargets.Others ,0);
+		ScenePhotonView.RPC("receive_earthquake", PhotonTargets.Others);
 		Debug.Log ("MANDANDO EARTHQUSKE");
 	}
 	

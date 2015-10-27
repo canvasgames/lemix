@@ -14,7 +14,7 @@ using Thinksquirrel.WordGameBuilder.ObjectModel;
 public class GameController : MonoBehaviour {
 
 	//Change this to change the world
-	float matchTotaltime = 120f;
+	float matchTotaltime = 5f;
 
 	float wait_Menu = 1, time2Sicronize, waitingOtherPlayer, timer2RecallOtherP = 0.1f;
 	mp_controller[] mpCtrl;
@@ -60,14 +60,11 @@ public class GameController : MonoBehaviour {
 		}
 
 		calculate_and_send_level();
-		Time.timeScale = 0 ;
-
-
 	}
 
 	public void start_for_real()
 	{
-		Time.timeScale = 1;
+		GLOBALS.Singleton.GAME_RUNNING = true;
 	}
 
 	void calculate_and_send_level()
@@ -153,10 +150,10 @@ public class GameController : MonoBehaviour {
 		if(matchTotaltime<=0 && GLOBALS.Singleton.WIN == false && GLOBALS.Singleton.LOOSE == false && GLOBALS.Singleton.DRAW == false)
 		{
 			match_end();
-			Time.timeScale = 0 ;
+			GLOBALS.Singleton.GAME_RUNNING = false;
 		}
 
-		if (matchTotaltime > 0) {
+		if (matchTotaltime > 0 && GLOBALS.Singleton.GAME_RUNNING == true) {
 			update_clock();
 		}
 		//

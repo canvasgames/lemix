@@ -54,7 +54,7 @@ public class Tile : MonoBehaviour {
 	void verifyIfIsMoving ()
 	{
 		//Se o tile foi clicado faz o movimento
-		if (onTheTable == 2||onTheTable == 3 ) 
+		if ( (onTheTable == 2||onTheTable == 3) && GLOBALS.Singleton.GAME_RUNNING == true ) 
 		{
 			transform.position = Vector3.Lerp (transform.position, target, Time.deltaTime * speed);
 			if(freezed == 1)
@@ -81,27 +81,30 @@ public class Tile : MonoBehaviour {
 	void OnMouseDown() 
 	{
 		//Se nao esta no caso do Power up de escolher letra
-		if(GLOBALS.Singleton.PUCHOOSELETTER == 0)
+		if(GLOBALS.Singleton.GAME_RUNNING == true)
 		{
-			if(freezed == 0)
-				move();
-			else
-				unfreezeMe();
-		}
-		else
-		{
-			//Se o botao nao esta bloqueado
-			if(PUNotClicable == 0 && freezed == 0)
+			if(GLOBALS.Singleton.PUCHOOSELETTER == 0)
 			{
-				PUChooseLetter();
-			}
-			else
-			{
-				if(freezed == 1)
+				if(freezed == 0)
+					move();
+				else
 					unfreezeMe();
-
 			}
-			//GetComponentInChildren<SpriteRenderer> ().color = Color.gray;
+			else
+			{
+				//Se o botao nao esta bloqueado
+				if(PUNotClicable == 0 && freezed == 0)
+				{
+					PUChooseLetter();
+				}
+				else
+				{
+					if(freezed == 1)
+						unfreezeMe();
+
+				}
+				//GetComponentInChildren<SpriteRenderer> ().color = Color.gray;
+			}
 		}
 	}
 

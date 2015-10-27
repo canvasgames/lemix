@@ -71,6 +71,8 @@ public class GLOBALS : MonoBehaviour {
 		LOOSE = false;
 		DRAW = false;
 
+		GAME_RUNNING = false;
+
 		MY_SCORE = 0;
 		OP_SCORE = 0;
 

@@ -37,7 +37,7 @@ public class PowerUpCtrl : MonoBehaviour {
 	void Update () 
 	{
 		//My curtain
-		if(curtain != null)
+		if(curtain != null && GLOBALS.Singleton.GAME_RUNNING == true)
 		{
 			curtainTimer -= Time.deltaTime;
 
@@ -49,7 +49,7 @@ public class PowerUpCtrl : MonoBehaviour {
 		}
 
 		//Gold Letter
-		if(GLOBALS.Singleton.PUGOLDLETTERACTIVE == 1)
+		if(GLOBALS.Singleton.PUGOLDLETTERACTIVE == 1 && GLOBALS.Singleton.GAME_RUNNING == true)
 		{
 			goldLetterTime -= Time.deltaTime;
 			if(goldLetterTime<=0)
@@ -59,7 +59,7 @@ public class PowerUpCtrl : MonoBehaviour {
 		}
 
 		//Freeze op sprite
-		if(freezeOPTime >0)
+		if(freezeOPTime >0 && GLOBALS.Singleton.GAME_RUNNING == true)
 		{
 			freezeOPTime  -= Time.deltaTime;
 			if(freezeOPTime <=0)
@@ -67,7 +67,7 @@ public class PowerUpCtrl : MonoBehaviour {
 		}
 
 		//Curtain op
-		if(curtainTimerOP >0)
+		if(curtainTimerOP >0 && GLOBALS.Singleton.GAME_RUNNING == true)
 		{
 			curtainTimerOP  -= Time.deltaTime;
 			if(curtainTimerOP <=0)

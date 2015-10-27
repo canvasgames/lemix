@@ -21,7 +21,7 @@ public class Bot_controller : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if(GLOBALS.Singleton.MP_MODE == 0)
+		if(GLOBALS.Singleton.MP_MODE == 0 && GLOBALS.Singleton.GAME_RUNNING == true)
 		{
 			try_submit_word();
 			try_to_user_power_up();

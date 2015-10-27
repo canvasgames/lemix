@@ -58,55 +58,49 @@ public class Power_Up_BT : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-
-		if(moveIn1moveOut2 == 2)
+		if(GLOBALS.Singleton.GAME_RUNNING == true)
 		{
-			transform.position = Vector3.Lerp (transform.position, outofScreenPos, Time.deltaTime * speed);
-			if(transform.position.x > outofScreenPos.x - 5 && transform.position.x < outofScreenPos.x + 5)
+			if(moveIn1moveOut2 == 2)
 			{
-				transform.position = outofScreenPos;
-				moveIn1moveOut2 =0;
-				isOut = 1;
-			/*	if(turn_0def_1att == 0)
+				transform.position = Vector3.Lerp (transform.position, outofScreenPos, Time.deltaTime * speed);
+				if(transform.position.x > outofScreenPos.x - 5 && transform.position.x < outofScreenPos.x + 5)
 				{
-					changeSprite(my_type_Defense);
-				}
-				else
-				{
-					changeSprite(my_type_Attack);
-				}*/
-				if(myType == 0)
-				{
-					changeSprite(my_type_Defense);
-				}
-				else
-				{
-					changeSprite(my_type_Attack);
-				}
-			}
-		}
-		if(isOut == 1 || moveIn1moveOut2 == 2 )
-		{
-			appearTimer -= Time.deltaTime;
-		
-			if(appearTimer <=0)
-			{
-				moveIn1moveOut2 = 1;
-				isOut = 0;
-				//outofScreenPos
-			}
-		}
-
-		if(moveIn1moveOut2 == 1)
-		{
-			transform.position = Vector3.Lerp (transform.position, originalPos, Time.deltaTime * speed);
-			//Debug.Log("entrando");
-			if(transform.position.x > originalPos.x - 5 && transform.position.x < originalPos.x + 5)
-			{
-				transform.position = originalPos;
-				//Debug.Log("dentro");
+					transform.position = outofScreenPos;
 					moveIn1moveOut2 =0;
-					isIn = 1;
+					isOut = 1;
+					if(myType == 0)
+					{
+						changeSprite(my_type_Defense);
+					}
+					else
+					{
+						changeSprite(my_type_Attack);
+					}
+				}
+			}
+			if(isOut == 1 || moveIn1moveOut2 == 2 )
+			{
+				appearTimer -= Time.deltaTime;
+		
+				if(appearTimer <=0)
+				{
+					moveIn1moveOut2 = 1;
+					isOut = 0;
+					//outofScreenPos
+				}
+			}
+
+			if(moveIn1moveOut2 == 1)
+			{
+				transform.position = Vector3.Lerp (transform.position, originalPos, Time.deltaTime * speed);
+				//Debug.Log("entrando");
+				if(transform.position.x > originalPos.x - 5 && transform.position.x < originalPos.x + 5)
+				{
+					transform.position = originalPos;
+					//Debug.Log("dentro");
+						moveIn1moveOut2 =0;
+						isIn = 1;
+				}
 			}
 		}
 	}
@@ -121,7 +115,10 @@ public class Power_Up_BT : MonoBehaviour {
 	}
 	void OnMouseDown()
 	{
-		clickOrKeyboard ();
+		if(GLOBALS.Singleton.GAME_RUNNING == true)
+		{
+			clickOrKeyboard ();
+		}
 	}
 
 	public void clickOrKeyboard ()

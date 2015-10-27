@@ -28,7 +28,7 @@ public class Submit_And_Input_Ctrl : MonoBehaviour {
 		}
 
 		//Trigger para submeter a mesa cheia
-		if(submitFullTrigger == 1)
+		if(submitFullTrigger == 1 && GLOBALS.Singleton.GAME_RUNNING == true)
 		{
 			timer2Submit -= Time.deltaTime;
 			if ( timer2Submit < 0 )
@@ -40,7 +40,7 @@ public class Submit_And_Input_Ctrl : MonoBehaviour {
 
 		//Input
 
-		if(Input.anyKeyDown)
+		if(Input.anyKeyDown && GLOBALS.Singleton.GAME_RUNNING == true)
 		{
 			if(Input.GetKeyDown("space"))
 			{
@@ -144,7 +144,8 @@ public class Submit_And_Input_Ctrl : MonoBehaviour {
 	}
 	void OnMouseDown() 
 	{
-		submitLetters();
+		if(GLOBALS.Singleton.GAME_RUNNING == true)
+			submitLetters();
 	}
 
 	public void verifyFullTable(int numberOfLetters)
