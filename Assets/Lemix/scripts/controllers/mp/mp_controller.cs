@@ -32,7 +32,7 @@ public class mp_controller : Photon.MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-	
+
 	}
 
 	void OnGUI () {
@@ -52,22 +52,22 @@ public class mp_controller : Photon.MonoBehaviour {
 	//================== SINCRONIZATION  ==================
 	public void send_are_you_here(){
 		Debug.Log("SENDING Are you here?");
-		ScenePhotonView.RPC("receive_are_you_here", PhotonTargets.Others );
+		ScenePhotonView.RPC("receive_are_you_here", PhotonTargets.Others,0 );
 	}
 	
 	[PunRPC]
-	public void receive_are_you_here(){
+	public void receive_are_you_here(int x){
 		Debug.Log("Are you here? RECEIVED");
 		send_i_am_here();
 	}
 
 	public void send_i_am_here(){
 		Debug.Log("SENDING i am here");
-		ScenePhotonView.RPC("receive_i_am_here", PhotonTargets.Others );
+		ScenePhotonView.RPC("receive_i_am_here", PhotonTargets.Others,0 );
 	}
 	
 	[PunRPC]
-	public void receive_i_am_here(){
+	public void receive_i_am_here(int x){
 		Debug.Log("i am here RECEIVED");
 		float time = (float) PhotonNetwork.time + 2f;
 		gCtrlr[0].sinc_received(time);
