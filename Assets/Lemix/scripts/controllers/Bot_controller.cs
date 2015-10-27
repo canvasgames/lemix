@@ -11,8 +11,9 @@ public class Bot_controller : MonoBehaviour {
 	void Start () {
 		if(GLOBALS.Singleton.MP_MODE == 0)
 		{
-			botGameTime = 4f;
-			botPUTime = Random.Range (12f,15f);
+			botGameTime = 6f;
+			botPUTime = Random.Range (25f,28f);
+			//botPUTime = 2f;
 			pwctrl = FindObjectsOfType(typeof(PowerUpCtrl)) as PowerUpCtrl[];
 			wordCTRL = FindObjectsOfType(typeof(WController)) as WController[];
 		}

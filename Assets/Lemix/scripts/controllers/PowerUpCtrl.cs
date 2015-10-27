@@ -25,7 +25,7 @@ public class PowerUpCtrl : MonoBehaviour {
 		smooth = 2.7f;
 
 		//Posiçao da curtinada
-		positionACurtain = new Vector3(0, 220, 0);
+		positionACurtain = new Vector3(0, 240, 0);
 		positionBCurtain = new Vector3(0,950,0);
 
 		mp = FindObjectsOfType(typeof(mp_controller)) as mp_controller[];
@@ -36,7 +36,7 @@ public class PowerUpCtrl : MonoBehaviour {
 	// Update is called once per frame
 	void Update () 
 	{
-		//Curtain
+		//My curtain
 		if(curtain != null)
 		{
 			curtainTimer -= Time.deltaTime;
@@ -58,6 +58,7 @@ public class PowerUpCtrl : MonoBehaviour {
 			}
 		}
 
+		//Freeze op sprite
 		if(freezeOPTime >0)
 		{
 			freezeOPTime  -= Time.deltaTime;
@@ -65,6 +66,7 @@ public class PowerUpCtrl : MonoBehaviour {
 				unfreezeOPSprite();
 		}
 
+		//Curtain op
 		if(curtainTimerOP >0)
 		{
 			curtainTimerOP  -= Time.deltaTime;
@@ -283,7 +285,7 @@ public class PowerUpCtrl : MonoBehaviour {
 	public void curtainOPSprite()
 	{
 		CurtainOP.SetActive(true);
-		CurtainOP.transform.DOLocalMoveY(445,0.5f);
+		CurtainOP.transform.DOLocalMoveY(500,0.5f);
 		curtainTimerOP = 10f;
 	}
 

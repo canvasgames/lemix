@@ -73,7 +73,7 @@ public class Submit_And_Input_Ctrl : MonoBehaviour {
 				int i;
 
 			
-				//Procura o tile safadao
+				//Search for the tile
 				for(i=0;i<myTiles.Length;i++)
 				{
 					if(GLOBALS.Singleton.PUCHOOSELETTER == 1)

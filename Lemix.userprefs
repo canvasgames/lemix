@@ -1,14 +1,16 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Lemix\scripts\controllers\GameController.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Lemix\scripts\controllers\Bot_controller.cs">
     <Files>
-      <File FileName="Assets\Lemix\scripts\controllers\GameController.cs" Line="136" Column="51" />
-      <File FileName="Assets\Lemix\scripts\bt\Waiting_scrpit.cs" Line="1" Column="1" />
-      <File FileName="Assets\menu_loading_script.cs" Line="1" Column="1" />
-      <File FileName="Assets\Photon Unity Networking\UtilityScripts\Lobby_Master.cs" Line="1" Column="1" />
-      <File FileName="Assets\CreateSingleton.cs" Line="1" Column="1" />
-      <File FileName="Assets\Lemix\scripts\bt\bt_multiplayer.cs" Line="1" Column="1" />
-      <File FileName="Assets\Lemix\scripts\controllers\mp\mp_controller.cs" Line="66" Column="16" />
+      <File FileName="Assets\Lemix\scripts\controllers\GameController.cs" Line="21" Column="53" />
+      <File FileName="Assets\Lemix\scripts\controllers\mp\mp_controller.cs" Line="1" Column="1" />
+      <File FileName="Assets\Lemix\scripts\game\ConstructTable.cs" Line="1" Column="1" />
+      <File FileName="Assets\Lemix\scripts\game\Tile.cs" Line="1" Column="1" />
+      <File FileName="Assets\Lemix\scripts\controllers\mp\send_mess.cs" Line="1" Column="1" />
+      <File FileName="Assets\Lemix\scripts\controllers\Submit_And_Input_Ctrl.cs" Line="1" Column="1" />
+      <File FileName="Assets\Lemix\scripts\controllers\PowerUpCtrl.cs" Line="1" Column="1" />
+      <File FileName="Assets\Lemix\scripts\controllers\Bot_controller.cs" Line="23" Column="18" />
+      <File FileName="Assets\Lemix\scripts\bt\Power_Up_BT.cs" Line="31" Column="42" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

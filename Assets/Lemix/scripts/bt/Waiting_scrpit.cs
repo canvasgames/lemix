@@ -27,6 +27,7 @@ public class Waiting_scrpit : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		//Waiting, actualize txt
 		if(waiting == 1)
 		{
 			timeTrigger-= Time.unscaledDeltaTime ;
@@ -45,6 +46,7 @@ public class Waiting_scrpit : MonoBehaviour {
 			}
 		}
 
+		//bot mode -> reject
 		if(bot_mode == 1)
 		{
 			bot_time-= Time.unscaledDeltaTime ;
@@ -56,6 +58,7 @@ public class Waiting_scrpit : MonoBehaviour {
 
 		}
 
+		//rematch reject, destroy the menu
 		if(destruct_menu_time >0)
 		{
 			destruct_menu_time -= Time.unscaledDeltaTime;
@@ -64,6 +67,8 @@ public class Waiting_scrpit : MonoBehaviour {
 				Destroy(transform.parent.parent.gameObject);
 			}
 		}
+
+		//rematch acepted, go to main menu
 		if(reset_room_time >0)
 		{
 			reset_room_time -= Time.unscaledDeltaTime;

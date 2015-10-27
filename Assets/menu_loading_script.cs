@@ -17,6 +17,8 @@ public class menu_loading_script : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+
+		//change txt
 		if(waiting == 1)
 		{
 			timeTrigger-= Time.unscaledDeltaTime ;

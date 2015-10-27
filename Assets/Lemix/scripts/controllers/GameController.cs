@@ -12,16 +12,15 @@ using Thinksquirrel.WordGameBuilder.ObjectModel;
 
 
 public class GameController : MonoBehaviour {
-	//float matchTotaltime = 120f;
-	float matchTotaltime = 1f, wait_Menu = 1, time2Sicronize, waitingOtherPlayer, timer2RecallOtherP = 0.1f;
+
+	//Change this to change the world
+	float matchTotaltime = 120f;
+
+	float wait_Menu = 1, time2Sicronize, waitingOtherPlayer, timer2RecallOtherP = 0.1f;
 	mp_controller[] mpCtrl;
-	public GameObject fail,win, draw, loading;
+	public GameObject fail,win, draw, loading, restartBT, single;
 	
 	GameObject clock;
-	
-	public GameObject restartBT;
-
-	public GameObject single;
 
 
 	// Use this for initializatmon
@@ -47,6 +46,7 @@ public class GameController : MonoBehaviour {
 
 		mpCtrl = FindObjectsOfType(typeof(mp_controller)) as mp_controller[];
 
+		//Check if is multiplayer or not to sincronize
 		if(GLOBALS.Singleton.MP_PLAYER == 1 && GLOBALS.Singleton.MP_MODE == 1)
 		{
 			waitingOtherPlayer = 1;
@@ -125,6 +125,7 @@ public class GameController : MonoBehaviour {
 			timer2RecallOtherP -= Time.unscaledDeltaTime;
 			if(timer2RecallOtherP == 0)
 			{
+				Debug.Log("Are you here?");
 				timer2RecallOtherP = 0.1f;
 				mpCtrl[0].send_are_you_here();
 			}

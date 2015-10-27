@@ -48,32 +48,39 @@ public class mp_controller : Photon.MonoBehaviour {
 
 
 	//====================== SEND RPCS =============================
+
+	//================== SINCRONIZATION  ==================
 	public void send_are_you_here(){
 		ScenePhotonView.RPC("receive_are_you_here", PhotonTargets.Others );
 	}
 	
 	[PunRPC]
 	public void receive_are_you_here(){
+		Debug.Log("Are you here? RECEIVED");
 		send_i_am_here();
 	}
 
 	public void send_i_am_here(){
+		Debug.Log("SENDING i am here");
 		ScenePhotonView.RPC("receive_i_am_here", PhotonTargets.Others );
 	}
 	
 	[PunRPC]
 	public void receive_i_am_here(){
+		Debug.Log("i am here RECEIVED");
 		float time = (float) PhotonNetwork.time + 2f;
 		gCtrlr[0].sinc_received(time);
 		send_time_2_OP(time);
 	}
 
 	public void send_time_2_OP(float time){
-		ScenePhotonView.RPC("receive_are_you_here", PhotonTargets.Others,time );
+		Debug.Log("SENDING time to sincronize");
+		ScenePhotonView.RPC("receive_time_from_host", PhotonTargets.Others,time );
 	}
 	
 	[PunRPC]
 	public void receive_time_from_host(float time){
+		Debug.Log("time to sincronize RECEIVED");
 		gCtrlr[0].sinc_received(time);
 	}
 
@@ -91,16 +98,7 @@ public class mp_controller : Photon.MonoBehaviour {
 		GameObject P2lvl = GameObject.Find ("hud_p2_level"); 
 		P2lvl.GetComponent<TextMesh> ().text = "LVL " + lvl.ToString ();
 	}
-
-	public void send_time_2_start(float time)
-	{
-		ScenePhotonView.RPC("receive_time_2_start", PhotonTargets.Others ,time);
-	}
-
-	[PunRPC]
-	public void receive_time_2_start(float time){
-
-	}
+	
 	//======================= GET RPCS =============================
 
 	[PunRPC]

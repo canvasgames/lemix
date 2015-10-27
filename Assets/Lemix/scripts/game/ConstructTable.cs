@@ -6,13 +6,16 @@ public class ConstructTable : MonoBehaviour {
 	public GameObject tile;	
 	public GameObject tileSpace;	
 	public GameObject whiteSquare;	
-	public int x_pos_init;
+	[HideInInspector] public int x_pos_init;
 
-	//Posiçao inicial dos tiles e espaçamento
-	int y_pos_init = -490;
-	[HideInInspector] public int y_pos_submit_table = -390;
-	public int tiles_space, x_space, wordsPerCollumn, superior_Y, y_space, square_width;
-	public string rand_word;
+	//Initial position of red tiles
+	int y_pos_init;
+
+
+	[HideInInspector] public int y_pos_submit_table;
+
+	[HideInInspector] public int tiles_space, x_space, wordsPerCollumn, superior_Y, y_space, square_width;
+	[HideInInspector] public string rand_word;
 	// Use this for initialization
 	void Start () 
 	{
@@ -27,7 +30,13 @@ public class ConstructTable : MonoBehaviour {
 
 	public void construct ()
 	{
-		//Configuraçao dos white tiles
+		//Initial position of red tiles
+		y_pos_init = -450;
+
+		//Initial position of submition table
+		y_pos_submit_table = -250;
+
+		//Position of the white tiles
 		tiles_space = 160;
 		x_space = 80;
 		wordsPerCollumn = 8;
