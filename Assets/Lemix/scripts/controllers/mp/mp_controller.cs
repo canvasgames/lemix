@@ -51,6 +51,7 @@ public class mp_controller : Photon.MonoBehaviour {
 
 	//================== SINCRONIZATION  ==================
 	public void send_are_you_here(){
+		Debug.Log("SENDING Are you here?");
 		ScenePhotonView.RPC("receive_are_you_here", PhotonTargets.Others );
 	}
 	

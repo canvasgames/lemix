@@ -119,11 +119,12 @@ public class GameController : MonoBehaviour {
 
 	void sincronize_issues()
 	{
+
 		if(waitingOtherPlayer == 1 && GLOBALS.Singleton.MP_PLAYER == 1)
 		{
 			//SENDING AND SENDING ARE YOU HERE?
 			timer2RecallOtherP -= Time.unscaledDeltaTime;
-			if(timer2RecallOtherP == 0)
+			if(timer2RecallOtherP <= 0)
 			{
 				Debug.Log("Are you here?");
 				timer2RecallOtherP = 0.1f;
