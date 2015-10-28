@@ -2,8 +2,8 @@
 using System.Collections;
 
 public class Menus_Controller : MonoBehaviour {
-	public GameObject rematch_menu, wait_title, op_disconnected;
-	GameObject wait, disco;
+	public GameObject rematch_menu, wait_title, op_disconnected, countdown, sync;
+	GameObject wait, disco, load, syncro;
 	GameController[] gctrller;
 	int disconect_state;
 	float disconect_time;
@@ -17,6 +17,7 @@ public class Menus_Controller : MonoBehaviour {
 		disconnect_menu();
 	}
 
+	// ======================= MATCH END =======================
 	public void rematchMenu()
 	{
 		GameObject rematch = (GameObject)Instantiate (rematch_menu, new Vector3 (0,0 , 100), transform.rotation);
@@ -29,6 +30,25 @@ public class Menus_Controller : MonoBehaviour {
 
 	}
 
+	public void destructWaiting()
+	{
+		Destroy(wait,3f);
+	}
+
+	// ======================= LOADING GAME =======================
+	public void countdown_menu()
+	{
+		Destroy(syncro);
+		load = (GameObject)Instantiate (countdown, new Vector3 (0,0 , 100), transform.rotation);
+	}
+
+	public void syncronize_menu()
+	{
+		syncro = (GameObject)Instantiate (sync, new Vector3 (0,0 , 100), transform.rotation);
+	}
+
+
+	// ======================= DISCONNECTED =======================
 	void disconnect_menu()
 	{
 		if(disconect_state !=0 )
@@ -38,6 +58,8 @@ public class Menus_Controller : MonoBehaviour {
 			{
 				if(disconect_state == 1)
 				{
+					Destroy(load);
+					Destroy(syncro);
 					Destroy(disco);
 					gctrller = FindObjectsOfType(typeof(GameController)) as GameController[];
 					GLOBALS.Singleton.WIN = true;
@@ -45,11 +67,14 @@ public class Menus_Controller : MonoBehaviour {
 					gctrller[0].win_case_statistics();
 				}
 				else
+				{
 					PhotonNetwork.LoadLevel ("Lobby");
+				}
 				disconect_state = 0;
 			}
 		}
 	}
+
 	public void disconnected(bool game_state)
 	{
 		disco = (GameObject)Instantiate (op_disconnected, new Vector3 (0,0 , 100), transform.rotation);
@@ -59,8 +84,6 @@ public class Menus_Controller : MonoBehaviour {
 			disconect_state =2;
 		disconect_time = 3f;
 	}
-	public void destructWaiting()
-	{
-		Destroy(wait,3f);
-	}
+
+
 }

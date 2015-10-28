@@ -85,7 +85,7 @@ public class mp_controller : Photon.MonoBehaviour {
 	[PunRPC]
 	public void receive_i_am_here(int x){
 		Debug.Log("i am here RECEIVED");
-		float time = (float) PhotonNetwork.time + 2f;
+		float time = (float) PhotonNetwork.time + 1f;
 		gCtrlr[0].sinc_received(time);
 		send_time_2_OP(time);
 	}

@@ -35,7 +35,7 @@ public class menu_loading_script : MonoBehaviour {
 					gController[0].start_for_real();
 					Destroy(transform.parent.parent.gameObject);
 				}
-				timeTrigger = 1f;
+				timeTrigger = 0.6f;
 			}
 		}
 	}

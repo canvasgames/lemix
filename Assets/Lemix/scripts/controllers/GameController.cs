@@ -22,10 +22,9 @@ public class GameController : MonoBehaviour {
 	mp_controller[] mpCtrl;
 
 	//MENUS
-	public GameObject fail,win, draw, loading, restartBT, single, sync;
-	GameObject syncro ;
+	public GameObject fail,win, draw, restartBT, single;
 	GameObject clock;
-
+	Menus_Controller[] menusctrl;
 
 	// Use this for initializatmon
 	void Awake()
@@ -39,7 +38,7 @@ public class GameController : MonoBehaviour {
 	}
 
 	void Start () {
-
+		menusctrl = FindObjectsOfType(typeof(Menus_Controller)) as Menus_Controller[];
 		GLOBALS[] submitScp = FindObjectsOfType(typeof(GLOBALS)) as GLOBALS[];
 		GLOBALS.Singleton.Reset_Globals ();
 
@@ -49,8 +48,8 @@ public class GameController : MonoBehaviour {
 
 
 		mpCtrl = FindObjectsOfType(typeof(mp_controller)) as mp_controller[];
-
-	   syncro = (GameObject)Instantiate (sync, new Vector3 (0,0 , 100), transform.rotation);
+		menusctrl[0].syncronize_menu();
+	  
 
 		//Check if is multiplayer or not to sincronize
 		if(GLOBALS.Singleton.MP_PLAYER == 1 && GLOBALS.Singleton.MP_MODE == 1)
@@ -127,8 +126,7 @@ public class GameController : MonoBehaviour {
 			wait_bot_sync_fake -= Time.unscaledDeltaTime;
 			if(wait_bot_sync_fake <= 0)
 			{
-				GameObject load = (GameObject)Instantiate (loading, new Vector3 (0,0 , 100), transform.rotation);
-				Destroy(syncro);
+				menusctrl[0].countdown_menu();
 			}
 		}
 	}
@@ -157,8 +155,8 @@ public class GameController : MonoBehaviour {
 			{
 				waitingOtherPlayer = 0;
 				Debug.Log("Create load menu sincronize issues");
-				Destroy(syncro);
-				GameObject load = (GameObject)Instantiate (loading, new Vector3 (0,0 , 100), transform.rotation);
+
+				menusctrl[0].countdown_menu();
 			}
 		}
 	}
