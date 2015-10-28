@@ -34,6 +34,8 @@ public class Tile : MonoBehaviour {
 	//Velocidade que o tile muda de posiçao
 	private int speed = 10;
 
+	mp_controller[] mp;
+
 	void Awake ()
 	{
 		myID = -1;
@@ -227,9 +229,9 @@ public class Tile : MonoBehaviour {
 		if(freezeCounter <=0)
 		{
 			freezed = 0;
-
+			mp = FindObjectsOfType(typeof(mp_controller)) as mp_controller[];
 			Destroy(freeza);
-
+			mp[0].send_end_of_freeze_time();
 
 		}
 
