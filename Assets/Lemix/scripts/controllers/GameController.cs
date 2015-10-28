@@ -16,10 +16,10 @@ public class GameController : MonoBehaviour {
 	//Change this to change the world
 	float matchTotaltime = 5f;
 
-	float wait_Menu = 1, time2Sicronize, waitingOtherPlayer, timer2RecallOtherP = 0.1f;
+	float wait_Menu = 1, time2Sicronize, waitingOtherPlayer, timer2RecallOtherP = 0.1f, wait_bot_sync_fake = 0f;
 	mp_controller[] mpCtrl;
-	public GameObject fail,win, draw, loading, restartBT, single;
-	
+	public GameObject fail,win, draw, loading, restartBT, single, sync;
+	GameObject syncro ;
 	GameObject clock;
 
 
@@ -46,6 +46,8 @@ public class GameController : MonoBehaviour {
 
 		mpCtrl = FindObjectsOfType(typeof(mp_controller)) as mp_controller[];
 
+	   syncro = (GameObject)Instantiate (sync, new Vector3 (0,0 , 100), transform.rotation);
+
 		//Check if is multiplayer or not to sincronize
 		if(GLOBALS.Singleton.MP_PLAYER == 1 && GLOBALS.Singleton.MP_MODE == 1)
 		{
@@ -55,7 +57,8 @@ public class GameController : MonoBehaviour {
 		{
 			if(GLOBALS.Singleton.MP_MODE == 0)
 			{
-				GameObject load = (GameObject)Instantiate (loading, new Vector3 (0,0 , 100), transform.rotation);
+				wait_bot_sync_fake = 5f;
+
 			}
 		}
 
@@ -113,10 +116,24 @@ public class GameController : MonoBehaviour {
 		time2Sicronize = time;
 	}
 
-
+	void fake_sync()
+	{
+		if(wait_bot_sync_fake > 0)
+		{
+			wait_bot_sync_fake -= Time.unscaledDeltaTime;
+			if(wait_bot_sync_fake <= 0)
+			{
+				GameObject load = (GameObject)Instantiate (loading, new Vector3 (0,0 , 100), transform.rotation);
+				Destroy(syncro);
+			}
+		}
+	}
 	void sincronize_issues()
 	{
+		//BOT SYNC
 
+
+		//REAL SYNC
 		if(waitingOtherPlayer == 1 && GLOBALS.Singleton.MP_PLAYER == 1)
 		{
 			//SENDING AND SENDING ARE YOU HERE?
@@ -136,6 +153,7 @@ public class GameController : MonoBehaviour {
 			{
 				waitingOtherPlayer = 0;
 				Debug.Log("Create load menu sincronize issues");
+				Destroy(syncro);
 				GameObject load = (GameObject)Instantiate (loading, new Vector3 (0,0 , 100), transform.rotation);
 			}
 		}
@@ -146,6 +164,10 @@ public class GameController : MonoBehaviour {
 		if(GLOBALS.Singleton.MP_MODE == 1)
 		{
 			sincronize_issues();
+		}
+		else
+		{
+			fake_sync();
 		}
 		//MATCH ENDED
 		if(matchTotaltime<=0 && GLOBALS.Singleton.WIN == false && GLOBALS.Singleton.LOOSE == false && GLOBALS.Singleton.DRAW == false)
