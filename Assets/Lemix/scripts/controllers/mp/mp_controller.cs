@@ -46,14 +46,22 @@ public class mp_controller : Photon.MonoBehaviour {
 		//}
 	}
 
-
+	//====================== DISCONECTED =============================
+	public virtual void OnPhotonPlayerDisconnected(PhotonPlayer otherPlayer)
+	{
+		Debug.Log("OP Disconected");
+		menusctrl[0].disconnected(GLOBALS.Singleton.GAME_RUNNING);
+		
+	}
 
 	//====================== SEND RPCS =============================
+
 
 	//================== SINCRONIZATION  ==================
 	public void send_are_you_here(){
 		Debug.Log("SENDING Are you here?");
 		ScenePhotonView.RPC("receive_are_you_here", PhotonTargets.Others,0 );
+
 	}
 	
 	[PunRPC]

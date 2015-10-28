@@ -411,6 +411,7 @@ namespace Photon
     // the documentation for the interface methods becomes inherited when Doxygen builds it.
     public class PunBehaviour : Photon.MonoBehaviour, IPunCallbacks
     {
+
         /// <summary>
         /// Called when the initial connection got established but before you can use the server. OnJoinedLobby() or OnConnectedToMaster() are called when PUN is ready.
         /// </summary>

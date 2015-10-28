@@ -244,7 +244,7 @@ public class GameController : MonoBehaviour {
 		PlayerPrefs.SetInt("WordsFounded",tempWords);
 	}
 
-	void win_case_statistics()
+	public void win_case_statistics()
 	{
 		int tempWins = PlayerPrefs.GetInt ("NumberofWins");
 		tempWins ++;

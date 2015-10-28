@@ -53,6 +53,7 @@ public class Lobby_Master : Photon.MonoBehaviour
 		}
 	}
 
+
     // to react to events "connected" and (expected) error "failed to join random room", we implement some methods. PhotonNetworkingMessage lists all available methods!
 
     public virtual void OnConnectedToMaster()
