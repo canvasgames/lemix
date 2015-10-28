@@ -52,6 +52,8 @@ public class mp_controller : Photon.MonoBehaviour {
 		Debug.Log("OP Disconected");
 		GLOBALS.Singleton.CONNECTED = 0;
 		menusctrl[0].disconnected(GLOBALS.Singleton.GAME_RUNNING);
+		PhotonNetwork.Disconnect();
+			//Disconnect ()
 		
 	}
 

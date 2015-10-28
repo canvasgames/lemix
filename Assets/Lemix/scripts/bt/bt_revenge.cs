@@ -10,14 +10,14 @@ public class bt_revenge : MonoBehaviour {
 	void Start () {
 		mp = FindObjectsOfType(typeof(mp_controller)) as mp_controller[];
 		menusctrl = FindObjectsOfType(typeof(Menus_Controller)) as Menus_Controller[];
-		if(GLOBALS.Singleton.CONNECTED == 0)
+		if(GLOBALS.Singleton.CONNECTED == 0 && GLOBALS.Singleton.MP_MODE == 1)
 			deactivate_bt();
 
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		if(GLOBALS.Singleton.CONNECTED == 0)
+		if(GLOBALS.Singleton.CONNECTED == 0 && GLOBALS.Singleton.MP_MODE == 1)
 			deactivate_bt();
 	}
 

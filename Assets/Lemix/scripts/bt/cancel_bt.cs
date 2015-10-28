@@ -21,6 +21,7 @@ public class cancel_bt : MonoBehaviour {
 
 	public void active_bts()
 	{
+
 		lobbymaster.SetActive(false);
 		multiplayer.SetActive(true);
 		botbt.SetActive(true);

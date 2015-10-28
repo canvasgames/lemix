@@ -57,12 +57,12 @@ public class Submit_And_Input_Ctrl : MonoBehaviour {
 			{
 				inputBackspaceCase();
 			}
-			else if(Input.GetKeyDown("1"))
+			else if(Input.GetKeyDown("2"))
 			{
 				Power_Up_BT[] puBT = FindObjectsOfType(typeof(Power_Up_BT)) as Power_Up_BT[];
 				puBT[0].clickOrKeyboard();
 			}
-			else if(Input.GetKeyDown("2"))
+			else if(Input.GetKeyDown("1"))
 			{
 				Power_Up_BT[] puBT = FindObjectsOfType(typeof(Power_Up_BT)) as Power_Up_BT[];
 				puBT[1].clickOrKeyboard();
