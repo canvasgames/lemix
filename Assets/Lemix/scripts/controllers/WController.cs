@@ -33,7 +33,7 @@ public class WController : MonoBehaviour {
 	Vector3 scaleB, walreadypos, wnotfoundpos;
 	int triggerBallonP1 =0, triggerBallonP2 =0;
 	float wAlreadyOrNotFinaltime = 0.6f;
-	float wAlreadyOrNotFinalpos = -140f;
+	float wAlreadyOrNotFinalpos = -130f;
 	GameObject BalonP1,BalonP2, PowerBarP1, PowerBarP2, wfounded;
 	public float smooth;
 
@@ -228,6 +228,8 @@ public class WController : MonoBehaviour {
 	//Chamado pelo botao shuffle para reorganizar as tiles
 	public void reorganize()
 	{
+		//
+
 		float pos = 0;
 		int rand = 0;
 		string numberstoSort = ""; 
@@ -316,14 +318,15 @@ public class WController : MonoBehaviour {
 						mp.send_word_found(i);
 
 					}
-					GetComponent<AudioSource>().PlayOneShot(AudioFound);
-
+					//GetComponent<AudioSource>().PlayOneShot(AudioFound);
+					AudioSource.PlayClipAtPoint(AudioFound, Camera.main.transform.position);
 
 					return;
 				}
 				else
 				{
-					GetComponent<AudioSource>().PlayOneShot(AudioAlready);
+					AudioSource.PlayClipAtPoint(AudioAlready, Camera.main.transform.position);
+
 
 					dessapear_not_found();
 					dessapear_already();
@@ -335,8 +338,7 @@ public class WController : MonoBehaviour {
 			}
 		}
 
-		GetComponent<AudioSource>().PlayOneShot(AudioError);
-
+		AudioSource.PlayClipAtPoint(AudioError, Camera.main.transform.position);
 		//Reposiciona msg 
 		dessapear_not_found();
 		dessapear_already();

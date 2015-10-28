@@ -604,6 +604,7 @@ namespace Photon
         /// </remarks>
         public virtual void OnPhotonPlayerDisconnected(PhotonPlayer otherPlayer)
         {
+			Debug.Log("Saiuuuuuuuuuuuuuuuuuuuu");
         }
 
         /// <summary>

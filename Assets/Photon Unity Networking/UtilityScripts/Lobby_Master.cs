@@ -65,7 +65,7 @@ public class Lobby_Master : Photon.MonoBehaviour
 		// Trying to create or join a random room
 		// documentation found at: https://doc.photonengine.com/en/realtime/current/reference/matchmaking-and-lobby
 		RoomOptions roomOptions = new RoomOptions() { isVisible = false, maxPlayers = 2 };
-		PhotonNetwork.JoinOrCreateRoom(null, roomOptions, TypedLobby.Default);
+		PhotonNetwork.JoinOrCreateRoom("babado", roomOptions, TypedLobby.Default);
     }
 
     public virtual void OnPhotonRandomJoinFailed()
