@@ -59,8 +59,7 @@ public class Menus_Controller : MonoBehaviour {
 				if(disconect_state == 1)
 				{
 					Destroy(load);
-					Destroy(syncro);
-					Destroy(disco);
+
 					gctrller = FindObjectsOfType(typeof(GameController)) as GameController[];
 					GLOBALS.Singleton.WIN = true;
 					GLOBALS.Singleton.GAME_RUNNING = false;
@@ -81,7 +80,11 @@ public class Menus_Controller : MonoBehaviour {
 		if(game_state == true)
 			disconect_state =1;
 		else
+		{
+			Destroy(syncro);
+			Destroy(disco);
 			disconect_state =2;
+		}
 		disconect_time = 3f;
 	}
 
