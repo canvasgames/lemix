@@ -60,7 +60,12 @@ public class Lobby_Master : Photon.MonoBehaviour
 		Debug.Log ("LOBBY - CONNECTION STATE: " +PhotonNetwork.connectionState);
         if (PhotonNetwork.networkingPeer.AvailableRegions != null) Debug.LogWarning("List of available regions counts " + PhotonNetwork.networkingPeer.AvailableRegions.Count + ". First: " + PhotonNetwork.networkingPeer.AvailableRegions[0] + " \t Current Region: " + PhotonNetwork.networkingPeer.CloudRegion);
         Debug.Log("OnConnectedToMaster() was called by PUN. Now this client is connected and could join a room. Calling: PhotonNetwork.JoinRandomRoom();");
-        PhotonNetwork.JoinRandomRoom();
+        //PhotonNetwork.JoinRandomRoom();
+
+		// Trying to create or join a random room
+		// documentation found at: https://doc.photonengine.com/en/realtime/current/reference/matchmaking-and-lobby
+		RoomOptions roomOptions = new RoomOptions() { isVisible = false, maxPlayers = 2 };
+		PhotonNetwork.JoinOrCreateRoom(null, roomOptions, TypedLobby.Default);
     }
 
     public virtual void OnPhotonRandomJoinFailed()
