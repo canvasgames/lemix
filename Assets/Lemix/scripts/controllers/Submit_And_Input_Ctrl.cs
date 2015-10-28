@@ -60,12 +60,12 @@ public class Submit_And_Input_Ctrl : MonoBehaviour {
 			else if(Input.GetKeyDown("2"))
 			{
 				Power_Up_BT[] puBT = FindObjectsOfType(typeof(Power_Up_BT)) as Power_Up_BT[];
-				puBT[0].clickOrKeyboard();
+				puBT[1].clickOrKeyboard();
 			}
 			else if(Input.GetKeyDown("1"))
 			{
 				Power_Up_BT[] puBT = FindObjectsOfType(typeof(Power_Up_BT)) as Power_Up_BT[];
-				puBT[1].clickOrKeyboard();
+				puBT[0].clickOrKeyboard();
 			}
 			else
 			{

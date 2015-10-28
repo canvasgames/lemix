@@ -149,15 +149,15 @@ public class Power_Up_BT : MonoBehaviour {
 				actBT(my_type_Defense);
 				sortID =  Random.Range(3,7);
 				my_type_Defense = sortID;
-				
 
 			}
 			else
 			{
 				actBT(my_type_Attack);
-
+				
 				sortID =  Random.Range(7,10);
 				my_type_Attack = sortID;
+
 			}
 		}
 	}

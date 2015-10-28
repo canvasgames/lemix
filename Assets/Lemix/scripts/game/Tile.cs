@@ -231,7 +231,8 @@ public class Tile : MonoBehaviour {
 			freezed = 0;
 			mp = FindObjectsOfType(typeof(mp_controller)) as mp_controller[];
 			Destroy(freeza);
-			mp[0].send_end_of_freeze_time();
+			if(GLOBALS.Singleton.MP_MODE == 1)
+				mp[0].send_end_of_freeze_time();
 
 		}
 
