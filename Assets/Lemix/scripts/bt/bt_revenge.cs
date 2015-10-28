@@ -11,12 +11,12 @@ public class bt_revenge : MonoBehaviour {
 		mp = FindObjectsOfType(typeof(mp_controller)) as mp_controller[];
 		menusctrl = FindObjectsOfType(typeof(Menus_Controller)) as Menus_Controller[];
 
-
 	}
 	
 	// Update is called once per frame
 	void Update () {
-	
+		if(GLOBALS.Singleton.CONNECTED == 0)
+			deactivate_bt();
 	}
 
 	void OnMouseDown(){

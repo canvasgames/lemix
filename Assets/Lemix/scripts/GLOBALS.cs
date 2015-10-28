@@ -9,7 +9,7 @@ public class GLOBALS : MonoBehaviour {
 	[HideInInspector] public int RECEIVED_ANAGRAM_ID = 0;
 
 	[HideInInspector] public int MP_MODE = 0;
-
+	[HideInInspector] public int CONNECTED = 0;
 	[HideInInspector] public int MP_PLAYER = 0;
 	[HideInInspector] public int OP_PLAYER = 0;
 

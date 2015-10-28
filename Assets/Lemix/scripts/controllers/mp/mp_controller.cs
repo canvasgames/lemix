@@ -50,6 +50,7 @@ public class mp_controller : Photon.MonoBehaviour {
 	public virtual void OnPhotonPlayerDisconnected(PhotonPlayer otherPlayer)
 	{
 		Debug.Log("OP Disconected");
+		GLOBALS.Singleton.CONNECTED = 0;
 		menusctrl[0].disconnected(GLOBALS.Singleton.GAME_RUNNING);
 		
 	}

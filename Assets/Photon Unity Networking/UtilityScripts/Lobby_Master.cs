@@ -105,12 +105,14 @@ public class Lobby_Master : Photon.MonoBehaviour
 			GLOBALS.Singleton.MP_PLAYER = 1;
 			GLOBALS.Singleton.OP_PLAYER = 2;
 			GLOBALS.Singleton.MP_MODE = 1;
+			GLOBALS.Singleton.CONNECTED = 1;
 		}
 		else{
 			Debug.Log("OnJoinedRoom(): I AM NOT THE HOST");
 			GLOBALS.Singleton.MP_PLAYER = 2;
 			GLOBALS.Singleton.OP_PLAYER = 1;
 			GLOBALS.Singleton.MP_MODE = 1;
+			GLOBALS.Singleton.CONNECTED = 1;
 			//Application.LoadLevel("GamePlay");
 			//PhotonNetwork.LoadLevel("GamePlay");
 
@@ -133,6 +135,7 @@ public class Lobby_Master : Photon.MonoBehaviour
 
 		if (PhotonNetwork.room.playerCount == 1) {
 			Debug.Log("OnPhotonPlayerConnected(: I AM THE HOST");
+			GLOBALS.Singleton.CONNECTED = 1;
 			GLOBALS.Singleton.MP_PLAYER = 1;
 			GLOBALS.Singleton.OP_PLAYER = 2;
 			GLOBALS.Singleton.MP_MODE = 1;
