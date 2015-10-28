@@ -10,6 +10,8 @@ public class bt_revenge : MonoBehaviour {
 	void Start () {
 		mp = FindObjectsOfType(typeof(mp_controller)) as mp_controller[];
 		menusctrl = FindObjectsOfType(typeof(Menus_Controller)) as Menus_Controller[];
+		if(GLOBALS.Singleton.CONNECTED == 0)
+			deactivate_bt();
 
 	}
 	
