@@ -21,7 +21,7 @@ public class Lobby_Master : Photon.MonoBehaviour
 
     public byte Version = 1;
 
-
+	mm_connect_status[] mm_status;
 
 	public static int playerWhoIsIt = 0;
 	private static PhotonView ScenePhotonView;
@@ -46,6 +46,8 @@ public class Lobby_Master : Photon.MonoBehaviour
 	public void Connect_to_photon(){
 		if (ConnectInUpdate && AutoConnect && !PhotonNetwork.connected)
 		{
+			mm_status = FindObjectsOfType(typeof(mm_connect_status)) as mm_connect_status[];
+			mm_status[0].connectionState1();
 			Debug.Log("Update() was called by Unity. Scene is loaded. Let's connect to the Photon Master Server. Calling: PhotonNetwork.ConnectUsingSettings();");
 			
 			ConnectInUpdate = false;
@@ -86,6 +88,7 @@ public class Lobby_Master : Photon.MonoBehaviour
 	public void OnJoinedRoom()
 	{
 		Debug.Log ("LOBBY - CONNECTION STATE: " +PhotonNetwork.connectionStateDetailed);
+		mm_status[0].connectionState2();
 		Debug.Log("OnJoinedRoom() called by PUN. Now this client is in a room. From here on, your game would be running. For reference, all callbacks are listed in enum: PhotonNetworkingMessage");
 		
 		//MASTER TEST
@@ -144,7 +147,7 @@ public class Lobby_Master : Photon.MonoBehaviour
 			Debug.Log("OnPhotonPlayerConnected(): ANOTHER PLAYER JOINING THE ROOM");
 			//Application.LoadLevel("GamePlay");
 			//PhotonNetwork.LoadLevel("GamePlay");
-
+			mm_status[0].connectionState3();
 			send_player_info();
 		}
 	}

@@ -5,7 +5,7 @@ using UnityEngine.UI;
 public class menu_loading_script : MonoBehaviour {
 	Text instruction;
 	int waiting = 1;
-	float timeTrigger = 1.8f;
+	float timeTrigger = 0.6f;
 	GameController[] gController;
 
 	// Use this for initialization

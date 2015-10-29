@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class bt_multiplayer : MonoBehaviour {
-	public GameObject lobbymaster,cancelbt, botbt;
+	public GameObject lobbymaster,cancelbt, botbt, txt_conection_state;
 
     Lobby_Master[] lb;
 
@@ -18,22 +18,12 @@ public class bt_multiplayer : MonoBehaviour {
 	void OnMouseDown(){
 		Debug.Log ("CONNECT !");
 		lobbymaster.SetActive(true);
-		cancelbt.SetActive(true);
-		botbt.SetActive(false);
-		gameObject.SetActive(false);
-		lb = FindObjectsOfType(typeof(Lobby_Master)) as Lobby_Master[];
-		lb[0].Connect_to_photon();
-	}
+		txt_conection_state.SetActive(true);
 
-	public void pressed()
-	{
-		this.transform.GetComponent<SpriteRenderer> ().color = Color.white;
-		//SAFFER.Singleton.Reset_Globals ();
-		Debug.Log ("CONNECT !");
-		lobbymaster.SetActive(true);
-		cancelbt.SetActive(true);
-		botbt.SetActive(false);
+		//cancelbt.SetActive(true);
+		//botbt.SetActive(false);
 		gameObject.SetActive(false);
+
 		lb = FindObjectsOfType(typeof(Lobby_Master)) as Lobby_Master[];
 		lb[0].Connect_to_photon();
 	}
