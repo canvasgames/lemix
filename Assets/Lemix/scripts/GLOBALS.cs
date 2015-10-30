@@ -27,7 +27,8 @@ public class GLOBALS : MonoBehaviour {
 	[HideInInspector] public int PUGOLDLETTERACTIVE = 0;
 	//GAME STATUS
 	[HideInInspector] public bool GAME_RUNNING = false;
-    
+	[HideInInspector] public bool GAME_QUIT_MENU = false;
+
 	//SCORE
 	[HideInInspector] public int MY_SCORE = 0;
 	[HideInInspector] public int OP_SCORE = 0;
@@ -72,6 +73,7 @@ public class GLOBALS : MonoBehaviour {
 		DRAW = false;
 
 		GAME_RUNNING = false;
+		GAME_QUIT_MENU = false;
 
 		MY_SCORE = 0;
 		OP_SCORE = 0;

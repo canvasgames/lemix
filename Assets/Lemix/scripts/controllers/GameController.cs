@@ -14,7 +14,7 @@ using Thinksquirrel.WordGameBuilder.ObjectModel;
 public class GameController : MonoBehaviour {
 
 	//Change this to change the world
-	float matchTotaltime = 120f;
+	float matchTotaltime = 6f;
 
 	//Syncronization
 	float wait_Menu = 1, time2Sicronize, waitingOtherPlayer, timer2RecallOtherP = 0.1f, wait_bot_sync_fake = 0f;
@@ -22,7 +22,7 @@ public class GameController : MonoBehaviour {
 	mp_controller[] mpCtrl;
 
 	//MENUS
-	public GameObject fail,win, draw, restartBT, single;
+	public GameObject fail,win, draw, scoreMenu, single;
 	GameObject clock;
 	Menus_Controller[] menusctrl;
 
@@ -254,6 +254,7 @@ public class GameController : MonoBehaviour {
 		PlayerPrefs.SetInt("WinStreak",tempStreak);
 		
 		GameObject vitoria = (GameObject)Instantiate (win, new Vector3 (0,0 , 100), transform.rotation);
+		GameObject score = (GameObject)Instantiate (scoreMenu, new Vector3 (0,0 , 100), transform.rotation);
 
 	}
 
@@ -262,6 +263,7 @@ public class GameController : MonoBehaviour {
 		PlayerPrefs.SetInt("WinStreak",0);
 
 		GameObject empate = (GameObject)Instantiate (draw, new Vector3 (0,0 , 100), transform.rotation);
+		GameObject score = (GameObject)Instantiate (scoreMenu, new Vector3 (0,0 , 100), transform.rotation);
 
 	}
 
@@ -270,7 +272,7 @@ public class GameController : MonoBehaviour {
 		PlayerPrefs.SetInt("WinStreak",0);
 		
 		GameObject lose = (GameObject)Instantiate (fail, new Vector3 (0,0 , 100), transform.rotation);
-
+		GameObject score = (GameObject)Instantiate (scoreMenu, new Vector3 (0,0 , 100), transform.rotation);
 	}
 	//================== CHANGE ROOMS ==================
 

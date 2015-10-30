@@ -115,7 +115,7 @@ public class Power_Up_BT : MonoBehaviour {
 	}
 	void OnMouseDown()
 	{
-		if(GLOBALS.Singleton.GAME_RUNNING == true)
+		if(GLOBALS.Singleton.GAME_RUNNING == true && GLOBALS.Singleton.GAME_QUIT_MENU == false)
 		{
 			clickOrKeyboard ();
 		}
@@ -161,32 +161,7 @@ public class Power_Up_BT : MonoBehaviour {
 			}
 		}
 	}
-
-	void letterCase ()
-	{
-		GLOBALS.Singleton.PUCHOOSELETTER = 1;
-		Tile[] myTiles = FindObjectsOfType(typeof(Tile)) as Tile[];
-		PowerUpCtrl[] pwctrl = FindObjectsOfType(typeof(PowerUpCtrl)) as PowerUpCtrl[];
-		
-		int i;
-		bool verify;
-
-		//Verifica se todas letras foram mostradas
-		for(i=0;i<myTiles.Length;i++)
-		{
-			verify = pwctrl[0].verifyLetterInWhiteSquares(myTiles[i]._myLetter.ToString());
-			
-			//Caso todas foram mostradas pinta de cinza e bloqueia o botao
-			if(verify == false)
-			{
-				myTiles[i].GetComponentInChildren<SpriteRenderer> ().color = Color.gray;
-				myTiles[i].PUNotClicable = 1;
-			}
-			//Senao pinta de vermelho
-			else
-				myTiles[i].GetComponentInChildren<SpriteRenderer> ().color = Color.red;
-		}
-	}
+	
 
 	void changeSprite(int btType)
 	{
@@ -245,7 +220,7 @@ public class Power_Up_BT : MonoBehaviour {
 				pwctrl[0].showLastLetter();
 				break;
 			case 6:
-				letterCase();
+				pwctrl[0].chooseALetter();
 				break;
 			case 7:
 				pwctrl[0].freezeOPSprite();

@@ -5,7 +5,7 @@ public class bt_multiplayer : MonoBehaviour {
 	public GameObject lobbymaster,cancelbt, botbt, txt_conection_state;
 
     Lobby_Master[] lb;
-
+	bt_statistics[] statistics;
 	// Use this for initialization
 	void Start () {
 
@@ -25,7 +25,9 @@ public class bt_multiplayer : MonoBehaviour {
 		gameObject.SetActive(false);
 
 		lb = FindObjectsOfType(typeof(Lobby_Master)) as Lobby_Master[];
+		statistics = FindObjectsOfType(typeof(bt_statistics)) as bt_statistics[];
 		lb[0].Connect_to_photon();
+		statistics[0].inactive();
 	}
 	
 

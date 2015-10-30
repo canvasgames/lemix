@@ -83,7 +83,7 @@ public class Tile : MonoBehaviour {
 	void OnMouseDown() 
 	{
 		//Se nao esta no caso do Power up de escolher letra
-		if(GLOBALS.Singleton.GAME_RUNNING == true)
+		if(GLOBALS.Singleton.GAME_RUNNING == true && GLOBALS.Singleton.GAME_QUIT_MENU == false)
 		{
 			if(GLOBALS.Singleton.PUCHOOSELETTER == 0)
 			{
@@ -250,7 +250,7 @@ public class Tile : MonoBehaviour {
 		
 		Tile[] myTiles = FindObjectsOfType(typeof(Tile)) as Tile[];
 		//Zera variavel do caso Power Up
-		GLOBALS.Singleton.PUCHOOSELETTER = 0;
+
 		
 		int i;
 		

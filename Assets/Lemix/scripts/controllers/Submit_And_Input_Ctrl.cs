@@ -40,7 +40,7 @@ public class Submit_And_Input_Ctrl : MonoBehaviour {
 
 		//Input
 
-		if(Input.anyKeyDown && GLOBALS.Singleton.GAME_RUNNING == true)
+		if(Input.anyKeyDown && GLOBALS.Singleton.GAME_RUNNING == true && GLOBALS.Singleton.GAME_QUIT_MENU == false)
 		{
 			if(Input.GetKeyDown("space"))
 			{
@@ -144,7 +144,7 @@ public class Submit_And_Input_Ctrl : MonoBehaviour {
 	}
 	void OnMouseDown() 
 	{
-		if(GLOBALS.Singleton.GAME_RUNNING == true)
+		if(GLOBALS.Singleton.GAME_RUNNING == true && GLOBALS.Singleton.GAME_QUIT_MENU == false)
 			submitLetters();
 	}
 

@@ -148,7 +148,7 @@ public class Lobby_Master : Photon.MonoBehaviour
 			//Application.LoadLevel("GamePlay");
 			//PhotonNetwork.LoadLevel("GamePlay");
 			mm_status[0].connectionState3();
-			send_player_info();
+			//send_player_info();
 		}
 	}
 
@@ -161,7 +161,7 @@ public class Lobby_Master : Photon.MonoBehaviour
 
 	//====================== SEND RPCS =============================
 
-	void send_player_info(){
+	public void send_player_info(){
 		Debug.Log("send_player_info()");
 		int word_id = 0;
 		if (GLOBALS.Singleton.MP_PLAYER == 1) {

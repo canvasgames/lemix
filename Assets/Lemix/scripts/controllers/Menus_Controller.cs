@@ -2,8 +2,8 @@
 using System.Collections;
 
 public class Menus_Controller : MonoBehaviour {
-	public GameObject rematch_menu, wait_title, op_disconnected, countdown, sync;
-	GameObject wait, disco, load, syncro;
+	public GameObject rematch_menu, wait_title, op_disconnected, countdown, sync, quit_game;
+	GameObject wait, disco, load, syncro, quit;
 	GameController[] gctrller;
 	int disconect_state;
 	float disconect_time;
@@ -16,6 +16,12 @@ public class Menus_Controller : MonoBehaviour {
 	void Update () {
 		disconnect_menu();
 	}
+
+	public void quitGame ()
+	{
+		quit = (GameObject)Instantiate (quit_game, new Vector3 (0,0 , 100), transform.rotation);
+	}
+
 
 	// ======================= MATCH END =======================
 	public void rematchMenu()

@@ -3,7 +3,7 @@ using System.Collections;
 
 public class bt_statistics : MonoBehaviour {
 	public GameObject statMenu;
-
+	public bool active = true;
 	// Use this for initialization
 	void Start () {
 	
@@ -14,16 +14,30 @@ public class bt_statistics : MonoBehaviour {
 	
 	}
 
+	public void inactive()
+	{
+		active = false;
+		this.transform.GetComponent<SpriteRenderer> ().color = Color.gray;
+	}
 	void OnMouseDown(){
-		GameObject menu = (GameObject)Instantiate (statMenu, new Vector3 (0, 0, -8), transform.rotation);
+		if(active == true)
+		{
+			GameObject menu = (GameObject)Instantiate (statMenu, new Vector3 (0, 0, -8), transform.rotation);
+		}
 		//menu.gameObject.transform.
 	}
 
 	void OnMouseEnter() {
-		this.transform.GetComponent<SpriteRenderer> ().color = Color.green;
+		if(active == true)
+		{
+			this.transform.GetComponent<SpriteRenderer> ().color = Color.green;
+		}
 	}
 	
 	void OnMouseExit() {
-		this.transform.GetComponent<SpriteRenderer> ().color = Color.white;
+		if(active == true)
+		{
+			this.transform.GetComponent<SpriteRenderer> ().color = Color.white;
+		}
 	}
 }

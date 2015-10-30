@@ -6,12 +6,16 @@ using UnityEngine.UI;
 public class PowerUpCtrl : MonoBehaviour {
 
 	GameObject curtain;
+	//Objects
 	public GameObject BlackNight, Eraser, Frozen, CurtainOP ;
+	//Texts
+	public GameObject pwTxt, pwChooseTxt; 
+
 	public float smooth;
 	float curtainTimer = 0f, freezeOPTime=0f, curtainTimerOP;
 	private Vector3 newPosition;
-	Vector3 positionACurtain;
-	Vector3 positionBCurtain;
+	Vector3 positionACurtain, positionBCurtain, pwTxtPos ;
+	float PwTxtTime = 0.6f, PwTxtFinalPos = -130f;
 
 	float goldLetterTime = 0f;
 	Earthquake[] earth;
@@ -31,11 +35,16 @@ public class PowerUpCtrl : MonoBehaviour {
 		mp = FindObjectsOfType(typeof(mp_controller)) as mp_controller[];
 		earth = FindObjectsOfType(typeof(Earthquake)) as Earthquake[];
 		earthP2 = FindObjectsOfType(typeof(earthquakePlayer2)) as earthquakePlayer2[];
+
+		pwTxtPos = pwTxt.transform.position;
+		pwTxt.GetComponent<SpriteRenderer>().DOFade(0f,0f);
+		pwChooseTxt.GetComponent<SpriteRenderer>().DOFade(0f,0f);
 	}
 	
 	// Update is called once per frame
 	void Update () 
 	{
+
 		//My curtain
 		if(curtain != null && GLOBALS.Singleton.GAME_RUNNING == true)
 		{
@@ -209,6 +218,8 @@ public class PowerUpCtrl : MonoBehaviour {
 			list.Remove(list[rand]);
 			
 		}	
+		GLOBALS.Singleton.PUCHOOSELETTER = 0;
+		dessapearChooseTxt();
 	}
 
 	public bool verifyLetterInWhiteSquares(string letter)
@@ -244,6 +255,10 @@ public class PowerUpCtrl : MonoBehaviour {
 	}
 	public void freezeLetter()
 	{
+
+		pwTxt.GetComponent<Animator>().Play("frozen");
+		movePwTxt();
+
 		Tile[] myTiles = FindObjectsOfType(typeof(Tile)) as Tile[];
 		int i;
 		List<int> list = new List<int>();
@@ -425,11 +440,83 @@ public class PowerUpCtrl : MonoBehaviour {
 	}
 	public void earthquakeReceive ()
 	{
+		pwTxt.GetComponent<Animator>().Play("earthquake");
+		movePwTxt();
 		earth[0].startEarthquake(4f,1f,12f);
 	}
 
 	public void  earthquakeAvatarEffectP2 ()
 	{
 		earthP2[0].startEarthquake(4f,7f);
+	}
+
+	public void chooseALetter()
+	{
+		GLOBALS.Singleton.PUCHOOSELETTER = 1;
+		Tile[] myTiles = FindObjectsOfType(typeof(Tile)) as Tile[];
+
+		
+		int i;
+		bool verify;
+		
+		//Verifica se todas letras foram mostradas
+		for(i=0;i<myTiles.Length;i++)
+		{
+			verify = verifyLetterInWhiteSquares(myTiles[i]._myLetter.ToString());
+			
+			//Caso todas foram mostradas pinta de cinza e bloqueia o botao
+			if(verify == false)
+			{
+				myTiles[i].GetComponentInChildren<SpriteRenderer> ().color = Color.gray;
+				myTiles[i].PUNotClicable = 1;
+			}
+			//Senao pinta de vermelho
+			else
+			{
+				pwTxt.GetComponent<Animator>().Play("choose");
+				moveTxtChoose();
+				myTiles[i].GetComponentInChildren<SpriteRenderer> ().color = Color.red;
+			}
+		}
+	}
+
+	void movePwTxt()
+	{
+		pwTxt.transform.DOMoveY(PwTxtFinalPos,PwTxtTime).OnComplete(waitPwTxt);
+		pwTxt.GetComponent<SpriteRenderer>().DOFade(1f,0.6f);
+	}
+
+	void waitPwTxt()
+	{
+		pwTxt.GetComponent<SpriteRenderer>().DOFade(1f,1f).OnComplete(dessapearPwTxt);
+	}
+	
+	void dessapearPwTxt()
+	{
+		pwTxt.transform.DOKill();
+		pwTxt.GetComponent<SpriteRenderer>().DOKill();
+		pwTxt.transform.DOMoveY(pwTxtPos.y,0f);
+		pwTxt.GetComponent<SpriteRenderer>().DOFade(0f,0f);
+	}
+
+	void moveTxtChoose()
+	{
+		pwChooseTxt.transform.DOMoveY(PwTxtFinalPos,PwTxtTime).OnComplete(waitChooseTxt);
+		pwChooseTxt.GetComponent<SpriteRenderer>().DOFade(1f,0.6f);
+
+
+
+	}
+	void waitChooseTxt()
+	{
+		pwChooseTxt.GetComponent<SpriteRenderer>().DOFade(1f,1f);
+	}
+
+	void dessapearChooseTxt()
+	{
+		pwChooseTxt.transform.DOKill();
+		pwChooseTxt.GetComponent<SpriteRenderer>().DOKill();
+		pwChooseTxt.transform.DOMoveY(pwTxtPos.y,PwTxtTime);
+		pwChooseTxt.GetComponent<SpriteRenderer>().DOFade(0f,0.3f);
 	}
 }
