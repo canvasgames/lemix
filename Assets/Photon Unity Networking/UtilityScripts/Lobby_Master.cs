@@ -22,6 +22,8 @@ public class Lobby_Master : Photon.MonoBehaviour
     public byte Version = 1;
 
 	mm_connect_status[] mm_status;
+	Word_Sorter_Controller[] wSort;
+
 
 	public static int playerWhoIsIt = 0;
 	private static PhotonView ScenePhotonView;
@@ -31,6 +33,7 @@ public class Lobby_Master : Photon.MonoBehaviour
 
     public virtual void Start()
     {
+		wSort = FindObjectsOfType(typeof(Word_Sorter_Controller)) as Word_Sorter_Controller[];
 		ScenePhotonView = this.GetComponent<PhotonView>();
 
 
@@ -165,12 +168,10 @@ public class Lobby_Master : Photon.MonoBehaviour
 		Debug.Log("send_player_info()");
 		int word_id = 0;
 		if (GLOBALS.Singleton.MP_PLAYER == 1) {
-			Debug.Log("send_player_info(): I am host, generating a anagram... | WORD ID SENT: "+ word_id);
-			int numberOfFiles = GLOBALS.Singleton.NumberOfWordFiles;
-			Debug.Log(numberOfFiles);
+
 			//Sorteia um dos arquivos de palavras
-			word_id = Random.Range(1,numberOfFiles);
-			GLOBALS.Singleton.ANAGRAM_ID = word_id;
+			word_id = wSort[0].sortWordAndReturnAnagramID();
+			Debug.Log("send_player_info(): I am host, generating a anagram... | WORD ID SENT: "+ word_id);
 		}
 
 		ScenePhotonView.RPC("get_player_info", PhotonTargets.Others , word_id);

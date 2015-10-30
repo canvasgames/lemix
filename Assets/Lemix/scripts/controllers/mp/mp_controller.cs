@@ -12,6 +12,7 @@ public class mp_controller : Photon.MonoBehaviour {
 	Menus_Controller[] menusctrl;
 	Waiting_scrpit[] waitingMenu;
 	GameController[] gCtrlr;
+	Word_Sorter_Controller[] wSort;
 
 	void Awake () {
 		ScenePhotonView = this.GetComponent<PhotonView>();
@@ -21,6 +22,7 @@ public class mp_controller : Photon.MonoBehaviour {
 		pwctrl = FindObjectsOfType(typeof(PowerUpCtrl)) as PowerUpCtrl[];
 		menusctrl = FindObjectsOfType(typeof(Menus_Controller)) as Menus_Controller[];
 		gCtrlr =  FindObjectsOfType(typeof(GameController)) as GameController[];
+		wSort = FindObjectsOfType(typeof(Word_Sorter_Controller)) as Word_Sorter_Controller[];
 		are_you_here_received= false;
 	//	WController[] wordCTRL = FindObjectsOfType(typeof(WController)) as WController[];
 
@@ -209,10 +211,9 @@ public class mp_controller : Photon.MonoBehaviour {
 		if (GLOBALS.Singleton.REMATCH_RECEIVED == 0 && PhotonNetwork.connected && PhotonNetwork.connected != false ){
 			GLOBALS.Singleton.REMATCH_SENT = 1;
 
-			// sorting anagram id
-			int numberOfFiles = GLOBALS.Singleton.NumberOfWordFiles;
-			int anagram_id = Random.Range (1, numberOfFiles);
-			GLOBALS.Singleton.ANAGRAM_ID = anagram_id;
+			// get anagram id
+			int anagram_id = wSort[0].sortWordAndReturnAnagramID();
+	
 
 			ScenePhotonView.RPC("rematch_request_received", PhotonTargets.Others ,anagram_id);
 			// DISPLAY WAITING DIALOG...

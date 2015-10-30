@@ -12,7 +12,7 @@ using DG.Tweening;
 using UnityEngine.UI;
 
 public class WController : MonoBehaviour {
-
+	Word_Sorter_Controller[] wSort;
 	private string word_original = "";
 	public string word = ""; 
 	public mp_controller mp;
@@ -61,6 +61,7 @@ public class WController : MonoBehaviour {
 		//int numberOfFiles = GLOBALS.Singleton.NumberOfWordFiles;
 		//Debug.Log(numberOfFiles);
 		//Sorteia um dos arquivos de palavras
+		wSort = FindObjectsOfType(typeof(Word_Sorter_Controller)) as Word_Sorter_Controller[];
 
 		wnotfoundpos = wnotfound.transform.position;
 		walreadypos = walready.transform.position;
@@ -85,18 +86,24 @@ public class WController : MonoBehaviour {
 		int rand = GLOBALS.Singleton.ANAGRAM_ID;
 		// Sorteia arquivo de palavra
 		if (rand == 0) {
-			int numberOfFiles = GLOBALS.Singleton.NumberOfWordFiles;
-			//Debug.Log (numberOfFiles);
-			//Sorteia um dos arquivos de palavras
-			rand = Random.Range (1, numberOfFiles);
-			GLOBALS.Singleton.ANAGRAM_ID = rand;
+
+			rand = wSort[0].sortWordAndReturnAnagramID();
 		}
 
 		Debug.Log("ANAGRAM ID: " + rand);
 		
 		string number = rand.ToString();
 		//number = "1";
-		string file = "Word_" + number;
+
+		//Open the word file
+		string file;
+
+		if(GLOBALS.Singleton.LANGUAGE == 0)
+			file = "Word_" + number;
+		else if(GLOBALS.Singleton.LANGUAGE == 1)
+			file = "pt_Word_" + number;
+		else
+			file = "Word_" + number;
 
 		//string path = Application.dataPath;
 		//string file = "pt_Word_" + number;

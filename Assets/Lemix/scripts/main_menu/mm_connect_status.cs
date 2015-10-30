@@ -64,21 +64,24 @@ public class mm_connect_status : MonoBehaviour {
 		else if(connectionState == 2)
 		{
 			changeSearchingTxt();
-			botTimer -=  Time.unscaledDeltaTime ;
+			/*botTimer -=  Time.unscaledDeltaTime ;
 			if(botTimer <=0)
 			{
 				connectionState = 4;
 				searching_op.GetComponent<Animator>().SetBool("Found",true);
 				instruction.text = "Match Found";
 				
-			}
+			}*/
 		}
+
+		//Find the player
 		else if(connectionState == 3)
 		{
 			timerMatchFound-= Time.unscaledDeltaTime ;
 			if(timerMatchFound <=0)
 				letsPlay();
 		}
+		//Hmkay, play with the bot
 		else if(connectionState == 4)
 		{
 			timerMatchFound-= Time.unscaledDeltaTime ;

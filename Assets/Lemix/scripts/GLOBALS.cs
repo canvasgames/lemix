@@ -14,7 +14,9 @@ public class GLOBALS : MonoBehaviour {
 	[HideInInspector] public int OP_PLAYER = 0;
 
 	//Game Designer
-	[HideInInspector] public int NumberOfWordFiles = 7;
+	[HideInInspector] public int NumberOfWordFilesENG = 7;
+	[HideInInspector] public int NumberOfWordFilesPORT = 7;
+
 	[HideInInspector] public float PULetterInitPercentage = 0.2f;
 	[HideInInspector] public float PULetterPlusPercentage = 0.1f;
 
@@ -43,6 +45,8 @@ public class GLOBALS : MonoBehaviour {
 	[HideInInspector] public int REMATCH_RECEIVED = 0; // 1 = ACCEPTED | 2 = REJECTED
 	[HideInInspector] public int REMATCH_ACCEPT_STATUS = 0; // 1 = ACCEPTED | 2 = REJECTED
 
+	//LANGUAGE |||| 0 ENG |||||| 1 PORT ||||
+	[HideInInspector] public int LANGUAGE = 0;
 
 	void Awake()
 	{

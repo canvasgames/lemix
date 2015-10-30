@@ -22,6 +22,10 @@ public class bot_bt_main : MonoBehaviour {
 
 	public void OnMouseDown(){
 		print ("AHHHHHHH");
+		GLOBALS.Singleton.CONNECTED = 0;
+		GLOBALS.Singleton.MP_PLAYER = 0;
+		GLOBALS.Singleton.OP_PLAYER = 0;
+		GLOBALS.Singleton.MP_MODE = 0;
 		Application.LoadLevel("Gameplay");
 
 	}
