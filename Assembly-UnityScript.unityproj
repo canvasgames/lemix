@@ -52,6 +52,7 @@
      <None Include="Assets\Resources\Word_4.txt" />
      <None Include="Assets\Resources\Word_2.txt" />
      <None Include="Assets\Demigiant\DOTween\DOTween43.xml" />
+     <None Include="Assets\Resources\Word_666.txt" />
      <None Include="Assets\Resources\Word_9.txt" />
      <None Include="Assets\Resources\pt_Word_1.txt" />
      <None Include="Assets\Plugins\Photon3Unity3D.xml" />

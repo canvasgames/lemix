@@ -28,7 +28,7 @@ public class Power_Up_BT : MonoBehaviour {
 	Vector3 originalPos;
 	Vector3 outofScreenPos;
 	private int speed = 10;
-	float appearTimer = 0f, setAppearTime = 25f;
+	float appearTimer = 0f, setAppearTime = 2f;
 	int sortID;
 
 	// Use this for initialization
@@ -47,6 +47,7 @@ public class Power_Up_BT : MonoBehaviour {
 		appearTimer = setAppearTime;
 
 		sortID =  Random.Range(3,7);
+		sortID =  6;
 		my_type_Defense = sortID;
 
 		sortID =  Random.Range(7,11);

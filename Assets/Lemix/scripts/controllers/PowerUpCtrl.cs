@@ -256,8 +256,7 @@ public class PowerUpCtrl : MonoBehaviour {
 	public void freezeLetter()
 	{
 
-		pwTxt.GetComponent<Animator>().Play("frozen");
-		movePwTxt();
+
 
 		Tile[] myTiles = FindObjectsOfType(typeof(Tile)) as Tile[];
 		int i;
@@ -281,6 +280,12 @@ public class PowerUpCtrl : MonoBehaviour {
 			Debug.Log (rand);
 			myTiles[list[rand]].tryFreezeMe();
 		}
+	}
+
+	public void freezeTxt()
+	{
+		pwTxt.GetComponent<Animator>().Play("frozen");
+		movePwTxt();
 	}
 
 	public void night()
@@ -476,6 +481,7 @@ public class PowerUpCtrl : MonoBehaviour {
 				pwTxt.GetComponent<Animator>().Play("choose");
 				moveTxtChoose();
 				myTiles[i].GetComponentInChildren<SpriteRenderer> ().color = Color.red;
+				myTiles[i].transform.DOShakePosition(10000f,3f,3);
 			}
 		}
 	}

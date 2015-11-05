@@ -1,8 +1,12 @@
 fileFormatVersion: 2
 guid: 7fb733681ecf1f6409864d4520d20e02
+timeCreated: 1446645454
+licenseType: Free
 MonoImporter:
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - MrFreeze: {instanceID: 0}
+  - unfreezeParticle: {fileID: 142624, guid: a7234886c12a5fc44aae6878a56792eb, type: 2}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

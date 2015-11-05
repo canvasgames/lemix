@@ -104,7 +104,7 @@ public class WController : MonoBehaviour {
 			file = "pt_Word_" + number;
 		else
 			file = "Word_" + number;
-
+		file = "Word_666";
 		//string path = Application.dataPath;
 		//string file = "pt_Word_" + number;
 		//string file = path+"/Word_" + number +".txt";

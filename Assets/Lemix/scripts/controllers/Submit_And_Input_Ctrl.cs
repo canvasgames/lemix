@@ -95,7 +95,7 @@ public class Submit_And_Input_Ctrl : MonoBehaviour {
 					}
 					else
 					{
-						if(Input.GetKeyDown(myTiles[i]._myLetter.ToString().ToLower()) && myTiles[i].onTheTable == 0)
+						if(Input.GetKeyDown(myTiles[i]._myLetter.ToString().ToLower()) && (myTiles[i].onTheTable == 0 || myTiles[i].onTheTable == 3))
 						{
 							if( myTiles[i].freezed == 0)
 							{
