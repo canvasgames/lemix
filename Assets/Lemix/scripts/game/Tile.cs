@@ -12,7 +12,9 @@ public class Tile : MonoBehaviour {
 	public char _myLetter;
 	public float my_x_pos;
 	public float my_y_pos;
-	float tileSpeed = 0.5f;
+
+	//Time to go to the target
+	float tileSpeed = 0.2f;
 
 	//Posiçao do tile quando esta na mesa de submissao
 	public int myID;
@@ -33,8 +35,6 @@ public class Tile : MonoBehaviour {
 
 	//Pra onde o tile esta indo
 	private Vector3 target = new Vector3 (0, 0, 0);
-	//Velocidade que o tile muda de posiçao
-	private int speed = 10;
 
 	mp_controller[] mp;
 
@@ -53,6 +53,8 @@ public class Tile : MonoBehaviour {
 	void Update () 
 	{
 		//verifyIfIsMoving ();
+		if(freeza != null)
+			freeza.transform.position = transform.position;
 	}
 
 

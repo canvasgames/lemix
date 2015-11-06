@@ -119,6 +119,7 @@ public class Lobby_Master : Photon.MonoBehaviour
 			GLOBALS.Singleton.OP_PLAYER = 1;
 			GLOBALS.Singleton.MP_MODE = 1;
 			GLOBALS.Singleton.CONNECTED = 1;
+			mm_status[0].connectionState3Guest();
 			//Application.LoadLevel("GamePlay");
 			//PhotonNetwork.LoadLevel("GamePlay");
 

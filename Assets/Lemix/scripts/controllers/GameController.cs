@@ -172,7 +172,7 @@ public class GameController : MonoBehaviour {
 			fake_sync();
 		}
 		//MATCH ENDED
-		if(matchTotaltime<=0 && GLOBALS.Singleton.WIN == false && GLOBALS.Singleton.LOOSE == false && GLOBALS.Singleton.DRAW == false)
+		if(matchTotaltime<=0 && GLOBALS.Singleton.WIN == false && GLOBALS.Singleton.LOOSE == false && GLOBALS.Singleton.DRAW == false && GLOBALS.Singleton.GAME_RUNNING == true)
 		{
 			match_end();
 			GLOBALS.Singleton.GAME_RUNNING = false;
@@ -202,7 +202,7 @@ public class GameController : MonoBehaviour {
 	}
 
 
-	void match_end()
+	public void match_end()
 	{
 		match_end_F5_statistics();
 		

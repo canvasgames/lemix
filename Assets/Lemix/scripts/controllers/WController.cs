@@ -79,7 +79,7 @@ public class WController : MonoBehaviour {
 		BalonP2.transform.localScale = new Vector3(0f, 0f, 1);
 
 
-		smooth = 9f;
+		smooth = 0.8f;
 		wfounded = GameObject.Find ("hud_words_found_counter"); 
 		wfounded.GetComponentInChildren<TextMesh> ().GetComponent<Renderer>().sortingOrder = 10; 
 
@@ -104,7 +104,10 @@ public class WController : MonoBehaviour {
 			file = "pt_Word_" + number;
 		else
 			file = "Word_" + number;
-		file = "Word_666";
+
+
+		//file = "Word_666";
+
 		//string path = Application.dataPath;
 		//string file = "pt_Word_" + number;
 		//string file = path+"/Word_" + number +".txt";
@@ -134,7 +137,7 @@ public class WController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		ballonsstatus();
+		//ballonsstatus();
 	}
 	
 	private bool LoadDictionary(string fileName)
@@ -256,19 +259,21 @@ public class WController : MonoBehaviour {
 		//Cria uma string de 0 ate tamanho da palavra-1 para manipular as tiles
 		while (lengthWord !=0)
 		{
-			numberstoSort= numberstoSort + (i.ToString());
+		
+			numberstoSort = numberstoSort + (i.ToString());
+
 			lengthWord--;
 			i++;
 		}
 		
-		
 		double num=0;
-		
 		
 		while (numberstoSort.Length >0) 
 		{
 			//Sorteia uma das posiçoes da string
+
 			rand = Random.Range(0,(numberstoSort.Length));
+
 			
 			//Recebe o numero que esta na posiçao
 			num =  char.GetNumericValue(numberstoSort[rand]);
@@ -276,9 +281,10 @@ public class WController : MonoBehaviour {
 			tiles[value].my_x_pos = pos;
 			
 			//Se nao esta na mesa move o tile
-			if(tiles[value].onTheTable == 0 || tiles[value].onTheTable == 3)
+			if((tiles[value].onTheTable == 0 || tiles[value].onTheTable == 3)  )
 				tiles[value].moveMe();
-			
+
+
 			//Retira o numero da string
 			numberstoSort = numberstoSort.Remove (rand, 1);
 			
@@ -431,6 +437,13 @@ public class WController : MonoBehaviour {
 
 		wordsFounded++;
 		f5WordsFounded();
+
+		if(wordsFounded == numberofWords)
+		{
+			GLOBALS.Singleton.GAME_RUNNING = false;
+			GameController[] gCtrlr =  FindObjectsOfType(typeof(GameController)) as GameController[];
+			gCtrlr[0].match_end();
+		}
 		
 	}
 
@@ -454,6 +467,10 @@ public class WController : MonoBehaviour {
 			//Show balloon
 			triggerBallonP1 = 1;
 			BalonP1.transform.localScale = new Vector3(0f, 0f, 1);
+
+			BalonP1.transform.DOKill();
+			BalonP1.transform.DOScale(scaleB,smooth).OnComplete(stopBaloonP1);
+
 			BalonP1.GetComponentInChildren<TextMesh> ().text = list[word_id].myWord;
 			BalonP1.GetComponentInChildren<TextMesh> ().GetComponent<Renderer>().sortingOrder = 10;
 		}
@@ -462,9 +479,43 @@ public class WController : MonoBehaviour {
 			//Show balloon
 			triggerBallonP2 = 1;
 			BalonP2.transform.localScale = new Vector3(0f, 0f, 1);
+
+			BalonP2.transform.DOKill();
+			BalonP2.transform.DOScale(scaleB,smooth).OnComplete(stopBaloonP2);
+
 			BalonP2.GetComponentInChildren<TextMesh> ().text = list[word_id].myWord;
 			BalonP2.GetComponentInChildren<TextMesh> ().GetComponent<Renderer>().sortingOrder = 10;
 		}
+	}
+
+	void stopBaloonP1()
+	{
+		BalonP1.transform.DOScale(scaleB,0.5f).OnComplete(backTo0BaloonP1);
+	}
+	void backTo0BaloonP1()
+	{
+
+		BalonP1.transform.DOScale(new Vector3 (0.3f,0.3f,0),smooth).OnComplete(killKillKillTheBaloonP1);
+	}
+
+	void killKillKillTheBaloonP1()
+	{
+		BalonP1.transform.localScale = new Vector3(0f, 0f, 1);
+	}
+
+	
+	void stopBaloonP2()
+	{
+		BalonP2.transform.DOScale(scaleB,0.5f).OnComplete(backTo0BaloonP2);
+	}
+	void backTo0BaloonP2()
+	{
+		BalonP2.transform.DOScale(new Vector3 (0.3f,0.3f,0),smooth).OnComplete(killKillKillTheBaloonP2);
+	}
+	
+	void killKillKillTheBaloonP2()
+	{
+		BalonP2.transform.localScale = new Vector3(0f, 0f, 1);
 	}
 
 	//ERASE POINTS OF ERASED WORD

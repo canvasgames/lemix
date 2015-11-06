@@ -39,6 +39,13 @@ public class mm_connect_status : MonoBehaviour {
 		instruction.text = "Match Found";
 	}
 
+	public void connectionState3Guest()
+	{
+		connectionState = 666;
+		searching_op.GetComponent<Animator>().SetBool("Found",true);
+		instruction.text = "Match Found";
+	}
+
 	public void letsPlay()
 	{
 		lobby_master = FindObjectsOfType(typeof(Lobby_Master)) as Lobby_Master[];

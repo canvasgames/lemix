@@ -1,12 +1,14 @@
 ﻿using UnityEngine;
 using System.Collections;
+using DG.Tweening;
+using UnityEngine.UI;
 
 public class WhiteSquare : MonoBehaviour {
 	public int myID;
 	public int myIDindex;
 	public string myLetter;
 	public int showed;
-
+	private int foundedByPlayer;
 	//Marca se eh a ultima letra
 	public bool lastletter;
 
@@ -27,16 +29,29 @@ public class WhiteSquare : MonoBehaviour {
 	{
 		if (id == myID) 
 		{
+
 			showed = 1;
-			GetComponent<TextMesh> ().text = myLetter.ToString ();
-			GetComponent<TextMesh> ().color = Color.white;
-			if(player == GLOBALS.Singleton.MP_PLAYER)
-				GetComponentInChildren<SpriteRenderer> ().color = new Color32(52, 152, 219,255);
-			else
-				GetComponentInChildren<SpriteRenderer> ().color = new Color32(226, 60, 43,255);  
+
+			foundedByPlayer = player;
+
+			transform.DOLocalMoveX(transform.position.x,(0.1f * myIDindex)).OnComplete(activeXTIME);
+ 
 		}
 	}
 
+	void activeXTIME()
+	{
+		GetComponent<TextMesh> ().text = myLetter.ToString ();
+		GetComponent<TextMesh> ().color = Color.white;
+
+		if(foundedByPlayer == GLOBALS.Singleton.MP_PLAYER)
+			GetComponentInChildren<SpriteRenderer> ().color = new Color32(52, 152, 219,255);
+		else
+			GetComponentInChildren<SpriteRenderer> ().color = new Color32(226, 60, 43,255); 
+
+		Vector3 temp = new Vector3 (0,-15,0);
+		transform.DOPunchPosition(temp,0.6f,0,0);
+	}
 	public void appearPowerUp()
 	{
 		GetComponent<TextMesh> ().text = myLetter.ToString ();
