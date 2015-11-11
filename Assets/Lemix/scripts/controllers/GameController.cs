@@ -100,7 +100,8 @@ public class GameController : MonoBehaviour {
 		
 		if(GLOBALS.Singleton.MP_MODE == 1)
 		{
-			mpCtrl[0].send_lvl(level);
+			mpCtrl[0].send_lvl_and_avatar(level);
+			GameObject bot = GameObject.Find ("hud_p2_level"); 
 		}
 		else
 		{

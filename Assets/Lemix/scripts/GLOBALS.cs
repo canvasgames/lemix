@@ -5,6 +5,9 @@ using System.Collections;
 public class GLOBALS : MonoBehaviour {
 	public static GLOBALS Singleton;
 
+	[HideInInspector] public int AVATAR_TYPE = 1;
+	[HideInInspector] public int MY_LVL = 1;
+
 	[HideInInspector] public int ANAGRAM_ID = 0;
 	[HideInInspector] public int RECEIVED_ANAGRAM_ID = 0;
 
@@ -27,6 +30,10 @@ public class GLOBALS : MonoBehaviour {
 
 	[HideInInspector] public int PUCHOOSELETTER = 0;
 	[HideInInspector] public int PUGOLDLETTERACTIVE = 0;
+
+	//MAIN MENU STATUS
+	[HideInInspector] public bool MM_MENU_OPENED = false;
+
 	//GAME STATUS
 	[HideInInspector] public bool GAME_RUNNING = false;
 	[HideInInspector] public bool GAME_QUIT_MENU = false;
@@ -48,12 +55,17 @@ public class GLOBALS : MonoBehaviour {
 	//LANGUAGE |||| 0 ENG |||||| 1 PORT ||||
 	[HideInInspector] public int LANGUAGE = 0;
 
+	[HideInInspector] public bool SOUND_ON = true;
+	[HideInInspector] public bool MUSIC_ON = true;
+
 	void Awake()
 	{
 		Reset_Globals ();
 		Singleton = this;
 		Debug.Log ("SINGLETON INITIALIZED");
 		DontDestroyOnLoad(transform.gameObject);
+		AVATAR_TYPE = 1;
+		MY_LVL = 10;
 	}
 
 	public void get()

@@ -555,8 +555,19 @@ public class WController : MonoBehaviour {
 		}
 	}
 
+	//CHANGE THE NUMBER IN THE HUD THING
+	void f5WordsFounded()
+	{
+		
+		if(wordsFounded<10)
+			wfounded.GetComponentInChildren<TextMesh> ().text = "0" + wordsFounded.ToString() + "  " + numberofWords.ToString() ;
+		else
+			wfounded.GetComponentInChildren<TextMesh> ().text = wordsFounded.ToString() + "  " + numberofWords.ToString() ;
+	}
+
+
 	//TRIGGER FOR THE BALLOON
-	void ballonsstatus()
+	/*void ballonsstatus()
 	{
         
 		if(triggerBallonP1 == 1)
@@ -594,17 +605,8 @@ public class WController : MonoBehaviour {
 				
 			}
 		}
-	}
+	}*/
 
-	//CHANGE THE NUMBER IN THE HUD THING
-	void f5WordsFounded()
-	{
-
-		if(wordsFounded<10)
-			wfounded.GetComponentInChildren<TextMesh> ().text = "0" + wordsFounded.ToString() + "  " + numberofWords.ToString() ;
-		else
-			wfounded.GetComponentInChildren<TextMesh> ().text = wordsFounded.ToString() + "  " + numberofWords.ToString() ;
-	}
 
 
 }

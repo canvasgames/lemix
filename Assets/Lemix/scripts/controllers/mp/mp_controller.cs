@@ -13,6 +13,7 @@ public class mp_controller : Photon.MonoBehaviour {
 	Waiting_scrpit[] waitingMenu;
 	GameController[] gCtrlr;
 	Word_Sorter_Controller[] wSort;
+	Avatar_player_2[] avatarP2;
 
 	void Awake () {
 		ScenePhotonView = this.GetComponent<PhotonView>();
@@ -110,14 +111,16 @@ public class mp_controller : Photon.MonoBehaviour {
 		ScenePhotonView.RPC("get_player_info", PhotonTargets.Others , anagram_id);
 	}
 
-	public void send_lvl(int level){
-		ScenePhotonView.RPC("receive_lvl", PhotonTargets.Others ,level);
+	public void send_lvl_and_avatar(int level){
+		ScenePhotonView.RPC("receive_lvl_avatar", PhotonTargets.Others ,level, GLOBALS.Singleton.AVATAR_TYPE);
 	}
 	
 	[PunRPC]
-	public void receive_lvl(int lvl){
+	public void receive_lvl_avatar(int lvl, int avatar){
 		GameObject P2lvl = GameObject.Find ("hud_p2_level"); 
 		P2lvl.GetComponent<TextMesh> ().text = "LVL " + lvl.ToString ();
+		avatarP2 = FindObjectsOfType(typeof(Avatar_player_2)) as Avatar_player_2[];
+		avatarP2[0].changeAvatar(avatar);
 	}
 	
 	//======================= GET RPCS =============================

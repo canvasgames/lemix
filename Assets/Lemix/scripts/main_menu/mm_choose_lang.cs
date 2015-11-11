@@ -17,15 +17,26 @@ public class mm_choose_lang : MonoBehaviour {
 
 	public void OnMouseDown()
 	{
-		if(GLOBALS.Singleton.LANGUAGE == 0)
+		if(GLOBALS.Singleton.MM_MENU_OPENED == false)
 		{
-			GLOBALS.Singleton.LANGUAGE = 1;
-			GetComponent<Animator>().Play("portuguese");
+			if(GLOBALS.Singleton.LANGUAGE == 0)
+			{
+				GLOBALS.Singleton.LANGUAGE = 1;
+				GetComponent<Animator>().Play("portuguese");
+			}
+			else if(GLOBALS.Singleton.LANGUAGE == 1)
+			{
+				GLOBALS.Singleton.LANGUAGE = 0;
+				GetComponent<Animator>().Play("language");
+			}
 		}
-		else if(GLOBALS.Singleton.LANGUAGE == 1)
-		{
-			GLOBALS.Singleton.LANGUAGE = 0;
-			GetComponent<Animator>().Play("language");
-		}
+	}
+
+	void OnMouseOver() {
+		this.transform.GetComponent<SpriteRenderer> ().color = Color.green;
+	}
+	
+	void OnMouseExit() {
+		this.transform.GetComponent<SpriteRenderer> ().color = Color.white;
 	}
 }
