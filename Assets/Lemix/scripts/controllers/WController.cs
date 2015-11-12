@@ -331,15 +331,14 @@ public class WController : MonoBehaviour {
 						mp.send_word_found(i);
 
 					}
-					//GetComponent<AudioSource>().PlayOneShot(AudioFound);
-					AudioSource.PlayClipAtPoint(AudioFound, Camera.main.transform.position);
+
+					Sound_Controller.sController.PlaySingle(AudioFound);
 
 					return;
 				}
 				else
 				{
-					AudioSource.PlayClipAtPoint(AudioAlready, Camera.main.transform.position);
-
+					Sound_Controller.sController.PlaySingle(AudioAlready);
 
 					dessapear_not_found();
 					dessapear_already();
@@ -350,8 +349,8 @@ public class WController : MonoBehaviour {
 				}
 			}
 		}
-
-		AudioSource.PlayClipAtPoint(AudioError, Camera.main.transform.position);
+		Sound_Controller.sController.PlaySingle(AudioError);
+		//AudioSource.PlayClipAtPoint(AudioError, Camera.main.transform.position);
 		//Reposiciona msg 
 		dessapear_not_found();
 		dessapear_already();
@@ -366,7 +365,7 @@ public class WController : MonoBehaviour {
 		if(list[i].found==false)
 		{
 			wordfound(GLOBALS.Singleton.OP_PLAYER,i,0);
-			GetComponent<AudioSource>().PlayOneShot(AudioFound);
+			Sound_Controller.sController.PlaySingle(AudioFound);
 
 			return true;
 
@@ -454,10 +453,14 @@ public class WController : MonoBehaviour {
 		if (player == GLOBALS.Singleton.MP_PLAYER) 
 		{
 			GLOBALS.Singleton.NumberOfWordsFounded++;
+
 			GLOBALS.Singleton.MY_SCORE += list [word_id].myWord.Length * 10 + (goldLetterActive * (list [word_id].myWord.Length * 10));
 		}
 		else
+		{
+			GLOBALS.Singleton.NumberOfWordsFoundedOP++;
 			GLOBALS.Singleton.OP_SCORE+=list[word_id].myWord.Length*10 + (goldLetterActive * (list[word_id].myWord.Length*10));
+		}
 		
 		updateScoreAndBars(player);
 

@@ -7,14 +7,12 @@ public class menu_score_match_end : MonoBehaviour {
 	void Start () {
 
 		this.GetComponent<Renderer>().sortingLayerID = this.transform.parent.GetComponent<Renderer>().sortingLayerID  ;
-		if(player == 1)
-		{
-			GetComponent<TextMesh> ().text = GLOBALS.Singleton.MY_SCORE.ToString ();
-		}
-		else if(player == 2)
-		{
-			   GetComponent<TextMesh> ().text = GLOBALS.Singleton.OP_SCORE.ToString ();
-		}
+	
+		GetComponent<TextMesh> ().text = "SCORE   " + GLOBALS.Singleton.MY_SCORE.ToString () + "    " +GLOBALS.Singleton.OP_SCORE.ToString () 
+			+ "\nWF    "+ GLOBALS.Singleton.NumberOfWordsFounded.ToString () + "    " +GLOBALS.Singleton.NumberOfWordsFoundedOP.ToString () 
+			+ "\nLVL   "+ GLOBALS.Singleton.MY_LVL.ToString () + "    " + GLOBALS.Singleton.OP_LVL.ToString ();
+
+
 	}
 	
 	// Update is called once per frame

@@ -38,6 +38,8 @@ public class GameController : MonoBehaviour {
 	}
 
 	void Start () {
+
+		//DontDestroyOnLoad(gameObject);
 		menusctrl = FindObjectsOfType(typeof(Menus_Controller)) as Menus_Controller[];
 		GLOBALS[] submitScp = FindObjectsOfType(typeof(GLOBALS)) as GLOBALS[];
 		GLOBALS.Singleton.Reset_Globals ();
@@ -105,11 +107,21 @@ public class GameController : MonoBehaviour {
 		}
 		else
 		{
-			int temp;
+			int temp, temp2;
 
 			temp = UnityEngine.Random.Range(level,level+4);
 			GameObject bot = GameObject.Find ("hud_p2_level"); 
 			bot.GetComponent<TextMesh> ().text = "LVL " + temp.ToString ();
+			GLOBALS.Singleton.OP_LVL = temp;
+
+			Avatar_player_2[] avatarP2;
+			avatarP2 = FindObjectsOfType(typeof(Avatar_player_2)) as Avatar_player_2[];
+
+
+			temp2 = UnityEngine.Random.Range(1,temp);
+
+			avatarP2[0].changeAvatar(temp2);
+			GLOBALS.Singleton.AVATAR_TYPE_OP = temp2;
 		}
 		
 	}

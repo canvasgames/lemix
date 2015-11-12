@@ -29,7 +29,7 @@ public class bt_multiplayer : MonoBehaviour {
 			lb = FindObjectsOfType(typeof(Lobby_Master)) as Lobby_Master[];
 			statistics = FindObjectsOfType(typeof(bt_statistics)) as bt_statistics[];
 			lb[0].Connect_to_photon();
-			statistics[0].inactive();
+//			statistics[0].inactive();
 		}
 
 	}

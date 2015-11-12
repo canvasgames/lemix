@@ -112,7 +112,7 @@ public class Bot_controller : MonoBehaviour {
 			botPUTime = Random.Range (25f,27f);
 		
 			int rand;	
-			rand = Random.Range (0, 3);
+			rand = Random.Range (0, 4);
 
 			if(rand == 0)
 			{

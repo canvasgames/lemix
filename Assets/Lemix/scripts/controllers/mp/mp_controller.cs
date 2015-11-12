@@ -117,10 +117,14 @@ public class mp_controller : Photon.MonoBehaviour {
 	
 	[PunRPC]
 	public void receive_lvl_avatar(int lvl, int avatar){
+
 		GameObject P2lvl = GameObject.Find ("hud_p2_level"); 
 		P2lvl.GetComponent<TextMesh> ().text = "LVL " + lvl.ToString ();
+		GLOBALS.Singleton.OP_LVL = lvl;
+
 		avatarP2 = FindObjectsOfType(typeof(Avatar_player_2)) as Avatar_player_2[];
 		avatarP2[0].changeAvatar(avatar);
+		GLOBALS.Singleton.AVATAR_TYPE_OP = avatar;
 	}
 	
 	//======================= GET RPCS =============================

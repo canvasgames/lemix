@@ -17,9 +17,15 @@ public class bt_sound : MonoBehaviour {
 		if(GLOBALS.Singleton.MM_MENU_OPENED == false)
 		{
 			if(GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("sound_on"))
+			{
 				GetComponent<Animator>().Play("sound_off");
+				Sound_Controller.sController.muteSFX();
+			}
 			else
+			{
 				GetComponent<Animator>().Play("sound_on");
+				Sound_Controller.sController.unmuteSFX();
+			}
 		}
 	}
 	void OnMouseOver() {

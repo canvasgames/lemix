@@ -93,14 +93,13 @@ public class Tile : MonoBehaviour {
 		
 		WController[] wordCTRL = FindObjectsOfType(typeof(WController)) as WController[];
 		Submit_And_Input_Ctrl[] submitBT = FindObjectsOfType(typeof(Submit_And_Input_Ctrl)) as Submit_And_Input_Ctrl[];
-		Debug.Log(onTheTable);
+
 		//If is not on the submission table or is goin to low position
 		if (onTheTable == 0 || onTheTable == 3) 
 		{
 			ConstructTable[] constTab = FindObjectsOfType(typeof(ConstructTable)) as ConstructTable[];
 			int i = 0;
 
-			Debug.Log("Do que vc esta falando leigo");
 			//Search a position on the submission table
 			while (wordCTRL[0].atable[i] != '\0') 
 				i++;

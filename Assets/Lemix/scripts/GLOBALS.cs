@@ -1,12 +1,17 @@
 ﻿using UnityEngine;
 using System.Collections;
-
+using System;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.IO;
 
 public class GLOBALS : MonoBehaviour {
 	public static GLOBALS Singleton;
 
 	[HideInInspector] public int AVATAR_TYPE = 1;
+	[HideInInspector] public int AVATAR_TYPE_OP = 1;
+
 	[HideInInspector] public int MY_LVL = 1;
+	[HideInInspector] public int OP_LVL = 1;
 
 	[HideInInspector] public int ANAGRAM_ID = 0;
 	[HideInInspector] public int RECEIVED_ANAGRAM_ID = 0;
@@ -46,7 +51,7 @@ public class GLOBALS : MonoBehaviour {
 	[HideInInspector] public int USER_HAT_POWER = 0;
 
 	[HideInInspector] public int NumberOfWordsFounded = 0;
-
+	[HideInInspector] public int NumberOfWordsFoundedOP = 0;
 	// REMATCH
 	[HideInInspector] public int REMATCH_SENT = 0;
 	[HideInInspector] public int REMATCH_RECEIVED = 0; // 1 = ACCEPTED | 2 = REJECTED
@@ -60,6 +65,7 @@ public class GLOBALS : MonoBehaviour {
 
 	void Awake()
 	{
+
 		Reset_Globals ();
 		Singleton = this;
 		Debug.Log ("SINGLETON INITIALIZED");
