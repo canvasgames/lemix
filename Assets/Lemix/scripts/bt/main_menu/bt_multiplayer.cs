@@ -2,8 +2,8 @@
 using System.Collections;
 
 public class bt_multiplayer : MonoBehaviour {
-	public GameObject lobbymaster,cancelbt, botbt, txt_conection_state;
-
+	public GameObject lobbymaster, txt_conection_state;
+	public Animator tchauBT;
     Lobby_Master[] lb;
 	bt_statistics[] statistics;
 	// Use this for initialization
@@ -15,16 +15,16 @@ public class bt_multiplayer : MonoBehaviour {
 	void Update () {
 	}
 
-	void OnMouseDown(){
+	public void pressed(){
 		if(GLOBALS.Singleton.MM_MENU_OPENED == false)
 		{
 			Debug.Log ("CONNECT !");
 			lobbymaster.SetActive(true);
 			txt_conection_state.SetActive(true);
 
-			//cancelbt.SetActive(true);
+			tchauBT.SetTrigger("clicked");
 			//botbt.SetActive(false);
-			gameObject.SetActive(false);
+			//gameObject.SetActive(false);
 
 			lb = FindObjectsOfType(typeof(Lobby_Master)) as Lobby_Master[];
 			statistics = FindObjectsOfType(typeof(bt_statistics)) as bt_statistics[];
@@ -35,13 +35,13 @@ public class bt_multiplayer : MonoBehaviour {
 	}
 	
 
-	void OnMouseOver() {
+/*	void OnMouseOver() {
 		this.transform.GetComponent<SpriteRenderer> ().color = Color.green;
 	}
 	
 	void OnMouseExit() {
 		this.transform.GetComponent<SpriteRenderer> ().color = Color.white;
 	}
-
+*/
 
 }
