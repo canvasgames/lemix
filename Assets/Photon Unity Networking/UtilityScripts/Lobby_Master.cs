@@ -172,6 +172,8 @@ public class Lobby_Master : Photon.MonoBehaviour
 
 			//Sorteia um dos arquivos de palavras
 			word_id = wSort[0].sortWordAndReturnAnagramID();
+			GLOBALS.Singleton.ANAGRAM_ID = word_id;
+
 			Debug.Log("send_player_info(): I am host, generating a anagram... | WORD ID SENT: "+ word_id);
 		}
 
