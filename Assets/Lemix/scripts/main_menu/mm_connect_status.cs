@@ -49,7 +49,8 @@ public class mm_connect_status : MonoBehaviour {
 	public void letsPlay()
 	{
 		lobby_master = FindObjectsOfType(typeof(Lobby_Master)) as Lobby_Master[];
-		lobby_master[0].send_player_info();
+		lobby_master[0].send_player_info_lobby();
+		connectionState = 999;
 	}
 
 	public void LetsPlayBot()

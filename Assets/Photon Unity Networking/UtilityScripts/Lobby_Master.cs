@@ -165,7 +165,7 @@ public class Lobby_Master : Photon.MonoBehaviour
 
 	//====================== SEND RPCS =============================
 
-	public void send_player_info(){
+	public void send_player_info_lobby(){
 		Debug.Log("send_player_info()");
 		int word_id = 0;
 		if (GLOBALS.Singleton.MP_PLAYER == 1) {
@@ -176,7 +176,7 @@ public class Lobby_Master : Photon.MonoBehaviour
 
 			Debug.Log("send_player_info(): I am host, generating a anagram... | WORD ID SENT: "+ word_id);
 
-			ScenePhotonView.RPC("get_player_info", PhotonTargets.Others , word_id);
+			ScenePhotonView.RPC("get_player_info_lobby", PhotonTargets.Others , word_id);
 		}
 
 
@@ -186,7 +186,7 @@ public class Lobby_Master : Photon.MonoBehaviour
 
 
 	[PunRPC]
-	public void get_player_info(int word_id){
+	public void get_player_info_lobby(int word_id){
 		Debug.Log("get_player(info)");
 		if (GLOBALS.Singleton.MP_PLAYER == 2) {
 			Debug.Log("get_player(info): I am not the host, sending a confirmation and loading next scene | WORD ID RECEIVED: " + word_id);
