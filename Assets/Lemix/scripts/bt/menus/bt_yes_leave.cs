@@ -15,7 +15,7 @@ public class bt_yes_leave : MonoBehaviour {
 
 	void OnMouseDown(){
 		PhotonNetwork.Disconnect();
-		Application.LoadLevel ("Lobby");
+		Application.LoadLevel ("Lobby_GUI");
 	}
 	
 	void OnMouseEnter() {

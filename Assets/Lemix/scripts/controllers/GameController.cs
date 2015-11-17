@@ -14,7 +14,7 @@ using Thinksquirrel.WordGameBuilder.ObjectModel;
 public class GameController : MonoBehaviour {
 
 	//Change this to change the world
-	float matchTotaltime = 120f;
+	float matchTotaltime = 2f;
 
 	//Syncronization
 	float wait_Menu = 1, time2Sicronize, waitingOtherPlayer, timer2RecallOtherP = 0.1f, wait_bot_sync_fake = 0f;
@@ -293,7 +293,7 @@ public class GameController : MonoBehaviour {
 	public void go_to_lobby(){
 		PhotonNetwork.Disconnect();
 
-		Application.LoadLevel("Lobby");
+		Application.LoadLevel("Lobby_GUI");
 	}
 
 
