@@ -86,7 +86,7 @@ public class WController : MonoBehaviour {
 		int rand = GLOBALS.Singleton.ANAGRAM_ID;
 		// Sorteia arquivo de palavra
 		if (rand == 0) {
-
+			Debug.Log("WORD ID Vazia, soretando nova palavra");
 			rand = wSort[0].sortWordAndReturnAnagramID();
 		}
 

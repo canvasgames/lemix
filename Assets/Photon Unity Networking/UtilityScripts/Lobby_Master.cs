@@ -123,7 +123,7 @@ public class Lobby_Master : Photon.MonoBehaviour
 			//Application.LoadLevel("GamePlay");
 			//PhotonNetwork.LoadLevel("GamePlay");
 
-			send_player_info();
+			//send_player_info();
 		}
 
 		if (PhotonNetwork.playerList.Length == 1)
@@ -175,9 +175,11 @@ public class Lobby_Master : Photon.MonoBehaviour
 			GLOBALS.Singleton.ANAGRAM_ID = word_id;
 
 			Debug.Log("send_player_info(): I am host, generating a anagram... | WORD ID SENT: "+ word_id);
+
+			ScenePhotonView.RPC("get_player_info", PhotonTargets.Others , word_id);
 		}
 
-		ScenePhotonView.RPC("get_player_info", PhotonTargets.Others , word_id);
+
 	}
 	
 	//======================= GET RPCS =============================

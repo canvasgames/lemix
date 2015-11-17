@@ -107,9 +107,9 @@ public class mp_controller : Photon.MonoBehaviour {
 	}
 
 
-	public void send_player_info(int anagram_id){
+	/*public void send_player_info(int anagram_id){
 		ScenePhotonView.RPC("get_player_info", PhotonTargets.Others , anagram_id);
-	}
+	}*/
 
 	public void send_lvl_and_avatar(int level){
 		ScenePhotonView.RPC("receive_lvl_avatar", PhotonTargets.Others ,level, GLOBALS.Singleton.AVATAR_TYPE);
