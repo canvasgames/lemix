@@ -3,7 +3,7 @@ using System.Collections;
 using UnityEngine.UI;
 
 public class mm_connect_status : MonoBehaviour {
-	TextMesh instruction;
+	Text instruction;
 	Animation erro;
 	float timeTrigger = 0.6f, botTimer = 8f, timerMatchFound = 3f;
 	int connectionState = 0;
@@ -14,7 +14,7 @@ public class mm_connect_status : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		instruction = GetComponent<TextMesh>();
+		instruction = GetComponent<Text>();
 		instruction.text = "Connecting";
 	}
 

@@ -20,10 +20,10 @@ public class bot_bt_main : MonoBehaviour {
 		Application.LoadLevel("Gameplay");
 	}
 
-	public void OnMouseDown(){
+	public void clicked(){
 		if(GLOBALS.Singleton.MM_MENU_OPENED == false)
 		{
-			print ("AHHHHHHH");
+			//print ("AHHHHHHH");
 			GLOBALS.Singleton.CONNECTED = 0;
 			GLOBALS.Singleton.MP_PLAYER = 0;
 			GLOBALS.Singleton.OP_PLAYER = 0;
@@ -33,12 +33,5 @@ public class bot_bt_main : MonoBehaviour {
 
 	}
 
-	void OnMouseOver() {
-		this.transform.GetComponent<SpriteRenderer> ().color = Color.green;
-	}
-
-	void OnMouseExit() {
-		this.transform.GetComponent<SpriteRenderer> ().color = Color.white;
-	}
 
 }

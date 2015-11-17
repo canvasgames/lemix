@@ -2,7 +2,8 @@
 using System.Collections;
 
 public class clickAndCloseMenus : MonoBehaviour {
-	
+	public GameObject avatarMenu;
+
 	// Use this for initialization
 	void Start () {
 
@@ -13,8 +14,9 @@ public class clickAndCloseMenus : MonoBehaviour {
 		//Debug.Log(transform.GetComponent<SpriteRenderer>().bounds.size.x);
 	}
 	
-	void OnMouseDown(){
-		Destroy (transform.parent.gameObject);
+	public void Clicked(){
+		//Destroy (transform.parent.gameObject);
+		avatarMenu.SetActive(false);
 		GLOBALS.Singleton.MM_MENU_OPENED = false;
 		
 	}

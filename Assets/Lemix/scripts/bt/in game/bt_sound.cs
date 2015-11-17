@@ -12,33 +12,21 @@ public class bt_sound : MonoBehaviour {
 	void Update () {
 		
 	}
-	public void OnMouseDown()
+	public void mouseClick()
 	{
 		if(GLOBALS.Singleton.MM_MENU_OPENED == false)
 		{
-			if(GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("sound_on"))
+			if(GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("bt_sound"))
 			{
-				GetComponent<Animator>().Play("sound_off");
+				GetComponent<Animator>().Play("bt_sound_off");
 				Sound_Controller.sController.muteSFX();
 			}
 			else
 			{
-				GetComponent<Animator>().Play("sound_on");
+				GetComponent<Animator>().Play("bt_sound");
 				Sound_Controller.sController.unmuteSFX();
 			}
 		}
 	}
-	void OnMouseOver() {
 
-			this.transform.GetComponent<SpriteRenderer> ().color = Color.green;
-
-		
-	}
-	
-	void OnMouseExit() {
-		if(GLOBALS.Singleton.MM_MENU_OPENED == false)
-		{
-			this.transform.GetComponent<SpriteRenderer> ().color = Color.white;
-		}
-	}
 }

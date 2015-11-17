@@ -15,7 +15,7 @@ public class mm_choose_lang : MonoBehaviour {
 	
 	}
 
-	public void OnMouseDown()
+	public void cliked()
 	{
 		if(GLOBALS.Singleton.MM_MENU_OPENED == false)
 		{
@@ -32,11 +32,5 @@ public class mm_choose_lang : MonoBehaviour {
 		}
 	}
 
-	void OnMouseOver() {
-		this.transform.GetComponent<SpriteRenderer> ().color = Color.green;
-	}
-	
-	void OnMouseExit() {
-		this.transform.GetComponent<SpriteRenderer> ().color = Color.white;
-	}
+
 }

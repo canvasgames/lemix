@@ -14,13 +14,13 @@ public class avatar_main_menu : MonoBehaviour {
 	
 	}
 
-	public void OnMouseDown()
+	public void clicked()
 	{
-		if(GLOBALS.Singleton.MM_MENU_OPENED == false)
-		{
-			GameObject menu = (GameObject)Instantiate (avatarMenu, new Vector3 (0,0 , 100), transform.rotation);
-			GLOBALS.Singleton.MM_MENU_OPENED = true;
-		}
+
+		
+		avatarMenu.SetActive(true);
+
+
 	}
 
 	public void changeAvatar(int type)

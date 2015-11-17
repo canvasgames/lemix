@@ -7,7 +7,7 @@ public class main_menu_controller : MonoBehaviour {
 
 	avatar_main_menu[] avatar;
 	// Use this for initialization
-	void Start () {
+	void Awake () {
 		GLOBALS[] single2 = FindObjectsOfType (typeof(GLOBALS)) as GLOBALS[];
 		if (single2.Length == 0) {
 			GameObject obj = (GameObject)Instantiate (single, new Vector3 (0, 0, 0), transform.rotation);
