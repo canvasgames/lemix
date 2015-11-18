@@ -10,7 +10,6 @@ public class PowerUpCtrl : MonoBehaviour {
 	public GameObject BlackNight, Eraser, Frozen, CurtainOP ;
 	//Texts
 	public GameObject pwTxt, pwChooseTxt; 
-	public float teucu = 105;
 	public float smooth;
 	float curtainTimer = 0f, freezeOPTime=0f, curtainTimerOP;
 	private Vector3 newPosition;

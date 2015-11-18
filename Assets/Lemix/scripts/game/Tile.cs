@@ -230,6 +230,7 @@ public class Tile : MonoBehaviour {
 	{
 		freezeCounter--;
 		freeza.transform.DOShakePosition(1f,4f);
+		transform.DOShakePosition(2f,5f).OnComplete(StopShake);
 		freeza.GetComponent<Animator>().Play("pw_frozen_broked");
 		Destroy(particle);
 		particle = (GameObject)Instantiate (unfreezeParticle, transform.position, transform.rotation);
@@ -246,7 +247,10 @@ public class Tile : MonoBehaviour {
 		}
 
 	}
-
+	void StopShake()
+	{
+		transform.DOKill();
+	}
 	public void backOriginalColor()
 	{
 		GetComponentInChildren<SpriteRenderer> ().color = originalColor;

@@ -15,5 +15,6 @@ public class yes_are_you_sure : MonoBehaviour {
 
 	void OnMouseDown(){
 		mp [0].send_accept_rematch ();
+		Destroy(transform.parent.gameObject);
 	}
 }

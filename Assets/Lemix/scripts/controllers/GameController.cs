@@ -14,7 +14,7 @@ using Thinksquirrel.WordGameBuilder.ObjectModel;
 public class GameController : MonoBehaviour {
 
 	//Change this to change the world
-	float matchTotaltime = 2f;
+	float matchTotaltime = 120f;
 
 	//Syncronization
 	float wait_Menu = 1, time2Sicronize, waitingOtherPlayer, timer2RecallOtherP = 0.1f, wait_bot_sync_fake = 0f;
@@ -118,8 +118,7 @@ public class GameController : MonoBehaviour {
 			avatarP2 = FindObjectsOfType(typeof(Avatar_player_2)) as Avatar_player_2[];
 
 
-			temp2 = UnityEngine.Random.Range(1,temp);
-
+			temp2 = UnityEngine.Random.Range(1,5);
 			avatarP2[0].changeAvatar(temp2);
 			GLOBALS.Singleton.AVATAR_TYPE_OP = temp2;
 		}
