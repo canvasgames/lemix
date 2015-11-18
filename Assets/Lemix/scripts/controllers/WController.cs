@@ -339,7 +339,7 @@ public class WController : MonoBehaviour {
 				else
 				{
 					Sound_Controller.sController.PlaySingle(AudioAlready);
-
+					Avatar_player_1.acess.sad();
 					dessapear_not_found();
 					dessapear_already();
 					
@@ -349,6 +349,7 @@ public class WController : MonoBehaviour {
 				}
 			}
 		}
+		Avatar_player_1.acess.sad();
 		Sound_Controller.sController.PlaySingle(AudioError);
 		//AudioSource.PlayClipAtPoint(AudioError, Camera.main.transform.position);
 		//Reposiciona msg 
@@ -364,6 +365,7 @@ public class WController : MonoBehaviour {
 	{
 		if(list[i].found==false)
 		{
+			Avatar_player_2.acess.happy();
 			wordfound(GLOBALS.Singleton.OP_PLAYER,i,0);
 			Sound_Controller.sController.PlaySingle(AudioFound);
 
@@ -452,12 +454,14 @@ public class WController : MonoBehaviour {
 		//SCORE Ctrlr
 		if (player == GLOBALS.Singleton.MP_PLAYER) 
 		{
+			Avatar_player_1.acess.happy();
 			GLOBALS.Singleton.NumberOfWordsFounded++;
 
 			GLOBALS.Singleton.MY_SCORE += list [word_id].myWord.Length * 10 + (goldLetterActive * (list [word_id].myWord.Length * 10));
 		}
 		else
 		{
+			Avatar_player_2.acess.happy();
 			GLOBALS.Singleton.NumberOfWordsFoundedOP++;
 			GLOBALS.Singleton.OP_SCORE+=list[word_id].myWord.Length*10 + (goldLetterActive * (list[word_id].myWord.Length*10));
 		}
@@ -556,6 +560,8 @@ public class WController : MonoBehaviour {
 			GameObject umnome = GameObject.Find ("hud_p2_score"); 
 			umnome.GetComponent<TextMesh> ().text = GLOBALS.Singleton.OP_SCORE.ToString ();
 		}
+
+		avatarStatus(tempP1, tempP2);
 	}
 
 	//CHANGE THE NUMBER IN THE HUD THING
@@ -568,7 +574,36 @@ public class WController : MonoBehaviour {
 			wfounded.GetComponentInChildren<TextMesh> ().text = wordsFounded.ToString() + "  " + numberofWords.ToString() ;
 	}
 
+	void avatarStatus(float tempP1, float tempP2)
+	{
 
+		//100 is same score
+		if(tempP1 < 65)
+		{
+			Debug.Log(Avatar_player_1.acess.losing + "losing value");
+			if(Avatar_player_1.acess.losing == false)
+			{
+				Debug.Log("desesperado");
+				Avatar_player_1.acess.desperate();
+			}
+		}
+		else
+		{
+			if(Avatar_player_1.acess.losing == true)
+				Avatar_player_1.acess.normal();
+		}
+
+		if(tempP2< 65)
+		{
+			if(Avatar_player_2.acess.losing == false)
+				Avatar_player_2.acess.desperate();
+		}
+		else
+		{
+			if(Avatar_player_2.acess.losing == true)
+				Avatar_player_2.acess.normal();
+		}
+	}
 	//TRIGGER FOR THE BALLOON
 	/*void ballonsstatus()
 	{

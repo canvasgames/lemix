@@ -13,8 +13,9 @@ public class bt_no_leave : MonoBehaviour {
 	
 	}
 
-	void OnMouseDown(){
+	void OnMouseUp(){
 		GLOBALS.Singleton.GAME_QUIT_MENU = false;
+		GLOBALS.Singleton.LVL_UP_MENU = false;
 		Destroy(transform.parent.gameObject);
 	}
 	

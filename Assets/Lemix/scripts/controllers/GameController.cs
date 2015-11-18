@@ -22,7 +22,7 @@ public class GameController : MonoBehaviour {
 	mp_controller[] mpCtrl;
 
 	//MENUS
-	public GameObject fail,win, draw, scoreMenu, single, fireworks;
+	public GameObject fail,win, draw, scoreMenu, single, fireworks, lvl_up;
 	GameObject clock;
 	Menus_Controller[] menusctrl;
 
@@ -268,6 +268,7 @@ public class GameController : MonoBehaviour {
 		GameObject vitoria = (GameObject)Instantiate (win, new Vector3 (0,0 , 100), transform.rotation);
 		GameObject score = (GameObject)Instantiate (scoreMenu, new Vector3 (0,0 , 100), transform.rotation);
 		GameObject fire = (GameObject)Instantiate (fireworks, new Vector3 (0,0 , 100), transform.rotation);
+		GameObject level_up = (GameObject)Instantiate (lvl_up, new Vector3 (0,0 , 100), transform.rotation);
 
 	}
 

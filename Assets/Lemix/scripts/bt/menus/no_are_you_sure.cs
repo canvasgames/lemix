@@ -17,4 +17,17 @@ public class no_are_you_sure : MonoBehaviour {
 		mp [0].send_reject_rematch ();
 		Destroy(transform.parent.gameObject);
 	}
+
+	
+	void OnMouseEnter() {
+		
+		this.transform.GetComponent<SpriteRenderer> ().color = Color.green;
+		
+	}
+	
+	void OnMouseExit() {
+		
+		this.transform.GetComponent<SpriteRenderer> ().color = Color.white;
+		
+	}
 }

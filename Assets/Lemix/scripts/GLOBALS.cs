@@ -42,7 +42,7 @@ public class GLOBALS : MonoBehaviour {
 	//GAME STATUS
 	[HideInInspector] public bool GAME_RUNNING = false;
 	[HideInInspector] public bool GAME_QUIT_MENU = false;
-
+	[HideInInspector] public bool LVL_UP_MENU = false;
 	//SCORE
 	[HideInInspector] public int MY_SCORE = 0;
 	[HideInInspector] public int OP_SCORE = 0;

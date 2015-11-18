@@ -16,15 +16,21 @@ public class bt_menu : MonoBehaviour {
 	}
 
 	void OnMouseDown(){
-		Debug.Log ("GO TO LOBBY NOW !");
-		Time.timeScale = 1;
-		gc [0].go_to_lobby ();
+		if(GLOBALS.Singleton.LVL_UP_MENU == false)
+		{
+			Debug.Log ("GO TO LOBBY NOW !");
+			Time.timeScale = 1;
+			gc [0].go_to_lobby ();
+		}
 
 	}
 
 	
 	void OnMouseEnter() {
-		this.transform.GetComponent<SpriteRenderer> ().color = Color.green;
+		if(GLOBALS.Singleton.LVL_UP_MENU == false)
+		{
+			this.transform.GetComponent<SpriteRenderer> ().color = Color.green;
+		}
 		//this.transform.DOScale()
 	}
 	

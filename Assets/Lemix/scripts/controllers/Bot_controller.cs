@@ -13,7 +13,7 @@ public class Bot_controller : MonoBehaviour {
 		{
 			botGameTime = 6f;
 			botPUTime = Random.Range (25f,28f);
-			botPUTime = 1f;
+			//botPUTime = 1f;
 			pwctrl = FindObjectsOfType(typeof(PowerUpCtrl)) as PowerUpCtrl[];
 			wordCTRL = FindObjectsOfType(typeof(WController)) as WController[];
 		}
