@@ -3,7 +3,7 @@ using System.Collections;
 using UnityEngine.UI;
 
 public class mm_statistics : MonoBehaviour {
-	public Button tecu; 
+
 	// Use this for initialization
 	void Start () {
 		int tempWins = PlayerPrefs.GetInt ("NumberofWins");
@@ -31,7 +31,7 @@ public class mm_statistics : MonoBehaviour {
 		int tempStreak = PlayerPrefs.GetInt("WinStreak");
 
 
-		GetComponent<Text> ().text = "STATISTICS \n\nLEVEL " + level + "\nMATCHES " + tempMatches 
+		this.GetComponent<Text> ().text = "STATISTICS \n\nLEVEL " + level + "\nMATCHES " + tempMatches 
 			+ "\nWINS " + tempWins + "\nWIN STREAK " +  tempStreak+ "\nWORDS FOUNDED " + tempWords;
 	}
 	
@@ -41,7 +41,7 @@ public class mm_statistics : MonoBehaviour {
 	}
 
 	void OnMouseDown(){
-		Destroy (transform.gameObject);
+		//Destroy (transform.gameObject);
 
 	}
 }

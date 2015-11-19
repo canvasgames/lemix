@@ -313,7 +313,7 @@ public class Submit_And_Input_Ctrl : MonoBehaviour {
 		RightBar.transform.position = new Vector3((transform.position.x), transform.position.y, transform.position.z) ;
 	}
 
-	void inputBackspaceCase()
+	public void inputBackspaceCase()
 	{
 		WController[] wordCTRL = FindObjectsOfType(typeof(WController)) as WController[];
 		Submit_And_Input_Ctrl[] submitBT = FindObjectsOfType(typeof(Submit_And_Input_Ctrl)) as Submit_And_Input_Ctrl[];

@@ -114,7 +114,7 @@ public class Bot_controller : MonoBehaviour {
 		
 			int rand;	
 			rand = Random.Range (0, 4);
-			rand = 2;
+
 			if(rand == 0)
 			{
 				pwctrl[0].eraseWord(GLOBALS.Singleton.MP_PLAYER);

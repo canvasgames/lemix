@@ -3,12 +3,12 @@ using System.Collections;
 using UnityEngine.UI;
 
 public class menu_sync : MonoBehaviour {
-	Text instruction;
+	TextMesh instruction;
 	int waiting = 1;
 	float timeTrigger;
 	// Use this for initialization
 	void Start () {
-		instruction = GetComponent<Text>();
+		instruction = GetComponent<TextMesh>();
 		instruction.text = "Synchronizing";
 		timeTrigger = 0.6f;
 	}

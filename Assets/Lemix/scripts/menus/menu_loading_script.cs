@@ -3,14 +3,14 @@ using System.Collections;
 using UnityEngine.UI;
 
 public class menu_loading_script : MonoBehaviour {
-	Text instruction;
+	TextMesh instruction;
 	int waiting = 1;
 	float timeTrigger = 0.6f;
 	GameController[] gController;
 
 	// Use this for initialization
 	void Start () {
-		instruction = GetComponent<Text>();
+		instruction = GetComponent<TextMesh>();
 		instruction.text = "Starts in 3";
 		gController = FindObjectsOfType(typeof(GameController)) as GameController[];
 	}
@@ -33,7 +33,7 @@ public class menu_loading_script : MonoBehaviour {
 				else if (instruction.text == "Game Started!")
 				{
 					gController[0].start_for_real();
-					Destroy(transform.parent.parent.gameObject);
+					Destroy(transform.parent.gameObject);
 				}
 				timeTrigger = 0.6f;
 			}

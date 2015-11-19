@@ -14,14 +14,19 @@ public class no_are_you_sure : MonoBehaviour {
 	}
 
 	void OnMouseDown(){
-		mp [0].send_reject_rematch ();
-		Destroy(transform.parent.gameObject);
+		if(GLOBALS.Singleton.LVL_UP_MENU == false)
+		{
+			mp [0].send_reject_rematch ();
+			Destroy(transform.parent.gameObject);
+		}
 	}
 
 	
 	void OnMouseEnter() {
-		
-		this.transform.GetComponent<SpriteRenderer> ().color = Color.green;
+		if(GLOBALS.Singleton.LVL_UP_MENU == false)
+		{
+			this.transform.GetComponent<SpriteRenderer> ().color = Color.green;
+		}
 		
 	}
 	

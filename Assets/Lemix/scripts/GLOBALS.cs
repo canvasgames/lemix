@@ -38,11 +38,14 @@ public class GLOBALS : MonoBehaviour {
 
 	//MAIN MENU STATUS
 	[HideInInspector] public bool MM_MENU_OPENED = false;
+	[HideInInspector] public bool MM_SEARCHING_MATCH = false;
 
 	//GAME STATUS
 	[HideInInspector] public bool GAME_RUNNING = false;
 	[HideInInspector] public bool GAME_QUIT_MENU = false;
 	[HideInInspector] public bool LVL_UP_MENU = false;
+	[HideInInspector] public bool DISCONNECTED_MENU = false;
+
 	//SCORE
 	[HideInInspector] public int MY_SCORE = 0;
 	[HideInInspector] public int OP_SCORE = 0;
@@ -76,7 +79,7 @@ public class GLOBALS : MonoBehaviour {
 
 	public void get()
 	{ 
-		Debug.Log ("HELO WORLD");
+	
 	}
 	// Use this for initialization
 	void Start () {

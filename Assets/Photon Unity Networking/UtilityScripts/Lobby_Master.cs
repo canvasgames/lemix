@@ -31,11 +31,12 @@ public class Lobby_Master : Photon.MonoBehaviour
     /// <summary>if we don't want to connect in Start(), we have to "remember" if we called ConnectUsingSettings()</summary>
     private bool ConnectInUpdate = true;
 
-    public virtual void Start()
+	public virtual void OnEnable()
     {
+	
 		wSort = FindObjectsOfType(typeof(Word_Sorter_Controller)) as Word_Sorter_Controller[];
 		ScenePhotonView = this.GetComponent<PhotonView>();
-
+		ConnectInUpdate = true;
 
        
 
@@ -44,9 +45,11 @@ public class Lobby_Master : Photon.MonoBehaviour
 
     public virtual void Update()
     {    
+
 	}
 
 	public void Connect_to_photon(){
+
 		if (ConnectInUpdate && AutoConnect && !PhotonNetwork.connected)
 		{
 			mm_status = FindObjectsOfType(typeof(mm_connect_status)) as mm_connect_status[];

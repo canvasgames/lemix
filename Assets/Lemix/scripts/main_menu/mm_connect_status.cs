@@ -13,9 +13,10 @@ public class mm_connect_status : MonoBehaviour {
 	public GameObject searching_op;
 
 	// Use this for initialization
-	void Start () {
+	void Awake () {
 		instruction = GetComponent<Text>();
 		instruction.text = "Connecting";
+		connectionState = 0;
 	}
 
 	public void connectionState1()

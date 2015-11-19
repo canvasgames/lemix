@@ -3,7 +3,7 @@ using System.Collections;
 using UnityEngine.UI;
 
 public class Waiting_scrpit : MonoBehaviour {
-	Text instruction;
+	TextMesh instruction;
 	float timeTrigger,bot_time, destruct_menu_time, reset_room_time;
 	int waiting = 1, bot_mode;
 
@@ -12,7 +12,7 @@ public class Waiting_scrpit : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		instruction = GetComponent<Text>();
+		instruction = GetComponent<TextMesh>();
 		instruction.text = "Waiting response";
 	
 		revMenu = FindObjectsOfType(typeof(bt_revenge)) as bt_revenge[];
@@ -64,7 +64,7 @@ public class Waiting_scrpit : MonoBehaviour {
 			destruct_menu_time -= Time.unscaledDeltaTime;
 			if(destruct_menu_time <=0)
 			{
-				Destroy(transform.parent.parent.gameObject);
+				Destroy(transform.parent.gameObject);
 			}
 		}
 
