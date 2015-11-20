@@ -10,7 +10,7 @@ public class menu_sync : MonoBehaviour {
 	void Start () {
 		instruction = GetComponent<TextMesh>();
 		instruction.text = "Synchronizing";
-		timeTrigger = 0.6f;
+		timeTrigger = 0.3f;
 	}
 	
 	// Update is called once per frame
@@ -28,7 +28,7 @@ public class menu_sync : MonoBehaviour {
 				else
 					instruction.text = "Synchronizing";
 				
-				timeTrigger = 0.6f;
+				timeTrigger = 0.3f;
 			}
 		
 	

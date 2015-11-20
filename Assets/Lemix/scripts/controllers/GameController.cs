@@ -14,7 +14,7 @@ using Thinksquirrel.WordGameBuilder.ObjectModel;
 public class GameController : MonoBehaviour {
 
 	//Change this to change the world
-	float matchTotaltime = 12f;
+	float matchTotaltime = 90f;
 
 	//Syncronization
 	float wait_Menu = 1, time2Sicronize, waitingOtherPlayer, timer2RecallOtherP = 0.1f, wait_bot_sync_fake = 0f;
@@ -268,7 +268,7 @@ public class GameController : MonoBehaviour {
 		GameObject vitoria = (GameObject)Instantiate (win, new Vector3 (0,0 , 100), transform.rotation);
 		GameObject score = (GameObject)Instantiate (scoreMenu, new Vector3 (0,0 , 100), transform.rotation);
 		GameObject fire = (GameObject)Instantiate (fireworks, new Vector3 (0,0 , 100), transform.rotation);
-		GameObject level_up = (GameObject)Instantiate (lvl_up, new Vector3 (0,0 , 100), transform.rotation);
+		//GameObject level_up = (GameObject)Instantiate (lvl_up, new Vector3 (0,0 , 100), transform.rotation);
 
 	}
 

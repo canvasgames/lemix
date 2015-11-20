@@ -19,10 +19,7 @@ public class WController : MonoBehaviour {
 
 	//Array de chars com os tiles na mesa
 	public char[] atable = new char[10];
-
-
-	//Sons
-	public AudioClip AudioAlready, AudioFound, AudioError;
+	
 
 	//Lista de palavras
 	public List<MyWordInList> list = new List<MyWordInList>();
@@ -332,13 +329,13 @@ public class WController : MonoBehaviour {
 
 					}
 
-					Sound_Controller.sController.PlaySingle(AudioFound);
+					Sound_Controller.sController.AudFound();
 
 					return;
 				}
 				else
 				{
-					Sound_Controller.sController.PlaySingle(AudioAlready);
+					Sound_Controller.sController.AudAlready();
 					Avatar_player_1.acess.sad();
 					dessapear_not_found();
 					dessapear_already();
@@ -350,7 +347,7 @@ public class WController : MonoBehaviour {
 			}
 		}
 		Avatar_player_1.acess.sad();
-		Sound_Controller.sController.PlaySingle(AudioError);
+		Sound_Controller.sController.AudError();
 		//AudioSource.PlayClipAtPoint(AudioError, Camera.main.transform.position);
 		//Reposiciona msg 
 		dessapear_not_found();
@@ -367,7 +364,7 @@ public class WController : MonoBehaviour {
 		{
 			Avatar_player_2.acess.happy();
 			wordfound(GLOBALS.Singleton.OP_PLAYER,i,0);
-			Sound_Controller.sController.PlaySingle(AudioFound);
+			Sound_Controller.sController.AudFound();
 
 			return true;
 

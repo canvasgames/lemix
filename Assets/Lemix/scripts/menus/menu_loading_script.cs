@@ -5,7 +5,7 @@ using UnityEngine.UI;
 public class menu_loading_script : MonoBehaviour {
 	TextMesh instruction;
 	int waiting = 1;
-	float timeTrigger = 0.6f;
+	float timeTrigger = 0.4f;
 	GameController[] gController;
 
 	// Use this for initialization
@@ -35,7 +35,7 @@ public class menu_loading_script : MonoBehaviour {
 					gController[0].start_for_real();
 					Destroy(transform.parent.gameObject);
 				}
-				timeTrigger = 0.6f;
+				timeTrigger = 0.4f;
 			}
 		}
 	}

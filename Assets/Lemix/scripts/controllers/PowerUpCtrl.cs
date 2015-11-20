@@ -11,6 +11,8 @@ public class PowerUpCtrl : MonoBehaviour {
 	//Texts
 	public GameObject pwTxt, pwChooseTxt; 
 	public float smooth;
+
+
 	float curtainTimer = 0f, freezeOPTime=0f, curtainTimerOP;
 	private Vector3 newPosition;
 	Vector3 positionACurtain, positionBCurtain, pwTxtPos ;

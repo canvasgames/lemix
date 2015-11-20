@@ -22,13 +22,15 @@ public class Power_Up_BT : MonoBehaviour {
 	public Sprite[] erase;
 	public Sprite[] earthquake;
 
+
+
 	public SpriteRenderer btSprite;
 	public int myType;
 
 	Vector3 originalPos;
 	Vector3 outofScreenPos;
 	private int speed = 10;
-	float appearTimer = 0f, setAppearTime = 25f;
+	float appearTimer = 0f, setAppearTime = 2f;
 	int sortID;
 
 	// Use this for initialization
@@ -99,6 +101,7 @@ public class Power_Up_BT : MonoBehaviour {
 				{
 					transform.position = originalPos;
 					//Debug.Log("dentro");
+						Sound_Controller.sController.PlayPowerUp();
 						moveIn1moveOut2 =0;
 						isIn = 1;
 				}
