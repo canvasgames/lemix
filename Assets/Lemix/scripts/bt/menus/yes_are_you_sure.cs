@@ -14,7 +14,7 @@ public class yes_are_you_sure : MonoBehaviour {
 	}
 
 	void OnMouseDown(){
-		if(GLOBALS.Singleton.LVL_UP_MENU == false)
+		if(GLOBALS.Singleton.LVL_UP_MENU == false && GLOBALS.Singleton.DISCONNECTED_MENU == false)
 		{
 			mp [0].send_accept_rematch ();
 			Destroy(transform.parent.gameObject);
@@ -22,7 +22,7 @@ public class yes_are_you_sure : MonoBehaviour {
 	}
 
 	void OnMouseEnter() {
-		if(GLOBALS.Singleton.LVL_UP_MENU == false)
+		if(GLOBALS.Singleton.LVL_UP_MENU == false && GLOBALS.Singleton.DISCONNECTED_MENU == false)
 		{
 			this.transform.GetComponent<SpriteRenderer> ().color = Color.green;
 		}

@@ -4,7 +4,7 @@ using System.Collections;
 public class Sound_Controller : MonoBehaviour {
 	public static Sound_Controller sController = null;
 
-	public AudioSource efxSource, efxSource2, efxsource3;             
+	public AudioSource efxSource, efxSource2, efxSource3;             
 	public AudioSource musicSource; 
 
 	public AudioClip NewPW, AudioAlready, AudioFound, AudioError;
@@ -76,10 +76,10 @@ public class Sound_Controller : MonoBehaviour {
 		else
 		{
 			//Set the clip of our efxSource audio source to the clip passed in as a parameter.
-			efxsource3.clip = clip;
+			efxSource3.clip = clip;
 			
 			//Play the clip.
-			efxsource3.PlayOneShot(clip);
+			efxSource3.PlayOneShot(clip);
 		}
 
 	}
@@ -87,11 +87,15 @@ public class Sound_Controller : MonoBehaviour {
 	public void muteSFX()
 	{
 		efxSource.volume = 0;
+		efxSource2.volume = 0;
+		efxSource3.volume = 0;
 	}
 
 	public void unmuteSFX()
 	{
 		efxSource.volume = 1;
+		efxSource2.volume = 1;
+		efxSource3.volume = 1;
 	}
 
 	public void muteMusic()

@@ -22,7 +22,7 @@ public class bt_revenge : MonoBehaviour {
 	}
 
 	void OnMouseDown(){
-		if(GLOBALS.Singleton.LVL_UP_MENU == false)
+		if(GLOBALS.Singleton.LVL_UP_MENU == false && GLOBALS.Singleton.DISCONNECTED_MENU == false)
 		{
 		//var objects = GameObject.FindObjectsOfType(GameObject);
 		if (menuCreated == 0 && deactivate == 0)
@@ -51,7 +51,7 @@ public class bt_revenge : MonoBehaviour {
 		this.transform.GetComponent<SpriteRenderer> ().color = Color.gray;
 	}
 	void OnMouseEnter() {
-		if(deactivate == 0 && GLOBALS.Singleton.LVL_UP_MENU == false)
+		if(deactivate == 0 && GLOBALS.Singleton.LVL_UP_MENU == false && GLOBALS.Singleton.DISCONNECTED_MENU == false)
 			this.transform.GetComponent<SpriteRenderer> ().color = Color.green;
 		//this.transform.DOScale()
 	}

@@ -14,15 +14,17 @@ public class bt_no_leave : MonoBehaviour {
 	}
 
 	void OnMouseUp(){
-		GLOBALS.Singleton.GAME_QUIT_MENU = false;
-		GLOBALS.Singleton.LVL_UP_MENU = false;
-		Destroy(transform.parent.gameObject);
+		if (GLOBALS.Singleton.DISCONNECTED_MENU == false) {
+			GLOBALS.Singleton.GAME_QUIT_MENU = false;
+			GLOBALS.Singleton.LVL_UP_MENU = false;
+			Destroy (transform.parent.gameObject);
+		}
 	}
 	
 	void OnMouseEnter() {
-		
-		this.transform.GetComponent<SpriteRenderer> ().color = Color.green;
-		
+		if (GLOBALS.Singleton.DISCONNECTED_MENU == false) {
+			this.transform.GetComponent<SpriteRenderer> ().color = Color.green;
+		}
 	}
 	
 	void OnMouseExit() {

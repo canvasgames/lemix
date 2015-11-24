@@ -16,7 +16,7 @@ public class bt_menu : MonoBehaviour {
 	}
 
 	void OnMouseDown(){
-		if(GLOBALS.Singleton.LVL_UP_MENU == false)
+		if(GLOBALS.Singleton.LVL_UP_MENU == false && GLOBALS.Singleton.DISCONNECTED_MENU == false)
 		{
 			Debug.Log ("GO TO LOBBY NOW !");
 			Time.timeScale = 1;
@@ -27,7 +27,7 @@ public class bt_menu : MonoBehaviour {
 
 	
 	void OnMouseEnter() {
-		if(GLOBALS.Singleton.LVL_UP_MENU == false)
+		if(GLOBALS.Singleton.LVL_UP_MENU == false && GLOBALS.Singleton.DISCONNECTED_MENU == false)
 		{
 			this.transform.GetComponent<SpriteRenderer> ().color = Color.green;
 		}
