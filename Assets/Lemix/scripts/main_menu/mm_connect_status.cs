@@ -36,15 +36,16 @@ public class mm_connect_status : MonoBehaviour {
 	public void connectionState3()
 	{
 		connectionState = 3;
-		searching_op.GetComponent<Animator>().SetBool("Found",true);
-		instruction.text = "Match Found";
-		///lobby_master[0].send_player_language();
+		lobby_master[0].send_player_language();
 	}
 
 	//TODOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
 	public void connectionState4()
 	{
+
 		connectionState = 4;
+		searching_op.GetComponent<Animator>().SetBool("Found",true);
+		instruction.text = "Match Found";
 
 	}
 
@@ -93,14 +94,14 @@ public class mm_connect_status : MonoBehaviour {
 		}
 
 		//Find the player
-		else if(connectionState == 3)
+		else if(connectionState == 4)
 		{
 			timerMatchFound-= Time.unscaledDeltaTime ;
 			if(timerMatchFound <=0)
 				letsPlay();
 		}
 		//Hmkay, play with the bot
-		else if(connectionState == 4)
+		else if(connectionState == 666)
 		{
 			timerMatchFound-= Time.unscaledDeltaTime ;
 			if(timerMatchFound <=0)

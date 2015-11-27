@@ -171,7 +171,7 @@ public class Lobby_Master : Photon.MonoBehaviour
 	public void send_player_language(){
 		Debug.Log("send_player_language()");
 
-		ScenePhotonView.RPC("get_player_info_lobby", PhotonTargets.Others , GLOBALS.Singleton.LANGUAGE);
+		ScenePhotonView.RPC("get_player_language", PhotonTargets.Others , GLOBALS.Singleton.LANGUAGE);
 	}
 
 	public void send_player_info_lobby(){
@@ -194,9 +194,20 @@ public class Lobby_Master : Photon.MonoBehaviour
 	//======================= GET RPCS =============================
 	[PunRPC]
 	public void get_player_language(int language){
+		if (GLOBALS.Singleton.LANGUAGE == language) {
+			ScenePhotonView.RPC("request_player_info", PhotonTargets.Others , GLOBALS.Singleton.LANGUAGE);
+		} 
 
+		else 
+		{
+			PhotonNetwork.CloseConnection();
+		}
 	}
 
+	[PunRPC] public void request_player_info()
+	{
+		mm_status[0].connectionState4();
+	}
 	[PunRPC]
 	public void get_player_info_lobby(int word_id){
 		Debug.Log("get_player(info)");
