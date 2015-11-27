@@ -30,7 +30,7 @@ public class Power_Up_BT : MonoBehaviour {
 	Vector3 originalPos;
 	Vector3 outofScreenPos;
 	private int speed = 10;
-	float appearTimer = 0f, setAppearTime = 2f;
+	float appearTimer = 0f, setAppearTime = 25f;
 	int sortID;
 
 	// Use this for initialization

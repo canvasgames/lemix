@@ -22,7 +22,7 @@ public class bt_statistics : MonoBehaviour {
 	void OnMouseDown(){
 		if(active == true)
 		{
-			GameObject menu = (GameObject)Instantiate (statMenu, new Vector3 (0, 0, -8), transform.rotation);
+			Instantiate (statMenu, new Vector3 (0, 0, -8), transform.rotation);
 		}
 		//menu.gameObject.transform.
 	}

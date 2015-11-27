@@ -27,14 +27,14 @@ public class WController : MonoBehaviour {
 	private float wordsFounded;
 
 	//Ballons
-	Vector3 scaleB, walreadypos, wnotfoundpos;
-	int triggerBallonP1 =0, triggerBallonP2 =0;
+	Vector3 scaleB, walreadypos, wnotfoundpos, wfoundpointspos;
+	//int triggerBallonP1 =0, triggerBallonP2 =0;
 	float wAlreadyOrNotFinaltime = 0.6f;
 	float wAlreadyOrNotFinalpos = -130f;
 	GameObject BalonP1,BalonP2, PowerBarP1, PowerBarP2, wfounded;
 	public float smooth;
 
-	public GameObject walready, wnotfound; 
+	public GameObject walready, wnotfound, wfoundpoints; 
 
 	//Classe da lista de palavras
 	public class MyWordInList
@@ -60,10 +60,16 @@ public class WController : MonoBehaviour {
 		//Sorteia um dos arquivos de palavras
 		wSort = FindObjectsOfType(typeof(Word_Sorter_Controller)) as Word_Sorter_Controller[];
 
+
+		//Feedback position
 		wnotfoundpos = wnotfound.transform.position;
 		walreadypos = walready.transform.position;
+		wfoundpointspos = wfoundpoints.transform.position;
+
 		wnotfound.GetComponent<SpriteRenderer>().DOFade(0f,0f);
 		walready.GetComponent<SpriteRenderer>().DOFade(0f,0f);
+		//wfoundpoints.transform.DOFade(0f,0f);
+
 
 		//Ballon adjust
 		BalonP1 = GameObject.Find ("feed_baloon_blue"); 
@@ -81,9 +87,9 @@ public class WController : MonoBehaviour {
 		wfounded.GetComponentInChildren<TextMesh> ().GetComponent<Renderer>().sortingOrder = 10; 
 
 		int rand = GLOBALS.Singleton.ANAGRAM_ID;
-		// Sorteia arquivo de palavra
+		// Sort the word file if doesnt have one sorted
 		if (rand == 0) {
-			Debug.Log("WORD ID Vazia, soretando nova palavra");
+			Debug.Log("WORD ID Vazia, sorteando nova palavra");
 			rand = wSort[0].sortWordAndReturnAnagramID();
 		}
 
@@ -322,14 +328,15 @@ public class WController : MonoBehaviour {
 					{
 						//Debug.Log("ENVIANDO PALAVRA DE ID: " + i);
 
-						//mp_controller[] mp_ = FindObjectsOfType(typeof(mp_controller)) as mp_controller[];
-						//mp_[0].send_word_found(i);
-
 						mp.send_word_found(i);
 
 					}
 
 					Sound_Controller.sController.AudFound();
+
+					wfoundpoints.SetActive(true);
+					wfoundpoints.transform.DOMoveY(wAlreadyOrNotFinalpos,wAlreadyOrNotFinaltime).OnComplete(wait_msg_found_points);
+					wfoundpoints.GetComponent<SpriteRenderer>().DOFade(1f,0.6f);
 
 					return;
 				}
@@ -339,7 +346,8 @@ public class WController : MonoBehaviour {
 					Avatar_player_1.acess.sad();
 					dessapear_not_found();
 					dessapear_already();
-					
+
+					walready.SetActive(true);
 					walready.transform.DOMoveY(wAlreadyOrNotFinalpos,wAlreadyOrNotFinaltime).OnComplete(wait_msg_already);
 					walready.GetComponent<SpriteRenderer>().DOFade(1f,0.6f);
 					return;
@@ -353,6 +361,7 @@ public class WController : MonoBehaviour {
 		dessapear_not_found();
 		dessapear_already();
 
+		wnotfound.SetActive(true);
 		wnotfound.transform.DOMoveY(wAlreadyOrNotFinalpos,wAlreadyOrNotFinaltime).OnComplete(wait_msg_not_found);
 		wnotfound.GetComponent<SpriteRenderer>().DOFade(1f,0.6f);
 
@@ -402,6 +411,7 @@ public class WController : MonoBehaviour {
 		wnotfound.GetComponent<SpriteRenderer>().DOKill();
 		wnotfound.transform.DOMoveY(wnotfoundpos.y,0f);
 		wnotfound.GetComponent<SpriteRenderer>().DOFade(0f,0f);
+		wnotfound.SetActive(false);
 	}
 
 	void wait_msg_already()
@@ -415,7 +425,24 @@ public class WController : MonoBehaviour {
 		walready.GetComponent<SpriteRenderer>().DOKill();
 		walready.transform.DOMoveY(walreadypos.y,0f);
 		walready.GetComponent<SpriteRenderer>().DOFade(0f,0f);
+		walready.SetActive(false);
 	}
+
+	void wait_msg_found_points()
+	{
+		//wfoundpoints.GetComponent<MeshRenderer>().DOFade(1f,1f).OnComplete(dessapear_found_points);
+		wfoundpoints.transform.DOMoveY(wAlreadyOrNotFinalpos,1f).OnComplete(dessapear_found_points);
+	}
+	
+	void dessapear_found_points()
+	{
+		wfoundpoints.transform.DOKill();
+		wfoundpoints.GetComponent<MeshRenderer>().DOKill();
+		wfoundpoints.transform.DOMoveY(wfoundpointspos.y,0f);
+		//wfoundpoints.GetComponent<MeshRenderer>().DOFade(0f,0f);
+		wfoundpoints.SetActive(false);
+	}
+
 
 
 	public void wordfound(int player, int word_id, int goldLetterActive)
@@ -455,6 +482,7 @@ public class WController : MonoBehaviour {
 			GLOBALS.Singleton.NumberOfWordsFounded++;
 
 			GLOBALS.Singleton.MY_SCORE += list [word_id].myWord.Length * 10 + (goldLetterActive * (list [word_id].myWord.Length * 10));
+			wfoundpoints.GetComponent<TextMesh>().text = "+ " + (list[word_id].myWord.Length * 10 + (goldLetterActive * (list [word_id].myWord.Length * 10))).ToString () + " points";
 		}
 		else
 		{
@@ -469,7 +497,7 @@ public class WController : MonoBehaviour {
 		if(player == GLOBALS.Singleton.MP_PLAYER)
 		{
 			//Show balloon
-			triggerBallonP1 = 1;
+			//triggerBallonP1 = 1;
 			BalonP1.transform.localScale = new Vector3(0f, 0f, 1);
 
 			BalonP1.transform.DOKill();
@@ -481,7 +509,7 @@ public class WController : MonoBehaviour {
 		else
 		{
 			//Show balloon
-			triggerBallonP2 = 1;
+			//triggerBallonP2 = 1;
 			BalonP2.transform.localScale = new Vector3(0f, 0f, 1);
 
 			BalonP2.transform.DOKill();

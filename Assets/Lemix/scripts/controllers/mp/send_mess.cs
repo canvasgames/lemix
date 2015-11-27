@@ -4,12 +4,12 @@ using System.Collections;
 public class send_mess : Photon.MonoBehaviour {
 
 	// Use this for initialization
-	private static PhotonView ScenePhotonView;
+	//private static PhotonView ScenePhotonView;
 	//private static NetworkViewID nView;
 
 	void Awake () {
 
-		ScenePhotonView = this.GetComponent<PhotonView>();
+		//ScenePhotonView = this.GetComponent<PhotonView>();
 	}
 
 	void Start () {

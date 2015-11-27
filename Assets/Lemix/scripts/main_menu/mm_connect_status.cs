@@ -38,7 +38,16 @@ public class mm_connect_status : MonoBehaviour {
 		connectionState = 3;
 		searching_op.GetComponent<Animator>().SetBool("Found",true);
 		instruction.text = "Match Found";
+		///lobby_master[0].send_player_language();
 	}
+
+	//TODOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
+	public void connectionState4()
+	{
+		connectionState = 4;
+
+	}
+
 
 	public void connectionState3Guest()
 	{
@@ -46,7 +55,7 @@ public class mm_connect_status : MonoBehaviour {
 		searching_op.GetComponent<Animator>().SetBool("Found",true);
 		instruction.text = "Match Found";
 	}
-
+	//
 	public void letsPlay()
 	{
 		lobby_master = FindObjectsOfType(typeof(Lobby_Master)) as Lobby_Master[];

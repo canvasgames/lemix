@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class Earthquake : MonoBehaviour {
-	public Camera camera; // set this via inspector
+	public Camera earthCamera; // set this via inspector
 	float shake, reoganize, shakeAmount, reorgInterval;
 	float decreaseFactor  = 1f;
 	Shuffle[] earth;
@@ -21,7 +21,7 @@ public class Earthquake : MonoBehaviour {
 		{
 			if(GLOBALS.Singleton.GAME_RUNNING == true)
 			{
-				camera.transform.localPosition = Random.insideUnitCircle * shakeAmount;
+				earthCamera.transform.localPosition = Random.insideUnitCircle * shakeAmount;
 				shake -= Time.deltaTime * decreaseFactor;
 				reoganize -= Time.deltaTime * decreaseFactor;
 				if(reoganize <0)

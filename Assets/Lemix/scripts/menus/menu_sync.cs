@@ -4,7 +4,6 @@ using UnityEngine.UI;
 
 public class menu_sync : MonoBehaviour {
 	TextMesh instruction;
-	int waiting = 1;
 	float timeTrigger;
 	// Use this for initialization
 	void Start () {

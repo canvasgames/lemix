@@ -490,6 +490,7 @@ public class PowerUpCtrl : MonoBehaviour {
 	void movePwTxt()
 	{
 		pwTxt.transform.DOMoveY(PwTxtFinalPos,PwTxtTime).OnComplete(waitPwTxt);
+		pwTxt.SetActive(true);
 		pwTxt.GetComponent<SpriteRenderer>().DOFade(1f,0.6f);
 	}
 
@@ -504,11 +505,13 @@ public class PowerUpCtrl : MonoBehaviour {
 		pwTxt.GetComponent<SpriteRenderer>().DOKill();
 		pwTxt.transform.DOMoveY(pwTxtPos.y,0f);
 		pwTxt.GetComponent<SpriteRenderer>().DOFade(0f,0f);
+		pwTxt.SetActive(false);
 	}
 
 	void moveTxtChoose()
 	{
 		pwChooseTxt.transform.DOMoveY(PwTxtFinalPos,PwTxtTime).OnComplete(waitChooseTxt);
+		pwChooseTxt.SetActive(true);
 		pwChooseTxt.GetComponent<SpriteRenderer>().DOFade(1f,0.6f);
 
 
@@ -525,5 +528,6 @@ public class PowerUpCtrl : MonoBehaviour {
 		pwChooseTxt.GetComponent<SpriteRenderer>().DOKill();
 		pwChooseTxt.transform.DOMoveY(pwTxtPos.y,PwTxtTime);
 		pwChooseTxt.GetComponent<SpriteRenderer>().DOFade(0f,0.3f);
+		pwChooseTxt.SetActive(false);
 	}
 }

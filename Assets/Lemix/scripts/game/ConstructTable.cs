@@ -221,10 +221,10 @@ public class ConstructTable : MonoBehaviour {
 			GameObject go = (GameObject)Instantiate (tile, new Vector3 (pos, y_pos_init, 0), transform.rotation);
 			Tile tCTRL = go.GetComponent<Tile> ();
 
-			GameObject tilegray = (GameObject)Instantiate (tileSpace, new Vector3 (pos, y_pos_init, 0), transform.rotation);
+			Instantiate (tileSpace, new Vector3 (pos, y_pos_init, 0), transform.rotation);
 			Tile tgray = go.GetComponent<Tile> ();
 
-			GameObject tilegrayUP = (GameObject)Instantiate (tileSpace, new Vector3 (pos,y_pos_submit_table, 0), transform.rotation);
+			Instantiate (tileSpace, new Vector3 (pos,y_pos_submit_table, 0), transform.rotation);
 			Tile tgrayUP = go.GetComponent<Tile> ();
 
 			tgray.GetComponent<Renderer>().sortingOrder = 5;

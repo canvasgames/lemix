@@ -17,14 +17,13 @@ public class GameController : MonoBehaviour {
 	float matchTotaltime = 90f;
 
 	//Syncronization
-	float wait_Menu = 1, time2Sicronize, waitingOtherPlayer, timer2RecallOtherP = 0.1f, wait_bot_sync_fake = 0f;
+	float time2Sicronize, waitingOtherPlayer, timer2RecallOtherP = 0.1f, wait_bot_sync_fake = 0f;
 
 	mp_controller[] mpCtrl;
 
 	//MENUS
 	public GameObject fail,win, draw, scoreMenu, single, fireworks, lvl_up;
 	GameObject clock;
-	Menus_Controller[] menusctrl;
 
 	// Use this for initializatmon
 	void Awake()
@@ -32,16 +31,15 @@ public class GameController : MonoBehaviour {
 		//SAFFER.Singleton.Reset_Globals ();
 		GLOBALS[] single2 = FindObjectsOfType (typeof(GLOBALS)) as GLOBALS[];
 		if (single2.Length == 0) {
-			GameObject obj = (GameObject)Instantiate (single, new Vector3 (0, 0, 0), transform.rotation);
-			GLOBALS final = obj.GetComponent<GLOBALS> ();
+			Instantiate (single, new Vector3 (0, 0, 0), transform.rotation);
+			//GLOBALS final = obj.GetComponent<GLOBALS> ();
 		}
 	}
 
 	void Start () {
 
 		//DontDestroyOnLoad(gameObject);
-		menusctrl = FindObjectsOfType(typeof(Menus_Controller)) as Menus_Controller[];
-		GLOBALS[] submitScp = FindObjectsOfType(typeof(GLOBALS)) as GLOBALS[];
+
 		GLOBALS.Singleton.Reset_Globals ();
 
 		clock = GameObject.Find ("hud_clock"); 
@@ -50,8 +48,7 @@ public class GameController : MonoBehaviour {
 
 
 		mpCtrl = FindObjectsOfType(typeof(mp_controller)) as mp_controller[];
-		menusctrl[0].syncronize_menu();
-	  
+		Menus_Controller.acesss.syncronize_menu();
 
 		//Check if is multiplayer or not to sincronize
 		if(GLOBALS.Singleton.MP_PLAYER == 1 && GLOBALS.Singleton.MP_MODE == 1)
@@ -103,7 +100,6 @@ public class GameController : MonoBehaviour {
 		if(GLOBALS.Singleton.MP_MODE == 1)
 		{
 			mpCtrl[0].send_lvl_and_avatar(level);
-			GameObject bot = GameObject.Find ("hud_p2_level"); 
 		}
 		else
 		{
@@ -138,7 +134,7 @@ public class GameController : MonoBehaviour {
 			wait_bot_sync_fake -= Time.unscaledDeltaTime;
 			if(wait_bot_sync_fake <= 0)
 			{
-				menusctrl[0].countdown_menu();
+				Menus_Controller.acesss.countdown_menu();
 			}
 		}
 	}
@@ -168,7 +164,7 @@ public class GameController : MonoBehaviour {
 				waitingOtherPlayer = 0;
 				Debug.Log("Create load menu sincronize issues");
 
-				menusctrl[0].countdown_menu();
+				Menus_Controller.acesss.countdown_menu();
 			}
 		}
 	}
@@ -217,7 +213,8 @@ public class GameController : MonoBehaviour {
 	public void match_end()
 	{
 		match_end_F5_statistics();
-		
+
+		Menus_Controller.acesss.destructQuitGame();
 		if(GLOBALS.Singleton.MY_SCORE <= GLOBALS.Singleton.OP_SCORE)
 		{
 			// DRAW CASE
@@ -265,9 +262,9 @@ public class GameController : MonoBehaviour {
 		Debug.Log ("Ganhei uru" + tempStreak); 
 		PlayerPrefs.SetInt("WinStreak",tempStreak);
 		
-		GameObject vitoria = (GameObject)Instantiate (win, new Vector3 (0,0 , 100), transform.rotation);
-		GameObject score = (GameObject)Instantiate (scoreMenu, new Vector3 (0,0 , 100), transform.rotation);
-		GameObject fire = (GameObject)Instantiate (fireworks, new Vector3 (0,0 , 100), transform.rotation);
+		Instantiate (win, new Vector3 (0,0 , 100), transform.rotation);
+		Instantiate (scoreMenu, new Vector3 (0,0 , 100), transform.rotation);
+		Instantiate (fireworks, new Vector3 (0,0 , 100), transform.rotation);
 		//GameObject level_up = (GameObject)Instantiate (lvl_up, new Vector3 (0,0 , 100), transform.rotation);
 
 	}
@@ -276,8 +273,8 @@ public class GameController : MonoBehaviour {
 	{
 		PlayerPrefs.SetInt("WinStreak",0);
 
-		GameObject empate = (GameObject)Instantiate (draw, new Vector3 (0,0 , 100), transform.rotation);
-		GameObject score = (GameObject)Instantiate (scoreMenu, new Vector3 (0,0 , 100), transform.rotation);
+		Instantiate (draw, new Vector3 (0,0 , 100), transform.rotation);
+		Instantiate (scoreMenu, new Vector3 (0,0 , 100), transform.rotation);
 
 	}
 
@@ -285,8 +282,8 @@ public class GameController : MonoBehaviour {
 	{
 		PlayerPrefs.SetInt("WinStreak",0);
 		
-		GameObject lose = (GameObject)Instantiate (fail, new Vector3 (0,0 , 100), transform.rotation);
-		GameObject score = (GameObject)Instantiate (scoreMenu, new Vector3 (0,0 , 100), transform.rotation);
+		Instantiate (fail, new Vector3 (0,0 , 100), transform.rotation);
+		Instantiate (scoreMenu, new Vector3 (0,0 , 100), transform.rotation);
 	}
 	//================== CHANGE ROOMS ==================
 

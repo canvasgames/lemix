@@ -2,14 +2,17 @@
 using System.Collections;
 
 public class Menus_Controller : MonoBehaviour {
+	public static Menus_Controller acesss;
+
 	public GameObject rematch_menu, wait_title, op_disconnected, countdown, sync, quit_game;
 	GameObject wait, disco, load, syncro, quit;
 	GameController[] gctrller;
 	int disconect_state;
 	float disconect_time;
+
 	// Use this for initialization
-	void Start () {
-	
+	void Awake () {
+		acesss = this;
 	}
 	
 	// Update is called once per frame
@@ -22,11 +25,15 @@ public class Menus_Controller : MonoBehaviour {
 		quit = (GameObject)Instantiate (quit_game, new Vector3 (0,0 , 100), transform.rotation);
 	}
 
+	public void destructQuitGame()
+	{
+		Destroy(quit);
+	}
 
 	// ======================= MATCH END =======================
 	public void rematchMenu()
 	{
-		GameObject rematch = (GameObject)Instantiate (rematch_menu, new Vector3 (0,0 , 100), transform.rotation);
+		Instantiate (rematch_menu, new Vector3 (0,0 , 100), transform.rotation);
 
 	}
 
@@ -42,18 +49,17 @@ public class Menus_Controller : MonoBehaviour {
 	}
 
 	// ======================= LOADING GAME =======================
-	public void countdown_menu()
-	{
-		Destroy(syncro);
-		load = (GameObject)Instantiate (countdown, new Vector3 (0,0 , 100), transform.rotation);
-	}
-
 	public void syncronize_menu()
 	{
 		syncro = (GameObject)Instantiate (sync, new Vector3 (0,0 , 100), transform.rotation);
 	}
 
-
+	public void countdown_menu()
+	{
+		Destroy(syncro);
+		load = (GameObject)Instantiate (countdown, new Vector3 (0,0 , 100), transform.rotation);
+	}
+	
 	// ======================= DISCONNECTED =======================
 	void disconnect_menu()
 	{

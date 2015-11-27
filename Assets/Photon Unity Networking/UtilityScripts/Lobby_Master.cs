@@ -99,11 +99,11 @@ public class Lobby_Master : Photon.MonoBehaviour
 		
 		//MASTER TEST
 		if (PhotonNetwork.isMasterClient == true) {
-			GameObject texto = GameObject.Find ("mytext");
+			GameObject.Find ("mytext");
 //			texto.GetComponent<TextMesh> ().text = "I'M MASTER";
 		} 
 		else {
-			GameObject texto = GameObject.Find ("mytext");
+			GameObject.Find ("mytext");
 	//		texto.GetComponent<TextMesh> ().text = "NOT MASTER";
 		}
 
@@ -168,6 +168,12 @@ public class Lobby_Master : Photon.MonoBehaviour
 
 	//====================== SEND RPCS =============================
 
+	public void send_player_language(){
+		Debug.Log("send_player_language()");
+
+		ScenePhotonView.RPC("get_player_info_lobby", PhotonTargets.Others , GLOBALS.Singleton.LANGUAGE);
+	}
+
 	public void send_player_info_lobby(){
 		Debug.Log("send_player_info()");
 		int word_id = 0;
@@ -186,7 +192,10 @@ public class Lobby_Master : Photon.MonoBehaviour
 	}
 	
 	//======================= GET RPCS =============================
+	[PunRPC]
+	public void get_player_language(int language){
 
+	}
 
 	[PunRPC]
 	public void get_player_info_lobby(int word_id){

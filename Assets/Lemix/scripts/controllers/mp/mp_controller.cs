@@ -9,7 +9,6 @@ public class mp_controller : Photon.MonoBehaviour {
 	private static PhotonView ScenePhotonView;
 	bool are_you_here_received= false;
 	PowerUpCtrl[] pwctrl;
-	Menus_Controller[] menusctrl;
 	Waiting_scrpit[] waitingMenu;
 	GameController[] gCtrlr;
 	Word_Sorter_Controller[] wSort;
@@ -21,7 +20,6 @@ public class mp_controller : Photon.MonoBehaviour {
 	
 	void Start () {
 		pwctrl = FindObjectsOfType(typeof(PowerUpCtrl)) as PowerUpCtrl[];
-		menusctrl = FindObjectsOfType(typeof(Menus_Controller)) as Menus_Controller[];
 		gCtrlr =  FindObjectsOfType(typeof(GameController)) as GameController[];
 		wSort = FindObjectsOfType(typeof(Word_Sorter_Controller)) as Word_Sorter_Controller[];
 		are_you_here_received= false;
@@ -54,7 +52,7 @@ public class mp_controller : Photon.MonoBehaviour {
 	{
 		Debug.Log("OP Disconected");
 		GLOBALS.Singleton.CONNECTED = 0;
-		menusctrl[0].disconnected(GLOBALS.Singleton.GAME_RUNNING);
+		Menus_Controller.acesss.disconnected(GLOBALS.Singleton.GAME_RUNNING);
 		PhotonNetwork.Disconnect();
 			//Disconnect ()
 		
@@ -134,7 +132,7 @@ public class mp_controller : Photon.MonoBehaviour {
 	{
 		Debug.Log("ChatMessage: " + a);
 
-		GameObject objj = (GameObject)Instantiate (ss, new Vector3 (0, 0, 0), transform.rotation);
+		Instantiate (ss, new Vector3 (0, 0, 0), transform.rotation);
 //		Bt_restart abc = objj.GetComponent<Bt_restart> ();
 	}
 
@@ -256,7 +254,7 @@ public class mp_controller : Photon.MonoBehaviour {
 			GLOBALS.Singleton.REMATCH_RECEIVED = 1;
 
 			if (GLOBALS.Singleton.REMATCH_SENT == 0) {
-				menusctrl[0].rematchMenu();
+				Menus_Controller.acesss.rematchMenu();
 				Debug.Log ("REMATCH REQUEST RECEIVED");
 					//DISPLAY ACCEPT AND REJECT BUTTONS
 
@@ -282,7 +280,6 @@ public class mp_controller : Photon.MonoBehaviour {
 				}
 				else{
 					// DESTROY DIALOG
-					int zero =0;
 					waitingMenu[0].rematchRejected();
 				}
 			}
