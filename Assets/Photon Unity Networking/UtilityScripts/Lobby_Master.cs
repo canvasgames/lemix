@@ -210,7 +210,9 @@ public class Lobby_Master : Photon.MonoBehaviour
             int word_id = 0;
             Debug.Log("get_word_list(info): I am the host, receiving word list and sorting");
             //Sort the word id
+          
             word_id = wSort[0].sortWordAndReturnAnagramID(words);
+            Debug.Log("Nao deu pau");
             GLOBALS.Singleton.ANAGRAM_ID = word_id;
             //Send to infeliz
             ScenePhotonView.RPC("receive_sorted_word", PhotonTargets.Others, word_id);
