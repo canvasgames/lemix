@@ -93,9 +93,8 @@ public class Word_Sorter_Controller : MonoBehaviour {
             i++;
             foreach (string id in idsList)
             {
-                Debug.Log("RROOOOO");
                 result = System.Convert.ToInt32(id);
-                Debug.Log("PIOR Q FOI");
+            
                 if (result == anagram_id)
                 {
                     i = 1000;
