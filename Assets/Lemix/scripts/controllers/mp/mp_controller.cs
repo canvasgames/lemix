@@ -217,7 +217,7 @@ public class mp_controller : Photon.MonoBehaviour {
 			GLOBALS.Singleton.REMATCH_SENT = 1;
 
 			// get anagram id
-			int anagram_id = wSort[0].sortWordAndReturnAnagramID();
+			int anagram_id = wSort[0].sortWordAndReturnAnagramID("");
 	
 
 			ScenePhotonView.RPC("rematch_request_received", PhotonTargets.Others ,anagram_id);

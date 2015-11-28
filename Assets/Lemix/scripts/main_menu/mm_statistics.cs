@@ -29,9 +29,10 @@ public class mm_statistics : MonoBehaviour {
 		int tempMatches = PlayerPrefs.GetInt ("NumberofMatches");
 		int tempWords  = PlayerPrefs.GetInt ("WordsFounded");
 		int tempStreak = PlayerPrefs.GetInt("WinStreak");
+        
 
 
-		this.GetComponent<Text> ().text = "STATISTICS \n\nLEVEL " + level + "\nMATCHES " + tempMatches 
+        this.GetComponent<Text> ().text = "STATISTICS \n\nLEVEL " + level + "\nMATCHES " + tempMatches 
 			+ "\nWINS " + tempWins + "\nWIN STREAK " +  tempStreak+ "\nWORDS FOUNDED " + tempWords;
 	}
 	

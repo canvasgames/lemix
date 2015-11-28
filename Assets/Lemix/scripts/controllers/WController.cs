@@ -90,7 +90,7 @@ public class WController : MonoBehaviour {
 		// Sort the word file if doesnt have one sorted
 		if (rand == 0) {
 			Debug.Log("WORD ID Vazia, sorteando nova palavra");
-			rand = wSort[0].sortWordAndReturnAnagramID();
+            rand = wSort[0].sortWordAndReturnAnagramID("");
 		}
 
 		Debug.Log("ANAGRAM ID: " + rand);
