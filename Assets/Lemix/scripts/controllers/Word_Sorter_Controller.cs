@@ -110,7 +110,7 @@ public class Word_Sorter_Controller : MonoBehaviour {
 
         //Set my global and return the word id
         GLOBALS.Singleton.ANAGRAM_ID = anagram_id;
-        return GLOBALS.Singleton.ANAGRAM_ID;
+        return anagram_id;
 	}
 
     public void addSortedWordOP(int word_id)
