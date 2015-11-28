@@ -21,6 +21,7 @@ public class Word_Sorter_Controller : MonoBehaviour {
 
 	public int sortWordAndReturnAnagramID(string wordsOP )
 	{
+        Debug.Log("Sortingword");
 		int anagram_id = 0;
 		int numberOfFiles;
 
@@ -75,6 +76,7 @@ public class Word_Sorter_Controller : MonoBehaviour {
             }
         }
 
+        Debug.Log("Sortingword" + anagram_id);
 
         //Add sorted word to list of sorted words
         tempWords = PlayerPrefs.GetString("WordsAlreadySorted");
