@@ -74,7 +74,7 @@ public class Waiting_scrpit : MonoBehaviour {
 			reset_room_time -= Time.unscaledDeltaTime;
 			if(reset_room_time <=0)
 			{
-				Destroy(transform.parent.parent.gameObject);
+				Destroy(transform.parent.gameObject);
 				mp [0].rematch_begins();
 			}
 		}
