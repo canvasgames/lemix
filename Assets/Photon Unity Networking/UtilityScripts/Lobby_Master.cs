@@ -118,6 +118,11 @@ public class Lobby_Master : Photon.MonoBehaviour
             GLOBALS.Singleton.OP_PLAYER = 2;
             GLOBALS.Singleton.MP_MODE = 1;
             GLOBALS.Singleton.CONNECTED = 1;
+
+            string tempWords = PlayerPrefs.GetString("WordsAlreadySorted");
+
+            int word_id;
+            word_id = wSort[0].sortWordAndReturnAnagramID("");
         }
         else
         {

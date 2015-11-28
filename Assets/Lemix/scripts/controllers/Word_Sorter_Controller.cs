@@ -8,9 +8,14 @@ using UnityEngine.UI;
 
 
 public class Word_Sorter_Controller : MonoBehaviour {
+    int anagram_id = 0;
+    int numberOfFiles;
+    string tempWords, receive;
 
-	// Use this for initialization
-	void Start () {
+    List<string> idsList = new List<string>();
+
+    // Use this for initialization
+    void Start () {
 	
 	}
 	
@@ -21,38 +26,76 @@ public class Word_Sorter_Controller : MonoBehaviour {
 
 	public int sortWordAndReturnAnagramID(string wordsOP )
 	{
-        Debug.Log("Sortingword");
-		int anagram_id = 0;
-		int numberOfFiles;
+        //IF ENGLISH
+        if (GLOBALS.Singleton.LANGUAGE == 0)
+            numberOfFiles = GLOBALS.Singleton.NumberOfWordFilesENG;
+        //IF PORTUGUESE
+        else if (GLOBALS.Singleton.LANGUAGE == 1)
+            numberOfFiles = GLOBALS.Singleton.NumberOfWordFilesPORT;
+        else
+            numberOfFiles = GLOBALS.Singleton.NumberOfWordFilesENG;
 
-        List<string> idsList = new List<string>();
 
-        string tempWords = PlayerPrefs.GetString("WordsAlreadySorted");
+        tempWords = PlayerPrefs.GetString("WordsAlreadySorted");
         tempWords = tempWords + wordsOP;
 
+        //Verify if is the first game an search for word
+        if (tempWords != "")
+        {
+            search_no_sorted_word();
+        }
+        else
+        {
+            anagram_id = Random.Range(1, numberOfFiles + 1);
+        }
+
+        //Add word to words list
+        if (tempWords != "")
+        {
+            add_to_sorted_list();
+        }
+        else
+        {
+            receive = anagram_id.ToString();
+        }
+
+        PlayerPrefs.SetString("WordsAlreadySorted", receive);
+
+        //Set my global and return the word id
+        GLOBALS.Singleton.ANAGRAM_ID = anagram_id;
+        return anagram_id;
+	}
+
+    public void addSortedWordOP(int word_id)
+    {
+        //Add word id to sorted list
+        string receive = PlayerPrefs.GetString("WordsAlreadySorted");
+        receive = receive + word_id.ToString();
+        PlayerPrefs.SetString("WordsAlreadySorted", receive);
+        GLOBALS.Singleton.ANAGRAM_ID = word_id;
+    }
+
+    public void search_no_sorted_word()
+    {
         // PlayerPrefs.SetInt("WordsFounded", tempWords)
         idsList = tempWords.Split(',').ToList();
 
-        //IF ENGLISH
-        if (GLOBALS.Singleton.LANGUAGE == 0)
-			numberOfFiles = GLOBALS.Singleton.NumberOfWordFilesENG;
-		//IF PORTUGUESE
-		else if(GLOBALS.Singleton.LANGUAGE == 1)
-			numberOfFiles = GLOBALS.Singleton.NumberOfWordFilesPORT;
-		else 
-			numberOfFiles = GLOBALS.Singleton.NumberOfWordFilesENG;
 
-        int i=0;
+
+        int i = 0;
         int result;
 
         //Search a not sorted word in the list
+
         while (i < 100)
         {
-            anagram_id = Random.Range(1, numberOfFiles+1);
+            anagram_id = Random.Range(1, numberOfFiles + 1);
             i++;
             foreach (string id in idsList)
-            { 
+            {
+                Debug.Log("RROOOOO");
                 result = System.Convert.ToInt32(id);
+                Debug.Log("PIOR Q FOI");
                 if (result == anagram_id)
                 {
                     i = 1000;
@@ -60,7 +103,7 @@ public class Word_Sorter_Controller : MonoBehaviour {
             }
 
             //While ended, dont sort last word
-            if(i==100)
+            if (i == 100)
             {
                 if (anagram_id == GLOBALS.Singleton.ANAGRAM_ID)
                 {
@@ -75,9 +118,10 @@ public class Word_Sorter_Controller : MonoBehaviour {
                 }
             }
         }
+    }
 
-        Debug.Log("Sortingword" + anagram_id);
-
+    public void add_to_sorted_list()
+    {
         //Add sorted word to list of sorted words
         tempWords = PlayerPrefs.GetString("WordsAlreadySorted");
         idsList.Clear();
@@ -103,24 +147,10 @@ public class Word_Sorter_Controller : MonoBehaviour {
         }
 
         //Receive the idlist of LIst and save in the Playerprefs
-        string receive = "";
+        receive = "";
         foreach (string id in idsList)
         {
             receive = receive + id;
         }
-        PlayerPrefs.SetString("WordsAlreadySorted", receive);
-
-        //Set my global and return the word id
-        GLOBALS.Singleton.ANAGRAM_ID = anagram_id;
-        return anagram_id;
-	}
-
-    public void addSortedWordOP(int word_id)
-    {
-        //Add word id to sorted list
-        string receive = PlayerPrefs.GetString("WordsAlreadySorted");
-        receive = receive + word_id.ToString();
-        PlayerPrefs.SetString("WordsAlreadySorted", receive);
-        GLOBALS.Singleton.ANAGRAM_ID = word_id;
     }
 }
