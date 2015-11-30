@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class bt_yes_leave : MonoBehaviour {
+public class bt_yes_leave : BtsMenuClassCollider
+{
 
 	// Use this for initialization
 	void Start () {
@@ -13,20 +14,10 @@ public class bt_yes_leave : MonoBehaviour {
 	
 	}
 
-	void OnMouseDown(){
-		PhotonNetwork.Disconnect();
-		Application.LoadLevel ("Lobby_GUI");
+    public override void ActBT()
+    { 
+        PhotonNetwork.Disconnect();
+        Application.LoadLevel("Lobby_GUI");
 	}
 	
-	void OnMouseEnter() {
-
-			this.transform.GetComponent<SpriteRenderer> ().color = Color.green;
-	
-	}
-	
-	void OnMouseExit() {
-
-			this.transform.GetComponent<SpriteRenderer> ().color = Color.white;
-
-	}
 }

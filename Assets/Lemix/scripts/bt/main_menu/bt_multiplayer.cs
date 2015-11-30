@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class bt_multiplayer : MonoBehaviour {
+public class bt_multiplayer : BtsGuiClick
+{
 	public GameObject lobbymaster, txt_conection_state, lang_bt, avatar_bt, bot_bt, statistics_txt, cancel_bt;
 	public Animator tchauBT;
     Lobby_Master[] lb;
@@ -16,17 +17,22 @@ public class bt_multiplayer : MonoBehaviour {
 		//Debug.Log(PhotonNetwork.connected);
 	}
 
-	public void pressed(){
+    public override void ActBT()
+    { 
 		if(GLOBALS.Singleton.MM_MENU_OPENED == false)
 		{
+
 			Debug.Log ("CONNECT !");
 			lobbymaster.SetActive(true);
 			txt_conection_state.SetActive(true);
 			cancel_bt.SetActive(true);
 			GLOBALS.Singleton.MM_SEARCHING_MATCH = true;
-			//lang_bt.SetActive(false);
-			avatar_bt.SetActive(false);
-			bot_bt.SetActive(false);
+
+            lang_bt.GetComponent<mm_choose_lang>().DeactivateBt();
+
+            avatar_bt.SetActive(false);
+            
+            bot_bt.SetActive(false);
 			statistics_txt.SetActive(false);
 
 			//tchauBT.SetTrigger("clicked");

@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class yes_are_you_sure : MonoBehaviour {
+public class yes_are_you_sure : BtsMenuClassCollider
+{
 	mp_controller[] mp;
 	// Use this for initialization
 	void Start () {
@@ -13,25 +14,13 @@ public class yes_are_you_sure : MonoBehaviour {
 
 	}
 
-	void OnMouseDown(){
-		if(GLOBALS.Singleton.LVL_UP_MENU == false && GLOBALS.Singleton.DISCONNECTED_MENU == false)
-		{
-			mp [0].send_accept_rematch ();
-			Destroy(transform.parent.gameObject);
-		}
-	}
+    public override void ActBT()
+    {
+        if (GLOBALS.Singleton.LVL_UP_MENU == false)
+        {
+            mp[0].send_accept_rematch();
+            Destroy(transform.parent.gameObject);
+        }
+    }
 
-	void OnMouseEnter() {
-		if(GLOBALS.Singleton.LVL_UP_MENU == false && GLOBALS.Singleton.DISCONNECTED_MENU == false)
-		{
-			this.transform.GetComponent<SpriteRenderer> ().color = Color.green;
-		}
-		
-	}
-	
-	void OnMouseExit() {
-		
-		this.transform.GetComponent<SpriteRenderer> ().color = Color.white;
-		
-	}
 }

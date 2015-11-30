@@ -1,63 +1,39 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class bt_revenge : MonoBehaviour {
+public class bt_revenge : BtsMenuClassCollider
+{
 	mp_controller[] mp;
 
 	int menuCreated =0;
-	int deactivate = 0;
 	// Use this for initialization
 	void Start () {
 		mp = FindObjectsOfType(typeof(mp_controller)) as mp_controller[];
 	
 		if(GLOBALS.Singleton.CONNECTED == 0 && GLOBALS.Singleton.MP_MODE == 1)
-			deactivate_bt();
+            base.DeactivateBt();
 
-	}
+    }
 	
 	// Update is called once per frame
 	void Update () {
-		if(GLOBALS.Singleton.CONNECTED == 0 && GLOBALS.Singleton.MP_MODE == 1)
-			deactivate_bt();
-	}
+        if (GLOBALS.Singleton.CONNECTED == 0 && GLOBALS.Singleton.MP_MODE == 1)
+            base.DeactivateBt();
+    }
 
-	void OnMouseDown(){
-		if(GLOBALS.Singleton.LVL_UP_MENU == false && GLOBALS.Singleton.DISCONNECTED_MENU == false)
+    public override void ActBT()
+    { 
+		if(GLOBALS.Singleton.LVL_UP_MENU == false)
 		{
-		//var objects = GameObject.FindObjectsOfType(GameObject);
-		if (menuCreated == 0 && deactivate == 0)
-		{
-			menuCreated = 1;
-			Menus_Controller.acesss.waiting();
-			Debug.Log ("ASK FOR REMATCH BUTTON PRESSED");
-			if(GLOBALS.Singleton.MP_MODE == 1)
-				mp[0].send_ask_for_rematch ();
-
+		    if (menuCreated == 0)
+		    {
+			    menuCreated = 1;
+		      	Menus_Controller.acesss.waiting();
+			    Debug.Log ("ASK FOR REMATCH BUTTON PRESSED");
+			    if(GLOBALS.Singleton.MP_MODE == 1)
+				    mp[0].send_ask_for_rematch ();
+            }
 		}
-		}
-		/*
-		foreach (GameObject o in Object.FindObjectsOfType<GameObject>()) 
-			Destroy(o);
-		Time.timeScale = 1;
-		Application.LoadLevel ("Gameplay");*/
-
-
-		
 	}
 
-	public void deactivate_bt()
-	{
-		deactivate = 1;
-		this.transform.GetComponent<SpriteRenderer> ().color = Color.gray;
-	}
-	void OnMouseEnter() {
-		if(deactivate == 0 && GLOBALS.Singleton.LVL_UP_MENU == false && GLOBALS.Singleton.DISCONNECTED_MENU == false)
-			this.transform.GetComponent<SpriteRenderer> ().color = Color.green;
-		//this.transform.DOScale()
-	}
-
-	void OnMouseExit() {
-		if(deactivate == 0)
-			this.transform.GetComponent<SpriteRenderer> ().color = Color.white;
-	}
 }

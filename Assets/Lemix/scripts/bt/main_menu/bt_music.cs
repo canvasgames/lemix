@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class bt_music : MonoBehaviour {
+public class bt_music : BtsGuiClick
+{
 
 	// Use this for initialization
 	void Start () {
@@ -12,8 +13,8 @@ public class bt_music : MonoBehaviour {
 	void Update () {
 	
 	}
-	public void mouseClick()
-	{
+    public override void ActBT()
+    {
 		if(GLOBALS.Singleton.MM_MENU_OPENED == false)
 		{
 			//

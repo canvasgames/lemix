@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class bt_equip_menu : MonoBehaviour {
+public class bt_equip_menu : BtsMenuClassCollider
+{
 	public GameObject avatar;
 	// Use this for initialization
 	void Start () {
@@ -15,28 +16,12 @@ public class bt_equip_menu : MonoBehaviour {
 	
 	}
 
-	void OnMouseUp()
-	{
-		if (GLOBALS.Singleton.DISCONNECTED_MENU == false) {
-			GLOBALS.Singleton.AVATAR_TYPE = GLOBALS.Singleton.MY_LVL;
-			change_avatar_match_end_P1.acesss.changeAvatar ();
+    public override void ActBT()
+    {
+        GLOBALS.Singleton.AVATAR_TYPE = GLOBALS.Singleton.MY_LVL;
+		change_avatar_match_end_P1.acesss.changeAvatar ();
 
-			GLOBALS.Singleton.LVL_UP_MENU = false;
-			Destroy (transform.parent.gameObject);
-		}
-	}
-
-	
-	void OnMouseEnter() {
-		if (GLOBALS.Singleton.DISCONNECTED_MENU == false) {
-			this.transform.GetComponent<SpriteRenderer> ().color = Color.green;
-		
-		}
-	}
-	
-	void OnMouseExit() {
-		
-		this.transform.GetComponent<SpriteRenderer> ().color = Color.white;
-		
+		GLOBALS.Singleton.LVL_UP_MENU = false;
+		Destroy (transform.parent.gameObject);
 	}
 }

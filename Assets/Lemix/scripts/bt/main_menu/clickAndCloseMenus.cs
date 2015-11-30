@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class clickAndCloseMenus : MonoBehaviour {
+public class clickAndCloseMenus : BtsGuiClick
+{
 	public GameObject avatarMenu;
 
 	// Use this for initialization
@@ -13,8 +14,9 @@ public class clickAndCloseMenus : MonoBehaviour {
 	void Update () {
 		//Debug.Log(transform.GetComponent<SpriteRenderer>().bounds.size.x);
 	}
-	
-	public void Clicked(){
+
+    public override void ActBT()
+    {
 		//Destroy (transform.parent.gameObject);
 		avatarMenu.SetActive(false);
 		GLOBALS.Singleton.MM_MENU_OPENED = false;

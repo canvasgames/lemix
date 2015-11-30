@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class bot_bt_main : MonoBehaviour {
+public class bot_bt_main : BtsGuiClick
+{
 
 	// Use this for initialization
 	void Start () {
