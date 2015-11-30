@@ -88,7 +88,7 @@ public class Waiting_scrpit : MonoBehaviour {
 		waiting = 0;
 		bot_mode =0;
 		instruction.text = "Rematch rejected";
-		revMenu[0].deactivate_bt();
+        revMenu[0].DeactivateBt();
 		//Time.timeScale=0;
 	}
 
@@ -98,8 +98,8 @@ public class Waiting_scrpit : MonoBehaviour {
 		waiting = 0;
 		bot_mode =0;
 		instruction.text = "Rematch acepted";
-		revMenu[0].deactivate_bt();
+		revMenu[0].DeactivateBt();
 
-		//Time.timeScale=0;
-	}
+        //Time.timeScale=0;
+    }
 }

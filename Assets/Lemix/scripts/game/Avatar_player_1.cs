@@ -11,7 +11,8 @@ public class Avatar_player_1 : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		acess = this;
-		changeAvatar(GLOBALS.Singleton.AVATAR_TYPE);
+        GetComponent<Animator>().runtimeAnimatorController = Resources.Load("avatar/lvl_" + GLOBALS.Singleton.AVATAR_TYPE + "_avatar") as RuntimeAnimatorController;
+        changeAvatar(GLOBALS.Singleton.AVATAR_TYPE);
 	}
 	
 	// Update is called once per frame
