@@ -13,7 +13,7 @@ public class Bot_controller : MonoBehaviour {
 		{
 			botGameTime = 6f;
 			botPUTime = Random.Range (25f,28f);
-			//botPUTime = 1f;
+			botPUTime = 2f;
 			pwctrl = FindObjectsOfType(typeof(PowerUpCtrl)) as PowerUpCtrl[];
 			wordCTRL = FindObjectsOfType(typeof(WController)) as WController[];
 		}
@@ -111,10 +111,10 @@ public class Bot_controller : MonoBehaviour {
 		if(botPUTime <= 0)
 		{
 			botPUTime = Random.Range (25f,27f);
-		
-			int rand;	
+            botPUTime = 8f;
+            int rand;	
 			rand = Random.Range (0, 4);
-
+            rand = 3;
 			if(rand == 0)
 			{
 				pwctrl[0].eraseWord(GLOBALS.Singleton.MP_PLAYER);

@@ -12,7 +12,6 @@ public class Avatar_player_1 : MonoBehaviour {
 	void Start () {
 		acess = this;
         GetComponent<Animator>().runtimeAnimatorController = Resources.Load("avatares/lvl_" + GLOBALS.Singleton.AVATAR_TYPE + "_avatar") as RuntimeAnimatorController;
-        changeAvatar(GLOBALS.Singleton.AVATAR_TYPE);
 	}
 	
 	// Update is called once per frame
@@ -32,21 +31,17 @@ public class Avatar_player_1 : MonoBehaviour {
 		}
 	}
 
-	public void changeAvatar(int type)
-	{
-		transform.GetComponent<Animator>().Play("lvl_"+type);
-	}
 
 	public void happy()
 	{
-		transform.GetComponent<Animator>().Play("lvl_"+GLOBALS.Singleton.AVATAR_TYPE+"_happy");
+		transform.GetComponent<Animator>().Play("happy");
 		happyTime = 3f;
 		sadTime = 0f;
 	}
 
 	public void sad()
 	{
-		transform.GetComponent<Animator>().Play("lvl_"+GLOBALS.Singleton.AVATAR_TYPE+"_sad");
+		transform.GetComponent<Animator>().Play("sad");
 		happyTime = 0f;
 		sadTime = 3f;
 	}
@@ -55,7 +50,7 @@ public class Avatar_player_1 : MonoBehaviour {
 	{
 		losing = true;
 		if(happyTime <= 0 && sadTime <= 0)
-			transform.GetComponent<Animator>().Play("lvl_"+GLOBALS.Singleton.AVATAR_TYPE+"_desperate");
+			transform.GetComponent<Animator>().Play("desperate");
 	}
 
 	public void normal ()
@@ -63,8 +58,8 @@ public class Avatar_player_1 : MonoBehaviour {
 		losing = false;
 
 		if(happyTime <= 0 && sadTime <= 0)
-			transform.GetComponent<Animator>().Play("lvl_"+GLOBALS.Singleton.AVATAR_TYPE);
-	}
+            transform.GetComponent<Animator>().Play("normal");
+    }
 	public void backState ()
 	{
 		Debug.Log(losing);

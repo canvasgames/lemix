@@ -5,10 +5,16 @@ public class avatar_main_menu : BtsGuiClick
 {
 	public GameObject avatarMenu;
 
-	// Use this for initialization
-	void Start () {
-	
-	}
+    // Use this for initialization
+    void Start() {
+
+        if (GLOBALS.Singleton.AVATAR_TYPE != 0)
+        {
+            changeAvatar(GLOBALS.Singleton.AVATAR_TYPE);
+
+        }
+
+    }
 	
 	// Update is called once per frame
 	void Update () {

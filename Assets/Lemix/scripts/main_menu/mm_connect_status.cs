@@ -33,6 +33,7 @@ public class mm_connect_status : MonoBehaviour
         botTimer = 10f;
         connectionState = 2;
         searching_op.SetActive(true);
+        searching_op.GetComponent<Animator>().SetBool("Found", false);
 
     }
 
@@ -77,14 +78,14 @@ public class mm_connect_status : MonoBehaviour
         else if (connectionState == 2)
         {
             changeSearchingTxt();
-            /*botTimer -=  Time.unscaledDeltaTime ;
+            botTimer -=  Time.unscaledDeltaTime ;
 			if(botTimer <=0)
 			{
 				connectionState = 4;
 				searching_op.GetComponent<Animator>().SetBool("Found",true);
 				instruction.text = "Match Found";
 				
-			}*/
+			}
         }
 
         //Find the player
@@ -97,6 +98,8 @@ public class mm_connect_status : MonoBehaviour
         //Hmkay, play with the bot
         else if (connectionState == 4)
         {
+            PhotonNetwork.room.open = false;
+
             timerMatchFound -= Time.unscaledDeltaTime;
             if (timerMatchFound <= 0)
                 LetsPlayBot();

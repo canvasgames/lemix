@@ -33,7 +33,6 @@ public class Submit_And_Input_Ctrl : MonoBehaviour {
 			timer2Submit -= Time.deltaTime;
 			if ( timer2Submit < 0 )
 			{
-				submitFullTrigger =0;
 				submitLetters();
 			}
 		}
@@ -171,22 +170,29 @@ public class Submit_And_Input_Ctrl : MonoBehaviour {
 	}
 	public void submitLetters()
 	{
-		int j = 0;
-		string word = "";
+        if(GLOBALS.Singleton.GAME_RUNNING == true)
+        {
+            submitFullTrigger = 0;
 
-		WController[] wordCTRL = FindObjectsOfType(typeof(WController)) as WController[];
+            int j = 0;
+            string word = "";
 
-		//Constroi a string da palavra que esta no tabuleiro
-		while (wordCTRL[0].atable[j] != '0' && wordCTRL[0].atable[j] != '\0') 
-		{
-			word = word + wordCTRL[0].atable [j];
-			j++;
-		}
-		
-		//Verifica se palavra esta no dicionario ou nao
-		wordCTRL[0].verifyWord(word);
+            WController[] wordCTRL = FindObjectsOfType(typeof(WController)) as WController[];
 
-		clearTable();
+            //Constroi a string da palavra que esta no tabuleiro
+            while (wordCTRL[0].atable[j] != '0' && wordCTRL[0].atable[j] != '\0')
+            {
+                word = word + wordCTRL[0].atable[j];
+                j++;
+            }
+
+            //Verifica se palavra esta no dicionario ou nao
+            wordCTRL[0].verifyWord(word);
+
+            clearTable();
+
+        }
+
 
 	}
 

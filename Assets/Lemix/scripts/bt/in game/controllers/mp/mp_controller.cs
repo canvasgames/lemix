@@ -34,10 +34,11 @@ public class mp_controller : Photon.MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
+        Debug.Log(PhotonNetwork.connectionStateDetailed);
+        //Debug.Log(GLOBALS.Singleton.MP_MODE);
+    }
 
-	}
-
-	void OnGUI () {
+    void OnGUI () {
 		// Make a background box
 		//GUI.Box (new Rect (10, 10, 100, 90), "Loader Menu");
 
@@ -54,9 +55,10 @@ public class mp_controller : Photon.MonoBehaviour {
 		GLOBALS.Singleton.CONNECTED = 0;
 		Menus_Controller.acesss.disconnected(GLOBALS.Singleton.GAME_RUNNING);
 		PhotonNetwork.Disconnect();
-			//Disconnect ()
-		
-	}
+        //Disconnect ()
+        
+
+    }
 
 	//====================== SEND RPCS =============================
 

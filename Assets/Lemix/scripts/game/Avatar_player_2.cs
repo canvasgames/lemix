@@ -33,19 +33,19 @@ public class Avatar_player_2 : MonoBehaviour {
 	
 	public void changeAvatar(int type)
 	{
-		transform.GetComponent<Animator>().Play("lvl_"+type);
+		transform.GetComponent<Animator>().Play("normal");
 	}
 	
 	public void happy()
 	{
-		transform.GetComponent<Animator>().Play("lvl_"+GLOBALS.Singleton.AVATAR_TYPE_OP+"_happy");
+		transform.GetComponent<Animator>().Play("happy");
 		happyTime = 3f;
 		sadTime = 0f;
 	}
 	
 	public void sad()
 	{
-		transform.GetComponent<Animator>().Play("lvl_"+GLOBALS.Singleton.AVATAR_TYPE_OP+"_sad");
+		transform.GetComponent<Animator>().Play("sad");
 		happyTime = 0f;
 		sadTime = 3f;
 	}
@@ -54,14 +54,14 @@ public class Avatar_player_2 : MonoBehaviour {
 	{
 		losing = true;
 		if(happyTime <= 0 && sadTime <= 0)
-			transform.GetComponent<Animator>().Play("lvl_"+GLOBALS.Singleton.AVATAR_TYPE_OP+"_desperate");
+			transform.GetComponent<Animator>().Play("desperate");
 	}
 
 	public void normal ()
 	{
 		losing = false;
 		if(happyTime <= 0 && sadTime <= 0)
-			transform.GetComponent<Animator>().Play("lvl_"+GLOBALS.Singleton.AVATAR_TYPE_OP);
+			transform.GetComponent<Animator>().Play("normal");
 	}
 	
 	public void backState ()

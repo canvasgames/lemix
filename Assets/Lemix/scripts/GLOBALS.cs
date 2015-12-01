@@ -68,13 +68,14 @@ public class GLOBALS : MonoBehaviour {
 
 	void Awake()
 	{
-
-		Reset_Globals ();
+        PlayerPrefs.DeleteAll();
+        Reset_Globals ();
 		Singleton = this;
-		Debug.Log ("SINGLETON INITIALIZED");
+        GLOBALS.Singleton.MY_LVL = actualLevel();
+        Debug.Log ("SINGLETON INITIALIZED");
 		DontDestroyOnLoad(transform.gameObject);
-		AVATAR_TYPE = 1;
-		MY_LVL = 10;
+		//AVATAR_TYPE = 3;
+		
 	}
 
 	public void get()
@@ -111,4 +112,32 @@ public class GLOBALS : MonoBehaviour {
 
 		NumberOfWordsFounded = 0;
 	}
+
+    public int actualLevel()
+    {
+        int level;
+        //PlayerPrefs.SetInt("NumberofWins",73);
+        int tempWins = PlayerPrefs.GetInt("NumberofWins");
+        int whatLevel = 1;
+
+        //Discover the user level ----- x = n((n+1)/2) ------ n is the level x is the number of victories
+        //evolution of values http://www.wolframalpha.com/input/?i=n%28%28n%2B1%29%2F2%29 -> Values
+
+        if (tempWins == 0)
+            level = 0;
+        else
+        {
+            while ((whatLevel * ((whatLevel + 1) / 2)) < tempWins)
+            {
+                whatLevel++;
+            }
+
+            if (whatLevel != 1)
+                level = whatLevel - 1;
+            else
+                level = 1;
+        }
+
+        return level;
+    }
 }

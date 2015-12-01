@@ -238,7 +238,7 @@ public class WController : MonoBehaviour {
 		//Debug.Log ("LOAD DICTIONARY ENDED!");
 	}
 	
-	//Chamado pelo botao shuffle para reorganizar as tiles
+	//Called for shuffle or earthquake to reoganize the letters
 	public void reorganize()
 	{
 		//
@@ -247,7 +247,7 @@ public class WController : MonoBehaviour {
 		int rand = 0;
 		string numberstoSort = ""; 
 		ConstructTable[] constTab = FindObjectsOfType(typeof(ConstructTable)) as ConstructTable[];
-		//Casos de construir a mesa com numero de tiles par ou impar
+		//Cases of even or odd number of tiles
 		if (word.Length % 2 == 0) 
 			pos = constTab[0].tiles_space/2;
 		else 
@@ -259,7 +259,7 @@ public class WController : MonoBehaviour {
 		Tile[] tiles = FindObjectsOfType(typeof(Tile)) as Tile[];
 		int lengthWord = word_original.Length;
 		
-		//Cria uma string de 0 ate tamanho da palavra-1 para manipular as tiles
+		//Create a string to manipulate the tiles
 		while (lengthWord !=0)
 		{
 		
@@ -273,23 +273,23 @@ public class WController : MonoBehaviour {
 		
 		while (numberstoSort.Length >0) 
 		{
-			//Sorteia uma das posiçoes da string
+			//Sort a position of the string
 
 			rand = Random.Range(0,(numberstoSort.Length));
 
 			
-			//Recebe o numero que esta na posiçao
+			//Receives the number that was in the position
 			num =  char.GetNumericValue(numberstoSort[rand]);
 			int value = (int)num;
 			tiles[value].my_x_pos = pos;
 			
-			//Se nao esta na mesa move o tile
+			//If was not on the submittion table, moves the tile
 			if((tiles[value].onTheTable == 0 || tiles[value].onTheTable == 3)  )
 				tiles[value].moveMe();
 
 
-			//Retira o numero da string
-			numberstoSort = numberstoSort.Remove (rand, 1);
+            //Withdraws the number of the string
+            numberstoSort = numberstoSort.Remove (rand, 1);
 			
 			if (pos > 0)
 				pos = pos * -1;

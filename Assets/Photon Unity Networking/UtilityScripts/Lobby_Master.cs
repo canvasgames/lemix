@@ -30,6 +30,7 @@ public class Lobby_Master : Photon.MonoBehaviour
 
     /// <summary>if we don't want to connect in Start(), we have to "remember" if we called ConnectUsingSettings()</summary>
     private bool ConnectInUpdate = true;
+    private bool connected = false;
 
     public virtual void OnEnable()
     {
@@ -37,15 +38,22 @@ public class Lobby_Master : Photon.MonoBehaviour
         wSort = FindObjectsOfType(typeof(Word_Sorter_Controller)) as Word_Sorter_Controller[];
         ScenePhotonView = this.GetComponent<PhotonView>();
         ConnectInUpdate = true;
-
-
+        
 
         PhotonNetwork.autoJoinLobby = false;    // we join randomly. always. no need to join a lobby to get the list of rooms.
     }
 
     public virtual void Update()
     {
-
+        Debug.Log(GLOBALS.Singleton.MP_MODE + "connected");
+        Debug.Log(PhotonNetwork.connected);
+        if (connected == true && PhotonNetwork.connected == false)
+        {
+            connected = false;
+            cancel_bt[] cancel;
+            cancel = FindObjectsOfType(typeof(cancel_bt)) as cancel_bt[];
+            cancel[0].disconected();
+        }
     }
 
     public void Connect_to_photon()
@@ -94,6 +102,7 @@ public class Lobby_Master : Photon.MonoBehaviour
 
     public void OnJoinedRoom()
     {
+        connected = true;
         Debug.Log("LOBBY - CONNECTION STATE: " + PhotonNetwork.connectionStateDetailed);
         mm_status[0].connectionState2();
         Debug.Log("OnJoinedRoom() called by PUN. Now this client is in a room. From here on, your game would be running. For reference, all callbacks are listed in enum: PhotonNetworkingMessage");
@@ -178,6 +187,26 @@ public class Lobby_Master : Photon.MonoBehaviour
         Debug.Log("OnJoinedLobby(). Use a GUI to show existing rooms available in PhotonNetwork.GetRoomList().");
     }
 
+    public virtual void OnPhotonPlayerDisconnected(PhotonPlayer otherPlayer)
+    {
+        Debug.Log("OP Disconected");
+        mm_status[0].connectionState2();
+
+        if (PhotonNetwork.room.playerCount == 1)
+        {
+            Debug.Log("OnPhotonPlayerConnected(: NOW I AM THE HOST");
+            GLOBALS.Singleton.CONNECTED = 1;
+            GLOBALS.Singleton.MP_PLAYER = 1;
+            GLOBALS.Singleton.OP_PLAYER = 2;
+            GLOBALS.Singleton.MP_MODE = 1;
+        }
+        //Disconnect ()
+
+    }
+
+     
+
+
     //====================== SEND RPCS =============================
     public void send_my_words_already_sorted_list()
     {
@@ -205,6 +234,7 @@ public class Lobby_Master : Photon.MonoBehaviour
 
 
     }*/
+
 
     //======================= GET RPCS =============================
     [PunRPC]
