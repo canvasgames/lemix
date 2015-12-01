@@ -10,7 +10,7 @@ public class Avatar_player_2 : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		acess = this;
-        GetComponent<Animator>().runtimeAnimatorController = Resources.Load("avatar/lvl_" + GLOBALS.Singleton.AVATAR_TYPE_OP + "_avatar") as RuntimeAnimatorController;
+        GetComponent<Animator>().runtimeAnimatorController = Resources.Load("avatares/lvl_" + GLOBALS.Singleton.AVATAR_TYPE_OP + "_avatar") as RuntimeAnimatorController;
     }
 	
 	// Update is called once per frame
