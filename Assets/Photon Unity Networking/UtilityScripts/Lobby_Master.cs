@@ -45,8 +45,7 @@ public class Lobby_Master : Photon.MonoBehaviour
 
     public virtual void Update()
     {
-        Debug.Log(GLOBALS.Singleton.MP_MODE + "connected");
-        Debug.Log(PhotonNetwork.connected);
+        
         if (connected == true && PhotonNetwork.connected == false)
         {
             connected = false;

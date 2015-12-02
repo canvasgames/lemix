@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class Waiting_scrpit : MonoBehaviour {
 	TextMesh instruction;
-	float timeTrigger,bot_time, destruct_menu_time, reset_room_time;
+	float timeTrigger,bot_time, destruct_menu_time, reset_room_time, auto_reject_time;
 	int waiting = 1, bot_mode;
 
 	mp_controller[] mp;
@@ -17,8 +17,8 @@ public class Waiting_scrpit : MonoBehaviour {
 	
 		revMenu = FindObjectsOfType(typeof(bt_revenge)) as bt_revenge[];
 		mp = FindObjectsOfType(typeof(mp_controller)) as mp_controller[];
-
-		if(GLOBALS.Singleton.MP_MODE == 0)
+        auto_reject_time = 10f;
+        if (GLOBALS.Singleton.MP_MODE == 0)
 		{
 			bot_mode = 1;
 			bot_time = 3f;
@@ -27,24 +27,31 @@ public class Waiting_scrpit : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		//Waiting, actualize txt
-		if(waiting == 1)
-		{
-			timeTrigger-= Time.unscaledDeltaTime ;
-			if(timeTrigger <=0)
-			{
-				if(instruction.text == "Waiting response")
-					instruction.text = "Waiting response.";
-				else if (instruction.text == "Waiting response.")
-					instruction.text = "Waiting response..";
-				else if (instruction.text == "Waiting response..")
-					instruction.text = "Waiting response...";
-				else
-					instruction.text = "Waiting response";
+        //Waiting, actualize txt
+        if (waiting == 1)
+        {
+            timeTrigger -= Time.unscaledDeltaTime;
+            if (timeTrigger <= 0)
+            {
+                if (instruction.text == "Waiting response")
+                    instruction.text = "Waiting response.";
+                else if (instruction.text == "Waiting response.")
+                    instruction.text = "Waiting response..";
+                else if (instruction.text == "Waiting response..")
+                    instruction.text = "Waiting response...";
+                else
+                    instruction.text = "Waiting response";
 
-				timeTrigger = 0.6f;
-			}
-		}
+                timeTrigger = 0.6f;
+            }
+
+            //Timer to reject
+            auto_reject_time -= Time.unscaledDeltaTime;
+            if (timeTrigger <= 0)
+            {
+                rematchRejected();
+            }
+        }
 
 		//bot mode -> reject
 		if(bot_mode == 1)

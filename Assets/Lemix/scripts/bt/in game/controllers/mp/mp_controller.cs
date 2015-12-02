@@ -34,7 +34,7 @@ public class mp_controller : Photon.MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-        Debug.Log(PhotonNetwork.connectionStateDetailed);
+       // Debug.Log(PhotonNetwork.connectionStateDetailed);
         //Debug.Log(GLOBALS.Singleton.MP_MODE);
     }
 
@@ -241,7 +241,6 @@ public class mp_controller : Photon.MonoBehaviour {
 	}
 
 	public void send_reject_rematch(){
-		//NEED TO DEACTIVATE THE REMATCH BUTTON IF THERE IS ONE
 		if (PhotonNetwork.connected && PhotonNetwork.connected != false) {
 				GLOBALS.Singleton.REMATCH_ACCEPT_STATUS = 2;
 				ScenePhotonView.RPC ("rematch_request_answered", PhotonTargets.Others, 2);

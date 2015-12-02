@@ -17,6 +17,10 @@ public class no_are_you_sure : BtsMenuClassCollider
     public override void ActBT()
     {
             mp [0].send_reject_rematch ();
-			Destroy(transform.parent.gameObject);
-	}
+			
+            bt_revenge[] revMenu;
+            revMenu = FindObjectsOfType(typeof(bt_revenge)) as bt_revenge[];
+            revMenu[0].DeactivateBt();
+            Destroy(transform.parent.gameObject);
+    }
 }
