@@ -2,13 +2,13 @@ using UnityEngine;
 using System.Collections;
 
 public class mp_controller : Photon.MonoBehaviour {
+    public static mp_controller access;
 
-	// Use this for initialization
-	public WController w_controller;
+    // Use this for initialization
+    public WController w_controller;
 	public GameObject ss;
 	private static PhotonView ScenePhotonView;
 	bool are_you_here_received= false;
-	PowerUpCtrl[] pwctrl;
 	Waiting_scrpit[] waitingMenu;
 	GameController[] gCtrlr;
 	Word_Sorter_Controller[] wSort;
@@ -16,10 +16,10 @@ public class mp_controller : Photon.MonoBehaviour {
 
 	void Awake () {
 		ScenePhotonView = this.GetComponent<PhotonView>();
-	}
+        access = this;
+    }
 	
 	void Start () {
-		pwctrl = FindObjectsOfType(typeof(PowerUpCtrl)) as PowerUpCtrl[];
 		gCtrlr =  FindObjectsOfType(typeof(GameController)) as GameController[];
 		wSort = FindObjectsOfType(typeof(Word_Sorter_Controller)) as Word_Sorter_Controller[];
 		are_you_here_received= false;
@@ -162,7 +162,7 @@ public class mp_controller : Photon.MonoBehaviour {
 	[PunRPC]
 	public void receive_frozen_letter(int a){
 		Debug.Log ("recebendo");
-		pwctrl[0].freezeLetter();
+        PowerUpCtrl.access.freezeLetter();
 	}
 
 
@@ -175,7 +175,7 @@ public class mp_controller : Photon.MonoBehaviour {
 	[PunRPC]
 	public void receive_end_frozen_letter(){
 		Debug.Log ("recebendo");
-		pwctrl[0].unfreezeOPSprite();
+        PowerUpCtrl.access.unfreezeOPSprite();
 	}
 
 
@@ -187,7 +187,7 @@ public class mp_controller : Photon.MonoBehaviour {
 	[PunRPC]
 	public void receive_dark(int a){
 		Debug.Log ("recebendo DARK");
-		pwctrl[0].night();
+        PowerUpCtrl.access.night();
 	}
 
 	public void send_erase(int IDWord){
@@ -198,7 +198,7 @@ public class mp_controller : Photon.MonoBehaviour {
 	[PunRPC]
 	public void receive_erase(int IDWord){
 		Debug.Log ("recebendo");
-		pwctrl[0].eraseWordReceive(IDWord);
+        PowerUpCtrl.access.eraseWordReceive(IDWord);
 	}
 
 	public void send_earthquake(){
@@ -209,7 +209,7 @@ public class mp_controller : Photon.MonoBehaviour {
 	[PunRPC]
 	public void receive_earthquake(){
 		Debug.Log ("recebendo earthquake");
-		pwctrl[0].earthquakeReceive();
+        PowerUpCtrl.access.earthquakeReceive();
 	}
 #region Rematch
 //============================ REMATCH ==============================
@@ -247,6 +247,15 @@ public class mp_controller : Photon.MonoBehaviour {
 		}
 	}
 
+    public void send_rematch_time_out()
+    {
+        if (PhotonNetwork.connected && PhotonNetwork.connected != false)
+        {
+            GLOBALS.Singleton.REMATCH_ACCEPT_STATUS = 2;
+            ScenePhotonView.RPC("rematch_request_timeout", PhotonTargets.Others, 2);
+        }
+
+    }
 
 	[PunRPC]
 	public void rematch_request_received(int anagram_id){
@@ -257,7 +266,6 @@ public class mp_controller : Photon.MonoBehaviour {
 			if (GLOBALS.Singleton.REMATCH_SENT == 0) {
 				Menus_Controller.acesss.rematchMenu();
 				Debug.Log ("REMATCH REQUEST RECEIVED");
-					//DISPLAY ACCEPT AND REJECT BUTTONS
 
 			} else {
 				Debug.Log ("REMATCH INVITATION ALREADY SENT!!!");
@@ -268,26 +276,34 @@ public class mp_controller : Photon.MonoBehaviour {
 
 	[PunRPC]
 	public void rematch_request_answered(int accept_status){
-		if (PhotonNetwork.connected && PhotonNetwork.connected != false) {
+
+        if (PhotonNetwork.connected && PhotonNetwork.connected != false) {
 			Debug.Log ("REMATCH ANSWERED!!! STATUS:  "  +accept_status);
 
 			GLOBALS.Singleton.REMATCH_RECEIVED = accept_status;
-			waitingMenu = FindObjectsOfType(typeof(Waiting_scrpit)) as Waiting_scrpit[]; 
-
-			if(waitingMenu.Length > 0)
+			waitingMenu = FindObjectsOfType(typeof(Waiting_scrpit)) as Waiting_scrpit[];
+            
+            if (waitingMenu.Length > 0)
 			{
 				if(accept_status == 1){
 					waitingMenu[0].rematchAcepted();
 				}
 				else{
-					// DESTROY DIALOG
+                    // DESTROY DIALOG
+                    
 					waitingMenu[0].rematchRejected();
 				}
 			}
 		}
 	}
 
-	public void rematch_begins(){
+    [PunRPC]
+    public void rematch_request_timeout(int accept_status)
+    {
+        Menus_Controller.acesss.destructRematch();
+    }
+
+    public void rematch_begins(){
 		Debug.Log ("REMATCH BEGINS NOW!!!!!!!");
 		PhotonNetwork.LoadLevel ("Gameplay");
 	}

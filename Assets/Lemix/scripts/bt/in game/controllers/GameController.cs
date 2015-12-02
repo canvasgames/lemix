@@ -14,12 +14,11 @@ using Thinksquirrel.WordGameBuilder.ObjectModel;
 public class GameController : MonoBehaviour {
 
 	//Change this to change the world
-	float matchTotaltime = 5f;
+	float matchTotaltime = 4f;
+    bool countdownCalled = false;
 
-	//Syncronization
-	float time2Sicronize, waitingOtherPlayer, timer2RecallOtherP = 0.1f, wait_bot_sync_fake = 0f;
-
-	mp_controller[] mpCtrl;
+    //Syncronization
+    float time2Sicronize, waitingOtherPlayer, timer2RecallOtherP = 0.1f, wait_bot_sync_fake = 0f;
 
 	//MENUS
 	public GameObject fail,win, draw, scoreMenu, single, fireworks, lvl_up;
@@ -45,9 +44,6 @@ public class GameController : MonoBehaviour {
 		clock = GameObject.Find ("hud_clock"); 
 		clock.GetComponentInChildren<TextMesh> ().GetComponent<Renderer>().sortingOrder = 10;
 
-
-
-		mpCtrl = FindObjectsOfType(typeof(mp_controller)) as mp_controller[];
 		Menus_Controller.acesss.syncronize_menu();
 
 		//Check if is multiplayer or not to sincronize
@@ -99,7 +95,7 @@ public class GameController : MonoBehaviour {
 		
 		if(GLOBALS.Singleton.MP_MODE == 1)
 		{
-			mpCtrl[0].send_lvl_and_avatar(level);
+			mp_controller.access.send_lvl_and_avatar(level);
 		}
 		else
 		{
@@ -152,7 +148,7 @@ public class GameController : MonoBehaviour {
 			{
 				Debug.Log("Are you here?");
 				timer2RecallOtherP = 0.1f;
-				mpCtrl[0].send_are_you_here();
+                mp_controller.access.send_are_you_here();
 			}
 		}
 		//ARE YOU HERE RECEIVED
@@ -188,6 +184,11 @@ public class GameController : MonoBehaviour {
 
 		if (matchTotaltime > 0 && GLOBALS.Singleton.GAME_RUNNING == true) {
 			update_clock();
+            if(countdownCalled == false && matchTotaltime < 10 )
+            {
+                countdownCalled = true;
+                Sound_Controller.sController.playCountdown();
+            }
 		}
 		//
 	}
@@ -256,8 +257,17 @@ public class GameController : MonoBehaviour {
 		int tempWins = PlayerPrefs.GetInt ("NumberofWins");
 		tempWins ++;
 		PlayerPrefs.SetInt("NumberofWins",tempWins);
-		
-		int tempStreak = PlayerPrefs.GetInt("WinStreak");
+
+        int prevLevel = GLOBALS.Singleton.MY_LVL;
+        int actualLevel = GLOBALS.Singleton.calculateActualLevel();
+
+        if (prevLevel < actualLevel)
+        {
+            GLOBALS.Singleton.MY_LVL = actualLevel;
+            Instantiate(lvl_up, new Vector3(0, 0, 100), transform.rotation);
+        }
+        
+        int tempStreak = PlayerPrefs.GetInt("WinStreak");
 		tempStreak ++;
 		Debug.Log ("Ganhei uru" + tempStreak); 
 		PlayerPrefs.SetInt("WinStreak",tempStreak);
@@ -265,7 +275,7 @@ public class GameController : MonoBehaviour {
 		Instantiate (win, new Vector3 (0,0 , 100), transform.rotation);
 		Instantiate (scoreMenu, new Vector3 (0,0 , 100), transform.rotation);
 		Instantiate (fireworks, new Vector3 (0,0 , 100), transform.rotation);
-		//GameObject level_up = (GameObject)Instantiate (lvl_up, new Vector3 (0,0 , 100), transform.rotation);
+		
 
 	}
 

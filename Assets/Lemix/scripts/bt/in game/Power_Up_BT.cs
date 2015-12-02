@@ -8,8 +8,6 @@ public class Power_Up_BT : MonoBehaviour {
 	int my_type_Attack, my_type_Defense;
 	int turn_0def_1att;
 	int isOut, isIn, moveIn1moveOut2;
-	mp_controller[] mp;
-	PowerUpCtrl[] pwctrl;
 
 	public Sprite[] frozen;
 	public Sprite[] firstletter;
@@ -35,8 +33,7 @@ public class Power_Up_BT : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		pwctrl = FindObjectsOfType(typeof(PowerUpCtrl)) as PowerUpCtrl[];
-		mp = FindObjectsOfType(typeof(mp_controller)) as mp_controller[];
+
 		pulse();
 		originalPos = transform.position;
 		outofScreenPos = new Vector3(970,-387,0);
@@ -209,40 +206,40 @@ public class Power_Up_BT : MonoBehaviour {
 		switch (btType)
 		{
 			case 1:
-				pwctrl[0].goldLetter();
+                PowerUpCtrl.access.goldLetter();
 				break;
 			case 2:
-				pwctrl[0].moreTime();
+                PowerUpCtrl.access.moreTime();
 				break;
 			case 3:
-				pwctrl[0].showLetter(0);
+                PowerUpCtrl.access.showLetter(0);
 				break; 
 			case 4:
-				pwctrl[0].showLetter(1);
+                PowerUpCtrl.access.showLetter(1);
 				break;
 			case 5:
-				pwctrl[0].showLastLetter();
+                PowerUpCtrl.access.showLastLetter();
 				break;
 			case 6:
-				pwctrl[0].chooseALetter();
+                PowerUpCtrl.access.chooseALetter();
 				break;
 			case 7:
-				pwctrl[0].freezeOPSprite();
+                PowerUpCtrl.access.freezeOPSprite();
 				if(GLOBALS.Singleton.MP_MODE == 1)
-					mp[0].send_frozen_letter();
+                    mp_controller.access.send_frozen_letter();
 				break;
 			case 8:
-				pwctrl[0].curtainOPSprite();
+                PowerUpCtrl.access.curtainOPSprite();
 				if(GLOBALS.Singleton.MP_MODE == 1)
-					mp[0].send_dark();
+                    mp_controller.access.send_dark();
 				break;
 			case 9:
-				pwctrl[0].eraseWord(GLOBALS.Singleton.OP_PLAYER );
+                PowerUpCtrl.access.eraseWord(GLOBALS.Singleton.OP_PLAYER );
 				break;
 			case 10:
-				pwctrl[0].earthquakeAvatarEffectP2();
+                PowerUpCtrl.access.earthquakeAvatarEffectP2();
 				if(GLOBALS.Singleton.MP_MODE == 1)
-					mp[0].send_earthquake();
+                    mp_controller.access.send_earthquake();
 				break;
 		}
 	}

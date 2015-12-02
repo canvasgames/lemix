@@ -4,8 +4,8 @@ using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine.UI;
 public class PowerUpCtrl : MonoBehaviour {
-
-	GameObject curtain;
+    public static PowerUpCtrl access;
+    GameObject curtain;
 	//Objects
 	public GameObject BlackNight, Eraser, Frozen, CurtainOP ;
 	//Texts
@@ -22,18 +22,18 @@ public class PowerUpCtrl : MonoBehaviour {
 	Earthquake[] earth;
 	earthquakePlayer2[] earthP2;
 
-	mp_controller[] mp;
 
 	// Use this for initialization
 	void Start () 
 	{
-		smooth = 2.7f;
+        access = this;
+
+        smooth = 2.7f;
 
 		//Posiçao da curtinada
 		positionACurtain = new Vector3(0, 240, 0);
 		positionBCurtain = new Vector3(0,950,0);
 
-		mp = FindObjectsOfType(typeof(mp_controller)) as mp_controller[];
 		earth = FindObjectsOfType(typeof(Earthquake)) as Earthquake[];
 		earthP2 = FindObjectsOfType(typeof(earthquakePlayer2)) as earthquakePlayer2[];
 
@@ -278,16 +278,15 @@ public class PowerUpCtrl : MonoBehaviour {
 		if(list.Count >0)
 		{
 			rand = Random.Range(0,list.Count);
-			Debug.Log (rand);
 			myTiles[list[rand]].tryFreezeMe();
 		}
 	}
 
 	public void freezeTxt()
 	{
-		pwTxt.GetComponent<Animator>().Play("frozen");
 		movePwTxt();
-	}
+        pwTxt.GetComponent<Animator>().Play("frozen");
+    }
 
 	public void night()
 	{
@@ -406,7 +405,7 @@ public class PowerUpCtrl : MonoBehaviour {
 
 			//If is MP mode send the erased word for the OP
 			if(GLOBALS.Singleton.MP_MODE == 1)
-				mp[0].send_erase(temp[sortID]);
+                mp_controller.access.send_erase(temp[sortID]);
 
 			wctrl[0].eraseWordUpdateScore(player, temp[sortID], wctrl[0].list[temp[sortID]].goldLetterActive);
 			wctrl[0].list[temp[sortID]].goldLetterActive = 0;
@@ -446,9 +445,9 @@ public class PowerUpCtrl : MonoBehaviour {
 	}
 	public void earthquakeReceive ()
 	{
-		pwTxt.GetComponent<Animator>().Play("earthquake");
 		movePwTxt();
-		earth[0].startEarthquake(4f,1f,12f);
+        pwTxt.GetComponent<Animator>().Play("earthquake");
+        earth[0].startEarthquake(4f,1f,12f);
 	}
 
 	public void  earthquakeAvatarEffectP2 ()

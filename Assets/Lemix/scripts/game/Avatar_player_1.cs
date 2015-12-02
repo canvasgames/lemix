@@ -62,7 +62,6 @@ public class Avatar_player_1 : MonoBehaviour {
     }
 	public void backState ()
 	{
-		Debug.Log(losing);
 		if(losing == false)
 			normal();
 		else

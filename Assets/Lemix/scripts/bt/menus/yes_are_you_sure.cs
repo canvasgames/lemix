@@ -3,10 +3,10 @@ using System.Collections;
 
 public class yes_are_you_sure : BtsMenuClassCollider
 {
-	mp_controller[] mp;
+
 	// Use this for initialization
 	void Start () {
-		mp = FindObjectsOfType(typeof(mp_controller)) as mp_controller[];
+
 	}
 	
 	// Update is called once per frame
@@ -16,11 +16,16 @@ public class yes_are_you_sure : BtsMenuClassCollider
 
     public override void ActBT()
     {
-        if (GLOBALS.Singleton.LVL_UP_MENU == false)
-        {
-            mp[0].send_accept_rematch();
+        base.ActBT();
+        mp_controller.access.send_accept_rematch();
             Destroy(transform.parent.gameObject);
-        }
     }
 
+    public override void clicked()
+    {
+        if (GLOBALS.Singleton.LVL_UP_MENU == false)
+        {
+            base.clicked();
+        }
+    }
 }

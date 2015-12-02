@@ -6,7 +6,8 @@ public class change_avatar_match_end_P1 : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		acesss = this;
-		changeAvatar();
+        GetComponent<Animator>().runtimeAnimatorController = Resources.Load("avatares/lvl_" + GLOBALS.Singleton.AVATAR_TYPE + "_avatar") as RuntimeAnimatorController;
+        changeAvatar();
 	}
 	
 	// Update is called once per frame
@@ -18,15 +19,15 @@ public class change_avatar_match_end_P1 : MonoBehaviour {
 	{
 		if(GLOBALS.Singleton.LOOSE == true)
 		{
-			transform.GetComponent<Animator>().Play("lvl_"+GLOBALS.Singleton.AVATAR_TYPE+"_sad");
+			transform.GetComponent<Animator>().Play("sad");
 		}
 		else if(GLOBALS.Singleton.WIN == true)
 		{
-			transform.GetComponent<Animator>().Play("lvl_"+GLOBALS.Singleton.AVATAR_TYPE+"_win");
+			transform.GetComponent<Animator>().Play("win");
 		}
 		else
 		{
-			transform.GetComponent<Animator>().Play("lvl_"+GLOBALS.Singleton.AVATAR_TYPE);
+			transform.GetComponent<Animator>().Play("normal");
 		}
 	}
 }

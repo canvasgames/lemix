@@ -19,10 +19,16 @@ public class bt_music_menu : BtsMenuClassCollider
 
     public override void ActBT()
     {
+        base.ActBT();
         if (GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("bt_music_menu"))
 			GetComponent<Animator>().Play("bt_music_menu_off");
 		else
 			GetComponent<Animator>().Play("bt_music_menu");
 		
 	}
+
+    public override void clicked()
+    {
+        base.clicked();
+    }
 }

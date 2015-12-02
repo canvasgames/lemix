@@ -16,8 +16,14 @@ public class bt_no_leave : BtsMenuClassCollider
 
     public override void ActBT()
     {
+        base.ActBT();
 		GLOBALS.Singleton.GAME_QUIT_MENU = false;
 		GLOBALS.Singleton.LVL_UP_MENU = false;
 		Destroy (transform.parent.gameObject);
 	}
+
+    public override void clicked()
+    {
+        base.clicked();
+    }
 }

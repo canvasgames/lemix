@@ -4,12 +4,20 @@ using System.Collections;
 public class BtsMenuClassCollider : MonoBehaviour {
 
     public bool deactivate = false;
+    bool clickedState = false;
 
+    public void OnMouseDown()
+    {
+        if (GLOBALS.Singleton.DISCONNECTED_MENU == false && GLOBALS.Singleton.WAITING_MENU == false &&
+            deactivate == false)
+        {
+            clicked();
+        }
+    }
     public void OnMouseUp()
     {
-        if(GLOBALS.Singleton.DISCONNECTED_MENU == false && deactivate == false)
+        if(clickedState == true)
             ActBT();
-        //if (deactivate == false)
     }
 
     public void OnMouseEnter()
@@ -30,8 +38,12 @@ public class BtsMenuClassCollider : MonoBehaviour {
         this.transform.GetComponent<SpriteRenderer>().color = Color.gray;
     }
 
+    public virtual void clicked()
+    {
+        clickedState = true;         
+    }
     public virtual void ActBT()
     {
-
+        clickedState = false;
     }
 }

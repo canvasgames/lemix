@@ -12,7 +12,7 @@ public class mm_statistics : MonoBehaviour {
 		int tempStreak = PlayerPrefs.GetInt("WinStreak");
         int tempWins = PlayerPrefs.GetInt("NumberofWins");
 
-        int level = GLOBALS.Singleton.actualLevel();
+        int level = GLOBALS.Singleton.MY_LVL;
 
         this.GetComponent<Text> ().text = "STATISTICS \n\nLEVEL " + level + "\nMATCHES " + tempMatches 
 			+ "\nWINS " + tempWins + "\nWIN STREAK " +  tempStreak+ "\nWORDS FOUNDED " + tempWords;

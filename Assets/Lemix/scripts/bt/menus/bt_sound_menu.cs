@@ -19,6 +19,7 @@ public class bt_sound_menu : BtsMenuClassCollider
 
     public override void ActBT()
     {
+        base.ActBT();
 		if(GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("bt_sound_menu"))
 		{
 			GetComponent<Animator>().Play("bt_sound_menu_off");
@@ -32,5 +33,9 @@ public class bt_sound_menu : BtsMenuClassCollider
 
 	}
 
+    public override void clicked()
+    {
+        base.clicked();
+    }
 
 }

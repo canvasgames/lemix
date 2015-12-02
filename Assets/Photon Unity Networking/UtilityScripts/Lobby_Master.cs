@@ -107,16 +107,16 @@ public class Lobby_Master : Photon.MonoBehaviour
         Debug.Log("OnJoinedRoom() called by PUN. Now this client is in a room. From here on, your game would be running. For reference, all callbacks are listed in enum: PhotonNetworkingMessage");
 
         //MASTER TEST
-        if (PhotonNetwork.isMasterClient == true)
-        {
-            GameObject texto = GameObject.Find("mytext");
+       // if (PhotonNetwork.isMasterClient == true)
+       // {
+       //     GameObject texto = GameObject.Find("mytext");
             //			texto.GetComponent<TextMesh> ().text = "I'M MASTER";
-        }
-        else
-        {
-            GameObject texto = GameObject.Find("mytext");
+       // }
+      //  else
+       // {
+        //    GameObject texto = GameObject.Find("mytext");
             //		texto.GetComponent<TextMesh> ().text = "NOT MASTER";
-        }
+      //  }
 
         Debug.Log("PLAYER COUNT" + PhotonNetwork.room.playerCount);
         if (PhotonNetwork.room.playerCount == 1)
@@ -127,10 +127,7 @@ public class Lobby_Master : Photon.MonoBehaviour
             GLOBALS.Singleton.MP_MODE = 1;
             GLOBALS.Singleton.CONNECTED = 1;
 
-            string tempWords = PlayerPrefs.GetString("WordsAlreadySorted");
-
-            int word_id;
-            word_id = wSort[0].sortWordAndReturnAnagramID("");
+            //string tempWords = PlayerPrefs.GetString("WordsAlreadySorted");
         }
         else
         {

@@ -10,7 +10,7 @@ using UnityEngine.UI;
 public class Word_Sorter_Controller : MonoBehaviour {
     int anagram_id = 0;
     int numberOfFiles;
-    string tempWords, receive;
+    string tempWords, tempWordsOP, receive;
 
     List<string> idsList = new List<string>();
 
@@ -24,8 +24,9 @@ public class Word_Sorter_Controller : MonoBehaviour {
 	
 	}
 
-	public int sortWordAndReturnAnagramID(string wordsOP )
+	public int sortWordAndReturnAnagramID(string wordsOP)
 	{
+       
         //IF ENGLISH
         if (GLOBALS.Singleton.LANGUAGE == 0)
             numberOfFiles = GLOBALS.Singleton.NumberOfWordFilesENG;
@@ -34,10 +35,10 @@ public class Word_Sorter_Controller : MonoBehaviour {
             numberOfFiles = GLOBALS.Singleton.NumberOfWordFilesPORT;
         else
             numberOfFiles = GLOBALS.Singleton.NumberOfWordFilesENG;
-
-
+        tempWordsOP = wordsOP;
         tempWords = PlayerPrefs.GetString("WordsAlreadySorted");
-        tempWords = tempWords + wordsOP;
+
+        tempWords = tempWords + tempWordsOP;
 
         //Verify if is the first game an search for word
         if (tempWords != "")
@@ -48,7 +49,7 @@ public class Word_Sorter_Controller : MonoBehaviour {
         {
             anagram_id = Random.Range(1, numberOfFiles + 1);
         }
-
+        
         //Add word to words list
         if (tempWords != "")
         {
@@ -59,7 +60,10 @@ public class Word_Sorter_Controller : MonoBehaviour {
             receive = anagram_id.ToString();
         }
 
+
         PlayerPrefs.SetString("WordsAlreadySorted", receive);
+
+        tempWords = PlayerPrefs.GetString("WordsAlreadySorted");
 
         //Set my global and return the word id
         GLOBALS.Singleton.ANAGRAM_ID = anagram_id;
@@ -77,14 +81,15 @@ public class Word_Sorter_Controller : MonoBehaviour {
 
     public void search_no_sorted_word()
     {
+
+        
         // PlayerPrefs.SetInt("WordsFounded", tempWords)
         idsList = tempWords.Split(',').ToList();
-
-
+        Debug.Log(tempWords + " LISTA DAS PALAVRINHAS JA SORTEADAS");
 
         int i = 0;
         int result;
-
+        bool alreadyInTheList = false;
         //Search a not sorted word in the list
 
         while (i < 100)
@@ -93,15 +98,29 @@ public class Word_Sorter_Controller : MonoBehaviour {
             i++;
             foreach (string id in idsList)
             {
+                
                 result = System.Convert.ToInt32(id);
-            
+
                 if (result == anagram_id)
                 {
-                    i = 1000;
+                     alreadyInTheList = true;
+                    break;
                 }
             }
 
-            //While ended, dont sort last word
+            //Verify if word was found in the foreach
+            if (alreadyInTheList == true)
+            {
+                //Sort again
+                alreadyInTheList = false;
+            }
+            //Else new word found, PARA TUDOOOOOOOOOOOOOOOOOOOOO
+            else
+            {
+                break;
+            }
+
+            //While ended, dont sort last word at least
             if (i == 100)
             {
                 if (anagram_id == GLOBALS.Singleton.ANAGRAM_ID)
@@ -123,15 +142,20 @@ public class Word_Sorter_Controller : MonoBehaviour {
     {
         //Add sorted word to list of sorted words
         tempWords = PlayerPrefs.GetString("WordsAlreadySorted");
+        tempWords = tempWords + tempWordsOP;
         idsList.Clear();
         idsList = tempWords.Split(',').ToList();
-
         //Gambiarra if the number fo files is less than 20
         if (numberOfFiles < 20)
         {
+            //Debug.Log("____________QUEEEEEEEEEEEEEEEEEEEEEEEEE" + idsList);
             if (idsList.Count >= 3)
             {
                 idsList.RemoveAt(0);
+                idsList.Add(anagram_id.ToString());
+            }
+            else
+            {
                 idsList.Add(anagram_id.ToString());
             }
         }
@@ -143,13 +167,20 @@ public class Word_Sorter_Controller : MonoBehaviour {
                 idsList.RemoveAt(0);
                 idsList.Add(anagram_id.ToString());
             }
+            else
+            {
+                idsList.Add(anagram_id.ToString());
+            }
         }
 
         //Receive the idlist of LIst and save in the Playerprefs
         receive = "";
         foreach (string id in idsList)
         {
-            receive = receive + id;
+            if(receive != "")
+                receive = receive + "," + id;
+            else
+                receive = id;
         }
     }
 }

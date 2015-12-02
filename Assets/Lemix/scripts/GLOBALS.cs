@@ -45,9 +45,9 @@ public class GLOBALS : MonoBehaviour {
 	[HideInInspector] public bool GAME_QUIT_MENU = false;
 	[HideInInspector] public bool LVL_UP_MENU = false;
 	[HideInInspector] public bool DISCONNECTED_MENU = false;
-
-	//SCORE
-	[HideInInspector] public int MY_SCORE = 0;
+    [HideInInspector] public bool WAITING_MENU = false;
+    //SCORE
+    [HideInInspector] public int MY_SCORE = 0;
 	[HideInInspector] public int OP_SCORE = 0;
 	[HideInInspector] public int MAX_SCORE = 0;
 
@@ -65,13 +65,17 @@ public class GLOBALS : MonoBehaviour {
 
 	[HideInInspector] public bool SOUND_ON = true;
 	[HideInInspector] public bool MUSIC_ON = true;
-
-	void Awake()
+    void OnLevelWasLoaded(int level)
+    {
+        GLOBALS.Singleton.MY_LVL = calculateActualLevel();
+        
+    }
+    void Awake()
 	{
-        PlayerPrefs.DeleteAll();
-        Reset_Globals ();
-		Singleton = this;
-        GLOBALS.Singleton.MY_LVL = actualLevel();
+        // PlayerPrefs.DeleteAll();
+        Reset_Globals();
+        Singleton = this;
+       // GLOBALS.Singleton.MY_LVL = actualLevel();
         Debug.Log ("SINGLETON INITIALIZED");
 		DontDestroyOnLoad(transform.gameObject);
 		//AVATAR_TYPE = 3;
@@ -107,13 +111,14 @@ public class GLOBALS : MonoBehaviour {
 		REMATCH_SENT = 0;
 		REMATCH_RECEIVED = 0; // 1 = ACCEPTED | 2 = REJECTED
 		REMATCH_ACCEPT_STATUS = 0;
+        REMATCH_SENT = 0;
 
-		RECEIVED_ANAGRAM_ID = 0;
+        RECEIVED_ANAGRAM_ID = 0;
 
 		NumberOfWordsFounded = 0;
 	}
 
-    public int actualLevel()
+    public int calculateActualLevel()
     {
         int level;
         //PlayerPrefs.SetInt("NumberofWins",73);

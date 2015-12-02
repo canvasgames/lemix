@@ -15,8 +15,7 @@ public class WController : MonoBehaviour {
 	Word_Sorter_Controller[] wSort;
 	private string word_original = "";
 	public string word = ""; 
-	public mp_controller mp;
-
+    int magicalBarScaleNumber = 4;
 	//Array de chars com os tiles na mesa
 	public char[] atable = new char[10];
 	
@@ -154,7 +153,6 @@ public class WController : MonoBehaviour {
 
 		TextAsset anagrama = Resources.Load(fileName) as TextAsset;
 		string texto = anagrama.text;
-		Debug.Log (texto);
 
 		string[] palavras = anagrama.text.Split("\n"[0]);
 	//	Debug.Log ("IMPRIMINDO PALAVRAS");
@@ -299,8 +297,10 @@ public class WController : MonoBehaviour {
 				pos += constTab[0].tiles_space;
 				
 			}	
-		}	
-	}
+		}
+        
+
+    }
 	
 	
 	public void verifyWord(string word)
@@ -323,12 +323,11 @@ public class WController : MonoBehaviour {
 				if(list[i].found==false)
 				{
 					wordfound(GLOBALS.Singleton.MP_PLAYER,i,GLOBALS.Singleton.PUGOLDLETTERACTIVE);
-					Debug.Log("MP MODE " + GLOBALS.Singleton.MP_MODE);
 					if(GLOBALS.Singleton.MP_MODE == 1)
 					{
-						//Debug.Log("ENVIANDO PALAVRA DE ID: " + i);
+                        //Debug.Log("ENVIANDO PALAVRA DE ID: " + i);
 
-						mp.send_word_found(i);
+                        mp_controller.access.send_word_found(i);
 
 					}
 
@@ -569,11 +568,35 @@ public class WController : MonoBehaviour {
 	//UPDATE THE SIZE OF BARS AND THE SCORE
 	void updateScoreAndBars(int player)
 	{
-		float tempP1 = (100 + ( ((GLOBALS.Singleton.MY_SCORE - GLOBALS.Singleton.OP_SCORE)  * 100)/ (GLOBALS.Singleton.MAX_SCORE)));
-		float tempP2 = (100 - ( ((GLOBALS.Singleton.MY_SCORE - GLOBALS.Singleton.OP_SCORE)  * 100)/ (GLOBALS.Singleton.MAX_SCORE)));
-		
-		PowerBarP1.transform.DOScaleX(tempP1/100,1f);
-		PowerBarP2.transform.DOScaleX(tempP2/100,1f);
+		float tempP1 = (+ ( ((GLOBALS.Singleton.MY_SCORE - GLOBALS.Singleton.OP_SCORE)  * 100)/ (GLOBALS.Singleton.MAX_SCORE)));
+		//float tempP2 = (- ( ((GLOBALS.Singleton.MY_SCORE - GLOBALS.Singleton.OP_SCORE)  * 100)/ (GLOBALS.Singleton.MAX_SCORE)));
+        
+
+       // PowerBarP1.transform.DOScaleX(tempP1 / 100, 1f);
+       // PowerBarP2.transform.DOScaleX(tempP2 / 100, 1f);
+
+        if ((tempP1 * magicalBarScaleNumber) < 100 && (-tempP1 * magicalBarScaleNumber) < 100)
+        {
+            PowerBarP1.transform.DOScaleX(((tempP1 * magicalBarScaleNumber) + 100) / 100, 1f);
+            PowerBarP2.transform.DOScaleX((-(tempP1 * magicalBarScaleNumber) + 100) / 100, 1f);
+        }
+        else
+        {
+            if(tempP1 * 4 > 100)
+            {
+                PowerBarP1.transform.DOScaleX(2f, 1f);
+                PowerBarP2.transform.DOScaleX(0f, 1f);
+            }
+            else
+            {
+                PowerBarP1.transform.DOScaleX(0f, 1f);
+                PowerBarP2.transform.DOScaleX(2f, 1f);
+            }
+            
+            
+        }
+
+
 		if(player == GLOBALS.Singleton.MP_PLAYER)
 		{
 			//Write score
@@ -587,7 +610,7 @@ public class WController : MonoBehaviour {
 			umnome.GetComponent<TextMesh> ().text = GLOBALS.Singleton.OP_SCORE.ToString ();
 		}
 
-		avatarStatus(tempP1, tempP2);
+		avatarStatus(tempP1);
 	}
 
 	//CHANGE THE NUMBER IN THE HUD THING
@@ -600,16 +623,14 @@ public class WController : MonoBehaviour {
 			wfounded.GetComponentInChildren<TextMesh> ().text = wordsFounded.ToString() + "  " + numberofWords.ToString() ;
 	}
 
-	void avatarStatus(float tempP1, float tempP2)
+	void avatarStatus(float tempP1)
 	{
 
-		//100 is same score
-		if(tempP1 < 65)
+        //Player 1 losing
+        if (tempP1 * magicalBarScaleNumber < -35)
 		{
-			Debug.Log(Avatar_player_1.acess.losing + "losing value");
 			if(Avatar_player_1.acess.losing == false)
 			{
-				Debug.Log("desesperado");
 				Avatar_player_1.acess.desperate();
 			}
 		}
@@ -619,7 +640,8 @@ public class WController : MonoBehaviour {
 				Avatar_player_1.acess.normal();
 		}
 
-		if(tempP2< 65)
+        //Player 2 losing
+		if(tempP1 * magicalBarScaleNumber > 35)
 		{
 			if(Avatar_player_2.acess.losing == false)
 				Avatar_player_2.acess.desperate();

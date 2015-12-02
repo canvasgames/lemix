@@ -36,8 +36,6 @@ public class Tile : MonoBehaviour {
 	//Pra onde o tile esta indo
 	private Vector3 target = new Vector3 (0, 0, 0);
 
-	mp_controller[] mp;
-
 	void Awake ()
 	{
 		myID = -1;
@@ -194,7 +192,9 @@ public class Tile : MonoBehaviour {
 		onTheTable = 0;
 		if(waitingtoFreeze == 1)
 			freeze();
-	}
+        if (GLOBALS.Singleton.PUCHOOSELETTER == 1)
+            transform.DOShakePosition(10000f, 3f, 3);
+    }
 
 
 
@@ -221,8 +221,7 @@ public class Tile : MonoBehaviour {
 		freezed = 1;
 		freezeCounter = 5;
 
-		PowerUpCtrl[] pwCTRL = FindObjectsOfType(typeof(PowerUpCtrl)) as PowerUpCtrl[];
-		pwCTRL[0].freezeTxt();
+        PowerUpCtrl.access.freezeTxt();
 	}
 
 	//Unfreezing
@@ -238,11 +237,10 @@ public class Tile : MonoBehaviour {
 		if(freezeCounter <=0)
 		{
 			freezed = 0;
-			mp = FindObjectsOfType(typeof(mp_controller)) as mp_controller[];
 			Destroy(freeza);
 			Destroy(particle,3f);
 			if(GLOBALS.Singleton.MP_MODE == 1)
-				mp[0].send_end_of_freeze_time();
+                mp_controller.access.send_end_of_freeze_time();
 
 		}
 
@@ -258,8 +256,7 @@ public class Tile : MonoBehaviour {
 
 	public void PUChooseLetter()
 	{
-		PowerUpCtrl[] pwctrl = FindObjectsOfType(typeof(PowerUpCtrl)) as PowerUpCtrl[];
-		pwctrl[0].showThisLetter(_myLetter.ToString());
+        PowerUpCtrl.access.showThisLetter(_myLetter.ToString());
 		
 		Tile[] myTiles = FindObjectsOfType(typeof(Tile)) as Tile[];
 

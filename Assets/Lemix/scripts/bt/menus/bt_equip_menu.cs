@@ -6,9 +6,10 @@ public class bt_equip_menu : BtsMenuClassCollider
 	public GameObject avatar;
 	// Use this for initialization
 	void Start () {
-		GLOBALS.Singleton.LVL_UP_MENU = true;
-		GLOBALS.Singleton.MY_LVL = 4;
-		avatar.transform.GetComponent<Animator>().Play("lvl_"+GLOBALS.Singleton.MY_LVL);
+        GLOBALS.Singleton.AVATAR_TYPE = GLOBALS.Singleton.MY_LVL;
+        GLOBALS.Singleton.LVL_UP_MENU = true;
+        avatar.transform.GetComponent<Animator>().runtimeAnimatorController = Resources.Load("avatares/lvl_" + GLOBALS.Singleton.AVATAR_TYPE + "_avatar") as RuntimeAnimatorController;
+        avatar.transform.GetComponent<Animator>().Play("normal");
 	}
 	
 	// Update is called once per frame
@@ -18,10 +19,14 @@ public class bt_equip_menu : BtsMenuClassCollider
 
     public override void ActBT()
     {
-        GLOBALS.Singleton.AVATAR_TYPE = GLOBALS.Singleton.MY_LVL;
+        base.ActBT();
 		change_avatar_match_end_P1.acesss.changeAvatar ();
-
 		GLOBALS.Singleton.LVL_UP_MENU = false;
 		Destroy (transform.parent.gameObject);
 	}
+
+    public override void clicked()
+    {
+        base.clicked();
+    }
 }

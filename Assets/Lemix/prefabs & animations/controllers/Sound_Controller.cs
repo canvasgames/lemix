@@ -4,10 +4,10 @@ using System.Collections;
 public class Sound_Controller : MonoBehaviour {
 	public static Sound_Controller sController = null;
 
-	public AudioSource efxSource, efxSource2, efxSource3;             
+	public AudioSource efxSource, efxSource2, efxSource3, efxSource4;             
 	public AudioSource musicSource; 
 
-	public AudioClip NewPW, AudioAlready, AudioFound, AudioError;
+	public AudioClip NewPW, AudioAlready, AudioFound, AudioError, Countdown;
 
 
 	void Awake ()
@@ -54,33 +54,47 @@ public class Sound_Controller : MonoBehaviour {
 		if(efxSource.volume > 0)
 			PlaySingle(AudioError);
 	}
-	//#####################################################
-	void PlaySingle(AudioClip clip)
+
+    public void playCountdown()
+    {
+        if (efxSource.volume > 0)
+            PlaySingle(Countdown);
+    }
+    //#####################################################
+    void PlaySingle(AudioClip clip)
 	{
-		if(efxSource.isPlaying == false)
-		{
-			//Set the clip of our efxSource audio source to the clip passed in as a parameter.
-			efxSource.clip = clip;
-		
-			//Play the clip.
-			efxSource.PlayOneShot(clip);
-		}
-		else if(efxSource2.isPlaying == false)
-		{
-			//Set the clip of our efxSource audio source to the clip passed in as a parameter.
-			efxSource2.clip = clip;
-			
-			//Play the clip.
-			efxSource2.PlayOneShot(clip);
-		}
-		else
-		{
-			//Set the clip of our efxSource audio source to the clip passed in as a parameter.
-			efxSource3.clip = clip;
-			
-			//Play the clip.
-			efxSource3.PlayOneShot(clip);
-		}
+        if (efxSource.isPlaying == false)
+        {
+            //Set the clip of our efxSource audio source to the clip passed in as a parameter.
+            efxSource.clip = clip;
+
+            //Play the clip.
+            efxSource.PlayOneShot(clip);
+        }
+        else if (efxSource2.isPlaying == false)
+        {
+            //Set the clip of our efxSource audio source to the clip passed in as a parameter.
+            efxSource2.clip = clip;
+
+            //Play the clip.
+            efxSource2.PlayOneShot(clip);
+        }
+        else if (efxSource3.isPlaying == false)
+        {
+            //Set the clip of our efxSource audio source to the clip passed in as a parameter.
+            efxSource3.clip = clip;
+
+            //Play the clip.
+            efxSource3.PlayOneShot(clip);
+        }
+        else
+        {
+            //Set the clip of our efxSource audio source to the clip passed in as a parameter.
+            efxSource4.clip = clip;
+
+            //Play the clip.
+            efxSource4.PlayOneShot(clip);
+        }
 
 	}
 

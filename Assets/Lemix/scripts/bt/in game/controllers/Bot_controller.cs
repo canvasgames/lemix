@@ -5,7 +5,6 @@ public class Bot_controller : MonoBehaviour {
 	float botGameTime, botPUTime;
 	float botDifficulty = 1;
 	WController[] wordCTRL;
-	PowerUpCtrl[] pwctrl;
 
 	// Use this for initialization
 	void Start () {
@@ -14,7 +13,6 @@ public class Bot_controller : MonoBehaviour {
 			botGameTime = 6f;
 			botPUTime = Random.Range (25f,28f);
 			//botPUTime = 2f;
-			pwctrl = FindObjectsOfType(typeof(PowerUpCtrl)) as PowerUpCtrl[];
 			wordCTRL = FindObjectsOfType(typeof(WController)) as WController[];
 		}
 	}
@@ -111,20 +109,19 @@ public class Bot_controller : MonoBehaviour {
 		if(botPUTime <= 0)
 		{
 			botPUTime = Random.Range (25f,27f);
-           // botPUTime = 8f;
+            //botPUTime = 8f;
             int rand;	
 			rand = Random.Range (0, 4);
-           // rand = 3;
-			if(rand == 0)
-			{
-				pwctrl[0].eraseWord(GLOBALS.Singleton.MP_PLAYER);
-			}
+           // rand = Random.Range(2, 4);
+            // rand = 3;
+            if (rand == 0)
+                PowerUpCtrl.access.eraseWord(GLOBALS.Singleton.MP_PLAYER);
 			else if(rand == 1)
-				pwctrl[0].night();
+                PowerUpCtrl.access.night();
 			else if (rand == 2)
-				pwctrl[0].freezeLetter();
+                PowerUpCtrl.access.freezeLetter();
 			else if (rand == 3)
-				pwctrl[0].earthquakeReceive();
+                PowerUpCtrl.access.earthquakeReceive();
 		}
 	}
 }

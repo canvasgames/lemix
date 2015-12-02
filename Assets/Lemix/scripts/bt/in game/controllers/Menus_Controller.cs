@@ -23,7 +23,8 @@ public class Menus_Controller : MonoBehaviour {
 	public void quitGame ()
 	{
 		quit = (GameObject)Instantiate (quit_game, new Vector3 (0,0 , 100), transform.rotation);
-	}
+
+    }
 
 	public void destructQuitGame()
 	{
@@ -38,7 +39,14 @@ public class Menus_Controller : MonoBehaviour {
 
 	}
 
-	public void waiting ()
+    public void destructRematch()
+    {
+        if (rematch_menu != null)
+            Destroy(rematch_menu);
+
+    }
+
+    public void waiting ()
 	{
 		wait = (GameObject)Instantiate (wait_title, new Vector3 (0,0 , 100), transform.rotation);
 

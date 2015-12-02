@@ -18,13 +18,16 @@ public class bt_menu : BtsMenuClassCollider
 
     public override void ActBT()
     {
-		if(GLOBALS.Singleton.LVL_UP_MENU == false)
-		{
-			Debug.Log ("GO TO LOBBY NOW !");
+           base.ActBT();
+            Debug.Log ("GO TO LOBBY NOW !");
 			Time.timeScale = 1;
 			gc [0].go_to_lobby ();
-		}
-
 	}
-
+    public override void clicked()
+    {
+        if (GLOBALS.Singleton.LVL_UP_MENU == false)
+        {
+            base.clicked();
+        }
+    }
 }

@@ -15,9 +15,14 @@ public class bt_yes_leave : BtsMenuClassCollider
 	}
 
     public override void ActBT()
-    { 
+    {
+        base.ActBT();
         PhotonNetwork.Disconnect();
         Application.LoadLevel("Lobby_GUI");
 	}
-	
+
+    public override void clicked()
+    {
+        base.clicked();
+    }
 }
