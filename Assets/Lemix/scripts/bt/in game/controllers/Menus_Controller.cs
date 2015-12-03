@@ -5,7 +5,7 @@ public class Menus_Controller : MonoBehaviour {
 	public static Menus_Controller acesss;
 
 	public GameObject rematch_menu, wait_title, op_disconnected, countdown, sync, quit_game;
-	GameObject wait, disco, load, syncro, quit;
+	GameObject wait, disco, load, syncro, quit, rematch;
 	GameController[] gctrller;
 	int disconect_state;
 	float disconect_time;
@@ -35,14 +35,17 @@ public class Menus_Controller : MonoBehaviour {
 	// ======================= MATCH END =======================
 	public void rematchMenu()
 	{
-		Instantiate (rematch_menu, new Vector3 (0,0 , 100), transform.rotation);
+        rematch = (GameObject)Instantiate(rematch_menu, new Vector3 (0,0 , 100), transform.rotation);
 
 	}
 
     public void destructRematch()
     {
-        if (rematch_menu != null)
-            Destroy(rematch_menu);
+        if (rematch != null)
+        {
+            Destroy(rematch);
+        }
+           
 
     }
 
@@ -77,7 +80,8 @@ public class Menus_Controller : MonoBehaviour {
 			disconect_time -= Time.unscaledDeltaTime;
 			if(disconect_time <= 0)
 			{
-				if(disconect_state == 1)
+                //In game case
+                if (disconect_state == 1)
 				{
 					Destroy(disco);
 					gctrller = FindObjectsOfType(typeof(GameController)) as GameController[];
@@ -85,10 +89,16 @@ public class Menus_Controller : MonoBehaviour {
 					GLOBALS.Singleton.GAME_RUNNING = false;
 					gctrller[0].win_case_statistics();
 				}
-				else
-				{
-					PhotonNetwork.LoadLevel ("Lobby");
-				}
+                //Match end case
+                else if (disconect_state == 2)
+                {
+                    Destroy(disco);
+                }
+                //Before the game begins case
+                else
+                {
+                    PhotonNetwork.LoadLevel("Lobby_GUI");
+                }
 				disconect_state = 0;
 			}
 		}
@@ -97,15 +107,27 @@ public class Menus_Controller : MonoBehaviour {
 	public void disconnected(bool game_state)
 	{
 		disco = (GameObject)Instantiate (op_disconnected, new Vector3 (0,0 , 100), transform.rotation);
-		if(game_state == true)
-			disconect_state =1;
-		else
+        //In game case
+		if(game_state == true && GLOBALS.Singleton.WIN == false && GLOBALS.Singleton.DRAW == false 
+            && GLOBALS.Singleton.LOOSE == false)
+            disconect_state =1;
+        //Match end case
+		else if(game_state == false && (GLOBALS.Singleton.WIN == true || GLOBALS.Singleton.DRAW == true
+            || GLOBALS.Singleton.LOOSE == true))
 		{
 			Destroy(syncro);
 			Destroy(load);
 
 			disconect_state =2;
 		}
+        //Before the game begins case
+        else
+        {
+            Destroy(syncro);
+            Destroy(load);
+
+            disconect_state = 3;
+        }
 		disconect_time = 3f;
 	}
 

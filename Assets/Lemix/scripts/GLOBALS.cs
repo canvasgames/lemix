@@ -10,7 +10,7 @@ public class GLOBALS : MonoBehaviour {
 	[HideInInspector] public int AVATAR_TYPE = 1;
 	[HideInInspector] public int AVATAR_TYPE_OP = 1;
 
-	[HideInInspector] public int MY_LVL = 1;
+	[HideInInspector] public int MY_LVL = 0;
 	[HideInInspector] public int OP_LVL = 1;
 
 	[HideInInspector] public int ANAGRAM_ID = 0;
@@ -67,12 +67,14 @@ public class GLOBALS : MonoBehaviour {
 	[HideInInspector] public bool MUSIC_ON = true;
     void OnLevelWasLoaded(int level)
     {
+        Debug.Log("AAAAAAAAAAAAA");
         GLOBALS.Singleton.MY_LVL = calculateActualLevel();
         
     }
     void Awake()
 	{
-        // PlayerPrefs.DeleteAll();
+        
+        
         Reset_Globals();
         Singleton = this;
        // GLOBALS.Singleton.MY_LVL = actualLevel();
@@ -88,8 +90,9 @@ public class GLOBALS : MonoBehaviour {
 	}
 	// Use this for initialization
 	void Start () {
-
-	}
+        //PlayerPrefs.DeleteAll();
+        GLOBALS.Singleton.MY_LVL = calculateActualLevel();
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -121,13 +124,14 @@ public class GLOBALS : MonoBehaviour {
     public int calculateActualLevel()
     {
         int level;
-        //PlayerPrefs.SetInt("NumberofWins",73);
+       // PlayerPrefs.SetInt("NumberofWins",73);
         int tempWins = PlayerPrefs.GetInt("NumberofWins");
         int whatLevel = 1;
 
         //Discover the user level ----- x = n((n+1)/2) ------ n is the level x is the number of victories
         //evolution of values http://www.wolframalpha.com/input/?i=n%28%28n%2B1%29%2F2%29 -> Values
 
+        Debug.Log(tempWins + " EUWWWWWWWWWWWWWWWWWWWW");
         if (tempWins == 0)
             level = 0;
         else

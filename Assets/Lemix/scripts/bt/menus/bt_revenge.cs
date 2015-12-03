@@ -23,7 +23,7 @@ public class bt_revenge : BtsMenuClassCollider
     public override void ActBT()
     {
         base.ActBT();
-		if (menuCreated == 0)
+		if (menuCreated == 0 && GLOBALS.Singleton.REMATCH_RECEIVED == 0)
 		{
 			menuCreated = 1;
 		    Menus_Controller.acesss.waiting();

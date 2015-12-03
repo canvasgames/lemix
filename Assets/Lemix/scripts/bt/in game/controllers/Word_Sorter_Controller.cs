@@ -8,10 +8,11 @@ using UnityEngine.UI;
 
 
 public class Word_Sorter_Controller : MonoBehaviour {
-    int anagram_id = 0;
+    
     int numberOfFiles;
-    string tempWords, tempWordsOP, receive;
+    string tempWords, tempWordsOP;
 
+    //Temp list to receive the string of founded words
     List<string> idsList = new List<string>();
 
     // Use this for initialization
@@ -24,86 +25,69 @@ public class Word_Sorter_Controller : MonoBehaviour {
 	
 	}
 
+    //Just the Host call this method
 	public int sortWordAndReturnAnagramID(string wordsOP)
 	{
-       
-        //IF ENGLISH
-        if (GLOBALS.Singleton.LANGUAGE == 0)
-            numberOfFiles = GLOBALS.Singleton.NumberOfWordFilesENG;
-        //IF PORTUGUESE
-        else if (GLOBALS.Singleton.LANGUAGE == 1)
-            numberOfFiles = GLOBALS.Singleton.NumberOfWordFilesPORT;
-        else
-            numberOfFiles = GLOBALS.Singleton.NumberOfWordFilesENG;
+        int anagram_id = 0;
+
+        //Verify the language
+        verify_language();
+
+        //Define temp variables
         tempWordsOP = wordsOP;
         tempWords = PlayerPrefs.GetString("WordsAlreadySorted");
 
-        tempWords = tempWords + tempWordsOP;
+        //Put a "," between my wordlist and opwordlist
+        if(tempWords != "" && tempWordsOP != "")
+            tempWords = tempWords + "," + tempWordsOP;
+        //If my word list is empty
+        else if(tempWordsOP != "")
+            tempWords =  tempWordsOP;
 
-        //Verify if is the first game an search for word
+        //If temp word have sorted words
         if (tempWords != "")
         {
-            search_no_sorted_word();
+            anagram_id = search_no_sorted_word();
         }
+        //Temp words empty, just sort all the list of files
         else
         {
             anagram_id = Random.Range(1, numberOfFiles + 1);
         }
-        
-        //Add word to words list
-        if (tempWords != "")
-        {
-            add_to_sorted_list();
-        }
-        else
-        {
-            receive = anagram_id.ToString();
-        }
 
+       //Add anagram ID to playerPrefs and to the Global
+       add_to_sorted_list(anagram_id);
 
-        PlayerPrefs.SetString("WordsAlreadySorted", receive);
-
-        tempWords = PlayerPrefs.GetString("WordsAlreadySorted");
-
-        //Set my global and return the word id
-        GLOBALS.Singleton.ANAGRAM_ID = anagram_id;
+        //Return the sorted word id
         return anagram_id;
 	}
 
-    public void addSortedWordOP(int word_id)
+    //Searches a word not sorted for both player
+    public int search_no_sorted_word()
     {
-        //Add word id to sorted list
-        string receive = PlayerPrefs.GetString("WordsAlreadySorted");
-        receive = receive + word_id.ToString();
-        PlayerPrefs.SetString("WordsAlreadySorted", receive);
-        GLOBALS.Singleton.ANAGRAM_ID = word_id;
-    }
-
-    public void search_no_sorted_word()
-    {
-
-        
+        int anagram = 1;
         // PlayerPrefs.SetInt("WordsFounded", tempWords)
+        idsList.Clear();
         idsList = tempWords.Split(',').ToList();
         Debug.Log(tempWords + " LISTA DAS PALAVRINHAS JA SORTEADAS");
 
         int i = 0;
-        int result;
+        int nOnTheList;
         bool alreadyInTheList = false;
         //Search a not sorted word in the list
 
         while (i < 100)
         {
-            anagram_id = Random.Range(1, numberOfFiles + 1);
+            anagram = Random.Range(1, numberOfFiles + 1);
             i++;
             foreach (string id in idsList)
             {
-                
-                result = System.Convert.ToInt32(id);
 
-                if (result == anagram_id)
+                nOnTheList = System.Convert.ToInt32(id);
+
+                if (nOnTheList == anagram)
                 {
-                     alreadyInTheList = true;
+                    alreadyInTheList = true;
                     break;
                 }
             }
@@ -117,70 +101,123 @@ public class Word_Sorter_Controller : MonoBehaviour {
             //Else new word found, PARA TUDOOOOOOOOOOOOOOOOOOOOO
             else
             {
-                break;
+                return anagram;
             }
 
             //While ended, dont sort last word at least
             if (i == 100)
             {
-                if (anagram_id == GLOBALS.Singleton.ANAGRAM_ID)
+                if (anagram == GLOBALS.Singleton.ANAGRAM_ID)
                 {
-                    if (anagram_id < numberOfFiles)
+                    if (anagram < numberOfFiles)
                     {
-                        anagram_id++;
+                        anagram++;
                     }
                     else
                     {
-                        anagram_id--;
+                        anagram--;
                     }
                 }
             }
         }
+        return anagram;
     }
 
-    public void add_to_sorted_list()
+    //Add the word sorted to playerPrefs and to ANAGRAM_ID Global
+    public void  add_to_sorted_list(int sortedWord)
     {
-        //Add sorted word to list of sorted words
-        tempWords = PlayerPrefs.GetString("WordsAlreadySorted");
-        tempWords = tempWords + tempWordsOP;
-        idsList.Clear();
-        idsList = tempWords.Split(',').ToList();
-        //Gambiarra if the number fo files is less than 20
-        if (numberOfFiles < 20)
+        string wordList, tempStringMyWords;
+       
+        tempStringMyWords = PlayerPrefs.GetString("WordsAlreadySorted");
+        //Add word to words list
+        if (tempStringMyWords != "")
         {
-            //Debug.Log("____________QUEEEEEEEEEEEEEEEEEEEEEEEEE" + idsList);
-            if (idsList.Count >= 3)
+            idsList.Clear();
+            idsList = tempStringMyWords.Split(',').ToList();
+
+            //Gambiarra if the number of files is less than 20
+            if (numberOfFiles < 20)
             {
-                idsList.RemoveAt(0);
-                idsList.Add(anagram_id.ToString());
+                if (idsList.Count >= 3)
+                {
+                    //Delete the first, add the word to the end of the list
+                    idsList.RemoveAt(0);
+                    idsList.Add(sortedWord.ToString());
+                }
+                else
+                {
+                    idsList.Add(sortedWord.ToString());
+                }
             }
             else
             {
-                idsList.Add(anagram_id.ToString());
+                //This will be happen if have more than 20 files
+                if (idsList.Count >= numberOfFiles / 10)
+                {
+                    //Delete the first, add the word to the end of the list
+                    idsList.RemoveAt(0);
+                    idsList.Add(sortedWord.ToString());
+                }
+                else
+                {
+                    idsList.Add(sortedWord.ToString());
+                }
+            }
+
+            //Receive the idlist of List and create the string of words
+            wordList = "";
+            foreach (string id in idsList)
+            {
+                if (wordList != "")
+                    wordList = wordList + "," + id;
+                else
+                    wordList = id;
             }
         }
+        //If is the first word on PlayerPrefs
         else
         {
-            //This will be happen if have more than 20 files
-            if (idsList.Count >= numberOfFiles / 10)
-            {
-                idsList.RemoveAt(0);
-                idsList.Add(anagram_id.ToString());
-            }
-            else
-            {
-                idsList.Add(anagram_id.ToString());
-            }
+            wordList = sortedWord.ToString();
         }
 
-        //Receive the idlist of LIst and save in the Playerprefs
-        receive = "";
-        foreach (string id in idsList)
-        {
-            if(receive != "")
-                receive = receive + "," + id;
-            else
-                receive = id;
-        }
+        //Add to sorted PlayerPref and define the Global
+        PlayerPrefs.SetString("WordsAlreadySorted", wordList);
+        GLOBALS.Singleton.ANAGRAM_ID = sortedWord;
+
+        //Debug
+        Debug.Log(wordList + " LISTA DE PALAVRAS JA SORTEADAS ADICIONADAS");
+    }
+
+    //Method for the Guest add the word to your playerPrefs
+    public void addSortedWordOP(int word_id)
+    {
+        verify_language();
+
+        //Add word id to sorted list
+        add_to_sorted_list(word_id);
+
+
+
+        //string receive = PlayerPrefs.GetString("WordsAlreadySorted");
+
+        //if(receive != "")
+        //  receive = receive + "," + word_id.ToString();
+        //else
+        //   receive = word_id.ToString();
+
+       // PlayerPrefs.SetString("WordsAlreadySorted", receive);
+       // GLOBALS.Singleton.ANAGRAM_ID = word_id;
+    }
+
+    void verify_language()
+    {
+        //IF ENGLISH
+        if (GLOBALS.Singleton.LANGUAGE == 0)
+            numberOfFiles = GLOBALS.Singleton.NumberOfWordFilesENG;
+        //IF PORTUGUESE
+        else if (GLOBALS.Singleton.LANGUAGE == 1)
+            numberOfFiles = GLOBALS.Singleton.NumberOfWordFilesPORT;
+        else
+            numberOfFiles = GLOBALS.Singleton.NumberOfWordFilesENG;
     }
 }

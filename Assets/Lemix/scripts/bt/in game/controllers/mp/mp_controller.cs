@@ -265,12 +265,15 @@ public class mp_controller : Photon.MonoBehaviour {
 
 			if (GLOBALS.Singleton.REMATCH_SENT == 0) {
 				Menus_Controller.acesss.rematchMenu();
-				Debug.Log ("REMATCH REQUEST RECEIVED");
+                bt_revenge[] revMenu;
+                revMenu = FindObjectsOfType(typeof(bt_revenge)) as bt_revenge[];
+                revMenu[0].DeactivateBt();
+                Debug.Log ("REMATCH REQUEST RECEIVED");
 
 			} else {
-				Debug.Log ("REMATCH INVITATION ALREADY SENT!!!");
-				send_accept_rematch();
-			}
+				Debug.Log ("REMATCH INVITATION ALREADY SENT!!! ACEPPTING");
+                rematch_begins();
+            }
 		}
 	}
 
@@ -289,7 +292,6 @@ public class mp_controller : Photon.MonoBehaviour {
 					waitingMenu[0].rematchAcepted();
 				}
 				else{
-                    // DESTROY DIALOG
                     
 					waitingMenu[0].rematchRejected();
 				}
