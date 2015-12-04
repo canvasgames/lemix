@@ -1,2 +1,0 @@
-# lemix
-Lemix
