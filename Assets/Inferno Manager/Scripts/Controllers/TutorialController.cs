@@ -44,6 +44,7 @@ public class TutorialController : MonoBehaviour {
 
     void tutorial1()
     {
+        GLOBALS.s.TUTORIAL_PHASE = 1;
         HUD.SetActive(false);
         //tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/FullScreenDialog"));
 
@@ -54,35 +55,46 @@ public class TutorialController : MonoBehaviour {
 
         tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/Satan"));
         MenusController.s.enterFromLeft(tempObject, "Satan", null);
-        StartCoroutine(createNextButton(2f)); 
+        Invoke("createNextButton", 2); 
 
     }
 
-    IEnumerator createNextButton(float waitTime)
+    void createNextButton()
     {
-        yield return new WaitForSeconds(waitTime);
-        GLOBALS.s.TUTORIAL_PHASE = 1;
         tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/ArowNext"));
         MenusController.s.enterFromRight(tempObject, "ArowNext", null);
-
     }
 
-    public void blabla()
-    {
-        Invoke("LaunchProjectile", 2);
-    }
-
-    void LaunchProjectile()
-    {
-        MenusController.s.destroyMenu("FullScreenDialog", null);
-    }
     public void tutorial1Clicked()
     {
-        
+        GLOBALS.s.TUTORIAL_PHASE = 2;
+        Full_Screen_Dialog[] fscreen;
+        fscreen = GameObject.FindObjectsOfType(typeof(Full_Screen_Dialog)) as Full_Screen_Dialog[];
+        fscreen[0].closeAndDestroy();
+
         tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/SmallScroll"));
         MenusController.s.enterFromRight(tempObject, "SmallScroll", null);
 
+        Invoke("createNextButton", 2);
+    }
 
+    public void tutorial1Phase2Clicked()
+    {
+        GLOBALS.s.TUTORIAL_PHASE = 3;
+        Full_Screen_Dialog[] fscreen;
+        fscreen = GameObject.FindObjectsOfType(typeof(Full_Screen_Dialog)) as Full_Screen_Dialog[];
+        fscreen[0].changeText();
+        fscreen[0].closeAndReopen();
+
+        Invoke("createNextButton", 2);
+    }
+
+    public void tutorial1Phase3Clicked()
+    {
+        GLOBALS.s.TUTORIAL_PHASE = 4;
+        Full_Screen_Dialog[] fscreen;
+        fscreen = GameObject.FindObjectsOfType(typeof(Full_Screen_Dialog)) as Full_Screen_Dialog[];
+        fscreen[0].changeText();
     }
 
 }

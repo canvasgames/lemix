@@ -17,13 +17,11 @@ public class btNextTutorial : ButtonCap
         {
             if (EventSystem.current.IsPointerOverGameObject() == true)
             {
-                Debug.Log("aaaaaaaaaaaaaaaaaaaaaaaaaaa");
-                //ActBT();
+                ActBT();
             }
             else
             {
-                Debug.Log("bbbbbbbbbbbbbbbbbbbbbbbbbbbb");
-               // ActBT();
+                ActBT();
             }
         }
 
@@ -35,14 +33,24 @@ public class btNextTutorial : ButtonCap
         base.ActBT();
         if(GLOBALS.s.TUTORIAL_PHASE == 1)
         {
-            Full_Screen_Dialog[] fscreen;
-            fscreen = GameObject.FindObjectsOfType(typeof(Full_Screen_Dialog)) as Full_Screen_Dialog[];
-            fscreen[0].closeAndDestroy();
             
             Destroy(transform.gameObject);
             TutorialController.s.tutorial1Clicked();
         }
+        else if (GLOBALS.s.TUTORIAL_PHASE == 2)
+        {
 
+            Destroy(transform.gameObject);
+            TutorialController.s.tutorial1Phase2Clicked();
+
+        }
+        else if (GLOBALS.s.TUTORIAL_PHASE == 3)
+        {
+
+            Destroy(transform.gameObject);
+            TutorialController.s.tutorial1Phase3Clicked();
+
+        }
     }
 
 

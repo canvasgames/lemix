@@ -33,10 +33,15 @@ public class Full_Screen_Dialog : MonoBehaviour
 
     public void closeAndDestroy()
     {
-        Debug.Log("Destroinggggggggggggg");
+
         Destroy(gameObject);
-        TutorialController.s.blabla();
     }
 
-
+    public void changeText()
+    {
+        if (GLOBALS.s.TUTORIAL_PHASE == 3)
+            GetComponentInChildren<Text>().text = "This is your personal HELL'S GATE. It brings dead souls from earth.";
+        else if (GLOBALS.s.TUTORIAL_PHASE == 4)
+            GetComponentInChildren<Text>().text = "Aquire more souls to Level Up and be respected.";
+    }
 }

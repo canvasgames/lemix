@@ -11,7 +11,6 @@ using UnityEngine.UI;
 public class MenusController : MonoBehaviour {
     public static MenusController s;
     public Transform bigDaddy;
-    float xPos, yPos;
     public List<menusList> menusOpened = new List<menusList>();
 
     public class menusList
@@ -43,7 +42,8 @@ public class MenusController : MonoBehaviour {
     //or close to add a close button who is in charge to destroy the menu
     public void addToGUIAndRepositeObject(GameObject menu, string name, GameObject close)
     {
-        Debug.Log("Adding " + name);
+        float xPos, yPos;
+
         menusList tempLecture = new menusList();
         tempLecture.menuObj = menu;
 
@@ -55,7 +55,7 @@ public class MenusController : MonoBehaviour {
 
         menusOpened.Add(tempLecture);
 
-        //Copy thereated local position
+        //Copy the readed local position
         xPos = menu.transform.localPosition.x;
         yPos = menu.transform.localPosition.y;
 
@@ -64,6 +64,7 @@ public class MenusController : MonoBehaviour {
 
         //Set again the local position, now in the GUI
         menu.transform.localPosition = new Vector3(xPos, yPos, 0f);
+
     }
     #endregion
 
@@ -71,7 +72,6 @@ public class MenusController : MonoBehaviour {
     {
         if (name != "")
         {
-            Debug.Log(menusOpened.Count() + " Tamanho menus controller");
             foreach (menusList theMenu in menusOpened)
             {
                // Debug.Log(theMenu.menuObj.name + " Eu existo, olia aqui");
@@ -82,16 +82,14 @@ public class MenusController : MonoBehaviour {
                     if (theMenu.menuObj != null)
                     {
                         //Destroy
-                        //menusOpened.Remove(theMenu);
+                        menusOpened.Remove(theMenu);
                         Destroy(theMenu.menuObj);
-                        Debug.Log("Menu Deleted");
                         //break;
 
                     }
                     else
                     {
-                       // menusOpened.Remove(theMenu);
-                        Debug.Log("Menu Already Deleted");
+                       menusOpened.Remove(theMenu);
                         //break;
                     }
                 }
@@ -106,6 +104,7 @@ public class MenusController : MonoBehaviour {
                     if (theMenu.menuObj != null)
                     {
                         //Destroy
+                        Destroy(theMenu.menuObj);
                         menusOpened.Remove(theMenu);
 
                     }
@@ -125,9 +124,10 @@ public class MenusController : MonoBehaviour {
     #region EnterFromLeftWithPunch
     public void enterFromLeft(GameObject menu, string name, GameObject myClose)
     {
+        float xPos;
         addToGUIAndRepositeObject(menu, name, myClose);
         xPos = menu.transform.position.x;
-        menu.transform.position = new Vector3((xPos - 500f), menu.transform.position.y, 0f);
+        menu.transform.position = new Vector3((xPos - Screen.width/2), menu.transform.position.y, 0f);
         menu.transform.DOMoveX(xPos, 1f).OnComplete(() => punchLeft(menu));
     }
 
@@ -141,9 +141,12 @@ public class MenusController : MonoBehaviour {
 
     public void enterFromRight(GameObject menu, string name, GameObject myClose)
     {
+        float xPos;
         addToGUIAndRepositeObject(menu, name, myClose);
+        
         xPos = menu.transform.position.x;
-        menu.transform.position = new Vector3((xPos + 500f), menu.transform.position.y, 0f);
+
+        menu.transform.position = new Vector3((xPos + Screen.width / 2), menu.transform.position.y, 0f);
         menu.transform.DOMoveX(xPos, 1f).OnComplete(() => punchRight(menu));
     }
 
