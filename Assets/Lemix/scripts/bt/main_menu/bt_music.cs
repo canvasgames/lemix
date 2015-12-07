@@ -17,8 +17,9 @@ public class bt_music : BtsGuiClick
     {
 		if(GLOBALS.Singleton.MM_MENU_OPENED == false)
 		{
-			//
-			if(GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("bt_music"))
+            //
+            base.ActBT();
+            if (GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("bt_music"))
 				GetComponent<Animator>().Play("bt_music_off");
 			else
 				GetComponent<Animator>().Play("bt_music");

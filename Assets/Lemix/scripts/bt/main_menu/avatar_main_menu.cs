@@ -24,8 +24,8 @@ public class avatar_main_menu : BtsGuiClick
     public override void ActBT()
     {
 
-		
-		avatarMenu.SetActive(true);
+        base.ActBT();
+        avatarMenu.SetActive(true);
 
 
 	}

@@ -21,7 +21,7 @@ public class bt_multiplayer : BtsGuiClick
     { 
 		if(GLOBALS.Singleton.MM_MENU_OPENED == false)
 		{
-
+            base.ActBT();
 			Debug.Log ("CONNECT !");
 			lobbymaster.SetActive(true);
 			txt_conection_state.SetActive(true);

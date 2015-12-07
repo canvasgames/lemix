@@ -23,12 +23,14 @@ public class mm_choose_lang : BtsGuiClick
 		{
 			if(GLOBALS.Singleton.LANGUAGE == 0)
 			{
+                base.ActBT();
 				GLOBALS.Singleton.LANGUAGE = 1;
 				GetComponent<Animator>().Play("portuguese");
 			}
 			else if(GLOBALS.Singleton.LANGUAGE == 1)
 			{
-				GLOBALS.Singleton.LANGUAGE = 0;
+                base.ActBT();
+                GLOBALS.Singleton.LANGUAGE = 0;
 				GetComponent<Animator>().Play("language");
 			}
 		}

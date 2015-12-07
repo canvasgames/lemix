@@ -19,12 +19,14 @@ public class bt_sound : BtsGuiClick
 		{
 			if(GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("bt_sound"))
 			{
-				GetComponent<Animator>().Play("bt_sound_off");
+                base.ActBT();
+                GetComponent<Animator>().Play("bt_sound_off");
 				Sound_Controller.sController.muteSFX();
 			}
 			else
 			{
-				GetComponent<Animator>().Play("bt_sound");
+                base.ActBT();
+                GetComponent<Animator>().Play("bt_sound");
 				Sound_Controller.sController.unmuteSFX();
 			}
 		}

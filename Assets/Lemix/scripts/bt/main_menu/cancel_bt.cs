@@ -17,7 +17,9 @@ public class cancel_bt : BtsGuiClick
 
     public override void ActBT()
     {
-		GLOBALS.Singleton.MM_SEARCHING_MATCH = false;
+        base.ActBT();
+
+        GLOBALS.Singleton.MM_SEARCHING_MATCH = false;
 		PhotonNetwork.LeaveLobby();
 		PhotonNetwork.LeaveRoom();
 		PhotonNetwork.Disconnect();
