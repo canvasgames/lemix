@@ -5,8 +5,8 @@ using UnityEngine.UI;
 
 public class TutorialController : MonoBehaviour {
     public static TutorialController s;
-    GameObject tempObject;
-    public Transform bigDaddy;
+    GameObject tempObject; 
+    public GameObject HUD;
 
     float tutorial1Timer;
 
@@ -18,7 +18,6 @@ public class TutorialController : MonoBehaviour {
     // Use this for initialization
     void Start () {
         int firstGame = PlayerPrefs.GetInt("firstGame");
-        Debug.Log(firstGame);
 
         if(firstGame == 0)
         {
@@ -45,55 +44,45 @@ public class TutorialController : MonoBehaviour {
 
     void tutorial1()
     {
+        HUD.SetActive(false);
+        //tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/FullScreenDialog"));
+
+        //tempObject.GetComponent<Full_Screen_Dialog>().act();
 
         tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/FullScreenDialog"));
-        addToGUIAndRepositeObject(tempObject);
-        tempObject.GetComponent<Full_Screen_Dialog>().act();
+        MenusController.s.enterFromRight(tempObject, "FullScreenDialog", null);
 
         tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/Satan"));
-        addToGUIAndRepositeObject(tempObject);
-        tempObject.GetComponent<Satan_HUD>().act();
+        MenusController.s.enterFromLeft(tempObject, "Satan", null);
+        StartCoroutine(createNextButton(2f)); 
 
     }
 
-    void desappear(GameObject desappear)
+    IEnumerator createNextButton(float waitTime)
     {
-
-        Image[] images = desappear.GetComponentsInChildren<Image>();
-
-        foreach (Image myImg in images)
-        {
-            myImg.DOFade(0f, 0f);
-
-        }
-        appear(desappear, 1f);
+        yield return new WaitForSeconds(waitTime);
+        GLOBALS.s.TUTORIAL_PHASE = 1;
+        tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/ArowNext"));
+        MenusController.s.enterFromRight(tempObject, "ArowNext", null);
 
     }
 
-    void appear(GameObject appear, float time)
+    public void blabla()
     {
+        Invoke("LaunchProjectile", 2);
+    }
 
-        Image[] images = appear. GetComponentsInChildren<Image>();
+    void LaunchProjectile()
+    {
+        MenusController.s.destroyMenu("FullScreenDialog", null);
+    }
+    public void tutorial1Clicked()
+    {
         
-        foreach (Image myImg in images)
-        {
-            myImg.DOFade(1f, 2f);
+        tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/SmallScroll"));
+        MenusController.s.enterFromRight(tempObject, "SmallScroll", null);
 
-        }
-        
+
     }
 
-    void addToGUIAndRepositeObject(GameObject menu)
-    {
-        //Copy thereated local position
-        float xPos, yPos;
-        xPos = menu.transform.localPosition.x;
-        yPos = menu.transform.localPosition.y;
-
-        //Set the Canvas of GUI was parent
-        menu.transform.SetParent(bigDaddy);
-
-        //Set again the local position, now in the GUI
-        menu.transform.localPosition = new Vector3(xPos, yPos, 0f);
-    }
 }

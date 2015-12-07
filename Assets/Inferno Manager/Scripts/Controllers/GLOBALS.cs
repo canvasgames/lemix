@@ -6,7 +6,8 @@ public class GLOBALS : MonoBehaviour {
 
     //GAME STATUS
     [HideInInspector] public bool GAME_RUNNING = false;
-
+    [HideInInspector] public int TUTORIAL_PHASE = 0;
+    [HideInInspector] public int USER_RANK = 0;
     void Awake()
     {
         s = this;

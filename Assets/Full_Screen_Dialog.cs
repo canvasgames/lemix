@@ -3,7 +3,8 @@ using System.Collections;
 using DG.Tweening;
 using UnityEngine.UI;
 
-public class Full_Screen_Dialog : MonoBehaviour {
+public class Full_Screen_Dialog : MonoBehaviour
+{
 
     float xPos;
     // Use this for initialization
@@ -20,21 +21,22 @@ public class Full_Screen_Dialog : MonoBehaviour {
 
     }
 
-    public void act()
+    public void open()
     {
-        xPos = transform.position.x;
-        transform.position = new Vector3((xPos + 500f), transform.position.y, 0f);
-        gogogogogo();
+
     }
 
-    void gogogogogo()
+    public void closeAndReopen()
     {
-        // 
-        transform.DOMoveX(xPos, 1f).OnComplete(punch);
+
     }
 
-    void punch()
+    public void closeAndDestroy()
     {
-        transform.DOPunchPosition(new Vector3(-2f, 0f, 0f), 0.5f, 7, 0.9f);
+        Debug.Log("Destroinggggggggggggg");
+        Destroy(gameObject);
+        TutorialController.s.blabla();
     }
+
+
 }
