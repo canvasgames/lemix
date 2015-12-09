@@ -95,6 +95,10 @@ public class TutorialController : MonoBehaviour {
         Full_Screen_Dialog[] fscreen;
         fscreen = GameObject.FindObjectsOfType(typeof(Full_Screen_Dialog)) as Full_Screen_Dialog[];
         fscreen[0].changeText();
+
+        tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/DemonList/DemonList"));
+        MenusController.s.enterFromRight(tempObject, "DemonList", null);
+
     }
 
 }
