@@ -10,7 +10,7 @@ using UnityEngine.UI;
 
 public class MenusController : MonoBehaviour {
     public static MenusController s;
-    public Transform bigDaddy;
+    public Transform bigDaddy, police;
     public List<menusList> menusOpened = new List<menusList>();
 
     public class menusList
@@ -84,13 +84,13 @@ public class MenusController : MonoBehaviour {
                         //Destroy
                         menusOpened.Remove(theMenu);
                         Destroy(theMenu.menuObj);
-                        //break;
+                        break;
 
                     }
                     else
                     {
                        menusOpened.Remove(theMenu);
-                        //break;
+                        break;
                     }
                 }
             }
@@ -106,12 +106,14 @@ public class MenusController : MonoBehaviour {
                         //Destroy
                         Destroy(theMenu.menuObj);
                         menusOpened.Remove(theMenu);
+                        break;
 
                     }
                     else
                     {
                         menusOpened.Remove(theMenu);
                         Debug.Log("Menu Already Deleted");
+                        break;
                     }
                 }
             }
@@ -128,7 +130,7 @@ public class MenusController : MonoBehaviour {
         addToGUIAndRepositeObject(menu, name, myClose);
         xPos = menu.transform.position.x;
         menu.transform.position = new Vector3((xPos - Screen.width/2), menu.transform.position.y, 0f);
-        menu.transform.DOMoveX(xPos, 1f).OnComplete(() => punchLeft(menu));
+        menu.transform.DOMoveX(xPos, 0.5f).OnComplete(() => punchLeft(menu));
     }
 
     void punchLeft(GameObject menu)
@@ -147,7 +149,7 @@ public class MenusController : MonoBehaviour {
         xPos = menu.transform.position.x;
 
         menu.transform.position = new Vector3((xPos + Screen.width / 2), menu.transform.position.y, 0f);
-        menu.transform.DOMoveX(xPos, 1f).OnComplete(() => punchRight(menu));
+        menu.transform.DOMoveX(xPos, 0.5f).OnComplete(() => punchRight(menu));
     }
 
     void punchRight(GameObject menu)
@@ -181,5 +183,47 @@ public class MenusController : MonoBehaviour {
 
         }
 
+    }
+
+    public void bring2FrontZOrder(string name, GameObject closeClicked)
+    {
+        if (name != "")
+        {
+            foreach (menusList theMenu in menusOpened)
+            {
+                if (theMenu.menuName == name)
+                {
+
+                    if (theMenu.menuObj != null)
+                    {
+                        //Bring to front
+                        theMenu.menuObj.transform.SetParent(police);
+                        theMenu.menuObj.transform.SetParent(bigDaddy);
+                        break;
+
+                    }
+                }
+            }
+        }
+        else if (closeClicked != null)
+        {
+            foreach (menusList theMenu in menusOpened)
+            {
+                if (theMenu.myClose == closeClicked)
+                {
+                    if (theMenu.menuObj != null)
+                    {
+                        //Destroy
+                        theMenu.menuObj.transform.SetParent(bigDaddy);
+                        break;
+
+                    }
+                }
+            }
+        }
+        else
+        {
+            Debug.Log("ERROR, NO NAME OR CLOSER ADDED");
+        }
     }
 }

@@ -17,7 +17,6 @@ public class CreateDemonsScrollView : MonoBehaviour {
         ySpace = placeholder.GetComponent<RectTransform>().rect.height;
         ySpace = ySpace + placeholder.GetComponent<RectTransform>().rect.height / 4;
 
-        Debug.Log(ySpace);
         createLine(initialY, 1, xSpace,1);
         createLine(initialY - ySpace , 3, xSpace,2);
         createLine(initialY - ySpace*2, 3, xSpace,3);
@@ -35,7 +34,8 @@ public class CreateDemonsScrollView : MonoBehaviour {
 
         //Create Rank txt
         myPlaceholder = (GameObject)Instantiate(rankText, new Vector3(0, 0, 0), Quaternion.identity);
-        myPlaceholder.transform.parent = this.gameObject.transform;
+        //myPlaceholder.transform.parent = this.gameObject.transform;
+        myPlaceholder.transform.SetParent(gameObject.transform);
         myPlaceholder.GetComponent<RectTransform>().localPosition = new Vector3(-xSpacing * 2 + 10 + xDif, yPosition, 0);
         myPlaceholder.GetComponent<Text>().text = "Rank " + line.ToString() ;
 

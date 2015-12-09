@@ -1,14 +1,15 @@
 ﻿using UnityEngine;
 using System.Collections;
+using DG.Tweening;
 
 public class demonCreateAvatar : MonoBehaviour {
-
+    
     public GameObject a, b, c, d, e, f, g, h, i, j, k;
     GameObject temp;
 	// Use this for initialization
 	void Start () {
-	
-	}
+        
+    }
 	
 	// Update is called once per frame
 	void Update () {

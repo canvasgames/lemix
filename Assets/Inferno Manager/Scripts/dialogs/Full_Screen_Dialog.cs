@@ -5,59 +5,53 @@ using UnityEngine.UI;
 
 public class Full_Screen_Dialog : MonoBehaviour
 {
-
-    float xPos;
+    public GameObject upPart, downPart, myText;
+    float xPos, myTextHeight;
     // Use this for initialization
     void Start()
     {
-
-
+        myTextHeight = myText.GetComponent<RectTransform>().rect.height;
+        transform.localScale = new Vector3(1, 0, 1);
+        Invoke("open", 1);
 
     }
 
     // Update is called once per frame
     void Update()
     {
-
+        upPart.transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y , transform.localPosition.z);
+        downPart.transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y - (GetComponent<RectTransform>().rect.height * transform.localScale.y), transform.localPosition.z);
+        myText.GetComponent<RectTransform>().sizeDelta = new Vector2 (myText.GetComponent<RectTransform>().sizeDelta.x, myTextHeight * transform.localScale.y);
     }
 
     public void open()
     {
+        changeText();
+        transform.DOScaleY(1f, 0.3f);
 
     }
 
     public void closeAndReopen()
     {
-
+        transform.DOScaleY(0f, 0.3f).OnComplete(open); 
     }
 
     public void closeAndDestroy()
     {
-
-        Destroy(gameObject);
+        transform.DOScaleY(0f, 0.3f).OnComplete(destroy);
+        
     }
-
+    void destroy()
+    {
+        Destroy(transform.parent.gameObject);
+    }
     public void changeText()
     {
         if (GLOBALS.s.TUTORIAL_PHASE == 3)
-            GetComponentInChildren<Text>().text = "This is your personal HELL'S GATE. It brings dead souls from earth.";
+            myText.GetComponentInChildren<Text>().text = "This is your personal HELL'S GATE. It brings dead souls from earth.";
         else if (GLOBALS.s.TUTORIAL_PHASE == 4)
-            GetComponentInChildren<Text>().text = "Aquire more souls to Level Up and be respected.";
+            myText.GetComponentInChildren<Text>().text = "Aquire more souls to Level Up and be respected.";
     }
 
-    GameObject blueClash, redClash;
-    // Use this for initialization
-    void Start()
-    {
-        blueClash = GameObject.Find("hud_blue_bar_clash");
-        redClash = GameObject.Find("hud_red_bar_clash");
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-        var renderer = gameObject.GetComponent<Renderer>();
-        blueClash.transform.position = new Vector3((transform.position.x + renderer.bounds.size.x), transform.position.y, transform.position.z);
-        redClash.transform.position = new Vector3((transform.position.x + renderer.bounds.size.x), transform.position.y, transform.position.z);
-    }
 }
