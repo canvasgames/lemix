@@ -58,6 +58,14 @@ public class btNextTutorial : ButtonCap
             TutorialController.s.tutorial1Phase4Clicked();
 
         }
+        else if (GLOBALS.s.TUTORIAL_PHASE == 5)
+        {
+
+            Destroy(transform.gameObject);
+            TutorialController.s.tutorialListOfDemosClosed();
+
+        }
+        
     }
 
 

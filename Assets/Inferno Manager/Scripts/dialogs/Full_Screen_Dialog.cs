@@ -51,6 +51,10 @@ public class Full_Screen_Dialog : MonoBehaviour
             myText.GetComponentInChildren<Text>().text = "This is your personal HELL'S GATE. It brings dead souls from earth.";
         else if (GLOBALS.s.TUTORIAL_PHASE == 4)
             myText.GetComponentInChildren<Text>().text = "Aquire more souls to Level Up and be respected.";
+        else if (GLOBALS.s.TUTORIAL_PHASE == 6)
+            myText.GetComponentInChildren<Text>().text = "Now let's punish this sinner souls. Tap the BUILD Button.";
+        else if (GLOBALS.s.TUTORIAL_PHASE == 7)
+            myText.GetComponentInChildren<Text>().text = "Select a PUNISHER BUILDING.";
     }
 
 

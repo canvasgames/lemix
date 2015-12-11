@@ -70,30 +70,14 @@ public class MenusController : MonoBehaviour {
 
     public void destroyMenu(string name, GameObject closeClicked)
     {
+
+        menusList menu2Destroy;
+
         if (name != "")
         {
-            foreach (menusList theMenu in menusOpened)
-            {
-               // Debug.Log(theMenu.menuObj.name + " Eu existo, olia aqui");
-               // Debug.Log(theMenu.menuName + " Meu nominho");
-                if (theMenu.menuName == name)
-                {
-                    
-                    if (theMenu.menuObj != null)
-                    {
-                        //Destroy
-                        menusOpened.Remove(theMenu);
-                        Destroy(theMenu.menuObj);
-                        break;
-
-                    }
-                    else
-                    {
-                       menusOpened.Remove(theMenu);
-                        break;
-                    }
-                }
-            }
+            menu2Destroy = forEachFindName(name);
+            if(menu2Destroy != null)
+                Destroy(menu2Destroy.menuObj);
         }
         else if (closeClicked != null)
         {
@@ -141,15 +125,57 @@ public class MenusController : MonoBehaviour {
 
     #region EnterFromRightWithPunch
 
-    public void enterFromRight(GameObject menu, string name, GameObject myClose)
+    /// <summary>
+    /// New X and New Y if you want 2 change the original position
+    /// </summary>
+    /// <param name="menu"></param>
+    /// <param name="name"></param>
+    /// <param name="myClose"></param>
+    /// <param name="newX"></param>
+    /// <param name="newY"></param>
+    public void enterFromRight(GameObject menu, string name, GameObject myClose, float newX, float newY)
     {
-        float xPos;
+        float xPos, yPos;
         addToGUIAndRepositeObject(menu, name, myClose);
         
-        xPos = menu.transform.position.x;
+        
 
-        menu.transform.position = new Vector3((xPos + Screen.width / 2), menu.transform.position.y, 0f);
+        if(newX != 0)
+        {
+            xPos = newX;
+        }
+        else
+        {
+            xPos = menu.transform.position.x;
+        }
+
+        if (newY != 0)
+        {
+            yPos = newY;
+        }
+        else
+        {
+            yPos = menu.transform.position.y;
+        }
+        menu.transform.position = new Vector3((xPos + Screen.width / 2), yPos, 0f);
         menu.transform.DOMoveX(xPos, 0.5f).OnComplete(() => punchRight(menu));
+    }
+
+    public void repositeMenu(string name, GameObject closeClicked, float newXpos, float NewYpos)
+    {
+        menusList menu2Move;
+        Debug.Log("called");
+        if (name != "")
+        {
+            Debug.Log("moving");
+            menu2Move = forEachFindName(name);
+            menu2Move.menuObj.transform.DOMove(new Vector3(newXpos, NewYpos, 0f), 0.5f);
+        }
+        else
+        {
+
+        }
+        
     }
 
     void punchRight(GameObject menu)
@@ -226,4 +252,54 @@ public class MenusController : MonoBehaviour {
             Debug.Log("ERROR, NO NAME OR CLOSER ADDED");
         }
     }
+
+    menusList forEachFindName(string name2Find)
+    {
+        Debug.Log("Chamando de novo");
+        foreach (menusList theMenu in menusOpened)
+        {
+            // Debug.Log(theMenu.menuName + " Meu nominho");
+            if (theMenu.menuName == name2Find)
+            {
+                //Find empty references and destroy
+                if (theMenu.menuObj != null)
+                {
+                    //Destroy
+                    Debug.Log(theMenu);
+                    return theMenu;
+                }
+                else
+                {
+                    Debug.Log("Achei o safado vazio");
+                    menusOpened.Remove(theMenu);
+                    forEachFindName (name2Find);
+                    break;
+                    Debug.Log("ALALLALA de novo");
+                }
+            }
+        }
+        return null;
+    }
 }
+
+/*
+            foreach (menusList theMenu in menusOpened)
+            {
+               // Debug.Log(theMenu.menuName + " Meu nominho");
+                if (theMenu.menuName == name)
+                {
+                    
+                    if (theMenu.menuObj != null)
+                    {
+                        //Destroy
+                        menusOpened.Remove(theMenu);
+                        Destroy(theMenu.menuObj);
+                        break;
+
+                    }
+                    else
+                    {
+                       menusOpened.Remove(theMenu);
+                        break;
+                    }
+                }*/

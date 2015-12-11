@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using DG.Tweening;
 
 public class CreateDemonsScrollView : MonoBehaviour {
     float initialY, xSpace, ySpace, xDif;
@@ -22,12 +23,20 @@ public class CreateDemonsScrollView : MonoBehaviour {
         createLine(initialY - ySpace*2, 3, xSpace,3);
         createLine(initialY - ySpace*3, 3, xSpace,4);
         createLine(initialY - ySpace * 4, 1, xSpace,5);
+
+        //transform.DOLocalMoveY(GetComponent<RectTransform>().rect.height, 3f);
     }
 	
 	// Update is called once per frame
 	void Update () {
-        
+
 	}
+
+    public void moveList()
+    {
+        transform.DOLocalMoveY(GetComponent<RectTransform>().rect.height - 530, 3f);
+    }
+
 
     void createLine(float yPosition, int numberOfAvatarsInLine, float xSpacing, int line)
     {
