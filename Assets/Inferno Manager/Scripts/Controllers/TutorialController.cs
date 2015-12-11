@@ -115,7 +115,7 @@ public class TutorialController : MonoBehaviour
     {
         GLOBALS.s.TUTORIAL_PHASE = 5;
 
-        MenusController.s.destroyMenu("Satan", null);
+        MenusController.s.destroyMenu("Satan", null, null);
         fscreen = GameObject.FindObjectsOfType(typeof(Full_Screen_Dialog)) as Full_Screen_Dialog[];
         fscreen[0].closeAndDestroy();
 
@@ -135,9 +135,9 @@ public class TutorialController : MonoBehaviour
     {
         GLOBALS.s.TUTORIAL_PHASE = 6;
 
-        MenusController.s.destroyMenu("DemonList", null);
+        MenusController.s.destroyMenu("DemonList", null, null);
         tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/SmallScroll"));
-        MenusController.s.enterFromRight(tempObject, "SmallScroll", null,180f,77f);
+        MenusController.s.enterFromRight(tempObject, "SmallScroll", null, 352f, 124f);
         tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/Satan"));
         MenusController.s.enterFromLeft(tempObject, "Satan", null);
         tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/DownArrow"));
@@ -150,7 +150,15 @@ public class TutorialController : MonoBehaviour
         GLOBALS.s.TUTORIAL_PHASE = 7;
         fscreen = GameObject.FindObjectsOfType(typeof(Full_Screen_Dialog)) as Full_Screen_Dialog[];
         fscreen[0].closeAndReopen();
-        MenusController.s.repositeMenu("SmallScroll", null, 348f, -271f);
+        MenusController.s.destroyMenu("DownArrow", null, null);
+        MenusController.s.repositeMenu("SmallScroll", null, 0f, 220f);
+
+    }
+
+    public void destroySelectPunisher()
+    {
+        MenusController.s.destroyMenu("SmallScroll", null, null);
+        MenusController.s.destroyMenu("Satan", null, null);
 
     }
 }

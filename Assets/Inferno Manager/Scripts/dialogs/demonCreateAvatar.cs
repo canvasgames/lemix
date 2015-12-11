@@ -73,7 +73,7 @@ public class demonCreateAvatar : MonoBehaviour {
             temp = (GameObject)Instantiate(k, new Vector3(0, 0, 0), Quaternion.identity);
         }
 
-        temp.transform.parent = this.gameObject.transform;
+        temp.transform.SetParent(gameObject.transform, false);
         temp.GetComponent<RectTransform>().localPosition = new Vector3(0, 0, 0);
     }
 }

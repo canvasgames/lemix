@@ -34,8 +34,8 @@ public class MenusController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-	
-	}
+
+    }
 
     #region AddToGuiAndMenuList
     //Add to menu List and GUI, Put a name if you want to destroy a menu by name 
@@ -60,7 +60,7 @@ public class MenusController : MonoBehaviour {
         yPos = menu.transform.localPosition.y;
 
         //Set the Canvas of GUI was parent
-        menu.transform.SetParent(bigDaddy);
+        menu.transform.SetParent(bigDaddy, false);
 
         //Set again the local position, now in the GUI
         menu.transform.localPosition = new Vector3(xPos, yPos, 0f);
@@ -68,16 +68,19 @@ public class MenusController : MonoBehaviour {
     }
     #endregion
 
-    public void destroyMenu(string name, GameObject closeClicked)
+    public void destroyMenu(string name, GameObject closeClicked, GameObject myMenu)
     {
 
-        menusList menu2Destroy;
+        menusList menu2Destroy = null;
 
         if (name != "")
         {
             menu2Destroy = forEachFindName(name);
             if(menu2Destroy != null)
-                Destroy(menu2Destroy.menuObj);
+            { 
+               Destroy(menu2Destroy.menuObj);
+                menusOpened.Remove(menu2Destroy);
+            }
         }
         else if (closeClicked != null)
         {
@@ -102,11 +105,22 @@ public class MenusController : MonoBehaviour {
                 }
             }
         }
+        else if(myMenu != null)
+        {
+            menu2Destroy = forEachFindTheMenuItself(myMenu);
+            if (menu2Destroy.menuObj != null)
+            {
+                menusOpened.Remove(menu2Destroy);
+                Destroy(menu2Destroy.menuObj);
+            }
+                
+        }
         else
         {
             Debug.Log("ERROR, NO NAME OR CLOSER ADDED");
         }
     }
+
     #region EnterFromLeftWithPunch
     public void enterFromLeft(GameObject menu, string name, GameObject myClose)
     {
@@ -161,22 +175,7 @@ public class MenusController : MonoBehaviour {
         menu.transform.DOMoveX(xPos, 0.5f).OnComplete(() => punchRight(menu));
     }
 
-    public void repositeMenu(string name, GameObject closeClicked, float newXpos, float NewYpos)
-    {
-        menusList menu2Move;
-        Debug.Log("called");
-        if (name != "")
-        {
-            Debug.Log("moving");
-            menu2Move = forEachFindName(name);
-            menu2Move.menuObj.transform.DOMove(new Vector3(newXpos, NewYpos, 0f), 0.5f);
-        }
-        else
-        {
-
-        }
-        
-    }
+    
 
     void punchRight(GameObject menu)
     {
@@ -184,32 +183,6 @@ public class MenusController : MonoBehaviour {
     }
     #endregion
 
-    void desappear(GameObject desappear)
-    {
-
-        Image[] images = desappear.GetComponentsInChildren<Image>();
-
-        foreach (Image myImg in images)
-        {
-            myImg.DOFade(0f, 0f);
-
-        }
-        appear(desappear, 1f);
-
-    }
-
-    void appear(GameObject appear, float time)
-    {
-
-        Image[] images = appear.GetComponentsInChildren<Image>();
-
-        foreach (Image myImg in images)
-        {
-            myImg.DOFade(1f, 2f);
-
-        }
-
-    }
 
     public void bring2FrontZOrder(string name, GameObject closeClicked)
     {
@@ -223,8 +196,8 @@ public class MenusController : MonoBehaviour {
                     if (theMenu.menuObj != null)
                     {
                         //Bring to front
-                        theMenu.menuObj.transform.SetParent(police);
-                        theMenu.menuObj.transform.SetParent(bigDaddy);
+                        theMenu.menuObj.transform.SetParent(police, false);
+                        theMenu.menuObj.transform.SetParent(bigDaddy, false);
                         break;
 
                     }
@@ -253,34 +226,58 @@ public class MenusController : MonoBehaviour {
         }
     }
 
+    public void repositeMenu(string name, GameObject closeClicked, float newXpos, float NewYpos)
+    {
+        menusList menu2Move;
+
+        if (name != "")
+        {
+            menu2Move = forEachFindName(name);
+            menu2Move.menuObj.transform.DOLocalMove(new Vector3(newXpos, NewYpos, 0f), 1.5f);
+        }
+        else
+        {
+
+        }
+
+    }
     menusList forEachFindName(string name2Find)
     {
-        Debug.Log("Chamando de novo");
         foreach (menusList theMenu in menusOpened)
         {
-            // Debug.Log(theMenu.menuName + " Meu nominho");
             if (theMenu.menuName == name2Find)
             {
-                //Find empty references and destroy
                 if (theMenu.menuObj != null)
                 {
-                    //Destroy
-                    Debug.Log(theMenu);
                     return theMenu;
-                }
-                else
-                {
-                    Debug.Log("Achei o safado vazio");
-                    menusOpened.Remove(theMenu);
-                    forEachFindName (name2Find);
-                    break;
-                    Debug.Log("ALALLALA de novo");
                 }
             }
         }
         return null;
     }
+
+
+
+    menusList forEachFindTheMenuItself(GameObject menu)
+    {
+
+        foreach (menusList theMenu in menusOpened)
+        {
+            // Debug.Log(theMenu.menuName + " Meu nominho");
+            if (theMenu.menuObj == menu)
+            {
+                //Find empty references and destroy
+                if (theMenu.menuObj != null)
+                {
+                    return theMenu;
+                }
+
+            }
+        }
+        return null;
+    }
 }
+
 
 /*
             foreach (menusList theMenu in menusOpened)

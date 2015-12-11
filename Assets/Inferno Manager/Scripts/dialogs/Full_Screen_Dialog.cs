@@ -43,7 +43,8 @@ public class Full_Screen_Dialog : MonoBehaviour
     }
     void destroy()
     {
-        Destroy(transform.parent.gameObject);
+  
+        MenusController.s.destroyMenu("", null, transform.parent.gameObject);
     }
     public void changeText()
     {

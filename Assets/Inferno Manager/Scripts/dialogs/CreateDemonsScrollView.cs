@@ -42,50 +42,47 @@ public class CreateDemonsScrollView : MonoBehaviour {
     {
 
         //Create Rank txt
-        myPlaceholder = (GameObject)Instantiate(rankText, new Vector3(0, 0, 0), Quaternion.identity);
-        //myPlaceholder.transform.parent = this.gameObject.transform;
-        myPlaceholder.transform.SetParent(gameObject.transform);
-        myPlaceholder.GetComponent<RectTransform>().localPosition = new Vector3(-xSpacing * 2 + 10 + xDif, yPosition, 0);
-        myPlaceholder.GetComponent<Text>().text = "Rank " + line.ToString() ;
+        createObject(line, 0, -xSpacing * 2 + 10 + xDif, yPosition);
 
         if (numberOfAvatarsInLine == 3)
         {
             //Middle object
-            myPlaceholder = (GameObject)Instantiate(placeholder, new Vector3(0, 0, 0), Quaternion.identity);
-            myPlaceholder.transform.parent = this.gameObject.transform;
-            myPlaceholder.GetComponent<RectTransform>().localPosition = new Vector3(xDif, yPosition, 0);
-            myPlaceholder.GetComponent<demonCreateAvatar>().setMyAvatar(line,2);
+            createObject(line, 2, xDif, yPosition);
 
-            myPlaceholder = (GameObject)Instantiate(placeholder, new Vector3(0, 0, 0), Quaternion.identity);
-            myPlaceholder.transform.parent = this.gameObject.transform;
-            myPlaceholder.GetComponent<RectTransform>().localPosition = new Vector3(-xSpacing + xDif, yPosition, 0);
-            myPlaceholder.GetComponent<demonCreateAvatar>().setMyAvatar(line, 1);
-
-            myPlaceholder = (GameObject)Instantiate(placeholder, new Vector3(0, 0, 0), Quaternion.identity);
-            myPlaceholder.transform.parent = this.gameObject.transform;
-            myPlaceholder.GetComponent<RectTransform>().localPosition = new Vector3(xSpacing + xDif, yPosition, 0);
-            myPlaceholder.GetComponent<demonCreateAvatar>().setMyAvatar(line, 3);
+            createObject(line, 1, -xSpacing + xDif, yPosition);
+            createObject(line, 3, xSpacing + xDif, yPosition);
         }
 
         else if (numberOfAvatarsInLine == 2)
         {
-            myPlaceholder = (GameObject)Instantiate(placeholder, new Vector3(0, 0, 0), Quaternion.identity);
-            myPlaceholder.transform.parent = this.gameObject.transform;
-            myPlaceholder.GetComponent<RectTransform>().localPosition = new Vector3(-xSpacing/2 + xDif, yPosition, 0);
-            myPlaceholder.GetComponent<demonCreateAvatar>().setMyAvatar(line, 1);
+            createObject(line, 1, -xSpacing / 2 + xDif, yPosition);
 
-            myPlaceholder = (GameObject)Instantiate(placeholder, new Vector3(0, 0, 0), Quaternion.identity);
-            myPlaceholder.transform.parent = this.gameObject.transform;
-            myPlaceholder.GetComponent<RectTransform>().localPosition = new Vector3(xSpacing/2 + xDif, yPosition, 0);
-            myPlaceholder.GetComponent<demonCreateAvatar>().setMyAvatar(line, 2);
+            createObject(line, 2, xSpacing / 2 + xDif, yPosition);
         }
         if (numberOfAvatarsInLine == 1)
         {
             //Middle object
+            createObject(line, 1, xDif + xDif, yPosition);
+        }
+    }
+
+    void createObject(int line, int collumn, float xPosition, float yPosition)
+    {
+        
+        //If have to create a avatar (else is Rank txt)
+        if (collumn != 0)
+        {
             myPlaceholder = (GameObject)Instantiate(placeholder, new Vector3(0, 0, 0), Quaternion.identity);
-            myPlaceholder.transform.parent = this.gameObject.transform;
-            myPlaceholder.GetComponent<RectTransform>().localPosition = new Vector3(xDif, yPosition, 0);
-            myPlaceholder.GetComponent<demonCreateAvatar>().setMyAvatar(line, 1);
+            myPlaceholder.transform.SetParent(gameObject.transform, false);
+            myPlaceholder.GetComponent<RectTransform>().localPosition = new Vector3(xPosition, yPosition, 0);
+            myPlaceholder.GetComponent<demonCreateAvatar>().setMyAvatar(line, collumn);
+        }
+        else
+        {
+            myPlaceholder = (GameObject)Instantiate(rankText, new Vector3(0, 0, 0), Quaternion.identity);
+            myPlaceholder.transform.SetParent(gameObject.transform, false);
+            myPlaceholder.GetComponent<RectTransform>().localPosition = new Vector3(xPosition, yPosition, 0);
+            myPlaceholder.GetComponent<Text>().text = "Rank " + line.ToString();
         }
     }
 }

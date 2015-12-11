@@ -1,0 +1,27 @@
+<item>
+  <ConfigVersion value="1" />
+  <Time value="12/11/2015 6:17:25 PM" />
+  <ExpTotal value="6" />
+  <Gem value="1000" />
+  <Gold value="700" />
+  <Elixir value="436.854852676391" />
+  <Shield value="0" />
+  <Building Type="0" Level="1" TilePosX="29" TilePosY="21" InUpgrade="False" UpgradeCompleted="False" UpgradeTimeLeft="0" Production="0" />
+  <Building Type="1" Level="1" TilePosX="29" TilePosY="28" InUpgrade="False" UpgradeCompleted="False" UpgradeTimeLeft="0" Production="0" />
+  <Building Type="7" Level="0" TilePosX="21" TilePosY="30" InUpgrade="False" UpgradeCompleted="False" UpgradeTimeLeft="0" Production="0" />
+  <Building Type="4" Level="1" TilePosX="18" TilePosY="23" InUpgrade="False" UpgradeCompleted="False" UpgradeTimeLeft="0" Production="0" />
+  <Building Type="5" Level="1" TilePosX="21" TilePosY="23" InUpgrade="False" UpgradeCompleted="False" UpgradeTimeLeft="0" Production="0" />
+  <Building Type="6" Level="0" TilePosX="22" TilePosY="20" InUpgrade="False" UpgradeCompleted="False" UpgradeTimeLeft="0" Production="0" />
+  <Building Type="8" Level="0" TilePosX="26" TilePosY="15" InUpgrade="False" UpgradeCompleted="False" UpgradeTimeLeft="0" Production="0">
+    <Unit Type="0" Count="0" />
+    <Unit Type="1" Count="0" />
+    <Unit Type="2" Count="0" />
+    <Unit Type="3" Count="0" />
+    <Unit Type="4" Count="0" />
+    <Unit Type="5" Count="0" />
+    <Unit Type="6" Count="0" />
+    <Unit Type="7" Count="0" />
+    <Unit Type="8" Count="0" />
+    <Unit Type="9" Count="0" />
+  </Building>
+</item>

@@ -34,34 +34,34 @@ public class btNextTutorial : ButtonCap
         if(GLOBALS.s.TUTORIAL_PHASE == 1)
         {
             
-            Destroy(transform.gameObject);
+            MenusController.s.destroyMenu("ArowNext", null, null);
             TutorialController.s.tutorial1Clicked();
         }
         else if (GLOBALS.s.TUTORIAL_PHASE == 2)
         {
 
-            Destroy(transform.gameObject);
+            MenusController.s.destroyMenu("ArowNext", null, null);
             TutorialController.s.tutorial1Phase2Clicked();
 
         }
         else if (GLOBALS.s.TUTORIAL_PHASE == 3)
         {
 
-            Destroy(transform.gameObject);
+            MenusController.s.destroyMenu("ArowNext", null, null);
             TutorialController.s.tutorial1Phase3Clicked();
 
         }
         else if (GLOBALS.s.TUTORIAL_PHASE == 4)
         {
 
-            Destroy(transform.gameObject);
+            MenusController.s.destroyMenu("ArowNext", null, null);
             TutorialController.s.tutorial1Phase4Clicked();
 
         }
         else if (GLOBALS.s.TUTORIAL_PHASE == 5)
         {
 
-            Destroy(transform.gameObject);
+            MenusController.s.destroyMenu("ArowNext", null, null);
             TutorialController.s.tutorialListOfDemosClosed();
 
         }
