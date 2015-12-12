@@ -9,7 +9,6 @@ public class wall : MonoBehaviour
     public int my_floor;
     public bool corner_wall = false;
     bool already_placed = false;
-    spike[] spks;
 
     void Start()
     {
@@ -41,6 +40,15 @@ public class wall : MonoBehaviour
                 else
                     transform.position = new Vector2(globals.s.LIMIT_RIGHT - globals.s.SLOT/2, transform.position.y);
                 already_placed = true;
+
+                // Deactivate the manual trigger from spikes that are at the same side as I am
+                spike[] spks = FindObjectsOfType(typeof(spike)) as spike[];
+
+                foreach (spike spk in spks)
+                {
+                    //spk.manual_trigger_cancel(transform.position.x, my_floor);
+                    spk.reposite_me_at_the_other_corner(transform.position.x, my_floor);
+                }
             }
         }
 

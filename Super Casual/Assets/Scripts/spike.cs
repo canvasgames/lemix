@@ -6,24 +6,33 @@ public class spike : MonoBehaviour {
 
     public bool hidden = false;
     public bool manual_trigger = false;
+    public bool corner_repositionable = false;
     bool already_appeared = false;
     public int my_floor;
     Rigidbody2D rb;
     float timer = 0;
     float target_y;
+    public PolygonCollider2D my_collider;
+  
 
 	// Use this for initialization
+    void Awake()
+    {
+        my_collider = GetComponent<PolygonCollider2D>();
+    }
 	void Start () {
         rb = transform.GetComponent<Rigidbody2D>();
-        GetComponent<SpriteRenderer>().color = Color.green;
+        //GetComponent<SpriteRenderer>().color = Color.green;
+        
     }
 
     // Update is called once per frame
     void Update()
     {
+        //hidden spike distance check (no manual trigger)
         if (!manual_trigger && hidden == true && already_appeared == false
             && globals.s.BALL_Y - globals.s.BALL_R > transform.position.y + 0.5f
-            && Mathf.Abs(globals.s.BALL_X - transform.position.x) < 3f)
+            && Mathf.Abs(globals.s.BALL_X - transform.position.x) < 4.5f)
             show_me();
 
         //Destroy check
@@ -40,8 +49,9 @@ public class spike : MonoBehaviour {
     void show_me()
     {
         target_y = transform.position.y + transform.GetComponent<SpriteRenderer>().bounds.size.y;
-        transform.DOMoveY(target_y, 0.17f);
+        transform.DOMoveY(target_y, 0.14f);
         already_appeared = true;
+        my_collider.enabled = true;
         /*rb.velocity = new Vector2(0, 20f);
         timer = (transform.GetComponent<SpriteRenderer>().bounds.size.y ) / 20f ;
         Debug.Log(" MMMMMMMMMMMM MOVE SPIKE! TIMER: " + timer);
@@ -60,6 +70,26 @@ public class spike : MonoBehaviour {
         else
         {
             Debug.Log(" TTTTTTTTTTTT THIS SHOULD NEVER HAPPEN! M FLOOR: " + my_floor + " FLOOR PARAM: " + floor_n); return true;
+        }
+    }
+
+    public void manual_trigger_cancel(float position, int floor)
+    {
+        if (manual_trigger && floor == my_floor && ((position > 0 && transform.position.x > 0) || (position < 0 && transform.position.x < 0)))
+        {
+            manual_trigger = false;
+        }
+    }
+
+
+    public void reposite_me_at_the_other_corner(float wall_position, int floor)
+    {
+        if (corner_repositionable && floor == my_floor)
+        {
+            if (wall_position > 0)
+                transform.position = new Vector2(0 - Mathf.Abs(0 - transform.position.x), transform.position.y);
+            else
+                transform.position = new Vector2(0 + Mathf.Abs(0 - transform.position.x), transform.position.y);
         }
     }
 }

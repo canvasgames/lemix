@@ -27,13 +27,19 @@ public class ball_hero : MonoBehaviour
     [HideInInspector]
     public Vector2 vetor;
 
+    public GameObject explosion;
+
+    void Awake()
+    {
+        rb = transform.GetComponent<Rigidbody2D>();
+    }
 
     // START THE DANCE
     void Start()
     {
 
         my_id = globals.s.BALL_ID; globals.s.BALL_ID++;
-        rb = transform.GetComponent<Rigidbody2D>();
+        
 
         //camerda = FindObjectOfType<Camera>;
         //Debug.Log(" SPEED X: " + globals.s.FLOOR_HEIGHT);
@@ -144,6 +150,8 @@ public class ball_hero : MonoBehaviour
 
     void jump()
     {
+        //Instantiate(explosion, new Vector3(transform.position.x, transform.position.y, transform.position.z), transform.rotation);
+
         //GetComponent<EdgeCollider2D>().enabled = false;
         if (grounded == true)
         {
@@ -173,7 +181,7 @@ public class ball_hero : MonoBehaviour
 
         else if (coll.gameObject.CompareTag("Spike"))
         {
-            Destroy(bola);
+            destroy_me();
         }
 
         else if (coll.gameObject.CompareTag("Hole"))
@@ -182,6 +190,17 @@ public class ball_hero : MonoBehaviour
             //coll.gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2(0, -100f);
 
         }
+        else if (coll.gameObject.CompareTag("Wall"))
+        {
+            rb.velocity = new Vector2(-rb.velocity.x, rb.velocity.y);
+        }
+    }
+
+    void destroy_me()
+    {
+        Destroy(bola);
+        Instantiate(explosion, new Vector3(transform.position.x, transform.position.y, transform.position.z), transform.rotation);
+        game_controller.s.game_over();
     }
 
 }
