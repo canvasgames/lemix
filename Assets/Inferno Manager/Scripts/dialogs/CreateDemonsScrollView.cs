@@ -4,19 +4,18 @@ using UnityEngine.UI;
 using DG.Tweening;
 
 public class CreateDemonsScrollView : MonoBehaviour {
-    float initialY, xSpace, ySpace, xDif;
+    float initialY, xSpace, ySpace, xMiddle;
 
     public GameObject placeholder, rankText;
     GameObject myPlaceholder;
     // Use this for initialization
     void Start () {
-        xDif = 120;
-	    initialY = GetComponent<RectTransform>().rect.height/2 - 265 - 1150; //150 spacing, 650 half of contect UI object
-        xSpace = placeholder.GetComponent<RectTransform>().rect.width ;
-        xSpace = xSpace + placeholder.GetComponent<RectTransform>().rect.width / 4;
+        xMiddle = 140;
+	    initialY = GetComponent<RectTransform>().rect.height/2 - 960; //150 spacing, 650 half of contect UI object
+        xSpace = placeholder.GetComponent<RectTransform>().rect.width - 20 ;
 
-        ySpace = placeholder.GetComponent<RectTransform>().rect.height;
-        ySpace = ySpace + placeholder.GetComponent<RectTransform>().rect.height / 4;
+        ySpace = placeholder.GetComponent<RectTransform>().rect.height - 40;
+
 
         createLine(initialY, 1, xSpace,1);
         createLine(initialY - ySpace , 3, xSpace,2);
@@ -42,27 +41,27 @@ public class CreateDemonsScrollView : MonoBehaviour {
     {
 
         //Create Rank txt
-        createObject(line, 0, -xSpacing * 2 + 10 + xDif, yPosition);
+        createObject(line, 0, -xSpacing * 2 - 30 + xMiddle, yPosition);
 
         if (numberOfAvatarsInLine == 3)
         {
             //Middle object
-            createObject(line, 2, xDif, yPosition);
+            createObject(line, 2, xMiddle, yPosition);
 
-            createObject(line, 1, -xSpacing + xDif, yPosition);
-            createObject(line, 3, xSpacing + xDif, yPosition);
+            createObject(line, 1, -xSpacing + xMiddle, yPosition);
+            createObject(line, 3, xSpacing + xMiddle, yPosition);
         }
 
         else if (numberOfAvatarsInLine == 2)
         {
-            createObject(line, 1, -xSpacing / 2 + xDif, yPosition);
+            createObject(line, 1, -xSpacing / 2 + xMiddle, yPosition);
 
-            createObject(line, 2, xSpacing / 2 + xDif, yPosition);
+            createObject(line, 2, xSpacing / 2 + xMiddle, yPosition);
         }
         if (numberOfAvatarsInLine == 1)
         {
             //Middle object
-            createObject(line, 1, xDif + xDif, yPosition);
+            createObject(line, 1, xMiddle, yPosition);
         }
     }
 

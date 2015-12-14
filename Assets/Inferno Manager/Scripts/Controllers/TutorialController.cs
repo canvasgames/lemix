@@ -28,6 +28,8 @@ public class TutorialController : MonoBehaviour
         if (firstGame == 0)
         {
             // PlayerPrefs.SetInt("firstGame", 1);
+          
+
             tutorial1Timer = 2f;
         }
 
