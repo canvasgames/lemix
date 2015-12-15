@@ -122,13 +122,34 @@ public class MenusController : MonoBehaviour {
     }
 
     #region EnterFromLeftWithPunch
-    public void enterFromLeft(GameObject menu, string name, GameObject myClose)
+    public void enterFromLeft(GameObject menu, string name, GameObject myClose, float newX, float newY)
     {
-        float xPos;
+        float xPos, yPos;
         addToGUIAndRepositeObject(menu, name, myClose);
-        xPos = menu.transform.position.x;
-        menu.transform.position = new Vector3((xPos - Screen.width/2), menu.transform.position.y, 0f);
-        menu.transform.DOMoveX(xPos, 0.5f).OnComplete(() => punchLeft(menu));
+
+
+
+        if (newX != 0)
+        {
+            xPos = newX;
+        }
+        else
+        {
+            xPos = menu.transform.localPosition.x;
+        }
+
+        if (newY != 0)
+        {
+            yPos = newY;
+        }
+        else
+        {
+            yPos = menu.transform.localPosition.y;
+        }
+
+
+        menu.transform.localPosition = new Vector3((xPos - Screen.width), yPos, 0f);
+        menu.transform.DOLocalMoveX(xPos, 0.5f).OnComplete(() => punchLeft(menu));
     }
 
     void punchLeft(GameObject menu)
@@ -141,12 +162,6 @@ public class MenusController : MonoBehaviour {
 
     /// <summary>
     /// New X and New Y if you want 2 change the original position
-    /// </summary>
-    /// <param name="menu"></param>
-    /// <param name="name"></param>
-    /// <param name="myClose"></param>
-    /// <param name="newX"></param>
-    /// <param name="newY"></param>
     public void enterFromRight(GameObject menu, string name, GameObject myClose, float newX, float newY)
     {
         float xPos, yPos;
@@ -160,7 +175,7 @@ public class MenusController : MonoBehaviour {
         }
         else
         {
-            xPos = menu.transform.position.x;
+            xPos = menu.transform.localPosition.x;
         }
 
         if (newY != 0)
@@ -169,17 +184,19 @@ public class MenusController : MonoBehaviour {
         }
         else
         {
-            yPos = menu.transform.position.y;
+            yPos = menu.transform.localPosition.y;
         }
-        menu.transform.position = new Vector3((xPos + Screen.width / 2), yPos, 0f);
-        menu.transform.DOMoveX(xPos, 0.5f).OnComplete(() => punchRight(menu));
+
+
+        menu.transform.localPosition = new Vector3((xPos + Screen.width), yPos, 0f);
+        menu.transform.DOLocalMoveX(xPos, 0.5f).OnComplete(() => punchRight(menu));
     }
 
     
 
     void punchRight(GameObject menu)
     {
-        transform.DOPunchPosition(new Vector3(-2f, 0f, 0f), 0.5f, 7, 0.9f);
+         transform.DOPunchPosition(new Vector3(-2f, 0f, 0f), 0.5f, 7, 0.9f);
     }
     #endregion
 
@@ -233,6 +250,7 @@ public class MenusController : MonoBehaviour {
         if (name != "")
         {
             menu2Move = forEachFindName(name);
+
             menu2Move.menuObj.transform.DOLocalMove(new Vector3(newXpos, NewYpos, 0f), 1.5f);
         }
         else

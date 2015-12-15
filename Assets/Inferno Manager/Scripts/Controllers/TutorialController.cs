@@ -30,7 +30,7 @@ public class TutorialController : MonoBehaviour
             // PlayerPrefs.SetInt("firstGame", 1);
           
 
-            tutorial1Timer = 2f;
+            //tutorial1Timer = 2f;
         }
 
     }
@@ -63,7 +63,7 @@ public class TutorialController : MonoBehaviour
         MenusController.s.enterFromRight(tempObject, "FullScreenDialog", null,0,0);
 
         tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/Satan"));
-        MenusController.s.enterFromLeft(tempObject, "Satan", null);
+        MenusController.s.enterFromLeft(tempObject, "Satan", null,0,0);
         Invoke("createNextButton", 2);
 
     }
@@ -139,9 +139,9 @@ public class TutorialController : MonoBehaviour
 
         MenusController.s.destroyMenu("DemonList", null, null);
         tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/SmallScroll"));
-        MenusController.s.enterFromRight(tempObject, "SmallScroll", null, 352f, 124f);
+        MenusController.s.enterFromRight(tempObject, "SmallScroll", null, 252f, 224f);
         tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/Satan"));
-        MenusController.s.enterFromLeft(tempObject, "Satan", null);
+        MenusController.s.enterFromLeft(tempObject, "Satan", null,0,0);
         tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/DownArrow"));
         MenusController.s.enterFromRight(tempObject, "DownArrow", null, 0, 0);
         HUD.SetActive(true);
@@ -153,14 +153,16 @@ public class TutorialController : MonoBehaviour
         fscreen = GameObject.FindObjectsOfType(typeof(Full_Screen_Dialog)) as Full_Screen_Dialog[];
         fscreen[0].closeAndReopen();
         MenusController.s.destroyMenu("DownArrow", null, null);
-        MenusController.s.repositeMenu("SmallScroll", null, 0f, 220f);
+        MenusController.s.repositeMenu("SmallScroll", null, 0f, 240f);
+        Invoke("createNextButton", 2);
 
     }
 
     public void destroySelectPunisher()
     {
-        MenusController.s.destroyMenu("SmallScroll", null, null);
-        MenusController.s.destroyMenu("Satan", null, null);
+        GLOBALS.s.TUTORIAL_PHASE = 8;
+        fscreen = GameObject.FindObjectsOfType(typeof(Full_Screen_Dialog)) as Full_Screen_Dialog[];
+        fscreen[0].closeAndReopen();
 
     }
 }

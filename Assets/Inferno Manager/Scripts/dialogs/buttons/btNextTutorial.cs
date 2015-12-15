@@ -65,7 +65,21 @@ public class btNextTutorial : ButtonCap
             TutorialController.s.tutorialListOfDemosClosed();
 
         }
-        
+        else if (GLOBALS.s.TUTORIAL_PHASE == 7)
+        {
+
+            MenusController.s.destroyMenu("ArowNext", null, null);
+            TutorialController.s.destroySelectPunisher();
+
+        }
+        else if (GLOBALS.s.TUTORIAL_PHASE == 8)
+        {
+
+            MenusController.s.destroyMenu("ArowNext", null, null);
+            TutorialController.s.destroySelectPunisher();
+
+        }
+
     }
 
 

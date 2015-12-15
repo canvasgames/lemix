@@ -33,7 +33,7 @@ public class CreateDemonsScrollView : MonoBehaviour {
 
     public void moveList()
     {
-        transform.DOLocalMoveY(GetComponent<RectTransform>().rect.height - 530, 3f);
+        transform.DOLocalMoveY(GetComponent<RectTransform>().rect.height - 410, 2f);
     }
 
 

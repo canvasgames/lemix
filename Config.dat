@@ -1,10 +1,10 @@
 <item>
   <ConfigVersion value="1" />
-  <Time value="12/14/2015 4:19:06 PM" />
+  <Time value="12/15/2015 4:49:13 AM" />
   <ExpTotal value="6" />
   <Gem value="1000" />
   <Gold value="700" />
-  <Elixir value="494.331296920776" />
+  <Elixir value="507.641041755676" />
   <Shield value="0" />
   <Building Type="0" Level="1" TilePosX="29" TilePosY="21" InUpgrade="False" UpgradeCompleted="False" UpgradeTimeLeft="0" Production="0" />
   <Building Type="1" Level="1" TilePosX="29" TilePosY="28" InUpgrade="False" UpgradeCompleted="False" UpgradeTimeLeft="0" Production="0" />
