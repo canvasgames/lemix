@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿#region Using...
+
+using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using UnityEngine.Events;
@@ -10,7 +12,7 @@ using System.Collections.Generic;
 using System.Security.Cryptography;
 using System.Text;
 using System.Xml;
-using System.Xml.Serialization;  
+using System.Xml.Serialization;
 
 ///-----------------------------------------------------------------------------------------
 ///   Namespace:      BE
@@ -20,9 +22,12 @@ using System.Xml.Serialization;
 ///   Author:         BraveElephant inc.                    
 ///   Version: 		  v1.0 (2015-11-15)
 ///-----------------------------------------------------------------------------------------
+/// 
+#endregion
 namespace BE {
 
-	public class SceneTown : MonoBehaviour {
+    #region Variables Declaration
+    public class SceneTown : MonoBehaviour {
 
 		public	static SceneTown instance;
 		public  Text		textLevel;
@@ -60,6 +65,8 @@ namespace BE {
 
 		public	static 	bool 		isModalShow = false;
 		public  static 	Building 	buildingSelected = null;
+
+        // TBDRESOURCES create new resources here
 		public  static 	BENumber	Exp;
 		public  static 	BENumber	Gold;
 		public  static 	BENumber	Elixir;
@@ -68,7 +75,10 @@ namespace BE {
 		private static 	int 		Level = 0;
 		private static 	int 		ExpTotal = 0;
 
-		void Awake () {
+        #endregion
+
+        #region Init Everything
+        void Awake () {
 			instance=this;
 
 			// initialize BENumber class and set ui element 
@@ -85,6 +95,8 @@ namespace BE {
 
 			Gem = new BENumber(BENumber.IncType.VALUE, 0, 100000000, 1000);	// initial gem count is 100	0	
 			Gem.AddUIText(BEUtil.GetObject("PanelOverlay/LabelGem/Text").GetComponent<Text>());
+
+            //TBDCURRENCIES SET THEIR VALUE HERE
 
 			HouseInfo = BEUtil.GetObject("PanelOverlay/LabelHouse/Text").GetComponent<Text>();
 
@@ -106,7 +118,7 @@ namespace BE {
 			// load game data from xml file
 			Load ();
 
-			//if user new to this game add initial building
+			//FIRST TIME USER if user new to this game add initial building
 			if(bFirstRun) {
 				// add town hall 
 				{
@@ -135,8 +147,10 @@ namespace BE {
 			BEGround.instance.SetWorkingBuildingWorker();
 		}
 
-		// result of quit messagebox
-		public void MessageBoxResult(int result) {
+        #endregion
+
+        // result of quit messagebox
+        public void MessageBoxResult(int result) {
 			BEAudioManager.SoundPlay(6);
 			if(result == 0) {
 				#if UNITY_EDITOR
@@ -147,10 +161,11 @@ namespace BE {
 			}
 		}
 
-		void Update () {
-
-			// get delta time from BETime
-			float deltaTime = BETime.deltaTime;
+        #region UPDATE that handles Camera and building placement
+        void Update () {
+            #region Update GUI values
+            // get delta time from BETime
+            float deltaTime = BETime.deltaTime;
 
 			// if user pressed escape key, show quit messagebox
 			if (!UIDialogMessage.IsShow() && !isModalShow && Input.GetKeyDown(KeyCode.Escape)) { 
@@ -171,7 +186,8 @@ namespace BE {
 				goCameraRoot.transform.position = Vector3.Lerp(new Vector3(-5.5f,0,-5), Vector3.zero, FadeAge);
 				goCamera.transform.localPosition = Vector3.Lerp(new Vector3(0,0,-128.0f), new Vector3(0,0,-24.0f), FadeAge);
 			}
-
+            
+            //TBDRESOUCES UPDATE YOUR RESOURCE BY TIME HERE
 			Exp.Update();
 			Gold.Update();
 			Elixir.Update();
@@ -180,13 +196,18 @@ namespace BE {
 			Shield.Update();
 			HouseInfo.text = BEWorkerManager.instance.GetAvailableWorkerCount().ToString () +"/"+BEGround.instance.GetBuildingCount(1).ToString ();
 
-			if(UIDialogMessage.IsShow() || isModalShow) return;
-			//if(EventSystem.current.IsPointerOverGameObject()) return;
+            
 
-			if(Input.GetMouseButton(0)) {
+            if (UIDialogMessage.IsShow() || isModalShow) return;
+            //if(EventSystem.current.IsPointerOverGameObject()) return;
+
+            #endregion
+
+            #region Camera Movement on Mouse button down
+            if (Input.GetMouseButton(0)) {
 
 				if (EventSystem.current.IsPointerOverGameObject()) {
-					//Debug.Log("left-click over a GUI element!");
+					Debug.Log("left-click over a GUI element!");
 					return;
 				}
 
@@ -215,7 +236,11 @@ namespace BE {
 					//Debug.Log ("Update buildingSelected:"+((buildingSelected != null) ? buildingSelected.name : "none"));
 
 				}
-				else {
+                #endregion
+
+                #region Camera Movement holding button
+                else
+                {
 					//Mouse Button is in pressed 
 					//if mouse move certain diatance
 					if(Vector3.Distance (Input.mousePosition,mousePosLast) > 0.01f) {
@@ -268,7 +293,12 @@ namespace BE {
 
 				}
 			}
-			else {
+
+            #endregion
+
+            #region Release Mouse Button
+            else
+            {
 
 				//Release MouseButton
 				if(bInTouch) {
@@ -307,8 +337,11 @@ namespace BE {
 				}
 			}
 
-			//zoom
-			if(!InFade){
+            #endregion
+
+            #region Zoom
+            //zoom
+            if (!InFade){
 				zoomCurrent -= Input.GetAxis("Mouse ScrollWheel") * zoomSpeed;
 				zoomCurrent = Mathf.Clamp(zoomCurrent, zoomMin, zoomMax);
 				goCamera.transform.localPosition = new Vector3(0,0,-zoomCurrent);
@@ -335,10 +368,13 @@ namespace BE {
 				zoomCurrent = Mathf.Clamp(zoomCurrent, zoomMin, zoomMax);
 				goCamera.transform.localPosition = new Vector3(0,0,-zoomCurrent);
 			}
-		}
+            #endregion
+        }
+        #endregion
 
-		public void Pick() {
-			//Debug.Log ("Pick buildingSelected:"+((buildingSelected != null) ? buildingSelected.name : "none"));
+        //picking a building means that...
+        public void Pick() {
+			Debug.Log ("Pick buildingSelected:"+((buildingSelected != null) ? buildingSelected.name : "none"));
 			//GameObject goSelectNew = null;
 			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 			RaycastHit hit;
@@ -361,8 +397,10 @@ namespace BE {
 			}
 		}
 
-		// add exp
-		public void GainExp(int exp) {
+
+        #region BUILDING functions
+        // add exp
+        public void GainExp(int exp) {
 			ExpTotal += exp;
 			int NewLevel = TBDatabase.GetLevel(ExpTotal);
 			int LevelExpToGet = TBDatabase.GetLevelExp(NewLevel);
@@ -445,8 +483,11 @@ namespace BE {
 			Save ();
 		}
 
-		//pause
-		public void OnButtonAttack() {
+        #endregion
+
+        #region BUTTON basic fucntions
+        //pause
+        public void OnButtonAttack() {
 			BEAudioManager.SoundPlay(6);
 		}
 
@@ -478,11 +519,15 @@ namespace BE {
 			UIOption.Show();
 		}
 
-		public void CapacityCheck() {
+
+        #endregion
+
+        //check max capacity and, if it is the maximum, set it to maximum.
+        public void CapacityCheck() {
 			int GoldCapacityTotal = BEGround.instance.GetCapacityTotal(PayType.Gold);
-			//Debug.Log ("iGoldCapacityTotal:"+GoldCapacityTotal.ToString ());
+			Debug.Log ("iGoldCapacityTotal:"+GoldCapacityTotal.ToString ());
 			int ElixirCapacityTotal = BEGround.instance.GetCapacityTotal(PayType.Elixir);
-			//Debug.Log ("ElixirCapacityTotal:"+ElixirCapacityTotal.ToString ());
+			Debug.Log ("ElixirCapacityTotal:"+ElixirCapacityTotal.ToString ());
 
 			Gold.MaxSet(GoldCapacityTotal);
 			if(Gold.Target() > GoldCapacityTotal) Gold.ChangeTo(GoldCapacityTotal);
@@ -493,8 +538,9 @@ namespace BE {
 			BEGround.instance.DistributeByCapacity(PayType.Elixir, (float)Elixir.Target());
 		}
 
-		// related to save and load gamedata with xml format
-		bool	UseEncryption = false;
+        #region Save (and encrypt)
+        // related to save and load gamedata with xml format
+        bool	UseEncryption = false;
 		bool	bFirstRun = false;
 		string 	configFilename = "Config.dat";
 		int 	ConfigVersion = 1;
@@ -545,7 +591,10 @@ namespace BE {
 			}
 		}
 
-		public void Load() {
+        #endregion
+
+        #region Load
+        public void Load() {
 
 			string xmlFilePath = BEUtil.pathForDocumentsFile(configFilename);
 			if(!File.Exists(xmlFilePath)) {
@@ -604,6 +653,8 @@ namespace BE {
 			InLoading = false;
 		}
 
-	}
+        #endregion
+
+    }
 
 }

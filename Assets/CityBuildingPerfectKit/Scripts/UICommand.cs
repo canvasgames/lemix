@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿#region Using Engines
+
+using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
@@ -16,10 +18,14 @@ using System.Collections.Generic;
 ///   Author:         BraveElephant inc.                    
 ///   Version: 		  v1.0 (2015-11-15)
 ///-----------------------------------------------------------------------------------------
+/// 
+#endregion
+
 namespace BE {
 
-	// command types
-	public enum CommandType {
+    #region Declaration
+    // command types
+    public enum CommandType {
 		None,
 		Create,
 		CreateCancel,
@@ -103,9 +109,11 @@ namespace BE {
 		}
 		
 	}
+    #endregion
 
-	// command dialog
-	public class UICommand : MonoBehaviour {
+    #region MonoBehaviour Declaration
+    // command dialog
+    public class UICommand : MonoBehaviour {
 		
 		private static UICommand instance;
 
@@ -141,8 +149,11 @@ namespace BE {
 					Buttons[i].Update ();
 			}
 		}
-		
-		public void Reset () {
+
+        #endregion
+
+    #region Init
+        public void Reset () {
 			for(int i=0 ; i < Buttons.Count ; ++i) {
 				Destroy (Buttons[i].go);
 			}
@@ -189,8 +200,11 @@ namespace BE {
 			}
 		}
 
-		// when button clicked
-		public void ButtonClicked(CommandType ct) {
+        #endregion
+
+    #region Button Act
+        // when button clicked
+        public void ButtonClicked(CommandType ct) {
 			//Debug.Log ("ButtonClicked "+ct.ToString());
 			BEAudioManager.SoundPlay(6);
 
@@ -337,7 +351,10 @@ namespace BE {
 			}
 		}
 
-		public void _Show(Building script) {
+        #endregion
+
+    #region Building Selected
+        public void _Show(Building script) {
 
 			building = script;
 			Reset();
@@ -405,7 +422,11 @@ namespace BE {
 		public static void Show(Building script) 	{ instance._Show(script); }
 		public static void Hide() 					{ instance._Hide(); }
 
-		public IEnumerator TweenMov(RectTransform tr, Vector2 Start, Vector2 End, float time, float fDelay) {
+        #endregion
+
+     #region Move Tween
+
+        public IEnumerator TweenMov(RectTransform tr, Vector2 Start, Vector2 End, float time, float fDelay) {
 			
 			if(fDelay > 0.01f)
 				yield return new WaitForSeconds(fDelay);
@@ -431,6 +452,8 @@ namespace BE {
 				}
 			}
 		}
-	}
-	
+
+        #endregion
+    }
+
 }
