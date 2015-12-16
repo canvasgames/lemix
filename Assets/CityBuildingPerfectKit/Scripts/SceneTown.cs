@@ -44,12 +44,18 @@ namespace BE {
 		public 	BEGround 	ground=null;
 		private	bool 		Dragged = false;
 
-		private float 		zoomMax = 128;
+        /*private float 		zoomMax = 128;
 		private float 		zoomMin = 16;
 		private float 		zoomCurrent = 64.0f;
-		private float 		zoomSpeed = 4;
+		*/
+        private float zoomSpeed = 4;
 
-		public	float 		perspectiveZoomSpeed = 0.0001f;	// The rate of change of the field of view in perspective mode.
+        private float zoomMax = 12;
+        private float zoomMin = 3;
+        private float zoomCurrent = 8;
+
+        private float perspectiveZoomSpeed = 0.1f;
+        //public	float 		perspectiveZoomSpeed = 0.0001f;	// The rate of change of the field of view in perspective mode.
 		public	float 		orthoZoomSpeed = 0.5f;   		// The rate of change of the orthographic size in orthographic mode.
 
 		[HideInInspector]
@@ -208,7 +214,7 @@ namespace BE {
             #region Camera Movement on Mouse button down
             if (Input.GetMouseButton(0)) {
 
-				if (EventSystem.current.IsPointerOverGameObject()) {
+				if (EventSystem.current.IsPointerOverGameObject() || GLOBALS.s.LOCK_CAMERA_TUTORIAL == true) {
 					
 					return;
 				}
@@ -346,8 +352,10 @@ namespace BE {
             if (!InFade){
 				zoomCurrent -= Input.GetAxis("Mouse ScrollWheel") * zoomSpeed;
 				zoomCurrent = Mathf.Clamp(zoomCurrent, zoomMin, zoomMax);
-				goCamera.transform.localPosition = new Vector3(0,0,-zoomCurrent);
-			}
+                //goCamera.transform.localPosition = new Vector3(0,0,-zoomCurrent);
+                Camera camMain = goCamera.GetComponent<Camera>();
+                camMain.orthographicSize = zoomCurrent;
+            }
 
 			// pinch zoom for mobile touch input
 			if(Input.touchCount == 2) {
@@ -368,8 +376,10 @@ namespace BE {
 				
 				zoomCurrent += deltaMagnitudeDiff * perspectiveZoomSpeed;
 				zoomCurrent = Mathf.Clamp(zoomCurrent, zoomMin, zoomMax);
-				goCamera.transform.localPosition = new Vector3(0,0,-zoomCurrent);
-			}
+                //goCamera.transform.localPosition = new Vector3(0,0,-zoomCurrent);
+                Camera camMain = goCamera.GetComponent<Camera>();
+                camMain.orthographicSize = zoomCurrent;
+            }
             #endregion
         }
         #endregion
@@ -495,30 +505,57 @@ namespace BE {
 
 		// user clicked shop button
 		public void OnButtonShop() {
-			BEAudioManager.SoundPlay(6);
-            if (GLOBALS.s.TUTORIAL_PHASE == 6)
+
+            if(GLOBALS.s.TUTORIAL_OCCURING == true)
             {
-                TutorialController.s.clickedBuildBt();
+                if (GLOBALS.s.TUTORIAL_PHASE == 6)
+                {
+                    TutorialController.s.clickedBuildBt();
+                    BEAudioManager.SoundPlay(6);
+                    UIShop.Show(ShopType.Normal);
+                }
+                else if(GLOBALS.s.TUTORIAL_PHASE == 13)
+                {
+                    TutorialController.s.pressBuildImpCasePressed();
+                    BEAudioManager.SoundPlay(6);
+                    UIShop.Show(ShopType.Normal);
+                }
+                
             }
-            UIShop.Show(ShopType.Normal);
+            else
+            {
+                BEAudioManager.SoundPlay(6);
+                UIShop.Show(ShopType.Normal);
+            }
+
+
 		}
 
 		// user clicked gem button
 		public void OnButtonGemShop() {
-			BEAudioManager.SoundPlay(6);
-			UIShop.Show(ShopType.InApp);
+            if (GLOBALS.s.TUTORIAL_OCCURING == false)
+            {
+                BEAudioManager.SoundPlay(6);
+                UIShop.Show(ShopType.InApp);
+            }
 		}
 
 		// user clicked house button
 		public void OnButtonHouse() {
-			BEAudioManager.SoundPlay(6);
-			UIShop.Show(ShopType.House);
+            if (GLOBALS.s.TUTORIAL_OCCURING == false)
+            {
+                BEAudioManager.SoundPlay(6);
+                UIShop.Show(ShopType.House);
+            }
 		}
 
 		// user clicked option button
 		public void OnButtonOption() {
-			BEAudioManager.SoundPlay(6);
-			UIOption.Show();
+            if (GLOBALS.s.TUTORIAL_OCCURING == false)
+            {
+                BEAudioManager.SoundPlay(6);
+                UIOption.Show();
+            }
 		}
 
 
@@ -661,7 +698,7 @@ namespace BE {
         {
             Building script = BEGround.instance.BuildingAdd(0, 1);
             script.Move(new Vector3 (4f, 0f, 4f));
-            //BuildingSelect(script);
+            BuildingSelect(script);
             BuildingLandUnselect();
         }
 
@@ -669,7 +706,7 @@ namespace BE {
         {
             Building script = BEGround.instance.BuildingAdd(1, 1);
             script.Move(new Vector3(9.36f, 0f, -1f));
-           // BuildingSelect(script);
+            BuildingSelect(script);
              BuildingLandUnselect();
         }
     }

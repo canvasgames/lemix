@@ -56,11 +56,15 @@ namespace BE {
 		}
 
 		public void Hide() {
-			BETween.anchoredPosition(rtDialog.gameObject, 0.3f, new Vector3(0,-500)).method = BETweenMethod.easeOut;
-			BETween.alpha(gameObject, 0.3f, 0.5f, 0.0f).method = BETweenMethod.easeOut;
-			BETween.enable(gameObject, 0.01f, false).delay = 0.4f;
-			//gameObject.SetActive(false);
-			SceneTown.isModalShow = false;
+            if(GLOBALS.s.TUTORIAL_PHASE != 7 && GLOBALS.s.TUTORIAL_PHASE != 14)
+            {
+                BETween.anchoredPosition(rtDialog.gameObject, 0.3f, new Vector3(0, -500)).method = BETweenMethod.easeOut;
+                BETween.alpha(gameObject, 0.3f, 0.5f, 0.0f).method = BETweenMethod.easeOut;
+                BETween.enable(gameObject, 0.01f, false).delay = 0.4f;
+                //gameObject.SetActive(false);
+                SceneTown.isModalShow = false;
+            }
+
 		}
 
 		void _Show (ShopType type) {
@@ -96,7 +100,7 @@ namespace BE {
 				bt.Add (TBDatabase.GetBuildingType(4));
 				bt.Add (TBDatabase.GetBuildingType(5));
 				bt.Add (TBDatabase.GetBuildingType(6));
-				FillContents(0, "Economy", bt);
+				FillContents(0, "Punish", bt);
 
 				// fill second tab
 				bt.Clear ();
@@ -105,11 +109,11 @@ namespace BE {
 				bt.Add (TBDatabase.GetBuildingType(8));
 				//bt.Add (TBDatabase.GetBuildingType(9));
 				//bt.Add (TBDatabase.GetBuildingType(10));
-				FillContents(1, "Defense", bt);
+				FillContents(1, "Demons", bt);
 
 				// fill third tab
 				bt.Clear ();
-				FillContents(2, "Support", bt);
+				FillContents(2, "Research", bt);
 
 				BETween.anchoredPosition(rtDialog.gameObject, 0.3f, new Vector3(0,-500), new Vector3(0,0)).method = BETweenMethod.easeOut;
 			}

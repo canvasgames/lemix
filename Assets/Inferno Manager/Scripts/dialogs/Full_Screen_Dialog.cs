@@ -44,7 +44,7 @@ public class Full_Screen_Dialog : MonoBehaviour
     void destroy()
     {
   
-        MenusController.s.destroyMenu("", null, transform.parent.gameObject);
+        MenusController.s.destroyMenu("", transform.parent.gameObject);
     }
     public void changeText()
     {
@@ -57,19 +57,27 @@ public class Full_Screen_Dialog : MonoBehaviour
         else if (GLOBALS.s.TUTORIAL_PHASE == 7)
             myText.GetComponentInChildren<Text>().text = "Select a PUNISHER BUILDING.";
         else if (GLOBALS.s.TUTORIAL_PHASE == 8)
-            myText.GetComponentInChildren<Text>().text = "Hold the finger over the building to replace it and Confirm.";
+            myText.GetComponentInChildren<Text>().text = "Hold the finger over the building and drag to replace it and Confirm.";
         else if (GLOBALS.s.TUTORIAL_PHASE == 9)
             myText.GetComponentInChildren<Text>().text = "Tap to Collect Sadness.";
         else if (GLOBALS.s.TUTORIAL_PHASE == 10)
             myText.GetComponentInChildren<Text>().text = "Great! Now your Hell Gate can Generate Souls! As higher your sadness meter, more souls will be sent to your Hell!";
         else if (GLOBALS.s.TUTORIAL_PHASE == 11)
             myText.GetComponentInChildren<Text>().text = "Tap to Collect Souls.";
+        else if (GLOBALS.s.TUTORIAL_PHASE == 13)
+            myText.GetComponentInChildren<Text>().text = "To construct more Punisher Buildings you need DEMONS! Tap to construct a Imp Pit.";
+        else if (GLOBALS.s.TUTORIAL_PHASE == 14)
+            myText.GetComponentInChildren<Text>().text = "Select the Imp Pit";
+        else if (GLOBALS.s.TUTORIAL_PHASE == 15)
+            myText.GetComponentInChildren<Text>().text = "Place it and confirm";
+        else if (GLOBALS.s.TUTORIAL_PHASE == 16)
+            myText.GetComponentInChildren<Text>().text = "Tap to collect demons";
+        else if (GLOBALS.s.TUTORIAL_PHASE == 17)
+            myText.GetComponentInChildren<Text>().text = "That's it! Now keep building and upgrading your buildings!";
 
-        // myText.GetComponentInChildren<Text>().text = "That's it! Now keep building and upgrading your buildings!";
+        // myText.GetComponentInChildren<Text>().text = "Good job building yourself an Army! Now give me 50% of them to my next Heaven's Raid.";
 
-            // myText.GetComponentInChildren<Text>().text = "Good job building yourself an Army! Now give me 50% of them to my next Heaven's Raid.";
-
-            // myText.GetComponentInChildren<Text>().text = "I dont't think you understand who I Am! Just give me 60% instead 3=)";
+        // myText.GetComponentInChildren<Text>().text = "I dont't think you understand who I Am! Just give me 60% instead 3=)";
     }
 
 

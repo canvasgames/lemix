@@ -25,7 +25,7 @@ public class SatanHand : MonoBehaviour {
 
     void destroyMe()
     {
-        MenusController.s.destroyMenu("SatanHand",null, null);
+        MenusController.s.destroyMenu("SatanHand", null);
         
     }
 

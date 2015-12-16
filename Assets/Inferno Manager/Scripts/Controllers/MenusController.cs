@@ -13,15 +13,15 @@ public class MenusController : MonoBehaviour {
     public Transform bigDaddy, police;
     public List<menusList> menusOpened = new List<menusList>();
 
+    //Class to keep the menu list in the List menusOpened
     public class menusList
     {
         public GameObject menuObj;
         public string menuName;
-        public GameObject myClose;
     }
 
-    
 
+    #region Awake/Start/Update
     void Awake()
     {
         s = this;
@@ -36,11 +36,11 @@ public class MenusController : MonoBehaviour {
 	void Update () {
 
     }
+    #endregion
 
     #region AddToGuiAndMenuList
-    //Add to menu List and GUI, Put a name if you want to destroy a menu by name 
-    //or close to add a close button who is in charge to destroy the menu
-    public void addToGUIAndRepositeObject(GameObject menu, string name, GameObject close)
+    //Add to menu List and add to the GUI
+    public void addToGUIAndRepositeObject(GameObject menu, string name)
     {
         float xPos, yPos;
 
@@ -49,9 +49,6 @@ public class MenusController : MonoBehaviour {
 
         if(name != null)
             tempLecture.menuName = name;
-
-        if(close != null)
-            tempLecture.myClose = close;
 
         menusOpened.Add(tempLecture);
 
@@ -68,7 +65,11 @@ public class MenusController : MonoBehaviour {
     }
     #endregion
 
-    public void destroyMenu(string name, GameObject closeClicked, GameObject myMenu)
+    #region DestroyMenu
+    //Destroy the menu
+    //Put a name if you want to destroy a menu by name
+    //or the reference to menu if you want use a close button with the reference or something like that
+    public void destroyMenu(string name , GameObject myMenu)
     {
 
         menusList menu2Destroy = null;
@@ -78,33 +79,17 @@ public class MenusController : MonoBehaviour {
             menu2Destroy = forEachFindName(name);
             if(menu2Destroy != null)
             { 
+               //Destroy the Gameobject
                Destroy(menu2Destroy.menuObj);
-                menusOpened.Remove(menu2Destroy);
+               //Remove from list
+               menusOpened.Remove(menu2Destroy);
             }
-        }
-        else if (closeClicked != null)
-        {
-            foreach (menusList theMenu in menusOpened)
+            else
             {
-                if (theMenu.myClose == closeClicked)
-                {
-                    if (theMenu.menuObj != null)
-                    {
-                        //Destroy
-                        Destroy(theMenu.menuObj);
-                        menusOpened.Remove(theMenu);
-                        break;
-
-                    }
-                    else
-                    {
-                        menusOpened.Remove(theMenu);
-                        Debug.Log("Menu Already Deleted");
-                        break;
-                    }
-                }
+                Debug.Log("ERROR! CANT FIND THE MENU");
             }
         }
+
         else if(myMenu != null)
         {
             menu2Destroy = forEachFindTheMenuItself(myMenu);
@@ -113,26 +98,32 @@ public class MenusController : MonoBehaviour {
                 menusOpened.Remove(menu2Destroy);
                 Destroy(menu2Destroy.menuObj);
             }
-                
+            else
+            {
+                Debug.Log("ERROR! CANT FIND THE MENU");
+            }
         }
         else
         {
-            Debug.Log("ERROR, NO NAME OR CLOSER ADDED");
+            Debug.Log("ERROR! NO NAME OR MENU ADDED");
         }
     }
+    #endregion
 
     #region EnterFromLeftWithPunch
-    public void enterFromLeft(GameObject menu, string name, GameObject myClose, float newX, float newY)
+    //Make the menu enter from left
+    //If newX and New Y is equals to 0, the menu will use the original position of prefab 
+    public void enterFromLeft(GameObject menu, string name, float newX, float newY)
     {
         float xPos, yPos;
-        addToGUIAndRepositeObject(menu, name, myClose);
+        addToGUIAndRepositeObject(menu, name);
 
-
-
+        //Use the passed position
         if (newX != 0)
         {
             xPos = newX;
         }
+        //Use the original position
         else
         {
             xPos = menu.transform.localPosition.x;
@@ -147,8 +138,9 @@ public class MenusController : MonoBehaviour {
             yPos = menu.transform.localPosition.y;
         }
 
-
+        //Put out of the screen
         menu.transform.localPosition = new Vector3((xPos - Screen.width), yPos, 0f);
+        //Move back to the screen and call punch at the end
         menu.transform.DOLocalMoveX(xPos, 0.5f).OnComplete(() => punchLeft(menu));
     }
 
@@ -159,20 +151,19 @@ public class MenusController : MonoBehaviour {
     #endregion
 
     #region EnterFromRightWithPunch
-
-    /// <summary>
-    /// New X and New Y if you want 2 change the original position
-    public void enterFromRight(GameObject menu, string name, GameObject myClose, float newX, float newY)
+    //Make the menu enter from right
+    //If newX and New Y is equals to 0, the menu will use the original position of prefab 
+    public void enterFromRight(GameObject menu, string name, float newX, float newY)
     {
         float xPos, yPos;
-        addToGUIAndRepositeObject(menu, name, myClose);
-        
-        
+        addToGUIAndRepositeObject(menu, name);
 
-        if(newX != 0)
+        //Use the passed position
+        if (newX != 0)
         {
             xPos = newX;
         }
+        //Use the original position
         else
         {
             xPos = menu.transform.localPosition.x;
@@ -187,8 +178,9 @@ public class MenusController : MonoBehaviour {
             yPos = menu.transform.localPosition.y;
         }
 
-
+        //Put out of the screen
         menu.transform.localPosition = new Vector3((xPos + Screen.width), yPos, 0f);
+        //Move back to the screen and call punch at the end
         menu.transform.DOLocalMoveX(xPos, 0.5f).OnComplete(() => punchRight(menu));
     }
 
@@ -200,7 +192,8 @@ public class MenusController : MonoBehaviour {
     }
     #endregion
 
-
+    #region AdjustZOrder 
+    //Just change the zorder of the menu. Call if you create a menu over the object
     public void bring2FrontZOrder(string name, GameObject closeClicked)
     {
         if (name != "")
@@ -221,28 +214,14 @@ public class MenusController : MonoBehaviour {
                 }
             }
         }
-        else if (closeClicked != null)
-        {
-            foreach (menusList theMenu in menusOpened)
-            {
-                if (theMenu.myClose == closeClicked)
-                {
-                    if (theMenu.menuObj != null)
-                    {
-                        //Destroy
-                        theMenu.menuObj.transform.SetParent(bigDaddy);
-                        break;
-
-                    }
-                }
-            }
-        }
         else
         {
             Debug.Log("ERROR, NO NAME OR CLOSER ADDED");
         }
     }
+    #endregion
 
+    #region MoveRepositeTheMenuToNewPosition
     public void repositeMenu(string name, GameObject closeClicked, float newXpos, float NewYpos)
     {
         menusList menu2Move;
@@ -259,6 +238,9 @@ public class MenusController : MonoBehaviour {
         }
 
     }
+    #endregion
+
+    #region ForEachFindInTheListofMenus
     menusList forEachFindName(string name2Find)
     {
         foreach (menusList theMenu in menusOpened)
@@ -273,8 +255,6 @@ public class MenusController : MonoBehaviour {
         }
         return null;
     }
-
-
 
     menusList forEachFindTheMenuItself(GameObject menu)
     {
@@ -294,27 +274,5 @@ public class MenusController : MonoBehaviour {
         }
         return null;
     }
+    #endregion
 }
-
-
-/*
-            foreach (menusList theMenu in menusOpened)
-            {
-               // Debug.Log(theMenu.menuName + " Meu nominho");
-                if (theMenu.menuName == name)
-                {
-                    
-                    if (theMenu.menuObj != null)
-                    {
-                        //Destroy
-                        menusOpened.Remove(theMenu);
-                        Destroy(theMenu.menuObj);
-                        break;
-
-                    }
-                    else
-                    {
-                       menusOpened.Remove(theMenu);
-                        break;
-                    }
-                }*/

@@ -39,14 +39,20 @@ namespace BE {
 
 		// when user clicked collect dialog
 		public void OnButtonCollect() {
+            
+            if(GLOBALS.s.TUTORIAL_OCCURING == true)
+            {
+                if (GLOBALS.s.TUTORIAL_PHASE == 9)
+                    TutorialController.s.sadnessCollected();
+                else if (GLOBALS.s.TUTORIAL_PHASE == 11)
+                    TutorialController.s.soulsCollected();
+                else if (GLOBALS.s.TUTORIAL_PHASE == 16)
+                    TutorialController.s.endOfTutorial();
+            }
             // do collect
-            if(GLOBALS.s.TUTORIAL_PHASE == 9)
-                TutorialController.s.sadnessCollected();
-            if (GLOBALS.s.TUTORIAL_PHASE == 11)
-                TutorialController.s.soulsCollected();
-
             building.Collect();
 
+            //Create the particle off collect
             bigDaddy = GameObject.Find("Canvas");
             finalPos = GameObject.Find("LabelGold");
             myPart = (GameObject)Instantiate(Resources.Load("Prefabs/sadness_particle"));

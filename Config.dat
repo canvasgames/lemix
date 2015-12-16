@@ -1,35 +1,18 @@
 <item>
   <ConfigVersion value="1" />
-  <Time value="12/15/2015 10:34:40 PM" />
-  <ExpTotal value="165" />
-  <Gem value="116" />
-  <Gold value="2810.66335105896" />
-  <Elixir value="2510.5935049057" />
+  <Time value="12/16/2015 9:24:00 PM" />
+  <ExpTotal value="152" />
+  <Gem value="404" />
+  <Gold value="700" />
+  <Elixir value="50" />
   <Shield value="0" />
-  <Building Type="0" Level="3" TilePosX="22" TilePosY="22" InUpgrade="False" UpgradeCompleted="False" UpgradeTimeLeft="0" Production="0" />
-  <Building Type="1" Level="1" TilePosX="27" TilePosY="23" InUpgrade="False" UpgradeCompleted="False" UpgradeTimeLeft="0" Production="0" />
-  <Building Type="0" Level="1" TilePosX="26" TilePosY="26" InUpgrade="False" UpgradeCompleted="False" UpgradeTimeLeft="0" Production="0" />
-  <Building Type="1" Level="1" TilePosX="32" TilePosY="22" InUpgrade="False" UpgradeCompleted="False" UpgradeTimeLeft="0" Production="0" />
-  <Building Type="4" Level="1" TilePosX="17" TilePosY="25" InUpgrade="False" UpgradeCompleted="False" UpgradeTimeLeft="0" Production="3.483818" />
-  <Building Type="0" Level="1" TilePosX="0" TilePosY="0" InUpgrade="False" UpgradeCompleted="False" UpgradeTimeLeft="0" Production="0" />
-  <Building Type="1" Level="1" TilePosX="0" TilePosY="0" InUpgrade="False" UpgradeCompleted="False" UpgradeTimeLeft="0" Production="0" />
-  <Building Type="3" Level="1" TilePosX="19" TilePosY="17" InUpgrade="False" UpgradeCompleted="False" UpgradeTimeLeft="0" Production="1.991993" />
-  <Building Type="0" Level="1" TilePosX="0" TilePosY="0" InUpgrade="False" UpgradeCompleted="False" UpgradeTimeLeft="0" Production="0" />
-  <Building Type="1" Level="1" TilePosX="0" TilePosY="0" InUpgrade="False" UpgradeCompleted="False" UpgradeTimeLeft="0" Production="0" />
-  <Building Type="5" Level="1" TilePosX="16" TilePosY="19" InUpgrade="False" UpgradeCompleted="False" UpgradeTimeLeft="0" Production="0" />
-  <Building Type="6" Level="1" TilePosX="22" TilePosY="18" InUpgrade="False" UpgradeCompleted="False" UpgradeTimeLeft="0" Production="0" />
-  <Building Type="1" Level="1" TilePosX="22" TilePosY="16" InUpgrade="False" UpgradeCompleted="False" UpgradeTimeLeft="0" Production="0" />
-  <Building Type="0" Level="1" TilePosX="26" TilePosY="26" InUpgrade="False" UpgradeCompleted="False" UpgradeTimeLeft="0" Production="0" />
-  <Building Type="1" Level="1" TilePosX="32" TilePosY="22" InUpgrade="False" UpgradeCompleted="False" UpgradeTimeLeft="0" Production="0" />
-  <Building Type="3" Level="1" TilePosX="19" TilePosY="30" InUpgrade="False" UpgradeCompleted="False" UpgradeTimeLeft="0" Production="4.391465" />
-  <Building Type="4" Level="1" TilePosX="22" TilePosY="26" InUpgrade="False" UpgradeCompleted="False" UpgradeTimeLeft="0" Production="2.076931" />
-  <Building Type="4" Level="1" TilePosX="11" TilePosY="25" InUpgrade="False" UpgradeCompleted="False" UpgradeTimeLeft="0" Production="2.966616" />
-  <Building Type="3" Level="1" TilePosX="10" TilePosY="20" InUpgrade="False" UpgradeCompleted="False" UpgradeTimeLeft="0" Production="3.092034" />
-  <Building Type="5" Level="1" TilePosX="15" TilePosY="16" InUpgrade="False" UpgradeCompleted="False" UpgradeTimeLeft="0" Production="0" />
-  <Building Type="6" Level="1" TilePosX="13" TilePosY="22" InUpgrade="False" UpgradeCompleted="False" UpgradeTimeLeft="0" Production="0" />
-  <Building Type="7" Level="1" TilePosX="11" TilePosY="16" InUpgrade="False" UpgradeCompleted="False" UpgradeTimeLeft="0" Production="0" />
-  <Building Type="7" Level="1" TilePosX="19" TilePosY="20" InUpgrade="False" UpgradeCompleted="False" UpgradeTimeLeft="0" Production="0" />
-  <Building Type="8" Level="1" TilePosX="18" TilePosY="13" InUpgrade="False" UpgradeCompleted="False" UpgradeTimeLeft="296.496" Production="0">
+  <Building Type="0" Level="3" TilePosX="24" TilePosY="23" InUpgrade="False" UpgradeCompleted="False" UpgradeTimeLeft="0" Production="0" />
+  <Building Type="1" Level="1" TilePosX="27" TilePosY="33" InUpgrade="False" UpgradeCompleted="False" UpgradeTimeLeft="0" Production="0" />
+  <Building Type="3" Level="1" TilePosX="16" TilePosY="26" InUpgrade="False" UpgradeCompleted="False" UpgradeTimeLeft="0" Production="4.104553" />
+  <Building Type="1" Level="1" TilePosX="13" TilePosY="30" InUpgrade="False" UpgradeCompleted="False" UpgradeTimeLeft="0" Production="0" />
+  <Building Type="4" Level="3" TilePosX="16" TilePosY="23" InUpgrade="False" UpgradeCompleted="False" UpgradeTimeLeft="0" Production="2.227507" />
+  <Building Type="7" Level="1" TilePosX="20" TilePosY="16" InUpgrade="False" UpgradeCompleted="False" UpgradeTimeLeft="0" Production="0" />
+  <Building Type="8" Level="0" TilePosX="15" TilePosY="18" InUpgrade="False" UpgradeCompleted="False" UpgradeTimeLeft="0" Production="0">
     <Unit Type="0" Count="0" />
     <Unit Type="1" Count="0" />
     <Unit Type="2" Count="0" />

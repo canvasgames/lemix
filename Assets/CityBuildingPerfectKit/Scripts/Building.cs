@@ -235,10 +235,14 @@ namespace BE {
 
 			// instantiate mesh and set to goCenter
 			GameObject prefabMesh = Resources.Load (meshPath) as GameObject;
-			goCenter = (GameObject)Instantiate(prefabMesh, Vector3.zero, Quaternion.identity);
-			goCenter.transform.SetParent (gameObject.transform);
-			goCenter.transform.localPosition = Vector3.zero;
-			goCenter.transform.localRotation = Quaternion.Euler(0,-90,0);
+
+            // goCenter = (GameObject)Instantiate(prefabMesh, Vector3.zero, Quaternion.identity);
+            goCenter = (GameObject)Instantiate(prefabMesh, Vector3.zero, Quaternion.identity);
+
+            goCenter.transform.SetParent (gameObject.transform);
+            //goCenter.transform.localPosition = Vector3.zero;
+            goCenter.transform.localPosition = prefabMesh.transform.localPosition;
+            goCenter.transform.localRotation = Quaternion.Euler(0,-90,0);
 
 			// if wall
 			if(type == 2) {

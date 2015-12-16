@@ -34,56 +34,69 @@ public class btNextTutorial : ButtonCap
         if(GLOBALS.s.TUTORIAL_PHASE == 1)
         {
             
-            MenusController.s.destroyMenu("ArowNext", null, null);
+            MenusController.s.destroyMenu("ArowNext", null);
             TutorialController.s.tutorial1Clicked();
         }
         else if (GLOBALS.s.TUTORIAL_PHASE == 2)
         {
 
-            MenusController.s.destroyMenu("ArowNext", null, null);
+            MenusController.s.destroyMenu("ArowNext", null);
             TutorialController.s.tutorial1Phase2Clicked();
 
         }
         else if (GLOBALS.s.TUTORIAL_PHASE == 3)
         {
 
-            MenusController.s.destroyMenu("ArowNext", null, null);
+            MenusController.s.destroyMenu("ArowNext", null);
             TutorialController.s.tutorial1Phase3Clicked();
 
         }
         else if (GLOBALS.s.TUTORIAL_PHASE == 4)
         {
 
-            MenusController.s.destroyMenu("ArowNext", null, null);
+            MenusController.s.destroyMenu("ArowNext", null);
             TutorialController.s.tutorial1Phase4Clicked();
 
         }
         else if (GLOBALS.s.TUTORIAL_PHASE == 5)
         {
 
-            MenusController.s.destroyMenu("ArowNext", null, null);
+            MenusController.s.destroyMenu("ArowNext", null);
             TutorialController.s.tutorialListOfDemosClosed();
 
         }
         else if (GLOBALS.s.TUTORIAL_PHASE == 7)
         {
 
-            MenusController.s.destroyMenu("ArowNext", null, null);
+            MenusController.s.destroyMenu("ArowNext", null);
             TutorialController.s.destroySelectPunisher();
 
         }
         else if (GLOBALS.s.TUTORIAL_PHASE == 8)
         {
 
-            MenusController.s.destroyMenu("ArowNext", null, null);
+            MenusController.s.destroyMenu("ArowNext", null);
             TutorialController.s.destroySelectPunisher();
 
         }
         else if (GLOBALS.s.TUTORIAL_PHASE == 10)
         {
 
-            MenusController.s.destroyMenu("ArowNext", null, null);
+            MenusController.s.destroyMenu("ArowNext", null);
             TutorialController.s.collectSoulPhase();
+
+        }
+        else if (GLOBALS.s.TUTORIAL_PHASE == 12)
+        {
+
+            MenusController.s.destroyMenu("ArowNext", null);
+            TutorialController.s.pressBuildBtConstructImp();
+
+        }
+        else if (GLOBALS.s.TUTORIAL_PHASE == 17)
+        {
+            MenusController.s.destroyMenu("ArowNext", null);
+            TutorialController.s.realEndTutorial();
 
         }
     }

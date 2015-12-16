@@ -214,9 +214,18 @@ namespace BE {
 
 				// if user clicked 'create' button
 				if(ct == CommandType.Create) {
+                    if(GLOBALS.s.TUTORIAL_OCCURING == true)
+                    {
+                        if (GLOBALS.s.TUTORIAL_PHASE == 8)
+                        {
+                            TutorialController.s.collectSadnessPhase();
+                        }
+                        else if (GLOBALS.s.TUTORIAL_PHASE == 15)
+                        {
+                            TutorialController.s.collectDemonsPhase();
+                        }
+                    }
 
-                    if(GLOBALS.s.TUTORIAL_PHASE == 8 || GLOBALS.s.TUTORIAL_PHASE == 8)
-                        TutorialController.s.collectSadnessPhase();
                     // building can land
                     if (building.Landable) {
 
@@ -419,8 +428,12 @@ namespace BE {
 		public void _Hide() {
       
             //BETween.anchoredPosition3D(gameObject, 0.2f, new Vector3(0,0,0), new Vector3(0,-250,0));//.method = BETweenMethod.easeOut;
-			StartCoroutine(TweenMov(GetComponent<RectTransform>(), new Vector2(0,0), new Vector2(0,-250), 0.2f, 0));
-            
+
+            if(GLOBALS.s.TUTORIAL_PHASE !=2 && GLOBALS.s.TUTORIAL_PHASE != 3)
+            {
+                StartCoroutine(TweenMov(GetComponent<RectTransform>(), new Vector2(0, 0), new Vector2(0, -250), 0.2f, 0));
+            }
+
             Visible = false;
 		}
 		
