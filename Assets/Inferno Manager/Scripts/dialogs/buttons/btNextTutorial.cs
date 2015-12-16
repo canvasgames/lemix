@@ -79,7 +79,13 @@ public class btNextTutorial : ButtonCap
             TutorialController.s.destroySelectPunisher();
 
         }
+        else if (GLOBALS.s.TUTORIAL_PHASE == 10)
+        {
 
+            MenusController.s.destroyMenu("ArowNext", null, null);
+            TutorialController.s.collectSoulPhase();
+
+        }
     }
 
 

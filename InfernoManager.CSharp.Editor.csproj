@@ -105,21 +105,23 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\unity-ui-extensions\Scripts\Accordion\Editor\AccordionElementEditor.cs" />
-    <Compile Include="Assets\unity-ui-extensions\Scripts\Editor\CanvasGroupActivator.cs" />
-    <Compile Include="Assets\unity-ui-extensions\Scripts\Editor\UIExtensionsMenuOptions.cs" />
-    <Compile Include="Assets\unity-ui-extensions\Scripts\Editor\uGUITools.cs" />
+    <Compile Include="Assets\Cartoon FX\Editor\CFXEasyEditor.cs" />
+    <Compile Include="Assets\Cartoon FX\Editor\CFX_SpawnSystemEditor.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Assets\Cartoon FX\CartoonFX2 Readme.txt" />
+    <None Include="Assets\Cartoon FX\CartoonFX2 Releases Notes.txt" />
+    <None Include="Assets\Cartoon FX\Demo\Assets\CFX_Demo_WaterWiggle.shader" />
+    <None Include="Assets\Cartoon FX\Shaders (Mobile)\CFXM_MobileParticleAdd_Alpha8.shader" />
+    <None Include="Assets\Cartoon FX\Shaders\CFX2 Particle Alpha Blend Add.shader" />
+    <None Include="Assets\Cartoon FX\Shaders\CFX2 Particle Alpha Blend Tint.shader" />
+    <None Include="Assets\CityBuildingPerfectKit\Resources\Database.xml" />
     <None Include="Assets\Demigiant\DOTween\DOTween.XML" />
     <None Include="Assets\Demigiant\DOTween\DOTween43.xml" />
     <None Include="Assets\Demigiant\DOTween\DOTween46.xml" />
     <None Include="Assets\Demigiant\DOTween\DOTween50.xml" />
     <None Include="Assets\Demigiant\DOTween\Editor\DOTweenEditor.XML" />
     <None Include="Assets\Demigiant\DOTween\readme.txt" />
-    <None Include="Assets\unity-ui-extensions\Shaders\SoftMaskShader.shader" />
-    <None Include="Assets\unity-ui-extensions\Shaders\SoftMaskShaderText.shader" />
-    <None Include="Assets\unity-ui-extensions\Shaders\UIImageCrop.shader" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2015\UnityVS.CSharp.targets" />
 </Project>

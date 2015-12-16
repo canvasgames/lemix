@@ -113,7 +113,10 @@ namespace BE {
 
 				//building creation is enabled
 				if(CountAvailable && PriceAvailable && BEWorkerManager.instance.WorkerAvailable()) {
-
+                    if (GLOBALS.s.TUTORIAL_PHASE == 7)
+                    {
+                        TutorialController.s.destroySelectPunisher();
+                    }
 					// add building. if buildtime is zero, then create level1, else not, create o level and upgrade start
 					Building script = BEGround.instance.BuildingAdd (bt.ID,(bd.BuildTime == 0) ? 1 : 0);
 					if(script != null) {

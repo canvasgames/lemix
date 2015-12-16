@@ -8,7 +8,7 @@ public class TutorialController : MonoBehaviour
     public static TutorialController s;
     
     GameObject tempObject;
-    public GameObject HUD;
+    public GameObject HUD, explosion;
     
 
     Full_Screen_Dialog[] fscreen;
@@ -30,7 +30,7 @@ public class TutorialController : MonoBehaviour
             // PlayerPrefs.SetInt("firstGame", 1);
           
 
-            //tutorial1Timer = 2f;
+            tutorial1Timer = 2f;
         }
 
     }
@@ -83,8 +83,16 @@ public class TutorialController : MonoBehaviour
 
         tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/SmallScroll"));
         MenusController.s.enterFromRight(tempObject, "SmallScroll", null,0,0);
+        
+        tempObject = (GameObject)Instantiate(explosion);
 
+        Invoke("createBuilding", 0.3f);
         Invoke("createNextButton", 2);
+    }
+
+    void createBuilding()
+    {
+        BE.SceneTown.instance.createTownHownTutorial();
     }
 
     public void tutorial1Phase2Clicked()
@@ -94,8 +102,14 @@ public class TutorialController : MonoBehaviour
         fscreen = GameObject.FindObjectsOfType(typeof(Full_Screen_Dialog)) as Full_Screen_Dialog[];
         // fscreen[0].changeText();
         fscreen[0].closeAndReopen();
-
+        tempObject = (GameObject)Instantiate(explosion,new Vector3(9f,0f,-1f),Quaternion.identity);
+        Invoke("createGate", 0.3f);
         Invoke("createNextButton", 2);
+    }
+
+    void createGate()
+    {
+        BE.SceneTown.instance.createHellGateTutorial();
     }
 
     public void tutorial1Phase3Clicked()
@@ -152,9 +166,10 @@ public class TutorialController : MonoBehaviour
         GLOBALS.s.TUTORIAL_PHASE = 7;
         fscreen = GameObject.FindObjectsOfType(typeof(Full_Screen_Dialog)) as Full_Screen_Dialog[];
         fscreen[0].closeAndReopen();
+        MenusController.s.destroyMenu("Satan", null, null);
         MenusController.s.destroyMenu("DownArrow", null, null);
         MenusController.s.repositeMenu("SmallScroll", null, 0f, 240f);
-        Invoke("createNextButton", 2);
+        //Invoke("createNextButton", 2);
 
     }
 
@@ -164,5 +179,35 @@ public class TutorialController : MonoBehaviour
         fscreen = GameObject.FindObjectsOfType(typeof(Full_Screen_Dialog)) as Full_Screen_Dialog[];
         fscreen[0].closeAndReopen();
 
+    }
+
+    public void collectSadnessPhase()
+    {
+        GLOBALS.s.TUTORIAL_PHASE = 9;
+        fscreen = GameObject.FindObjectsOfType(typeof(Full_Screen_Dialog)) as Full_Screen_Dialog[];
+        fscreen[0].closeAndReopen();
+
+    }
+
+    public void sadnessCollected()
+    {
+        GLOBALS.s.TUTORIAL_PHASE = 10;
+        fscreen = GameObject.FindObjectsOfType(typeof(Full_Screen_Dialog)) as Full_Screen_Dialog[];
+        fscreen[0].closeAndReopen();
+        Invoke("createNextButton", 1);
+    }
+
+    public void collectSoulPhase()
+    {
+        GLOBALS.s.TUTORIAL_PHASE = 11;
+        fscreen = GameObject.FindObjectsOfType(typeof(Full_Screen_Dialog)) as Full_Screen_Dialog[];
+        fscreen[0].closeAndReopen();
+    }
+
+    public void soulsCollected()
+    {
+        GLOBALS.s.TUTORIAL_PHASE = 12;
+        MenusController.s.destroyMenu("SmallScroll", null, null);
+        //RANK UP
     }
 }

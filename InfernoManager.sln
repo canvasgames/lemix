@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2015
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InfernoManager.CSharp", "InfernoManager.CSharp.csproj", "{0F5ABCFA-645E-7A08-FF66-1D9107C42117}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InfernoManager.CSharp.Editor", "InfernoManager.CSharp.Editor.csproj", "{3486244D-FE47-8044-D452-7F9E0E24C67C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -13,6 +15,10 @@ Global
 		{0F5ABCFA-645E-7A08-FF66-1D9107C42117}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0F5ABCFA-645E-7A08-FF66-1D9107C42117}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0F5ABCFA-645E-7A08-FF66-1D9107C42117}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3486244D-FE47-8044-D452-7F9E0E24C67C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3486244D-FE47-8044-D452-7F9E0E24C67C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3486244D-FE47-8044-D452-7F9E0E24C67C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3486244D-FE47-8044-D452-7F9E0E24C67C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -30,16 +30,31 @@ namespace BE {
 
 		public	Building 	building = null;
 
+        GameObject myPart;
+        GameObject bigDaddy, finalPos;
 
-		void Update () {
+        void Update () {
 			
 		}
 
 		// when user clicked collect dialog
 		public void OnButtonCollect() {
-			// do collect
-			building.Collect();
-		}
+            // do collect
+            if(GLOBALS.s.TUTORIAL_PHASE == 9)
+                TutorialController.s.sadnessCollected();
+            if (GLOBALS.s.TUTORIAL_PHASE == 11)
+                TutorialController.s.soulsCollected();
+
+            building.Collect();
+
+            bigDaddy = GameObject.Find("Canvas");
+            finalPos = GameObject.Find("LabelGold");
+            myPart = (GameObject)Instantiate(Resources.Load("Prefabs/sadness_particle"));
+            myPart.transform.SetParent(bigDaddy.transform, false);
+            myPart.transform.localPosition = transform.localPosition;
+            myPart.GetComponent<particlesLogic>().move(bigDaddy.transform, finalPos.transform);
+
+        }
 		
 	}
 	

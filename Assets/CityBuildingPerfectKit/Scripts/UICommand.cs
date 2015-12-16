@@ -215,8 +215,10 @@ namespace BE {
 				// if user clicked 'create' button
 				if(ct == CommandType.Create) {
 
-					// building can land
-					if(building.Landable) {
+                    if(GLOBALS.s.TUTORIAL_PHASE == 8 || GLOBALS.s.TUTORIAL_PHASE == 8)
+                        TutorialController.s.collectSadnessPhase();
+                    // building can land
+                    if (building.Landable) {
 
 						// hide command dialog
 						Hide();
@@ -364,7 +366,8 @@ namespace BE {
 			if(building.OnceLanded == false) {
 				// only show 'create','cancel' button
 				AddButton(Resources.Load<Sprite>("Icons/CheckedMark"), "Ok", PayType.None, 0, CommandType.Create);
-				AddButton(Resources.Load<Sprite>("Icons/Multiplication"), "Cancel", PayType.None, 0, CommandType.CreateCancel);
+                if (GLOBALS.s.TUTORIAL_PHASE != 8)
+				    AddButton(Resources.Load<Sprite>("Icons/Multiplication"), "Cancel", PayType.None, 0, CommandType.CreateCancel);
 			}
 			else {
 
@@ -414,9 +417,11 @@ namespace BE {
 		}
 
 		public void _Hide() {
-			//BETween.anchoredPosition3D(gameObject, 0.2f, new Vector3(0,0,0), new Vector3(0,-250,0));//.method = BETweenMethod.easeOut;
+      
+            //BETween.anchoredPosition3D(gameObject, 0.2f, new Vector3(0,0,0), new Vector3(0,-250,0));//.method = BETweenMethod.easeOut;
 			StartCoroutine(TweenMov(GetComponent<RectTransform>(), new Vector2(0,0), new Vector2(0,-250), 0.2f, 0));
-			Visible = false;
+            
+            Visible = false;
 		}
 		
 		public static void Show(Building script) 	{ instance._Show(script); }

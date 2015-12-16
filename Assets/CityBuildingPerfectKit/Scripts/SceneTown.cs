@@ -120,6 +120,8 @@ namespace BE {
 
 			//FIRST TIME USER if user new to this game add initial building
 			if(bFirstRun) {
+
+                
 				// add town hall 
 				{
 					Building script = BEGround.instance.BuildingAdd (0,1);
@@ -207,7 +209,7 @@ namespace BE {
             if (Input.GetMouseButton(0)) {
 
 				if (EventSystem.current.IsPointerOverGameObject()) {
-					Debug.Log("left-click over a GUI element!");
+					
 					return;
 				}
 
@@ -655,6 +657,23 @@ namespace BE {
 
         #endregion
 
+        public void createTownHownTutorial()
+        {
+            Building script = BEGround.instance.BuildingAdd(0, 1);
+            script.Move(new Vector3 (4f, 0f, 4f));
+            //BuildingSelect(script);
+            BuildingLandUnselect();
+        }
+
+        public void createHellGateTutorial()
+        {
+            Building script = BEGround.instance.BuildingAdd(1, 1);
+            script.Move(new Vector3(9.36f, 0f, -1f));
+           // BuildingSelect(script);
+             BuildingLandUnselect();
+        }
     }
+
+
 
 }
