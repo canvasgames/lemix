@@ -93,5 +93,66 @@
       <BuildingDef HitPoint="420" BuildPrice="2000,0,0" BuildTime="1800" TownHallLevelRequired="2" />
       <BuildingDef HitPoint="460" BuildPrice="5000,0,0" BuildTime="2700" TownHallLevelRequired="3" />
     </BuildingType>
+    
+    <BuildingType ID="11" Name="Bad Food Restaurant" Info="" TileX="3" TileZ="2" LevelMax="11" Category="0" MaxCount="5,5,5,5,5,5,5,5,5,5">
+      <BuildingDef HitPoint="400" BuildPrice="1,0,0" BuildTime="10" TownHallLevelRequired="1">
+        <Capacity Gold="0" Elixir="1000" />
+      </BuildingDef>
+      <BuildingDef HitPoint="600" BuildPrice="750,0,0" BuildTime="1800" TownHallLevelRequired="2">
+        <Capacity Gold="0" Elixir="3000" />
+      </BuildingDef>
+      <BuildingDef HitPoint="800" BuildPrice="1500,0,0" BuildTime="3600" TownHallLevelRequired="2">
+        <Capacity Gold="0" Elixir="6000" />
+      </BuildingDef>
+    </BuildingType>
+
+    <BuildingType ID="12" Name="Cauldron" Info="" TileX="3" TileZ="3" LevelMax="11" Category="0" MaxCount="5,5,5,5,5,5,5,5,5,5">
+      <BuildingDef HitPoint="400" BuildPrice="1,0,0" BuildTime="10" TownHallLevelRequired="1">
+        <Capacity Gold="0" Elixir="1000" />
+      </BuildingDef>
+      <BuildingDef HitPoint="600" BuildPrice="750,0,0" BuildTime="1800" TownHallLevelRequired="2">
+        <Capacity Gold="0" Elixir="3000" />
+      </BuildingDef>
+      <BuildingDef HitPoint="800" BuildPrice="1500,0,0" BuildTime="3600" TownHallLevelRequired="2">
+        <Capacity Gold="0" Elixir="6000" />
+      </BuildingDef>
+    </BuildingType>
+
+    <BuildingType ID="13" Name="Sisyphus Hill" Info="" TileX="4" TileZ="4" LevelMax="11" Category="0" MaxCount="5,5,5,5,5,5,5,5,5,5">
+      <BuildingDef HitPoint="400" BuildPrice="1,0,0" BuildTime="10" TownHallLevelRequired="1">
+        <Capacity Gold="0" Elixir="1000" />
+      </BuildingDef>
+      <BuildingDef HitPoint="600" BuildPrice="750,0,0" BuildTime="1800" TownHallLevelRequired="2">
+        <Capacity Gold="0" Elixir="3000" />
+      </BuildingDef>
+      <BuildingDef HitPoint="800" BuildPrice="1500,0,0" BuildTime="3600" TownHallLevelRequired="2">
+        <Capacity Gold="0" Elixir="6000" />
+      </BuildingDef>
+    </BuildingType>
+
+    <BuildingType ID="14" Name="Toaster Oven" Info="" TileX="3" TileZ="2" LevelMax="11" Category="0" MaxCount="5,5,5,5,5,5,5,5,5,5">
+      <BuildingDef HitPoint="400" BuildPrice="1,0,0" BuildTime="10" TownHallLevelRequired="1">
+        <Capacity Gold="0" Elixir="1000" />
+      </BuildingDef>
+      <BuildingDef HitPoint="600" BuildPrice="750,0,0" BuildTime="1800" TownHallLevelRequired="2">
+        <Capacity Gold="0" Elixir="3000" />
+      </BuildingDef>
+      <BuildingDef HitPoint="800" BuildPrice="1500,0,0" BuildTime="3600" TownHallLevelRequired="2">
+        <Capacity Gold="0" Elixir="6000" />
+      </BuildingDef>
+    </BuildingType>
+
+    <BuildingType ID="15" Name="Law School" Info="" TileX="4" TileZ="4" LevelMax="11" Category="0" MaxCount="5,5,5,5,5,5,5,5,5,5">
+      <BuildingDef HitPoint="400" BuildPrice="1,0,0" BuildTime="10" TownHallLevelRequired="1">
+        <Capacity Gold="0" Elixir="1000" />
+      </BuildingDef>
+      <BuildingDef HitPoint="600" BuildPrice="750,0,0" BuildTime="1800" TownHallLevelRequired="2">
+        <Capacity Gold="0" Elixir="3000" />
+      </BuildingDef>
+      <BuildingDef HitPoint="800" BuildPrice="1500,0,0" BuildTime="3600" TownHallLevelRequired="2">
+        <Capacity Gold="0" Elixir="6000" />
+      </BuildingDef>
+    </BuildingType>
+    
   </Building>
 </Database>

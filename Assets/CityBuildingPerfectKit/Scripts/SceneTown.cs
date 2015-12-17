@@ -109,10 +109,12 @@ namespace BE {
 			Shield = new BENumber(BENumber.IncType.TIME, 0, 100000000, 0);			
 			Shield.AddUIText(BEUtil.GetObject("PanelOverlay/LabelShield/Text").GetComponent<Text>());
 
-			// For camera fade animation, set cameras initial positions
-			goCameraRoot.transform.position = new Vector3(-5.5f,0,-5);
-			goCamera.transform.localPosition = new Vector3(0,0,-128.0f);
-			InFade = true;
+            // For camera fade animation, set cameras initial positions
+            //goCameraRoot.transform.position = new Vector3(2.6f, 0, 0.3f);
+           // goCamera.transform.localPosition = new Vector3(0, 0, -128.0f);
+            goCameraRoot.transform.position = new Vector3(-5.5f,0,-5);
+            goCamera.transform.localPosition = new Vector3(0,0,-128.0f);
+            InFade = true;
 			FadeAge = 0.0f;
 		}
 
@@ -123,9 +125,9 @@ namespace BE {
 
 			// load game data from xml file
 			Load ();
-
-			//FIRST TIME USER if user new to this game add initial building
-			if(bFirstRun) {
+            
+            //FIRST TIME USER if user new to this game add initial building
+            if (bFirstRun) {
 
                 
 				// add town hall 
@@ -137,7 +139,7 @@ namespace BE {
 				}
 				// add hut
 				{
-					Building script = BEGround.instance.BuildingAdd (1,1);
+					Building script = BEGround.instance.BuildingAdd (11,1);
 					script.Move(new Vector3(4,0,0));
 					BuildingSelect(script);
 					BuildingLandUnselect();
@@ -704,7 +706,7 @@ namespace BE {
 
         public void createHellGateTutorial()
         {
-            Building script = BEGround.instance.BuildingAdd(1, 1);
+            Building script = BEGround.instance.BuildingAdd(11, 1);
             script.Move(new Vector3(9.36f, 0f, -1f));
             BuildingSelect(script);
              BuildingLandUnselect();

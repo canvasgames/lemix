@@ -96,15 +96,20 @@ namespace BE {
 
 				// fill first tab
 				bt.Clear ();
-				bt.Add (TBDatabase.GetBuildingType(3));
-				bt.Add (TBDatabase.GetBuildingType(4));
-				bt.Add (TBDatabase.GetBuildingType(5));
-				bt.Add (TBDatabase.GetBuildingType(6));
-				FillContents(0, "Punish", bt);
+				
+                bt.Add(TBDatabase.GetBuildingType(11));
+                bt.Add(TBDatabase.GetBuildingType(12));
+                bt.Add(TBDatabase.GetBuildingType(13));
+                bt.Add(TBDatabase.GetBuildingType(14));
+                FillContents(0, "Punish", bt);
 
 				// fill second tab
 				bt.Clear ();
-				bt.Add (TBDatabase.GetBuildingType(2));
+                bt.Add(TBDatabase.GetBuildingType(3));
+                bt.Add(TBDatabase.GetBuildingType(4));
+                bt.Add(TBDatabase.GetBuildingType(5));
+                bt.Add(TBDatabase.GetBuildingType(6));
+                bt.Add (TBDatabase.GetBuildingType(2));
 				bt.Add (TBDatabase.GetBuildingType(7));
 				bt.Add (TBDatabase.GetBuildingType(8));
 				//bt.Add (TBDatabase.GetBuildingType(9));
@@ -113,7 +118,8 @@ namespace BE {
 
 				// fill third tab
 				bt.Clear ();
-				FillContents(2, "Research", bt);
+                bt.Add(TBDatabase.GetBuildingType(15));
+                FillContents(2, "Research", bt);
 
 				BETween.anchoredPosition(rtDialog.gameObject, 0.3f, new Vector3(0,-500), new Vector3(0,0)).method = BETweenMethod.easeOut;
 			}
