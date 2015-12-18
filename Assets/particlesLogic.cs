@@ -15,6 +15,7 @@ public class particlesLogic : MonoBehaviour {
     {
         finalPos = fPos;
         BigD = daddy;
+        transform.localPosition = daddy.transform.localPosition;
         transform.DOLocalMove(finalPos.transform.localPosition,1f).OnComplete(createsmoke);
     }
 

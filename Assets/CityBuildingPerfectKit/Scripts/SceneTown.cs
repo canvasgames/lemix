@@ -110,8 +110,6 @@ namespace BE {
 			Shield.AddUIText(BEUtil.GetObject("PanelOverlay/LabelShield/Text").GetComponent<Text>());
 
             // For camera fade animation, set cameras initial positions
-            //goCameraRoot.transform.position = new Vector3(2.6f, 0, 0.3f);
-           // goCamera.transform.localPosition = new Vector3(0, 0, -128.0f);
             goCameraRoot.transform.position = new Vector3(-5.5f,0,-5);
             goCamera.transform.localPosition = new Vector3(0,0,-128.0f);
             InFade = true;
@@ -139,7 +137,7 @@ namespace BE {
 				}
 				// add hut
 				{
-					Building script = BEGround.instance.BuildingAdd (11,1);
+					Building script = BEGround.instance.BuildingAdd (4,1);
 					script.Move(new Vector3(4,0,0));
 					BuildingSelect(script);
 					BuildingLandUnselect();

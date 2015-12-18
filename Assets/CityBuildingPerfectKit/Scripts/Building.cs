@@ -124,8 +124,9 @@ namespace BE {
 		[HideInInspector]
 		public 	List<GenQueItem>	queUnitGen = new List<GenQueItem>();
 
-
-		void Awake () {
+        GameObject myPart;
+        GameObject bigDaddy, finalPos;
+        void Awake () {
 
 			// if building can hold trained units
 			// set count of unit by type
@@ -199,7 +200,8 @@ namespace BE {
 				uiInfo.Progress.fillAmount = (UpgradeTimeTotal-UpgradeTimeLeft)/UpgradeTimeTotal;
 				uiInfo.groupProgress.alpha = 1;
 				uiInfo.groupProgress.gameObject.SetActive(true);
-			}
+                if (UpgradeCompleted) { UpgradeEnd();  }
+            }
 
 			UnitGenUpdate(deltaTime);
 		}
@@ -508,23 +510,48 @@ namespace BE {
 		// collect resources
 		public void Collect() {
 
-			string textColor=""; 
+			string textColor="";
+            if (GLOBALS.s.TUTORIAL_OCCURING == true)
+            {
+                if (GLOBALS.s.TUTORIAL_PHASE == 9)
+                    TutorialController.s.sadnessCollected();
+                else if (GLOBALS.s.TUTORIAL_PHASE == 11)
+                    TutorialController.s.soulsCollected();
+                else if (GLOBALS.s.TUTORIAL_PHASE == 16)
+                    TutorialController.s.endOfTutorial();
+            }
 
-			// increase resource count
-			if(def.eProductionType == PayType.Elixir) 	{
+            
+
+            // increase resource count
+            if (def.eProductionType == PayType.Elixir) 	{
 				SceneTown.Elixir.ChangeDelta((double)Production);
 				SceneTown.instance.CapacityCheck();
 				textColor = "<color=purple>";
-			}
+                finalPos = GameObject.Find("LabelElixir");
+                myPart = (GameObject)Instantiate(Resources.Load("Prefabs/Elixir"));
+            }
 			else if(def.eProductionType == PayType.Gold) {
 				SceneTown.Gold.ChangeDelta((double)Production);
 				SceneTown.instance.CapacityCheck();
 				textColor = "<color=orange>";
-			}
+                finalPos = GameObject.Find("LabelGold");
+                myPart = (GameObject)Instantiate(Resources.Load("Prefabs/Gold"));
+            }
 			else {}
 
-			// show collect ui to show how many resources was collected
-			UICollect script = UIInGame.instance.AddInGameUI(prefUICollect, transform, new Vector3(0,1.5f,0)).GetComponent<UICollect>();
+            //Particle moving
+            // Create the particle off collect
+            bigDaddy = GameObject.Find("Canvas");
+            
+
+            myPart.transform.SetParent(bigDaddy.transform, false);
+
+            myPart.transform.localPosition = transform.localPosition;
+            myPart.GetComponent<particlesLogic>().move(transform, finalPos.transform);
+
+            // show collect ui to show how many resources was collected
+            UICollect script = UIInGame.instance.AddInGameUI(prefUICollect, transform, new Vector3(0,1.5f,0)).GetComponent<UICollect>();
 			script.Name.text = textColor+((int)Production).ToString ()+"</color>";
 			script.Init(transform, new Vector3(0,1.0f,0));
 

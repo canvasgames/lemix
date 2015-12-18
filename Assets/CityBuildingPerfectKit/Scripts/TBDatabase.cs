@@ -177,8 +177,9 @@ namespace BE {
 			BuildElixirPrice		= _BuildElixirPrice;
 			BuildGemPrice			= _BuildGemPrice;
 			BuildTime				= _BuildTime;
-			RewardExp				= (int)Mathf.Sqrt(BuildTime);
-			TownHallLevelRequired	= _LevelRequired;		
+            //RewardExp				= (int)Mathf.Sqrt(BuildTime);
+            RewardExp = 0;
+            TownHallLevelRequired	= _LevelRequired;		
 
 			for(int i=0 ; i < (int)PayType.Max ; ++i) {
 				Capacity[i] = 0;
@@ -194,8 +195,9 @@ namespace BE {
 			BuildElixirPrice		= int.Parse(sitPriceSub[1]);
 			BuildGemPrice			= int.Parse(sitPriceSub[2]);
 			BuildTime				= int.Parse(e.GetAttribute("BuildTime"));
-			RewardExp				= (int)Mathf.Sqrt(BuildTime);
-			TownHallLevelRequired	= int.Parse(e.GetAttribute("TownHallLevelRequired"));		
+			//RewardExp				= (int)Mathf.Sqrt(BuildTime);
+            RewardExp = 0;
+            TownHallLevelRequired	= int.Parse(e.GetAttribute("TownHallLevelRequired"));		
 
 			for(int i=0 ; i < (int)PayType.Max ; ++i) {
 				Capacity[i] = 0;

@@ -109,10 +109,11 @@ namespace BE {
 
 			// if item is building
 			if(bt != null) {
-				//Debug.Log ("UIShopItem selected : "+bt.Name);
+                //Debug.Log ("UIShopItem selected : "+bt.Name);
 
-				//building creation is enabled
-				if(CountAvailable && PriceAvailable && BEWorkerManager.instance.WorkerAvailable()) {
+                //building creation is enabled
+                //if(CountAvailable && PriceAvailable && BEWorkerManager.instance.WorkerAvailable()
+                if (CountAvailable && PriceAvailable) {
                     if (GLOBALS.s.TUTORIAL_OCCURING == true)
                     {
                         if (GLOBALS.s.TUTORIAL_PHASE == 7)
