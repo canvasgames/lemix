@@ -99,7 +99,7 @@
     </BuildingType>
     
     <BuildingType ID="11" Name="Bad Food Restaurant" Info="" TileX="3" TileZ="2" LevelMax="11" Category="0" MaxCount="5,5,5,5,5,5,5,5,5,5">
-      <BuildingDef HitPoint="400" BuildPrice="0,0,1" BuildTime="10" TownHallLevelRequired="1">
+      <BuildingDef HitPoint="400" BuildPrice="1,0,0" BuildTime="10" TownHallLevelRequired="1">
         <Capacity Gold="0" Elixir="1000" />
       </BuildingDef>
       <BuildingDef HitPoint="600" BuildPrice="750,0,0" BuildTime="1800" TownHallLevelRequired="2">

@@ -13,11 +13,13 @@
     <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>Unity Web v3.5</TargetFrameworkProfile>
-    <CompilerResponseFile></CompilerResponseFile>
+    <CompilerResponseFile>
+    </CompilerResponseFile>
     <UnityProjectType>Game:1</UnityProjectType>
     <UnityBuildTarget>WebPlayer:6</UnityBuildTarget>
     <UnityVersion>5.3.0f4</UnityVersion>
-    <RootNamespace></RootNamespace>
+    <RootNamespace>
+    </RootNamespace>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -72,7 +74,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\BuildBt.cs" />
     <Compile Include="Assets\Cartoon FX\Demo\Assets\CFX2_Demo.cs" />
     <Compile Include="Assets\Cartoon FX\Demo\Assets\CFX_Demo_RandomDir.cs" />
     <Compile Include="Assets\Cartoon FX\Demo\Assets\CFX_Demo_RotateCamera.cs" />
@@ -115,6 +116,7 @@
     <Compile Include="Assets\CityBuildingPerfectKit\Scripts\UIUnitQueItem.cs" />
     <Compile Include="Assets\Demigiant\DOTween\Examples\Basics.cs" />
     <Compile Include="Assets\Demigiant\DOTween\Examples\Sequences.cs" />
+    <Compile Include="Assets\Inferno Manager\Scripts\BuildBt.cs" />
     <Compile Include="Assets\Inferno Manager\Scripts\Controllers\ButtonCap.cs" />
     <Compile Include="Assets\Inferno Manager\Scripts\Controllers\GLOBALS.cs" />
     <Compile Include="Assets\Inferno Manager\Scripts\Controllers\GameController.cs" />
@@ -124,12 +126,11 @@
     <Compile Include="Assets\Inferno Manager\Scripts\Controllers\TutorialController.cs" />
     <Compile Include="Assets\Inferno Manager\Scripts\dialogs\CreateDemonsScrollView.cs" />
     <Compile Include="Assets\Inferno Manager\Scripts\dialogs\Full_Screen_Dialog.cs" />
+    <Compile Include="Assets\Inferno Manager\Scripts\dialogs\SatanHand.cs" />
     <Compile Include="Assets\Inferno Manager\Scripts\dialogs\Satan_HUD.cs" />
     <Compile Include="Assets\Inferno Manager\Scripts\dialogs\buttons\btNextTutorial.cs" />
     <Compile Include="Assets\Inferno Manager\Scripts\dialogs\demonCreateAvatar.cs" />
-    <Compile Include="Assets\SatanHand.cs" />
-    <Compile Include="Assets\particlesLogic.cs" />
-    <Compile Include="Assets\particles_test.cs" />
+    <Compile Include="Assets\Inferno Manager\Scripts\particlesLogic.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Cartoon FX\CartoonFX2 Readme.txt" />
@@ -138,7 +139,9 @@
     <None Include="Assets\Cartoon FX\Shaders (Mobile)\CFXM_MobileParticleAdd_Alpha8.shader" />
     <None Include="Assets\Cartoon FX\Shaders\CFX2 Particle Alpha Blend Add.shader" />
     <None Include="Assets\Cartoon FX\Shaders\CFX2 Particle Alpha Blend Tint.shader" />
-    <None Include="Assets\CityBuildingPerfectKit\Resources\Database.xml" />
+    <None Include="Assets\CityBuildingPerfectKit\Resources\Database.xml">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Assets\Demigiant\DOTween\DOTween.XML" />
     <None Include="Assets\Demigiant\DOTween\DOTween43.xml" />
     <None Include="Assets\Demigiant\DOTween\DOTween46.xml" />

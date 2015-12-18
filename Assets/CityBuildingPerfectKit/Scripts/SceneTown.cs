@@ -569,9 +569,12 @@ namespace BE {
 			Debug.Log ("ElixirCapacityTotal:"+ElixirCapacityTotal.ToString ());
 
 			Gold.MaxSet(GoldCapacityTotal);
-			if(Gold.Target() > GoldCapacityTotal) Gold.ChangeTo(GoldCapacityTotal);
+			if(Gold.Target() > GoldCapacityTotal)
+                Gold.ChangeTo(GoldCapacityTotal);
+
 			Elixir.MaxSet(ElixirCapacityTotal);
-			if(Elixir.Target() > ElixirCapacityTotal) Elixir.ChangeTo(ElixirCapacityTotal);
+			if(Elixir.Target() > ElixirCapacityTotal)
+                Elixir.ChangeTo(ElixirCapacityTotal);
 
 			BEGround.instance.DistributeByCapacity(PayType.Gold, (float)Gold.Target());
 			BEGround.instance.DistributeByCapacity(PayType.Elixir, (float)Elixir.Target());
@@ -704,7 +707,7 @@ namespace BE {
 
         public void createHellGateTutorial()
         {
-            Building script = BEGround.instance.BuildingAdd(11, 1);
+            Building script = BEGround.instance.BuildingAdd(4, 1);
             script.Move(new Vector3(9.36f, 0f, -1f));
             BuildingSelect(script);
              BuildingLandUnselect();

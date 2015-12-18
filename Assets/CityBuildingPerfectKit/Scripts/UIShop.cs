@@ -106,14 +106,14 @@ namespace BE {
 				// fill second tab
 				bt.Clear ();
                 bt.Add(TBDatabase.GetBuildingType(3));
-                bt.Add(TBDatabase.GetBuildingType(5));
-                bt.Add(TBDatabase.GetBuildingType(6));
-                bt.Add (TBDatabase.GetBuildingType(2));
-				bt.Add (TBDatabase.GetBuildingType(7));
-				bt.Add (TBDatabase.GetBuildingType(8));
+                //bt.Add(TBDatabase.GetBuildingType(5));
+               // bt.Add(TBDatabase.GetBuildingType(6));
+               // bt.Add (TBDatabase.GetBuildingType(2));
+				//bt.Add (TBDatabase.GetBuildingType(7));
+				//bt.Add (TBDatabase.GetBuildingType(8));
 				//bt.Add (TBDatabase.GetBuildingType(9));
 				//bt.Add (TBDatabase.GetBuildingType(10));
-				FillContents(1, "Demons", bt);
+				FillContents(1, "Resources", bt);
 
 				// fill third tab
 				bt.Clear ();

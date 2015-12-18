@@ -38,8 +38,8 @@ namespace BE {
 
 		// when user clicked collect dialog
 		public void OnButtonCollect() {
-            
 
+           
             // do collect
             building.Collect();
 

@@ -502,7 +502,12 @@ namespace BE {
 		public bool HasCompletedWork() {
 
 			if(UpgradeCompleted) 	{ UpgradeEnd (); return true; }
-			if(Collectable) 		{ Collect (); return true; }
+
+			if(Collectable)
+            {
+                Collect ();
+                return true;
+            }
 		
 			return false;
 		}
@@ -521,8 +526,6 @@ namespace BE {
                     TutorialController.s.endOfTutorial();
             }
 
-            
-
             // increase resource count
             if (def.eProductionType == PayType.Elixir) 	{
 				SceneTown.Elixir.ChangeDelta((double)Production);
@@ -530,6 +533,7 @@ namespace BE {
 				textColor = "<color=purple>";
                 finalPos = GameObject.Find("LabelElixir");
                 myPart = (GameObject)Instantiate(Resources.Load("Prefabs/Elixir"));
+                SceneTown.instance.GainExp((int)Production/10);
             }
 			else if(def.eProductionType == PayType.Gold) {
 				SceneTown.Gold.ChangeDelta((double)Production);
@@ -548,7 +552,7 @@ namespace BE {
             myPart.transform.SetParent(bigDaddy.transform, false);
 
             myPart.transform.localPosition = transform.localPosition;
-            myPart.GetComponent<particlesLogic>().move(transform, finalPos.transform);
+            myPart.GetComponent<particlesLogic>().move(bigDaddy.transform, finalPos.transform, transform);
 
             // show collect ui to show how many resources was collected
             UICollect script = UIInGame.instance.AddInGameUI(prefUICollect, transform, new Vector3(0,1.5f,0)).GetComponent<UICollect>();
@@ -641,7 +645,7 @@ namespace BE {
 			UpgradeCompleted = false;
 
 			// increase experience
-			SceneTown.instance.GainExp(def.RewardExp);
+			//SceneTown.instance.GainExp(def.RewardExp);
 			// if building has capacity value, then recalc capacity of all resources
 			if((def.Capacity[(int)PayType.Gold] != 0) || (def.Capacity[(int)PayType.Elixir] != 0))
 				SceneTown.instance.CapacityCheck();
