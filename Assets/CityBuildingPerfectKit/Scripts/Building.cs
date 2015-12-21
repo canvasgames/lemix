@@ -14,10 +14,10 @@ using System.Xml.Serialization;
 ///   Version: 		  v1.0 (2015-11-15)
 ///-----------------------------------------------------------------------------------------
 namespace BE {
-
-	// if building can training unit
-	// use this class
-	public class GenQueItem {
+    #region !================= Training unity class =====================
+    // if building can training unit
+    // use this class
+    public class GenQueItem {
 		public 	Building 		building;			// owner building 
 		public 	int 			unitID;				// unit id
 		public	ArmyType 		at = null;			// definition of unit
@@ -61,10 +61,13 @@ namespace BE {
 	
 	}
 
-	// building is common class of all building
-	// it has capacity relative functions and
-	// production relative functions and training relative functions.
-	public class Building : MonoBehaviour {
+    #endregion
+
+    #region ========================= Bulding Class Definitions
+    // building is common class of all building
+    // it has capacity relative functions and
+    // production relative functions and training relative functions.
+    public class Building : MonoBehaviour {
 
 		private	Vector2		tilePosOld = new Vector2(0,0);	// remember old tile pos while drag building
 		public  Vector2		tilePos = new Vector2(0,0);		// tile position
@@ -134,8 +137,10 @@ namespace BE {
 				GenUnitCount.Add (0);
 			}
 		}
-		
-		void Start () {
+
+        #endregion ====================
+
+        void Start () {
 
 		}
 		

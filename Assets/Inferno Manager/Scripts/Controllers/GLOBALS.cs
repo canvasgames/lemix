@@ -10,6 +10,8 @@ public class GLOBALS : MonoBehaviour {
     [HideInInspector] public bool TUTORIAL_OCCURING = false;
     [HideInInspector] public bool LOCK_CAMERA_TUTORIAL = false;
     [HideInInspector] public int USER_RANK = 0;
+    public int BUILDING_MAX_LEVEL = 30;
+
     void Awake()
     {
         s = this;

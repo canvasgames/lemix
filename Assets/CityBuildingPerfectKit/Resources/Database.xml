@@ -3,7 +3,7 @@
   <Building>
     <BuildingType ID="0" Name="Town Hall" Info="" TileX="4" TileZ="4" LevelMax="5" Category="0" MaxCount="1,1,1,1,1,1,1,1,1,1">
       <BuildingDef HitPoint="1500" BuildPrice="0,0,0" BuildTime="0" TownHallLevelRequired="0">
-        <Capacity Gold="1000" Elixir="1000" />
+        <Capacity Gold="100" Elixir="10" />
       </BuildingDef>
       <BuildingDef HitPoint="1600" BuildPrice="1000,0,0" BuildTime="10" TownHallLevelRequired="1">
         <Capacity Gold="1000" Elixir="1000" />
@@ -24,11 +24,11 @@
     </BuildingType>
     
     <BuildingType ID="3" Name="Fire Mine" Info="" TileX="3" TileZ="3" LevelMax="12" Category="0" MaxCount="1,2,3,4,5,6,6,6,6,7">
-      <BuildingDef HitPoint="400" BuildPrice="0,150,0" BuildTime="10" TownHallLevelRequired="1">
-        <Capacity Gold="500" Elixir="0" />
+      <BuildingDef HitPoint="400" BuildPrice="150,0,0" BuildTime="10" TownHallLevelRequired="1">
+        <Capacity Gold="600" Elixir="0" />
         <Production Type="Gold" ProductionRate="100" />
       </BuildingDef>
-      <BuildingDef HitPoint="440" BuildPrice="0,300,0" BuildTime="60" TownHallLevelRequired="1">
+      <BuildingDef HitPoint="440" BuildPrice="300,0,0" BuildTime="60" TownHallLevelRequired="1">
         <Capacity Gold="1000" Elixir="0" />
         <Production Type="Gold" ProductionRate="0.1111111" />
       </BuildingDef>

@@ -40,9 +40,10 @@ namespace BE {
 			Price	= _Price;
 		}
 	}
-	
-	// definition of troop(army) unit
-	[System.Serializable]
+
+    #region Army
+    // definition of troop(army) unit
+    [System.Serializable]
 	public class ArmyDef {
 
 		public GameObject 	prefab;
@@ -137,9 +138,10 @@ namespace BE {
 		Air 			= 2,
 		GroundnAir		= 3,
 	};
-	
 
-	[System.Serializable]
+    #endregion
+
+    [System.Serializable]
 	public class BuildingDef {
 
 		public GameObject 	prefab;
@@ -232,7 +234,8 @@ namespace BE {
 		// set production related values
 		public void SetProduction(PayType _eProductionType, int _ProductionRate) {
 			eProductionType	= _eProductionType;
-			ProductionRate 	= _ProductionRate / 3600.0f; //change time base hr -> sec
+			//ProductionRate 	= _ProductionRate / 3600.0f; //change time base hr -> sec
+            ProductionRate = _ProductionRate / 60.0f; //change time base min -> sec
 		}
 
 		// set tower related values
@@ -458,109 +461,144 @@ namespace BE {
 				//Debug.Log ("Level "+Level.ToString ()+" - Exp:"+LevelExp[Level].ToString ()+" ExpTotal:"+LevelExpTotal[Level].ToString ());
 			}
 
-			// if set building type and definition data by coding
-			// use this code
-/*			//0-Town Hall
-			{
-				BuildingType bt = new BuildingType(0, "Town Hall", "", 4, 4, 5, 0, "1,1,1,1,1,1,1,1,1,1");
-				{ BuildingDef bd = new BuildingDef (1500,      0,       0, 0,      0, 0);	bd.SetCapacity(1000,1000); bt.Add(bd); }
-				{ BuildingDef bd = new BuildingDef (1600,   1000,       0, 0,     10, 1);	bd.SetCapacity(1000,1000); bt.Add(bd); }
-				{ BuildingDef bd = new BuildingDef (1850,   4000,       0, 0,  10800, 2);	bd.SetCapacity(1000,1000); bt.Add(bd); }
-				//{ BuildingDef bd = new BuildingDef (2100,  25000,       0, 0,  86400, 3);	bd.SetCapacity(1000,1000); bt.Add(bd); }
-				//{ BuildingDef bd = new BuildingDef (2400, 150000,       0, 0, 172800, 4);	bd.SetCapacity(1000,1000); bt.Add(bd); }
-				Buildings.Add (bt);
-			}
 
-			//1-Hut
-			{
-				BuildingType bt = new BuildingType(1, "Hut", "", 2, 2, 1, 0, "0,0,0,0,0,0,0,0,0,0");
-				{ BuildingDef bd = new BuildingDef ( 250,    	 0,       0, 0,      0, 0); bt.Add(bd); }
-				Buildings.Add (bt);
-			}
-			
-			//2-Wall
-			{
-				BuildingType bt = new BuildingType(2, "Wall", "", 1, 1, 11, 0, "0,25,50,75,100,125,175,225,250,250");
-				{ BuildingDef bd = new BuildingDef ( 300,     50,       0, 0,      0, 2); bt.Add(bd); }
-				{ BuildingDef bd = new BuildingDef ( 500,   1000,       0, 0,      0, 2); bt.Add(bd); }
-				{ BuildingDef bd = new BuildingDef ( 700,   5000,       0, 0,      0, 3); bt.Add(bd); }
-				//{ BuildingDef bd = new BuildingDef ( 900,  10000,       0, 0,      0, 4); bt.Add(bd); }
-				//{ BuildingDef bd = new BuildingDef (1400,  30000,       0, 0,      0, 5); bt.Add(bd); }
-				//{ BuildingDef bd = new BuildingDef (2000,  75000,       0, 0,      0, 6); bt.Add(bd); }
-				//{ BuildingDef bd = new BuildingDef (2500, 200000,       0, 0,      0, 7); bt.Add(bd); }
-				//{ BuildingDef bd = new BuildingDef (3000, 500000,       0, 0,      0, 8); bt.Add(bd); }
-				//{ BuildingDef bd = new BuildingDef (4000,1000000, 1000000, 0,      0, 9); bt.Add(bd); }
-				//{ BuildingDef bd = new BuildingDef (5500,3000000, 3000000, 0,      0, 9); bt.Add(bd); }
-				//{ BuildingDef bd = new BuildingDef (7000,4000000, 4000000, 0,      0,10); bt.Add(bd); }
-				Buildings.Add (bt);
-			}
+            //GOLD (DEMON OR HELLFIRE) GENERATOR
+            {
 
-			//3-Gold Mine
-			{
-				BuildingType bt = new BuildingType(3, "Gold Mine", "", 3, 3, 12, 0, "1,2,3,4,5,6,6,6,6,7");
-				{ BuildingDef bd = new BuildingDef ( 400,      0,     150, 0,     10, 1);	bd.SetCapacity(   500,0);	bd.SetProduction(PayType.Gold,  200);	bt.Add(bd); }
-				{ BuildingDef bd = new BuildingDef ( 440,      0,     300, 0,     60, 1);	bd.SetCapacity(  1000,0);	bd.SetProduction(PayType.Gold,  400);	bt.Add(bd); }
-				{ BuildingDef bd = new BuildingDef ( 480,      0,     700, 0,    900, 2);	bd.SetCapacity(  1500,0);	bd.SetProduction(PayType.Gold,  600);	bt.Add(bd); }
-				//{ BuildingDef bd = new BuildingDef ( 520,      0,    1400, 0,   3600, 2);	bd.SetCapacity(  2500,0);	bd.SetProduction(PayType.Gold,  800);	bt.Add(bd); }
-				//{ BuildingDef bd = new BuildingDef ( 560,      0,    3000, 0,   7200, 3);	bd.SetCapacity( 10000,0);	bd.SetProduction(PayType.Gold, 1000);	bt.Add(bd); }
-				//{ BuildingDef bd = new BuildingDef ( 600,      0,    7000, 0,  21600, 3);	bd.SetCapacity( 20000,0);	bd.SetProduction(PayType.Gold, 1300);	bt.Add(bd); }
-				//{ BuildingDef bd = new BuildingDef ( 640,      0,   14000, 0,  43200, 4);	bd.SetCapacity( 30000,0);	bd.SetProduction(PayType.Gold, 1600);	bt.Add(bd); }
-				//{ BuildingDef bd = new BuildingDef ( 680,      0,   28000, 0,  86400, 4);	bd.SetCapacity( 50000,0);	bd.SetProduction(PayType.Gold, 1900);	bt.Add(bd); }
-				//{ BuildingDef bd = new BuildingDef ( 720,      0,   56000, 0, 172800, 5);	bd.SetCapacity( 75000,0);	bd.SetProduction(PayType.Gold, 2200);	bt.Add(bd); }
-				//{ BuildingDef bd = new BuildingDef ( 780,      0,   84000, 0, 259200, 5);	bd.SetCapacity(100000,0);	bd.SetProduction(PayType.Gold, 2500);	bt.Add(bd); }
-				//{ BuildingDef bd = new BuildingDef ( 860,      0,  168000, 0, 345600, 7);	bd.SetCapacity(150000,0);	bd.SetProduction(PayType.Gold, 3000);	bt.Add(bd); }
-				//{ BuildingDef bd = new BuildingDef ( 960,      0,  336000, 0, 432000, 8);	bd.SetCapacity(200000,0);	bd.SetProduction(PayType.Gold, 3500);	bt.Add(bd); }
-				Buildings.Add (bt);
-			}
+                BuildingType bt = new BuildingType(3, "Fire Mine", "", 3, 3, 12, 0, "1,2,3,4,5,6,6,6,6,7");
+                //for (int i = 0; i <= GLOBALS.s.BUILDING_MAX_LEVEL; i++) { 
+                    { BuildingDef bd = new BuildingDef(400, 0, 150, 0, 10, 1); bd.SetCapacity(0, 0); bd.SetProduction(PayType.Gold, 100); bt.Add(bd); }
+                    { BuildingDef bd = new BuildingDef(440, 0, 300, 0, 60, 1); bd.SetCapacity(0, 0); bd.SetProduction(PayType.Gold, 120); bt.Add(bd); }
+                    { BuildingDef bd = new BuildingDef(480, 0, 700, 0, 900, 2); bd.SetCapacity(0, 0); bd.SetProduction(PayType.Gold, 180); bt.Add(bd); }
+                    { BuildingDef bd = new BuildingDef(480, 0, 700, 0, 900, 2); bd.SetCapacity(0, 0); bd.SetProduction(PayType.Gold, 250); bt.Add(bd); }
+                    { BuildingDef bd = new BuildingDef(480, 0, 700, 0, 900, 2); bd.SetCapacity(0, 0); bd.SetProduction(PayType.Gold, 550); bt.Add(bd); }
+                    { BuildingDef bd = new BuildingDef(480, 0, 700, 0, 900, 2); bd.SetCapacity(0, 0); bd.SetProduction(PayType.Gold, 850); bt.Add(bd); }
+                    { BuildingDef bd = new BuildingDef(480, 0, 700, 0, 900, 2); bd.SetCapacity(0, 0); bd.SetProduction(PayType.Gold, 1300); bt.Add(bd); }
+                    { BuildingDef bd = new BuildingDef(480, 0, 700, 0, 900, 2); bd.SetCapacity(0, 0); bd.SetProduction(PayType.Gold, 3600); bt.Add(bd); }
+                    { BuildingDef bd = new BuildingDef(480, 0, 700, 0, 900, 2); bd.SetCapacity(0, 0); bd.SetProduction(PayType.Gold, 9700); bt.Add(bd); }
+                    { BuildingDef bd = new BuildingDef(480, 0, 700, 0, 900, 2); bd.SetCapacity(0, 0); bd.SetProduction(PayType.Gold, 26000); bt.Add(bd); }
+                    { BuildingDef bd = new BuildingDef(480, 0, 700, 0, 900, 2); bd.SetCapacity(0, 0); bd.SetProduction(PayType.Gold, 71000); bt.Add(bd); }
+                    { BuildingDef bd = new BuildingDef(480, 0, 700, 0, 900, 2); bd.SetCapacity(0, 0); bd.SetProduction(PayType.Gold, 191000); bt.Add(bd); }
+               // }
+                 //{ BuildingDef bd = new BuildingDef ( 520,      0,    1400, 0,   3600, 2);	bd.SetCapacity(  2500,0);	bd.SetProduction(PayType.Gold,  800);	bt.Add(bd); }
+                 //{ BuildingDef bd = new BuildingDef ( 560,      0,    3000, 0,   7200, 3);	bd.SetCapacity( 10000,0);	bd.SetProduction(PayType.Gold, 1000);	bt.Add(bd); }
+                 //{ BuildingDef bd = new BuildingDef ( 600,      0,    7000, 0,  21600, 3);	bd.SetCapacity( 20000,0);	bd.SetProduction(PayType.Gold, 1300);	bt.Add(bd); }
+                 //{ BuildingDef bd = new BuildingDef ( 640,      0,   14000, 0,  43200, 4);	bd.SetCapacity( 30000,0);	bd.SetProduction(PayType.Gold, 1600);	bt.Add(bd); }
+                 //{ BuildingDef bd = new BuildingDef ( 680,      0,   28000, 0,  86400, 4);	bd.SetCapacity( 50000,0);	bd.SetProduction(PayType.Gold, 1900);	bt.Add(bd); }
+                 //{ BuildingDef bd = new BuildingDef ( 720,      0,   56000, 0, 172800, 5);	bd.SetCapacity( 75000,0);	bd.SetProduction(PayType.Gold, 2200);	bt.Add(bd); }
+                 //{ BuildingDef bd = new BuildingDef ( 780,      0,   84000, 0, 259200, 5);	bd.SetCapacity(100000,0);	bd.SetProduction(PayType.Gold, 2500);	bt.Add(bd); }
+                 //{ BuildingDef bd = new BuildingDef ( 860,      0,  168000, 0, 345600, 7);	bd.SetCapacity(150000,0);	bd.SetProduction(PayType.Gold, 3000);	bt.Add(bd); }
+                 //{ BuildingDef bd = new BuildingDef ( 960,      0,  336000, 0, 432000, 8);	bd.SetCapacity(200000,0);	bd.SetProduction(PayType.Gold, 3500);	bt.Add(bd); }
+                 Buildings.Add(bt);
+             }
+             
 
-			//4-Elixir Collector
-			{
-				BuildingType bt = new BuildingType(4, "Elixir Collector", "", 3, 3, 12, 0, "1,2,3,4,5,6,6,6,6,7");
-				{ BuildingDef bd = new BuildingDef ( 400,    150, 0, 0,     10, 1);	bd.SetCapacity(0,   500);	bd.SetProduction(PayType.Elixir,  200);	bt.Add(bd); }
-				{ BuildingDef bd = new BuildingDef ( 440,    300, 0, 0,     60, 1);	bd.SetCapacity(0,  1000);	bd.SetProduction(PayType.Elixir,  400);	bt.Add(bd); }
-				{ BuildingDef bd = new BuildingDef ( 480,    700, 0, 0,    900, 2);	bd.SetCapacity(0,  1500);	bd.SetProduction(PayType.Elixir,  600);	bt.Add(bd); }
-				Buildings.Add (bt);
-			}
 
-			//5-Gold Storage
-			{
-				BuildingType bt = new BuildingType(5, "Gold Storage", "", 3, 3, 11, 0, "1,1,2,2,2,2,2,3,4,4");
-				{ BuildingDef bd = new BuildingDef ( 400,      0,     300, 0,     10, 1);	bd.SetCapacity(   1000,0);	bt.Add(bd); }
-				{ BuildingDef bd = new BuildingDef ( 600,      0,     750, 0,   1800, 2);	bd.SetCapacity(   3000,0);	bt.Add(bd); }
-				{ BuildingDef bd = new BuildingDef ( 800,      0,    1500, 0,   3600, 2);	bd.SetCapacity(  61000,0);	bt.Add(bd); }
-				Buildings.Add (bt);
-			}
-			
-			//6-Elixir Storage
-			{
-				BuildingType bt = new BuildingType(6, "Elixir Storage", "", 3, 3, 11, 0, "1,1,2,2,2,2,2,3,4,4");
-				{ BuildingDef bd = new BuildingDef ( 400,    300, 0, 0,     10, 1);	bd.SetCapacity(0,   1000);	bt.Add(bd); }
-				{ BuildingDef bd = new BuildingDef ( 600,    750, 0, 0,   1800, 2);	bd.SetCapacity(0,   3000);	bt.Add(bd); }
-				{ BuildingDef bd = new BuildingDef ( 800,   1500, 0, 0,   3600, 2);	bd.SetCapacity(0,   6000);	bt.Add(bd); }
-				Buildings.Add (bt);
-			}
+            // if set building type and definition data by coding
+            // use this code
+            /*			//0-Town Hall
+                        {
+                            BuildingType bt = new BuildingType(0, "Town Hall", "", 4, 4, 5, 0, "1,1,1,1,1,1,1,1,1,1");
+                            { BuildingDef bd = new BuildingDef (1500,      0,       0, 0,      0, 0);	bd.SetCapacity(1000,1000); bt.Add(bd); }
+                            { BuildingDef bd = new BuildingDef (1600,   1000,       0, 0,     10, 1);	bd.SetCapacity(1000,1000); bt.Add(bd); }
+                            { BuildingDef bd = new BuildingDef (1850,   4000,       0, 0,  10800, 2);	bd.SetCapacity(1000,1000); bt.Add(bd); }
+                            //{ BuildingDef bd = new BuildingDef (2100,  25000,       0, 0,  86400, 3);	bd.SetCapacity(1000,1000); bt.Add(bd); }
+                            //{ BuildingDef bd = new BuildingDef (2400, 150000,       0, 0, 172800, 4);	bd.SetCapacity(1000,1000); bt.Add(bd); }
+                            Buildings.Add (bt);
+                        }
 
-			//7-Barracks
-			{
-				BuildingType bt = new BuildingType(7, "Barrack", "", 3, 3, 10, 0, "1,2,2,3,3,3,4,4,4,4");
-				{ BuildingDef bd = new BuildingDef ( 250, 0,     200, 0,     10, 1);	bt.Add(bd); } //20
-				Buildings.Add (bt);
-			}
+                        //1-Hut
+                        {
+                            BuildingType bt = new BuildingType(1, "Hut", "", 2, 2, 1, 0, "0,0,0,0,0,0,0,0,0,0");
+                            { BuildingDef bd = new BuildingDef ( 250,    	 0,       0, 0,      0, 0); bt.Add(bd); }
+                            Buildings.Add (bt);
+                        }
 
-			//8-Army Camp
-			{
-				BuildingType bt = new BuildingType(8, "Army Camp", "", 4, 4, 8, 0, "1,1,2,2,3,3,4,4,4,4");
-				{ BuildingDef bd = new BuildingDef ( 250, 0,     250, 0,   300, 1);	bt.Add(bd); } //20
-				Buildings.Add (bt);
-			}
+                        //2-Wall
+                        {
+                            BuildingType bt = new BuildingType(2, "Wall", "", 1, 1, 11, 0, "0,25,50,75,100,125,175,225,250,250");
+                            { BuildingDef bd = new BuildingDef ( 300,     50,       0, 0,      0, 2); bt.Add(bd); }
+                            { BuildingDef bd = new BuildingDef ( 500,   1000,       0, 0,      0, 2); bt.Add(bd); }
+                            { BuildingDef bd = new BuildingDef ( 700,   5000,       0, 0,      0, 3); bt.Add(bd); }
+                            //{ BuildingDef bd = new BuildingDef ( 900,  10000,       0, 0,      0, 4); bt.Add(bd); }
+                            //{ BuildingDef bd = new BuildingDef (1400,  30000,       0, 0,      0, 5); bt.Add(bd); }
+                            //{ BuildingDef bd = new BuildingDef (2000,  75000,       0, 0,      0, 6); bt.Add(bd); }
+                            //{ BuildingDef bd = new BuildingDef (2500, 200000,       0, 0,      0, 7); bt.Add(bd); }
+                            //{ BuildingDef bd = new BuildingDef (3000, 500000,       0, 0,      0, 8); bt.Add(bd); }
+                            //{ BuildingDef bd = new BuildingDef (4000,1000000, 1000000, 0,      0, 9); bt.Add(bd); }
+                            //{ BuildingDef bd = new BuildingDef (5500,3000000, 3000000, 0,      0, 9); bt.Add(bd); }
+                            //{ BuildingDef bd = new BuildingDef (7000,4000000, 4000000, 0,      0,10); bt.Add(bd); }
+                            Buildings.Add (bt);
+                        }
 
-*/
-			// load building type and definition data from xml file
-			Load();
+                        //3-Gold Mine
+                        {
+                            BuildingType bt = new BuildingType(3, "Gold Mine", "", 3, 3, 12, 0, "1,2,3,4,5,6,6,6,6,7");
+                            { BuildingDef bd = new BuildingDef ( 400,      0,     150, 0,     10, 1);	bd.SetCapacity(   500,0);	bd.SetProduction(PayType.Gold,  200);	bt.Add(bd); }
+                            { BuildingDef bd = new BuildingDef ( 440,      0,     300, 0,     60, 1);	bd.SetCapacity(  1000,0);	bd.SetProduction(PayType.Gold,  400);	bt.Add(bd); }
+                            { BuildingDef bd = new BuildingDef ( 480,      0,     700, 0,    900, 2);	bd.SetCapacity(  1500,0);	bd.SetProduction(PayType.Gold,  600);	bt.Add(bd); }
+                            //{ BuildingDef bd = new BuildingDef ( 520,      0,    1400, 0,   3600, 2);	bd.SetCapacity(  2500,0);	bd.SetProduction(PayType.Gold,  800);	bt.Add(bd); }
+                            //{ BuildingDef bd = new BuildingDef ( 560,      0,    3000, 0,   7200, 3);	bd.SetCapacity( 10000,0);	bd.SetProduction(PayType.Gold, 1000);	bt.Add(bd); }
+                            //{ BuildingDef bd = new BuildingDef ( 600,      0,    7000, 0,  21600, 3);	bd.SetCapacity( 20000,0);	bd.SetProduction(PayType.Gold, 1300);	bt.Add(bd); }
+                            //{ BuildingDef bd = new BuildingDef ( 640,      0,   14000, 0,  43200, 4);	bd.SetCapacity( 30000,0);	bd.SetProduction(PayType.Gold, 1600);	bt.Add(bd); }
+                            //{ BuildingDef bd = new BuildingDef ( 680,      0,   28000, 0,  86400, 4);	bd.SetCapacity( 50000,0);	bd.SetProduction(PayType.Gold, 1900);	bt.Add(bd); }
+                            //{ BuildingDef bd = new BuildingDef ( 720,      0,   56000, 0, 172800, 5);	bd.SetCapacity( 75000,0);	bd.SetProduction(PayType.Gold, 2200);	bt.Add(bd); }
+                            //{ BuildingDef bd = new BuildingDef ( 780,      0,   84000, 0, 259200, 5);	bd.SetCapacity(100000,0);	bd.SetProduction(PayType.Gold, 2500);	bt.Add(bd); }
+                            //{ BuildingDef bd = new BuildingDef ( 860,      0,  168000, 0, 345600, 7);	bd.SetCapacity(150000,0);	bd.SetProduction(PayType.Gold, 3000);	bt.Add(bd); }
+                            //{ BuildingDef bd = new BuildingDef ( 960,      0,  336000, 0, 432000, 8);	bd.SetCapacity(200000,0);	bd.SetProduction(PayType.Gold, 3500);	bt.Add(bd); }
+                            Buildings.Add (bt);
+                        }
 
-			// unit definiron for training
-			//0-Barbarian
-			{
+                        //4-Elixir Collector
+                        {
+                            BuildingType bt = new BuildingType(4, "Elixir Collector", "", 3, 3, 12, 0, "1,2,3,4,5,6,6,6,6,7");
+                            { BuildingDef bd = new BuildingDef ( 400,    150, 0, 0,     10, 1);	bd.SetCapacity(0,   500);	bd.SetProduction(PayType.Elixir,  200);	bt.Add(bd); }
+                            { BuildingDef bd = new BuildingDef ( 440,    300, 0, 0,     60, 1);	bd.SetCapacity(0,  1000);	bd.SetProduction(PayType.Elixir,  400);	bt.Add(bd); }
+                            { BuildingDef bd = new BuildingDef ( 480,    700, 0, 0,    900, 2);	bd.SetCapacity(0,  1500);	bd.SetProduction(PayType.Elixir,  600);	bt.Add(bd); }
+                            Buildings.Add (bt);
+                        }
+
+                        //5-Gold Storage
+                        {
+                            BuildingType bt = new BuildingType(5, "Gold Storage", "", 3, 3, 11, 0, "1,1,2,2,2,2,2,3,4,4");
+                            { BuildingDef bd = new BuildingDef ( 400,      0,     300, 0,     10, 1);	bd.SetCapacity(   1000,0);	bt.Add(bd); }
+                            { BuildingDef bd = new BuildingDef ( 600,      0,     750, 0,   1800, 2);	bd.SetCapacity(   3000,0);	bt.Add(bd); }
+                            { BuildingDef bd = new BuildingDef ( 800,      0,    1500, 0,   3600, 2);	bd.SetCapacity(  61000,0);	bt.Add(bd); }
+                            Buildings.Add (bt);
+                        }
+
+                        //6-Elixir Storage
+                        {
+                            BuildingType bt = new BuildingType(6, "Elixir Storage", "", 3, 3, 11, 0, "1,1,2,2,2,2,2,3,4,4");
+                            { BuildingDef bd = new BuildingDef ( 400,    300, 0, 0,     10, 1);	bd.SetCapacity(0,   1000);	bt.Add(bd); }
+                            { BuildingDef bd = new BuildingDef ( 600,    750, 0, 0,   1800, 2);	bd.SetCapacity(0,   3000);	bt.Add(bd); }
+                            { BuildingDef bd = new BuildingDef ( 800,   1500, 0, 0,   3600, 2);	bd.SetCapacity(0,   6000);	bt.Add(bd); }
+                            Buildings.Add (bt);
+                        }
+
+                        //7-Barracks
+                        {
+                            BuildingType bt = new BuildingType(7, "Barrack", "", 3, 3, 10, 0, "1,2,2,3,3,3,4,4,4,4");
+                            { BuildingDef bd = new BuildingDef ( 250, 0,     200, 0,     10, 1);	bt.Add(bd); } //20
+                            Buildings.Add (bt);
+                        }
+
+                        //8-Army Camp
+                        {
+                            BuildingType bt = new BuildingType(8, "Army Camp", "", 4, 4, 8, 0, "1,1,2,2,3,3,4,4,4,4");
+                            { BuildingDef bd = new BuildingDef ( 250, 0,     250, 0,   300, 1);	bt.Add(bd); } //20
+                            Buildings.Add (bt);
+                        }
+
+            */
+            // load building type and definition data from xml file
+            Load();
+
+            #region Army Units (combat city builder)
+
+            // unit definiron for training
+            //0-Barbarian
+            {
 				ArmyType at = new ArmyType("Barbarian", "", 7); //None, Melee, 1, 20, 16, 1, 1, 0.4
 				at.Add (new ArmyDef (  8,  45,  25,       0, 0,       0));
 				at.Add (new ArmyDef ( 11,  54,  40,   50000, 1,   21600));
@@ -578,10 +616,11 @@ namespace BE {
 				at.Add (new ArmyDef (  8,  45,  25,       0, 0,       0));
 				Armies.Add (at);
 			}
+            #endregion
 
-		}
-		
-		void Start () {
+        }
+
+        void Start () {
 
 		}
 		
@@ -589,7 +628,9 @@ namespace BE {
 		
 		}
 
-		public void Save() {
+        #region ================= SAVE AND LOAD =======================
+
+        public void Save() {
 			
 			string xmlFilePath = BEUtil.pathForDocumentsFile(dbFilename);
 			XmlDocument xmlDocument = new XmlDocument();
@@ -644,8 +685,10 @@ namespace BE {
 			}
 		}
 
-		// get proper icon image by resource type
-		public static Sprite GetPayTypeIcon(PayType _payType) {
+        #endregion
+
+        // get proper icon image by resource type
+        public static Sprite GetPayTypeIcon(PayType _payType) {
 			if(_payType == PayType.Gold) 		return Resources.Load<Sprite>("Icons/Gold");
 			else if(_payType == PayType.Elixir)	return Resources.Load<Sprite>("Icons/Elixir");
 			else if(_payType == PayType.Gem)	return Resources.Load<Sprite>("Icons/Gem");

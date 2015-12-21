@@ -61,7 +61,8 @@ namespace BE {
 			int x = (int)building.tilePos.x * BEGround.instance.SubGridSize;
 			int y = (int)building.tilePos.y * BEGround.instance.SubGridSize;
 			return AStar.tiles[x,y];
-		}
+            
+        }
 
 		// get boundary of map
 		public Vector2 GetBorder(Vector2 tileSize) {
