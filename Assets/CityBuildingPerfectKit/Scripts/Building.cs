@@ -129,6 +129,8 @@ namespace BE {
 
         GameObject myPart;
         GameObject bigDaddy, finalPos;
+        bool appearedCollectIcon = false;
+
         void Awake () {
 
 			// if building can hold trained units
@@ -168,11 +170,12 @@ namespace BE {
 
 				// is minimum resources generated, then ser collectable flagand show dialog
 				if(((int)Production >= 10) && !uiInfo.groupCollect.gameObject.activeInHierarchy) {
-					Collectable = true;
-					uiInfo.CollectIcon.sprite = TBDatabase.GetPayTypeIcon(def.eProductionType);
-					BETween.alpha(uiInfo.groupCollect.gameObject, 0.2f, 0.0f, 1.0f);
-					uiInfo.groupCollect.gameObject.SetActive(true);
-					uiInfo.groupInfo.gameObject.SetActive(false);
+                    if(appearedCollectIcon == false)
+                    {
+                        appearedCollectIcon = true;
+                        Invoke("delayCollect", 2f);
+                    }
+                        
 				}
 
 				if(Collectable) {
@@ -210,6 +213,17 @@ namespace BE {
 
 			UnitGenUpdate(deltaTime);
 		}
+
+        //For the user can click on building to upgrade
+        void delayCollect()
+        {
+            Collectable = true;
+            BETween.alpha(uiInfo.groupCollect.gameObject, 0.2f, 0.0f, 1.0f);
+            uiInfo.CollectIcon.sprite = TBDatabase.GetPayTypeIcon(def.eProductionType);
+
+            uiInfo.groupCollect.gameObject.SetActive(true);
+            uiInfo.groupInfo.gameObject.SetActive(false);
+        }
 
 		// get gem count to finish current upgrading
 		public int GetFinishGemCount() {
@@ -519,8 +533,8 @@ namespace BE {
 
 		// collect resources
 		public void Collect() {
-
-			string textColor="";
+            appearedCollectIcon = false;
+            string textColor="";
             if (GLOBALS.s.TUTORIAL_OCCURING == true)
             {
                 if (GLOBALS.s.TUTORIAL_PHASE == 9)

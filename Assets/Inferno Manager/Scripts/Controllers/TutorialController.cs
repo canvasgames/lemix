@@ -29,7 +29,7 @@ public class TutorialController : MonoBehaviour
         {
            // GLOBALS.s.LOCK_CAMERA_TUTORIAL = true;
            // GLOBALS.s.TUTORIAL_OCCURING = true;
-           // tutorial1Timer = 2f;
+            tutorial1Timer = 2f;
         }
 
     }

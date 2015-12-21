@@ -127,7 +127,7 @@ namespace BE {
             //FIRST TIME USER if user new to this game add initial building
             if (bFirstRun) {
 
-                
+            /*    
 				// add town hall 
 				{
 					Building script = BEGround.instance.BuildingAdd (0,1);
@@ -141,7 +141,7 @@ namespace BE {
 					script.Move(new Vector3(4,0,0));
 					BuildingSelect(script);
 					BuildingLandUnselect();
-				}
+				}*/
 			}
 
 			GainExp(0); // call this once to calculate level
