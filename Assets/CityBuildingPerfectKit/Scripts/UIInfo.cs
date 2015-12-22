@@ -39,9 +39,13 @@ namespace BE {
 		// when user clicked collect dialog
 		public void OnButtonCollect() {
 
-           
-            // do collect
-            building.Collect();
+           if(GLOBALS.s.LOCK_CAMERA_TUTORIAL == false)
+            {
+
+                // do collect
+                building.Collect();
+            }
+
 
         }
 		

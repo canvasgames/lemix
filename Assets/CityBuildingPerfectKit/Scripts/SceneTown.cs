@@ -569,9 +569,10 @@ namespace BE {
 			Debug.Log ("ElixirCapacityTotal:"+ElixirCapacityTotal.ToString ());
 
 			Gold.MaxSet(GoldCapacityTotal);
-			if(Gold.Target() > GoldCapacityTotal)
+  
+            if (Gold.Target() > GoldCapacityTotal)
                 Gold.ChangeTo(GoldCapacityTotal);
-
+    
 			Elixir.MaxSet(ElixirCapacityTotal);
 			if(Elixir.Target() > ElixirCapacityTotal)
                 Elixir.ChangeTo(ElixirCapacityTotal);
@@ -699,8 +700,8 @@ namespace BE {
 
         public void createTownHownTutorial()
         {
-            Building script = BEGround.instance.BuildingAdd(0, 1);
-            script.Move(new Vector3 (4f, 0f, 4f));
+           Building script = BEGround.instance.BuildingAdd(0, 1);
+           script.Move(new Vector3 (4f, 0f, 4f));
             BuildingSelect(script);
             BuildingLandUnselect();
         }
@@ -708,7 +709,7 @@ namespace BE {
         public void createHellGateTutorial()
         {
             Building script = BEGround.instance.BuildingAdd(4, 1);
-            script.Move(new Vector3(9.36f, 0f, -1f));
+            script.Move(new Vector3(10f, 0f, 4f));
             BuildingSelect(script);
              BuildingLandUnselect();
         }

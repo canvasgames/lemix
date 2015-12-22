@@ -96,7 +96,7 @@ namespace BE {
 
 				// fill first tab
 				bt.Clear ();
-				
+                bt.Add(TBDatabase.GetBuildingType(5));
                 bt.Add(TBDatabase.GetBuildingType(11));
                 bt.Add(TBDatabase.GetBuildingType(12));
                 bt.Add(TBDatabase.GetBuildingType(13));

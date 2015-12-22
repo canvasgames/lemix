@@ -3,7 +3,7 @@
   <Building>
     <BuildingType ID="0" Name="Town Hall" Info="" TileX="4" TileZ="4" LevelMax="5" Category="0" MaxCount="1,1,1,1,1,1,1,1,1,1">
       <BuildingDef HitPoint="1500" BuildPrice="0,0,0" BuildTime="0" TownHallLevelRequired="0">
-        <Capacity Gold="100" Elixir="10" />
+        <Capacity Gold="100" Elixir="100" />
       </BuildingDef>
       <BuildingDef HitPoint="1600" BuildPrice="1000,0,0" BuildTime="10" TownHallLevelRequired="1">
         <Capacity Gold="1000" Elixir="1000" />
@@ -53,8 +53,8 @@
       </BuildingDef>
     </BuildingType>
     <BuildingType ID="5" Name="Gold Storage" Info="" TileX="3" TileZ="3" LevelMax="11" Category="0" MaxCount="1,1,2,2,2,2,2,3,4,4">
-      <BuildingDef HitPoint="400" BuildPrice="0,300,0" BuildTime="10" TownHallLevelRequired="1">
-        <Capacity Gold="1000" Elixir="0" />
+      <BuildingDef HitPoint="400" BuildPrice="0,1,0" BuildTime="10" TownHallLevelRequired="1">
+        <Capacity Gold="100" Elixir="0" />
       </BuildingDef>
       <BuildingDef HitPoint="600" BuildPrice="0,750,0" BuildTime="1800" TownHallLevelRequired="2">
         <Capacity Gold="3000" Elixir="0" />
@@ -100,7 +100,7 @@
     
     <BuildingType ID="11" Name="Bad Food Restaurant" Info="" TileX="3" TileZ="2" LevelMax="11" Category="0" MaxCount="5,5,5,5,5,5,5,5,5,5">
       <BuildingDef HitPoint="400" BuildPrice="1,0,0" BuildTime="10" TownHallLevelRequired="1">
-        <Capacity Gold="0" Elixir="1000" />
+        <Capacity Gold="100" Elixir="0" />
       </BuildingDef>
       <BuildingDef HitPoint="600" BuildPrice="750,0,0" BuildTime="1800" TownHallLevelRequired="2">
         <Capacity Gold="0" Elixir="3000" />

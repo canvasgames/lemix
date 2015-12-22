@@ -130,7 +130,7 @@ namespace BE {
         GameObject myPart;
         GameObject bigDaddy, finalPos;
         bool appearedCollectIcon = false;
-
+        string textColor = "";
         void Awake () {
 
 			// if building can hold trained units
@@ -524,8 +524,27 @@ namespace BE {
 
 			if(Collectable)
             {
-                Collect ();
-                return true;
+                int CapacityTotal;
+                double AllProduction;
+
+                if (def.eProductionType == PayType.Elixir)
+                {
+                    CapacityTotal = BEGround.instance.GetCapacityTotal(PayType.Elixir);
+                    AllProduction = SceneTown.Elixir.Target();
+                }
+                else 
+                {
+                    CapacityTotal = BEGround.instance.GetCapacityTotal(PayType.Gold);
+                    AllProduction = SceneTown.Gold.Target();
+                }
+
+                if (AllProduction < CapacityTotal)
+                {
+                    Collect();
+                    return true;
+
+                }
+                    
             }
 		
 			return false;
@@ -533,8 +552,8 @@ namespace BE {
 
 		// collect resources
 		public void Collect() {
-            appearedCollectIcon = false;
-            string textColor="";
+            int CapacityTotal;
+            double AllProduction;
             if (GLOBALS.s.TUTORIAL_OCCURING == true)
             {
                 if (GLOBALS.s.TUTORIAL_PHASE == 9)
@@ -546,47 +565,108 @@ namespace BE {
             }
 
             // increase resource count
-            if (def.eProductionType == PayType.Elixir) 	{
-				SceneTown.Elixir.ChangeDelta((double)Production);
-				SceneTown.instance.CapacityCheck();
-				textColor = "<color=purple>";
-                finalPos = GameObject.Find("LabelElixir");
-                myPart = (GameObject)Instantiate(Resources.Load("Prefabs/Elixir"));
-                SceneTown.instance.GainExp((int)Production/10);
+            if(def.eProductionType == PayType.Elixir)
+            {
+                CapacityTotal = BEGround.instance.GetCapacityTotal(PayType.Elixir);
+                AllProduction = SceneTown.Elixir.Target();
+                if (AllProduction < CapacityTotal)
+                {
+                    textColor = "";
+                    SceneTown.Elixir.ChangeDelta((double)Production);
+				    SceneTown.instance.CapacityCheck();
+				    textColor = "<color=purple>";
+                    finalPos = GameObject.Find("LabelElixir");
+                    myPart = (GameObject)Instantiate(Resources.Load("Prefabs/Elixir"));
+                    
+
+                    //Verify if the production exceeded the capacity
+                    if (AllProduction + Production <= CapacityTotal)
+                    {
+                        createParticleandUI(Production, false);
+                        SceneTown.instance.GainExp((int)Production / 10);
+                    }
+                        
+                    else
+                    {
+                        createParticleandUI(CapacityTotal - (float)AllProduction, true);
+                        SceneTown.instance.GainExp((CapacityTotal - (int)AllProduction) / 10);
+                    }
+                        
+                }
+                else
+                {
+                    UICollect script = UIInGame.instance.AddInGameUI(prefUICollect, transform, new Vector3(0, 1.5f, 0)).GetComponent<UICollect>();
+                    script.Name.text = ("FULL!");
+                    script.Init(transform, new Vector3(0, 1.0f, 0));
+                }
             }
-			else if(def.eProductionType == PayType.Gold) {
-				SceneTown.Gold.ChangeDelta((double)Production);
-				SceneTown.instance.CapacityCheck();
-				textColor = "<color=orange>";
-                finalPos = GameObject.Find("LabelGold");
-                myPart = (GameObject)Instantiate(Resources.Load("Prefabs/Gold"));
+            else if(def.eProductionType == PayType.Gold)
+            {
+                CapacityTotal = BEGround.instance.GetCapacityTotal(PayType.Gold);
+                AllProduction = SceneTown.Gold.Target();
+                if (AllProduction < CapacityTotal)
+                {
+                    textColor = "";
+                    SceneTown.Gold.ChangeDelta((double)Production);
+                    SceneTown.instance.CapacityCheck();
+
+                    textColor = "<color=orange>";
+                    finalPos = GameObject.Find("LabelGold");
+                    myPart = (GameObject)Instantiate(Resources.Load("Prefabs/Gold"));
+
+                    //Verify if the production exceeded the capacity
+                    if (AllProduction + Production <= CapacityTotal)
+                        createParticleandUI(Production, false);
+                    else
+                        createParticleandUI(CapacityTotal - (float)AllProduction, true);
+
+
+                }
+                else
+                {
+                    UICollect script = UIInGame.instance.AddInGameUI(prefUICollect, transform, new Vector3(0, 1.5f, 0)).GetComponent<UICollect>();
+                    script.Name.text = ("FULL!");
+                    script.Init(transform, new Vector3(0, 1.0f, 0));
+                }
+
             }
 			else {}
+
+
+		}
+
+        void createParticleandUI(float discountValue,bool outOfBounds)
+        {
+            
+            appearedCollectIcon = false;
 
             //Particle moving
             // Create the particle off collect
             bigDaddy = GameObject.Find("Canvas");
-            
-
+           
             myPart.transform.SetParent(bigDaddy.transform, false);
-
             myPart.transform.localPosition = transform.localPosition;
             myPart.GetComponent<particlesLogic>().move(bigDaddy.transform, finalPos.transform, transform);
 
             // show collect ui to show how many resources was collected
-            UICollect script = UIInGame.instance.AddInGameUI(prefUICollect, transform, new Vector3(0,1.5f,0)).GetComponent<UICollect>();
-			script.Name.text = textColor+((int)Production).ToString ()+"</color>";
-			script.Init(transform, new Vector3(0,1.0f,0));
+            UICollect script = UIInGame.instance.AddInGameUI(prefUICollect, transform, new Vector3(0, 1.5f, 0)).GetComponent<UICollect>();
+            script.Name.text = textColor + ((int)discountValue).ToString() + "</color>";
+            script.Init(transform, new Vector3(0, 1.0f, 0));
 
-			// reset values related to production
-			Collectable = false;
-			Production = 0;
-			// hide collect dialog
-			BETween.alpha(uiInfo.groupCollect.gameObject, 0.3f, 1.0f, 0.0f);
-			BETween.enable(uiInfo.groupCollect.gameObject, 0.3f, true, false);
-			// save game - save game when action is occured. not program quit moment
-			SceneTown.instance.Save();
-		}
+            // reset values related to production
+            Production = discountValue;
+
+            if (outOfBounds == false)
+            {
+                Collectable = false;
+                // hide collect dialog
+                BETween.alpha(uiInfo.groupCollect.gameObject, 0.3f, 1.0f, 0.0f);
+                BETween.enable(uiInfo.groupCollect.gameObject, 0.3f, true, false);
+            }
+
+            // save game - save game when action is occured. not program quit moment
+            SceneTown.instance.Save();
+        }
 
 		// whether upgrading is enable
 		public bool IsUpgradeEnable() {
@@ -663,11 +743,15 @@ namespace BE {
 			InUpgrade = false;
 			UpgradeCompleted = false;
 
-			// increase experience
-			//SceneTown.instance.GainExp(def.RewardExp);
-			// if building has capacity value, then recalc capacity of all resources
+            // increase experience
+            //SceneTown.instance.GainExp(def.RewardExp);
+            // if building has capacity value, then recalc capacity of all resources
+            
 			if((def.Capacity[(int)PayType.Gold] != 0) || (def.Capacity[(int)PayType.Elixir] != 0))
-				SceneTown.instance.CapacityCheck();
+            {
+                SceneTown.instance.CapacityCheck();
+            }
+				
 
 			// save game - save game when action is occured. not program quit moment
 			SceneTown.instance.Save();

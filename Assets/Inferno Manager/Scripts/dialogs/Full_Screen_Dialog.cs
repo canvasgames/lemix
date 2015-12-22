@@ -48,10 +48,15 @@ public class Full_Screen_Dialog : MonoBehaviour
     }
     public void changeText()
     {
-        if (GLOBALS.s.TUTORIAL_PHASE == 3)
+        if (GLOBALS.s.TUTORIAL_PHASE == 1)
+            myText.GetComponentInChildren<Text>().text = "Hi, I'm Satan! \n You've been promoted to a DEMON LORD!";
+        else if (GLOBALS.s.TUTORIAL_PHASE == 2)
+            myText.GetComponentInChildren<Text>().text = "You're now in charge of this area of Inferno.";
+        else if (GLOBALS.s.TUTORIAL_PHASE == 3)
             myText.GetComponentInChildren<Text>().text = "This is your personal HELL'S GATE. It brings dead souls from earth.";
         else if (GLOBALS.s.TUTORIAL_PHASE == 4)
-            myText.GetComponentInChildren<Text>().text = "Aquire more souls to Level Up and be respected.";
+            myText.GetComponentInChildren<Text>().text = "Tap to Collect Souls.";
+        
         else if (GLOBALS.s.TUTORIAL_PHASE == 6)
             myText.GetComponentInChildren<Text>().text = "Now let's punish this sinner souls. Tap the BUILD Button.";
         else if (GLOBALS.s.TUTORIAL_PHASE == 7)
@@ -63,7 +68,7 @@ public class Full_Screen_Dialog : MonoBehaviour
         else if (GLOBALS.s.TUTORIAL_PHASE == 10)
             myText.GetComponentInChildren<Text>().text = "Great! Now your Hell Gate can Generate Souls! As higher your sadness meter, more souls will be sent to your Hell!";
         else if (GLOBALS.s.TUTORIAL_PHASE == 11)
-            myText.GetComponentInChildren<Text>().text = "Tap to Collect Souls.";
+            myText.GetComponentInChildren<Text>().text = "Aquire more souls to Level Up and be respected.";
         else if (GLOBALS.s.TUTORIAL_PHASE == 13)
             myText.GetComponentInChildren<Text>().text = "To construct more Punisher Buildings you need DEMONS! Tap to construct a Imp Pit.";
         else if (GLOBALS.s.TUTORIAL_PHASE == 14)
