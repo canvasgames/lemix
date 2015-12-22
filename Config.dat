@@ -1,11 +1,49 @@
 <item>
   <ConfigVersion value="1" />
-  <Time value="12/21/2015 11:06:51 PM" />
-  <ExpTotal value="100" />
+  <Time value="12/22/2015 8:56:48 PM" />
+  <ExpTotal value="0" />
   <Gem value="1000" />
   <Gold value="0" />
-  <Elixir value="100" />
+  <Elixir value="0" />
   <Shield value="0" />
-  <Building Type="0" Level="1" TilePosX="18" TilePosY="32" InUpgrade="False" UpgradeCompleted="False" UpgradeTimeLeft="0" Production="0" />
-  <Building Type="4" Level="1" TilePosX="19" TilePosY="29" InUpgrade="False" UpgradeCompleted="False" UpgradeTimeLeft="0" Production="500" />
+  <Building Type="0" Level="1" TilePosX="26" TilePosY="26" InUpgrade="False" UpgradeCompleted="False" UpgradeTimeLeft="0" Production="0" />
+  <Building Type="4" Level="1" TilePosX="32" TilePosY="26" InUpgrade="False" UpgradeCompleted="False" UpgradeTimeLeft="0" Production="50" />
+  <Building Type="0" Level="1" TilePosX="0" TilePosY="0" InUpgrade="False" UpgradeCompleted="False" UpgradeTimeLeft="0" Production="0" />
+  <Building Type="4" Level="1" TilePosX="0" TilePosY="0" InUpgrade="False" UpgradeCompleted="False" UpgradeTimeLeft="0" Production="0" />
+  <Building Type="0" Level="1" TilePosX="0" TilePosY="0" InUpgrade="False" UpgradeCompleted="False" UpgradeTimeLeft="0" Production="0" />
+  <Building Type="4" Level="1" TilePosX="0" TilePosY="0" InUpgrade="False" UpgradeCompleted="False" UpgradeTimeLeft="0" Production="0" />
+  <Building Type="0" Level="1" TilePosX="0" TilePosY="0" InUpgrade="False" UpgradeCompleted="False" UpgradeTimeLeft="0" Production="0" />
+  <Building Type="4" Level="1" TilePosX="0" TilePosY="0" InUpgrade="False" UpgradeCompleted="False" UpgradeTimeLeft="0" Production="0" />
+  <Building Type="0" Level="1" TilePosX="0" TilePosY="0" InUpgrade="False" UpgradeCompleted="False" UpgradeTimeLeft="0" Production="0" />
+  <Building Type="4" Level="1" TilePosX="0" TilePosY="0" InUpgrade="False" UpgradeCompleted="False" UpgradeTimeLeft="0" Production="0" />
+  <Building Type="0" Level="1" TilePosX="0" TilePosY="0" InUpgrade="False" UpgradeCompleted="False" UpgradeTimeLeft="0" Production="0" />
+  <Building Type="4" Level="1" TilePosX="0" TilePosY="0" InUpgrade="False" UpgradeCompleted="False" UpgradeTimeLeft="0" Production="0" />
+  <Building Type="0" Level="1" TilePosX="0" TilePosY="0" InUpgrade="False" UpgradeCompleted="False" UpgradeTimeLeft="0" Production="0" />
+  <Building Type="4" Level="1" TilePosX="0" TilePosY="0" InUpgrade="False" UpgradeCompleted="False" UpgradeTimeLeft="0" Production="0" />
+  <Building Type="0" Level="1" TilePosX="0" TilePosY="0" InUpgrade="False" UpgradeCompleted="False" UpgradeTimeLeft="0" Production="0" />
+  <Building Type="4" Level="1" TilePosX="0" TilePosY="0" InUpgrade="False" UpgradeCompleted="False" UpgradeTimeLeft="0" Production="0" />
+  <Building Type="0" Level="1" TilePosX="0" TilePosY="0" InUpgrade="False" UpgradeCompleted="False" UpgradeTimeLeft="0" Production="0" />
+  <Building Type="4" Level="1" TilePosX="0" TilePosY="0" InUpgrade="False" UpgradeCompleted="False" UpgradeTimeLeft="0" Production="0" />
+  <Building Type="0" Level="1" TilePosX="0" TilePosY="0" InUpgrade="False" UpgradeCompleted="False" UpgradeTimeLeft="0" Production="0" />
+  <Building Type="4" Level="1" TilePosX="0" TilePosY="0" InUpgrade="False" UpgradeCompleted="False" UpgradeTimeLeft="0" Production="0" />
+  <Building Type="0" Level="1" TilePosX="0" TilePosY="0" InUpgrade="False" UpgradeCompleted="False" UpgradeTimeLeft="0" Production="0" />
+  <Building Type="4" Level="1" TilePosX="0" TilePosY="0" InUpgrade="False" UpgradeCompleted="False" UpgradeTimeLeft="0" Production="0" />
+  <Building Type="0" Level="1" TilePosX="0" TilePosY="0" InUpgrade="False" UpgradeCompleted="False" UpgradeTimeLeft="0" Production="0" />
+  <Building Type="4" Level="1" TilePosX="0" TilePosY="0" InUpgrade="False" UpgradeCompleted="False" UpgradeTimeLeft="0" Production="0" />
+  <Building Type="0" Level="1" TilePosX="0" TilePosY="0" InUpgrade="False" UpgradeCompleted="False" UpgradeTimeLeft="0" Production="0" />
+  <Building Type="4" Level="1" TilePosX="0" TilePosY="0" InUpgrade="False" UpgradeCompleted="False" UpgradeTimeLeft="0" Production="0" />
+  <Building Type="0" Level="1" TilePosX="0" TilePosY="0" InUpgrade="False" UpgradeCompleted="False" UpgradeTimeLeft="0" Production="0" />
+  <Building Type="4" Level="1" TilePosX="0" TilePosY="0" InUpgrade="False" UpgradeCompleted="False" UpgradeTimeLeft="0" Production="0" />
+  <Building Type="0" Level="1" TilePosX="0" TilePosY="0" InUpgrade="False" UpgradeCompleted="False" UpgradeTimeLeft="0" Production="0" />
+  <Building Type="4" Level="1" TilePosX="0" TilePosY="0" InUpgrade="False" UpgradeCompleted="False" UpgradeTimeLeft="0" Production="0" />
+  <Building Type="0" Level="1" TilePosX="0" TilePosY="0" InUpgrade="False" UpgradeCompleted="False" UpgradeTimeLeft="0" Production="0" />
+  <Building Type="4" Level="1" TilePosX="0" TilePosY="0" InUpgrade="False" UpgradeCompleted="False" UpgradeTimeLeft="0" Production="0" />
+  <Building Type="0" Level="1" TilePosX="0" TilePosY="0" InUpgrade="False" UpgradeCompleted="False" UpgradeTimeLeft="0" Production="0" />
+  <Building Type="4" Level="1" TilePosX="0" TilePosY="0" InUpgrade="False" UpgradeCompleted="False" UpgradeTimeLeft="0" Production="0" />
+  <Building Type="0" Level="1" TilePosX="0" TilePosY="0" InUpgrade="False" UpgradeCompleted="False" UpgradeTimeLeft="0" Production="0" />
+  <Building Type="4" Level="1" TilePosX="0" TilePosY="0" InUpgrade="False" UpgradeCompleted="False" UpgradeTimeLeft="0" Production="0" />
+  <Building Type="0" Level="1" TilePosX="0" TilePosY="0" InUpgrade="False" UpgradeCompleted="False" UpgradeTimeLeft="0" Production="0" />
+  <Building Type="4" Level="1" TilePosX="0" TilePosY="0" InUpgrade="False" UpgradeCompleted="False" UpgradeTimeLeft="0" Production="0" />
+  <Building Type="0" Level="1" TilePosX="0" TilePosY="0" InUpgrade="False" UpgradeCompleted="False" UpgradeTimeLeft="0" Production="0" />
+  <Building Type="4" Level="1" TilePosX="0" TilePosY="0" InUpgrade="False" UpgradeCompleted="False" UpgradeTimeLeft="0" Production="0" />
 </item>

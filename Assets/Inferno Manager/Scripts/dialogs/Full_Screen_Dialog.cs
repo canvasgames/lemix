@@ -56,13 +56,16 @@ public class Full_Screen_Dialog : MonoBehaviour
             myText.GetComponentInChildren<Text>().text = "This is your personal HELL'S GATE. It brings dead souls from earth.";
         else if (GLOBALS.s.TUTORIAL_PHASE == 4)
             myText.GetComponentInChildren<Text>().text = "Tap to Collect Souls.";
-        
+        else if (GLOBALS.s.TUTORIAL_PHASE == 5)
+            myText.GetComponentInChildren<Text>().text = "Seem whe have no where to place the souls..\n What's your suggestion?\n";
         else if (GLOBALS.s.TUTORIAL_PHASE == 6)
-            myText.GetComponentInChildren<Text>().text = "Now let's punish this sinner souls. Tap the BUILD Button.";
+            myText.GetComponentInChildren<Text>().text = "For the antichrist sake! \nWhy did I promoted you? \nThey deserve only ETERNAL PUNISHMENT!";
+        //
         else if (GLOBALS.s.TUTORIAL_PHASE == 7)
-            myText.GetComponentInChildren<Text>().text = "Select a PUNISHER BUILDING.";
+            myText.GetComponentInChildren<Text>().text = "Now let's punish this sinner souls. Tap the BUILD Button.";
         else if (GLOBALS.s.TUTORIAL_PHASE == 8)
-            myText.GetComponentInChildren<Text>().text = "Hold the finger over the building and drag to replace it and Confirm.";
+            myText.GetComponentInChildren<Text>().text = "Select a PUNISHER BUILDING.";
+       // myText.GetComponentInChildren<Text>().text = "Hold the finger over the building and drag to replace it and Confirm.";
         else if (GLOBALS.s.TUTORIAL_PHASE == 9)
             myText.GetComponentInChildren<Text>().text = "Tap to Collect Sadness.";
         else if (GLOBALS.s.TUTORIAL_PHASE == 10)

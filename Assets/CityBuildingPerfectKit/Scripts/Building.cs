@@ -131,6 +131,9 @@ namespace BE {
         GameObject bigDaddy, finalPos;
         bool appearedCollectIcon = false;
         string textColor = "";
+        int CapacityTotal;
+        double AllProduction;
+
         void Awake () {
 
 			// if building can hold trained units
@@ -223,10 +226,21 @@ namespace BE {
 
             uiInfo.groupCollect.gameObject.SetActive(true);
             uiInfo.groupInfo.gameObject.SetActive(false);
+
         }
 
-		// get gem count to finish current upgrading
-		public int GetFinishGemCount() {
+        public void activateHandTutorialUI(int type)
+        {
+            if(type == Type)
+                uiInfo.SatanHand.gameObject.SetActive(true);
+        }
+        public void unactivateHandTutorialUI(int type)
+        {
+            if (type == Type)
+                uiInfo.SatanHand.gameObject.SetActive(false);
+        }
+        // get gem count to finish current upgrading
+        public int GetFinishGemCount() {
 			if(!InUpgrade || UpgradeCompleted) return 0;
 
 			int	 	FinishGemCount = ((int)UpgradeTimeLeft+1)/60;
@@ -524,118 +538,99 @@ namespace BE {
 
 			if(Collectable)
             {
-                int CapacityTotal;
-                double AllProduction;
-
-                if (def.eProductionType == PayType.Elixir)
-                {
-                    CapacityTotal = BEGround.instance.GetCapacityTotal(PayType.Elixir);
-                    AllProduction = SceneTown.Elixir.Target();
-                }
-                else 
-                {
-                    CapacityTotal = BEGround.instance.GetCapacityTotal(PayType.Gold);
-                    AllProduction = SceneTown.Gold.Target();
-                }
-
+                defineCapacityTotalAndAllProduction();
                 if (AllProduction < CapacityTotal)
                 {
                     Collect();
                     return true;
-
-                }
-                    
+                }     
             }
 		
 			return false;
 		}
 
-		// collect resources
-		public void Collect() {
-            int CapacityTotal;
-            double AllProduction;
-            if (GLOBALS.s.TUTORIAL_OCCURING == true)
-            {
-                if (GLOBALS.s.TUTORIAL_PHASE == 9)
-                    TutorialController.s.sadnessCollected();
-                else if (GLOBALS.s.TUTORIAL_PHASE == 11)
-                    TutorialController.s.soulsCollected();
-                else if (GLOBALS.s.TUTORIAL_PHASE == 16)
-                    TutorialController.s.endOfTutorial();
-            }
-
-            // increase resource count
-            if(def.eProductionType == PayType.Elixir)
+        void defineCapacityTotalAndAllProduction()
+        {
+            if (def.eProductionType == PayType.Elixir)
             {
                 CapacityTotal = BEGround.instance.GetCapacityTotal(PayType.Elixir);
                 AllProduction = SceneTown.Elixir.Target();
-                if (AllProduction < CapacityTotal)
-                {
-                    textColor = "";
-                    SceneTown.Elixir.ChangeDelta((double)Production);
-				    SceneTown.instance.CapacityCheck();
-				    textColor = "<color=purple>";
-                    finalPos = GameObject.Find("LabelElixir");
-                    myPart = (GameObject)Instantiate(Resources.Load("Prefabs/Elixir"));
-                    
-
-                    //Verify if the production exceeded the capacity
-                    if (AllProduction + Production <= CapacityTotal)
-                    {
-                        createParticleandUI(Production, false);
-                        SceneTown.instance.GainExp((int)Production / 10);
-                    }
-                        
-                    else
-                    {
-                        createParticleandUI(CapacityTotal - (float)AllProduction, true);
-                        SceneTown.instance.GainExp((CapacityTotal - (int)AllProduction) / 10);
-                    }
-                        
-                }
-                else
-                {
-                    UICollect script = UIInGame.instance.AddInGameUI(prefUICollect, transform, new Vector3(0, 1.5f, 0)).GetComponent<UICollect>();
-                    script.Name.text = ("FULL!");
-                    script.Init(transform, new Vector3(0, 1.0f, 0));
-                }
             }
-            else if(def.eProductionType == PayType.Gold)
+            else
             {
                 CapacityTotal = BEGround.instance.GetCapacityTotal(PayType.Gold);
                 AllProduction = SceneTown.Gold.Target();
-                if (AllProduction < CapacityTotal)
+            }
+
+        }
+		// collect resources
+		public void Collect() {
+
+            /*   if (GLOBALS.s.TUTORIAL_OCCURING == true)
+               {
+                   if (GLOBALS.s.TUTORIAL_PHASE == 9)
+                       TutorialController.s.sadnessCollected();
+                   else if (GLOBALS.s.TUTORIAL_PHASE == 11)
+                       TutorialController.s.soulsCollected();
+                   else if (GLOBALS.s.TUTORIAL_PHASE == 16)
+                       TutorialController.s.endOfTutorial();
+               }*/
+
+            defineCapacityTotalAndAllProduction();
+            if (AllProduction < CapacityTotal)
+            {
+
+                initializeTxtAndParticle();
+                
+               //Verify if the production exceeded the capacity
+                if (AllProduction + Production <= CapacityTotal)
                 {
-                    textColor = "";
-                    SceneTown.Gold.ChangeDelta((double)Production);
-                    SceneTown.instance.CapacityCheck();
+                    createParticleUIandCollect(Production, false);
 
-                    textColor = "<color=orange>";
-                    finalPos = GameObject.Find("LabelGold");
-                    myPart = (GameObject)Instantiate(Resources.Load("Prefabs/Gold"));
-
-                    //Verify if the production exceeded the capacity
-                    if (AllProduction + Production <= CapacityTotal)
-                        createParticleandUI(Production, false);
-                    else
-                        createParticleandUI(CapacityTotal - (float)AllProduction, true);
-
-
-                }
+                    if (def.eProductionType == PayType.Elixir)
+                        SceneTown.instance.GainExp((int)Production / 10);
+                }   
                 else
                 {
-                    UICollect script = UIInGame.instance.AddInGameUI(prefUICollect, transform, new Vector3(0, 1.5f, 0)).GetComponent<UICollect>();
-                    script.Name.text = ("FULL!");
-                    script.Init(transform, new Vector3(0, 1.0f, 0));
+                    createParticleUIandCollect(CapacityTotal - (float)AllProduction, true);
+
+                    if (def.eProductionType == PayType.Elixir)
+                        SceneTown.instance.GainExp((CapacityTotal - (int)AllProduction) / 10);
                 }
-
+                        
             }
-			else {}
-
-
+            else
+            {
+                fullTxt();
+                if (GLOBALS.s.TUTORIAL_PHASE == 4)
+                {
+                    TutorialController.s.tutorial1Phase4Clicked();
+                }
+            }
 		}
 
-        void createParticleandUI(float discountValue,bool outOfBounds)
+        void initializeTxtAndParticle()
+        {
+            textColor = "";
+            if (def.eProductionType == PayType.Elixir)
+            {
+                SceneTown.Elixir.ChangeDelta((double)Production);
+                textColor = "<color=purple>";
+                finalPos = GameObject.Find("LabelElixir");
+                myPart = (GameObject)Instantiate(Resources.Load("Prefabs/Elixir"));
+            }
+            else if(def.eProductionType == PayType.Gold)
+            {
+                SceneTown.Gold.ChangeDelta((double)Production);
+                textColor = "<color=orange>";
+                finalPos = GameObject.Find("LabelGold");
+                myPart = (GameObject)Instantiate(Resources.Load("Prefabs/Gold"));
+            }
+            SceneTown.instance.CapacityCheck();
+
+        }
+
+        void createParticleUIandCollect(float discountValue,bool outOfBounds)
         {
             
             appearedCollectIcon = false;
@@ -654,7 +649,7 @@ namespace BE {
             script.Init(transform, new Vector3(0, 1.0f, 0));
 
             // reset values related to production
-            Production = discountValue;
+            Production = Production - discountValue;
 
             if (outOfBounds == false)
             {
@@ -666,6 +661,14 @@ namespace BE {
 
             // save game - save game when action is occured. not program quit moment
             SceneTown.instance.Save();
+        }
+
+        void fullTxt()
+        {
+            UICollect script = UIInGame.instance.AddInGameUI(prefUICollect, transform, new Vector3(0, 1.5f, 0)).GetComponent<UICollect>();
+            script.Name.text = ("FULL!");
+            script.Init(transform, new Vector3(0, 1.0f, 0));
+
         }
 
 		// whether upgrading is enable

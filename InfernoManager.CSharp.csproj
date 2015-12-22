@@ -129,6 +129,7 @@
     <Compile Include="Assets\Inferno Manager\Scripts\dialogs\SatanHand.cs" />
     <Compile Include="Assets\Inferno Manager\Scripts\dialogs\Satan_HUD.cs" />
     <Compile Include="Assets\Inferno Manager\Scripts\dialogs\buttons\btNextTutorial.cs" />
+    <Compile Include="Assets\Inferno Manager\Scripts\dialogs\buttons\scrollOption.cs" />
     <Compile Include="Assets\Inferno Manager\Scripts\dialogs\demonCreateAvatar.cs" />
     <Compile Include="Assets\Inferno Manager\Scripts\particlesLogic.cs" />
   </ItemGroup>

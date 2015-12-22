@@ -27,8 +27,8 @@ namespace BE {
 		public 	CanvasGroup groupCollect;
 		public 	Image 		CollectDialog;
 		public 	Image 		CollectIcon;
-
-		public	Building 	building = null;
+        public  Image       SatanHand;
+        public	Building 	building = null;
 
 
 

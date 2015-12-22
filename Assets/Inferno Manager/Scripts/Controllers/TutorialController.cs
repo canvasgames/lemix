@@ -9,8 +9,8 @@ public class TutorialController : MonoBehaviour
     
     GameObject tempObject;
     public GameObject HUD, explosion;
-    
 
+    BE.Building[] buildings;
     Full_Screen_Dialog[] fscreen;
 
     float tutorial1Timer;
@@ -102,13 +102,8 @@ public class TutorialController : MonoBehaviour
         GLOBALS.s.TUTORIAL_PHASE = 3;
        
         fscreen = GameObject.FindObjectsOfType(typeof(Full_Screen_Dialog)) as Full_Screen_Dialog[];
-        // fscreen[0].changeText();
         fscreen[0].closeAndReopen();
  
-          //     (new Vector3(10f, 0f, 4f));
-        //-2,84, +3,4, -2,94
-        tempObject = (GameObject)Instantiate(explosion,new Vector3(4.64f, 6.79f, -0.56f),Quaternion.identity);
-        //tempObject = (GameObject)Instantiate(explosion, new Vector3(7.16f, 3.4f, -1.06f), Quaternion.identity);
         Invoke("createGate", 0.3f);
         Invoke("createNextButton", 2);
     }
@@ -118,7 +113,8 @@ public class TutorialController : MonoBehaviour
         BE.SceneTown.instance.createHellGateTutorial();
     }
 
-    //Open the demon lords list
+    //Old: Open the demon lords list
+    //Click to collect
     public void tutorial1Phase3Clicked()
     {
         GLOBALS.s.TUTORIAL_PHASE = 4;
@@ -126,6 +122,13 @@ public class TutorialController : MonoBehaviour
         fscreen = GameObject.FindObjectsOfType(typeof(Full_Screen_Dialog)) as Full_Screen_Dialog[];
         fscreen[0].closeAndReopen();
         HUD.SetActive(true);
+
+        buildings = GameObject.FindObjectsOfType(typeof(BE.Building)) as BE.Building[];
+        foreach (BE.Building element in buildings)
+        {
+            element.activateHandTutorialUI(4);
+        }
+
         //tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/DemonList/DemonList"));
         //MenusController.s.enterFromRight(tempObject, "DemonList",0,0);
 
@@ -135,47 +138,63 @@ public class TutorialController : MonoBehaviour
         // Invoke("createNextButton", 2);
     }
 
-    //Create the demos lord list
+    //Full of souls question, what to do?
     public void tutorial1Phase4Clicked()
     {
         GLOBALS.s.TUTORIAL_PHASE = 5;
-      
+        GLOBALS.s.LOCK_CAMERA_TUTORIAL = true;
 
         fscreen = GameObject.FindObjectsOfType(typeof(Full_Screen_Dialog)) as Full_Screen_Dialog[];
-        fscreen[0].closeAndReopen();
-        
-        //Invoke("tutorial1Phase4ClickedPart2", 1);
+        fscreen[0].closeAndDestroy();
+
+        buildings = GameObject.FindObjectsOfType(typeof(BE.Building)) as BE.Building[];
+        foreach (BE.Building element in buildings)
+        {
+            element.unactivateHandTutorialUI(4);
+        }
+
+        Invoke("tutorial1Phase4ClickedPart2", 2);
 
     }
 
     //Auto roll the demos lord list
     void tutorial1Phase4ClickedPart2()
     {
-        tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/SatanHand"));
-        MenusController.s.addToGUIAndRepositeObject(tempObject, "SatanHand");
-        Invoke("createNextButton", 3);
+        tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/BigScrollQuestion"));
+        MenusController.s.enterFromRight(tempObject, "BigScrollQuestion", 0, 0);
+
+    }
+
+    public void questionAnswered()
+    {
+        GLOBALS.s.TUTORIAL_PHASE = 6;
+        fscreen = GameObject.FindObjectsOfType(typeof(Full_Screen_Dialog)) as Full_Screen_Dialog[];
+        fscreen[0].closeAndDestroy();
+
+        tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/SmallScroll"));
+        MenusController.s.enterFromRight(tempObject, "SmallScroll", 0, 0);
+        Invoke("createNextButton", 2);
 
     }
 
     //Indicate the build Bt
-    public void tutorialListOfDemosClosed()
+    public void indicateBuildBT()
     {
-        GLOBALS.s.TUTORIAL_PHASE = 6;
+        GLOBALS.s.TUTORIAL_PHASE = 7;
 
-        MenusController.s.destroyMenu("DemonList",null);
-        tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/SmallScroll"));
-        MenusController.s.enterFromRight(tempObject, "SmallScroll", 252f, 224f);
-        tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/Satan"));
-        MenusController.s.enterFromLeft(tempObject, "Satan",0,0);
+        fscreen = GameObject.FindObjectsOfType(typeof(Full_Screen_Dialog)) as Full_Screen_Dialog[];
+       // fscreen[0].closeAndReopen();
+        MenusController.s.repositeMenu("SmallScroll", null, 252, 224);
         tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/DownArrow"));
         MenusController.s.enterFromRight(tempObject, "DownArrow", 0, 0);
-        HUD.SetActive(true);
+        //HUD.SetActive(true);
+         
     }
 
     //Clicked build bt
     public void clickedBuildBt()
     {
-        GLOBALS.s.TUTORIAL_PHASE = 7;
+        GLOBALS.s.TUTORIAL_PHASE = 8;
         fscreen = GameObject.FindObjectsOfType(typeof(Full_Screen_Dialog)) as Full_Screen_Dialog[];
         fscreen[0].closeAndReopen();
         MenusController.s.destroyMenu("Satan", null);
