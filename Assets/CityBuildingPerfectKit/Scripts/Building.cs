@@ -110,6 +110,7 @@ namespace BE {
 		public  bool		Collectable = false;			// if building can produce resource, whether collect is enable 
 		public	float		Production = 0.0f;				// production value 
 		public 	float [] 	Capacity = new float[(int)PayType.Max];	// if building can store resources, this is resource count being stored
+		public 	float [] 	StorageCapacity = new float[(int)PayType.Max];	// if building can store resources, this is resource count being stored
 
 		[HideInInspector]
 		public  bool		UpgradeCompleted = false;		// is upgrading completed?
@@ -265,7 +266,8 @@ namespace BE {
 
 			// get mesh path type and level
 			int displayLevel = (level == 0) ? 1 : level;
-			string meshPath = "Prefabs/Building/"+bt.Name+"_"+displayLevel.ToString ();
+			//string meshPath = "Prefabs/Building/"+bt.Name+"_"+displayLevel.ToString ();
+            string meshPath = "Prefabs/Building/"+bt.Name+"_"+1;
 			//Debug.Log ("Loading Mesh "+meshPath);
 
 			// instantiate mesh and set to goCenter
@@ -649,6 +651,7 @@ namespace BE {
             script.Init(transform, new Vector3(0, 1.0f, 0));
 
             // reset values related to production
+
             Production = Production - discountValue;
 
             if (outOfBounds == false)
@@ -750,7 +753,7 @@ namespace BE {
             //SceneTown.instance.GainExp(def.RewardExp);
             // if building has capacity value, then recalc capacity of all resources
             
-			if((def.Capacity[(int)PayType.Gold] != 0) || (def.Capacity[(int)PayType.Elixir] != 0))
+			if((def.StorageCapacity[(int)PayType.Gold] != 0) || (def.StorageCapacity[(int)PayType.Elixir] != 0))
             {
                 SceneTown.instance.CapacityCheck();
             }
@@ -764,7 +767,7 @@ namespace BE {
 		// incase yes, decrease resources and return Paytype.None
 		// othewise return the type of resource needed.
 		public PayType PayforBuild(BuildingDef _bd) {
-
+            Debug.Log("PAY FOR BUILD CALLED !! ");
 			PayType payTypeReturn = PayType.None;
 			if((payTypeReturn == PayType.None) && (_bd.BuildGoldPrice   != 0) && (SceneTown.Gold.Target () < _bd.BuildGoldPrice)) 		payTypeReturn = PayType.Gold;
 			if((payTypeReturn == PayType.None) && (_bd.BuildElixirPrice != 0) && (SceneTown.Elixir.Target () < _bd.BuildElixirPrice))	payTypeReturn = PayType.Elixir;

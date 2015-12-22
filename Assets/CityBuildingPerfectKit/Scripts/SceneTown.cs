@@ -424,7 +424,8 @@ namespace BE {
 
 			// if level up occured
 			if((NewLevel > Level) && (Level != 0)) {
-				// show levelup notify here
+                // show levelup notify here
+                GLOBALS.s.USER_RANK = NewLevel;
 			}
 			Level = NewLevel;
 			textLevel.text = NewLevel.ToString ();
@@ -677,14 +678,15 @@ namespace BE {
 						//Debug.Log ("TimeSpan:"+timeDelta.ToString());
 						BETime.timeAfterLastRun = timeDelta.TotalSeconds;
 					}
-					else if(ele.Name == "ExpTotal")			{	ExpTotal = int.Parse(ele.GetAttribute("value"));	 		}
+					else if(ele.Name == "ExpTotal")			{	ExpTotal = int.Parse(ele.GetAttribute("value")); GLOBALS.s.USER_RANK = TBDatabase.GetLevel(ExpTotal); Debug.Log(" USER RANK SET! " + GLOBALS.s.USER_RANK);  }
 					else if(ele.Name == "Gem")				{	Gem.ChangeTo(double.Parse(ele.GetAttribute("value")));	 		}
 					else if(ele.Name == "Gold")				{	Gold.ChangeTo(double.Parse(ele.GetAttribute("value")));	 		}
 					else if(ele.Name == "Elixir")			{	Elixir.ChangeTo(double.Parse(ele.GetAttribute("value")));	 	}
 					else if(ele.Name == "Shield")			{	Shield.ChangeTo(double.Parse(ele.GetAttribute("value")));	 	}
 					else if(ele.Name == "Building")			{	
 						int Type = int.Parse(ele.GetAttribute("Type"));	 		
-						int Level = int.Parse(ele.GetAttribute("Level"));	
+						int Level = int.Parse(ele.GetAttribute("Level"));
+                       
 						//Debug.Log ("Building Type:"+Type.ToString()+" Level:"+Level.ToString());
 						Building script = BEGround.instance.BuildingAdd(Type, Level);
 						script.Load (ele);

@@ -42,7 +42,7 @@ namespace BE {
 			}
 
 			// assume max building type count to 20
-			for(int i=0 ; i < 20 ; ++i) {
+			for(int i=0 ; i < GLOBALS.s.BUILDING_N_TYPES ; ++i) {
 				Buildings.Add (new List<Building>());
 			}
 
@@ -237,7 +237,7 @@ namespace BE {
 		// used when debugging
 		public void BuildingListing() {
 			Debug.Log ("BEGround::BuildingListing");
-			for(int i=0 ; i < 10 ; ++i) {
+			for(int i=0 ; i < GLOBALS.s.BUILDING_N_TYPES; ++i) {
 				for(int j=0 ; j < Buildings[i].Count ; ++j) {
 					Debug.Log ("Building Type:"+i.ToString ()+ " "+Buildings[i][j].gameObject.name);
 				}
@@ -297,16 +297,16 @@ namespace BE {
 		// get total resource capacity with given resource type
 		public int GetCapacityTotal(PayType type) {
 			int iReturn = 0;
-			for(int i=0 ; i < 10 ; ++i) {
+			for(int i=0 ; i < GLOBALS.s.BUILDING_N_TYPES; ++i) {
 				for(int j=0 ; j < Buildings[i].Count ; ++j) {
 
 					// exclude in creation building
 					if(Buildings[i][j].Level == 0) continue;
 
 					// exclude production building such as gold mine, because gols mine has it's own capacity 
-					if(Buildings[i][j].def.eProductionType == type) continue;
+					//if(Buildings[i][j].def.eProductionType == type) continue;
 
-					iReturn += Buildings[i][j].def.Capacity[(int)type];
+					iReturn += Buildings[i][j].def.StorageCapacity[(int)type];
 				}
 			}
 

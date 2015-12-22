@@ -327,13 +327,13 @@ namespace BE {
 				} 
 				else if(ct == CommandType.Upgrade) {
 					// check if worker available
-					if(BEWorkerManager.instance.WorkerAvailable()) {
+					//if(BEWorkerManager.instance.WorkerAvailable()) {
 						Hide();
 						UIDialogUpgradeAsk.Show(building);
-					}
-					else {
-						UIDialogMessage.Show("All workers are working now", "Ok", "No Worker Available");
-					}
+					//}
+					//else {
+					//	UIDialogMessage.Show("All workers are working now", "Ok", "No Worker Available");
+					//}
 				}
 				else if(ct == CommandType.UpgradeCancel) {
 					UIDialogMessage.Show("Cancel current upgrade?", "Yes,No", "Cancel Upgrade ?", null, (result) => { MessageBoxResultUpgradeCancel(result); } );

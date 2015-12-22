@@ -149,6 +149,14 @@ namespace BE {
 				TownLevelOk = false;
 				goNormal.SetActive(false);
 			}
+            else if (bdNext.RankRequired > 0 && GLOBALS.s.USER_RANK < bdNext.RankRequired)
+            {
+                goNote.SetActive(true);
+                NoteInfo.text = "To upgrade this building, you first need\n Rank " + bdNext.RankRequired + "!";
+                TownLevelOk = false;
+                goNormal.SetActive(false);
+            }
+
 			else {
 				goNote.SetActive(false);
 				TownLevelOk = true;
@@ -160,6 +168,7 @@ namespace BE {
 				GemCount = (bdNext.BuildTime + 1)/60; // 1 gem per minute
 				PriceGem.text = GemCount.ToString ("#,##0");
 				PriceGem.color = (SceneTown.Gem.Target() < GemCount) ? Color.red : Color.white;
+                Debug.Log("TOWN LEVEL OK =)");
 			}
 		}
 
