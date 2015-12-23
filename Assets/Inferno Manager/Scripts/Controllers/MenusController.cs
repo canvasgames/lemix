@@ -61,7 +61,6 @@ public class MenusController : MonoBehaviour {
 
         //Set again the local position, now in the GUI
         menu.transform.localPosition = new Vector3(xPos, yPos, 0f);
-
     }
     #endregion
 

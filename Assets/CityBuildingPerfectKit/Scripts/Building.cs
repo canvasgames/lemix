@@ -541,7 +541,7 @@ namespace BE {
 			if(Collectable)
             {
                 defineCapacityTotalAndAllProduction();
-                if (AllProduction < CapacityTotal)
+                if (AllProduction < CapacityTotal || GLOBALS.s.TUTORIAL_PHASE == 4)
                 {
                     Collect();
                     return true;
@@ -583,15 +583,15 @@ namespace BE {
             {
 
                 initializeTxtAndParticle();
-                
-               //Verify if the production exceeded the capacity
+
+                //Verify if the production exceeded the capacity
                 if (AllProduction + Production <= CapacityTotal)
                 {
                     createParticleUIandCollect(Production, false);
 
                     if (def.eProductionType == PayType.Elixir)
                         SceneTown.instance.GainExp((int)Production / 10);
-                }   
+                }
                 else
                 {
                     createParticleUIandCollect(CapacityTotal - (float)AllProduction, true);
@@ -599,7 +599,15 @@ namespace BE {
                     if (def.eProductionType == PayType.Elixir)
                         SceneTown.instance.GainExp((CapacityTotal - (int)AllProduction) / 10);
                 }
-                        
+
+                if (GLOBALS.s.TUTORIAL_PHASE == 11)
+                {
+                    TutorialController.s.soulReallyCollected();
+                }
+                else if (GLOBALS.s.TUTORIAL_PHASE == 17)
+                {
+                    TutorialController.s.endOfTutorial();
+                }
             }
             else
             {

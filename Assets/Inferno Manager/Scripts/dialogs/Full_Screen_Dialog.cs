@@ -65,23 +65,27 @@ public class Full_Screen_Dialog : MonoBehaviour
             myText.GetComponentInChildren<Text>().text = "Now let's punish this sinner souls. Tap the BUILD Button.";
         else if (GLOBALS.s.TUTORIAL_PHASE == 8)
             myText.GetComponentInChildren<Text>().text = "Select a PUNISHER BUILDING.";
-       // myText.GetComponentInChildren<Text>().text = "Hold the finger over the building and drag to replace it and Confirm.";
+        // myText.GetComponentInChildren<Text>().text = "Hold the finger over the building and drag to replace it and Confirm.";
         else if (GLOBALS.s.TUTORIAL_PHASE == 9)
             myText.GetComponentInChildren<Text>().text = "Place it and confirm";
-       // myText.GetComponentInChildren<Text>().text = "Tap to Collect Sadness.";
+        // myText.GetComponentInChildren<Text>().text = "Tap to Collect Sadness.";
         else if (GLOBALS.s.TUTORIAL_PHASE == 10)
-            myText.GetComponentInChildren<Text>().text = "Great! Now your Hell Gate can Generate Souls! As higher your sadness meter, more souls will be sent to your Hell!";
+            myText.GetComponentInChildren<Text>().text = "Punisher Buildings increases your Souls Capacity";
+        // myText.GetComponentInChildren<Text>().text = "Great! Now your Hell Gate can Generate Souls! As higher your sadness meter, more souls will be sent to your Hell!";
         else if (GLOBALS.s.TUTORIAL_PHASE == 11)
-            myText.GetComponentInChildren<Text>().text = "Aquire more souls to Level Up and be respected.";
-        else if (GLOBALS.s.TUTORIAL_PHASE == 13)
-            myText.GetComponentInChildren<Text>().text = "To construct more Punisher Buildings you need DEMONS! Tap to construct a Imp Pit.";
+            myText.GetComponentInChildren<Text>().text = "Tap to Collect Souls.";
+        else if (GLOBALS.s.TUTORIAL_PHASE == 12)
+            myText.GetComponentInChildren<Text>().text = "What the Heaven are you celebrating? You've barely started, there is still a long way to get to be someone other than this bag of holiness you still are";
+        //myText.GetComponentInChildren<Text>().text = "Aquire more souls to Level Up and be respected.";
         else if (GLOBALS.s.TUTORIAL_PHASE == 14)
-            myText.GetComponentInChildren<Text>().text = "Select the Imp Pit";
+            myText.GetComponentInChildren<Text>().text = "To construct more Punisher Buildings you need DEMONS! Tap to construct a Imp Pit.";
         else if (GLOBALS.s.TUTORIAL_PHASE == 15)
-            myText.GetComponentInChildren<Text>().text = "Place it and confirm";
+            myText.GetComponentInChildren<Text>().text = "Select the Imp Pit";
         else if (GLOBALS.s.TUTORIAL_PHASE == 16)
-            myText.GetComponentInChildren<Text>().text = "Tap to collect demons";
+            myText.GetComponentInChildren<Text>().text = "Place it and confirm";
         else if (GLOBALS.s.TUTORIAL_PHASE == 17)
+            myText.GetComponentInChildren<Text>().text = "Tap to collect demons";
+        else if (GLOBALS.s.TUTORIAL_PHASE == 18)
             myText.GetComponentInChildren<Text>().text = "That's it! Now keep building and upgrading your buildings!";
 
         // myText.GetComponentInChildren<Text>().text = "Good job building yourself an Army! Now give me 50% of them to my next Heaven's Raid.";

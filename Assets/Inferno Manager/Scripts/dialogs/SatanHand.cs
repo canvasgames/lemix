@@ -8,7 +8,11 @@ public class SatanHand : MonoBehaviour {
 	void Start () {
         if (GLOBALS.s.TUTORIAL_PHASE == 4)
             tutorialCollect();
-
+        if (GLOBALS.s.TUTORIAL_PHASE == 10)
+        {
+            
+        }
+            
     }
 	
 	// Update is called once per frame
@@ -16,6 +20,13 @@ public class SatanHand : MonoBehaviour {
 	
 	}
 
+    public void initHandSoulsTutorial()
+    {
+        Debug.Log("bbbbbb");
+        transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
+        transform.localPosition = new Vector3(-437, 214, 0);
+        tutorialSouls();
+    }
     void tutorialCollect()
     {
         transform.DOLocalMove(new Vector3(128, -112, 52), 0.7f).OnComplete(moveback);
@@ -26,7 +37,14 @@ public class SatanHand : MonoBehaviour {
     }
 
 
-
+    void tutorialSouls()
+    {
+        transform.DOLocalMoveY(160, 0.7f).OnComplete(tutorialsSoulsBack);
+    }
+    void tutorialsSoulsBack()
+    {
+        transform.DOLocalMoveY(214, 0.7f).OnComplete(tutorialSouls);
+    }
 
     void tutorialList()
     {
@@ -34,10 +52,7 @@ public class SatanHand : MonoBehaviour {
     }
     void move()
     {
-        CreateDemonsScrollView[] list;
-        list = GameObject.FindObjectsOfType(typeof(CreateDemonsScrollView)) as CreateDemonsScrollView[];
-        list[0].moveList();
-        transform.DOLocalMoveY(131, 1.5f).OnComplete(destroyMe);
+
     }
 
     void destroyMe()

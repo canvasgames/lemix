@@ -120,7 +120,7 @@ namespace BE {
                         {
                             TutorialController.s.destroySelectPunisher();
                         }
-                        else if(GLOBALS.s.TUTORIAL_PHASE == 14)
+                        else if(GLOBALS.s.TUTORIAL_PHASE == 15)
                         {
                             TutorialController.s.impClicked();
                         }

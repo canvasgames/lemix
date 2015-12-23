@@ -216,11 +216,11 @@ namespace BE {
 				if(ct == CommandType.Create) {
                     if(GLOBALS.s.TUTORIAL_OCCURING == true)
                     {
-                        if (GLOBALS.s.TUTORIAL_PHASE == 8)
+                        if (GLOBALS.s.TUTORIAL_PHASE == 9)
                         {
-                            TutorialController.s.collectSadnessPhase();
+                            TutorialController.s.punisherCapacityExplanation();
                         }
-                        else if (GLOBALS.s.TUTORIAL_PHASE == 15)
+                        else if (GLOBALS.s.TUTORIAL_PHASE == 16)
                         {
                             TutorialController.s.collectDemonsPhase();
                         }

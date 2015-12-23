@@ -516,7 +516,7 @@ namespace BE {
                     BEAudioManager.SoundPlay(6);
                     UIShop.Show(ShopType.Normal);
                 }
-                else if(GLOBALS.s.TUTORIAL_PHASE == 13)
+                else if(GLOBALS.s.TUTORIAL_PHASE == 14)
                 {
                     TutorialController.s.pressBuildImpCasePressed();
                     BEAudioManager.SoundPlay(6);

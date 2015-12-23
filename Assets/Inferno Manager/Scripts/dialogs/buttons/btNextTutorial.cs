@@ -71,17 +71,32 @@ public class btNextTutorial : ButtonCap
         {
 
             MenusController.s.destroyMenu("ArowNext", null);
-            TutorialController.s.collectSoulPhase();
+            TutorialController.s.collectSoulsAgain();
+
+        }
+        else if (GLOBALS.s.TUTORIAL_PHASE == 11)
+        {
+
+            MenusController.s.destroyMenu("ArowNext", null);
+            TutorialController.s.blablaQuemEhVcNaFilaDoPao();
 
         }
         else if (GLOBALS.s.TUTORIAL_PHASE == 12)
         {
 
             MenusController.s.destroyMenu("ArowNext", null);
+            TutorialController.s.showRankList();
+
+        }
+        else if (GLOBALS.s.TUTORIAL_PHASE == 13)
+        {
+
+            MenusController.s.destroyMenu("ArowNext", null);
             TutorialController.s.pressBuildBtConstructImp();
 
         }
-        else if (GLOBALS.s.TUTORIAL_PHASE == 17)
+        
+        else if (GLOBALS.s.TUTORIAL_PHASE == 18)
         {
             MenusController.s.destroyMenu("ArowNext", null);
             TutorialController.s.realEndTutorial();

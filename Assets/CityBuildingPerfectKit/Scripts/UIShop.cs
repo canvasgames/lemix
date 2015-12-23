@@ -37,8 +37,14 @@ namespace BE {
 		}
 		
 		void Start () {
+            Debug.Log(GLOBALS.s.TUTORIAL_PHASE);
             if (GLOBALS.s.TUTORIAL_PHASE == 8)
+            {
+                CategorySelected(1);
                 inactivateTabsTutorial();
+            }
+                
+
         }
 		
 		void Update () {
@@ -74,10 +80,11 @@ namespace BE {
 		}
 
 		void _Show (ShopType type) {
-
-			// if shop dialog called while new building is in creation,
-			// delete new building
-			if(SceneTown.buildingSelected != null) {
+            if (GLOBALS.s.TUTORIAL_PHASE == 15)
+                inactivateTabsTutorial2();
+            // if shop dialog called while new building is in creation,
+            // delete new building
+            if (SceneTown.buildingSelected != null) {
 				if(!SceneTown.buildingSelected.OnceLanded) {
 					SceneTown.instance.BuildingDelete();
 				}
@@ -211,6 +218,18 @@ namespace BE {
             }
 
         }
-	}
+
+       public void inactivateTabsTutorial2()
+        {
+            for (int i = 0; i < toggleButtons.Length; ++i)
+            {
+                if (i != 1 )
+                    contents[i].SetActive(toggleButtons[i].interactable = false);
+                else
+                    contents[i].SetActive(toggleButtons[i].interactable = true);
+            }
+
+        }
+    }
 
 }
