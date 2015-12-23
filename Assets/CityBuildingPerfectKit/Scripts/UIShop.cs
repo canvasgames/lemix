@@ -19,9 +19,9 @@ namespace BE {
 		House 		= 2, // house only (worker)
 	};
 	
+    
 	public class UIShop : MonoBehaviour {
-
-		public	static UIShop instance;
+        public	static UIShop instance;
 
 		public	GameObject 		prefabShopItem;
 		public	GameObject 		prefabShopItemGem;
@@ -37,8 +37,9 @@ namespace BE {
 		}
 		
 		void Start () {
-		
-		}
+            if (GLOBALS.s.TUTORIAL_PHASE == 8)
+                inactivateTabsTutorial();
+        }
 		
 		void Update () {
 
@@ -49,14 +50,19 @@ namespace BE {
 
 		// when category tab selected
 		public void CategorySelected(int value) {
-			Debug.Log ("UIShop::CategorySelected"+value.ToString ());
-			for(int i=0 ; i < toggleButtons.Length ; ++i) {
-				contents[i].SetActive(toggleButtons[i].isOn ? true : false);
-			}
+
+                Debug.Log("UIShop::CategorySelected" + value.ToString());
+                for (int i = 0; i < toggleButtons.Length; ++i)
+                {
+                    contents[i].SetActive(toggleButtons[i].isOn ? true : false);
+                }
+
+
+
 		}
 
 		public void Hide() {
-            if(GLOBALS.s.TUTORIAL_PHASE != 7 && GLOBALS.s.TUTORIAL_PHASE != 14)
+            if(GLOBALS.s.TUTORIAL_PHASE != 8 && GLOBALS.s.TUTORIAL_PHASE != 14)
             {
                 BETween.anchoredPosition(rtDialog.gameObject, 0.3f, new Vector3(0, -500)).method = BETweenMethod.easeOut;
                 BETween.alpha(gameObject, 0.3f, 0.5f, 0.0f).method = BETweenMethod.easeOut;
@@ -96,7 +102,6 @@ namespace BE {
 
 				// fill first tab
 				bt.Clear ();
-                bt.Add(TBDatabase.GetBuildingType(5));
                 bt.Add(TBDatabase.GetBuildingType(11));
                 bt.Add(TBDatabase.GetBuildingType(12));
                 bt.Add(TBDatabase.GetBuildingType(13));
@@ -196,6 +201,16 @@ namespace BE {
 		}
 		
 		public static void Show(ShopType type) { instance._Show(type); }
+
+        void inactivateTabsTutorial()
+        {
+            for (int i = 0; i < toggleButtons.Length; ++i)
+            {
+                if(i>0)
+                    contents[i].SetActive(toggleButtons[i].interactable = false);
+            }
+
+        }
 	}
 
 }

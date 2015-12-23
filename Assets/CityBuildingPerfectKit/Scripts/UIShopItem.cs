@@ -116,7 +116,7 @@ namespace BE {
                 if (CountAvailable && PriceAvailable) {
                     if (GLOBALS.s.TUTORIAL_OCCURING == true)
                     {
-                        if (GLOBALS.s.TUTORIAL_PHASE == 7)
+                        if (GLOBALS.s.TUTORIAL_PHASE == 8)
                         {
                             TutorialController.s.destroySelectPunisher();
                         }

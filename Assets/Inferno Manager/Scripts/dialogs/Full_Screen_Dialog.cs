@@ -67,7 +67,8 @@ public class Full_Screen_Dialog : MonoBehaviour
             myText.GetComponentInChildren<Text>().text = "Select a PUNISHER BUILDING.";
        // myText.GetComponentInChildren<Text>().text = "Hold the finger over the building and drag to replace it and Confirm.";
         else if (GLOBALS.s.TUTORIAL_PHASE == 9)
-            myText.GetComponentInChildren<Text>().text = "Tap to Collect Sadness.";
+            myText.GetComponentInChildren<Text>().text = "Place it and confirm";
+       // myText.GetComponentInChildren<Text>().text = "Tap to Collect Sadness.";
         else if (GLOBALS.s.TUTORIAL_PHASE == 10)
             myText.GetComponentInChildren<Text>().text = "Great! Now your Hell Gate can Generate Souls! As higher your sadness meter, more souls will be sent to your Hell!";
         else if (GLOBALS.s.TUTORIAL_PHASE == 11)

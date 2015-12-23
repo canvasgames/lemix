@@ -15,9 +15,6 @@ public class BuildBt : ButtonCap {
 
     public override void ActBT()
     {
-        if(GLOBALS.s.TUTORIAL_PHASE == 6)
-        {
-            TutorialController.s.clickedBuildBt();
-        }
+
     }
 }

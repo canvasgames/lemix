@@ -507,10 +507,11 @@ namespace BE {
 		// user clicked shop button
 		public void OnButtonShop() {
 
-            if(GLOBALS.s.TUTORIAL_OCCURING == true)
+            if (GLOBALS.s.TUTORIAL_OCCURING == true)
             {
-                if (GLOBALS.s.TUTORIAL_PHASE == 6)
+                if (GLOBALS.s.TUTORIAL_PHASE == 7)
                 {
+                    
                     TutorialController.s.clickedBuildBt();
                     BEAudioManager.SoundPlay(6);
                     UIShop.Show(ShopType.Normal);

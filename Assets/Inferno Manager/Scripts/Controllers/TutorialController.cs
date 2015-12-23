@@ -157,9 +157,9 @@ public class TutorialController : MonoBehaviour
 
     }
 
-    //Auto roll the demos lord list
     void tutorial1Phase4ClickedPart2()
     {
+        HUD.SetActive(false);
         tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/BigScrollQuestion"));
         MenusController.s.enterFromRight(tempObject, "BigScrollQuestion", 0, 0);
 
@@ -181,13 +181,13 @@ public class TutorialController : MonoBehaviour
     public void indicateBuildBT()
     {
         GLOBALS.s.TUTORIAL_PHASE = 7;
-
+        GLOBALS.s.LOCK_CAMERA_TUTORIAL = false;
         fscreen = GameObject.FindObjectsOfType(typeof(Full_Screen_Dialog)) as Full_Screen_Dialog[];
-       // fscreen[0].closeAndReopen();
+        fscreen[0].closeAndReopen();
         MenusController.s.repositeMenu("SmallScroll", null, 252, 224);
         tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/DownArrow"));
         MenusController.s.enterFromRight(tempObject, "DownArrow", 0, 0);
-        //HUD.SetActive(true);
+        HUD.SetActive(true);
          
     }
 
@@ -207,8 +207,7 @@ public class TutorialController : MonoBehaviour
     //Place it building msg
     public void destroySelectPunisher()
     {
-        
-        GLOBALS.s.TUTORIAL_PHASE = 8;
+        GLOBALS.s.TUTORIAL_PHASE = 9;
         fscreen = GameObject.FindObjectsOfType(typeof(Full_Screen_Dialog)) as Full_Screen_Dialog[];
         fscreen[0].closeAndReopen();
 

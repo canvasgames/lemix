@@ -33,42 +33,31 @@ public class btNextTutorial : ButtonCap
         base.ActBT();
         if(GLOBALS.s.TUTORIAL_PHASE == 1)
         {
-            
             MenusController.s.destroyMenu("ArowNext", null);
             TutorialController.s.tutorial1Clicked();
         }
         else if (GLOBALS.s.TUTORIAL_PHASE == 2)
         {
-
             MenusController.s.destroyMenu("ArowNext", null);
             TutorialController.s.tutorial1Phase2Clicked();
 
         }
         else if (GLOBALS.s.TUTORIAL_PHASE == 3)
         {
-
             MenusController.s.destroyMenu("ArowNext", null);
             TutorialController.s.tutorial1Phase3Clicked();
 
         }
         else if (GLOBALS.s.TUTORIAL_PHASE == 4)
         {
-
             MenusController.s.destroyMenu("ArowNext", null);
             TutorialController.s.tutorial1Phase4Clicked();
 
         }
         else if (GLOBALS.s.TUTORIAL_PHASE == 6)
         {
-            
             MenusController.s.destroyMenu("ArowNext", null);
             TutorialController.s.indicateBuildBT();
-
-        }
-        else if (GLOBALS.s.TUTORIAL_PHASE == 7)
-        {
-            MenusController.s.destroyMenu("ArowNext", null);
-            TutorialController.s.destroySelectPunisher();
 
         }
         else if (GLOBALS.s.TUTORIAL_PHASE == 8)

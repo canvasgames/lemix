@@ -236,7 +236,7 @@ namespace BE {
 
 						// decrease build price of the building
 						BuildingDef bd = TBDatabase.GetBuildingDef(building.Type, (building.Level == 0) ? 1 : building.Level);
-						building.PayforBuild(bd);
+						//building.PayforBuild(bd);
 						// if building level is 0(need buildtime), upgrade to level 1 start 
 						// if not, check resource capacity
 						if(building.Level == 0)  	
@@ -375,7 +375,7 @@ namespace BE {
 			if(building.OnceLanded == false) {
 				// only show 'create','cancel' button
 				AddButton(Resources.Load<Sprite>("Icons/CheckedMark"), "Ok", PayType.None, 0, CommandType.Create);
-                if (GLOBALS.s.TUTORIAL_PHASE != 8)
+                if (GLOBALS.s.TUTORIAL_PHASE != 9)
 				    AddButton(Resources.Load<Sprite>("Icons/Multiplication"), "Cancel", PayType.None, 0, CommandType.CreateCancel);
 			}
 			else {
