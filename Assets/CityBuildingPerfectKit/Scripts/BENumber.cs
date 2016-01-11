@@ -97,6 +97,7 @@ namespace BE {
 				fInc = 1.0f;
 			}
 			fTarget = target;
+            
 		}
 
 		public void ChangeDelta(double target) {
@@ -110,7 +111,7 @@ namespace BE {
 			fAge += Time.deltaTime * 6.0f;
 			fInc += Mathf.Exp(fAge);
 			
-			if(fTarget > fCurrent) 	{ fCurrent += (double)fInc; if(fCurrent >= fTarget) End(); }
+			if(fTarget > fCurrent) 	{ fCurrent += (double)fInc; if(fCurrent >= fTarget) End(); Debug.Log("GOLD IS BEING INCREASED"); }
 			else  					{ fCurrent -= (double)fInc; if(fCurrent <= fTarget) End(); }
 
 			UpdateUI();

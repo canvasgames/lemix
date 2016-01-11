@@ -496,25 +496,33 @@ namespace BE {
 			InApps.Add (new InAppItem("Crate of Diamonds", 14000, "$99.99"));
 
             // set experience values to each level OLD
-            for(int Level=0 ; Level <= MAX_LEVEL ; ++Level) {
+           /* for(int Level=0 ; Level <= MAX_LEVEL ; ++Level) {
 				LevelExp[Level] = Level * 50 + Mathf.Max(0, (Level - 199) * 450);
 				LevelExpTotal[Level] = Level * (Level - 1) * 25;
-				//Debug.Log ("Level "+Level.ToString ()+" - Exp:"+LevelExp[Level].ToString ()+" ExpTotal:"+LevelExpTotal[Level].ToString ());
-			}
+				Debug.Log ("Level "+Level.ToString ()+" - Exp: "+LevelExp[Level].ToString ()+" | ExpTotal: "+LevelExpTotal[Level].ToString ());
+			}*/
+            LevelExp[0] = 0;
+            LevelExp[1] = 100; 
+            LevelExp[2] = 300;
+            LevelExp[3] = 600;
+            LevelExp[4] = 2000;
+            LevelExp[5] = 6500;
+            LevelExp[6] = 20000;
+            LevelExp[7] = 42200;
+            LevelExp[8] = 112500;
+            LevelExp[9] = 216563;
+            LevelExp[10] = 540000;
+            LevelExp[11] = 1300250;
+            LevelExp[12] = 3500000;
 
-            LevelExp[0] = 100; 
-            LevelExp[1] = 300;
-            LevelExp[2] = 600;
-            LevelExp[3] = 2000;
-            LevelExp[4] = 6500;
-            LevelExp[5] = 20000;
-            LevelExp[6] = 42200;
-            LevelExp[7] = 112500;
-            LevelExp[8] = 216563;
-            LevelExp[9] = 540000;
-            LevelExp[8] = 1300250;
-            LevelExp[8] = 3500000;
+            LevelExpTotal[0] = 0;
+            for (int Level = 1; Level <= MAX_LEVEL; ++Level)
+            {
+                LevelExpTotal[Level] = LevelExpTotal[Level - 1] + LevelExp[Level-1];
+                //Debug.Log("Level " + Level.ToString() + " - Exp: " + LevelExp[Level].ToString() + " | ExpTotal: " + LevelExpTotal[Level].ToString());
+                if (Level > 12) LevelExp[Level] = 5000000;
 
+            }
             //GOLD (DEMON OR HELLFIRE) GENERATOR
             /* {
 
@@ -612,15 +620,15 @@ namespace BE {
                 { BuildingDef bd = new BuildingDef(400, 100, 0, 0, 5, 1); bd.SetCapacity(0, 100 * 12); bd.SetProduction(PayType.Elixir, 100); bt.Add(bd); }
                 { BuildingDef bd = new BuildingDef(440, 300, 0, 0, 10, 1); bd.SetCapacity(0 , 150 * 24); bd.SetProduction(PayType.Elixir, 150); bt.Add(bd); }
                 { BuildingDef bd = new BuildingDef(480, 600, 0, 0, 30, 2); bd.SetCapacity(0, 8000); bd.SetProduction(PayType.Elixir, 200); bt.Add(bd); }
-                { BuildingDef bd = new BuildingDef(480, 1100, 1000, 0, 60, 2); bd.SetCapacity(0, 14400); bd.SetProduction(PayType.Elixir, 250); bt.Add(bd); }
-                { BuildingDef bd = new BuildingDef(480, 1600, 700, 0, 2*60, 2); bd.SetCapacity(0, 25200); bd.SetProduction(PayType.Elixir, 300); bt.Add(bd); }
-                { BuildingDef bd = new BuildingDef(480, 4400, 700, 0, 5*60, 3); bd.SetCapacity(0, 50000); bd.SetProduction(PayType.Elixir, 350); bt.Add(bd); }
-                { BuildingDef bd = new BuildingDef(480, 11000, 700, 0, 10*60, 3); bd.SetCapacity(0, 85000); bd.SetProduction(PayType.Elixir, 400); bt.Add(bd); }
-                { BuildingDef bd = new BuildingDef(480, 31600, 700, 0, 15*60, 4); bd.SetCapacity(0, 121500); bd.SetProduction(PayType.Elixir, 450); bt.Add(bd); }
-                { BuildingDef bd = new BuildingDef(480, 84000, 700, 0, 20*60, 4); bd.SetCapacity(0, 180000); bd.SetProduction(PayType.Elixir, 500); bt.Add(bd); }
-                { BuildingDef bd = new BuildingDef(480, 224000, 700, 0, 30*60, 5); bd.SetCapacity(0, 1115750); bd.SetProduction(PayType.Elixir, 600); bt.Add(bd); }
-                { BuildingDef bd = new BuildingDef(480, 600000, 700, 0, 45*60, 5); bd.SetCapacity(0, 1500000); bd.SetProduction(PayType.Elixir, 650); bt.Add(bd); }
-                { BuildingDef bd = new BuildingDef(480, 1600200, 700, 0, 1*60 * 60, 6); bd.SetCapacity(0, 1850000); bd.SetProduction(PayType.Elixir, 700); bt.Add(bd); }
+                { BuildingDef bd = new BuildingDef(480, 1100, 0, 0, 60, 2); bd.SetCapacity(0, 14400); bd.SetProduction(PayType.Elixir, 250); bt.Add(bd); }
+                { BuildingDef bd = new BuildingDef(480, 1600, 0, 0, 2*60, 2); bd.SetCapacity(0, 25200); bd.SetProduction(PayType.Elixir, 300); bt.Add(bd); }
+                { BuildingDef bd = new BuildingDef(480, 4400, 0, 0, 5*60, 3); bd.SetCapacity(0, 50000); bd.SetProduction(PayType.Elixir, 350); bt.Add(bd); }
+                { BuildingDef bd = new BuildingDef(480, 11000, 0, 0, 10*60, 3); bd.SetCapacity(0, 85000); bd.SetProduction(PayType.Elixir, 400); bt.Add(bd); }
+                { BuildingDef bd = new BuildingDef(480, 31600, 0, 0, 15*60, 4); bd.SetCapacity(0, 121500); bd.SetProduction(PayType.Elixir, 450); bt.Add(bd); }
+                { BuildingDef bd = new BuildingDef(480, 84000, 0, 0, 20*60, 4); bd.SetCapacity(0, 180000); bd.SetProduction(PayType.Elixir, 500); bt.Add(bd); }
+                { BuildingDef bd = new BuildingDef(480, 224000, 0, 0, 30*60, 5); bd.SetCapacity(0, 1115750); bd.SetProduction(PayType.Elixir, 600); bt.Add(bd); }
+                { BuildingDef bd = new BuildingDef(480, 600000, 0, 0, 45*60, 5); bd.SetCapacity(0, 1500000); bd.SetProduction(PayType.Elixir, 650); bt.Add(bd); }
+                { BuildingDef bd = new BuildingDef(480, 1600200, 0, 0, 1*60 * 60, 6); bd.SetCapacity(0, 1850000); bd.SetProduction(PayType.Elixir, 700); bt.Add(bd); }
                 Buildings.Add(bt);
             }
             /*

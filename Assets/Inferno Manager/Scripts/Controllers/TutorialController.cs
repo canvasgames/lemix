@@ -27,6 +27,7 @@ public class TutorialController : MonoBehaviour
         
         if (firstGame == 0)
         {
+            PlayerPrefs.SetInt("tut_first_collect", 0);
             GLOBALS.s.LOCK_CAMERA_TUTORIAL = true;
             GLOBALS.s.TUTORIAL_OCCURING = true;
             tutorial1Timer = 2f;

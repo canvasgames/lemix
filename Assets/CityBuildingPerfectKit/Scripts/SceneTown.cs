@@ -117,7 +117,8 @@ namespace BE {
 		}
 
 		void Start () {
-			Time.timeScale = 1;
+            
+            Time.timeScale = 1;
 			isModalShow = false;
 			xzPlane = new Plane(new Vector3(0f, 1f, 0f), 0f);
 
@@ -413,7 +414,8 @@ namespace BE {
         #region BUILDING functions
         // add exp
         public void GainExp(int exp) {
-			ExpTotal += exp;
+            Debug.Log("GAINING EXP!!: " + exp + " EXP TOTAL: " + ExpTotal); 
+            ExpTotal += exp;
 			int NewLevel = TBDatabase.GetLevel(ExpTotal);
 			int LevelExpToGet = TBDatabase.GetLevelExp(NewLevel);
 			int LevelExpStart = TBDatabase.GetLevelExpTotal(NewLevel);
@@ -566,9 +568,9 @@ namespace BE {
         //check max capacity and, if it is the maximum, set it to maximum.
         public void CapacityCheck() {
 			int GoldCapacityTotal = BEGround.instance.GetCapacityTotal(PayType.Gold);
-			Debug.Log ("iGoldCapacityTotal:"+GoldCapacityTotal.ToString ());
+			//Debug.Log ("iGoldCapacityTotal:"+GoldCapacityTotal.ToString ());
 			int ElixirCapacityTotal = BEGround.instance.GetCapacityTotal(PayType.Elixir);
-			Debug.Log ("ElixirCapacityTotal:"+ElixirCapacityTotal.ToString ());
+			//Debug.Log ("ElixirCapacityTotal:"+ElixirCapacityTotal.ToString ());
 
 			Gold.MaxSet(GoldCapacityTotal);
   
