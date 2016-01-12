@@ -41,11 +41,18 @@ namespace BE {
 		private Text			UIText = null;
 		private Image			UIImage = null;
 
-		public BENumber(IncType type, double min, double max, double current) {
-			Init(type, min, max, current);
-		}
-		
-		public void Init(IncType type, double min, double max, double current) {
+        private PayType         my_type;
+
+        public BENumber(IncType type, double min, double max, double current)
+        {
+            Init(type, min, max, current);
+        }
+        public BENumber(IncType type, double min, double max, double current, PayType currency_type)
+        {
+            Init(type, min, max, current, currency_type);
+        }
+
+        public void Init(IncType type, double min, double max, double current) {
 			eType = type;
 			fMin = min;
 			fMax = max;
@@ -53,8 +60,19 @@ namespace BE {
 			fTarget = current;
 			bInChange = false;
 		}
+        public void Init(IncType type, double min, double max, double current, PayType currency_type)
+        {
+            eType = type;
+            fMin = min;
+            fMax = max;
+            fCurrent = current;
+            fTarget = current;
+            bInChange = false;
+            my_type = currency_type;
+        }
 
-		public void 	AddUIText(Text ui)		{ UIText = ui; if(UIText != null) UIText.text = ToString(); }
+
+        public void 	AddUIText(Text ui)		{ UIText = ui; if(UIText != null) UIText.text = ToString(); }
 		public void 	AddUIImage(Image ui)	{ UIImage = ui; if(UIImage != null) UIImage.fillAmount = Ratio(); }
 
 		public void 	TypeSet(IncType type)	{ eType = type; }
@@ -111,14 +129,20 @@ namespace BE {
 			fAge += Time.deltaTime * 6.0f;
 			fInc += Mathf.Exp(fAge);
 			
-			if(fTarget > fCurrent) 	{ fCurrent += (double)fInc; if(fCurrent >= fTarget) End(); Debug.Log("GOLD IS BEING INCREASED"); }
+			if(fTarget > fCurrent) 	{ fCurrent += (double)fInc; if(fCurrent >= fTarget) End();
+                 if(my_type == PayType.Elixir) Debug.Log("SOULS BEING INCREASED"); }
 			else  					{ fCurrent -= (double)fInc; if(fCurrent <= fTarget) End(); }
 
 			UpdateUI();
 		}
 
 		public void UpdateUI() {
-			if(UIText != null) UIText.text = ToString();
+            string to_display;
+            if (my_type != PayType.Elixir) to_display = ToString();
+            else
+                to_display = ToString() + "/" + fMax;
+
+            if (UIText != null) UIText.text = to_display;
 			if(UIImage != null) UIImage.fillAmount = Ratio();
 		}
 
