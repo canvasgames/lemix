@@ -68,7 +68,7 @@ namespace BE {
 		}
 
 		public void Hide() {
-            if(GLOBALS.s.TUTORIAL_PHASE != 8 && GLOBALS.s.TUTORIAL_PHASE != 14)
+            if(GLOBALS.s.TUTORIAL_PHASE != 8 && GLOBALS.s.TUTORIAL_PHASE != 15)
             {
                 BETween.anchoredPosition(rtDialog.gameObject, 0.3f, new Vector3(0, -500)).method = BETweenMethod.easeOut;
                 BETween.alpha(gameObject, 0.3f, 0.5f, 0.0f).method = BETweenMethod.easeOut;

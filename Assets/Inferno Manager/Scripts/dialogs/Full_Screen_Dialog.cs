@@ -12,7 +12,7 @@ public class Full_Screen_Dialog : MonoBehaviour
     {
         myTextHeight = myText.GetComponent<RectTransform>().rect.height;
         transform.localScale = new Vector3(1, 0, 1);
-        Invoke("open", 1);
+        Invoke("open", 0.3f);
 
     }
 
@@ -49,11 +49,11 @@ public class Full_Screen_Dialog : MonoBehaviour
     public void changeText()
     {
         if (GLOBALS.s.TUTORIAL_PHASE == 1)
-            myText.GetComponentInChildren<Text>().text = "Hi, I'm Satan! \n You've been promoted to a DEMON LORD!";
+            myText.GetComponentInChildren<Text>().text = "Hi, I'm <color=red>Satan!</color>  \n You've been promoted to a <color=red>DEMON LORD!</color>";
         else if (GLOBALS.s.TUTORIAL_PHASE == 2)
             myText.GetComponentInChildren<Text>().text = "You're now in charge of this area of Inferno.";
         else if (GLOBALS.s.TUTORIAL_PHASE == 3)
-            myText.GetComponentInChildren<Text>().text = "This is your personal HELL'S GATE. It brings dead souls from earth.";
+            myText.GetComponentInChildren<Text>().text = "This is your personal <color=red>HELL'S GATE</color>. It brings dead souls from earth.";
         else if (GLOBALS.s.TUTORIAL_PHASE == 4)
             myText.GetComponentInChildren<Text>().text = "Tap to Collect Souls.";
         else if (GLOBALS.s.TUTORIAL_PHASE == 5)
@@ -75,16 +75,16 @@ public class Full_Screen_Dialog : MonoBehaviour
         else if (GLOBALS.s.TUTORIAL_PHASE == 11)
             myText.GetComponentInChildren<Text>().text = "Tap to Collect Souls.";
         else if (GLOBALS.s.TUTORIAL_PHASE == 12)
-            myText.GetComponentInChildren<Text>().text = "What the Heaven are you celebrating? You've barely started, there is still a long way to get to be someone other than this bag of holiness you still are";
+            myText.GetComponentInChildren<Text>().text = "Why the <color=blue>heaven</color> are you celebrating?\n You've just started!\n There is still a long path to get to be someone other than this <color=blue>bag of holiness</color> you are!";
         //myText.GetComponentInChildren<Text>().text = "Aquire more souls to Level Up and be respected.";
         else if (GLOBALS.s.TUTORIAL_PHASE == 14)
-            myText.GetComponentInChildren<Text>().text = "To construct more Punisher Buildings you need DEMONS! Tap to construct a Imp Pit.";
+            myText.GetComponentInChildren<Text>().text = "To construct more Punisher Buildings you need <color=red>FIRE!</color> Tap to construct a Imp Pit.";
         else if (GLOBALS.s.TUTORIAL_PHASE == 15)
-            myText.GetComponentInChildren<Text>().text = "Select the Imp Pit";
+            myText.GetComponentInChildren<Text>().text = "Select the Fire Mine";
         else if (GLOBALS.s.TUTORIAL_PHASE == 16)
             myText.GetComponentInChildren<Text>().text = "Place it and confirm";
         else if (GLOBALS.s.TUTORIAL_PHASE == 17)
-            myText.GetComponentInChildren<Text>().text = "Tap to collect demons";
+            myText.GetComponentInChildren<Text>().text = "Tap to collect fire";
         else if (GLOBALS.s.TUTORIAL_PHASE == 18)
             myText.GetComponentInChildren<Text>().text = "That's it! Now keep building and upgrading your buildings!";
 

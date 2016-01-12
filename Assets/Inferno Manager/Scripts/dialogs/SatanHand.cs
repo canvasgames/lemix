@@ -8,10 +8,6 @@ public class SatanHand : MonoBehaviour {
 	void Start () {
         if (GLOBALS.s.TUTORIAL_PHASE == 4)
             tutorialCollect();
-        if (GLOBALS.s.TUTORIAL_PHASE == 10)
-        {
-            
-        }
             
     }
 	
@@ -22,18 +18,21 @@ public class SatanHand : MonoBehaviour {
 
     public void initHandSoulsTutorial()
     {
-        Debug.Log("bbbbbb");
         transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
         transform.localPosition = new Vector3(-437, 214, 0);
+
         tutorialSouls();
     }
     void tutorialCollect()
     {
-        transform.DOLocalMove(new Vector3(128, -112, 52), 0.7f).OnComplete(moveback);
+       // transform.DOLocalMove(new Vector3(128, -112, 52), 0.7f).OnComplete(moveback);
+        transform.DOLocalMove(new Vector3(112, -267, -200), 0.7f).OnComplete(moveback);
     }
     void moveback()
     {
-        transform.DOLocalMove(new Vector3(110, -87, 8.6f), 0.7f).OnComplete(tutorialCollect);
+        //transform.DOLocalMove(new Vector3(110, -87, 8.6f), 0.7f).OnComplete(tutorialCollect);
+        transform.DOLocalMove(new Vector3(75, -227, -200), 0.7f).OnComplete(tutorialCollect);
+
     }
 
 

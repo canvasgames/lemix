@@ -214,23 +214,23 @@ namespace BE {
 
 				// if user clicked 'create' button
 				if(ct == CommandType.Create) {
-                    if(GLOBALS.s.TUTORIAL_OCCURING == true)
-                    {
-                        if (GLOBALS.s.TUTORIAL_PHASE == 9)
-                        {
-                            TutorialController.s.punisherCapacityExplanation();
-                        }
-                        else if (GLOBALS.s.TUTORIAL_PHASE == 16)
-                        {
-                            TutorialController.s.collectDemonsPhase();
-                        }
-                    }
+
 
                     // building can land
                     if (building.Landable) {
-
-						// hide command dialog
-						Hide();
+                        if (GLOBALS.s.TUTORIAL_OCCURING == true)
+                        {
+                            if (GLOBALS.s.TUTORIAL_PHASE == 9)
+                            {
+                                TutorialController.s.punisherCapacityExplanation();
+                            }
+                            else if (GLOBALS.s.TUTORIAL_PHASE == 16)
+                            {
+                                TutorialController.s.collectDemonsPhase();
+                            }
+                        }
+                        // hide command dialog
+                        Hide();
 						// land building and unselect
 						SceneTown.instance.BuildingLandUnselect();
 
@@ -375,7 +375,7 @@ namespace BE {
 			if(building.OnceLanded == false) {
 				// only show 'create','cancel' button
 				AddButton(Resources.Load<Sprite>("Icons/CheckedMark"), "Ok", PayType.None, 0, CommandType.Create);
-                if (GLOBALS.s.TUTORIAL_PHASE != 9)
+                if (GLOBALS.s.TUTORIAL_PHASE != 9 && GLOBALS.s.TUTORIAL_PHASE != 16)
 				    AddButton(Resources.Load<Sprite>("Icons/Multiplication"), "Cancel", PayType.None, 0, CommandType.CreateCancel);
 			}
 			else {

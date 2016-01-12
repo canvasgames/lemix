@@ -99,7 +99,9 @@ public class TutorialController : MonoBehaviour
        
         fscreen = GameObject.FindObjectsOfType(typeof(Full_Screen_Dialog)) as Full_Screen_Dialog[];
         fscreen[0].closeAndReopen();
- 
+
+        tempObject = (GameObject)Instantiate(explosion,new Vector3(6.66f,3.4f,0.56f), Quaternion.Euler(89f, 0f, 0f));
+
         Invoke("createGate", 0.3f);
         Invoke("createNextButton", 2);
     }
@@ -218,6 +220,7 @@ public class TutorialController : MonoBehaviour
         fscreen[0].closeAndReopen();
 
         MenusController.s.repositeMenu("SmallScroll", null, -394f, -118f);
+
 
         Invoke("createNextButton", 2);
 
