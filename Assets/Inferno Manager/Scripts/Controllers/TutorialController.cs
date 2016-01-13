@@ -24,10 +24,10 @@ public class TutorialController : MonoBehaviour
     void Start()
     {
         int firstGame = PlayerPrefs.GetInt("firstGame");
-        firstGame = 2;
+        //firstGame = 2;
         if (firstGame == 0)
         {
-            PlayerPrefs.SetInt("tut_first_collect", 0);
+            HUD.SetActive(false);
             GLOBALS.s.LOCK_CAMERA_TUTORIAL = true;
             GLOBALS.s.TUTORIAL_OCCURING     = true;
             tutorial1Timer = 2f;
@@ -58,7 +58,7 @@ public class TutorialController : MonoBehaviour
     void tutorial1()
     {
         GLOBALS.s.TUTORIAL_PHASE = 1;
-        HUD.SetActive(false);
+        
         
         tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/SmallScroll"));
         MenusController.s.enterFromRight(tempObject, "SmallScroll", 0,0);
@@ -83,9 +83,7 @@ public class TutorialController : MonoBehaviour
 
         fscreen = GameObject.FindObjectsOfType(typeof(DialogsTexts)) as DialogsTexts[];
         fscreen[0].closeAndReopen();
-
-       // tempObject = (GameObject)Instantiate(explosion);
-
+        
         Invoke("createBuilding", 0.3f);
         Invoke("createNextButton", 2);
     }
@@ -209,6 +207,12 @@ public class TutorialController : MonoBehaviour
 
     }
 
+    //Destroy small scroll
+    public void destructSmallScroll()
+    {
+        MenusController.s.destroyMenu("SmallScroll", null);
+    }
+
     //Indicate souls HUD
     public void punisherCapacityExplanation()
     {
@@ -220,11 +224,12 @@ public class TutorialController : MonoBehaviour
         script = (SatanHand)tempObject.GetComponent(typeof(SatanHand));
         script.initHandSoulsTutorial();
 
+        tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/SmallScroll"));
+        MenusController.s.enterFromRight(tempObject, "SmallScroll", -292f, -185f);
 
-        fscreen = GameObject.FindObjectsOfType(typeof(DialogsTexts)) as DialogsTexts[];
-        fscreen[0].closeAndReopen();
-
-        MenusController.s.repositeMenu("SmallScroll", null, -394f, -118f);
+        //fscreen = GameObject.FindObjectsOfType(typeof(DialogsTexts)) as DialogsTexts[];
+        // fscreen[0].closeAndReopen();
+        // MenusController.s.repositeMenu("SmallScroll", null, -394f, -118f);
 
 
         Invoke("createNextButton", 2);
@@ -241,6 +246,7 @@ public class TutorialController : MonoBehaviour
 
         fscreen = GameObject.FindObjectsOfType(typeof(DialogsTexts)) as DialogsTexts[];
         fscreen[0].closeAndReopen();
+        MenusController.s.repositeMenu("SmallScroll", null, -18f, -250f);
 
         buildings = GameObject.FindObjectsOfType(typeof(BE.Building)) as BE.Building[];
         foreach (BE.Building element in buildings)
@@ -323,16 +329,25 @@ public class TutorialController : MonoBehaviour
         MenusController.s.enterFromRight(tempObject, "DownArrow", 0, 0);
     }
 
-    //Choose the imp pit
+    //Indicate tab off fire mine
+    public void indicateTabFireMine()
+    {
+        MenusController.s.destroyMenu("Satan", null);
+
+        MenusController.s.repositeMenu("SmallScroll", null, 0f, 240f);
+        MenusController.s.repositeMenu("DownArrow", null, -190f, -215f);
+
+        GLOBALS.s.TUTORIAL_PHASE = 21;
+    }
+
+    //Clicked tab
     public void pressBuildImpCasePressed()
     {
         GLOBALS.s.TUTORIAL_PHASE = 15;
 
         fscreen = GameObject.FindObjectsOfType(typeof(DialogsTexts)) as DialogsTexts[];
         fscreen[0].closeAndReopen();
-        MenusController.s.destroyMenu("Satan", null);
         MenusController.s.destroyMenu("DownArrow", null);
-        MenusController.s.repositeMenu("SmallScroll", null, 0f, 240f);
     }
 
     //Imp pit pressed, place it msg
@@ -349,8 +364,8 @@ public class TutorialController : MonoBehaviour
     {
        
         GLOBALS.s.TUTORIAL_PHASE = 17;
-        fscreen = GameObject.FindObjectsOfType(typeof(DialogsTexts)) as DialogsTexts[];
-        fscreen[0].closeAndReopen();
+        tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/SmallScroll"));
+        MenusController.s.enterFromRight(tempObject, "SmallScroll", -18f, -250f);
     }
 
     //That's it, end of tutorial

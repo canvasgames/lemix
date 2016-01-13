@@ -169,7 +169,21 @@ namespace BE {
 
 			// if building can produce resources
 			if(Landed && !InUpgrade && (def != null) && (def.eProductionType != PayType.None)) {
-				Production += (float)def.ProductionRate * deltaTime;
+
+                if(GLOBALS.s.TUTORIAL_PHASE == 4 || GLOBALS.s.TUTORIAL_PHASE == 17)
+                {
+                    //Automatically generate souls or fire for tutorial
+                    if (GLOBALS.s.TUTORIAL_PHASE == 4)
+                        Production = 100;
+                    else if(GLOBALS.s.TUTORIAL_PHASE == 17 && def.eProductionType == PayType.Gold)
+                        Production = 100;
+
+                }
+                else
+                { 
+                    Production += (float)def.ProductionRate * deltaTime;
+                }
+				
 
 				// check maximum capacity
 				if((int)Production >= def.Capacity[(int)def.eProductionType])
@@ -180,7 +194,17 @@ namespace BE {
                     if(appearedCollectIcon == false)
                     {
                         appearedCollectIcon = true;
-                        Invoke("delayCollect", 2f);
+
+                        //Automatically appear collect icon in tutorial
+                        if (GLOBALS.s.TUTORIAL_PHASE == 4 || (GLOBALS.s.TUTORIAL_PHASE == 17 && def.eProductionType == PayType.Gold))
+                        {
+                            delayCollect();
+                        }
+                        else
+                        {
+                            Invoke("delayCollect", 2f);
+                        }
+
                     }
                         
 				}
@@ -429,8 +453,8 @@ namespace BE {
 					}
 				}
 				else {
-					//uiInfo.groupInfo.alpha = Landed ? 0 : 1;
-					//uiInfo.groupInfo.gameObject.SetActive(Landed ? false : true);
+					uiInfo.groupInfo.alpha = Landed ? 0 : 1;
+					uiInfo.groupInfo.gameObject.SetActive(Landed ? false : true);
 				}
 			}
 
@@ -452,7 +476,6 @@ namespace BE {
 
         public void appearBuildButtons()
         {
-            Debug.Log("aaaaaaaaa");
             BETween.alpha(uiInfo.groupInfo.gameObject, 0.1f, 0.0f, 1.0f);
             uiInfo.groupInfo.gameObject.SetActive(true);
 
@@ -558,6 +581,7 @@ namespace BE {
 
 			if(Collectable)
             {
+                
                 defineCapacityTotalAndAllProduction();
                 if (AllProduction < CapacityTotal || GLOBALS.s.TUTORIAL_PHASE == 4)
                 {
@@ -586,53 +610,47 @@ namespace BE {
 		// collect resources
 		public void Collect() {
 
-            /*   if (GLOBALS.s.TUTORIAL_OCCURING == true)
-               {
-                   if (GLOBALS.s.TUTORIAL_PHASE == 9)
-                       TutorialController.s.sadnessCollected();
-                   else if (GLOBALS.s.TUTORIAL_PHASE == 11)
-                       TutorialController.s.soulsCollected();
-                   else if (GLOBALS.s.TUTORIAL_PHASE == 16)
-                       TutorialController.s.endOfTutorial();
-               }*/
 
-            defineCapacityTotalAndAllProduction();
-            if (AllProduction < CapacityTotal)
+            if (GLOBALS.s.TUTORIAL_OCCURING == false || GLOBALS.s.TUTORIAL_PHASE == 4 || GLOBALS.s.TUTORIAL_PHASE == 11 || (GLOBALS.s.TUTORIAL_PHASE == 17 && def.eProductionType == PayType.Gold))
             {
-
-                initializeTxtAndParticle();
-
-                //Verify if the production exceeded the capacity
-                if (AllProduction + Production <= CapacityTotal)
+                defineCapacityTotalAndAllProduction();
+                if (AllProduction < CapacityTotal)
                 {
-                    createParticleUIandCollect(Production, false);
 
-                    if (def.eProductionType == PayType.Elixir)
-                        SceneTown.instance.GainExp((int)Production / 10);
+                    initializeTxtAndParticle();
+
+                    //Verify if the production exceeded the capacity
+                    if (AllProduction + Production <= CapacityTotal)
+                    {
+                        createParticleUIandCollect(Production, false);
+
+                        if (def.eProductionType == PayType.Elixir)
+                            SceneTown.instance.GainExp((int)Production / 10);
+                    }
+                    else
+                    {
+                        createParticleUIandCollect(CapacityTotal - (float)AllProduction, true);
+
+                        if (def.eProductionType == PayType.Elixir)
+                            SceneTown.instance.GainExp((CapacityTotal - (int)AllProduction) / 10);
+                    }
+
+                    if (GLOBALS.s.TUTORIAL_PHASE == 11)
+                    {
+                        TutorialController.s.soulReallyCollected();
+                    }
+                    else if (GLOBALS.s.TUTORIAL_PHASE == 17)
+                    {
+                        TutorialController.s.endOfTutorial();
+                    }
                 }
                 else
                 {
-                    createParticleUIandCollect(CapacityTotal - (float)AllProduction, true);
-
-                    if (def.eProductionType == PayType.Elixir)
-                        SceneTown.instance.GainExp((CapacityTotal - (int)AllProduction) / 10);
-                }
-
-                if (GLOBALS.s.TUTORIAL_PHASE == 11)
-                {
-                    TutorialController.s.soulReallyCollected();
-                }
-                else if (GLOBALS.s.TUTORIAL_PHASE == 17)
-                {
-                    TutorialController.s.endOfTutorial();
-                }
-            }
-            else
-            {
-                fullTxt();
-                if (GLOBALS.s.TUTORIAL_PHASE == 4)
-                {
-                    TutorialController.s.tutorial1Phase4Clicked();
+                    fullTxt();
+                    if (GLOBALS.s.TUTORIAL_PHASE == 4)
+                    {
+                        TutorialController.s.tutorial1Phase4Clicked();
+                    }
                 }
             }
 		}
@@ -778,9 +796,16 @@ namespace BE {
 
 		// when upgraded ended, user clicked this building
 		public void UpgradeEnd() {
-
-			// initialize with next level
-			Init(Type, Level+1);
+            if (GLOBALS.s.TUTORIAL_PHASE == 9)
+            {
+                TutorialController.s.punisherCapacityExplanation();
+            }
+            else if (GLOBALS.s.TUTORIAL_PHASE == 16)
+            {
+                TutorialController.s.collectDemonsPhase();
+            }
+            // initialize with next level
+            Init(Type, Level+1);
 			InUpgrade = false;
 			UpgradeCompleted = false;
 

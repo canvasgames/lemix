@@ -221,13 +221,9 @@ namespace BE {
                     if (building.Landable) {
                         if (GLOBALS.s.TUTORIAL_OCCURING == true)
                         {
-                            if (GLOBALS.s.TUTORIAL_PHASE == 9)
+                            if (GLOBALS.s.TUTORIAL_PHASE == 9 || GLOBALS.s.TUTORIAL_PHASE == 16)
                             {
-                                TutorialController.s.punisherCapacityExplanation();
-                            }
-                            else if (GLOBALS.s.TUTORIAL_PHASE == 16)
-                            {
-                                TutorialController.s.collectDemonsPhase();
+                                TutorialController.s.destructSmallScroll();
                             }
                         }
 

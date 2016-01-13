@@ -1,11 +1,13 @@
 <item>
   <ConfigVersion value="1" />
-  <Time value="1/12/2016 10:04:59 PM" />
-  <ExpTotal value="0" />
+  <Time value="1/13/2016 9:33:20 PM" />
+  <ExpTotal value="10" />
   <Gem value="0" />
-  <Gold value="1000" />
-  <Elixir value="0" />
+  <Gold value="0" />
+  <Elixir value="100" />
   <Shield value="0" />
-  <Building Type="0" Level="1" TilePosX="25" TilePosY="25" InUpgrade="False" UpgradeCompleted="False" UpgradeTimeLeft="0" Production="0" />
-  <Building Type="4" Level="1" TilePosX="28" TilePosY="38" InUpgrade="False" UpgradeCompleted="False" UpgradeTimeLeft="0" Production="1200" />
+  <Building Type="0" Level="1" TilePosX="26" TilePosY="26" InUpgrade="False" UpgradeCompleted="False" UpgradeTimeLeft="0" Production="0" />
+  <Building Type="4" Level="1" TilePosX="32" TilePosY="26" InUpgrade="False" UpgradeCompleted="False" UpgradeTimeLeft="0" Production="71.87328" />
+  <Building Type="12" Level="1" TilePosX="22" TilePosY="22" InUpgrade="False" UpgradeCompleted="False" UpgradeTimeLeft="0" Production="0" />
+  <Building Type="11" Level="0" TilePosX="8" TilePosY="22" InUpgrade="True" UpgradeCompleted="False" UpgradeTimeLeft="5" Production="0" />
 </item>

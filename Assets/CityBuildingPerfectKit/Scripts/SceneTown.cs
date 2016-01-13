@@ -388,27 +388,38 @@ namespace BE {
 
         //picking a building means that...
         public void Pick() {
-			Debug.Log ("Pick buildingSelected:"+((buildingSelected != null) ? buildingSelected.name : "none"));
-			//GameObject goSelectNew = null;
-			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-			RaycastHit hit;
-			if (Physics.Raycast(ray, out hit)){
-				//Debug.Log ("Pick"+hit.collider.gameObject.tag);
-				if(hit.collider.gameObject.tag == "Ground") {
-					BuildingSelect(null);
-					return;
-				}
-				else if(hit.collider.gameObject.tag == "Building") {
-					Building buildingNew = BuildingFromObject(hit.collider.gameObject);
-					if(buildingNew.HasCompletedWork())
-						return;
 
-					BuildingSelect(buildingNew);
-					return;
-				}
-				else {
-				}
-			}
+ 
+                Debug.Log("Pick buildingSelected:" + ((buildingSelected != null) ? buildingSelected.name : "none"));
+                //GameObject goSelectNew = null;
+                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                RaycastHit hit;
+                if (Physics.Raycast(ray, out hit))
+                {
+                    //Debug.Log ("Pick"+hit.collider.gameObject.tag);
+                    if (hit.collider.gameObject.tag == "Ground")
+                    {
+                        BuildingSelect(null);
+                        return;
+                    }
+                    else if (hit.collider.gameObject.tag == "Building")
+                    {
+                        Building buildingNew = BuildingFromObject(hit.collider.gameObject);
+                        if (buildingNew.HasCompletedWork())
+                            return;
+
+                        //Dont select building when in tutorial
+                        if (GLOBALS.s.TUTORIAL_OCCURING == false)
+                            BuildingSelect(buildingNew);
+                        return;
+                    }
+                    else
+                    {
+                    }
+                
+
+            }
+
 		}
 
 
@@ -521,7 +532,7 @@ namespace BE {
                 }
                 else if(GLOBALS.s.TUTORIAL_PHASE == 14)
                 {
-                    TutorialController.s.pressBuildImpCasePressed();
+                    TutorialController.s.indicateTabFireMine();
                     BEAudioManager.SoundPlay(6);
                     UIShop.Show(ShopType.Normal);
                 }

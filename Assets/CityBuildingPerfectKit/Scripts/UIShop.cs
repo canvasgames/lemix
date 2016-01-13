@@ -37,7 +37,6 @@ namespace BE {
 		}
 		
 		void Start () {
-            Debug.Log(GLOBALS.s.TUTORIAL_PHASE);
             if (GLOBALS.s.TUTORIAL_PHASE == 8)
             {
                 CategorySelected(1);
@@ -58,7 +57,10 @@ namespace BE {
 		public void CategorySelected(int value) {
 
                 Debug.Log("UIShop::CategorySelected" + value.ToString());
-
+            if(GLOBALS.s.TUTORIAL_PHASE == 21)
+            {
+                TutorialController.s.pressBuildImpCasePressed();
+            }
 
             
                 for (int i = 0; i < toggleButtons.Length; ++i)
@@ -83,7 +85,7 @@ namespace BE {
 		}
 
 		void _Show (ShopType type) {
-            if (GLOBALS.s.TUTORIAL_PHASE == 15)
+            if (GLOBALS.s.TUTORIAL_PHASE == 21)
             {
                 inactivateTabsTutorial2();
             }

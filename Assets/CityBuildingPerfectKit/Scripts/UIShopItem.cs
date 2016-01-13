@@ -109,7 +109,8 @@ namespace BE {
 
 			// if item is building
 			if(bt != null) {
-                //Debug.Log ("UIShopItem selected : "+bt.Name);
+                Debug.Log ("UIShopItem selected : "+bt.ID
+                    );
 
                 //building creation is enabled
                 //if(CountAvailable && PriceAvailable && BEWorkerManager.instance.WorkerAvailable()
@@ -120,28 +121,34 @@ namespace BE {
                         {
                             TutorialController.s.destroySelectPunisher();
                         }
-                        else if(GLOBALS.s.TUTORIAL_PHASE == 15)
+                        else if (GLOBALS.s.TUTORIAL_PHASE == 15)
                         {
                             TutorialController.s.impClicked();
                         }
                     }
+                    if (GLOBALS.s.TUTORIAL_PHASE != 21 || bt.ID == 3)
+                    {
+                        // add building. if buildtime is zero, then create level1, else not, create o level and upgrade start
+                        Building script = BEGround.instance.BuildingAdd(bt.ID, (bd.BuildTime == 0) ? 1 : 0);
+                        if (script != null)
+                        {
+                            script.Move(Vector3.zero);
+                            BEGround.instance.MoveToVacantTilePos(script);
+                            script.CheckLandable();
+                            SceneTown.instance.BuildingSelect(script);
+                            UIShop.instance.Hide();
+                        }
+                    }
 
-					// add building. if buildtime is zero, then create level1, else not, create o level and upgrade start
-					Building script = BEGround.instance.BuildingAdd (bt.ID,(bd.BuildTime == 0) ? 1 : 0);
-					if(script != null) {
-						script.Move(Vector3.zero);
-						BEGround.instance.MoveToVacantTilePos(script);
-						script.CheckLandable();
-						SceneTown.instance.BuildingSelect(script);
-						UIShop.instance.Hide ();
-					}
-				}
-				else {
-
-					// show message box
-					if(!CountAvailable)  		UIDialogMessage.Show("Upgrade town hall to enlarge max count", "Ok", "Reach to Max Count");
-					else if(!PriceAvailable)  	UIDialogMessage.Show("More Resource Required", "Ok", "Error");
-					else 						UIDialogMessage.Show("All workers are working now", "Ok", "Error");
+                }
+                else {
+                    if (GLOBALS.s.TUTORIAL_PHASE != 21)
+                    { 
+                    // show message box
+                        if (!CountAvailable) UIDialogMessage.Show("Upgrade town hall to enlarge max count", "Ok", "Reach to Max Count");
+                        else if (!PriceAvailable) UIDialogMessage.Show("More Resource Required", "Ok", "Error");
+                        else UIDialogMessage.Show("All workers are working now", "Ok", "Error");
+                    }
 				}
 			}
 

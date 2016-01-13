@@ -19,7 +19,7 @@ public class SatanHand : MonoBehaviour {
     public void initHandSoulsTutorial()
     {
         transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
-        transform.localPosition = new Vector3(-437, 214, 0);
+        transform.localPosition = new Vector3(-359, 214, 0);
 
         tutorialSouls();
     }
