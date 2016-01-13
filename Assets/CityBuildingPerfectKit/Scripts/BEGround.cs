@@ -309,13 +309,32 @@ namespace BE {
 					iReturn += Buildings[i][j].def.StorageCapacity[(int)type];
 				}
 			}
-
 			return iReturn;
 		}
 
-		// when user collect resources from resource generation buildings(like gold mine, elixir extracter)
-		// distribute resources to storage buildings by their capacity ratio
-		public void DistributeByCapacity(PayType type, float value) {
+        // get total soul production inc from research buildings
+        public int GetSoulProductionInc(PayType type)
+        {
+            int iReturn = 0;
+            for (int i = 0; i < GLOBALS.s.BUILDING_N_TYPES; ++i)
+            {
+                for (int j = 0; j < Buildings[i].Count; ++j)
+                {
+                    // exclude in creation building
+                    if (Buildings[i][j].Level == 0) continue;
+
+                    // exclude production building such as gold mine, because gols mine has it's own capacity 
+                    //if(Buildings[i][j].def.eProductionType == type) continue;
+
+                    iReturn += Buildings[i][j].def.StorageCapacity[(int)type];
+                }
+            }
+            return iReturn;
+        }
+
+        // when user collect resources from resource generation buildings(like gold mine, elixir extracter)
+        // distribute resources to storage buildings by their capacity ratio
+        public void DistributeByCapacity(PayType type, float value) {
 
 			// find all storage buildings can store given resourcetype
 			int CapacitySum = 0;

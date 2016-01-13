@@ -793,7 +793,7 @@ namespace BE {
                 SceneTown.instance.CapacityCheck();
             }
 				
-
+            //if(def)
 			// save game - save game when action is occured. not program quit moment
 			SceneTown.instance.Save();
 		}
@@ -811,7 +811,7 @@ namespace BE {
 			if(payTypeReturn == PayType.None) {
 				if(_bd.BuildGoldPrice != 0) 	SceneTown.Gold.ChangeDelta(-_bd.BuildGoldPrice);
 				if(_bd.BuildElixirPrice != 0) 	SceneTown.Elixir.ChangeDelta(-_bd.BuildElixirPrice);
-				if(_bd.BuildGemPrice != 0) 		SceneTown.Gem.ChangeDelta(-_bd.BuildGemPrice);
+				//if(_bd.BuildGemPrice != 0) 		SceneTown.Gem.ChangeDelta(-_bd.BuildGemPrice);
 
 				SceneTown.instance.CapacityCheck();
 			}

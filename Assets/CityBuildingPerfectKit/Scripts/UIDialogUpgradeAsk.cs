@@ -157,6 +157,7 @@ namespace BE {
                 goNormal.SetActive(false);
             }
 
+            //set the values required
 			else {
 				goNote.SetActive(false);
 				TownLevelOk = true;
@@ -165,8 +166,10 @@ namespace BE {
 				// set infos about upgrade
 				bdNext.PriceInfoApply(PriceIcon, Price);
 				textBuildTime.text = BENumber.SecToString(bdNext.BuildTime);
-				GemCount = (bdNext.BuildTime + 1)/60; // 1 gem per minute
-				PriceGem.text = GemCount.ToString ("#,##0");
+                //GemCount = (bdNext.BuildTime + 1)/60; // 1 gem per minute
+                //GemCount = 5;
+                GemCount = (bdNext.BuildGemPrice);
+                PriceGem.text = GemCount.ToString ("#,##0");
 				PriceGem.color = (SceneTown.Gem.Target() < GemCount) ? Color.red : Color.white;
                 Debug.Log("TOWN LEVEL OK =)");
 			}

@@ -95,7 +95,8 @@ namespace BE {
 			Gold.AddUIText(BEUtil.GetObject("PanelOverlay/LabelGold/Text").GetComponent<Text>());
 			Gold.AddUIImage(BEUtil.GetObject("PanelOverlay/LabelGold/Fill").GetComponent<Image>());
 
-			Elixir = new BENumber(BENumber.IncType.VALUE, 0, 300000, 0); // initial elixir count is 1000	
+
+			Elixir = new BENumber(BENumber.IncType.VALUE, 0, 300000, 0, PayType.Elixir); // initial elixir count is 1000	
 			Elixir.AddUIText(BEUtil.GetObject("PanelOverlay/LabelElixir/Text").GetComponent<Text>());
 			Elixir.AddUIImage(BEUtil.GetObject("PanelOverlay/LabelElixir/Fill").GetComponent<Image>());
 
