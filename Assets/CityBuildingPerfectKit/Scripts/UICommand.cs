@@ -59,7 +59,8 @@ namespace BE {
 		public 	PayType 	payType = PayType.Gold;
 		public 	int 		BuyPrice = 0;
 
-		public CommandButton(GameObject _go, Sprite _symbol, string _text, PayType _payType, int _buyPrice, UnityAction _call) {
+
+        public CommandButton(GameObject _go, Sprite _symbol, string _text, PayType _payType, int _buyPrice, UnityAction _call) {
 			go = _go;
 			Background = go.GetComponent<Image>();
 			Title = go.transform.Find ("Title").GetComponent<Text>();
@@ -124,7 +125,7 @@ namespace BE {
 
 		public  static bool 		Visible = false;
 
-		void Awake () {
+        void Awake () {
 			instance=this;
 		}
 		
@@ -229,6 +230,9 @@ namespace BE {
                                 TutorialController.s.collectDemonsPhase();
                             }
                         }
+
+                        
+                       
                         // hide command dialog
                         Hide();
 						// land building and unselect

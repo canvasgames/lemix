@@ -58,6 +58,9 @@ namespace BE {
 		public void CategorySelected(int value) {
 
                 Debug.Log("UIShop::CategorySelected" + value.ToString());
+
+
+            
                 for (int i = 0; i < toggleButtons.Length; ++i)
                 {
                     contents[i].SetActive(toggleButtons[i].isOn ? true : false);
@@ -81,7 +84,10 @@ namespace BE {
 
 		void _Show (ShopType type) {
             if (GLOBALS.s.TUTORIAL_PHASE == 15)
+            {
                 inactivateTabsTutorial2();
+            }
+
             // if shop dialog called while new building is in creation,
             // delete new building
             if (SceneTown.buildingSelected != null) {
@@ -211,6 +217,7 @@ namespace BE {
 
         void inactivateTabsTutorial()
         {
+
             for (int i = 0; i < toggleButtons.Length; ++i)
             {
                 if(i>0)
@@ -221,11 +228,22 @@ namespace BE {
 
        public void inactivateTabsTutorial2()
         {
+
             for (int i = 0; i < toggleButtons.Length; ++i)
             {
                 if (i != 1 )
                     contents[i].SetActive(toggleButtons[i].interactable = false);
                 else
+                    contents[i].SetActive(toggleButtons[i].interactable = true);
+            }
+
+        }
+
+        public void activateTabs()
+        {
+
+            for (int i = 0; i < toggleButtons.Length; ++i)
+            {
                     contents[i].SetActive(toggleButtons[i].interactable = true);
             }
 

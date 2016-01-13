@@ -135,6 +135,9 @@ namespace BE {
         int CapacityTotal;
         double AllProduction;
 
+        public GameObject explosion;
+        GameObject tempObject;
+
         void Awake () {
 
 			// if building can hold trained units
@@ -372,9 +375,13 @@ namespace BE {
 
 		public void Land(bool landed, bool animate) {
 
-			if(Landed == landed) return;
+            if (Landed == landed)
+            {
 
-			if(landed && !Landable) {
+                return;
+
+            }
+            if (landed && !Landable) {
 				if(((int)tilePosOld.x == -1) && ((int)tilePosOld.y == -1))
 					return;
 
@@ -396,7 +403,11 @@ namespace BE {
 			}
 			else {
 				if(!OnceLanded)
-					OnceLanded = true;
+                {
+                    OnceLanded = true;
+
+                }
+					
 			}
 
 			CheckLandable();
@@ -405,21 +416,21 @@ namespace BE {
 				goArrowRoot.SetActive(Landed ? false : true);
 
 			if(uiInfo != null) {
-				//uiInfo.groupProgress.alpha = 0;
-
-				if(animate) {
+                //uiInfo.groupProgress.alpha = 0;
+               
+                if (animate) {
 					if(Landed) 	{
-						BETween.alpha(uiInfo.groupInfo.gameObject, 0.1f, 1.0f, 0.0f);
+                        
+                        BETween.alpha(uiInfo.groupInfo.gameObject, 0.1f, 1.0f, 0.0f);
 						BETween.enable(uiInfo.groupInfo.gameObject, 0.1f, true, false);
 					}
 					else {
-						BETween.alpha(uiInfo.groupInfo.gameObject, 0.1f, 0.0f, 1.0f);
-						uiInfo.groupInfo.gameObject.SetActive(true);
+                        appearBuildButtons();
 					}
 				}
 				else {
-					uiInfo.groupInfo.alpha = Landed ? 0 : 1;
-					uiInfo.groupInfo.gameObject.SetActive(Landed ? false : true);
+					//uiInfo.groupInfo.alpha = Landed ? 0 : 1;
+					//uiInfo.groupInfo.gameObject.SetActive(Landed ? false : true);
 				}
 			}
 
@@ -431,14 +442,21 @@ namespace BE {
 				SceneTown.instance.Save();
 				BEUtil.SetObjectColor(goCenter, Color.white);
 				BEUtil.SetObjectColor(goXInc, Color.white);
-				BEUtil.SetObjectColor(goZInc, Color.white);
-			}
+				BEUtil.SetObjectColor(goZInc, Color.white);             
+            }
 
 			UpjustYByState();
 			if(!SceneTown.instance.InLoading && (BEWorkerManager.instance != null))
 				BEWorkerManager.instance.OnTileInfoChanged();
 		}
 
+        public void appearBuildButtons()
+        {
+            Debug.Log("aaaaaaaaa");
+            BETween.alpha(uiInfo.groupInfo.gameObject, 0.1f, 0.0f, 1.0f);
+            uiInfo.groupInfo.gameObject.SetActive(true);
+
+        }
 		public void CheckNeighbor() {
 			if((goXInc == null) || (goZInc == null)) return;
 
@@ -699,24 +717,33 @@ namespace BE {
 
 			return true;
 		}
-
+        public void createExplosion()
+        {
+            tempObject = (GameObject)Instantiate(explosion, new Vector3(gameObject.transform.position.x - 2, gameObject.transform.position.y + 2, gameObject.transform.position.z - 2), Quaternion.Euler(89f, 0f, 0f));
+        }
 		// start upgrade
 		public bool Upgrade() {
 
 			if(InUpgrade) return false;
 			if(bt.LevelMax <= Level) return false;
 			if(defNext == null) return false;
+            
+            if (Level == 0)
+                createExplosion();
+           // appearBuildButtons();
 
-			// check whether user has enough resources or not
-			// decrease user's resource
-			PayType payTypeReturn = PayforBuild(defNext);
+            // check whether user has enough resources or not
+            // decrease user's resource
+            PayType payTypeReturn = PayforBuild(defNext);
 			if(payTypeReturn != PayType.None) {
 				if(payTypeReturn == PayType.Gold) 			UIDialogMessage.Show("Insufficient Gold", "Ok", "Error");
 				else if(payTypeReturn == PayType.Elixir) 	UIDialogMessage.Show("Insufficient Elixir", "Ok", "Error");
-				else if(payTypeReturn == PayType.Gem) 		UIDialogMessage.Show("Insufficient Gem", "Ok", "Error");
+				//else if(payTypeReturn == PayType.Gem) 		UIDialogMessage.Show("Insufficient Gem", "Ok", "Error");
 				else {}
 
 				return false;
+
+
 			}
 
 			// prepare upgrade

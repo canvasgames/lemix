@@ -123,6 +123,7 @@
     <Compile Include="Assets\Inferno Manager\Scripts\Controllers\SoundController.cs" />
     <Compile Include="Assets\Inferno Manager\Scripts\Controllers\TutorialController.cs" />
     <Compile Include="Assets\Inferno Manager\Scripts\dialogs\CreateDemonsScrollView.cs" />
+    <Compile Include="Assets\Inferno Manager\Scripts\dialogs\DialogsTexts.cs" />
     <Compile Include="Assets\Inferno Manager\Scripts\dialogs\Full_Screen_Dialog.cs" />
     <Compile Include="Assets\Inferno Manager\Scripts\dialogs\SatanHand.cs" />
     <Compile Include="Assets\Inferno Manager\Scripts\dialogs\Satan_HUD.cs" />

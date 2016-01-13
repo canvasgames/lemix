@@ -191,6 +191,86 @@ public class MenusController : MonoBehaviour {
     }
     #endregion
 
+    #region EnterFromUpWithPunch
+    //Make the menu enter from up
+    //If newX and New Y is equals to 0, the menu will use the original position of prefab 
+    public void enterFromUp(GameObject menu, string name, float newX, float newY)
+    {
+        float xPos, yPos;
+        addToGUIAndRepositeObject(menu, name);
+
+        //Use the passed position
+        if (newX != 0)
+        {
+            xPos = newX;
+        }
+        //Use the original position
+        else
+        {
+            xPos = menu.transform.localPosition.x;
+        }
+
+        if (newY != 0)
+        {
+            yPos = newY;
+        }
+        else
+        {
+            yPos = menu.transform.localPosition.y;
+        }
+
+        //Put out of the screen
+        menu.transform.localPosition = new Vector3(xPos, yPos + Screen.height, 0f);
+        //Move back to the screen and call punch at the end
+        menu.transform.DOLocalMoveY(yPos, 0.5f).OnComplete(() => punchUp(menu));
+    }
+
+    void punchUp(GameObject menu)
+    {
+        transform.DOPunchPosition(new Vector3(0f, 2f, 0f), 0.5f, 7, 0.9f);
+    }
+    #endregion
+
+    #region EnterFromDownWithPunch
+    //Make the menu enter from up
+    //If newX and New Y is equals to 0, the menu will use the original position of prefab 
+    public void enterFromDown(GameObject menu, string name, float newX, float newY)
+    {
+        float xPos, yPos;
+        addToGUIAndRepositeObject(menu, name);
+
+        //Use the passed position
+        if (newX != 0)
+        {
+            xPos = newX;
+        }
+        //Use the original position
+        else
+        {
+            xPos = menu.transform.localPosition.x;
+        }
+
+        if (newY != 0)
+        {
+            yPos = newY;
+        }
+        else
+        {
+            yPos = menu.transform.localPosition.y;
+        }
+
+        //Put out of the screen
+        menu.transform.localPosition = new Vector3(xPos, yPos - Screen.height, 0f);
+        //Move back to the screen and call punch at the end
+        menu.transform.DOLocalMoveY(yPos, 0.5f).OnComplete(() => punchDown(menu));
+    }
+
+    void punchDown(GameObject menu)
+    {
+        transform.DOPunchPosition(new Vector3(0f, 2f, 0f), 0.5f, 7, 0.9f);
+    }
+    #endregion        
+
     #region AdjustZOrder 
     //Just change the zorder of the menu. Call if you create a menu over the object
     public void bring2FrontZOrder(string name, GameObject closeClicked)

@@ -91,15 +91,15 @@ namespace BE {
 			Exp = new BENumber(BENumber.IncType.VALUE, 0, 100000000, 0);
 			Exp.AddUIImage(BEUtil.GetObject("PanelOverlay/LabelExp/Fill").GetComponent<Image>());
 
-			Gold = new BENumber(BENumber.IncType.VALUE, 0, 200000, 10000); // initial gold count is 1000
+			Gold = new BENumber(BENumber.IncType.VALUE, 0, 200000, 555); // initial gold count is 1000
 			Gold.AddUIText(BEUtil.GetObject("PanelOverlay/LabelGold/Text").GetComponent<Text>());
 			Gold.AddUIImage(BEUtil.GetObject("PanelOverlay/LabelGold/Fill").GetComponent<Image>());
 
-			Elixir = new BENumber(BENumber.IncType.VALUE, 0, 300000, 10000); // initial elixir count is 1000	
+			Elixir = new BENumber(BENumber.IncType.VALUE, 0, 300000, 0); // initial elixir count is 1000	
 			Elixir.AddUIText(BEUtil.GetObject("PanelOverlay/LabelElixir/Text").GetComponent<Text>());
 			Elixir.AddUIImage(BEUtil.GetObject("PanelOverlay/LabelElixir/Fill").GetComponent<Image>());
 
-			Gem = new BENumber(BENumber.IncType.VALUE, 0, 100000000, 1000);	// initial gem count is 100	0	
+			Gem = new BENumber(BENumber.IncType.VALUE, 0, 100000000, 0);	// initial gem count is 100	0	
 			Gem.AddUIText(BEUtil.GetObject("PanelOverlay/LabelGem/Text").GetComponent<Text>());
 
             //TBDCURRENCIES SET THEIR VALUE HERE
@@ -568,7 +568,7 @@ namespace BE {
         //check max capacity and, if it is the maximum, set it to maximum.
         public void CapacityCheck() {
 			int GoldCapacityTotal = BEGround.instance.GetCapacityTotal(PayType.Gold);
-			//Debug.Log ("iGoldCapacityTotal:"+GoldCapacityTotal.ToString ());
+		Debug.Log ("iGoldCapacityTotal:"+GoldCapacityTotal.ToString ());
 			int ElixirCapacityTotal = BEGround.instance.GetCapacityTotal(PayType.Elixir);
 			//Debug.Log ("ElixirCapacityTotal:"+ElixirCapacityTotal.ToString ());
 
@@ -707,6 +707,7 @@ namespace BE {
         {
            Building script = BEGround.instance.BuildingAdd(0, 1);
            script.Move(new Vector3 (4f, 0f, 4f));
+            script.createExplosion();
             BuildingSelect(script);
             BuildingLandUnselect();
         }
@@ -715,6 +716,7 @@ namespace BE {
         {
             Building script = BEGround.instance.BuildingAdd(4, 1);
             script.Move(new Vector3(10f, 0f, 4f));
+            script.createExplosion();
             BuildingSelect(script);
              BuildingLandUnselect();
         }
