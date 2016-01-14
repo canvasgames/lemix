@@ -541,10 +541,12 @@ namespace BE {
             for (int Level = 1; Level <= MAX_LEVEL; ++Level)
             {
                 LevelExpTotal[Level] = LevelExpTotal[Level - 1] + LevelExp[Level - 1];
-                //Debug.Log("Level " + Level.ToString() + " - Exp: " + LevelExp[Level].ToString() + " | ExpTotal: " + LevelExpTotal[Level].ToString());
+                if(Level <12 ) Debug.Log("Level " + Level.ToString() + " - Exp: " + LevelExp[Level].ToString() + " | ExpTotal: " + LevelExpTotal[Level].ToString());
                 if (Level > 12) LevelExp[Level] = 5000000;
 
             }
+
+            //LevelExpTotal[1] = 100;
             //GOLD (DEMON OR HELLFIRE) GENERATOR
             /* {
 

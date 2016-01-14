@@ -39,7 +39,8 @@ namespace BE {
 		private GameObject 		m_EventParameter;
 
 		private Text			UIText = null;
-		private Image			UIImage = null;
+		private Text			UITextMax = null;
+        private Image			UIImage = null;
 
         private PayType         my_type;
 
@@ -73,7 +74,8 @@ namespace BE {
 
 
         public void 	AddUIText(Text ui)		{ UIText = ui; if(UIText != null) UIText.text = ToString(); }
-		public void 	AddUIImage(Image ui)	{ UIImage = ui; if(UIImage != null) UIImage.fillAmount = Ratio(); }
+        public void 	AddUITextMax(Text ui)		{ UITextMax = ui; if (UITextMax != null) UpdateUIMax(); }
+        public void 	AddUIImage(Image ui)	{ UIImage = ui; if(UIImage != null) UIImage.fillAmount = Ratio(); }
 
 		public void 	TypeSet(IncType type)	{ eType = type; }
 		public IncType 	Type()					{ return eType; }
@@ -84,7 +86,7 @@ namespace BE {
 		public double 	Current()				{ return fCurrent; }
 		public double 	Min()					{ return fMin; }
 		public double 	Max()					{ return fMax; }
-		public void 	MaxSet(double value)	{ fMax = value; UpdateUI(); }
+		public void 	MaxSet(double value)	{ fMax = value; UpdateUI(); UpdateUIMax(); }
 		public double 	Target()				{ return fTarget; }
 		public override string 	ToString()		{ 
 			if(eType == IncType.VALUE) 				return ((int)fCurrent).ToString ("#,##0"); 
@@ -130,7 +132,7 @@ namespace BE {
 			fInc += Mathf.Exp(fAge);
 			
 			if(fTarget > fCurrent) 	{ fCurrent += (double)fInc; if(fCurrent >= fTarget) End();
-                 if(my_type == PayType.Elixir) Debug.Log("SOULS BEING INCREASED"); }
+                  }
 			else  					{ fCurrent -= (double)fInc; if(fCurrent <= fTarget) End(); }
 
 			UpdateUI();
@@ -138,13 +140,20 @@ namespace BE {
 
 		public void UpdateUI() {
             string to_display;
-            if (my_type != PayType.Elixir) to_display = ToString();
-            else
-                to_display = ToString() + "/" + fMax;
+            //if (my_type != PayType.Elixir) to_display = ToString();
+            //else
+               // to_display = ToString() + "/" + fMax;
+
+            to_display = ToString();
 
             if (UIText != null) UIText.text = to_display;
-			if(UIImage != null) UIImage.fillAmount = Ratio();
+            if (UIImage != null) UIImage.fillAmount = Ratio();
 		}
+
+        public void UpdateUIMax()
+        {
+            if (UITextMax != null) UITextMax.text = "Max: " + fMax.ToString();
+        }
 
 		private void End() {
 			bInChange = false; 

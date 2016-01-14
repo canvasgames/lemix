@@ -625,7 +625,7 @@ namespace BE {
                         createParticleUIandCollect(Production, false);
 
                         if (def.eProductionType == PayType.Elixir)
-                            SceneTown.instance.GainExp((int)Production / 10);
+                            SceneTown.instance.GainExp((int)Production);
                     }
                     else
                     {

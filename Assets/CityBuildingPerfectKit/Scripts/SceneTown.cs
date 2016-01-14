@@ -81,6 +81,11 @@ namespace BE {
 		private static 	int 		Level = 0;
 		private static 	int 		ExpTotal = 0;
 
+        //MINE RESOURCES
+        public static int SoulProductionIncTotal = 0;
+
+
+
         #endregion
 
         #region Init Everything
@@ -98,6 +103,7 @@ namespace BE {
 
 			Elixir = new BENumber(BENumber.IncType.VALUE, 0, 300000, 0, PayType.Elixir); // initial elixir count is 1000	
 			Elixir.AddUIText(BEUtil.GetObject("PanelOverlay/LabelElixir/Text").GetComponent<Text>());
+			Elixir.AddUITextMax(BEUtil.GetObject("PanelOverlay/LabelElixir/TextMax").GetComponent<Text>());
 			Elixir.AddUIImage(BEUtil.GetObject("PanelOverlay/LabelElixir/Fill").GetComponent<Image>());
 
 			Gem = new BENumber(BENumber.IncType.VALUE, 0, 100000000, 0);	// initial gem count is 100	0	
@@ -580,7 +586,7 @@ namespace BE {
         //check max capacity and, if it is the maximum, set it to maximum.
         public void CapacityCheck() {
 			int GoldCapacityTotal = BEGround.instance.GetCapacityTotal(PayType.Gold);
-		Debug.Log ("iGoldCapacityTotal:"+GoldCapacityTotal.ToString ());
+		    Debug.Log ("iGoldCapacityTotal:"+GoldCapacityTotal.ToString ());
 			int ElixirCapacityTotal = BEGround.instance.GetCapacityTotal(PayType.Elixir);
 			//Debug.Log ("ElixirCapacityTotal:"+ElixirCapacityTotal.ToString ());
 
@@ -595,6 +601,8 @@ namespace BE {
 
 			BEGround.instance.DistributeByCapacity(PayType.Gold, (float)Gold.Target());
 			BEGround.instance.DistributeByCapacity(PayType.Elixir, (float)Elixir.Target());
+
+            SoulProductionIncTotal = BEGround.instance.GetSoulProductionInc();
 		}
 
         #region Save (and encrypt)

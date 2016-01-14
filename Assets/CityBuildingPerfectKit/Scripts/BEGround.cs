@@ -313,7 +313,7 @@ namespace BE {
 		}
 
         // get total soul production inc from research buildings
-        public int GetSoulProductionInc(PayType type)
+        public int GetSoulProductionInc()
         {
             int iReturn = 0;
             for (int i = 0; i < GLOBALS.s.BUILDING_N_TYPES; ++i)
@@ -326,7 +326,7 @@ namespace BE {
                     // exclude production building such as gold mine, because gols mine has it's own capacity 
                     //if(Buildings[i][j].def.eProductionType == type) continue;
 
-                    iReturn += Buildings[i][j].def.StorageCapacity[(int)type];
+                    iReturn += Buildings[i][j].def.SoulProdutionInc;
                 }
             }
             return iReturn;
