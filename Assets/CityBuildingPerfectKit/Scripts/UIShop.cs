@@ -57,7 +57,7 @@ namespace BE {
 		public void CategorySelected(int value) {
 
                 Debug.Log("UIShop::CategorySelected" + value.ToString());
-            if(GLOBALS.s.TUTORIAL_PHASE == 21)
+            if(GLOBALS.s.TUTORIAL_PHASE == 21 && value == 1 )
             {
                 TutorialController.s.pressBuildImpCasePressed();
             }

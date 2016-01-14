@@ -4,7 +4,8 @@ using DG.Tweening;
 using UnityEngine.UI;
 
 public class particlesLogic : MonoBehaviour {
-    Transform finalPos, BigD, initialPos;
+    Transform finalPos, BigD;
+    Vector3 initialPos;
     GameObject puft;
     float xPosLoc, yPosLoc;
     // Use this for initialization
@@ -12,12 +13,13 @@ public class particlesLogic : MonoBehaviour {
 	
 	}
 
-    public void move(Transform daddy, Transform fPos, Transform iPos)
+    public void move(Transform daddy, Transform fPos, Vector3 iPos)
     {
         finalPos = fPos;
         BigD = daddy;
         initialPos = iPos;
-        transform.localPosition = new Vector3(initialPos.localPosition.x, initialPos.localPosition.y, daddy.transform.position.z);
+
+        transform.position = new Vector3(initialPos.x, initialPos.y, daddy.transform.position.z);
         transform.DOLocalMove(finalPos.transform.localPosition,1f).OnComplete(createsmoke);
     }
 

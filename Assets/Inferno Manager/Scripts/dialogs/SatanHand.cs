@@ -6,7 +6,7 @@ public class SatanHand : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        if (GLOBALS.s.TUTORIAL_PHASE == 4)
+        if (GLOBALS.s.TUTORIAL_PHASE == 4 || GLOBALS.s.TUTORIAL_PHASE == 17)
             tutorialCollect();
             
     }
@@ -19,7 +19,7 @@ public class SatanHand : MonoBehaviour {
     public void initHandSoulsTutorial()
     {
         transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
-        transform.localPosition = new Vector3(-359, 214, 0);
+        transform.localPosition = new Vector3(-316, 226, 0);
 
         tutorialSouls();
     }
@@ -38,11 +38,11 @@ public class SatanHand : MonoBehaviour {
 
     void tutorialSouls()
     {
-        transform.DOLocalMoveY(160, 0.7f).OnComplete(tutorialsSoulsBack);
+        transform.DOLocalMoveY(180, 0.7f).OnComplete(tutorialsSoulsBack);
     }
     void tutorialsSoulsBack()
     {
-        transform.DOLocalMoveY(214, 0.7f).OnComplete(tutorialSouls);
+        transform.DOLocalMoveY(240, 0.7f).OnComplete(tutorialSouls);
     }
 
     void tutorialList()

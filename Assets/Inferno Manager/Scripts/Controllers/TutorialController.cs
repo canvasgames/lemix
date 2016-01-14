@@ -25,6 +25,7 @@ public class TutorialController : MonoBehaviour
     {
         int firstGame = PlayerPrefs.GetInt("firstGame");
         //firstGame = 2;
+
         if (firstGame == 0)
         {
             HUD.SetActive(false);
@@ -32,6 +33,12 @@ public class TutorialController : MonoBehaviour
             GLOBALS.s.TUTORIAL_OCCURING     = true;
             tutorial1Timer = 2f;
 
+        }
+        else
+        {
+            BE.SceneTown.instance.createTownHownTutorial();
+            BE.SceneTown.instance.CapacityCheck();
+            BE.SceneTown.Gold.ChangeDelta((double)200);
         }
         //
 
@@ -316,6 +323,7 @@ public class TutorialController : MonoBehaviour
     //Construct imp pit msg, indicate to press build
     public void pressBuildBtConstructImp()
     {
+   
         MenusController.s.destroyMenu("DemonList", null);
 
         GLOBALS.s.TUTORIAL_PHASE = 14;
@@ -332,10 +340,14 @@ public class TutorialController : MonoBehaviour
     //Indicate tab off fire mine
     public void indicateTabFireMine()
     {
+
         MenusController.s.destroyMenu("Satan", null);
 
         MenusController.s.repositeMenu("SmallScroll", null, 0f, 240f);
         MenusController.s.repositeMenu("DownArrow", null, -190f, -215f);
+
+        fscreen = GameObject.FindObjectsOfType(typeof(DialogsTexts)) as DialogsTexts[];
+        fscreen[0].closeAndReopen();
 
         GLOBALS.s.TUTORIAL_PHASE = 21;
     }
@@ -343,6 +355,7 @@ public class TutorialController : MonoBehaviour
     //Clicked tab
     public void pressBuildImpCasePressed()
     {
+   
         GLOBALS.s.TUTORIAL_PHASE = 15;
 
         fscreen = GameObject.FindObjectsOfType(typeof(DialogsTexts)) as DialogsTexts[];
@@ -359,13 +372,20 @@ public class TutorialController : MonoBehaviour
         fscreen[0].closeAndReopen();
     }
 
-    //Collect demons
+    //Collect fire
     public void collectDemonsPhase()
     {
        
         GLOBALS.s.TUTORIAL_PHASE = 17;
         tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/SmallScroll"));
         MenusController.s.enterFromRight(tempObject, "SmallScroll", -18f, -250f);
+
+
+        buildings = GameObject.FindObjectsOfType(typeof(BE.Building)) as BE.Building[];
+        foreach (BE.Building element in buildings)
+        {
+            element.activateHandTutorialUI(3);
+        }
     }
 
     //That's it, end of tutorial
@@ -381,6 +401,12 @@ public class TutorialController : MonoBehaviour
 
         tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/Satan"));
         MenusController.s.enterFromLeft(tempObject, "Satan", 0, 0);
+
+        buildings = GameObject.FindObjectsOfType(typeof(BE.Building)) as BE.Building[];
+        foreach (BE.Building element in buildings)
+        {
+            element.unactivateHandTutorialUI(3);
+        }
 
         BE.UIShop.instance.activateTabs();
 

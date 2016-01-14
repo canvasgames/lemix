@@ -617,7 +617,7 @@ namespace BE {
 		// save when action is occured
 		// (for example, when building created, when start upgrade, when colled product, when training start)
 		public void Save() {
-
+            /*
 			if(InLoading) return;
 
 			string xmlFilePath = BEUtil.pathForDocumentsFile(configFilename);
@@ -655,14 +655,14 @@ namespace BE {
 					xmlDocument.Save (xmlFilePath);
 				}
 				// ###############################
-			}
+			}*/
 		}
 
         #endregion
 
         #region Load
         public void Load() {
-
+            /*
 			string xmlFilePath = BEUtil.pathForDocumentsFile(configFilename);
 			if(!File.Exists(xmlFilePath)) {
 				Save();
@@ -718,7 +718,7 @@ namespace BE {
 				}
 			}
 
-			InLoading = false;
+			InLoading = false;*/
 		}
 
         #endregion

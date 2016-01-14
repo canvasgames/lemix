@@ -81,7 +81,22 @@ public class CreateDemonsScrollView : MonoBehaviour {
             myPlaceholder = (GameObject)Instantiate(rankText, new Vector3(0, 0, 0), Quaternion.identity);
             myPlaceholder.transform.SetParent(gameObject.transform, false);
             myPlaceholder.GetComponent<RectTransform>().localPosition = new Vector3(xPosition, yPosition, 0);
-            myPlaceholder.GetComponent<Text>().text = "Rank " + line.ToString();
+           // myPlaceholder.GetComponent<Text>().text = "Rank " + line.ToString();
+            if(line == 1)
+                myPlaceholder.GetComponent<Text>().text = "Satan";
+            else if(line == 2)
+                myPlaceholder.GetComponent<Text>().text = "Archduke";
+            else if (line == 3)
+                myPlaceholder.GetComponent<Text>().text = "Count";
+            else if (line == 4)
+                myPlaceholder.GetComponent<Text>().text = "Baron";
+            else if (line == 5)
+                myPlaceholder.GetComponent<Text>().text = "Lord";
+
+
+            
+                
+                
         }
     }
 }

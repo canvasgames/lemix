@@ -632,7 +632,7 @@ namespace BE {
                         createParticleUIandCollect(CapacityTotal - (float)AllProduction, true);
 
                         if (def.eProductionType == PayType.Elixir)
-                            SceneTown.instance.GainExp((CapacityTotal - (int)AllProduction) / 10);
+                            SceneTown.instance.GainExp((CapacityTotal - (int)AllProduction));
                     }
 
                     if (GLOBALS.s.TUTORIAL_PHASE == 11)
@@ -687,7 +687,13 @@ namespace BE {
            
             myPart.transform.SetParent(bigDaddy.transform, false);
             myPart.transform.localPosition = transform.localPosition;
-            myPart.GetComponent<particlesLogic>().move(bigDaddy.transform, finalPos.transform, transform);
+
+
+            Vector2 screenPoint = RectTransformUtility.WorldToScreenPoint(Camera.main, transform.position);
+
+            Vector3 initialpos = new Vector3(screenPoint.x, screenPoint.y, bigDaddy.transform.position.z);
+            myPart.GetComponent<particlesLogic>().move(bigDaddy.transform, finalPos.transform, initialpos);
+
 
             // show collect ui to show how many resources was collected
             UICollect script = UIInGame.instance.AddInGameUI(prefUICollect, transform, new Vector3(0, 1.5f, 0)).GetComponent<UICollect>();
