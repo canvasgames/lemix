@@ -20,11 +20,11 @@ public class TutorialController : MonoBehaviour
         s = this;
     }
 
-    // Use this for initialization
+    #region Start And First Tutorial Flag
     void Start()
     {
         int firstGame = PlayerPrefs.GetInt("firstGame");
-        //firstGame = 2;
+        firstGame = 2;
 
         if (firstGame == 0)
         {
@@ -41,9 +41,10 @@ public class TutorialController : MonoBehaviour
             BE.SceneTown.Gold.ChangeDelta((double)200);
         }
         //
-
+        #endregion
     }
 
+    #region Update and Timers
     // Update is called once per frame
     void Update()
     {
@@ -59,8 +60,9 @@ public class TutorialController : MonoBehaviour
 
         }
     }
+    #endregion
 
-    #region Tutorial 01
+    #region Tutorial Phase 1 Welcome
     //Hi i'm Satan msg
     void tutorial1()
     {
@@ -80,8 +82,9 @@ public class TutorialController : MonoBehaviour
    
 
     }
+    #endregion
 
-
+    #region Tutorial Phase 2 Create Town Hall
     //Constrcut the Town Hall
     public void tutorial1Clicked()
     {
@@ -99,7 +102,9 @@ public class TutorialController : MonoBehaviour
     {
         BE.SceneTown.instance.createTownHownTutorial();
     }
+    #endregion
 
+    #region Tutorial Phase 3 Create Town Hall
     //Create Hells Gate
     public void tutorial1Phase2Clicked()
     {
@@ -118,7 +123,9 @@ public class TutorialController : MonoBehaviour
     {
         BE.SceneTown.instance.createHellGateTutorial();
     }
+    #endregion
 
+    #region Tutorial Phase 4 Collect
     //Click to collect
     public void tutorial1Phase3Clicked()
     {
@@ -137,7 +144,9 @@ public class TutorialController : MonoBehaviour
         
 
     }
+    #endregion
 
+    #region Tutorial Phase 5 Question
     //Full of souls question, what to do?
     public void tutorial1Phase4Clicked()
     {
@@ -164,7 +173,9 @@ public class TutorialController : MonoBehaviour
         MenusController.s.enterFromRight(tempObject, "BigScrollQuestion", 0, 0);
 
     }
+    #endregion
 
+    #region Tutorial Phase 6 Blablabla
     //Chicachicabum, começa e não para. Avisa todo mundo que meu nome é Sara
     public void questionAnswered()
     {
@@ -177,7 +188,9 @@ public class TutorialController : MonoBehaviour
         Invoke("createNextButton", 2);
 
     }
+    #endregion
 
+    #region Tutorial Phase 7 Indicate The Build Bt
     //Indicate the build Bt
     public void indicateBuildBT()
     {
@@ -191,7 +204,9 @@ public class TutorialController : MonoBehaviour
         HUD.SetActive(true);
          
     }
+    #endregion
 
+    #region Tutorial Phase 8 Choose a Building
     //Clicked build bt
     public void clickedBuildBt()
     {
@@ -204,7 +219,9 @@ public class TutorialController : MonoBehaviour
         //Invoke("createNextButton", 2);
 
     }
+    #endregion
 
+    #region Tutorial Phase 9 Place The Building
     //Place it building msg
     public void destroySelectPunisher()
     {
@@ -219,7 +236,9 @@ public class TutorialController : MonoBehaviour
     {
         MenusController.s.destroyMenu("SmallScroll", null);
     }
+    #endregion
 
+    #region Tutorial Phase 10 Punisher Capacity Explanation (blablabla)
     //Indicate souls HUD
     public void punisherCapacityExplanation()
     {
@@ -242,7 +261,9 @@ public class TutorialController : MonoBehaviour
         Invoke("createNextButton", 2);
 
     }
+    #endregion
 
+    #region Tutorial Phase 11 Collect Souls Again
     //Indicate to collect souls again
     public void collectSoulsAgain()
     {
@@ -261,7 +282,9 @@ public class TutorialController : MonoBehaviour
             element.activateHandTutorialUI(4);
         }
     }
+    #endregion
 
+    #region Tutorial Phase 11 (again, because of reasons) Souls Collected Level UP
     //Souls Collected
     public void soulReallyCollected()
     {
@@ -280,8 +303,10 @@ public class TutorialController : MonoBehaviour
 
         Invoke("createNextButton", 1);
     }
+    #endregion
 
-    //Demon talking shit about you (voce é uma merda garoto)
+    #region Tutorial Phase 11 Satan Talking Shit About You
+    //Satan talking shit about you (voce é uma merda garoto)
     public void blablaQuemEhVcNaFilaDoPao()
     {
         GLOBALS.s.TUTORIAL_PHASE = 12;
@@ -296,7 +321,9 @@ public class TutorialController : MonoBehaviour
 
         Invoke("createNextButton", 2);
     }
+    #endregion
 
+    #region Tutorial Phase 13 Show Rank List
     public void showRankList()
     {
         GLOBALS.s.TUTORIAL_PHASE = 13;
@@ -318,8 +345,9 @@ public class TutorialController : MonoBehaviour
         list[0].moveList();
         Invoke("createNextButton", 3);
     }
+    #endregion
 
-
+    #region Tutorial Phase 14 Indicate Build Bt
     //Construct imp pit msg, indicate to press build
     public void pressBuildBtConstructImp()
     {
@@ -336,8 +364,10 @@ public class TutorialController : MonoBehaviour
         tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/DownArrow"));
         MenusController.s.enterFromRight(tempObject, "DownArrow", 0, 0);
     }
+    #endregion
 
-    //Indicate tab off fire mine
+    #region Tutorial Phase 15 Indicate Tab of Fire Mine
+    //Indicate tab of fire mine
     public void indicateTabFireMine()
     {
 
@@ -351,7 +381,9 @@ public class TutorialController : MonoBehaviour
 
         GLOBALS.s.TUTORIAL_PHASE = 21;
     }
+    #endregion
 
+    #region Tutorial Phase 16 Choose Fire Mine
     //Clicked tab
     public void pressBuildImpCasePressed()
     {
@@ -362,7 +394,9 @@ public class TutorialController : MonoBehaviour
         fscreen[0].closeAndReopen();
         MenusController.s.destroyMenu("DownArrow", null);
     }
+    #endregion
 
+    #region Tutorial Phase 16 Place The Building
     //Imp pit pressed, place it msg
     public void impClicked()
     {
@@ -371,7 +405,9 @@ public class TutorialController : MonoBehaviour
         fscreen = GameObject.FindObjectsOfType(typeof(DialogsTexts)) as DialogsTexts[];
         fscreen[0].closeAndReopen();
     }
+    #endregion
 
+    #region Tutorial Phase 17 Collect Fire
     //Collect fire
     public void collectDemonsPhase()
     {
@@ -387,7 +423,9 @@ public class TutorialController : MonoBehaviour
             element.activateHandTutorialUI(3);
         }
     }
+    #endregion
 
+    #region Tutorial Phase 18 Satan Goodbye
     //That's it, end of tutorial
     public void endOfTutorial()
     {
@@ -412,8 +450,9 @@ public class TutorialController : MonoBehaviour
 
         Invoke("createNextButton", 1);
     }
+    #endregion
 
-
+    #region Tutorial 1 End
     public void realEndTutorial()
     {
         GLOBALS.s.LOCK_CAMERA_TUTORIAL = false;
@@ -427,6 +466,7 @@ public class TutorialController : MonoBehaviour
     }
     #endregion
 
+    #region Create Next Bt for Tutorial
     //Create the arrow
     void createNextButton()
     {
@@ -434,4 +474,5 @@ public class TutorialController : MonoBehaviour
         tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/ArowNext"));
         MenusController.s.enterFromRight(tempObject, "ArowNext", 0, 0);
     }
+#endregion
 }

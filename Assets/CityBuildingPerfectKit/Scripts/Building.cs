@@ -397,7 +397,7 @@ namespace BE {
 			Landable = IsVacant;
 		}
 
-		public void Land(bool landed, bool animate) {
+		public void Land(bool landed, bool animate, bool unselect) {
 
             if (Landed == landed)
             {
@@ -418,8 +418,10 @@ namespace BE {
 					return;
 			}
 
-			Landed = landed;
-			ground.OccupySet(this);
+   
+                Landed = landed;
+
+            ground.OccupySet(this);
 
 			if(!Landed) {
 				tilePosOld = tilePos;
@@ -545,7 +547,7 @@ namespace BE {
 
 			ground.Move(gameObject, tilePos, tileSize);
 			CheckLandable();
-			Land(true, false);
+			Land(true, false,false);
 
 			for(int i=0 ; i < 10 ; ++i) {
 				GenUnitCount[i] = 0;

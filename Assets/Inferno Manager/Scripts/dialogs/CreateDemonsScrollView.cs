@@ -6,10 +6,12 @@ using DG.Tweening;
 public class CreateDemonsScrollView : MonoBehaviour {
     float initialY, xSpace, ySpace, xMiddle;
 
-    public GameObject placeholder, rankText;
+    public GameObject placeholder, rankText, closeBT;
     GameObject myPlaceholder;
     // Use this for initialization
     void Start () {
+        if (GLOBALS.s.TUTORIAL_OCCURING == true)
+            Destroy(closeBT);
         xMiddle = 140;
 	    initialY = GetComponent<RectTransform>().rect.height/2 - 960; //150 spacing, 650 half of contect UI object
         xSpace = placeholder.GetComponent<RectTransform>().rect.width - 20 ;
@@ -21,7 +23,7 @@ public class CreateDemonsScrollView : MonoBehaviour {
         createLine(initialY - ySpace , 3, xSpace,2);
         createLine(initialY - ySpace*2, 3, xSpace,3);
         createLine(initialY - ySpace*3, 3, xSpace,4);
-        createLine(initialY - ySpace * 4, 1, xSpace,5);
+        createLine(initialY - ySpace * 4, 3, xSpace,5);
 
         //transform.DOLocalMoveY(GetComponent<RectTransform>().rect.height, 3f);
     }
@@ -85,7 +87,7 @@ public class CreateDemonsScrollView : MonoBehaviour {
             if(line == 1)
                 myPlaceholder.GetComponent<Text>().text = "Satan";
             else if(line == 2)
-                myPlaceholder.GetComponent<Text>().text = "Archduke";
+                myPlaceholder.GetComponent<Text>().text = "Duke";
             else if (line == 3)
                 myPlaceholder.GetComponent<Text>().text = "Count";
             else if (line == 4)

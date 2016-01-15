@@ -231,8 +231,9 @@ namespace BE {
                        
                         // hide command dialog
                         Hide();
-						// land building and unselect
-						SceneTown.instance.BuildingLandUnselect();
+                        // land building and unselect
+                        Debug.Log("eu chamei 6");
+                        SceneTown.instance.BuildingLandUnselect(false);
 
 						// decrease build price of the building
 						BuildingDef bd = TBDatabase.GetBuildingDef(building.Type, (building.Level == 0) ? 1 : building.Level);

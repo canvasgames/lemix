@@ -4,7 +4,7 @@ using DG.Tweening;
 
 public class demonCreateAvatar : MonoBehaviour {
     
-    public GameObject a, b, c, d, e, f, g, h, i, j, k;
+    public GameObject a, b, c, d, e, f, g, h, i, j, k, l, m;
     GameObject temp;
 	// Use this for initialization
 	void Start () {
@@ -70,7 +70,19 @@ public class demonCreateAvatar : MonoBehaviour {
         }
         else
         {
-            temp = (GameObject)Instantiate(k, new Vector3(0, 0, 0), Quaternion.identity);
+            
+            if (collum == 1)
+            {
+                temp = (GameObject)Instantiate(k, new Vector3(0, 0, 0), Quaternion.identity);
+            }
+            else if (collum == 2)
+            {
+                temp = (GameObject)Instantiate(l, new Vector3(0, 0, 0), Quaternion.identity);
+            }
+            else
+            {
+                temp = (GameObject)Instantiate(m, new Vector3(0, 0, 0), Quaternion.identity);
+            }
         }
 
         temp.transform.SetParent(gameObject.transform, false);

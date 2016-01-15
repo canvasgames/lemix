@@ -263,7 +263,8 @@ namespace BE {
 			// if previous selected building is exist, unselect that building
 			// because newly created building must be in selection state
 			if(SceneTown.buildingSelected != null) {
-				SceneTown.instance.BuildingLandUnselect();
+                Debug.Log("eu chamei 1");
+                SceneTown.instance.BuildingLandUnselect(true);
 			}
 
 			// create building base from resource

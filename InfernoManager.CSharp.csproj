@@ -112,6 +112,7 @@
     <Compile Include="Assets\CityBuildingPerfectKit\Scripts\UIShopItem.cs" />
     <Compile Include="Assets\CityBuildingPerfectKit\Scripts\UIUnitItem.cs" />
     <Compile Include="Assets\CityBuildingPerfectKit\Scripts\UIUnitQueItem.cs" />
+    <Compile Include="Assets\CloseBT.cs" />
     <Compile Include="Assets\Demigiant\DOTween\Examples\Basics.cs" />
     <Compile Include="Assets\Demigiant\DOTween\Examples\Sequences.cs" />
     <Compile Include="Assets\Inferno Manager\Scripts\BuildBt.cs" />
@@ -131,6 +132,7 @@
     <Compile Include="Assets\Inferno Manager\Scripts\dialogs\buttons\scrollOption.cs" />
     <Compile Include="Assets\Inferno Manager\Scripts\dialogs\demonCreateAvatar.cs" />
     <Compile Include="Assets\Inferno Manager\Scripts\particlesLogic.cs" />
+    <Compile Include="Assets\RankBT.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Cartoon FX\CartoonFX2 Readme.txt" />

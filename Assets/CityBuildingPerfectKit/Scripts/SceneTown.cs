@@ -331,7 +331,11 @@ namespace BE {
 								BETween.alpha(ground.gameObject, 0.1f, 0.3f, 0.0f);
 
 							if(buildingSelected.Landable && buildingSelected.OnceLanded)
-								BuildingLandUnselect();
+                            {
+                                BuildingLandUnselect(false);
+                                Debug.Log("eu chamei 2");
+                            }
+								
 						}
 					}
 					else {
@@ -339,12 +343,21 @@ namespace BE {
 						if(bTemporarySelect) {
 							// land building
 							if((buildingSelected != null) && (MouseClickedBuilding != buildingSelected) && buildingSelected.OnceLanded)
-								BuildingLandUnselect();
+                            {
+
+                                Debug.Log("eu chamei 3");
+                                BuildingLandUnselect(false);
+                            }
+								
 						}
 						else {
 							// land building
 							if((buildingSelected != null) && (MouseClickedBuilding != buildingSelected) && buildingSelected.OnceLanded)
-								BuildingLandUnselect();
+                            {
+                                Debug.Log("eu chamei 4");
+                                BuildingLandUnselect(true);
+                            }
+								
 
 							//Debug.Log ("Update3 buildingSelected:"+((buildingSelected != null) ? buildingSelected.name : "none"));
 							Pick();
@@ -400,17 +413,21 @@ namespace BE {
                 //GameObject goSelectNew = null;
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
                 RaycastHit hit;
-                if (Physics.Raycast(ray, out hit))
+
+            if (Physics.Raycast(ray, out hit))
                 {
-                    //Debug.Log ("Pick"+hit.collider.gameObject.tag);
-                    if (hit.collider.gameObject.tag == "Ground")
+               
+                //Debug.Log ("Pick"+hit.collider.gameObject.tag);
+                if (hit.collider.gameObject.tag == "Ground")
                     {
-                        BuildingSelect(null);
+                   
+                    BuildingSelect(null);
                         return;
                     }
                     else if (hit.collider.gameObject.tag == "Building")
                     {
-                        Building buildingNew = BuildingFromObject(hit.collider.gameObject);
+                    
+                    Building buildingNew = BuildingFromObject(hit.collider.gameObject);
                         if (buildingNew.HasCompletedWork())
                             return;
 
@@ -421,9 +438,14 @@ namespace BE {
                     }
                     else
                     {
-                    }
+                    
+                }
                 
 
+            }
+            else
+            {
+                Debug.Log("CARALEOOOOOOOOOO");
             }
 
 		}
@@ -476,8 +498,9 @@ namespace BE {
 				// building can't land, then pass 
 				if(!buildingSelected.Landed && !buildingSelected.Landable) return;
 
-				// land building
-				BuildingLandUnselect();
+                // land building
+                Debug.Log("eu chamei 5");
+                BuildingLandUnselect(false);
 				UICommand.Hide();
 			}
 
@@ -492,24 +515,38 @@ namespace BE {
 				BETween bt = BETween.scale(buildingSelected.gameObject, 0.1f, new Vector3(1.0f,1.0f,1.0f), new Vector3(1.4f,1.4f,1.4f));
 				bt.loopStyle = BETweenLoop.pingpong;
 				// se tbuilding state unland
-				buildingSelected.Land(false, true);
+				buildingSelected.Land(false, true, false);
 			}
 		}
 
-		public void BuildingLandUnselect() {
-			if(buildingSelected == null) return;
+		public void BuildingLandUnselect(bool unselect) {
 
-			buildingSelected.Land(true, true);
-			buildingSelected = null;
+            if (buildingSelected == null)
+            {
+                
+                return;
+            }
+
+            buildingSelected.Land(true, true, unselect);
+            buildingSelected = null;
+           // if ((GLOBALS.s.TUTORIAL_PHASE <4 && GLOBALS.s.TUTORIAL_OCCURING == true) || unselect == true )
+            //{
+              //  buildingSelected = null;
+           // }
+			    
+
 			Save ();
 
 			UICommand.Hide();
-		}
+
+            //if (GLOBALS.s.TUTORIAL_PHASE < 4 && GLOBALS.s.TUTORIAL_OCCURING == true && unselect == false)
+               // Invoke("UICommand.Show", 30);
+        }
 
 		public void BuildingDelete() {
 			if(buildingSelected == null) return;
 
-			buildingSelected.Land (false, false);
+			buildingSelected.Land (false, false, false);
 			BEGround.instance.BuildingRemove (buildingSelected);
 			Destroy (buildingSelected.gameObject);
 			buildingSelected = null;
@@ -729,7 +766,7 @@ namespace BE {
            script.Move(new Vector3 (4f, 0f, 4f));
             script.createExplosion();
             BuildingSelect(script);
-            BuildingLandUnselect();
+            BuildingLandUnselect(true);
         }
 
         public void createHellGateTutorial()
@@ -738,7 +775,7 @@ namespace BE {
             script.Move(new Vector3(10f, 0f, 4f));
             script.createExplosion();
             BuildingSelect(script);
-             BuildingLandUnselect();
+             BuildingLandUnselect(false);
         }
     }
 

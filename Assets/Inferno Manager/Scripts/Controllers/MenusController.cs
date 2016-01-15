@@ -94,8 +94,11 @@ public class MenusController : MonoBehaviour {
             menu2Destroy = forEachFindTheMenuItself(myMenu);
             if (menu2Destroy.menuObj != null)
             {
-                menusOpened.Remove(menu2Destroy);
+                Debug.Log("Destroing the menu");
+                
                 Destroy(menu2Destroy.menuObj);
+
+                menusOpened.Remove(menu2Destroy);
             }
             else
             {
