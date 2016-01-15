@@ -186,8 +186,6 @@ public class MenusController : MonoBehaviour {
         menu.transform.DOLocalMoveX(xPos, 0.5f).OnComplete(() => punchRight(menu));
     }
 
-    
-
     void punchRight(GameObject menu)
     {
          transform.DOPunchPosition(new Vector3(-2f, 0f, 0f), 0.5f, 7, 0.9f);
@@ -197,10 +195,14 @@ public class MenusController : MonoBehaviour {
     #region EnterFromUpWithPunch
     //Make the menu enter from up
     //If newX and New Y is equals to 0, the menu will use the original position of prefab 
-    public void enterFromUp(GameObject menu, string name, float newX, float newY)
+    public void enterFromUp(GameObject menu, string name, float newX, float newY, bool dont_screw_canvas = false)
     {
         float xPos, yPos;
-        addToGUIAndRepositeObject(menu, name);
+        if (!dont_screw_canvas)
+        {
+            Debug.Log(" PUTTING OUT OF SCREEN");
+            addToGUIAndRepositeObject(menu, name);
+        }
 
         //Use the passed position
         if (newX != 0)
@@ -222,10 +224,12 @@ public class MenusController : MonoBehaviour {
             yPos = menu.transform.localPosition.y;
         }
 
-        //Put out of the screen
+       
+        //Put out of the screen 
         menu.transform.localPosition = new Vector3(xPos, yPos + Screen.height, 0f);
         //Move back to the screen and call punch at the end
         menu.transform.DOLocalMoveY(yPos, 0.5f).OnComplete(() => punchUp(menu));
+        
     }
 
     void punchUp(GameObject menu)
@@ -237,7 +241,7 @@ public class MenusController : MonoBehaviour {
     #region EnterFromDownWithPunch
     //Make the menu enter from up
     //If newX and New Y is equals to 0, the menu will use the original position of prefab 
-    public void enterFromDown(GameObject menu, string name, float newX, float newY)
+    public void enterFromDown(GameObject menu, string name, float newX, float newY, bool dont_screw_canvas = false)
     {
         float xPos, yPos;
         addToGUIAndRepositeObject(menu, name);
@@ -262,10 +266,12 @@ public class MenusController : MonoBehaviour {
             yPos = menu.transform.localPosition.y;
         }
 
-        //Put out of the screen
-        menu.transform.localPosition = new Vector3(xPos, yPos - Screen.height, 0f);
-        //Move back to the screen and call punch at the end
-        menu.transform.DOLocalMoveY(yPos, 0.5f).OnComplete(() => punchDown(menu));
+        if (!dont_screw_canvas) {
+            //Put out of the screen
+            menu.transform.localPosition = new Vector3(xPos, yPos - Screen.height, 0f);
+            //Move back to the screen and call punch at the end
+            menu.transform.DOLocalMoveY(yPos, 0.5f).OnComplete(() => punchDown(menu));
+        }
     }
 
     void punchDown(GameObject menu)

@@ -339,7 +339,7 @@ namespace BE {
 						}
 					}
 					else {
-
+                        Debug.Log("Unselect temporary? ");
 						if(bTemporarySelect) {
 							// land building
 							if((buildingSelected != null) && (MouseClickedBuilding != buildingSelected) && buildingSelected.OnceLanded)
@@ -408,7 +408,6 @@ namespace BE {
         //picking a building means that...
         public void Pick() {
 
- 
                 Debug.Log("Pick buildingSelected:" + ((buildingSelected != null) ? buildingSelected.name : "none"));
                 //GameObject goSelectNew = null;
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
