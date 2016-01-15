@@ -527,19 +527,19 @@ namespace BE {
             }
 
             buildingSelected.Land(true, true, unselect);
-            buildingSelected = null;
-           // if ((GLOBALS.s.TUTORIAL_PHASE <4 && GLOBALS.s.TUTORIAL_OCCURING == true) || unselect == true )
-            //{
-              //  buildingSelected = null;
-           // }
+            //buildingSelected = null;
+            if ((GLOBALS.s.TUTORIAL_PHASE <4 && GLOBALS.s.TUTORIAL_OCCURING == true) || unselect == true )
+            {
+                buildingSelected = null;
+            }
 			    
 
 			Save ();
 
 			UICommand.Hide();
 
-            //if (GLOBALS.s.TUTORIAL_PHASE < 4 && GLOBALS.s.TUTORIAL_OCCURING == true && unselect == false)
-               // Invoke("UICommand.Show", 30);
+           if (GLOBALS.s.TUTORIAL_PHASE < 4 && GLOBALS.s.TUTORIAL_OCCURING == true && unselect == false)
+                Invoke("UICommand.Show", 30);
         }
 
 		public void BuildingDelete() {

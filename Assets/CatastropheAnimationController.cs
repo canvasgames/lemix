@@ -25,13 +25,15 @@ public class CatastropheAnimationController : MonoBehaviour {
     public GameObject Fire2;
     public GameObject Fire3;
 
+    public GameObject button;
+
     bool already_invoked = false;
     private int warning_count = 0;
     private int count = 0;
 
 	// Use this for initialization
 	void Start () {
-
+        GLOBALS.s.TUTORIAL_OCCURING = true;
         s = this;
         WarningAlert.SetActive(false);
         TvFrame.SetActive(false);
@@ -40,6 +42,7 @@ public class CatastropheAnimationController : MonoBehaviour {
         TvCityBG.SetActive(false);
         CatDestroyer.SetActive(false);
         Explosion.SetActive(false);
+        button.SetActive(false);
 
         //display_warning();
         Invoke("display_warning", 0.5f);
@@ -189,12 +192,14 @@ public class CatastropheAnimationController : MonoBehaviour {
     void start_fire3()
     {
         Fire3.SetActive(true);
+        
     }
 
     #endregion
 
     void close_everything(){
         // fazer o label ir pra cima, destruir tudo e criar um dialogo (scroll) pra coletar almas
+        button.SetActive(true);
     }
 
 }

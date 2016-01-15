@@ -391,8 +391,9 @@ namespace BE {
 					// if in upgrading
 					if(building.InUpgrade) {
 						if(!building.UpgradeCompleted) {
-							// shows 'Cancel','Finish' buttons
-							AddButton(Resources.Load<Sprite>("Icons/Multiplication"), "Cancel", PayType.None, 0, CommandType.UpgradeCancel);
+                            // shows 'Cancel','Finish' buttons
+                            if (GLOBALS.s.TUTORIAL_PHASE != 9 && GLOBALS.s.TUTORIAL_PHASE != 16)
+                                AddButton(Resources.Load<Sprite>("Icons/Multiplication"), "Cancel", PayType.None, 0, CommandType.UpgradeCancel);
 							int	 	FinishGemCount = building.GetFinishGemCount();
 							AddButton(Resources.Load<Sprite>("Icons/Gem"), "Finish\nNow", PayType.Gem, FinishGemCount, CommandType.UpgradeFinish);
 						}

@@ -81,6 +81,7 @@
     <Compile Include="Assets\Cartoon FX\Scripts\CFX_LightIntensityFade.cs" />
     <Compile Include="Assets\Cartoon FX\Scripts\CFX_ShurikenThreadFix.cs" />
     <Compile Include="Assets\Cartoon FX\Spawn System\CFX_SpawnSystem.cs" />
+    <Compile Include="Assets\CatastropheAnimationController.cs" />
     <Compile Include="Assets\CityBuildingPerfectKit\Scripts\BEAStar.cs" />
     <Compile Include="Assets\CityBuildingPerfectKit\Scripts\BEAudioManager.cs" />
     <Compile Include="Assets\CityBuildingPerfectKit\Scripts\BEBillboard3D.cs" />
@@ -133,6 +134,10 @@
     <Compile Include="Assets\Inferno Manager\Scripts\dialogs\demonCreateAvatar.cs" />
     <Compile Include="Assets\Inferno Manager\Scripts\particlesLogic.cs" />
     <Compile Include="Assets\RankBT.cs" />
+    <Compile Include="Assets\cat_animation_script.cs" />
+    <Compile Include="Assets\catastropheBT.cs" />
+    <Compile Include="Assets\collectSouls.cs" />
+    <Compile Include="Assets\explosion_animation_end.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Cartoon FX\CartoonFX2 Readme.txt" />
