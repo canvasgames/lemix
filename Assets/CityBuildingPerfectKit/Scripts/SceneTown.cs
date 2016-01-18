@@ -98,7 +98,8 @@ namespace BE {
 
 			Gold = new BENumber(BENumber.IncType.VALUE, 0, 200000, 555); // initial gold count is 1000
 			Gold.AddUIText(BEUtil.GetObject("PanelOverlay/LabelGold/Text").GetComponent<Text>());
-			Gold.AddUIImage(BEUtil.GetObject("PanelOverlay/LabelGold/Fill").GetComponent<Image>());
+            Gold.AddUITextMax(BEUtil.GetObject("PanelOverlay/LabelGold/TextMax").GetComponent<Text>());
+            Gold.AddUIImage(BEUtil.GetObject("PanelOverlay/LabelGold/Fill").GetComponent<Image>());
 
 
 			Elixir = new BENumber(BENumber.IncType.VALUE, 0, 300000, 0, PayType.Elixir); // initial elixir count is 1000	

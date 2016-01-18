@@ -49,7 +49,7 @@ public class DialogsTexts : MonoBehaviour
     public void changeText()
     {
         if (GLOBALS.s.TUTORIAL_PHASE == 1)
-            myText.GetComponentInChildren<Text>().text = "Hi, I'm <color=red>Satan!</color>  \n You've been promoted to a <color=red>DEMON LORD!</color>";
+            myText.GetComponentInChildren<Text>().text = "Hi, I'm <color=red>Satan!</color>  \n You've been promoted to <color=red>DEMON LORD!</color>";
         else if (GLOBALS.s.TUTORIAL_PHASE == 2)
             myText.GetComponentInChildren<Text>().text = "You're now in charge of this area of Inferno.";
         else if (GLOBALS.s.TUTORIAL_PHASE == 3)
@@ -57,36 +57,36 @@ public class DialogsTexts : MonoBehaviour
         else if (GLOBALS.s.TUTORIAL_PHASE == 4)
             myText.GetComponentInChildren<Text>().text = "Tap to Collect Souls.";
         else if (GLOBALS.s.TUTORIAL_PHASE == 5)
-            myText.GetComponentInChildren<Text>().text = "Seem whe have no where to place the souls..\n What's your suggestion?\n";
+            myText.GetComponentInChildren<Text>().text = "It seems we have nowhere to place the souls..\n What's your suggestion?\n";
         else if (GLOBALS.s.TUTORIAL_PHASE == 6)
-            myText.GetComponentInChildren<Text>().text = "For the antichrist sake! \nWhy did I promoted you? \nThey deserve only  <color=red>ETERNAL PUNISHMENT!</color>";
+            myText.GetComponentInChildren<Text>().text = "For Antichrist sake!\nWhy did I promoted you? \nThey deserve only  <color=red>ETERNAL PUNISHMENT!</color>";
         //
         else if (GLOBALS.s.TUTORIAL_PHASE == 7)
-            myText.GetComponentInChildren<Text>().text = "Now let's punish this sinner souls. Tap the BUILD Button.";
+            myText.GetComponentInChildren<Text>().text = "Now lets punish this sinner souls. Tap the <color=green>BUILD Button</color>.";
         else if (GLOBALS.s.TUTORIAL_PHASE == 8)
-            myText.GetComponentInChildren<Text>().text = "Select one of the <color=red>BUILDINGS OF PUNISHMENT!</color>";
+            myText.GetComponentInChildren<Text>().text = "Select one of the <color=red>PUNISHER BULDING!</color>";
         // myText.GetComponentInChildren<Text>().text = "Hold the finger over the building and drag to replace it and Confirm.";
         else if (GLOBALS.s.TUTORIAL_PHASE == 9)
             myText.GetComponentInChildren<Text>().text = "Place it and confirm";
         // myText.GetComponentInChildren<Text>().text = "Tap to Collect Sadness.";
         else if (GLOBALS.s.TUTORIAL_PHASE == 10)
-            myText.GetComponentInChildren<Text>().text = "Punisher Buildings increases your Souls Capacity";
+            myText.GetComponentInChildren<Text>().text = "<color=red>Punisher Buildings</color> increases your <color=red>Souls Capacity</color>";
         // myText.GetComponentInChildren<Text>().text = "Great! Now your Hell Gate can Generate Souls! As higher your sadness meter, more souls will be sent to your Hell!";
         else if (GLOBALS.s.TUTORIAL_PHASE == 11)
             myText.GetComponentInChildren<Text>().text = "Tap to Collect Souls.";
         else if (GLOBALS.s.TUTORIAL_PHASE == 12)
-            myText.GetComponentInChildren<Text>().text = "Why the <color=blue>heaven</color> are you celebrating?\n You've just started!\n There is still a long path to get to be someone other than this <color=blue>bag of holiness</color> you are!";
+            myText.GetComponentInChildren<Text>().text = "Why the <color=blue>heaven</color> are you celebrating?\n You barely started!\n There is still a long path to get to be someone other than this <color=blue>bag of holiness</color> you are!";
         //myText.GetComponentInChildren<Text>().text = "Aquire more souls to Level Up and be respected.";
         else if (GLOBALS.s.TUTORIAL_PHASE == 14)
-            myText.GetComponentInChildren<Text>().text = "To construct more Punisher Buildings you need <color=red>FIRE!</color> Tap to construct a Fire Mine.";
+            myText.GetComponentInChildren<Text>().text = "To construct more Punisher Buildings you need <color=red>HELLFIRE!</color> Tap to construct a Fire Mine.";
         else if (GLOBALS.s.TUTORIAL_PHASE == 15)
-            myText.GetComponentInChildren<Text>().text = "Now Select the Fire Mine";
+            myText.GetComponentInChildren<Text>().text = "Now Select the <color=red>Fire Mine</color>";
         else if (GLOBALS.s.TUTORIAL_PHASE == 16)
             myText.GetComponentInChildren<Text>().text = "Place it and confirm";
         else if (GLOBALS.s.TUTORIAL_PHASE == 17)
-            myText.GetComponentInChildren<Text>().text = "Tap to collect fire";
+            myText.GetComponentInChildren<Text>().text = "Tap to collect Hellfire";
         else if (GLOBALS.s.TUTORIAL_PHASE == 18)
-            myText.GetComponentInChildren<Text>().text = "That's it little devil!\n\n Keep building and upgrading your buildings! Aquire souls to Level Up and be respected. \n\n  Sometimes I will appear to see how things are going!  ";
+            myText.GetComponentInChildren<Text>().text = "That's it <color=blue>Mr. Holiness</color>!\n\n Keep building and upgrading your buildings! Acquire souls to Level Up and be respected. \n\n  I will check your progress later.";
         else if (GLOBALS.s.TUTORIAL_PHASE == 21)
             myText.GetComponentInChildren<Text>().text = "Select the Resources Tab";
         // myText.GetComponentInChildren<Text>().text = "Good job building yourself an Army! Now give me 50% of them to my next Heaven's Raid.";
