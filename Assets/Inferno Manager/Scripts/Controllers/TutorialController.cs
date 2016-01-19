@@ -24,7 +24,7 @@ public class TutorialController : MonoBehaviour
     void Start()
     {
         int firstGame = PlayerPrefs.GetInt("firstGame");
-        //firstGame = 2;
+        firstGame = 2;
 
         if (firstGame == 0)
         {
@@ -32,6 +32,7 @@ public class TutorialController : MonoBehaviour
             GLOBALS.s.LOCK_CAMERA_TUTORIAL = true;
             GLOBALS.s.TUTORIAL_OCCURING     = true;
             tutorial1Timer = 2f;
+            
 
         }
         else
@@ -284,7 +285,7 @@ public class TutorialController : MonoBehaviour
     }
     #endregion
 
-    #region Tutorial Phase 11 (again, because of reasons) Souls Collected Level UP
+    #region Tutorial Phase 11 (11 again, because of reasons) Souls Collected Level UP
     //Souls Collected
     public void soulReallyCollected()
     {
@@ -305,7 +306,7 @@ public class TutorialController : MonoBehaviour
     }
     #endregion
 
-    #region Tutorial Phase 11 Satan Talking Shit About You
+    #region Tutorial Phase 12 Satan Talking Shit About You
     //Satan talking shit about you (voce é uma merda garoto)
     public void blablaQuemEhVcNaFilaDoPao()
     {
@@ -323,12 +324,32 @@ public class TutorialController : MonoBehaviour
     }
     #endregion
 
+    #region Tutorial Phase 25 Click Rank HUD
+    public void clickRankHUD()
+    {
+        HUD.SetActive(true);
+        GLOBALS.s.TUTORIAL_PHASE = 25;
+        MenusController.s.destroyMenu("BigScroll", null);
+        
+        tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/SmallScroll"));
+        MenusController.s.enterFromRight(tempObject, "SmallScroll", 238f, 80f);
+
+        tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/SatanHand"));
+        MenusController.s.addToGUIAndRepositeObject(tempObject, "SatanHand");
+
+        SatanHand script;
+        script = (SatanHand)tempObject.GetComponent(typeof(SatanHand));
+        script.initRankTutorial();
+    }
+    #endregion
+
     #region Tutorial Phase 13 Show Rank List
     public void showRankList()
     {
         GLOBALS.s.TUTORIAL_PHASE = 13;
         MenusController.s.destroyMenu("Satan", null);
-        MenusController.s.destroyMenu("BigScroll", null);
+        MenusController.s.destroyMenu("SmallScroll", null);
+        MenusController.s.destroyMenu("SatanHand", null);
 
         tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/DemonList/DemonList"));
         MenusController.s.enterFromLeft(tempObject, "DemonList", 0, 0);
@@ -344,6 +365,8 @@ public class TutorialController : MonoBehaviour
         list = GameObject.FindObjectsOfType(typeof(CreateDemonsScrollView)) as CreateDemonsScrollView[];
         list[0].moveList();
         Invoke("createNextButton", 3);
+
+
     }
     #endregion
 
@@ -351,7 +374,7 @@ public class TutorialController : MonoBehaviour
     //Construct imp pit msg, indicate to press build
     public void pressBuildBtConstructImp()
     {
-   
+        MenusController.s.destroyMenu("SatanHand", null);
         MenusController.s.destroyMenu("DemonList", null);
 
         GLOBALS.s.TUTORIAL_PHASE = 14;
@@ -366,7 +389,7 @@ public class TutorialController : MonoBehaviour
     }
     #endregion
 
-    #region Tutorial Phase 15 Indicate Tab of Fire Mine
+    #region Tutorial Phase 21 Indicate Tab of Fire Mine
     //Indicate tab of fire mine
     public void indicateTabFireMine()
     {
@@ -383,7 +406,7 @@ public class TutorialController : MonoBehaviour
     }
     #endregion
 
-    #region Tutorial Phase 16 Choose Fire Mine
+    #region Tutorial Phase 15 Choose Fire Mine
     //Clicked tab
     public void pressBuildImpCasePressed()
     {
@@ -473,6 +496,22 @@ public class TutorialController : MonoBehaviour
 
         tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/ArowNext"));
         MenusController.s.enterFromRight(tempObject, "ArowNext", 0, 0);
+        if (GLOBALS.s.TUTORIAL_PHASE == 13)
+        {
+            Invoke("SatanHand", 0.7f);
+        }
     }
+    void SatanHand()
+    {
+
+            tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/SatanHand"));
+            MenusController.s.addToGUIAndRepositeObject(tempObject, "SatanHand");
+
+            SatanHand script;
+            script = (SatanHand)tempObject.GetComponent(typeof(SatanHand));
+            script.tutorialList();
+        
+    }
+
 #endregion
 }

@@ -42,6 +42,7 @@ public class MenusController : MonoBehaviour {
     //Add to menu List and add to the GUI
     public void addToGUIAndRepositeObject(GameObject menu, string name)
     {
+        
         float xPos, yPos;
 
         menusList tempLecture = new menusList();
@@ -51,6 +52,7 @@ public class MenusController : MonoBehaviour {
             tempLecture.menuName = name;
 
         menusOpened.Add(tempLecture);
+        GLOBALS.s.DIALOG_ALREADY_OPENED = true;
 
         //Copy the readed local position
         xPos = menu.transform.localPosition.x;
@@ -108,6 +110,12 @@ public class MenusController : MonoBehaviour {
         else
         {
             Debug.Log("ERROR! NO NAME OR MENU ADDED");
+        }
+
+        if(menusOpened.Count <= 0)
+        {
+
+            GLOBALS.s.DIALOG_ALREADY_OPENED = false;
         }
     }
     #endregion
@@ -244,8 +252,10 @@ public class MenusController : MonoBehaviour {
     public void enterFromDown(GameObject menu, string name, float newX, float newY, bool dont_screw_canvas = false)
     {
         float xPos, yPos;
-        addToGUIAndRepositeObject(menu, name);
-
+        if (!dont_screw_canvas)
+        {
+            addToGUIAndRepositeObject(menu, name);
+        }
         //Use the passed position
         if (newX != 0)
         {

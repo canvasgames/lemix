@@ -223,9 +223,8 @@ namespace BE {
             #region Camera Movement on Mouse button down
             if (Input.GetMouseButton(0)) {
 
-				if (EventSystem.current.IsPointerOverGameObject() || GLOBALS.s.LOCK_CAMERA_TUTORIAL == true) {
-					
-					return;
+				if (EventSystem.current.IsPointerOverGameObject() || GLOBALS.s.LOCK_CAMERA_TUTORIAL == true || (GLOBALS.s.DIALOG_ALREADY_OPENED == true && GLOBALS.s.TUTORIAL_OCCURING == false)) {
+                    return;
 				}
 
 				//Click MouseButton
@@ -371,7 +370,8 @@ namespace BE {
 
             #region Zoom
             //zoom
-            if (!InFade){
+            if (!InFade && (GLOBALS.s.DIALOG_ALREADY_OPENED == false && GLOBALS.s.TUTORIAL_OCCURING == false))
+            {
 				zoomCurrent -= Input.GetAxis("Mouse ScrollWheel") * zoomSpeed;
 				zoomCurrent = Mathf.Clamp(zoomCurrent, zoomMin, zoomMax);
                 //goCamera.transform.localPosition = new Vector3(0,0,-zoomCurrent);
@@ -380,7 +380,7 @@ namespace BE {
             }
 
 			// pinch zoom for mobile touch input
-			if(Input.touchCount == 2) {
+			if(Input.touchCount == 2 && (GLOBALS.s.DIALOG_ALREADY_OPENED == false && GLOBALS.s.TUTORIAL_OCCURING == false)) {
 				// Store both touches.
 				Touch touchZero = Input.GetTouch(0);
 				Touch touchOne = Input.GetTouch(1);
@@ -432,7 +432,7 @@ namespace BE {
                             return;
 
                         //Dont select building when in tutorial
-                        if (GLOBALS.s.TUTORIAL_OCCURING == false)
+                        if (GLOBALS.s.TUTORIAL_OCCURING == false && GLOBALS.s.DIALOG_ALREADY_OPENED == false)
                             BuildingSelect(buildingNew);
                         return;
                     }
@@ -468,13 +468,18 @@ namespace BE {
 			if((NewLevel > Level) && (Level != 0)) {
                 // show levelup notify here
                 GLOBALS.s.USER_RANK = NewLevel;
-			}
+               // GameObject tempObject;
+                //tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/LevelUp"));
+               // MenusController.s.enterFromDown(tempObject, "LevelUp", 0, 0);
+            }
 			Level = NewLevel;
 			textLevel.text = NewLevel.ToString ();
 
 			// save game data
 			Save ();
 		}
+
+        
 
 		// get building script
 		// if child object was hitted, check parent 
@@ -564,35 +569,38 @@ namespace BE {
 		// user clicked shop button
 		public void OnButtonShop() {
 
-            if (GLOBALS.s.TUTORIAL_OCCURING == true)
-            {
-                if (GLOBALS.s.TUTORIAL_PHASE == 7)
+                if (GLOBALS.s.TUTORIAL_OCCURING == true)
                 {
-                    
-                    TutorialController.s.clickedBuildBt();
-                    BEAudioManager.SoundPlay(6);
-                    UIShop.Show(ShopType.Normal);
-                }
-                else if(GLOBALS.s.TUTORIAL_PHASE == 14)
-                {
-                    TutorialController.s.indicateTabFireMine();
-                    BEAudioManager.SoundPlay(6);
-                    UIShop.Show(ShopType.Normal);
-                }
-                
-            }
-            else
-            {
-                BEAudioManager.SoundPlay(6);
-                UIShop.Show(ShopType.Normal);
-            }
+                    if (GLOBALS.s.TUTORIAL_PHASE == 7)
+                    {
 
+                        TutorialController.s.clickedBuildBt();
+                        BEAudioManager.SoundPlay(6);
+                        UIShop.Show(ShopType.Normal);
+                    }
+                    else if (GLOBALS.s.TUTORIAL_PHASE == 14)
+                    {
+                        TutorialController.s.indicateTabFireMine();
+                        BEAudioManager.SoundPlay(6);
+                        UIShop.Show(ShopType.Normal);
+                    }
+
+                }
+                else
+                {
+                if (GLOBALS.s.DIALOG_ALREADY_OPENED == false)
+                {
+                    BEAudioManager.SoundPlay(6);
+                    UIShop.Show(ShopType.Normal);
+                }
+                }
+            
 
 		}
 
 		// user clicked gem button
 		public void OnButtonGemShop() {
-            if (GLOBALS.s.TUTORIAL_OCCURING == false)
+            if (GLOBALS.s.TUTORIAL_OCCURING == false && GLOBALS.s.DIALOG_ALREADY_OPENED == false)
             {
                 BEAudioManager.SoundPlay(6);
                 UIShop.Show(ShopType.InApp);
@@ -601,7 +609,7 @@ namespace BE {
 
 		// user clicked house button
 		public void OnButtonHouse() {
-            if (GLOBALS.s.TUTORIAL_OCCURING == false)
+            if (GLOBALS.s.TUTORIAL_OCCURING == false && GLOBALS.s.DIALOG_ALREADY_OPENED == false)
             {
                 BEAudioManager.SoundPlay(6);
                 UIShop.Show(ShopType.House);
@@ -610,7 +618,7 @@ namespace BE {
 
 		// user clicked option button
 		public void OnButtonOption() {
-            if (GLOBALS.s.TUTORIAL_OCCURING == false)
+            if (GLOBALS.s.TUTORIAL_OCCURING == false && GLOBALS.s.DIALOG_ALREADY_OPENED == false)
             {
                 BEAudioManager.SoundPlay(6);
                 UIOption.Show();

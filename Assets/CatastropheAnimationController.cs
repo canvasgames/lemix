@@ -54,7 +54,7 @@ public class CatastropheAnimationController : MonoBehaviour {
     void display_warning()
     {
         WarningAlert.SetActive(true);
-        MenusController.s.enterFromDown(WarningAlert, "WarningEnteringAnimation", 0, 0);
+        MenusController.s.enterFromDown(WarningAlert, "WarningEnteringAnimation", 0, 0,true);
 
         Invoke("warning_animation", 0.7f);
     }

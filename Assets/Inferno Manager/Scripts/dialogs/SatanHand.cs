@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using DG.Tweening;
+using UnityEngine.EventSystems;
 
 public class SatanHand : MonoBehaviour {
 
@@ -12,17 +13,16 @@ public class SatanHand : MonoBehaviour {
     }
 	
 	// Update is called once per frame
-	void Update () {
-	
-	}
-
-    public void initHandSoulsTutorial()
+    void Update()
     {
-        transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
-        transform.localPosition = new Vector3(-316, 226, 0);
+        if (Input.GetMouseButtonUp(0) && GLOBALS.s.TUTORIAL_PHASE == 13)
+        {
+            MenusController.s.destroyMenu("SatanHand", null);
+        }
 
-        tutorialSouls();
+
     }
+
     void tutorialCollect()
     {
        // transform.DOLocalMove(new Vector3(128, -112, 52), 0.7f).OnComplete(moveback);
@@ -36,6 +36,14 @@ public class SatanHand : MonoBehaviour {
     }
 
 
+    public void initHandSoulsTutorial()
+    {
+        transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
+        transform.localPosition = new Vector3(-316, 226, 0);
+
+        tutorialSouls();
+    }
+
     void tutorialSouls()
     {
         transform.DOLocalMoveY(180, 0.7f).OnComplete(tutorialsSoulsBack);
@@ -45,14 +53,42 @@ public class SatanHand : MonoBehaviour {
         transform.DOLocalMoveY(240, 0.7f).OnComplete(tutorialSouls);
     }
 
-    void tutorialList()
+    public void initRankTutorial()
     {
-        transform.DOScaleX(1f, 1f).OnComplete(move);
+        transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
+        transform.localPosition = new Vector3(-557, 180, 0);
+
+        rankTutorial();
+    }
+
+    void rankTutorial()
+    {
+        transform.DOLocalMoveY(110, 0.7f).OnComplete(rankTutorialBack);
+    }
+    void rankTutorialBack()
+    {
+        transform.DOLocalMoveY(180, 0.7f).OnComplete(rankTutorial);
+    }
+
+
+    public void tutorialList()
+    {
+        transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
+        reposite();
+
+    }
+
+    void reposite()
+    {
+        transform.localPosition = new Vector3(205, 105, 0);
+        Invoke("move", 1f);
     }
     void move()
     {
+        transform.DOMoveY(-10f, 1f).OnComplete(reposite);
 
     }
+
 
     void destroyMe()
     {

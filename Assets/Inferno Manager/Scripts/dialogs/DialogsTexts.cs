@@ -89,6 +89,8 @@ public class DialogsTexts : MonoBehaviour
             myText.GetComponentInChildren<Text>().text = "That's it <color=blue>Mr. Holiness</color>!\n\n Keep building and upgrading your buildings! Acquire souls to Level Up and be respected. \n\n  I will check your progress later.";
         else if (GLOBALS.s.TUTORIAL_PHASE == 21)
             myText.GetComponentInChildren<Text>().text = "Select the Resources Tab";
+        else if (GLOBALS.s.TUTORIAL_PHASE == 25)
+            myText.GetComponentInChildren<Text>().text = "Click on your Rank to see the Demons Rank List";
         // myText.GetComponentInChildren<Text>().text = "Good job building yourself an Army! Now give me 50% of them to my next Heaven's Raid.";
 
         // myText.GetComponentInChildren<Text>().text = "I dont't think you understand who I Am! Just give me 60% instead 3=)";

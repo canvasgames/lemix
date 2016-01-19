@@ -15,13 +15,14 @@ public class btNextTutorial : ButtonCap
     {
         if (Input.GetMouseButtonUp(0))
         {
-            if (EventSystem.current.IsPointerOverGameObject() == true)
+            if (EventSystem.current.IsPointerOverGameObject() == true && GLOBALS.s.TUTORIAL_PHASE != 13)
             {
                 ActBT();
             }
             else
             {
-                ActBT();
+                if(GLOBALS.s.TUTORIAL_PHASE != 13)
+                    ActBT();
             }
         }
 
@@ -85,7 +86,7 @@ public class btNextTutorial : ButtonCap
         {
 
             MenusController.s.destroyMenu("ArowNext", null);
-            TutorialController.s.showRankList();
+            TutorialController.s.clickRankHUD();
 
         }
         else if (GLOBALS.s.TUTORIAL_PHASE == 13)
