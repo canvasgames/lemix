@@ -657,113 +657,131 @@ namespace BE {
 		string 	configFilename = "Config.dat";
 		int 	ConfigVersion = 1;
 		public	bool 	InLoading = false;
-		
-		// Do not save town when script quit.
-		// save when action is occured
-		// (for example, when building created, when start upgrade, when colled product, when training start)
-		public void Save() {
-            /*
-			if(InLoading) return;
 
-			string xmlFilePath = BEUtil.pathForDocumentsFile(configFilename);
-			XmlDocument xmlDocument = new XmlDocument();
-			xmlDocument.LoadXml("<item><name>wrench</name></item>");
-			{
-				xmlDocument.DocumentElement.RemoveAll();
-				
-				// Version
-				{ XmlElement ne = xmlDocument.CreateElement("ConfigVersion"); 		ne.SetAttribute("value", ConfigVersion.ToString());			xmlDocument.DocumentElement.AppendChild (ne); }
-				{ XmlElement ne = xmlDocument.CreateElement("Time"); 				ne.SetAttribute("value", DateTime.Now.ToString());			xmlDocument.DocumentElement.AppendChild (ne); }
-				{ XmlElement ne = xmlDocument.CreateElement("ExpTotal"); 			ne.SetAttribute("value", ExpTotal.ToString());				xmlDocument.DocumentElement.AppendChild (ne); }
-				{ XmlElement ne = xmlDocument.CreateElement("Gem"); 				ne.SetAttribute("value", Gem.Target().ToString());			xmlDocument.DocumentElement.AppendChild (ne); }
-				{ XmlElement ne = xmlDocument.CreateElement("Gold"); 				ne.SetAttribute("value", Gold.Target().ToString());			xmlDocument.DocumentElement.AppendChild (ne); }
-				{ XmlElement ne = xmlDocument.CreateElement("Elixir"); 				ne.SetAttribute("value", Elixir.Target().ToString());		xmlDocument.DocumentElement.AppendChild (ne); }
-				{ XmlElement ne = xmlDocument.CreateElement("Shield"); 				ne.SetAttribute("value", Shield.Target().ToString());		xmlDocument.DocumentElement.AppendChild (ne); }
+        // Do not save town when script quit.
+        // save when action is occured
+        // (for example, when building created, when start upgrade, when colled product, when training start)
+        public void Save()
+        {
+            if (QA.s.DontSave == false) { 
 
-				Transform trDecoRoot = BEGround.instance.trDecoRoot;
-				//List<GameObject> goTiles=new List<GameObject>();
-				foreach(Transform child in trDecoRoot) {
-					Building script = child.gameObject.GetComponent<Building>();
-					if(script != null) {
-						script.Save (xmlDocument);
-					}
-				}
-			
-				// ####### Encrypt the XML ####### 
-				// If you want to view the original xml file, turn of this piece of code and press play.
-				if (xmlDocument.DocumentElement.ChildNodes.Count >= 1) {
-					if(UseEncryption) {
-						string data = BEUtil.Encrypt (xmlDocument.DocumentElement.InnerXml);
-						xmlDocument.DocumentElement.RemoveAll ();
-						xmlDocument.DocumentElement.InnerText = data;
-					}
-					xmlDocument.Save (xmlFilePath);
-				}
-				// ###############################
-			}*/
+                if (InLoading) return;
+
+                string xmlFilePath = BEUtil.pathForDocumentsFile(configFilename);
+                XmlDocument xmlDocument = new XmlDocument();
+                xmlDocument.LoadXml("<item><name>wrench</name></item>");
+                {
+                    xmlDocument.DocumentElement.RemoveAll();
+
+                    // Version
+                    { XmlElement ne = xmlDocument.CreateElement("ConfigVersion"); ne.SetAttribute("value", ConfigVersion.ToString()); xmlDocument.DocumentElement.AppendChild(ne); }
+                    { XmlElement ne = xmlDocument.CreateElement("Time"); ne.SetAttribute("value", DateTime.Now.ToString()); xmlDocument.DocumentElement.AppendChild(ne); }
+                    { XmlElement ne = xmlDocument.CreateElement("ExpTotal"); ne.SetAttribute("value", ExpTotal.ToString()); xmlDocument.DocumentElement.AppendChild(ne); }
+                    { XmlElement ne = xmlDocument.CreateElement("Gem"); ne.SetAttribute("value", Gem.Target().ToString()); xmlDocument.DocumentElement.AppendChild(ne); }
+                    { XmlElement ne = xmlDocument.CreateElement("Gold"); ne.SetAttribute("value", Gold.Target().ToString()); xmlDocument.DocumentElement.AppendChild(ne); }
+                    { XmlElement ne = xmlDocument.CreateElement("Elixir"); ne.SetAttribute("value", Elixir.Target().ToString()); xmlDocument.DocumentElement.AppendChild(ne); }
+                    { XmlElement ne = xmlDocument.CreateElement("Shield"); ne.SetAttribute("value", Shield.Target().ToString()); xmlDocument.DocumentElement.AppendChild(ne); }
+
+                    Transform trDecoRoot = BEGround.instance.trDecoRoot;
+                    //List<GameObject> goTiles=new List<GameObject>();
+                    foreach (Transform child in trDecoRoot)
+                    {
+                        Building script = child.gameObject.GetComponent<Building>();
+                        if (script != null)
+                        {
+                            script.Save(xmlDocument);
+                        }
+                    }
+
+                    // ####### Encrypt the XML ####### 
+                    // If you want to view the original xml file, turn of this piece of code and press play.
+                    if (xmlDocument.DocumentElement.ChildNodes.Count >= 1)
+                    {
+                        if (UseEncryption)
+                        {
+                            string data = BEUtil.Encrypt(xmlDocument.DocumentElement.InnerXml);
+                            xmlDocument.DocumentElement.RemoveAll();
+                            xmlDocument.DocumentElement.InnerText = data;
+                        }
+                        xmlDocument.Save(xmlFilePath);
+                    }
+                    // ###############################
+                }
+            }
 		}
 
         #endregion
 
         #region Load
         public void Load() {
-            /*
-			string xmlFilePath = BEUtil.pathForDocumentsFile(configFilename);
-			if(!File.Exists(xmlFilePath)) {
-				Save();
-				bFirstRun = true;
-			}
-			else {
-				bFirstRun = false;
-			}
-			
-			InLoading = true;
-			XmlDocument xmlDocument = new XmlDocument();
-			xmlDocument.Load(xmlFilePath);
-			
-			// ####### Encrypt the XML ####### 
-			// If the Xml is encrypted, so this piece of code decrypt it.
-			if (xmlDocument.DocumentElement.ChildNodes.Count <= 1) {
-				if(UseEncryption) {
-					string data = BEUtil.Decrypt(xmlDocument.DocumentElement.InnerText);
-					xmlDocument.DocumentElement.InnerXml = data;
-				}
-			}
-			//################################
+
+            if (QA.s.DontSave == false)
+            {
+                string xmlFilePath = BEUtil.pathForDocumentsFile(configFilename);
+                if (!File.Exists(xmlFilePath))
+                {
+                    Save();
+                    bFirstRun = true;
+                }
+                else
+                {
+                    bFirstRun = false;
+                }
+
+                InLoading = true;
+                XmlDocument xmlDocument = new XmlDocument();
+                xmlDocument.Load(xmlFilePath);
+
+                // ####### Encrypt the XML ####### 
+                // If the Xml is encrypted, so this piece of code decrypt it.
+                if (xmlDocument.DocumentElement.ChildNodes.Count <= 1)
+                {
+                    if (UseEncryption)
+                    {
+                        string data = BEUtil.Decrypt(xmlDocument.DocumentElement.InnerText);
+                        xmlDocument.DocumentElement.InnerXml = data;
+                    }
+                }
+                //################################
 
 
-			if(xmlDocument != null) {
-				XmlElement element = xmlDocument.DocumentElement;
-				XmlNodeList list = element.ChildNodes;
-				foreach(XmlElement ele in list) {
-					if(ele.Name == "ConfigVersion")			{	ConfigVersion 	= int.Parse(ele.GetAttribute("value"));	 		}
-					else if(ele.Name == "Time")				{	
-						DateTime dtNow = DateTime.Now;	
-						DateTime dtSaved = DateTime.Parse(ele.GetAttribute("value"));	 
-						//Debug.Log ("dtNow:"+dtNow.ToString());
-						//Debug.Log ("dtSaved:"+dtSaved.ToString());
-						TimeSpan timeDelta = dtNow.Subtract(dtSaved);	
-						//Debug.Log ("TimeSpan:"+timeDelta.ToString());
-						BETime.timeAfterLastRun = timeDelta.TotalSeconds;
-					}
-					else if(ele.Name == "ExpTotal")			{	ExpTotal = int.Parse(ele.GetAttribute("value")); GLOBALS.s.USER_RANK = TBDatabase.GetLevel(ExpTotal); Debug.Log(" USER RANK SET! " + GLOBALS.s.USER_RANK);  }
-					else if(ele.Name == "Gem")				{	Gem.ChangeTo(double.Parse(ele.GetAttribute("value")));	 		}
-					else if(ele.Name == "Gold")				{	Gold.ChangeTo(double.Parse(ele.GetAttribute("value")));	 		}
-					else if(ele.Name == "Elixir")			{	Elixir.ChangeTo(double.Parse(ele.GetAttribute("value")));	 	}
-					else if(ele.Name == "Shield")			{	Shield.ChangeTo(double.Parse(ele.GetAttribute("value")));	 	}
-					else if(ele.Name == "Building")			{	
-						int Type = int.Parse(ele.GetAttribute("Type"));	 		
-						int Level = int.Parse(ele.GetAttribute("Level"));
-                       
-						//Debug.Log ("Building Type:"+Type.ToString()+" Level:"+Level.ToString());
-						Building script = BEGround.instance.BuildingAdd(Type, Level);
-						script.Load (ele);
-					}
-					else {}
-				}
-			}
+                if (xmlDocument != null)
+                {
+                    XmlElement element = xmlDocument.DocumentElement;
+                    XmlNodeList list = element.ChildNodes;
+                    foreach (XmlElement ele in list)
+                    {
+                        if (ele.Name == "ConfigVersion") { ConfigVersion = int.Parse(ele.GetAttribute("value")); }
+                        else if (ele.Name == "Time")
+                        {
+                            DateTime dtNow = DateTime.Now;
+                            DateTime dtSaved = DateTime.Parse(ele.GetAttribute("value"));
+                            //Debug.Log ("dtNow:"+dtNow.ToString());
+                            //Debug.Log ("dtSaved:"+dtSaved.ToString());
+                            TimeSpan timeDelta = dtNow.Subtract(dtSaved);
+                            //Debug.Log ("TimeSpan:"+timeDelta.ToString());
+                            BETime.timeAfterLastRun = timeDelta.TotalSeconds;
+                        }
+                        else if (ele.Name == "ExpTotal") { ExpTotal = int.Parse(ele.GetAttribute("value")); GLOBALS.s.USER_RANK = TBDatabase.GetLevel(ExpTotal); Debug.Log(" USER RANK SET! " + GLOBALS.s.USER_RANK); }
+                        else if (ele.Name == "Gem") { Gem.ChangeTo(double.Parse(ele.GetAttribute("value"))); }
+                        else if (ele.Name == "Gold") { Gold.ChangeTo(double.Parse(ele.GetAttribute("value"))); }
+                        else if (ele.Name == "Elixir") { Elixir.ChangeTo(double.Parse(ele.GetAttribute("value"))); }
+                        else if (ele.Name == "Shield") { Shield.ChangeTo(double.Parse(ele.GetAttribute("value"))); }
+                        else if (ele.Name == "Building")
+                        {
+                            int Type = int.Parse(ele.GetAttribute("Type"));
+                            int Level = int.Parse(ele.GetAttribute("Level"));
 
-			InLoading = false;*/
+                            //Debug.Log ("Building Type:"+Type.ToString()+" Level:"+Level.ToString());
+                            Building script = BEGround.instance.BuildingAdd(Type, Level);
+                            script.Load(ele);
+                        }
+                        else { }
+                    }
+                }
+
+                InLoading = false;
+            }
 		}
 
         #endregion

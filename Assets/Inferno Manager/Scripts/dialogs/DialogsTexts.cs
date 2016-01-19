@@ -7,6 +7,11 @@ public class DialogsTexts : MonoBehaviour
 {
     public GameObject upPart, downPart, myText;
     float xPos, myTextHeight;
+    string text_displaying = "";
+    string text_final = "";
+    int k = 0;
+    string cur_color = "";
+    Text text_component;
     // Use this for initialization
     void Start()
     {
@@ -48,52 +53,116 @@ public class DialogsTexts : MonoBehaviour
     }
     public void changeText()
     {
+        string text_to_display = "";
+
         if (GLOBALS.s.TUTORIAL_PHASE == 1)
-            myText.GetComponentInChildren<Text>().text = "Hi, I'm <color=red>Satan!</color>  \n You've been promoted to <color=red>DEMON LORD!</color>";
+            text_to_display = "Hi, I'm <color=#fe2323>Satan!</color>  \n You've been promoted to <color=#fe2323>DEMON LORD!</color>";
+            //text_to_display = "Hi, I'm Satan!  \n You've been promoted to DEMON LORD!";
         else if (GLOBALS.s.TUTORIAL_PHASE == 2)
-            myText.GetComponentInChildren<Text>().text = "You're now in charge of this area of Inferno.";
+            text_to_display = "You're now in charge of this area of Inferno.";
         else if (GLOBALS.s.TUTORIAL_PHASE == 3)
-            myText.GetComponentInChildren<Text>().text = "This is your personal <color=red>HELL'S GATE</color>. It brings dead souls from earth.";
+            text_to_display = "This is your personal <color=#fe2323>Hell'S Gate</color>. It brings dead souls from earth.";
         else if (GLOBALS.s.TUTORIAL_PHASE == 4)
-            myText.GetComponentInChildren<Text>().text = "Tap to Collect Souls.";
+            text_to_display = "Tap to Collect Souls.";
         else if (GLOBALS.s.TUTORIAL_PHASE == 5)
-            myText.GetComponentInChildren<Text>().text = "It seems we have nowhere to place the souls..\n What's your suggestion?\n";
+            text_to_display = "It seems we have nowhere to place the souls..\n What's your suggestion?\n";
         else if (GLOBALS.s.TUTORIAL_PHASE == 6)
-            myText.GetComponentInChildren<Text>().text = "For Antichrist sake!\nWhy did I promoted you? \nThey deserve only  <color=red>ETERNAL PUNISHMENT!</color>";
+            text_to_display = "For Antichrist sake!!!\nWhy did I promoted you? \nThey deserve only  <color=#fe2323>ETERNAL PUNISHMENT!</color>";
         //
         else if (GLOBALS.s.TUTORIAL_PHASE == 7)
-            myText.GetComponentInChildren<Text>().text = "Now lets punish this sinner souls. Tap the <color=green>BUILD Button</color>.";
+            text_to_display = "Now lets punish this sinner souls. Tap the <color=green>Build Button</color>.";
         else if (GLOBALS.s.TUTORIAL_PHASE == 8)
-            myText.GetComponentInChildren<Text>().text = "Select one of the <color=red>PUNISHER BULDING!</color>";
-        // myText.GetComponentInChildren<Text>().text = "Hold the finger over the building and drag to replace it and Confirm.";
+            text_to_display = "Select one of the <color=#fe2323>Punisher Buldings!</color>";
+        // text_to_display = "Hold the finger over the building and drag to replace it and Confirm.";
         else if (GLOBALS.s.TUTORIAL_PHASE == 9)
-            myText.GetComponentInChildren<Text>().text = "Place it and confirm";
-        // myText.GetComponentInChildren<Text>().text = "Tap to Collect Sadness.";
+            text_to_display = "Place it and confirm";
+        // text_to_display = "Tap to Collect Sadness.";
         else if (GLOBALS.s.TUTORIAL_PHASE == 10)
-            myText.GetComponentInChildren<Text>().text = "<color=red>Punisher Buildings</color> increases your <color=red>Souls Capacity</color>";
-        // myText.GetComponentInChildren<Text>().text = "Great! Now your Hell Gate can Generate Souls! As higher your sadness meter, more souls will be sent to your Hell!";
+            text_to_display = "<color=#fe2323>Punisher Buildings</color> increases your <color=#fe2323>Souls Capacity</color>";
+        // text_to_display = "Great! Now your Hell Gate can Generate Souls! As higher your sadness meter, more souls will be sent to your Hell!";
         else if (GLOBALS.s.TUTORIAL_PHASE == 11)
-            myText.GetComponentInChildren<Text>().text = "Tap to Collect Souls.";
+            text_to_display = "Tap to Collect Souls.";
         else if (GLOBALS.s.TUTORIAL_PHASE == 12)
-            myText.GetComponentInChildren<Text>().text = "Why the <color=blue>heaven</color> are you celebrating?\n You barely started!\n There is still a long path to get to be someone other than this <color=blue>bag of holiness</color> you are!";
-        //myText.GetComponentInChildren<Text>().text = "Aquire more souls to Level Up and be respected.";
+            text_to_display = "Why the <color=blue>heaven</color> are you celebrating?\n You barely started!\n There is still a long path to get to be someone other than this <color=blue>bag of holiness</color> you are!";
+        //text_to_display = "Aquire more souls to Level Up and be respected.";
         else if (GLOBALS.s.TUTORIAL_PHASE == 14)
-            myText.GetComponentInChildren<Text>().text = "To construct more Punisher Buildings you need <color=red>HELLFIRE!</color> Tap to construct a Fire Mine.";
+            text_to_display = "To construct more Punisher Buildings you need <color=#fe2323>HELLFIRE!</color> Tap to construct a Fire Mine.";
         else if (GLOBALS.s.TUTORIAL_PHASE == 15)
-            myText.GetComponentInChildren<Text>().text = "Now Select the <color=red>Fire Mine</color>";
+            text_to_display = "Now Select the <color=#fe2323>Fire Mine</color>";
         else if (GLOBALS.s.TUTORIAL_PHASE == 16)
-            myText.GetComponentInChildren<Text>().text = "Place it and confirm";
+            text_to_display = "Place it and confirm";
         else if (GLOBALS.s.TUTORIAL_PHASE == 17)
-            myText.GetComponentInChildren<Text>().text = "Tap to collect Hellfire";
+            text_to_display = "Tap to collect Hellfire";
         else if (GLOBALS.s.TUTORIAL_PHASE == 18)
-            myText.GetComponentInChildren<Text>().text = "That's it <color=blue>Mr. Holiness</color>!\n\n Keep building and upgrading your buildings! Acquire souls to Level Up and be respected. \n\n  I will check your progress later.";
+            text_to_display = "That's it <color=blue>Mr. Holiness</color>!\n\n Keep building and upgrading your buildings! Acquire souls to Level Up and be respected. \n\n  I will check your progress later.";
         else if (GLOBALS.s.TUTORIAL_PHASE == 21)
-            myText.GetComponentInChildren<Text>().text = "Select the Resources Tab";
+            text_to_display = "Select the Resources Tab";
         else if (GLOBALS.s.TUTORIAL_PHASE == 25)
-            myText.GetComponentInChildren<Text>().text = "Click on your Rank to see the Demons Rank List";
+            text_to_display = "Click on your Rank to see the Demons Rank List";
         // myText.GetComponentInChildren<Text>().text = "Good job building yourself an Army! Now give me 50% of them to my next Heaven's Raid.";
+        //letter by letter code
+        k = 0;
+        text_displaying = "";
+        text_final = text_to_display;
+        myText.GetComponentInChildren<Text>().text = "";
+        cur_color = "";
+        text_component = myText.GetComponentInChildren<Text>();
+        Invoke("display_text", 0.2f);
+    }
 
-        // myText.GetComponentInChildren<Text>().text = "I dont't think you understand who I Am! Just give me 60% instead 3=)";
+    public void display_text()
+    {
+         
+        string str = "";
+        
+        int i = 0;
+        //if (string.Equals("a", "a") )Debug.Log("AAAAAAAAAAAAAAA");
+        if (k < text_final.Length)
+        {
+            if (string.Equals(text_final[k].ToString(), "<") == false)
+            {
+                Debug.Log("CUR CHAR: " + text_final[k]);
+                text_displaying += text_final[k++];
+            }
+            else
+            {
+                Debug.Log(" < SYMBOL!!!!!!!! ");
+                i = 0;
+                if (string.Equals(cur_color, "")) {
+                    do
+                    {
+                        cur_color += text_final[k + i];
+                        i++;
+                        Debug.Log("< CUR CHAR: " + text_final[k+i] + " CUR COLOR: " +cur_color);
+                    } while (!string.Equals(text_final[k+i].ToString(), ">"));
+
+                    k += i;
+                    text_displaying += cur_color + text_final[k++];
+                }
+                else
+                {
+                    do
+                    {
+                        i++;
+                    } while (!string.Equals(text_final[k+i].ToString(), ">"));
+
+                    k += i+1;
+                    text_displaying += "</color>";
+                    text_displaying += text_final[k++];
+                    cur_color = "";
+                }
+            }
+
+            if(string.Equals(cur_color, ""))
+                text_component.text = text_displaying;
+            else
+                text_component.text = text_displaying + "</color>";
+
+            Invoke("display_text", 0.03f);
+            //Invoke("display_text", 0.1f);
+           
+            
+        }
     }
 
 

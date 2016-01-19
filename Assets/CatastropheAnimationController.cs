@@ -164,8 +164,8 @@ public class CatastropheAnimationController : MonoBehaviour {
         Explosion.SetActive(true);
         Invoke("start_fire1", 0.4f);
 
-        Invoke("start_explosion2", 1f);
-        Invoke("start_explosion3", 1.5f);
+        Invoke("start_explosion2", 0.75f);
+        Invoke("start_explosion3", 1.3f);
 
         Invoke("close_everything", 6f);
     }

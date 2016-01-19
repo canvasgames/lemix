@@ -24,7 +24,8 @@ public class TutorialController : MonoBehaviour
     void Start()
     {
         int firstGame = PlayerPrefs.GetInt("firstGame");
-        firstGame = 2;
+		
+        if (QA.s.NoTutorial == true) firstGame = 2;
 
         if (firstGame == 0)
         {
