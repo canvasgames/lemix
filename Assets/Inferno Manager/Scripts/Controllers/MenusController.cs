@@ -96,7 +96,6 @@ public class MenusController : MonoBehaviour {
             menu2Destroy = forEachFindTheMenuItself(myMenu);
             if (menu2Destroy.menuObj != null)
             {
-                Debug.Log("Destroing the menu");
                 
                 Destroy(menu2Destroy.menuObj);
 
@@ -284,11 +283,29 @@ public class MenusController : MonoBehaviour {
         }
     }
 
+
+
     void punchDown(GameObject menu)
     {
         transform.DOPunchPosition(new Vector3(0f, 2f, 0f), 0.5f, 7, 0.9f);
     }
-    #endregion        
+    #endregion
+
+    #region Adjust alpha
+    public void apearAlphaCanvasGroup(GameObject menu, string name)
+    {
+
+        addToGUIAndRepositeObject(menu, name);
+
+        //Put out of the screen
+        menu.GetComponent<CanvasGroup>().alpha = 0;
+        //.OnComplete(() => appear(menu));
+        menu.GetComponent<CanvasGroup>().DOFade(1f, 1f);
+        //Move back to the screen and call punch at the end
+
+    }
+
+    #endregion
 
     #region AdjustZOrder 
     //Just change the zorder of the menu. Call if you create a menu over the object

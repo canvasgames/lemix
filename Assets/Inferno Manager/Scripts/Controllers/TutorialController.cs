@@ -27,20 +27,23 @@ public class TutorialController : MonoBehaviour
 		
         if (QA.s.NoTutorial == true) firstGame = 2;
 
+ 
         if (firstGame == 0)
         {
             HUD.SetActive(false);
             GLOBALS.s.LOCK_CAMERA_TUTORIAL = true;
             GLOBALS.s.TUTORIAL_OCCURING     = true;
             tutorial1Timer = 2f;
-            
+
 
         }
         else
         {
             BE.SceneTown.instance.createTownHownTutorial();
+            createGate();
             BE.SceneTown.instance.CapacityCheck();
             BE.SceneTown.Gold.ChangeDelta((double)200);
+
         }
         //
         #endregion
@@ -293,7 +296,7 @@ public class TutorialController : MonoBehaviour
         GLOBALS.s.TUTORIAL_PHASE = 11;
         MenusController.s.destroyMenu("SmallScroll", null);
         GLOBALS.s.LOCK_CAMERA_TUTORIAL = true;
-        
+       
         buildings = GameObject.FindObjectsOfType(typeof(BE.Building)) as BE.Building[];
         foreach (BE.Building element in buildings)
         {
@@ -301,9 +304,10 @@ public class TutorialController : MonoBehaviour
         }
 
         tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/LevelUp"));
-        MenusController.s.enterFromRight(tempObject, "LevelUp",0,0);
+        MenusController.s.apearAlphaCanvasGroup(tempObject, "LevelUp");
+        BE.BEAudioManager.SoundPlay(10);
 
-        Invoke("createNextButton", 1);
+        Invoke("createNextButton", 2);
     }
     #endregion
 
@@ -311,9 +315,9 @@ public class TutorialController : MonoBehaviour
     //Satan talking shit about you (voce é uma merda garoto)
     public void blablaQuemEhVcNaFilaDoPao()
     {
-        GLOBALS.s.TUTORIAL_PHASE = 12;
-
         MenusController.s.destroyMenu("LevelUp", null);
+        MenusController.s.destroyMenu("ArowNext", null);
+        GLOBALS.s.TUTORIAL_PHASE = 12;
 
         tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/BigScroll"));
         MenusController.s.enterFromLeft(tempObject, "BigScroll", 0, 0);

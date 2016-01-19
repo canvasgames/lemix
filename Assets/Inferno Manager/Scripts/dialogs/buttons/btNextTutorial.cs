@@ -75,12 +75,9 @@ public class btNextTutorial : ButtonCap
             TutorialController.s.collectSoulsAgain();
 
         }
-        else if (GLOBALS.s.TUTORIAL_PHASE == 11)
+        else if(GLOBALS.s.TUTORIAL_PHASE == 11)
         {
-
-            MenusController.s.destroyMenu("ArowNext", null);
             TutorialController.s.blablaQuemEhVcNaFilaDoPao();
-
         }
         else if (GLOBALS.s.TUTORIAL_PHASE == 12)
         {

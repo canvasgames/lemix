@@ -468,9 +468,19 @@ namespace BE {
 			if((NewLevel > Level) && (Level != 0)) {
                 // show levelup notify here
                 GLOBALS.s.USER_RANK = NewLevel;
-               // GameObject tempObject;
-                //tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/LevelUp"));
-               // MenusController.s.enterFromDown(tempObject, "LevelUp", 0, 0);
+                if(GLOBALS.s.USER_RANK !=2)
+                {
+                    GameObject tempObject;
+                    tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/LevelUp"));
+                    MenusController.s.apearAlphaCanvasGroup(tempObject, "LevelUp");
+                    BEAudioManager.SoundPlay(10);
+                }
+                
+                if(GLOBALS.s.USER_RANK == 3)
+                {
+                    Application.LoadLevelAdditive("CATastrophe");
+                }
+                
             }
 			Level = NewLevel;
 			textLevel.text = NewLevel.ToString ();
