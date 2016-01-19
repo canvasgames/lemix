@@ -56,21 +56,21 @@ public class DialogsTexts : MonoBehaviour
         string text_to_display = "";
 
         if (GLOBALS.s.TUTORIAL_PHASE == 1)
-            text_to_display = "Hi, I'm <color=#fe2323>Satan!</color>  \n You've been promoted to <color=#fe2323>DEMON LORD!</color>";
+            text_to_display = "Hi, I'm <color=#fe2323>Satan!</color>\n You've been promoted to \n<color=#fe2323>DEMON LORD!</color>";
             //text_to_display = "Hi, I'm Satan!  \n You've been promoted to DEMON LORD!";
         else if (GLOBALS.s.TUTORIAL_PHASE == 2)
-            text_to_display = "You're now in charge of this area of Inferno.";
+            text_to_display = "You're now in charge of\nthis area of the Hell.\nThat's your Palace.";
         else if (GLOBALS.s.TUTORIAL_PHASE == 3)
-            text_to_display = "This is your personal <color=#fe2323>Hell'S Gate</color>. It brings dead souls from earth.";
+            text_to_display = "This is your personal\n<color=#fe2323>Hell's Gate</color>. It brings\ndead souls from earth.";
         else if (GLOBALS.s.TUTORIAL_PHASE == 4)
             text_to_display = "Tap to Collect Souls.";
         else if (GLOBALS.s.TUTORIAL_PHASE == 5)
-            text_to_display = "It seems we have nowhere to place the souls..\n What's your suggestion?\n";
+            text_to_display = "It seems we have nowhere to place the souls..\nWhat's your suggestion?";
         else if (GLOBALS.s.TUTORIAL_PHASE == 6)
-            text_to_display = "For Antichrist sake!!!\nWhy did I promoted you? \nThey deserve only  <color=#fe2323>ETERNAL PUNISHMENT!</color>";
+            text_to_display = "For Antichrist sake!!!\nWhy did I promoted you?\nThey deserve only  <color=#fe2323>ETERNAL PUNISHMENT!</color>";
         //
         else if (GLOBALS.s.TUTORIAL_PHASE == 7)
-            text_to_display = "Now lets punish this sinner souls. Tap the <color=green>Build Button</color>.";
+            text_to_display = "Now lets punish this sinner souls.\nTap the <color=green>Build Button</color>.";
         else if (GLOBALS.s.TUTORIAL_PHASE == 8)
             text_to_display = "Select one of the <color=#fe2323>Punisher Buldings!</color>";
         // text_to_display = "Hold the finger over the building and drag to replace it and Confirm.";
@@ -121,26 +121,29 @@ public class DialogsTexts : MonoBehaviour
         {
             if (string.Equals(text_final[k].ToString(), "<") == false)
             {
-                Debug.Log("CUR CHAR: " + text_final[k]);
+                //Debug.Log("CUR CHAR: " + text_final[k]);
                 text_displaying += text_final[k++];
             }
             else
             {
-                Debug.Log(" < SYMBOL!!!!!!!! ");
                 i = 0;
                 if (string.Equals(cur_color, "")) {
+                    //Debug.Log(" < SYMBOL!!!!!!!! ");
                     do
                     {
                         cur_color += text_final[k + i];
                         i++;
-                        Debug.Log("< CUR CHAR: " + text_final[k+i] + " CUR COLOR: " +cur_color);
+                       // Debug.Log("< CUR CHAR: " + text_final[k+i] + " CUR COLOR: " +cur_color);
                     } while (!string.Equals(text_final[k+i].ToString(), ">"));
 
                     k += i;
-                    text_displaying += cur_color + text_final[k++];
+                    if(k < text_final.Length)
+                        text_displaying += cur_color + text_final[k++];
                 }
                 else
                 {
+                    //Debug.Log(" > SYMBOL!");
+
                     do
                     {
                         i++;
@@ -148,7 +151,9 @@ public class DialogsTexts : MonoBehaviour
 
                     k += i+1;
                     text_displaying += "</color>";
-                    text_displaying += text_final[k++];
+
+                    if (k < text_final.Length)
+                        text_displaying += text_final[k++];
                     cur_color = "";
                 }
             }
@@ -158,10 +163,16 @@ public class DialogsTexts : MonoBehaviour
             else
                 text_component.text = text_displaying + "</color>";
 
-            Invoke("display_text", 0.03f);
+            if (k < text_final.Length)
+            {
+                if (string.Equals(text_final[k-1].ToString(), "!") || string.Equals(text_final[k-1].ToString(), ".") || string.Equals(text_final[k-1].ToString(), "?"))
+                    Invoke("display_text", 0.25f);
+                else
+                    Invoke("display_text", 0.02f);
+            }
             //Invoke("display_text", 0.1f);
-           
-            
+
+
         }
     }
 
