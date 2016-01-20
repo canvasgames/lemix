@@ -13,16 +13,35 @@ public class particlesLogic : MonoBehaviour {
 	
 	}
 
-    public void move(Transform daddy, Transform fPos, Vector3 iPos)
+    public void move(Transform daddy, Transform fPos, Vector3 iPos, int moveType, int numberOfParticles)
     {
         finalPos = fPos;
         BigD = daddy;
         initialPos = iPos;
 
         transform.position = new Vector3(initialPos.x, initialPos.y, daddy.transform.position.z);
-        transform.DOLocalMove(finalPos.transform.localPosition,1f).OnComplete(createsmoke);
+        float angle;
+        angle = (moveType * (360/ numberOfParticles)) *Mathf.Deg2Rad; 
+
+        //Debug.Log(Camera.main.orthographicSize);
+        //Debug.Log("Cos" + (-(Mathf.Cos(angle))) + "     Angle " + angledegrree);
+
+        transform.DOMoveX((-(Mathf.Cos(angle)* Mathf.Rad2Deg) * 1 * (6 / (Camera.main.orthographicSize)) ) + initialPos.x, 0.3f).OnComplete(waitForIt);
+        transform.DOMoveY((-(Mathf.Sin(angle) * Mathf.Rad2Deg) * 1 *(6 / (Camera.main.orthographicSize)) ) + initialPos.y,0.3f);
+        transform.DOScale(6 / (Camera.main.orthographicSize), 0f);
     }
 
+    void waitForIt()
+    {
+        Invoke("moveToTop", 0.3f);
+    }
+
+    void moveToTop()
+    {
+        transform.DOLocalMove(finalPos.transform.localPosition, 0.7f).OnComplete(createsmoke);
+        transform.DOScale(0.7f, 0.5f);
+
+    }
     void createsmoke()
     {
 
@@ -49,13 +68,19 @@ public class particlesLogic : MonoBehaviour {
 
     void destroySmoke()
     {
-        
-        Destroy(puft);
+        Destroy(puft,0f);
     } 
 
 // Update is called once per frame
     void Update ()
     {
 
+    }
+
+    public void moveCatrastofe()
+    {
+        GameObject finalPos = GameObject.Find("ElixirIcon");
+        transform.DOMove(finalPos.transform.position, 1f);
+        transform.DOScale(0.7f, 0.7f);
     }
 }

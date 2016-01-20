@@ -38,7 +38,7 @@ public class CloseBT : MonoBehaviour {
 
     public void destroyMenu()
     {
-        Debug.Log("queeeeeeeeeeeeee");
+
         MenusController.s.destroyMenu("", myFather);
     }
 }

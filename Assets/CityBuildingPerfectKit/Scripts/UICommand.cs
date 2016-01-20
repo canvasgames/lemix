@@ -374,10 +374,11 @@ namespace BE {
 
 			// if newly create building was selected 
 			if(building.OnceLanded == false) {
-				// only show 'create','cancel' button
-				AddButton(Resources.Load<Sprite>("Icons/CheckedMark"), "Ok", PayType.None, 0, CommandType.Create);
+                // only show 'create','cancel' button
                 if (GLOBALS.s.TUTORIAL_PHASE != 9 && GLOBALS.s.TUTORIAL_PHASE != 16)
-				    AddButton(Resources.Load<Sprite>("Icons/Multiplication"), "Cancel", PayType.None, 0, CommandType.CreateCancel);
+                    AddButton(Resources.Load<Sprite>("Icons/Multiplication"), "Cancel", PayType.None, 0, CommandType.CreateCancel);
+                AddButton(Resources.Load<Sprite>("Icons/CheckedMark"), "Ok", PayType.None, 0, CommandType.Create);
+           
 			}
 			else {
 

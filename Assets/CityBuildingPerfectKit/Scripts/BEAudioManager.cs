@@ -41,7 +41,7 @@ namespace BE {
 			AudioSourcePool.Clear();
 
 			// we create 100 instance of audio source for pooling
-			for(int i=0 ; i < 100 ; ++i) {
+			for(int i=0 ; i < 5 ; ++i) {
 				AudioSource aS = (AudioSource)gameObject.AddComponent<AudioSource>();	
 				aS.loop = false;
 				AudioSourcePool.Add(aS);

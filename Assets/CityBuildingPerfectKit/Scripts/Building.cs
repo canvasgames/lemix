@@ -128,7 +128,8 @@ namespace BE {
 		[HideInInspector]
 		public 	List<GenQueItem>	queUnitGen = new List<GenQueItem>();
 
-        GameObject myPart;
+        List<GameObject> myParticles = new List<GameObject>();
+
         GameObject bigDaddy, finalPos;
         bool appearedCollectIcon = false;
         string textColor = "";
@@ -619,7 +620,7 @@ namespace BE {
                 if (AllProduction < CapacityTotal)
                 {
 
-                    initializeTxtAndParticle();
+                    initializeTxtAndParticle(Production);
 
                     //Verify if the production exceeded the capacity
                     if (AllProduction + Production <= CapacityTotal)
@@ -657,22 +658,37 @@ namespace BE {
             }
 		}
 
-        void initializeTxtAndParticle()
+        void initializeTxtAndParticle(float production)
         {
+            int i;
+            int count = (int)(production / 10);
+
+            if(count <4)
+            {
+                count = 4;
+            }
+
             textColor = "";
             if (def.eProductionType == PayType.Elixir)
             {
                 SceneTown.Elixir.ChangeDelta((double)Production);
                 textColor = "<color=purple>";
                 finalPos = GameObject.Find("LabelElixir");
-                myPart = (GameObject)Instantiate(Resources.Load("Prefabs/Elixir"));
+                for (i=0; i<count; i++)
+                {
+                    myParticles.Add((GameObject)Instantiate(Resources.Load("Prefabs/Elixir")));
+                }
+                
             }
             else if(def.eProductionType == PayType.Gold)
             {
                 SceneTown.Gold.ChangeDelta((double)Production);
                 textColor = "<color=orange>";
                 finalPos = GameObject.Find("LabelGold");
-                myPart = (GameObject)Instantiate(Resources.Load("Prefabs/Gold"));
+                for (i = 0; i < count; i++)
+                {
+                    myParticles.Add((GameObject)Instantiate(Resources.Load("Prefabs/Gold")));
+                }
             }
             SceneTown.instance.CapacityCheck();
 
@@ -682,26 +698,34 @@ namespace BE {
         {
             
             appearedCollectIcon = false;
-
+            int particlesQuant = myParticles.Count;
+            int i;
             //Particle moving
             // Create the particle off collect
             bigDaddy = GameObject.Find("Canvas");
            
-            myPart.transform.SetParent(bigDaddy.transform, false);
-            myPart.transform.localPosition = transform.localPosition;
+            for(i=0;i<particlesQuant;i++)
+            {
+                myParticles[i].transform.SetParent(bigDaddy.transform, false);
+                myParticles[i].transform.localPosition = transform.localPosition;
+               Vector2 screenPoint = RectTransformUtility.WorldToScreenPoint(Camera.main, transform.position);
+
+                Vector3 initialpos = new Vector3(screenPoint.x, screenPoint.y, bigDaddy.transform.position.z);
+                myParticles[i].GetComponent<particlesLogic>().move(bigDaddy.transform, finalPos.transform, initialpos, i, particlesQuant);
+            }
+
+            myParticles.Clear();
 
 
-            Vector2 screenPoint = RectTransformUtility.WorldToScreenPoint(Camera.main, transform.position);
-
-            Vector3 initialpos = new Vector3(screenPoint.x, screenPoint.y, bigDaddy.transform.position.z);
-            myPart.GetComponent<particlesLogic>().move(bigDaddy.transform, finalPos.transform, initialpos);
 
 
             // show collect ui to show how many resources was collected
             UICollect script = UIInGame.instance.AddInGameUI(prefUICollect, transform, new Vector3(0, 1.5f, 0)).GetComponent<UICollect>();
             script.Name.text = textColor + ((int)discountValue).ToString() + "</color>";
             script.Init(transform, new Vector3(0, 1.0f, 0));
-
+            float scale = (12 / (Camera.main.orthographicSize));
+    
+            script.transform.localScale = new Vector3(scale, scale, scale);
             // reset values related to production
 
             Production = Production - discountValue;
@@ -720,8 +744,11 @@ namespace BE {
 
         void fullTxt()
         {
+            
             UICollect script = UIInGame.instance.AddInGameUI(prefUICollect, transform, new Vector3(0, 1.5f, 0)).GetComponent<UICollect>();
             script.Name.text = ("FULL!");
+            float scale = (12 / (Camera.main.orthographicSize));
+            script.transform.localScale = new Vector3(scale, scale, scale);
             script.Init(transform, new Vector3(0, 1.0f, 0));
 
         }
