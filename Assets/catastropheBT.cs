@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class catastropheBT : MonoBehaviour {
 
@@ -17,8 +18,8 @@ public class catastropheBT : MonoBehaviour {
     {
         if (GLOBALS.s.TUTORIAL_OCCURING == false && GLOBALS.s.DIALOG_ALREADY_OPENED == false)
         {
-            Application.LoadLevelAdditive("CATastrophe");
-       
+            //Application.LoadLevelAdditive("CATastrophe");
+            SceneManager.LoadSceneAsync("CATastrophe");
         }
         
     }
