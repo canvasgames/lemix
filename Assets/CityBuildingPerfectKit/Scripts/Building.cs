@@ -177,7 +177,7 @@ namespace BE {
                     if (GLOBALS.s.TUTORIAL_PHASE == 4)
                         Production = 100;
                     else if(GLOBALS.s.TUTORIAL_PHASE == 17 && def.eProductionType == PayType.Gold)
-                        Production = 100;
+                        Production = 1000;
 
                 }
                 else

@@ -94,7 +94,7 @@ public class DialogsTexts : MonoBehaviour
         else if (GLOBALS.s.TUTORIAL_PHASE == 17)
             text_to_display = "Tap to collect Hellfire";
         else if (GLOBALS.s.TUTORIAL_PHASE == 18)
-            text_to_display = "That's it <color=blue>Mr. Holiness</color>!\n\n Keep building and upgrading your buildings! Acquire souls to Level Up and be respected. \n\n  I will check your progress later.";
+            text_to_display = "Acceptable work, <color=blue>Mr Holiness</color>!\n\n Keep building and upgrading your buildings! Acquire souls to Level Up and be respected. \n\n  I will check your progress later.";
         else if (GLOBALS.s.TUTORIAL_PHASE == 21)
             text_to_display = "Select the Resources Tab";
         else if (GLOBALS.s.TUTORIAL_PHASE == 25)

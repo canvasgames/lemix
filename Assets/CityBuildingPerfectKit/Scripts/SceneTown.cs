@@ -13,6 +13,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Xml;
 using System.Xml.Serialization;
+using DG.Tweening;
 
 ///-----------------------------------------------------------------------------------------
 ///   Namespace:      BE
@@ -43,6 +44,15 @@ namespace BE {
 		public	bool 		camPanningUse = true;
 		public 	BEGround 	ground=null;
 		private	bool 		Dragged = false;
+        private bool        cameraStopping = false;
+
+        public float cameraStopSpeed = 0.5f;
+        public float cameraSpeed = 0.05f;
+        private float avgx;
+        private float avgy;
+        private Vector3 avgDist;
+
+        private float lastMoveTime = 0;
 
         /*private float 		zoomMax = 128;
 		private float 		zoomMin = 16;
@@ -54,9 +64,9 @@ namespace BE {
         private float zoomMin = 3;
         private float zoomCurrent = 8;
 
-        private float perspectiveZoomSpeed = 0.1f;
+        private float perspectiveZoomSpeed = 0.3f;
         //public	float 		perspectiveZoomSpeed = 0.0001f;	// The rate of change of the field of view in perspective mode.
-		public	float 		orthoZoomSpeed = 0.5f;   		// The rate of change of the orthographic size in orthographic mode.
+		public	float 		orthoZoomSpeed = 1f;   		// The rate of change of the orthographic size in orthographic mode.
 
 		[HideInInspector]
 		public	Plane 		xzPlane;
@@ -235,7 +245,10 @@ namespace BE {
 					Dragged = false;
 					mousePosOld = Input.mousePosition;
 					mousePosLast = Input.mousePosition;
-					vCamRootPosOld = goCameraRoot.transform.position;
+                    avgx = 0;
+                    avgy = 0;
+                    avgDist = new Vector3(0,0,0);
+                    vCamRootPosOld = goCameraRoot.transform.position;
 
 					//when a building was selected and user drag mouse on the map
 					//check mouse drag start is over selected building or not
@@ -257,9 +270,10 @@ namespace BE {
                 #region Camera Movement holding button
                 else
                 {
-					//Mouse Button is in pressed 
-					//if mouse move certain diatance
-					if(Vector3.Distance (Input.mousePosition,mousePosLast) > 0.01f) {
+                    //Mouse Button is in pressed 
+                    //if mouse move certain diatance
+                    
+                    if (Vector3.Distance (Input.mousePosition,mousePosLast) > 0.01f) {
 
 						// set drag flag on
 						if(!Dragged) {
@@ -272,7 +286,13 @@ namespace BE {
 							}
 						}
 
-						mousePosLast = Input.mousePosition;
+                        avgx =  Math.Abs(Input.mousePosition.x - mousePosLast.x)/ 2;
+                        avgy =  Math.Abs(Input.mousePosition.y - mousePosLast.y)/ 2;
+                        if (avgDist.x == 0 && avgDist.y == 0) avgDist = Input.mousePosition - mousePosLast;
+                        else avgDist = (avgDist + Input.mousePosition - mousePosLast) / 2;
+                        mousePosLast = Input.mousePosition;
+                        
+                        
 
 						// if selected building exist
 						if((buildingSelected != null) && (MouseClickedBuilding == buildingSelected)) {
@@ -285,19 +305,24 @@ namespace BE {
 						}
 						// else camera panning
 						else {
-							if(camPanningUse) {
-								Vector3 vDelta = (Input.mousePosition - mousePosOld) * 0.008f;
-								Vector3 vForward = goCameraRoot.transform.forward; 	vForward.y = 0.0f; vForward.Normalize();
-								Vector3 vRight = goCameraRoot.transform.right; 		vRight.y = 0.0f; vRight.Normalize();
-								Vector3 vMove = -vForward * vDelta.y + -vRight * vDelta.x;
-								goCameraRoot.transform.position = vCamRootPosOld + vMove;
-							}
+                            Vector3 vDelta = (Input.mousePosition - mousePosOld) * cameraSpeed;
+                            Vector3 vForward = goCameraRoot.transform.forward; vForward.y = 0.0f; vForward.Normalize();
+                            Vector3 vRight = goCameraRoot.transform.right; vRight.y = 0.0f; vRight.Normalize();
+                            Vector3 vMove = -vForward * vDelta.y + -vRight * vDelta.x;
+                            goCameraRoot.transform.position = vCamRootPosOld + vMove;
+
+                            lastMoveTime = Time.time;
+                            Debug.Log(" DRAGGIN! lastMoveTime: " + lastMoveTime + " mousePosLast: " + mousePosLast + " AVGX: " +avgx + " AVGY: "+ avgy + " | AVGDIST: " + avgDist);
+                            
 						}
 					}
 					// Not Move
 					else {
+                        avgx = 0;
+                        avgy = 0;
+                        avgDist = new Vector3(0,0,0);
 
-						if(!Dragged) {
+                        if (!Dragged) {
 							ClickAfter += Time.deltaTime;
 							if(!bTemporarySelect && (ClickAfter > 0.5f)) {
 								bTemporarySelect = true;
@@ -318,14 +343,13 @@ namespace BE {
 
 				//Release MouseButton
 				if(bInTouch) {
+                    Debug.Log("b in touch");
 					bInTouch = false;
-
 					// if in drag state
 					if(Dragged) {
-
+                        Debug.Log("DRAGGED STATE");
 						// seleted building exist
 						if(buildingSelected != null) {
-
 							// hide tile grid
 							if(MouseClickedBuilding == buildingSelected) 
 								BETween.alpha(ground.gameObject, 0.1f, 0.3f, 0.0f);
@@ -337,7 +361,66 @@ namespace BE {
                             }
 								
 						}
-					}
+
+                        //camera was moving!! slowdown its movement
+                        else
+                        {
+                            float timeDif = Time.time - lastMoveTime;
+                            Debug.Log("cameraStopping? "+ cameraStopping+ " timeDif "+ timeDif);
+
+                            if (!cameraStopping && timeDif < 1f && timeDif > 0)
+                            {
+                                /*
+                                float dist = Vector3.Distance(Input.mousePosition, mousePosLast);
+                                float directionX, directionY;
+                                //float curVelocityX = Math.Abs(Input.mousePosition.x - mousePosLast.x) * timeDif;
+                                //float curVelocityX = Math.Abs(Input.mousePosition.x - mousePosLast.x) * timeDif;
+                                float curVelocityX = avgx;
+                                float curVelocityY = avgy;
+                                if (Input.mousePosition.x > mousePosLast.x) directionX = -1f; else directionX = 1f;
+                                if (Input.mousePosition.y > mousePosLast.y) directionY = -1f; else directionY = 1f;
+                                float newX = goCameraRoot.transform.position.x + curVelocityX * cameraStopSpeed * directionX;
+                                float newY = goCameraRoot.transform.position.z + curVelocityY * cameraStopSpeed * directionY;
+
+                                
+                                Debug.Log("avgx: " + avgx + " avgy " + avgy);
+                                Debug.Log("dist: " + dist + " Vx " + (curVelocityX) + " Vy: " + (curVelocityY) + " | xDif: " + (Input.mousePosition.x - mousePosLast.x) + " yDif: "+ (Input.mousePosition.y - mousePosLast.y));
+                                Debug.Log("dict x: " + directionX + " dict y " + directionY);
+                                Debug.Log("Camera x: " + goCameraRoot.transform.position.x + " x target: " + newX + " | Camera Y: " + goCameraRoot.transform.position.z + " target y: " + newY);
+                                cameraStopping = true;
+                                goCameraRoot.transform.DOMove(new Vector3(newX, 0, newY), 0.5f).SetEase(Ease.OutQuad).OnComplete(() => cameraStopping = false);
+
+                                avgx = 0;
+                                avgy = 0;
+                                // Debug.Log("CAMERA STOPPING START. time dif: " + (Time.deltaTime - lastMoveTime) + " vDelta: " + curVelocity);
+                                */
+
+                                if (avgDist.x == 0 && avgDist.y == 0) avgDist = Input.mousePosition - mousePosLast;
+                                else avgDist = (avgDist + Input.mousePosition - mousePosLast) / 2;
+                                //avgDist =  Input.mousePosition - mousePosLast;
+                                Debug.Log("AVGDIST: " + avgDist + "| LastmouseX: " + mousePosLast.x + " lastMouseY : " + mousePosLast.y + " MouseX: " + Input.mousePosition.x + " MouseY: " + Input.mousePosition.y + " LastMousePosZ: " + mousePosLast.z + " MouseZ " + Input.mousePosition.z);
+
+                                Vector3 vDelta = avgDist * cameraStopSpeed;
+                                Vector3 vForward = goCameraRoot.transform.forward;
+                                vForward.y = 0.0f;
+                                vForward.Normalize();
+
+                                Vector3 vRight = goCameraRoot.transform.right;
+                                vRight.y = 0.0f;
+                                vRight.Normalize();
+
+                                Vector3 vMove = -vForward * vDelta.y + -vRight * vDelta.x;
+                                goCameraRoot.transform.DOMove(goCameraRoot.transform.position + vMove, 0.5f).SetEase(Ease.OutQuad).OnComplete(() => cameraStopping = false);
+                                Debug.Log(" CamXold: " + vCamRootPosOld.x + " CamZold : " + vCamRootPosOld.z );
+                                Debug.Log("CamTrueX: " + goCameraRoot.transform.position.x + " CamTruY: " + goCamera.transform.position.z );
+                                Debug.Log(" VMoveX:  " + vMove.x + " VMoveZ:  " + vMove.z);
+
+                                //goCameraRoot.transform.position = vCamRootPosOld + vMove;
+
+                            }
+                        }
+                    }
+                    //unselect building
 					else {
                         Debug.Log("Unselect temporary? ");
 						if(bTemporarySelect) {
@@ -345,7 +428,7 @@ namespace BE {
 							if((buildingSelected != null) && (MouseClickedBuilding != buildingSelected) && buildingSelected.OnceLanded)
                             {
 
-                                Debug.Log("eu chamei 3");
+                                Debug.Log("landing building?");
                                 BuildingLandUnselect(false);
                             }
 								
@@ -354,7 +437,8 @@ namespace BE {
 							// land building
 							if((buildingSelected != null) && (MouseClickedBuilding != buildingSelected) && buildingSelected.OnceLanded)
                             {
-                                Debug.Log("eu chamei 4");
+                                Debug.Log("landing building2?");
+                               
                                 BuildingLandUnselect(true);
                             }
 								
