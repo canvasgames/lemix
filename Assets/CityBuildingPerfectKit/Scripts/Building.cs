@@ -613,7 +613,6 @@ namespace BE {
 		// collect resources
 		public void Collect() {
 
-
             if ((GLOBALS.s.TUTORIAL_OCCURING == false || GLOBALS.s.TUTORIAL_PHASE == 4 || GLOBALS.s.TUTORIAL_PHASE == 11 || (GLOBALS.s.TUTORIAL_PHASE == 17 && def.eProductionType == PayType.Gold)))
             {
                 defineCapacityTotalAndAllProduction();

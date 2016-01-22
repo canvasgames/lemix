@@ -38,8 +38,8 @@ namespace BE {
 
 		// when user clicked collect dialog
 		public void OnButtonCollect() {
-
-           if(GLOBALS.s.LOCK_CAMERA_TUTORIAL == false)
+            Debug.Log("aaaaaaaaaaaa" + GLOBALS.s.TUTORIAL_PHASE);
+            if (GLOBALS.s.LOCK_CAMERA_TUTORIAL == false)
             {
 
                 // do collect

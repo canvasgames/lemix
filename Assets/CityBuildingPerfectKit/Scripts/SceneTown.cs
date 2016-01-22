@@ -233,7 +233,7 @@ namespace BE {
 
             #region Camera Movement on Mouse button down
             if (Input.GetMouseButton(0)) {
-
+                Debug.Log("asdas");
 				if (EventSystem.current.IsPointerOverGameObject() || GLOBALS.s.LOCK_CAMERA_TUTORIAL == true || (GLOBALS.s.DIALOG_ALREADY_OPENED == true && GLOBALS.s.TUTORIAL_OCCURING == false)) {
                     return;
 				}
