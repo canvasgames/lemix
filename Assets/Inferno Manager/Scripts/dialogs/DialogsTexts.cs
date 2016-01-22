@@ -48,16 +48,17 @@ public class DialogsTexts : MonoBehaviour
     }
     void destroy()
     {
-  
         MenusController.s.destroyMenu("", transform.parent.gameObject);
     }
     public void changeText()
     {
         string text_to_display = "";
-
+        Debug.Log("CHANGE TEXT CALLED");
         if (GLOBALS.s.TUTORIAL_PHASE == 1)
-            text_to_display = "Hi, I'm <color=#fe2323>Satan!</color>\n You've been promoted to \n<color=#fe2323>DEMON LORD!</color>";
-            //text_to_display = "Hi, I'm Satan!  \n You've been promoted to DEMON LORD!";
+            text_to_display = "That was quite an entrance, right?";
+        //text_to_display = "Hi, I'm Satan!  \n You've been promoted to DEMON LORD!";
+        else if (GLOBALS.s.TUTORIAL_PHASE == 101)
+            text_to_display = "Back to business then.\nI'm promoting you to \n<color=#fe2323>Demon Lord!</color>";
         else if (GLOBALS.s.TUTORIAL_PHASE == 2)
             text_to_display = "You're now in charge of\nthis area of the Hell.\nThat's your Palace.";
         else if (GLOBALS.s.TUTORIAL_PHASE == 3)
@@ -67,7 +68,7 @@ public class DialogsTexts : MonoBehaviour
         else if (GLOBALS.s.TUTORIAL_PHASE == 5)
             text_to_display = "It seems we have nowhere to place the souls..\nWhat's your suggestion?";
         else if (GLOBALS.s.TUTORIAL_PHASE == 6)
-            text_to_display = "For Antichrist sake!!!\nWhy did I promoted you?\nThey deserve only  <color=#fe2323>ETERNAL PUNISHMENT!</color>";
+            text_to_display = "For Antichrist sake!\nWhy did I promoted you?\nThey deserve only  <color=#fe2323>ETERNAL PUNISHMENT!</color>";
         //
         else if (GLOBALS.s.TUTORIAL_PHASE == 7)
             text_to_display = "Now lets punish this sinner souls.\nTap the <color=green>Build Button</color>.";
@@ -107,73 +108,11 @@ public class DialogsTexts : MonoBehaviour
         myText.GetComponentInChildren<Text>().text = "";
         cur_color = "";
         text_component = myText.GetComponentInChildren<Text>();
-        Invoke("display_text", 0.2f);
+        //Invoke("display_text", 0.2f);
+        TextWriter.s.write_text(text_component, text_final);
     }
 
-    public void display_text()
-    {
-         
-        
-        int i = 0;
-        //if (string.Equals("a", "a") )Debug.Log("AAAAAAAAAAAAAAA");
-        if (k < text_final.Length)
-        {
-            if (string.Equals(text_final[k].ToString(), "<") == false)
-            {
-                //Debug.Log("CUR CHAR: " + text_final[k]);
-                text_displaying += text_final[k++];
-            }
-            else
-            {
-                i = 0;
-                if (string.Equals(cur_color, "")) {
-                    //Debug.Log(" < SYMBOL!!!!!!!! ");
-                    do
-                    {
-                        cur_color += text_final[k + i];
-                        i++;
-                       // Debug.Log("< CUR CHAR: " + text_final[k+i] + " CUR COLOR: " +cur_color);
-                    } while (!string.Equals(text_final[k+i].ToString(), ">"));
-
-                    k += i;
-                    if(k < text_final.Length)
-                        text_displaying += cur_color + text_final[k++];
-                }
-                else
-                {
-                    //Debug.Log(" > SYMBOL!");
-
-                    do
-                    {
-                        i++;
-                    } while (!string.Equals(text_final[k+i].ToString(), ">"));
-
-                    k += i+1;
-                    text_displaying += "</color>";
-
-                    if (k < text_final.Length)
-                        text_displaying += text_final[k++];
-                    cur_color = "";
-                }
-            }
-
-            if(string.Equals(cur_color, ""))
-                text_component.text = text_displaying;
-            else
-                text_component.text = text_displaying + "</color>";
-
-            if (k < text_final.Length)
-            {
-                if (string.Equals(text_final[k-1].ToString(), "!") || string.Equals(text_final[k-1].ToString(), ".") || string.Equals(text_final[k-1].ToString(), "?"))
-                    Invoke("display_text", 0.25f);
-                else
-                    Invoke("display_text", 0.02f);
-            }
-            //Invoke("display_text", 0.1f);
-
-
-        }
-    }
+    
 
 
 }

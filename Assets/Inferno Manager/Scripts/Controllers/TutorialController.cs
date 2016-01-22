@@ -23,6 +23,7 @@ public class TutorialController : MonoBehaviour
     #region Start And First Tutorial Flag
     void Start()
     {
+
         int firstGame = PlayerPrefs.GetInt("firstGame");
 		
         if (QA.s.NoTutorial == true) firstGame = 2;
@@ -33,8 +34,9 @@ public class TutorialController : MonoBehaviour
             HUD.SetActive(false);
             GLOBALS.s.LOCK_CAMERA_TUTORIAL = true;
             GLOBALS.s.TUTORIAL_OCCURING     = true;
-            tutorial1Timer = 2f;
-
+            SatanController.s.start_entering(1.4f);
+            //tutorial1Timer = 2f;
+            // 
 
         }
         else
@@ -53,39 +55,46 @@ public class TutorialController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
-        if (tutorial1Timer > 0)
-        {
-            tutorial1Timer -= Time.deltaTime;
-            if (tutorial1Timer <= 0)
-            {
-                tutorial1();
-                tutorial1Timer = 0;
-            }
-
-        }
     }
     #endregion
 
     #region Tutorial Phase 1 Welcome
+
+    public void startTutorial()
+    {
+        Invoke("tutorial1", 1f);
+    }
     //Hi i'm Satan msg
-    void tutorial1()
+    public void tutorial1()
     {
         GLOBALS.s.TUTORIAL_PHASE = 1;
-        
-        
-        tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/SmallScroll"));
-        MenusController.s.enterFromRight(tempObject, "SmallScroll", 0,0);
-
+        Debug.Log("TUTORIAL PHASE 1");
         tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/Welcome"));
         MenusController.s.enterFromUp(tempObject, "Welcome", 0, 0);
+        Invoke("tutorial1EnterOtherStuff", 0.5f);
+    }
 
-        tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/Satan"));
-        MenusController.s.enterFromLeft(tempObject, "Satan",0,0);
+    public void tutorial1EnterOtherStuff()
+    {
+        tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/SmallScroll"));
+        MenusController.s.enterFromRight(tempObject, "SmallScroll", 0, 0);
+
+        //tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/Satan"));
+        tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/SatanProud"));
+        MenusController.s.enterFromLeft(tempObject, "Satan", 0, 0);
+        Invoke("createNextButton", 2f);
+    }
+
+    public void tutorial1Clicked101()
+    {
+        Debug.Log("TUTORIAL PHASE 101");
+        GLOBALS.s.TUTORIAL_PHASE = 101;
+        MenusController.s.destroyMenu("Welcome", null);
+
+        fscreen = GameObject.FindObjectsOfType(typeof(DialogsTexts)) as DialogsTexts[];
+        fscreen[0].closeAndReopen();
+    
         Invoke("createNextButton", 2);
-
-   
-
     }
     #endregion
 
@@ -93,8 +102,7 @@ public class TutorialController : MonoBehaviour
     //Constrcut the Town Hall
     public void tutorial1Clicked()
     {
-        GLOBALS.s.TUTORIAL_PHASE = 2;
-        MenusController.s.destroyMenu("Welcome", null);
+        GLOBALS.s.TUTORIAL_PHASE = 2;;
 
         fscreen = GameObject.FindObjectsOfType(typeof(DialogsTexts)) as DialogsTexts[];
         fscreen[0].closeAndReopen();
@@ -145,9 +153,6 @@ public class TutorialController : MonoBehaviour
         {
             element.activateHandTutorialUI(4);
         }
-
-        
-
     }
     #endregion
 

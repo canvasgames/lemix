@@ -7,7 +7,7 @@ public class btNextTutorial : ButtonCap
     // Use this for initialization
     void Start()
     {
-
+        Debug.Log("ARROW CREATED! TIME: " + Time.time);
     }
 
     // Update is called once per frame
@@ -26,7 +26,6 @@ public class btNextTutorial : ButtonCap
             }
         }
 
-
     }
 
     public override void ActBT()
@@ -34,6 +33,13 @@ public class btNextTutorial : ButtonCap
         base.ActBT();
         if(GLOBALS.s.TUTORIAL_PHASE == 1)
         {
+            Debug.Log("TUTO 101 CLICKED " + Time.time);
+            MenusController.s.destroyMenu("ArowNext", null);
+            TutorialController.s.tutorial1Clicked101();
+        }
+        else if (GLOBALS.s.TUTORIAL_PHASE == 101)
+        {
+            Debug.Log("TUTO SDASDASD CLICKED" + Time.time);
             MenusController.s.destroyMenu("ArowNext", null);
             TutorialController.s.tutorial1Clicked();
         }

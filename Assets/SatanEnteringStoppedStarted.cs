@@ -3,9 +3,11 @@ using System.Collections;
 
 public class SatanEnteringStoppedStarted : StateMachineBehaviour {
 
-    void OnStateEnter()
+    void OnStateExit()
     {
-        SatanController.s.satan_finished_appearing();
+        SatanController.s.satan_vanished();
+        //AnimatorStateInfo a;
+        //a.
     }
      // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
      //override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
