@@ -14,6 +14,7 @@ using System.Text;
 using System.Xml;
 using System.Xml.Serialization;
 using DG.Tweening;
+using UnityEngine.SceneManagement;
 
 ///-----------------------------------------------------------------------------------------
 ///   Namespace:      BE
@@ -562,7 +563,8 @@ namespace BE {
                 
                 if(GLOBALS.s.USER_RANK == 3)
                 {
-                    Application.LoadLevelAdditive("CATastrophe");
+                    GLOBALS.s.DIALOG_ALREADY_OPENED = true;
+                    SceneManager.LoadScene("CATastrophe", LoadSceneMode.Additive);
                 }
                 
             }

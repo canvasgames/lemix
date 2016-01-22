@@ -18,7 +18,8 @@ public class particlesLogic : MonoBehaviour {
         finalPos = fPos;
         BigD = daddy;
         initialPos = iPos;
-
+        Debug.Log(finalPos.transform.position);
+        Debug.Log(finalPos.transform.position);
         transform.position = new Vector3(initialPos.x, initialPos.y, daddy.transform.position.z);
         float angle;
         angle = (moveType * (360/ numberOfParticles)) *Mathf.Deg2Rad; 
@@ -38,7 +39,7 @@ public class particlesLogic : MonoBehaviour {
 
     void moveToTop()
     {
-        transform.DOLocalMove(finalPos.transform.localPosition, 0.7f).OnComplete(createsmoke);
+        transform.DOMove(finalPos.transform.position, 0.7f).OnComplete(createsmoke);
         transform.DOScale(0.7f, 0.5f);
 
     }

@@ -5,7 +5,7 @@ using System.Collections;
 
 public class CatastropheAnimationController : MonoBehaviour {
 
-    static CatastropheAnimationController s;
+   public static CatastropheAnimationController s;
 
     public GameObject WarningAlert;
 
@@ -33,7 +33,7 @@ public class CatastropheAnimationController : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        GLOBALS.s.TUTORIAL_OCCURING = true;
+        GLOBALS.s.DIALOG_ALREADY_OPENED = true;
         s = this;
         WarningAlert.SetActive(false);
         TvFrame.SetActive(false);

@@ -113,7 +113,6 @@ public class DialogsTexts : MonoBehaviour
     public void display_text()
     {
          
-        string str = "";
         
         int i = 0;
         //if (string.Equals("a", "a") )Debug.Log("AAAAAAAAAAAAAAA");

@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using DG.Tweening;
+using UnityEngine.SceneManagement;
 
 public class collectSouls : MonoBehaviour {
     public GameObject allObjects, souls;
@@ -34,12 +35,12 @@ public class collectSouls : MonoBehaviour {
 
     void destroy()
     {
-        GLOBALS.s.TUTORIAL_OCCURING = false;
+        GLOBALS.s.DIALOG_ALREADY_OPENED = false;
         MenusController.s.destroyMenu("WarningEnteringAnimation", null);
         MenusController.s.destroyMenu("TvStaticEnteringAnimation", null);
         MenusController.s.destroyMenu("TvEnteringAnimation", null);
         MenusController.s.destroyMenu("WarningEnteringAnimation", null);
         MenusController.s.destroyMenu("WarningEnteringAnimation", null);
-        Application.UnloadLevel("CATastrophe");
+        SceneManager.UnloadScene("CATastrophe");
     }
 }

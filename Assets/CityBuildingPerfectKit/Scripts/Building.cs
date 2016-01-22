@@ -673,7 +673,7 @@ namespace BE {
             {
                 SceneTown.Elixir.ChangeDelta((double)Production);
                 textColor = "<color=purple>";
-                finalPos = GameObject.Find("LabelElixir");
+                finalPos = GameObject.Find("ElixirIcon");
                 for (i=0; i<count; i++)
                 {
                     myParticles.Add((GameObject)Instantiate(Resources.Load("Prefabs/Elixir")));
@@ -684,7 +684,7 @@ namespace BE {
             {
                 SceneTown.Gold.ChangeDelta((double)Production);
                 textColor = "<color=orange>";
-                finalPos = GameObject.Find("LabelGold");
+                finalPos = GameObject.Find("GoldIcon");
                 for (i = 0; i < count; i++)
                 {
                     myParticles.Add((GameObject)Instantiate(Resources.Load("Prefabs/Gold")));
