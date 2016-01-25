@@ -256,6 +256,11 @@ namespace BE {
 			return bt.MaxCount[buildingTown.Level-1];
 		}
 
+        public int GetTownHallLevel()
+        {
+            Building buildingTown = Buildings[0][0];
+            return buildingTown.Level;
+        }
 		// create new building with type and level
 		public Building BuildingAdd(int type, int level) {
 			//Debug.Log ("BEGround::BuildingAdd");

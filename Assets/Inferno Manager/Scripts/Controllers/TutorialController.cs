@@ -92,7 +92,7 @@ public class TutorialController : MonoBehaviour
     {
         Debug.Log("TUTORIAL PHASE 101");
         GLOBALS.s.TUTORIAL_PHASE = 101;
-        MenusController.s.destroyMenu("Welcome", null);
+        MenusController.s.goOutDestroy("Welcome", null,"up");
 
         fscreen = GameObject.FindObjectsOfType(typeof(DialogsTexts)) as DialogsTexts[];
         fscreen[0].closeAndReopen();
@@ -217,7 +217,7 @@ public class TutorialController : MonoBehaviour
         GLOBALS.s.LOCK_CAMERA_TUTORIAL = false;
         fscreen = GameObject.FindObjectsOfType(typeof(DialogsTexts)) as DialogsTexts[];
         fscreen[0].closeAndReopen();
-        MenusController.s.repositeMenu("SmallScroll", null, 252, 224);
+        MenusController.s.repositeMenu("SmallScroll", null, 252, 154);
         tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/DownArrow"));
         MenusController.s.enterFromRight(tempObject, "DownArrow", 0, 0);
         HUD.SetActive(true);
@@ -235,7 +235,7 @@ public class TutorialController : MonoBehaviour
         fscreen[0].closeAndReopen();
         MenusController.s.destroyMenu("Satan", null);
         MenusController.s.destroyMenu("DownArrow", null);
-        MenusController.s.repositeMenu("SmallScroll", null, 0f, 240f);
+        MenusController.s.repositeMenu("SmallScroll", null, 0f, 181f);
         //Invoke("createNextButton", 2);
 
     }
@@ -271,7 +271,7 @@ public class TutorialController : MonoBehaviour
         script.initHandSoulsTutorial();
 
         tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/SmallScroll"));
-        MenusController.s.enterFromRight(tempObject, "SmallScroll", -292f, -185f);
+        MenusController.s.enterFromRight(tempObject, "SmallScroll", -292f, -113f);
 
         //fscreen = GameObject.FindObjectsOfType(typeof(DialogsTexts)) as DialogsTexts[];
         // fscreen[0].closeAndReopen();
@@ -293,7 +293,7 @@ public class TutorialController : MonoBehaviour
 
         fscreen = GameObject.FindObjectsOfType(typeof(DialogsTexts)) as DialogsTexts[];
         fscreen[0].closeAndReopen();
-        MenusController.s.repositeMenu("SmallScroll", null, 0f, 240f);
+        MenusController.s.repositeMenu("SmallScroll", null, -101f, 155f);
 
         ChickenController.s.start_animation();
     }
@@ -391,7 +391,7 @@ public class TutorialController : MonoBehaviour
         MenusController.s.destroyMenu("BigScroll", null);
         
         tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/SmallScroll"));
-        MenusController.s.enterFromRight(tempObject, "SmallScroll", 238f, 80f);
+        MenusController.s.enterFromRight(tempObject, "SmallScroll", -223f, 169f);
 
         tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/SatanHand"));
         MenusController.s.addToGUIAndRepositeObject(tempObject, "SatanHand");
@@ -438,7 +438,7 @@ public class TutorialController : MonoBehaviour
 
         GLOBALS.s.TUTORIAL_PHASE = 14;
         tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/SmallScroll"));
-        MenusController.s.enterFromRight(tempObject, "SmallScroll", 252f, 224f);
+        MenusController.s.enterFromRight(tempObject, "SmallScroll", 252, 154);
 
         tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/Satan"));
         MenusController.s.enterFromLeft(tempObject, "Satan", 0, 0);
@@ -455,7 +455,7 @@ public class TutorialController : MonoBehaviour
 
         MenusController.s.destroyMenu("Satan", null);
 
-        MenusController.s.repositeMenu("SmallScroll", null, 0f, 240f);
+        MenusController.s.repositeMenu("SmallScroll", null, 0f, 181f);
         MenusController.s.repositeMenu("DownArrow", null, -190f, -215f);
 
         fscreen = GameObject.FindObjectsOfType(typeof(DialogsTexts)) as DialogsTexts[];
@@ -496,7 +496,7 @@ public class TutorialController : MonoBehaviour
        
         GLOBALS.s.TUTORIAL_PHASE = 17;
         tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/SmallScroll"));
-        MenusController.s.enterFromRight(tempObject, "SmallScroll", -18f, -250f);
+        MenusController.s.enterFromRight(tempObject, "SmallScroll", -18f, -302f);
 
 
         buildings = GameObject.FindObjectsOfType(typeof(BE.Building)) as BE.Building[];
@@ -513,8 +513,12 @@ public class TutorialController : MonoBehaviour
     {
         GLOBALS.s.LOCK_CAMERA_TUTORIAL = true;
         GLOBALS.s.TUTORIAL_PHASE = 18;
-
         MenusController.s.destroyMenu("SmallScroll", null);
+        Invoke("satanGoodJob", 2);
+    }
+
+    void satanGoodJob()
+    {
 
         tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/BigScroll"));
         MenusController.s.enterFromRight(tempObject, "BigScroll", 0, 0);
@@ -541,9 +545,10 @@ public class TutorialController : MonoBehaviour
         GLOBALS.s.LOCK_CAMERA_TUTORIAL = false;
         GLOBALS.s.TUTORIAL_PHASE = 0;
         GLOBALS.s.TUTORIAL_OCCURING = false;
-
-        MenusController.s.destroyMenu("Satan", null);
-        MenusController.s.destroyMenu("BigScroll", null);
+        MenusController.s.goOutDestroy("Satan", null,"left");
+        MenusController.s.goOutDestroy("BigScroll", null,"right");
+        //MenusController.s.destroyMenu("Satan", null);
+        //MenusController.s.destroyMenu("BigScroll", null);
 
         // PlayerPrefs.SetInt("firstGame", 1);
     }

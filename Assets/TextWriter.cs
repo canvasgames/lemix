@@ -22,6 +22,7 @@ public class TextWriter : MonoBehaviour {
 
     public void write_text(Text txt = null, string txt_to_display = "", float custom_speed = 0, float custom_dot_delay = 0)
     {
+        cur_color = "";
         if (custom_speed != 0)
             writing_speed = custom_speed;
         else
@@ -45,7 +46,7 @@ public class TextWriter : MonoBehaviour {
     {
             int i = 0;
             //if (string.Equals("a", "a") )Debug.Log("AAAAAAAAAAAAAAA");
-            if (k < text_final.Length)
+            if (k < text_final.Length && text_component != null)
             {
                 if (string.Equals(text_final[k].ToString(), "<") == false)
                 {

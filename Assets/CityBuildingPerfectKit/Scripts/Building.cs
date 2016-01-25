@@ -667,6 +667,10 @@ namespace BE {
             {
                 count = 4;
             }
+            else if(count > 15)
+            {
+                count = 4;
+            }
 
             textColor = "";
             if (def.eProductionType == PayType.Elixir)

@@ -291,13 +291,65 @@ public class MenusController : MonoBehaviour {
     }
     #endregion
 
+    #region Go Out and Destroy
+    public void goOutDestroy(string name, GameObject menu, string side)
+    {
+        #region Find the menu
+        menusList menu2move = null;
+
+        if (name != "")
+        {
+            menu2move = forEachFindName(name);
+            if (menu2move == null)
+            {
+                Debug.Log("ERROR! CANT FIND THE MENU");
+                return;
+            }
+        }
+
+        else if (menu2move != null)
+        {
+            menu2move = forEachFindTheMenuItself(menu);
+            if (menu2move.menuObj == null)
+            {
+                Debug.Log("ERROR! CANT FIND THE MENU");
+                return;
+            }
+        }
+        else
+        {
+            Debug.Log("ERROR! NO NAME OR MENU ADDED");
+            return;
+        }
+        #endregion
+
+        if (side == "up")
+        {
+            menu2move.menuObj.transform.DOMoveY((menu2move.menuObj.transform.position.y + Screen.height), 0.7f).OnComplete(() => destroyMenu(name, menu));
+        }
+        else if (side == "down")
+        {
+           menu2move.menuObj.transform.DOMoveY((menu2move.menuObj.transform.position.y - Screen.height), 0.7f).OnComplete(() => destroyMenu(name, menu));
+        }
+        else if (side == "left")
+        {
+            menu2move.menuObj.transform.DOMoveX((menu2move.menuObj.transform.position.x - Screen.width), 0.7f).OnComplete(() => destroyMenu(name, menu));
+        }
+        else
+        {
+            menu2move.menuObj.transform.DOMoveX((menu2move.menuObj.transform.position.x + Screen.width), 0.7f).OnComplete(() => destroyMenu(name, menu));
+        }
+
+        
+    }
+    #endregion
+
     #region Adjust alpha
     public void apearAlphaCanvasGroup(GameObject menu, string name)
     {
 
         addToGUIAndRepositeObject(menu, name);
 
-        //Put out of the screen
         menu.GetComponent<CanvasGroup>().alpha = 0;
         //.OnComplete(() => appear(menu));
         menu.GetComponent<CanvasGroup>().DOFade(1f, 1f);
@@ -390,4 +442,6 @@ public class MenusController : MonoBehaviour {
         return null;
     }
     #endregion
+
+
 }

@@ -27,6 +27,7 @@ namespace BE {
 		public 	Image 		Icon;
 		public 	GameObject 	goDisabled;
 		public 	Text 		DisabledInfo;
+        public GameObject LockedInterrogation;
 		public 	GameObject 	goBuild;
 		public 	Image 		PriceIcon;
 		public 	Text 		Price;
@@ -66,6 +67,20 @@ namespace BE {
 				goDisabled.SetActive(true);
 			}
 
+            //Lock if dont have Town Hall Level enough
+            bool locked = false;
+            int THRankReq = TBDatabase.TownHallLevelRequired(bt.ID, 0);
+            if (THRankReq > BEGround.instance.GetTownHallLevel())
+            {
+                CountAvailable = false;
+                locked = true;
+                int NextTownLevel = bt.GetMoreBuildTownLevel(Count);
+                DisabledInfo.text = "Upgrade Town Hall to level " + THRankReq + " to build";
+                goDisabled.SetActive(true);
+                LockedInterrogation.SetActive(true);
+            }
+
+
 			bd = bt.Defs[0];
 
 			// if building type is house (house's price is related to current house count)
@@ -87,8 +102,11 @@ namespace BE {
 
 			Border.color = CountAvailable ? new Color32(0,150,186,255) : new Color32(133,119,108,255);
 			Icon.sprite = Resources.Load<Sprite>("Icons/Building/"+bt.Name);
-			Icon.color = CountAvailable ? new Color32(255,255,255,255) : new Color32(133,119,108,255);
-		}
+            if(locked == true)
+                Icon.color = CountAvailable ? new Color32(255, 255, 255, 255) : new Color32(2, 2, 2, 255);
+            else
+			    Icon.color = CountAvailable ? new Color32(255,255,255,255) : new Color32(133, 119, 108, 255);
+        }
 
 		// initialized with inApp item
 		public void Init(InAppItem _ia) {
