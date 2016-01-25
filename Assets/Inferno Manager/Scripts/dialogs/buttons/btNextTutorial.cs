@@ -55,7 +55,7 @@ public class btNextTutorial : ButtonCap
             TutorialController.s.tutorial1Phase3Clicked();
 
         }
-        else if (GLOBALS.s.TUTORIAL_PHASE == 4)
+       else if (GLOBALS.s.TUTORIAL_PHASE == 4)
         {
             MenusController.s.destroyMenu("ArowNext", null);
             TutorialController.s.tutorial1Phase4Clicked();
@@ -74,13 +74,23 @@ public class btNextTutorial : ButtonCap
             TutorialController.s.destroySelectPunisher();
 
         }
+
+        // INSERTING CHICKEN HERE 
         else if (GLOBALS.s.TUTORIAL_PHASE == 10)
         {
-
             MenusController.s.destroyMenu("ArowNext", null);
-            TutorialController.s.collectSoulsAgain();
+            TutorialController.s.start_chicken_tutorial();
 
         }
+
+        else if (GLOBALS.s.TUTORIAL_PHASE == -2)
+        {
+            MenusController.s.destroyMenu("ArowNext", null);
+            TutorialController.s.collectSoulsAgain();
+        }
+
+        // After Back to serious
+
         else if(GLOBALS.s.TUTORIAL_PHASE == 11)
         {
             TutorialController.s.blablaQuemEhVcNaFilaDoPao();

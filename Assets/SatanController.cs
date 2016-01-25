@@ -110,6 +110,7 @@ public class SatanController : MonoBehaviour {
     public void satan_vanished()
     {
         TutorialController.s.startTutorial();
+        Destroy(Satan);
 
     }
 }

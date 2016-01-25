@@ -80,9 +80,15 @@ public class DialogsTexts : MonoBehaviour
         // text_to_display = "Tap to Collect Sadness.";
         else if (GLOBALS.s.TUTORIAL_PHASE == 10)
             text_to_display = "<color=#fe2323>Punisher Buildings</color> increases your <color=#fe2323>Souls Capacity</color>";
+
+        else if (GLOBALS.s.TUTORIAL_PHASE == -1)
+            text_to_display = "Now kick the chicken";
+        else if (GLOBALS.s.TUTORIAL_PHASE == -2)
+            text_to_display = "Muahaha! It is always fun to kick a chicken. Although that has nothing to do with the game";
+
         // text_to_display = "Great! Now your Hell Gate can Generate Souls! As higher your sadness meter, more souls will be sent to your Hell!";
         else if (GLOBALS.s.TUTORIAL_PHASE == 11)
-            text_to_display = "Tap to Collect Souls.";
+            text_to_display = "Ok. Back to Seriousness!\nTap to Collect Souls.";
         else if (GLOBALS.s.TUTORIAL_PHASE == 12)
             text_to_display = "Why the <color=blue>heaven</color> are you celebrating?\n You barely started!\n There is still a long path to get to be someone other than this <color=blue>bag of holiness</color> you are!";
         //text_to_display = "Aquire more souls to Level Up and be respected.";

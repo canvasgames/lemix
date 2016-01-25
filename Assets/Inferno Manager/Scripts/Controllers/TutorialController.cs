@@ -67,11 +67,14 @@ public class TutorialController : MonoBehaviour
     //Hi i'm Satan msg
     public void tutorial1()
     {
-        GLOBALS.s.TUTORIAL_PHASE = 1;
+        //createBuilding();
+    
+            GLOBALS.s.TUTORIAL_PHASE = 1;
         Debug.Log("TUTORIAL PHASE 1");
         tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/Welcome"));
         MenusController.s.enterFromUp(tempObject, "Welcome", 0, 0);
         Invoke("tutorial1EnterOtherStuff", 0.5f);
+       // */
     }
 
     public void tutorial1EnterOtherStuff()
@@ -142,6 +145,7 @@ public class TutorialController : MonoBehaviour
     //Click to collect
     public void tutorial1Phase3Clicked()
     {
+        Debug.Log("Tutorial phase 4: Tap to collect souls");
         GLOBALS.s.TUTORIAL_PHASE = 4;
         GLOBALS.s.LOCK_CAMERA_TUTORIAL = false;
         fscreen = GameObject.FindObjectsOfType(typeof(DialogsTexts)) as DialogsTexts[];
@@ -160,6 +164,8 @@ public class TutorialController : MonoBehaviour
     //Full of souls question, what to do?
     public void tutorial1Phase4Clicked()
     {
+        Debug.Log("Tut phase 5: Display the question");
+
         GLOBALS.s.TUTORIAL_PHASE = 5;
         GLOBALS.s.LOCK_CAMERA_TUTORIAL = true;
 
@@ -189,6 +195,7 @@ public class TutorialController : MonoBehaviour
     //Chicachicabum, começa e não para. Avisa todo mundo que meu nome é Sara
     public void questionAnswered()
     {
+        Debug.Log("[TUT] 6 - BLA BLA ");
         GLOBALS.s.TUTORIAL_PHASE = 6;
         fscreen = GameObject.FindObjectsOfType(typeof(DialogsTexts)) as DialogsTexts[];
         fscreen[0].closeAndDestroy();
@@ -204,6 +211,8 @@ public class TutorialController : MonoBehaviour
     //Indicate the build Bt
     public void indicateBuildBT()
     {
+        Debug.Log("[TUT] 7 TOUCH THE BUILD BUTTON | tutorial occuring: " + GLOBALS.s.TUTORIAL_OCCURING);
+
         GLOBALS.s.TUTORIAL_PHASE = 7;
         GLOBALS.s.LOCK_CAMERA_TUTORIAL = false;
         fscreen = GameObject.FindObjectsOfType(typeof(DialogsTexts)) as DialogsTexts[];
@@ -220,6 +229,7 @@ public class TutorialController : MonoBehaviour
     //Clicked build bt
     public void clickedBuildBt()
     {
+        Debug.Log("[TUT] 8 SELECT A BUILDING");
         GLOBALS.s.TUTORIAL_PHASE = 8;
         fscreen = GameObject.FindObjectsOfType(typeof(DialogsTexts)) as DialogsTexts[];
         fscreen[0].closeAndReopen();
@@ -267,10 +277,41 @@ public class TutorialController : MonoBehaviour
         // fscreen[0].closeAndReopen();
         // MenusController.s.repositeMenu("SmallScroll", null, -394f, -118f);
 
-
         Invoke("createNextButton", 2);
 
     }
+    #endregion
+
+    #region Chicken 
+
+    public void start_chicken_tutorial()
+    {
+        GLOBALS.s.TUTORIAL_PHASE = -1;
+        GLOBALS.s.LOCK_CAMERA_TUTORIAL = false;
+
+        MenusController.s.destroyMenu("SatanHand", null);
+
+        fscreen = GameObject.FindObjectsOfType(typeof(DialogsTexts)) as DialogsTexts[];
+        fscreen[0].closeAndReopen();
+        MenusController.s.repositeMenu("SmallScroll", null, 0f, 240f);
+
+        ChickenController.s.start_animation();
+    }
+
+    public void after_chicken_kicked()
+    {
+        Debug.Log("[TUT] -2 AFTER CHICKEN KICKED");
+        GLOBALS.s.TUTORIAL_PHASE = -2;
+
+        tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/SmallScroll"));
+        MenusController.s.enterFromLeft(tempObject, "SmallScroll", 0, 0);
+
+        tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/Satan"));
+        MenusController.s.enterFromRight(tempObject, "Satan", 0, 0);
+
+        Invoke("createNextButton", 2);
+    }
+
     #endregion
 
     #region Tutorial Phase 11 Collect Souls Again
@@ -284,7 +325,7 @@ public class TutorialController : MonoBehaviour
 
         fscreen = GameObject.FindObjectsOfType(typeof(DialogsTexts)) as DialogsTexts[];
         fscreen[0].closeAndReopen();
-        MenusController.s.repositeMenu("SmallScroll", null, -18f, -250f);
+        //MenusController.s.repositeMenu("SmallScroll", null, -18f, -250f);
 
         buildings = GameObject.FindObjectsOfType(typeof(BE.Building)) as BE.Building[];
         foreach (BE.Building element in buildings)
@@ -300,6 +341,8 @@ public class TutorialController : MonoBehaviour
     {
         GLOBALS.s.TUTORIAL_PHASE = 11;
         MenusController.s.destroyMenu("SmallScroll", null);
+        MenusController.s.destroyMenu("Satan", null);
+
         GLOBALS.s.LOCK_CAMERA_TUTORIAL = true;
        
         buildings = GameObject.FindObjectsOfType(typeof(BE.Building)) as BE.Building[];
@@ -308,12 +351,18 @@ public class TutorialController : MonoBehaviour
             element.unactivateHandTutorialUI(4);
         }
 
+        Invoke("StartLevelUpAnimation", 1.5f);
+    }
+
+    void StartLevelUpAnimation()
+    {
         tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/LevelUp"));
         MenusController.s.apearAlphaCanvasGroup(tempObject, "LevelUp");
         BE.BEAudioManager.SoundPlay(10);
 
         Invoke("createNextButton", 2);
     }
+
     #endregion
 
     #region Tutorial Phase 12 Satan Talking Shit About You
@@ -488,6 +537,7 @@ public class TutorialController : MonoBehaviour
     #region Tutorial 1 End
     public void realEndTutorial()
     {
+        Debug.Log("[TUT] REAL END TUTORIAL! ");
         GLOBALS.s.LOCK_CAMERA_TUTORIAL = false;
         GLOBALS.s.TUTORIAL_PHASE = 0;
         GLOBALS.s.TUTORIAL_OCCURING = false;

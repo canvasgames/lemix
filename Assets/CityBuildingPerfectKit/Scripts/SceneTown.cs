@@ -268,7 +268,7 @@ namespace BE {
 				}
                 #endregion
 
-                #region Camera Movement holding button
+            #region Camera Movement holding button
                 else
                 {
                     //Mouse Button is in pressed 
@@ -491,6 +491,16 @@ namespace BE {
         }
         #endregion
 
+        public void move_camera_to_building(Vector3 pos, float duration = 0.5f)
+        {
+            //pos = new Vector3(pos.x, pos.y, pos.z);
+            Vector3 newPos = new Vector3(pos.x - 2.5f, pos.y, pos.z - 2.5f);
+            Camera cam = goCamera.GetComponent<Camera>();
+            if (Math.Abs (cam.orthographicSize - 6f) > 0.1f)
+                cam.DOOrthoSize(6f, duration);
+            goCameraRoot.transform.DOMove(newPos, duration).SetEase(Ease.OutQuad).OnComplete(() => cameraStopping = false);
+        }
+
         //picking a building means that...
         public void Pick() {
 
@@ -664,10 +674,11 @@ namespace BE {
 
 		// user clicked shop button
 		public void OnButtonShop() {
-
                 if (GLOBALS.s.TUTORIAL_OCCURING == true)
                 {
-                    if (GLOBALS.s.TUTORIAL_PHASE == 7)
+                    Debug.Log("ON BUTTON SHOP - TUTORIAL OCURRING");
+
+                if (GLOBALS.s.TUTORIAL_PHASE == 7)
                     {
 
                         TutorialController.s.clickedBuildBt();
@@ -683,7 +694,9 @@ namespace BE {
 
                 }
                 else
-                {
+                Debug.Log("ON BUTTON SHOP - TUTORIAL noooooooooot OCURRING");
+
+            {
                 if (GLOBALS.s.DIALOG_ALREADY_OPENED == false)
                 {
                     BEAudioManager.SoundPlay(6);
@@ -884,8 +897,11 @@ namespace BE {
 
         public void createTownHownTutorial()
         {
-           Building script = BEGround.instance.BuildingAdd(0, 1);
-           script.Move(new Vector3 (4f, 0f, 4f));
+            Building script = BEGround.instance.BuildingAdd(0, 1);
+            Vector3 pos = new Vector3(4f, 0f, 4f);
+            script.Move(pos);
+            move_camera_to_building(pos);
+
             script.createExplosion();
             BuildingSelect(script);
             BuildingLandUnselect(true);
@@ -894,7 +910,12 @@ namespace BE {
         public void createHellGateTutorial()
         {
             Building script = BEGround.instance.BuildingAdd(4, 1);
-            script.Move(new Vector3(10f, 0f, 4f));
+
+            Vector3 pos = new Vector3(10f, 0f, 4f);
+            script.Move(pos);
+            move_camera_to_building(pos);
+
+
             script.createExplosion();
             BuildingSelect(script);
              BuildingLandUnselect(false);

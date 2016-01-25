@@ -525,7 +525,7 @@ namespace BE {
              }*/
             LevelExp[0] = 0;
             LevelExp[1] = 100;
-            LevelExp[2] = 300;
+            LevelExp[2] = 200;
             LevelExp[3] = 600;
             LevelExp[4] = 2000;
             LevelExp[5] = 6500;
