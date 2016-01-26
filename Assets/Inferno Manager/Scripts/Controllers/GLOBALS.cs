@@ -10,6 +10,8 @@ public class GLOBALS : MonoBehaviour {
     [HideInInspector] public bool TUTORIAL_OCCURING = false;
     [HideInInspector] public bool LOCK_CAMERA_TUTORIAL = false;
     [HideInInspector] public bool DIALOG_ALREADY_OPENED = false;
+    [HideInInspector] public bool SPANKING_OCURRING = false;
+
     [HideInInspector] public int USER_RANK = 0;
     [HideInInspector] public int BUILDING_MAX_LEVEL = 30;
     [HideInInspector] public int BUILDING_N_TYPES = 30;

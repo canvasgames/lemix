@@ -233,7 +233,7 @@ namespace BE {
 
             #region Camera Movement on Mouse button down
             if (Input.GetMouseButton(0)) {
-
+                //Debug.Log("asdas");
 				if (EventSystem.current.IsPointerOverGameObject() || GLOBALS.s.LOCK_CAMERA_TUTORIAL == true || (GLOBALS.s.DIALOG_ALREADY_OPENED == true && GLOBALS.s.TUTORIAL_OCCURING == false)) {
                     return;
 				}
@@ -911,7 +911,7 @@ namespace BE {
         {
             Building script = BEGround.instance.BuildingAdd(4, 1);
 
-            Vector3 pos = new Vector3(16.5f, 0f, 4f);
+            Vector3 pos = new Vector3(10f, 0f, 4f);
             script.Move(pos);
             move_camera_to_building(pos);
 
