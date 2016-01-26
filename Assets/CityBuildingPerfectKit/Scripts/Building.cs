@@ -261,7 +261,12 @@ namespace BE {
         public void activateHandTutorialUI(int type)
         {
             if(type == Type)
+            {
                 uiInfo.SatanHand.gameObject.SetActive(true);
+                Vector3 pos = new Vector3(goCenter.transform.position.x + 1.5f, 0f, goCenter.transform.position.z + 1.5f);
+                SceneTown.instance.move_camera_to_building(pos);
+            }
+                
         }
         public void unactivateHandTutorialUI(int type)
         {

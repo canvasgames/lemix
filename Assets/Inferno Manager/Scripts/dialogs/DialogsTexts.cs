@@ -60,7 +60,6 @@ public class DialogsTexts : MonoBehaviour
         {
             if (GLOBALS.s.TUTORIAL_PHASE == 1)
             {
-                Debug.Log("jogou teu charme em mim");
                 text_to_display = "That was quite an entrance, right?";
                 myText.GetComponentInChildren<Text>().alignment = TextAnchor.MiddleCenter;
             }

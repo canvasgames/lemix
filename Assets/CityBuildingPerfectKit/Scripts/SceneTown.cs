@@ -494,7 +494,7 @@ namespace BE {
         public void move_camera_to_building(Vector3 pos, float duration = 0.5f)
         {
             //pos = new Vector3(pos.x, pos.y, pos.z);
-            Vector3 newPos = new Vector3(pos.x - 2.5f, pos.y, pos.z - 2.5f);
+            Vector3 newPos = new Vector3(pos.x - 1.5f, pos.y, pos.z - 1.5f);
             Camera cam = goCamera.GetComponent<Camera>();
             if (Math.Abs (cam.orthographicSize - 6f) > 0.1f)
                 cam.DOOrthoSize(6f, duration);
@@ -903,7 +903,7 @@ namespace BE {
         {
             Building script = BEGround.instance.BuildingAdd(4, 1);
 
-            Vector3 pos = new Vector3(10f, 0f, 4f);
+            Vector3 pos = new Vector3(19f, 0f, 4f);
             script.Move(pos);
             move_camera_to_building(pos);
 

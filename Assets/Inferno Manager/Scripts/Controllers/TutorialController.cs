@@ -102,7 +102,7 @@ public class TutorialController : MonoBehaviour
     #endregion
 
     #region Tutorial Phase 2 Create Town Hall
-    //Constrcut the Town Hall
+    //Consturct the Town Hall
     public void tutorial1Clicked()
     {
         GLOBALS.s.TUTORIAL_PHASE = 2;;
@@ -331,6 +331,7 @@ public class TutorialController : MonoBehaviour
         foreach (BE.Building element in buildings)
         {
             element.activateHandTutorialUI(4);
+
         }
     }
     #endregion
