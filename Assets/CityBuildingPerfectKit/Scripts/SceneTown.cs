@@ -565,17 +565,10 @@ namespace BE {
                 GLOBALS.s.USER_RANK = NewLevel;
                 if(GLOBALS.s.USER_RANK !=2)
                 {
-                    GameObject tempObject;
-                    tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/LevelUp"));
-                    MenusController.s.apearAlphaCanvasGroup(tempObject, "LevelUp");
-                    BEAudioManager.SoundPlay(10);
+                    MenusController.s.createLevelUp();
                 }
                 
-                if(GLOBALS.s.USER_RANK == 3)
-                {
-                    GLOBALS.s.DIALOG_ALREADY_OPENED = true;
-                    SceneManager.LoadScene("CATastrophe", LoadSceneMode.Additive);
-                }
+
                 
             }
 			Level = NewLevel;
@@ -585,7 +578,6 @@ namespace BE {
 			Save ();
 		}
 
-        
 
 		// get building script
 		// if child object was hitted, check parent 

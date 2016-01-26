@@ -122,24 +122,30 @@ namespace BE {
                 bt.Add(TBDatabase.GetBuildingType(12));
                 bt.Add(TBDatabase.GetBuildingType(13));
                 bt.Add(TBDatabase.GetBuildingType(14));
-                
+                bt.Add(TBDatabase.GetBuildingType(16));
+                bt.Add(TBDatabase.GetBuildingType(17));
                 FillContents(0, "Punish", bt);
 
 				// fill second tab
 				bt.Clear ();
                 bt.Add(TBDatabase.GetBuildingType(3));
+                bt.Add(TBDatabase.GetBuildingType(22));
+                bt.Add(TBDatabase.GetBuildingType(21));
                 //bt.Add(TBDatabase.GetBuildingType(5));
-               // bt.Add(TBDatabase.GetBuildingType(6));
-               // bt.Add (TBDatabase.GetBuildingType(2));
-				//bt.Add (TBDatabase.GetBuildingType(7));
-				//bt.Add (TBDatabase.GetBuildingType(8));
-				//bt.Add (TBDatabase.GetBuildingType(9));
-				//bt.Add (TBDatabase.GetBuildingType(10));
-				FillContents(1, "Resources", bt);
+                // bt.Add(TBDatabase.GetBuildingType(6));
+                // bt.Add (TBDatabase.GetBuildingType(2));
+                //bt.Add (TBDatabase.GetBuildingType(7));
+                //bt.Add (TBDatabase.GetBuildingType(8));
+                //bt.Add (TBDatabase.GetBuildingType(9));
+                //bt.Add (TBDatabase.GetBuildingType(10));
+                FillContents(1, "Resources", bt);
 
 				// fill third tab
 				bt.Clear ();
-                bt.Add(TBDatabase.GetBuildingType(16));
+                bt.Add(TBDatabase.GetBuildingType(18));
+                bt.Add(TBDatabase.GetBuildingType(20));
+                bt.Add(TBDatabase.GetBuildingType(19));
+                
                 FillContents(2, "Research", bt);
 
 				BETween.anchoredPosition(rtDialog.gameObject, 0.3f, new Vector3(0,-500), new Vector3(0,0)).method = BETweenMethod.easeOut;

@@ -18,23 +18,22 @@ public class particlesLogic : MonoBehaviour {
         finalPos = fPos;
         BigD = daddy;
         initialPos = iPos;
-        Debug.Log(finalPos.transform.position);
-        Debug.Log(finalPos.transform.position);
+
         transform.position = new Vector3(initialPos.x, initialPos.y, daddy.transform.position.z);
         float angle;
-        angle = (moveType * (360/ numberOfParticles)) *Mathf.Deg2Rad; 
-
+        angle = (moveType * (360/ numberOfParticles)) *Mathf.Deg2Rad;
+        angle = angle + (Random.Range(-10f, 10f));
         //Debug.Log(Camera.main.orthographicSize);
         //Debug.Log("Cos" + (-(Mathf.Cos(angle))) + "     Angle " + angledegrree);
 
-        transform.DOMoveX((-(Mathf.Cos(angle)* Mathf.Rad2Deg) * 1 * (6 / (Camera.main.orthographicSize)) ) + initialPos.x, 0.3f).OnComplete(waitForIt);
-        transform.DOMoveY((-(Mathf.Sin(angle) * Mathf.Rad2Deg) * 1 *(6 / (Camera.main.orthographicSize)) ) + initialPos.y,0.3f);
+        transform.DOMoveX((-(Mathf.Cos(angle)* Mathf.Rad2Deg) * (Random.Range(0.7f,1.3f)) * (6 / (Camera.main.orthographicSize)) ) + initialPos.x, 0.2f).OnComplete(waitForIt);
+        transform.DOMoveY((-(Mathf.Sin(angle) * Mathf.Rad2Deg) * (Random.Range(0.7f, 1.3f)) * (6 / (Camera.main.orthographicSize)) ) + initialPos.y,0.2f);
         transform.DOScale(6 / (Camera.main.orthographicSize), 0f);
     }
 
     void waitForIt()
     {
-        Invoke("moveToTop", 0.3f);
+        Invoke("moveToTop", 0.1f);
     }
 
     void moveToTop()

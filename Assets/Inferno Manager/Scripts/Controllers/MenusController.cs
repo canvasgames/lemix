@@ -4,9 +4,14 @@ using System.Collections.Generic;
 using System.Text;
 using System.IO;
 using System.Linq;
-
+using UnityEngine.SceneManagement;
 using DG.Tweening;
 using UnityEngine.UI;
+
+public enum MovementTypes {
+
+    Left = 0, Right = 1, Up = 2, Down = 3, Fade = 4
+}
 
 public class MenusController : MonoBehaviour {
     public static MenusController s;
@@ -38,6 +43,24 @@ public class MenusController : MonoBehaviour {
     }
     #endregion
 
+    public void moveMenu(MovementTypes type, GameObject menu, string name, float newX, float newY, string dialogTextName = "", bool writeText = false, bool dont_screw_canvas = false)
+    {
+        if(type == MovementTypes.Down)
+            enterFromDown(menu, name, newX, newY, dont_screw_canvas);
+        if (type == MovementTypes.Up)
+            enterFromUp(menu, name, newX, newY, dont_screw_canvas);
+        if (type == MovementTypes.Right)
+            enterFromRight(menu, name, newX, newY);
+        if (type == MovementTypes.Left)
+            enterFromLeft(menu, name, newX, newY);
+
+        if(dialogTextName != "")
+        {
+            menu.transform.GetComponentInChildren<DialogsTexts>().changeText(dialogTextName,writeText);
+        }
+
+    }
+
     #region AddToGuiAndMenuList
     //Add to menu List and add to the GUI
     public void addToGUIAndRepositeObject(GameObject menu, string name)
@@ -65,6 +88,7 @@ public class MenusController : MonoBehaviour {
         menu.transform.localPosition = new Vector3(xPos, yPos, 0f);
     }
     #endregion
+
 
     #region DestroyMenu
     //Destroy the menu
@@ -122,7 +146,7 @@ public class MenusController : MonoBehaviour {
     #region EnterFromLeftWithPunch
     //Make the menu enter from left
     //If newX and New Y is equals to 0, the menu will use the original position of prefab 
-    public void enterFromLeft(GameObject menu, string name, float newX, float newY)
+    void enterFromLeft(GameObject menu, string name, float newX, float newY)
     {
         float xPos, yPos;
         addToGUIAndRepositeObject(menu, name);
@@ -162,7 +186,7 @@ public class MenusController : MonoBehaviour {
     #region EnterFromRightWithPunch
     //Make the menu enter from right
     //If newX and New Y is equals to 0, the menu will use the original position of prefab 
-    public void enterFromRight(GameObject menu, string name, float newX, float newY)
+     void enterFromRight(GameObject menu, string name, float newX, float newY)
     {
         float xPos, yPos;
         addToGUIAndRepositeObject(menu, name);
@@ -202,7 +226,7 @@ public class MenusController : MonoBehaviour {
     #region EnterFromUpWithPunch
     //Make the menu enter from up
     //If newX and New Y is equals to 0, the menu will use the original position of prefab 
-    public void enterFromUp(GameObject menu, string name, float newX, float newY, bool dont_screw_canvas = false)
+     void enterFromUp(GameObject menu, string name, float newX, float newY, bool dont_screw_canvas = false)
     {
         float xPos, yPos;
         if (!dont_screw_canvas)
@@ -248,7 +272,7 @@ public class MenusController : MonoBehaviour {
     #region EnterFromDownWithPunch
     //Make the menu enter from up
     //If newX and New Y is equals to 0, the menu will use the original position of prefab 
-    public void enterFromDown(GameObject menu, string name, float newX, float newY, bool dont_screw_canvas = false)
+     void enterFromDown(GameObject menu, string name, float newX, float newY, bool dont_screw_canvas = false)
     {
         float xPos, yPos;
         if (!dont_screw_canvas)
@@ -443,5 +467,31 @@ public class MenusController : MonoBehaviour {
     }
     #endregion
 
+    #region SomeMenus
+    public void createCatastrophe(float time)
+    {
+        GLOBALS.s.DIALOG_ALREADY_OPENED = true;
+        Invoke("cat", time);
 
+    }
+    void cat()
+    {
+       
+        SceneManager.LoadScene("CATastrophe", LoadSceneMode.Additive);
+    }
+
+    public void createLevelUp()
+    {
+        Invoke("lvlUp", 1.5f);
+    }
+
+    void lvlUp()
+    {
+        GameObject tempObject;
+        tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/LevelUp"));
+        MenusController.s.apearAlphaCanvasGroup(tempObject, "LevelUp");
+        BE.BEAudioManager.SoundPlay(10);
+    }
+    #endregion
 }
+

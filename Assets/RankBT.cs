@@ -19,7 +19,7 @@ public class RankBT : MonoBehaviour {
          if(GLOBALS.s.TUTORIAL_OCCURING == false && GLOBALS.s.DIALOG_ALREADY_OPENED == false)
         {
             tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/DemonList/DemonList"));
-            MenusController.s.enterFromLeft(tempObject, "DemonList", 0, 0);
+            MenusController.s.moveMenu(MovementTypes.Left, tempObject, "DemonList", 0, 0);
 
         }
         else

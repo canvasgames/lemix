@@ -36,8 +36,8 @@ public class SpankController : MonoBehaviour {
     #endregion
 
     void Start() {
-        GLOBALS.s.SPANKING_OCURRING = true;
-        StartAnimation();
+        //GLOBALS.s.SPANKING_OCURRING = true;
+        //StartAnimation();
     }
 
     void Update() {

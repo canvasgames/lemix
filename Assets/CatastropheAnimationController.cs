@@ -54,7 +54,7 @@ public class CatastropheAnimationController : MonoBehaviour {
     void display_warning()
     {
         WarningAlert.SetActive(true);
-        MenusController.s.enterFromDown(WarningAlert, "WarningEnteringAnimation", 0, 0,true);
+        MenusController.s.moveMenu(MovementTypes.Left,WarningAlert, "WarningEnteringAnimation", 0, 0,"",false,true);
 
         Invoke("warning_animation", 0.7f);
     }
@@ -86,9 +86,8 @@ public class CatastropheAnimationController : MonoBehaviour {
         TvStatic.SetActive(true);
         TvFrame.SetActive(true);
 
-        MenusController.s.enterFromUp(TvStatic, "TvStaticEnteringAnimation", 0, 0, true);
-        MenusController.s.enterFromUp(TvFrame, "TvEnteringAnimation", 0, 0, true);
-
+        MenusController.s.moveMenu(MovementTypes.Left, TvStatic, "TvStaticEnteringAnimation", 0, 0, "", false, true);
+        MenusController.s.moveMenu(MovementTypes.Left, TvFrame, "TvEnteringAnimation", 0, 0, "", false, true);
         Invoke("tv_entering_finished", 1f);
     }
 

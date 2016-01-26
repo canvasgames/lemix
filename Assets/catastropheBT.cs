@@ -20,7 +20,7 @@ public class catastropheBT : MonoBehaviour {
         {
             //Application.LoadLevelAdditive("CATastrophe");
             //GLOBALS.s.DIALOG_ALREADY_OPENED = true;
-            SceneManager.LoadScene("CATastrophe", LoadSceneMode.Additive);
+            MenusController.s.createCatastrophe(0);
         }
         
     }

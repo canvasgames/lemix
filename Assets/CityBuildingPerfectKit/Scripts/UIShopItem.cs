@@ -163,7 +163,7 @@ namespace BE {
                     if (GLOBALS.s.TUTORIAL_PHASE != 21)
                     { 
                     // show message box
-                        if (!CountAvailable) UIDialogMessage.Show("Upgrade town hall to enlarge max count", "Ok", "Reach to Max Count");
+                        if (!CountAvailable) UIDialogMessage.Show("Upgrade Town Hall to construct a new build", "Ok", "Town Hall Upper Level Required");
                         else if (!PriceAvailable) UIDialogMessage.Show("More Resource Required", "Ok", "Error");
                         else UIDialogMessage.Show("All workers are working now", "Ok", "Error");
                     }

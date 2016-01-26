@@ -625,8 +625,9 @@ namespace BE {
                     //Verify if the production exceeded the capacity
                     if (AllProduction + Production <= CapacityTotal)
                     {
+                        Debug.Log(Production);
                         createParticleUIandCollect(Production, false);
-
+                        Debug.Log(Production);
                         if (def.eProductionType == PayType.Elixir)
                             SceneTown.instance.GainExp((int)Production);
                     }
@@ -732,7 +733,7 @@ namespace BE {
             script.transform.localScale = new Vector3(scale, scale, scale);
             // reset values related to production
 
-            Production = Production - discountValue;
+           // Production = Production - discountValue;
 
             if (outOfBounds == false)
             {

@@ -72,6 +72,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\ArrowsShop.cs" />
     <Compile Include="Assets\CameraTest.cs" />
     <Compile Include="Assets\CameraTest2.cs" />
     <Compile Include="Assets\Cartoon FX\Demo\Assets\CFX2_Demo.cs" />
@@ -137,12 +138,15 @@
     <Compile Include="Assets\Inferno Manager\Scripts\dialogs\buttons\scrollOption.cs" />
     <Compile Include="Assets\Inferno Manager\Scripts\dialogs\demonCreateAvatar.cs" />
     <Compile Include="Assets\Inferno Manager\Scripts\particlesLogic.cs" />
+    <Compile Include="Assets\MissionOption.cs" />
+    <Compile Include="Assets\MissionsController.cs" />
     <Compile Include="Assets\QA.cs" />
     <Compile Include="Assets\RankBT.cs" />
     <Compile Include="Assets\SatanController.cs" />
     <Compile Include="Assets\SatanEnteringEnded.cs" />
     <Compile Include="Assets\SatanEnteringStoppedStarted.cs" />
     <Compile Include="Assets\SatanStartedTalking.cs" />
+    <Compile Include="Assets\SpankController.cs" />
     <Compile Include="Assets\TextWriter.cs" />
     <Compile Include="Assets\cat_animation_script.cs" />
     <Compile Include="Assets\catastropheBT.cs" />

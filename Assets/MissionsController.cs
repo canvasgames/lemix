@@ -34,7 +34,7 @@ public class MissionsController : MonoBehaviour {
     public void MissionBtPressed()
     {
         GameObject tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/DialogMissions"));
-        MenusController.s.enterFromDown(tempObject, "DialogMission", 0, 0);
+        MenusController.s.moveMenu(MovementTypes.Down, tempObject, "DialogMission", 0, 0);
     }
 
     public void ActMission(MissionType type)

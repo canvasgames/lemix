@@ -72,7 +72,7 @@ public class TutorialController : MonoBehaviour
             GLOBALS.s.TUTORIAL_PHASE = 1;
         Debug.Log("TUTORIAL PHASE 1");
         tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/Welcome"));
-        MenusController.s.enterFromUp(tempObject, "Welcome", 0, 0);
+        MenusController.s.moveMenu(MovementTypes.Up, tempObject, "Welcome", 0, 0);
         Invoke("tutorial1EnterOtherStuff", 0.5f);
        // */
     }
@@ -80,11 +80,11 @@ public class TutorialController : MonoBehaviour
     public void tutorial1EnterOtherStuff()
     {
         tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/SmallScroll"));
-        MenusController.s.enterFromRight(tempObject, "SmallScroll", 0, 0);
-
-        //tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/Satan"));
-        tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/SatanProud"));
-        MenusController.s.enterFromLeft(tempObject, "Satan", 0, 0);
+        // MenusController.s.enterFromRight(tempObject, "SmallScroll", 0, 0);
+        MenusController.s.moveMenu(MovementTypes.Left, tempObject, "SmallScroll", 0, 0);
+         //tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/Satan"));
+         tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/SatanProud"));
+        MenusController.s.moveMenu(MovementTypes.Left,tempObject, "Satan", 0, 0);
         Invoke("createNextButton", 2f);
     }
 
@@ -186,7 +186,7 @@ public class TutorialController : MonoBehaviour
     {
         HUD.SetActive(false);
         tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/BigScrollQuestion"));
-        MenusController.s.enterFromRight(tempObject, "BigScrollQuestion", 0, 0);
+        MenusController.s.moveMenu(MovementTypes.Right, tempObject, "BigScrollQuestion", 0, 0);
 
     }
     #endregion
@@ -201,7 +201,7 @@ public class TutorialController : MonoBehaviour
         fscreen[0].closeAndDestroy();
 
         tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/SmallScroll"));
-        MenusController.s.enterFromRight(tempObject, "SmallScroll", 0, 0);
+        MenusController.s.moveMenu(MovementTypes.Right, tempObject, "SmallScroll", 0, 0);
         Invoke("createNextButton", 2);
 
     }
@@ -219,7 +219,7 @@ public class TutorialController : MonoBehaviour
         fscreen[0].closeAndReopen();
         MenusController.s.repositeMenu("SmallScroll", null, 252, 154);
         tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/DownArrow"));
-        MenusController.s.enterFromRight(tempObject, "DownArrow", 0, 0);
+        MenusController.s.moveMenu(MovementTypes.Right,tempObject, "DownArrow", 0, 0);
         HUD.SetActive(true);
          
     }
@@ -271,7 +271,7 @@ public class TutorialController : MonoBehaviour
         script.initHandSoulsTutorial();
 
         tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/SmallScroll"));
-        MenusController.s.enterFromRight(tempObject, "SmallScroll", -292f, -113f);
+        MenusController.s.moveMenu(MovementTypes.Right,tempObject, "SmallScroll", -292f, -113f);
 
         //fscreen = GameObject.FindObjectsOfType(typeof(DialogsTexts)) as DialogsTexts[];
         // fscreen[0].closeAndReopen();
@@ -287,7 +287,7 @@ public class TutorialController : MonoBehaviour
     public void start_chicken_tutorial()
     {
         GLOBALS.s.TUTORIAL_PHASE = -1;
-        GLOBALS.s.LOCK_CAMERA_TUTORIAL = false;
+        GLOBALS.s.LOCK_CAMERA_TUTORIAL = true;
 
         MenusController.s.destroyMenu("SatanHand", null);
 
@@ -304,10 +304,10 @@ public class TutorialController : MonoBehaviour
         GLOBALS.s.TUTORIAL_PHASE = -2;
 
         tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/SmallScroll"));
-        MenusController.s.enterFromLeft(tempObject, "SmallScroll", 0, 0);
+        MenusController.s.moveMenu(MovementTypes.Left,tempObject, "SmallScroll", 0, 0);
 
         tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/Satan"));
-        MenusController.s.enterFromRight(tempObject, "Satan", 0, 0);
+        MenusController.s.moveMenu(MovementTypes.Right, tempObject, "Satan", 0, 0);
 
         Invoke("createNextButton", 2);
     }
@@ -374,10 +374,10 @@ public class TutorialController : MonoBehaviour
         GLOBALS.s.TUTORIAL_PHASE = 12;
 
         tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/BigScroll"));
-        MenusController.s.enterFromLeft(tempObject, "BigScroll", 0, 0);
+        MenusController.s.moveMenu(MovementTypes.Left, tempObject, "BigScroll", 0, 0);
 
         tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/Satan"));
-        MenusController.s.enterFromRight(tempObject, "Satan", 0, 0);
+        MenusController.s.moveMenu(MovementTypes.Right, tempObject, "Satan", 0, 0);
 
         Invoke("createNextButton", 2);
     }
@@ -391,7 +391,7 @@ public class TutorialController : MonoBehaviour
         MenusController.s.destroyMenu("BigScroll", null);
         
         tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/SmallScroll"));
-        MenusController.s.enterFromRight(tempObject, "SmallScroll", -223f, 169f);
+        MenusController.s.moveMenu(MovementTypes.Right, tempObject, "SmallScroll", -223f, 169f);
 
         tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/SatanHand"));
         MenusController.s.addToGUIAndRepositeObject(tempObject, "SatanHand");
@@ -411,7 +411,7 @@ public class TutorialController : MonoBehaviour
         MenusController.s.destroyMenu("SatanHand", null);
 
         tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/DemonList/DemonList"));
-        MenusController.s.enterFromLeft(tempObject, "DemonList", 0, 0);
+        MenusController.s.moveMenu(MovementTypes.Left, tempObject, "DemonList", 0, 0);
 
         Invoke("autoMoveList", 2);
 
@@ -438,13 +438,13 @@ public class TutorialController : MonoBehaviour
 
         GLOBALS.s.TUTORIAL_PHASE = 14;
         tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/SmallScroll"));
-        MenusController.s.enterFromRight(tempObject, "SmallScroll", 252, 154);
+        MenusController.s.moveMenu(MovementTypes.Right, tempObject, "SmallScroll", 252, 154);
 
         tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/Satan"));
-        MenusController.s.enterFromLeft(tempObject, "Satan", 0, 0);
+        MenusController.s.moveMenu(MovementTypes.Left, tempObject, "Satan", 0, 0);
 
         tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/DownArrow"));
-        MenusController.s.enterFromRight(tempObject, "DownArrow", 0, 0);
+        MenusController.s.moveMenu(MovementTypes.Right, tempObject, "DownArrow", 0, 0);
     }
     #endregion
 
@@ -496,7 +496,7 @@ public class TutorialController : MonoBehaviour
        
         GLOBALS.s.TUTORIAL_PHASE = 17;
         tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/SmallScroll"));
-        MenusController.s.enterFromRight(tempObject, "SmallScroll", -18f, -302f);
+        MenusController.s.moveMenu(MovementTypes.Right, tempObject, "SmallScroll", -18f, -302f);
 
 
         buildings = GameObject.FindObjectsOfType(typeof(BE.Building)) as BE.Building[];
@@ -521,10 +521,10 @@ public class TutorialController : MonoBehaviour
     {
 
         tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/BigScroll"));
-        MenusController.s.enterFromRight(tempObject, "BigScroll", 0, 0);
+        MenusController.s.moveMenu(MovementTypes.Right, tempObject, "BigScroll", 0, 0);
 
         tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/Satan"));
-        MenusController.s.enterFromLeft(tempObject, "Satan", 0, 0);
+        MenusController.s.moveMenu(MovementTypes.Left, tempObject, "Satan", 0, 0);
 
         buildings = GameObject.FindObjectsOfType(typeof(BE.Building)) as BE.Building[];
         foreach (BE.Building element in buildings)
@@ -560,7 +560,7 @@ public class TutorialController : MonoBehaviour
     {
 
         tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/ArowNext"));
-        MenusController.s.enterFromRight(tempObject, "ArowNext", 0, 0);
+        MenusController.s.moveMenu(MovementTypes.Right, tempObject, "ArowNext", 0, 0);
         if (GLOBALS.s.TUTORIAL_PHASE == 13)
         {
             Invoke("SatanHand", 0.7f);
