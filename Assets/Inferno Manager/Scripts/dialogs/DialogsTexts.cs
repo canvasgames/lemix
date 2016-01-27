@@ -134,6 +134,8 @@ public class DialogsTexts : MonoBehaviour
                 myText.GetComponentInChildren<Text>().alignment = TextAnchor.UpperCenter;
                 text_to_display = "Acceptable work, <color=blue>Mr Holiness</color>!\n\n Keep building and upgrading your buildings! Acquire souls to Level Up and be respected. \n\n  I will check your progress later.";
             }
+            else if (GLOBALS.s.TUTORIAL_PHASE == 19)
+                text_to_display = "If you want any missions, tap me. \n Adios! ";
             else if (GLOBALS.s.TUTORIAL_PHASE == 21)
             {
                 text_to_display = "Select the Resources Tab";

@@ -118,6 +118,7 @@
     <Compile Include="Assets\CityBuildingPerfectKit\Scripts\UIUnitItem.cs" />
     <Compile Include="Assets\CityBuildingPerfectKit\Scripts\UIUnitQueItem.cs" />
     <Compile Include="Assets\CloseBT.cs" />
+    <Compile Include="Assets\CollectSoulsBt.cs" />
     <Compile Include="Assets\Demigiant\DOTween\Examples\Basics.cs" />
     <Compile Include="Assets\Demigiant\DOTween\Examples\Sequences.cs" />
     <Compile Include="Assets\EnterFromDown.cs" />

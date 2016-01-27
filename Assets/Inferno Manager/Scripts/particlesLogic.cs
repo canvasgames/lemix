@@ -44,9 +44,7 @@ public class particlesLogic : MonoBehaviour {
     }
     void createsmoke()
     {
-
         puft = (GameObject)Instantiate(Resources.Load("Prefabs/smoke"));
-
         puft.transform.SetParent(BigD, false);
         puft.transform.localPosition = transform.localPosition;
         puft.transform.localScale = new Vector3(0f, 0f, 0f);
@@ -79,8 +77,25 @@ public class particlesLogic : MonoBehaviour {
 
     public void moveCatrastofe()
     {
-        GameObject finalPos = GameObject.Find("ElixirIcon");
-        transform.DOMove(finalPos.transform.position, 1f);
+        GameObject fPos = GameObject.Find("ElixirIcon"); ;
+         finalPos = fPos.transform;
+
+        GameObject daddy = GameObject.Find("Canvas");
+        BigD = daddy.transform;
+
+        transform.DOMove(finalPos.transform.position, 1f).OnComplete(createsmoke); ;
         transform.DOScale(0.7f, 0.7f);
+    }
+
+    void createSmokeCat()
+    {
+        Debug.Log("Creating smoke");
+        puft = (GameObject)Instantiate(Resources.Load("Prefabs/smoke"));
+
+        puft.transform.SetParent(BigD, false);
+        puft.transform.localPosition = transform.localPosition;
+        puft.transform.localScale = new Vector3(0f, 0f, 0f);
+
+        Invoke("smokeGrow", 0.1f);
     }
 }

@@ -35,12 +35,12 @@ public class collectSouls : MonoBehaviour {
 
     void destroy()
     {
-        GLOBALS.s.DIALOG_ALREADY_OPENED = false;
-        MenusController.s.destroyMenu("WarningEnteringAnimation", null);
-        MenusController.s.destroyMenu("TvStaticEnteringAnimation", null);
-        MenusController.s.destroyMenu("TvEnteringAnimation", null);
-        MenusController.s.destroyMenu("WarningEnteringAnimation", null);
-        MenusController.s.destroyMenu("WarningEnteringAnimation", null);
-        SceneManager.UnloadScene("CATastrophe");
+
+        Invoke("realDestroy", 2f);
+    }
+
+    void realDestroy()
+    {
+        MenusController.s.destroyCat();
     }
 }

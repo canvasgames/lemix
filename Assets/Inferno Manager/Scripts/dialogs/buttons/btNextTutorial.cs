@@ -113,6 +113,12 @@ public class btNextTutorial : ButtonCap
         else if (GLOBALS.s.TUTORIAL_PHASE == 18)
         {
             MenusController.s.destroyMenu("ArowNext", null);
+            TutorialController.s.ILlBeThereForYou();
+
+        }
+        else if (GLOBALS.s.TUTORIAL_PHASE == 19)
+        {
+            MenusController.s.destroyMenu("ArowNext", null);
             TutorialController.s.realEndTutorial();
 
         }

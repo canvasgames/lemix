@@ -18,6 +18,7 @@ public class MenusController : MonoBehaviour {
     public Transform bigDaddy, police;
     public List<menusList> menusOpened = new List<menusList>();
 
+
     //Class to keep the menu list in the List menusOpened
     public class menusList
     {
@@ -475,8 +476,15 @@ public class MenusController : MonoBehaviour {
     }
     void cat()
     {
-       
-        SceneManager.LoadScene("CATastrophe", LoadSceneMode.Additive);
+        GameObject tempObject;
+        tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/Catastrophe"));
+        MenusController.s.addToGUIAndRepositeObject(tempObject, "Catastrophe");
+    }
+
+    public void destroyCat()
+    {
+        GLOBALS.s.DIALOG_ALREADY_OPENED = false;
+        MenusController.s.destroyMenu("Catastrophe",null);
     }
 
     public void createLevelUp()

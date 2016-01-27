@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class Satan_HUD : MonoBehaviour
 {
-    
+     GameObject finalPos;
     // Use this for initialization
     void Start()
     {
@@ -18,7 +18,19 @@ public class Satan_HUD : MonoBehaviour
     {
 
     }
+    public void moveSatan()
+    {
+        finalPos = GameObject.Find("ButtonMissions");
+        transform.DOMove(finalPos.transform.position, 0.7f);
+        transform.DOScale(0.15f, 1f ).OnComplete(createButton);
+    }
 
+    void createButton()
+    {
+        finalPos.transform.localScale = new Vector3(1, 1, 1);
+        MenusController.s.destroyMenu("Satan", null);
+
+    }
 
 
 }

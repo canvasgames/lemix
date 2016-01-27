@@ -397,36 +397,50 @@ namespace BE {
 		// check tiles of building is vacant and set color of grid object
 		public void CheckLandable() {
 			bool IsVacant = ground.IsVacant(tilePos, tileSize);
-			//Debug.Log ("CheckLandable Vacant"+IsVacant.ToString ());
+			Debug.Log ("CheckLandable Vacant "+IsVacant.ToString () + "Change Color of building");
 			Color clrTemp = IsVacant ? new Color(0,1,0,0.5f) : new Color(1,0,0,0.5f);
 			BEUtil.SetObjectColor(goGrid, "_TintColor", clrTemp);
 			Landable = IsVacant;
 		}
 
-		public void Land(bool landed, bool animate, bool unselect) {
+		public void Land(bool landed, bool animate) {
+
+            Debug.Log("Land called = PARAMETERS");
+            Debug.Log("landed = " + landed);
+            Debug.Log("animate = " + animate);
+            Debug.Log(" ");
 
             if (Landed == landed)
             {
+                Debug.Log("Landed by landed flag");
 
                 return;
 
             }
             if (landed && !Landable) {
 				if(((int)tilePosOld.x == -1) && ((int)tilePosOld.y == -1))
-					return;
+                    {
+                        Debug.Log("Return because of reasons");
+                        return;
+                    }
+				
 
 				tilePos = tilePosOld;
 				//Debug.Log ("Land RecoverOldPos: "+TilePosOldX.ToString()+","+TilePosOldY.ToString());
 				ground.Move(gameObject, tilePos, tileSize);
 				CheckLandable();
 
-				if(!Landable) 
-					return;
+				if(!Landable)
+                {
+                    Debug.Log("Not Landable");
+                    return;
+                }
+					
 			}
 
-   
+            Debug.Log(Landed + " Landed state after");
                 Landed = landed;
-
+            Debug.Log(Landed + " Landed state before");
             ground.OccupySet(this);
 
 			if(!Landed) {
@@ -442,25 +456,34 @@ namespace BE {
 					
 			}
 
+
 			CheckLandable();
+            Debug.Log("Activating or Not Grid, Is Landed Flag is?  " + Landed);
 			goGrid.SetActive(Landed ? false : true);
-			if(goArrowRoot != null) 
-				goArrowRoot.SetActive(Landed ? false : true);
+			if(goArrowRoot != null)
+            {
+                Debug.Log("Activating goArrowRoot, by Land Flag");
+                goArrowRoot.SetActive(Landed ? false : true);
+            }
+				
 
 			if(uiInfo != null) {
                 //uiInfo.groupProgress.alpha = 0;
-               
+                Debug.Log("uiinfo animate = " + animate);
                 if (animate) {
 					if(Landed) 	{
-                        
+                        Debug.Log("Landed, Desapear UI Txt Build Info");
                         BETween.alpha(uiInfo.groupInfo.gameObject, 0.1f, 1.0f, 0.0f);
 						BETween.enable(uiInfo.groupInfo.gameObject, 0.1f, true, false);
 					}
 					else {
-                        appearBuildButtons();
-					}
+                        Debug.Log("Not Landed Appear UI Txt Build Info");
+                        BETween.alpha(uiInfo.groupInfo.gameObject, 0.1f, 0.0f, 1.0f);
+                        uiInfo.groupInfo.gameObject.SetActive(true);
+                    }
 				}
 				else {
+                    Debug.Log("else do sei lá o q");
 					uiInfo.groupInfo.alpha = Landed ? 0 : 1;
 					uiInfo.groupInfo.gameObject.SetActive(Landed ? false : true);
 				}
@@ -472,6 +495,8 @@ namespace BE {
 
 			if(Landed && (goCenter != null)) {
 				SceneTown.instance.Save();
+
+                Debug.Log("Landed Back to original color");
 				BEUtil.SetObjectColor(goCenter, Color.white);
 				BEUtil.SetObjectColor(goXInc, Color.white);
 				BEUtil.SetObjectColor(goZInc, Color.white);             
@@ -482,12 +507,6 @@ namespace BE {
 				BEWorkerManager.instance.OnTileInfoChanged();
 		}
 
-        public void appearBuildButtons()
-        {
-            BETween.alpha(uiInfo.groupInfo.gameObject, 0.1f, 0.0f, 1.0f);
-            uiInfo.groupInfo.gameObject.SetActive(true);
-
-        }
 		public void CheckNeighbor() {
 			if((goXInc == null) || (goZInc == null)) return;
 
@@ -553,7 +572,7 @@ namespace BE {
 
 			ground.Move(gameObject, tilePos, tileSize);
 			CheckLandable();
-			Land(true, false,false);
+			Land(true, false);
 
 			for(int i=0 ; i < 10 ; ++i) {
 				GenUnitCount[i] = 0;
@@ -738,7 +757,7 @@ namespace BE {
             script.transform.localScale = new Vector3(scale, scale, scale);
             // reset values related to production
 
-           // Production = Production - discountValue;
+           Production = Production - discountValue;
 
             if (outOfBounds == false)
             {

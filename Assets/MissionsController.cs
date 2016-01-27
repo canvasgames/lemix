@@ -58,14 +58,14 @@ public class MissionsController : MonoBehaviour {
     public void RewardMisison(MissionType type) {
         if(type == MissionType.Spank) {
             GameObject tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/SmallScroll"));
-            MenusController.s.enterFromRight(tempObject, "SmallScroll", 0, 0);
+            MenusController.s.moveMenu(MovementTypes.Right, tempObject, "SmallScroll", 0, 0);
 
             //tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/Satan"));
             tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/SatanProud"));
-            MenusController.s.enterFromLeft(tempObject, "Satan", 0, 0);
+            MenusController.s.moveMenu(MovementTypes.Left, tempObject, "Satan", 0, 0);
 
             GameObject temp = (GameObject)Instantiate(Resources.Load("Prefabs/Buttons/CollectSoulsBt"));
-            MenusController.s.enterFromRight(temp, "Bt", 0, 0);
+            MenusController.s.moveMenu(MovementTypes.Right, temp, "Bt", 0, 0);
 
             /*
             CollectSoulsBt temp = (CollectSoulsBt)Instantiate(Resources.Load("Prefabs/Buttons/CollectSoulsBt"));

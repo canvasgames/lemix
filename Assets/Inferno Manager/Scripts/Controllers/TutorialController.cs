@@ -6,7 +6,9 @@ using UnityEngine.UI;
 public class TutorialController : MonoBehaviour
 {
     public static TutorialController s;
-    
+
+    public GameObject missionsBT;
+
     GameObject tempObject;
     public GameObject HUD, explosion;
 
@@ -31,6 +33,7 @@ public class TutorialController : MonoBehaviour
  
         if (firstGame == 0)
         {
+            missionsBT.transform.localScale = new Vector3 (0, 0, 0);
             HUD.SetActive(false);
             GLOBALS.s.LOCK_CAMERA_TUTORIAL = true;
             GLOBALS.s.TUTORIAL_OCCURING     = true;
@@ -538,6 +541,17 @@ public class TutorialController : MonoBehaviour
         Invoke("createNextButton", 1);
     }
     #endregion
+    public void ILlBeThereForYou()
+    {
+        GLOBALS.s.TUTORIAL_PHASE = 19;
+        fscreen = GameObject.FindObjectsOfType(typeof(DialogsTexts)) as DialogsTexts[];
+        fscreen[0].closeAndReopen();
+
+        Invoke("createNextButton", 1);
+    }
+    #region Tutorial Phase 19 I will be there for you
+
+    #endregion
 
     #region Tutorial 1 End
     public void realEndTutorial()
@@ -546,10 +560,12 @@ public class TutorialController : MonoBehaviour
         GLOBALS.s.LOCK_CAMERA_TUTORIAL = false;
         GLOBALS.s.TUTORIAL_PHASE = 0;
         GLOBALS.s.TUTORIAL_OCCURING = false;
-        MenusController.s.goOutDestroy("Satan", null,"left");
+
+        Satan_HUD[] satanzito;
+        satanzito = GameObject.FindObjectsOfType(typeof(Satan_HUD)) as Satan_HUD[];
+        satanzito[0].moveSatan();
+
         MenusController.s.goOutDestroy("BigScroll", null,"right");
-        //MenusController.s.destroyMenu("Satan", null);
-        //MenusController.s.destroyMenu("BigScroll", null);
 
         // PlayerPrefs.SetInt("firstGame", 1);
     }

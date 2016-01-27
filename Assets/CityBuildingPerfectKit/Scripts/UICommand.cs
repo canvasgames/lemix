@@ -232,7 +232,7 @@ namespace BE {
                         // hide command dialog
                         Hide();
                         // land building and unselect
-                        Debug.Log("eu chamei 6");
+                        Debug.Log("BuildingLandUnselect chamado 6");
                         SceneTown.instance.BuildingLandUnselect(false);
 
 						// decrease build price of the building

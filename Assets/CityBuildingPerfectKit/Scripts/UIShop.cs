@@ -29,7 +29,7 @@ namespace BE {
 		public	Toggle 		[] 	toggleButtons;
 		public	GameObject 	[]	views;
 		public	GameObject 	[]	contents;
-		private	ShopType 		eType = ShopType.Normal;
+        private	ShopType 		eType = ShopType.Normal;
 
 		void Awake () {
 			instance=this;
@@ -62,11 +62,14 @@ namespace BE {
                 TutorialController.s.pressBuildImpCasePressed();
             }
 
-            
+        
+                ArrowsShop.s.recieveTab(value);
+
                 for (int i = 0; i < toggleButtons.Length; ++i)
                 {
                     contents[i].SetActive(toggleButtons[i].isOn ? true : false);
                 }
+
 
 
 

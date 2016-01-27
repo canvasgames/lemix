@@ -18,9 +18,8 @@ public class catastropheBT : MonoBehaviour {
     {
         if (GLOBALS.s.TUTORIAL_OCCURING == false && GLOBALS.s.DIALOG_ALREADY_OPENED == false)
         {
-            //Application.LoadLevelAdditive("CATastrophe");
-            //GLOBALS.s.DIALOG_ALREADY_OPENED = true;
-            MenusController.s.createCatastrophe(0);
+             MenusController.s.createCatastrophe(0);
+
         }
         
     }

@@ -312,7 +312,7 @@ namespace BE {
                                 goCameraRoot.transform.position = vCamRootPosOld + vMove;
 
                                 lastMoveTime = Time.time;
-                                Debug.Log(" DRAGGIN! lastMoveTime: " + lastMoveTime + " mousePosLast: " + mousePosLast + " AVGX: " + avgx + " AVGY: " + avgy + " | AVGDIST: " + avgDist);
+                               // Debug.Log(" DRAGGIN! lastMoveTime: " + lastMoveTime + " mousePosLast: " + mousePosLast + " AVGX: " + avgx + " AVGY: " + avgy + " | AVGDIST: " + avgDist);
 
                             }
                         }
@@ -342,11 +342,11 @@ namespace BE {
 
                     //Release MouseButton
                     if (bInTouch) {
-                        Debug.Log("b in touch");
+                        //Debug.Log("b in touch");
                         bInTouch = false;
                         // if in drag state
                         if (Dragged) {
-                            Debug.Log("DRAGGED STATE");
+                            //Debug.Log("DRAGGED STATE");
                             // seleted building exist
                             if (buildingSelected != null) {
                                 // hide tile grid
@@ -355,7 +355,7 @@ namespace BE {
 
                                 if (buildingSelected.Landable && buildingSelected.OnceLanded) {
                                     BuildingLandUnselect(false);
-                                    Debug.Log("eu chamei 2");
+                                    Debug.Log("BuildingLandUnselect chamado 3");
                                 }
 
                             }
@@ -363,7 +363,7 @@ namespace BE {
                             //camera was moving!! slowdown its movement
                             else {
                                 float timeDif = Time.time - lastMoveTime;
-                                Debug.Log("cameraStopping? " + cameraStopping + " timeDif " + timeDif);
+                                //Debug.Log("cameraStopping? " + cameraStopping + " timeDif " + timeDif);
 
                                 if (!cameraStopping && timeDif < 1f && timeDif > 0) {
                                     /*
@@ -394,7 +394,7 @@ namespace BE {
                                     if (avgDist.x == 0 && avgDist.y == 0) avgDist = Input.mousePosition - mousePosLast;
                                     else avgDist = (avgDist + Input.mousePosition - mousePosLast) / 2;
                                     //avgDist =  Input.mousePosition - mousePosLast;
-                                    Debug.Log("AVGDIST: " + avgDist + "| LastmouseX: " + mousePosLast.x + " lastMouseY : " + mousePosLast.y + " MouseX: " + Input.mousePosition.x + " MouseY: " + Input.mousePosition.y + " LastMousePosZ: " + mousePosLast.z + " MouseZ " + Input.mousePosition.z);
+                                   // Debug.Log("AVGDIST: " + avgDist + "| LastmouseX: " + mousePosLast.x + " lastMouseY : " + mousePosLast.y + " MouseX: " + Input.mousePosition.x + " MouseY: " + Input.mousePosition.y + " LastMousePosZ: " + mousePosLast.z + " MouseZ " + Input.mousePosition.z);
 
                                     Vector3 vDelta = avgDist * cameraStopSpeed;
                                     Vector3 vForward = goCameraRoot.transform.forward;
@@ -407,9 +407,9 @@ namespace BE {
 
                                     Vector3 vMove = -vForward * vDelta.y + -vRight * vDelta.x;
                                     goCameraRoot.transform.DOMove(goCameraRoot.transform.position + vMove, 0.5f).SetEase(Ease.OutQuad).OnComplete(() => cameraStopping = false);
-                                    Debug.Log(" CamXold: " + vCamRootPosOld.x + " CamZold : " + vCamRootPosOld.z);
-                                    Debug.Log("CamTrueX: " + goCameraRoot.transform.position.x + " CamTruY: " + goCamera.transform.position.z);
-                                    Debug.Log(" VMoveX:  " + vMove.x + " VMoveZ:  " + vMove.z);
+                                   // Debug.Log(" CamXold: " + vCamRootPosOld.x + " CamZold : " + vCamRootPosOld.z);
+                                   // Debug.Log("CamTrueX: " + goCameraRoot.transform.position.x + " CamTruY: " + goCamera.transform.position.z);
+                                   // Debug.Log(" VMoveX:  " + vMove.x + " VMoveZ:  " + vMove.z);
 
                                     //goCameraRoot.transform.position = vCamRootPosOld + vMove;
 
@@ -418,12 +418,12 @@ namespace BE {
                         }
                         //unselect building
                         else {
-                            Debug.Log("Unselect temporary? ");
+
                             if (bTemporarySelect) {
                                 // land building
                                 if ((buildingSelected != null) && (MouseClickedBuilding != buildingSelected) && buildingSelected.OnceLanded) {
 
-                                    Debug.Log("landing building?");
+                                    Debug.Log("BuildingLandUnselect chamado 1");
                                     BuildingLandUnselect(false);
                                 }
 
@@ -431,7 +431,7 @@ namespace BE {
                             else {
                                 // land building
                                 if ((buildingSelected != null) && (MouseClickedBuilding != buildingSelected) && buildingSelected.OnceLanded) {
-                                    Debug.Log("landing building2?");
+                                    Debug.Log("BuildingLandUnselect chamado 2");
 
                                     BuildingLandUnselect(true);
                                 }
@@ -508,13 +508,13 @@ namespace BE {
                 //Debug.Log ("Pick"+hit.collider.gameObject.tag);
                 if (hit.collider.gameObject.tag == "Ground")
                     {
-                   
+                    Debug.Log("Nao sei o q é isso");
                     BuildingSelect(null);
                         return;
                     }
                     else if (hit.collider.gameObject.tag == "Building")
                     {
-                    
+                    Debug.Log("Picked a Building");
                     Building buildingNew = BuildingFromObject(hit.collider.gameObject);
                         if (buildingNew.HasCompletedWork())
                             return;
@@ -533,7 +533,7 @@ namespace BE {
             }
             else
             {
-                Debug.Log("CARALEOOOOOOOOOO");
+                Debug.Log("Dont Picked Any Building");
             }
 
 		}
@@ -595,7 +595,7 @@ namespace BE {
 				if(!buildingSelected.Landed && !buildingSelected.Landable) return;
 
                 // land building
-                Debug.Log("eu chamei 5");
+                Debug.Log("BuildingLandUnselect chamado 5");
                 BuildingLandUnselect(false);
 				UICommand.Hide();
 			}
@@ -610,8 +610,9 @@ namespace BE {
 				// set scale animation to newly selected building
 				BETween bt = BETween.scale(buildingSelected.gameObject, 0.1f, new Vector3(1.0f,1.0f,1.0f), new Vector3(1.4f,1.4f,1.4f));
 				bt.loopStyle = BETweenLoop.pingpong;
-				// se tbuilding state unland
-				buildingSelected.Land(false, true, false);
+                // se tbuilding state unland
+                Debug.Log("Land call 1");
+				buildingSelected.Land(false, true);
 			}
 		}
 
@@ -622,27 +623,42 @@ namespace BE {
                 
                 return;
             }
+            Debug.Log("Land call 2");
+            buildingSelected.Land(true, true);
 
-            buildingSelected.Land(true, true, unselect);
-            //buildingSelected = null;
-            if ((GLOBALS.s.TUTORIAL_PHASE <4 && GLOBALS.s.TUTORIAL_OCCURING == true) || unselect == true )
+            //Dont select building created by tut (TH e Gate) or unselect flag
+            if ((unselect == true || GLOBALS.s.TUTORIAL_PHASE <4 && GLOBALS.s.TUTORIAL_OCCURING == true)  )
             {
                 buildingSelected = null;
             }
-			    
 
-			Save ();
+            Save();
 
 			UICommand.Hide();
 
+            //Eu que pus, para aparecer o HUD logo depois, tem q desaparecer e reaparecer para carregar os bts certos
+            //O tempo do invoke parece n funcionar because of reasons
            if (GLOBALS.s.TUTORIAL_PHASE < 4 && GLOBALS.s.TUTORIAL_OCCURING == true && unselect == false)
-                Invoke("UICommand.Show", 30);
+                Invoke("UICommand.Show", 3);
+
+            /*
+            CODIGO ORIGINAL
+                 public void BuildingLandUnselect() {
+                    if(buildingSelected == null) return;
+
+                    buildingSelected.Land(true, true);
+                    buildingSelected = null;
+                    Save ();
+
+                    UICommand.Hide();
+                }
+            */
         }
 
-		public void BuildingDelete() {
+        public void BuildingDelete() {
 			if(buildingSelected == null) return;
-
-			buildingSelected.Land (false, false, false);
+            Debug.Log("Land call 3");
+            buildingSelected.Land (false, false);
 			BEGround.instance.BuildingRemove (buildingSelected);
 			Destroy (buildingSelected.gameObject);
 			buildingSelected = null;
