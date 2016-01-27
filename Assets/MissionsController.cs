@@ -30,15 +30,54 @@ public class MissionsController : MonoBehaviour {
         }
     }
 
-
-    public void MissionBtPressed()
+    #region Open and Close
+    public void OpenMissionDialog()
     {
+        Debug.Log(" OPENING MISSION DIALOG");
         GameObject tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/DialogMissions"));
         MenusController.s.moveMenu(MovementTypes.Down, tempObject, "DialogMission", 0, 0);
     }
 
+    public void CloseMissionDialog() {
+        Debug.Log(" closing MISSION DIALOG");
+
+        MenusController.s.destroyMenu("DialogMission", null);
+    }
+
+    #endregion
+
     public void ActMission(MissionType type)
     {
+        if(type == MissionType.Spank) {
+            SpankController.s.StartAnimation();
+        }
 
+        CloseMissionDialog();
+    }
+
+    public void RewardMisison(MissionType type) {
+        if(type == MissionType.Spank) {
+            GameObject tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/SmallScroll"));
+            MenusController.s.enterFromRight(tempObject, "SmallScroll", 0, 0);
+
+            //tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/Satan"));
+            tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/SatanProud"));
+            MenusController.s.enterFromLeft(tempObject, "Satan", 0, 0);
+
+            GameObject temp = (GameObject)Instantiate(Resources.Load("Prefabs/Buttons/CollectSoulsBt"));
+            MenusController.s.enterFromRight(temp, "Bt", 0, 0);
+
+            /*
+            CollectSoulsBt temp = (CollectSoulsBt)Instantiate(Resources.Load("Prefabs/Buttons/CollectSoulsBt"));
+            temp.myType = CollectSoulsType.MissionSpank;
+            temp.quantityToCollect = 250;
+            */
+        }
+    }
+
+    public void OnSoulsCollected() {
+        MenusController.s.destroyMenu("Satan", null);
+        MenusController.s.destroyMenu("SmallScroll", null);
+        MenusController.s.destroyMenu("Bt", null);
     }
 }

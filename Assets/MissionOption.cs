@@ -5,7 +5,7 @@ using UnityEngine.EventSystems;
 
 public class MissionOption : ButtonCap
 {
-    public MissionType missionType = 0;
+    public MissionType missionType;
     
 
     public override void ActBT()

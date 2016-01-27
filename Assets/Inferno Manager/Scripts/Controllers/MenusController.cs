@@ -96,7 +96,6 @@ public class MenusController : MonoBehaviour {
     //or the reference to menu if you want use a close button with the reference or something like that
     public void destroyMenu(string name , GameObject myMenu)
     {
-
         menusList menu2Destroy = null;
 
         if (name != "")

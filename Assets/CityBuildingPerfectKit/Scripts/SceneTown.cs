@@ -190,304 +190,297 @@ namespace BE {
 		}
 
         #region UPDATE that handles Camera and building placement
-        void Update () {
+        void Update() {
             #region Update GUI values
             // get delta time from BETime
             float deltaTime = BETime.deltaTime;
 
-			// if user pressed escape key, show quit messagebox
-			if (!UIDialogMessage.IsShow() && !isModalShow && Input.GetKeyDown(KeyCode.Escape)) { 
-				UIDialogMessage.Show("Do you want to quit this program?", "Yes,No", "Quit?", null, (result) => { MessageBoxResult(result); } );
-			}
+            // if user pressed escape key, show quit messagebox
+            if (!UIDialogMessage.IsShow() && !isModalShow && Input.GetKeyDown(KeyCode.Escape)) {
+                UIDialogMessage.Show("Do you want to quit this program?", "Yes,No", "Quit?", null, (result) => { MessageBoxResult(result); });
+            }
 
-			// if in camera animation 
-			if(InFade) {
+            // if in camera animation 
+            if (InFade) {
 
-				//camera zoom in
-				FadeAge += Time.deltaTime * 0.7f;
-				if(FadeAge > 1.0f) { 
-					InFade = false;
-					FadeAge = 1.0f;
-					zoomCurrent = 24.0f;
-				}
+                //camera zoom in
+                FadeAge += Time.deltaTime * 0.7f;
+                if (FadeAge > 1.0f) {
+                    InFade = false;
+                    FadeAge = 1.0f;
+                    zoomCurrent = 24.0f;
+                }
 
-				goCameraRoot.transform.position = Vector3.Lerp(new Vector3(-5.5f,0,-5), Vector3.zero, FadeAge);
-				goCamera.transform.localPosition = Vector3.Lerp(new Vector3(0,0,-128.0f), new Vector3(0,0,-24.0f), FadeAge);
-			}
-            
+                goCameraRoot.transform.position = Vector3.Lerp(new Vector3(-5.5f, 0, -5), Vector3.zero, FadeAge);
+                goCamera.transform.localPosition = Vector3.Lerp(new Vector3(0, 0, -128.0f), new Vector3(0, 0, -24.0f), FadeAge);
+            }
+
             //TBDRESOUCES UPDATE YOUR RESOURCE BY TIME HERE
-			Exp.Update();
-			Gold.Update();
-			Elixir.Update();
-			Gem.Update();
-			Shield.ChangeTo (Shield.Target() - (double)deltaTime);
-			Shield.Update();
-			HouseInfo.text = BEWorkerManager.instance.GetAvailableWorkerCount().ToString () +"/"+BEGround.instance.GetBuildingCount(1).ToString ();
+            Exp.Update();
+            Gold.Update();
+            Elixir.Update();
+            Gem.Update();
+            Shield.ChangeTo(Shield.Target() - (double)deltaTime);
+            Shield.Update();
+            HouseInfo.text = BEWorkerManager.instance.GetAvailableWorkerCount().ToString() + "/" + BEGround.instance.GetBuildingCount(1).ToString();
 
-            
+
 
             if (UIDialogMessage.IsShow() || isModalShow) return;
             //if(EventSystem.current.IsPointerOverGameObject()) return;
 
             #endregion
+            if (!GLOBALS.s.SPANKING_OCURRING) { 
+                #region Camera Movement on Mouse button down
+                if (Input.GetMouseButton(0)) {
+                    //Debug.Log("asdas");
+                    if (EventSystem.current.IsPointerOverGameObject() || GLOBALS.s.LOCK_CAMERA_TUTORIAL == true || (GLOBALS.s.DIALOG_ALREADY_OPENED == true && GLOBALS.s.TUTORIAL_OCCURING == false)) {
+                        return;
+                    }
 
-            #region Camera Movement on Mouse button down
-            if (Input.GetMouseButton(0)) {
-                //Debug.Log("asdas");
-				if (EventSystem.current.IsPointerOverGameObject() || GLOBALS.s.LOCK_CAMERA_TUTORIAL == true || (GLOBALS.s.DIALOG_ALREADY_OPENED == true && GLOBALS.s.TUTORIAL_OCCURING == false)) {
-                    return;
-				}
-
-				//Click MouseButton
-				if(!bInTouch) {
-					bInTouch = true;
-					ClickAfter = 0.0f;
-					bTemporarySelect = false;
-					Dragged = false;
-					mousePosOld = Input.mousePosition;
-					mousePosLast = Input.mousePosition;
-                    avgx = 0;
-                    avgy = 0;
-                    avgDist = new Vector3(0,0,0);
-                    vCamRootPosOld = goCameraRoot.transform.position;
-
-					//when a building was selected and user drag mouse on the map
-					//check mouse drag start is over selected building or not
-					//if not do not move selected building
-					Ray ray = Camera.main.ScreenPointToRay(mousePosOld);
-					RaycastHit hit;
-					if (Physics.Raycast(ray, out hit) && (hit.collider.gameObject.tag == "Building")) {
-						MouseClickedBuilding = BuildingFromObject(hit.collider.gameObject);
-					}
-					else {
-						MouseClickedBuilding = null;
-					}
-
-					//Debug.Log ("Update buildingSelected:"+((buildingSelected != null) ? buildingSelected.name : "none"));
-
-				}
-                #endregion
-
-            #region Camera Movement holding button
-                else
-                {
-                    //Mouse Button is in pressed 
-                    //if mouse move certain diatance
-                    
-                    if (Vector3.Distance (Input.mousePosition,mousePosLast) > 0.01f) {
-
-						// set drag flag on
-						if(!Dragged) {
-							Dragged = true;
-
-							// show tile grid
-							if((buildingSelected != null) && (MouseClickedBuilding == buildingSelected)) {
-								BETween.alpha(ground.gameObject, 0.1f, 0.0f, 0.3f);
-								//Debug.Log ("ground alpha to 0.1");
-							}
-						}
-
-                        avgx =  Math.Abs(Input.mousePosition.x - mousePosLast.x)/ 2;
-                        avgy =  Math.Abs(Input.mousePosition.y - mousePosLast.y)/ 2;
-                        if (avgDist.x == 0 && avgDist.y == 0) avgDist = Input.mousePosition - mousePosLast;
-                        else avgDist = (avgDist + Input.mousePosition - mousePosLast) / 2;
+                    //Click MouseButton
+                    if (!bInTouch) {
+                        bInTouch = true;
+                        ClickAfter = 0.0f;
+                        bTemporarySelect = false;
+                        Dragged = false;
+                        mousePosOld = Input.mousePosition;
                         mousePosLast = Input.mousePosition;
-                        
-                        
-
-						// if selected building exist
-						if((buildingSelected != null) && (MouseClickedBuilding == buildingSelected)) {
-							Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-							float enter;
-							xzPlane.Raycast(ray, out enter);
-							Vector3 vTarget = ray.GetPoint(enter);
-							// move selected building
-							buildingSelected.Move (vTarget);
-						}
-						// else camera panning
-						else {
-                            Vector3 vDelta = (Input.mousePosition - mousePosOld) * cameraSpeed;
-                            Vector3 vForward = goCameraRoot.transform.forward; vForward.y = 0.0f; vForward.Normalize();
-                            Vector3 vRight = goCameraRoot.transform.right; vRight.y = 0.0f; vRight.Normalize();
-                            Vector3 vMove = -vForward * vDelta.y + -vRight * vDelta.x;
-                            goCameraRoot.transform.position = vCamRootPosOld + vMove;
-
-                            lastMoveTime = Time.time;
-                            Debug.Log(" DRAGGIN! lastMoveTime: " + lastMoveTime + " mousePosLast: " + mousePosLast + " AVGX: " +avgx + " AVGY: "+ avgy + " | AVGDIST: " + avgDist);
-                            
-						}
-					}
-					// Not Move
-					else {
                         avgx = 0;
                         avgy = 0;
-                        avgDist = new Vector3(0,0,0);
+                        avgDist = new Vector3(0, 0, 0);
+                        vCamRootPosOld = goCameraRoot.transform.position;
 
-                        if (!Dragged) {
-							ClickAfter += Time.deltaTime;
-							if(!bTemporarySelect && (ClickAfter > 0.5f)) {
-								bTemporarySelect = true;
-								//Debug.Log ("Update2 buildingSelected:"+((buildingSelected != null) ? buildingSelected.name : "none"));
-								Pick();
-							}
-						}
-					}
+                        //when a building was selected and user drag mouse on the map
+                        //check mouse drag start is over selected building or not
+                        //if not do not move selected building
+                        Ray ray = Camera.main.ScreenPointToRay(mousePosOld);
+                        RaycastHit hit;
+                        if (Physics.Raycast(ray, out hit) && (hit.collider.gameObject.tag == "Building")) {
+                            MouseClickedBuilding = BuildingFromObject(hit.collider.gameObject);
+                        }
+                        else {
+                            MouseClickedBuilding = null;
+                        }
 
-				}
-			}
+                        //Debug.Log ("Update buildingSelected:"+((buildingSelected != null) ? buildingSelected.name : "none"));
 
-            #endregion
+                    }
+                    #endregion
 
-            #region Release Mouse Button
-            else
-            {
+                    #region Camera Movement holding button
+                    else {
+                        //Mouse Button is in pressed 
+                        //if mouse move certain diatance
 
-				//Release MouseButton
-				if(bInTouch) {
-                    Debug.Log("b in touch");
-					bInTouch = false;
-					// if in drag state
-					if(Dragged) {
-                        Debug.Log("DRAGGED STATE");
-						// seleted building exist
-						if(buildingSelected != null) {
-							// hide tile grid
-							if(MouseClickedBuilding == buildingSelected) 
-								BETween.alpha(ground.gameObject, 0.1f, 0.3f, 0.0f);
+                        if (Vector3.Distance(Input.mousePosition, mousePosLast) > 0.01f) {
 
-							if(buildingSelected.Landable && buildingSelected.OnceLanded)
-                            {
-                                BuildingLandUnselect(false);
-                                Debug.Log("eu chamei 2");
+                            // set drag flag on
+                            if (!Dragged) {
+                                Dragged = true;
+
+                                // show tile grid
+                                if ((buildingSelected != null) && (MouseClickedBuilding == buildingSelected)) {
+                                    BETween.alpha(ground.gameObject, 0.1f, 0.0f, 0.3f);
+                                    //Debug.Log ("ground alpha to 0.1");
+                                }
                             }
-								
-						}
 
-                        //camera was moving!! slowdown its movement
-                        else
-                        {
-                            float timeDif = Time.time - lastMoveTime;
-                            Debug.Log("cameraStopping? "+ cameraStopping+ " timeDif "+ timeDif);
+                            avgx = Math.Abs(Input.mousePosition.x - mousePosLast.x) / 2;
+                            avgy = Math.Abs(Input.mousePosition.y - mousePosLast.y) / 2;
+                            if (avgDist.x == 0 && avgDist.y == 0) avgDist = Input.mousePosition - mousePosLast;
+                            else avgDist = (avgDist + Input.mousePosition - mousePosLast) / 2;
+                            mousePosLast = Input.mousePosition;
 
-                            if (!cameraStopping && timeDif < 1f && timeDif > 0)
-                            {
-                                /*
-                                float dist = Vector3.Distance(Input.mousePosition, mousePosLast);
-                                float directionX, directionY;
-                                //float curVelocityX = Math.Abs(Input.mousePosition.x - mousePosLast.x) * timeDif;
-                                //float curVelocityX = Math.Abs(Input.mousePosition.x - mousePosLast.x) * timeDif;
-                                float curVelocityX = avgx;
-                                float curVelocityY = avgy;
-                                if (Input.mousePosition.x > mousePosLast.x) directionX = -1f; else directionX = 1f;
-                                if (Input.mousePosition.y > mousePosLast.y) directionY = -1f; else directionY = 1f;
-                                float newX = goCameraRoot.transform.position.x + curVelocityX * cameraStopSpeed * directionX;
-                                float newY = goCameraRoot.transform.position.z + curVelocityY * cameraStopSpeed * directionY;
 
-                                
-                                Debug.Log("avgx: " + avgx + " avgy " + avgy);
-                                Debug.Log("dist: " + dist + " Vx " + (curVelocityX) + " Vy: " + (curVelocityY) + " | xDif: " + (Input.mousePosition.x - mousePosLast.x) + " yDif: "+ (Input.mousePosition.y - mousePosLast.y));
-                                Debug.Log("dict x: " + directionX + " dict y " + directionY);
-                                Debug.Log("Camera x: " + goCameraRoot.transform.position.x + " x target: " + newX + " | Camera Y: " + goCameraRoot.transform.position.z + " target y: " + newY);
-                                cameraStopping = true;
-                                goCameraRoot.transform.DOMove(new Vector3(newX, 0, newY), 0.5f).SetEase(Ease.OutQuad).OnComplete(() => cameraStopping = false);
 
-                                avgx = 0;
-                                avgy = 0;
-                                // Debug.Log("CAMERA STOPPING START. time dif: " + (Time.deltaTime - lastMoveTime) + " vDelta: " + curVelocity);
-                                */
-
-                                if (avgDist.x == 0 && avgDist.y == 0) avgDist = Input.mousePosition - mousePosLast;
-                                else avgDist = (avgDist + Input.mousePosition - mousePosLast) / 2;
-                                //avgDist =  Input.mousePosition - mousePosLast;
-                                Debug.Log("AVGDIST: " + avgDist + "| LastmouseX: " + mousePosLast.x + " lastMouseY : " + mousePosLast.y + " MouseX: " + Input.mousePosition.x + " MouseY: " + Input.mousePosition.y + " LastMousePosZ: " + mousePosLast.z + " MouseZ " + Input.mousePosition.z);
-
-                                Vector3 vDelta = avgDist * cameraStopSpeed;
-                                Vector3 vForward = goCameraRoot.transform.forward;
-                                vForward.y = 0.0f;
-                                vForward.Normalize();
-
-                                Vector3 vRight = goCameraRoot.transform.right;
-                                vRight.y = 0.0f;
-                                vRight.Normalize();
-
+                            // if selected building exist
+                            if ((buildingSelected != null) && (MouseClickedBuilding == buildingSelected)) {
+                                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                                float enter;
+                                xzPlane.Raycast(ray, out enter);
+                                Vector3 vTarget = ray.GetPoint(enter);
+                                // move selected building
+                                buildingSelected.Move(vTarget);
+                            }
+                            // else camera panning
+                            else {
+                                Vector3 vDelta = (Input.mousePosition - mousePosOld) * cameraSpeed;
+                                Vector3 vForward = goCameraRoot.transform.forward; vForward.y = 0.0f; vForward.Normalize();
+                                Vector3 vRight = goCameraRoot.transform.right; vRight.y = 0.0f; vRight.Normalize();
                                 Vector3 vMove = -vForward * vDelta.y + -vRight * vDelta.x;
-                                goCameraRoot.transform.DOMove(goCameraRoot.transform.position + vMove, 0.5f).SetEase(Ease.OutQuad).OnComplete(() => cameraStopping = false);
-                                Debug.Log(" CamXold: " + vCamRootPosOld.x + " CamZold : " + vCamRootPosOld.z );
-                                Debug.Log("CamTrueX: " + goCameraRoot.transform.position.x + " CamTruY: " + goCamera.transform.position.z );
-                                Debug.Log(" VMoveX:  " + vMove.x + " VMoveZ:  " + vMove.z);
+                                goCameraRoot.transform.position = vCamRootPosOld + vMove;
 
-                                //goCameraRoot.transform.position = vCamRootPosOld + vMove;
+                                lastMoveTime = Time.time;
+                                Debug.Log(" DRAGGIN! lastMoveTime: " + lastMoveTime + " mousePosLast: " + mousePosLast + " AVGX: " + avgx + " AVGY: " + avgy + " | AVGDIST: " + avgDist);
 
                             }
                         }
+                        // Not Move
+                        else {
+                            avgx = 0;
+                            avgy = 0;
+                            avgDist = new Vector3(0, 0, 0);
+
+                            if (!Dragged) {
+                                ClickAfter += Time.deltaTime;
+                                if (!bTemporarySelect && (ClickAfter > 0.5f)) {
+                                    bTemporarySelect = true;
+                                    //Debug.Log ("Update2 buildingSelected:"+((buildingSelected != null) ? buildingSelected.name : "none"));
+                                    Pick();
+                                }
+                            }
+                        }
+
                     }
-                    //unselect building
-					else {
-                        Debug.Log("Unselect temporary? ");
-						if(bTemporarySelect) {
-							// land building
-							if((buildingSelected != null) && (MouseClickedBuilding != buildingSelected) && buildingSelected.OnceLanded)
-                            {
+                }
 
-                                Debug.Log("landing building?");
-                                BuildingLandUnselect(false);
+                #endregion
+
+                #region Release Mouse Button
+                else {
+
+                    //Release MouseButton
+                    if (bInTouch) {
+                        Debug.Log("b in touch");
+                        bInTouch = false;
+                        // if in drag state
+                        if (Dragged) {
+                            Debug.Log("DRAGGED STATE");
+                            // seleted building exist
+                            if (buildingSelected != null) {
+                                // hide tile grid
+                                if (MouseClickedBuilding == buildingSelected)
+                                    BETween.alpha(ground.gameObject, 0.1f, 0.3f, 0.0f);
+
+                                if (buildingSelected.Landable && buildingSelected.OnceLanded) {
+                                    BuildingLandUnselect(false);
+                                    Debug.Log("eu chamei 2");
+                                }
+
                             }
-								
-						}
-						else {
-							// land building
-							if((buildingSelected != null) && (MouseClickedBuilding != buildingSelected) && buildingSelected.OnceLanded)
-                            {
-                                Debug.Log("landing building2?");
-                               
-                                BuildingLandUnselect(true);
+
+                            //camera was moving!! slowdown its movement
+                            else {
+                                float timeDif = Time.time - lastMoveTime;
+                                Debug.Log("cameraStopping? " + cameraStopping + " timeDif " + timeDif);
+
+                                if (!cameraStopping && timeDif < 1f && timeDif > 0) {
+                                    /*
+                                    float dist = Vector3.Distance(Input.mousePosition, mousePosLast);
+                                    float directionX, directionY;
+                                    //float curVelocityX = Math.Abs(Input.mousePosition.x - mousePosLast.x) * timeDif;
+                                    //float curVelocityX = Math.Abs(Input.mousePosition.x - mousePosLast.x) * timeDif;
+                                    float curVelocityX = avgx;
+                                    float curVelocityY = avgy;
+                                    if (Input.mousePosition.x > mousePosLast.x) directionX = -1f; else directionX = 1f;
+                                    if (Input.mousePosition.y > mousePosLast.y) directionY = -1f; else directionY = 1f;
+                                    float newX = goCameraRoot.transform.position.x + curVelocityX * cameraStopSpeed * directionX;
+                                    float newY = goCameraRoot.transform.position.z + curVelocityY * cameraStopSpeed * directionY;
+
+
+                                    Debug.Log("avgx: " + avgx + " avgy " + avgy);
+                                    Debug.Log("dist: " + dist + " Vx " + (curVelocityX) + " Vy: " + (curVelocityY) + " | xDif: " + (Input.mousePosition.x - mousePosLast.x) + " yDif: "+ (Input.mousePosition.y - mousePosLast.y));
+                                    Debug.Log("dict x: " + directionX + " dict y " + directionY);
+                                    Debug.Log("Camera x: " + goCameraRoot.transform.position.x + " x target: " + newX + " | Camera Y: " + goCameraRoot.transform.position.z + " target y: " + newY);
+                                    cameraStopping = true;
+                                    goCameraRoot.transform.DOMove(new Vector3(newX, 0, newY), 0.5f).SetEase(Ease.OutQuad).OnComplete(() => cameraStopping = false);
+
+                                    avgx = 0;
+                                    avgy = 0;
+                                    // Debug.Log("CAMERA STOPPING START. time dif: " + (Time.deltaTime - lastMoveTime) + " vDelta: " + curVelocity);
+                                    */
+
+                                    if (avgDist.x == 0 && avgDist.y == 0) avgDist = Input.mousePosition - mousePosLast;
+                                    else avgDist = (avgDist + Input.mousePosition - mousePosLast) / 2;
+                                    //avgDist =  Input.mousePosition - mousePosLast;
+                                    Debug.Log("AVGDIST: " + avgDist + "| LastmouseX: " + mousePosLast.x + " lastMouseY : " + mousePosLast.y + " MouseX: " + Input.mousePosition.x + " MouseY: " + Input.mousePosition.y + " LastMousePosZ: " + mousePosLast.z + " MouseZ " + Input.mousePosition.z);
+
+                                    Vector3 vDelta = avgDist * cameraStopSpeed;
+                                    Vector3 vForward = goCameraRoot.transform.forward;
+                                    vForward.y = 0.0f;
+                                    vForward.Normalize();
+
+                                    Vector3 vRight = goCameraRoot.transform.right;
+                                    vRight.y = 0.0f;
+                                    vRight.Normalize();
+
+                                    Vector3 vMove = -vForward * vDelta.y + -vRight * vDelta.x;
+                                    goCameraRoot.transform.DOMove(goCameraRoot.transform.position + vMove, 0.5f).SetEase(Ease.OutQuad).OnComplete(() => cameraStopping = false);
+                                    Debug.Log(" CamXold: " + vCamRootPosOld.x + " CamZold : " + vCamRootPosOld.z);
+                                    Debug.Log("CamTrueX: " + goCameraRoot.transform.position.x + " CamTruY: " + goCamera.transform.position.z);
+                                    Debug.Log(" VMoveX:  " + vMove.x + " VMoveZ:  " + vMove.z);
+
+                                    //goCameraRoot.transform.position = vCamRootPosOld + vMove;
+
+                                }
                             }
-								
+                        }
+                        //unselect building
+                        else {
+                            Debug.Log("Unselect temporary? ");
+                            if (bTemporarySelect) {
+                                // land building
+                                if ((buildingSelected != null) && (MouseClickedBuilding != buildingSelected) && buildingSelected.OnceLanded) {
 
-							//Debug.Log ("Update3 buildingSelected:"+((buildingSelected != null) ? buildingSelected.name : "none"));
-							Pick();
-						}
-					}
-				}
-			}
+                                    Debug.Log("landing building?");
+                                    BuildingLandUnselect(false);
+                                }
 
-            #endregion
+                            }
+                            else {
+                                // land building
+                                if ((buildingSelected != null) && (MouseClickedBuilding != buildingSelected) && buildingSelected.OnceLanded) {
+                                    Debug.Log("landing building2?");
 
-            #region Zoom
-            //zoom
-            if (!InFade && (GLOBALS.s.DIALOG_ALREADY_OPENED == false && GLOBALS.s.TUTORIAL_OCCURING == false))
-            {
-				zoomCurrent -= Input.GetAxis("Mouse ScrollWheel") * zoomSpeed;
-				zoomCurrent = Mathf.Clamp(zoomCurrent, zoomMin, zoomMax);
-                //goCamera.transform.localPosition = new Vector3(0,0,-zoomCurrent);
-                Camera camMain = goCamera.GetComponent<Camera>();
-                camMain.orthographicSize = zoomCurrent;
+                                    BuildingLandUnselect(true);
+                                }
+
+
+                                //Debug.Log ("Update3 buildingSelected:"+((buildingSelected != null) ? buildingSelected.name : "none"));
+                                Pick();
+                            }
+                        }
+                    }
+                }
+
+                #endregion
+
+                #region Zoom
+                //zoom
+                if (!InFade && (GLOBALS.s.DIALOG_ALREADY_OPENED == false && GLOBALS.s.TUTORIAL_OCCURING == false)) {
+                    zoomCurrent -= Input.GetAxis("Mouse ScrollWheel") * zoomSpeed;
+                    zoomCurrent = Mathf.Clamp(zoomCurrent, zoomMin, zoomMax);
+                    //goCamera.transform.localPosition = new Vector3(0,0,-zoomCurrent);
+                    Camera camMain = goCamera.GetComponent<Camera>();
+                    camMain.orthographicSize = zoomCurrent;
+                }
+
+                // pinch zoom for mobile touch input
+                if (Input.touchCount == 2 && (GLOBALS.s.DIALOG_ALREADY_OPENED == false && GLOBALS.s.TUTORIAL_OCCURING == false)) {
+                    // Store both touches.
+                    Touch touchZero = Input.GetTouch(0);
+                    Touch touchOne = Input.GetTouch(1);
+
+                    // Find the position in the previous frame of each touch.
+                    Vector2 touchZeroPrevPos = touchZero.position - touchZero.deltaPosition;
+                    Vector2 touchOnePrevPos = touchOne.position - touchOne.deltaPosition;
+
+                    // Find the magnitude of the vector (the distance) between the touches in each frame.
+                    float prevTouchDeltaMag = (touchZeroPrevPos - touchOnePrevPos).magnitude;
+                    float touchDeltaMag = (touchZero.position - touchOne.position).magnitude;
+
+                    // Find the difference in the distances between each frame.
+                    float deltaMagnitudeDiff = prevTouchDeltaMag - touchDeltaMag;
+
+                    zoomCurrent += deltaMagnitudeDiff * perspectiveZoomSpeed;
+                    zoomCurrent = Mathf.Clamp(zoomCurrent, zoomMin, zoomMax);
+                    //goCamera.transform.localPosition = new Vector3(0,0,-zoomCurrent);
+                    Camera camMain = goCamera.GetComponent<Camera>();
+                    camMain.orthographicSize = zoomCurrent;
+                }
+                #endregion
             }
-
-			// pinch zoom for mobile touch input
-			if(Input.touchCount == 2 && (GLOBALS.s.DIALOG_ALREADY_OPENED == false && GLOBALS.s.TUTORIAL_OCCURING == false)) {
-				// Store both touches.
-				Touch touchZero = Input.GetTouch(0);
-				Touch touchOne = Input.GetTouch(1);
-				
-				// Find the position in the previous frame of each touch.
-				Vector2 touchZeroPrevPos = touchZero.position - touchZero.deltaPosition;
-				Vector2 touchOnePrevPos = touchOne.position - touchOne.deltaPosition;
-				
-				// Find the magnitude of the vector (the distance) between the touches in each frame.
-				float prevTouchDeltaMag = (touchZeroPrevPos - touchOnePrevPos).magnitude;
-				float touchDeltaMag = (touchZero.position - touchOne.position).magnitude;
-				
-				// Find the difference in the distances between each frame.
-				float deltaMagnitudeDiff = prevTouchDeltaMag - touchDeltaMag;
-				
-				zoomCurrent += deltaMagnitudeDiff * perspectiveZoomSpeed;
-				zoomCurrent = Mathf.Clamp(zoomCurrent, zoomMin, zoomMax);
-                //goCamera.transform.localPosition = new Vector3(0,0,-zoomCurrent);
-                Camera camMain = goCamera.GetComponent<Camera>();
-                camMain.orthographicSize = zoomCurrent;
-            }
-            #endregion
         }
         #endregion
 
