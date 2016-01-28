@@ -25,7 +25,7 @@ public class SpankController : MonoBehaviour {
     GameObject handSpank;
 
     GameObject slap;
-    GameObject handSlapper;
+    GameObject handSlapper = null;
     GameObject painFace;
 
     //texts
@@ -62,7 +62,7 @@ public class SpankController : MonoBehaviour {
     }
 
     void Update() {
-        if (GLOBALS.s.SPANKING_OCURRING && handSlapper != null) {
+        if (GLOBALS.s != null && GLOBALS.s.SPANKING_OCURRING && handSlapper != null) {
             if (firstTime)
                 timeLeft -= Time.deltaTime;
             if (timeLeft > 0) {
@@ -121,7 +121,7 @@ public class SpankController : MonoBehaviour {
     public void StartAnimation() {
         GLOBALS.s.SPANKING_OCURRING = true;
 
-        timeLeft = 2;
+        timeLeft = 10;
         nSlaps = 0;
         //display slaps here
         //texts

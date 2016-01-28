@@ -171,17 +171,17 @@ namespace BE {
 			// if building can produce resources
 			if(Landed && !InUpgrade && (def != null) && (def.eProductionType != PayType.None)) {
 
-                if(GLOBALS.s.TUTORIAL_PHASE == 4 || GLOBALS.s.TUTORIAL_PHASE == 17)
+                if(GLOBALS.s != null && (GLOBALS.s.TUTORIAL_PHASE == 4 || GLOBALS.s.TUTORIAL_PHASE == 17))
                 {
                     //Automatically generate souls or fire for tutorial
                     if (GLOBALS.s.TUTORIAL_PHASE == 4)
                         Production = 100;
                     else if(GLOBALS.s.TUTORIAL_PHASE == 17 && def.eProductionType == PayType.Gold)
                         Production = 1000;
-
                 }
                 else
-                { 
+                {
+                    if (GLOBALS.s == null) Debug.Log("GLOBALS IS NULL!!!!!!!!!!");
                     Production += (float)def.ProductionRate * deltaTime;
                 }
 				
@@ -205,9 +205,7 @@ namespace BE {
                         {
                             Invoke("delayCollect", 2f);
                         }
-
                     }
-                        
 				}
 
 				if(Collectable) {
@@ -649,11 +647,13 @@ namespace BE {
                     //Verify if the production exceeded the capacity
                     if (AllProduction + Production <= CapacityTotal)
                     {
-                        Debug.Log(Production);
+                        Debug.Log("before Collect" +Production);
                         createParticleUIandCollect(Production, false);
-                        Debug.Log(Production);
+                        Debug.Log("After CollecT" + Production);
                         if (def.eProductionType == PayType.Elixir)
                             SceneTown.instance.GainExp((int)Production);
+
+                        //Production = 0
                     }
                     else
                     {

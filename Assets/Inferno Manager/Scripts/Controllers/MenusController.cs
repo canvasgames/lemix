@@ -44,21 +44,31 @@ public class MenusController : MonoBehaviour {
     }
     #endregion
 
-    public void moveMenu(MovementTypes type, GameObject menu, string name, float newX, float newY, string dialogTextName = "", bool writeText = false, bool dont_screw_canvas = false)
+    public void moveMenu(MovementTypes type, GameObject menu, string name, float newX, float newY, string dialogTextName = "", bool writeText = false, bool dont_screw_canvas = false, float delay = 0f)
     {
-        if(type == MovementTypes.Down)
-            enterFromDown(menu, name, newX, newY, dont_screw_canvas);
-        if (type == MovementTypes.Up)
-            enterFromUp(menu, name, newX, newY, dont_screw_canvas);
-        if (type == MovementTypes.Right)
-            enterFromRight(menu, name, newX, newY);
-        if (type == MovementTypes.Left)
-            enterFromLeft(menu, name, newX, newY);
+        if (delay == 0) {
+            if (type == MovementTypes.Down)
+                enterFromDown(menu, name, newX, newY, dont_screw_canvas);
+            if (type == MovementTypes.Up)
+                enterFromUp(menu, name, newX, newY, dont_screw_canvas);
+            if (type == MovementTypes.Right)
+                enterFromRight(menu, name, newX, newY);
+            if (type == MovementTypes.Left)
+                enterFromLeft(menu, name, newX, newY);
 
-        if(dialogTextName != "")
-        {
-            menu.transform.GetComponentInChildren<DialogsTexts>().changeText(dialogTextName,writeText);
+            if (dialogTextName != "") {
+                menu.transform.GetComponentInChildren<DialogsTexts>().changeText(dialogTextName, writeText);
+
+            }
         }
+        else
+            StartCoroutine(moveMenuRecall(type, menu, name, newX, newY, dialogTextName = "", writeText, dont_screw_canvas, delay));
+    }
+
+    IEnumerator moveMenuRecall(MovementTypes type, GameObject menu, string name, float newX, float newY, string dialogTextName = "", bool writeText = false, bool dont_screw_canvas = false, float delay = 0f) {
+    //IEnumerator moveMenuRecall(string a) {
+        yield return new WaitForSeconds(delay);
+        moveMenu(type, menu, name, newX, newY, dialogTextName = "", writeText, dont_screw_canvas, 0);
 
     }
 

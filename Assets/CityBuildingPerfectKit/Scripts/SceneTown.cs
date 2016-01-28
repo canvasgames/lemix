@@ -196,12 +196,13 @@ namespace BE {
             float deltaTime = BETime.deltaTime;
 
             // if user pressed escape key, show quit messagebox
-            if (!UIDialogMessage.IsShow() && !isModalShow && Input.GetKeyDown(KeyCode.Escape)) {
-                UIDialogMessage.Show("Do you want to quit this program?", "Yes,No", "Quit?", null, (result) => { MessageBoxResult(result); });
-            }
+            //if (!UIDialogMessage.IsShow("get keydown scape") && !isModalShow && Input.GetKeyDown(KeyCode.Escape)) {
+              //  UIDialogMessage.Show("Do you want to quit this program?", "Yes,No", "Quit?", null, (result) => { MessageBoxResult(result); });
+            //}
 
             // if in camera animation 
-            if (InFade) {
+            InFade = false;
+            /*if (InFade) {
 
                 //camera zoom in
                 FadeAge += Time.deltaTime * 0.7f;
@@ -213,10 +214,10 @@ namespace BE {
 
                 goCameraRoot.transform.position = Vector3.Lerp(new Vector3(-5.5f, 0, -5), Vector3.zero, FadeAge);
                 goCamera.transform.localPosition = Vector3.Lerp(new Vector3(0, 0, -128.0f), new Vector3(0, 0, -24.0f), FadeAge);
-            }
+            }*/
 
             //TBDRESOUCES UPDATE YOUR RESOURCE BY TIME HERE
-            Exp.Update();
+            if (Exp != null) Exp.Update(); else Debug.Log("EXP IS NULL....");
             Gold.Update();
             Elixir.Update();
             Gem.Update();
@@ -226,7 +227,7 @@ namespace BE {
 
 
 
-            if (UIDialogMessage.IsShow() || isModalShow) return;
+            if (UIDialogMessage.IsShow("scene town update") || isModalShow) return;
             //if(EventSystem.current.IsPointerOverGameObject()) return;
 
             #endregion
@@ -406,6 +407,7 @@ namespace BE {
                                     vRight.Normalize();
 
                                     Vector3 vMove = -vForward * vDelta.y + -vRight * vDelta.x;
+                                    cameraStopping = true;
                                     goCameraRoot.transform.DOMove(goCameraRoot.transform.position + vMove, 0.5f).SetEase(Ease.OutQuad).OnComplete(() => cameraStopping = false);
                                    // Debug.Log(" CamXold: " + vCamRootPosOld.x + " CamZold : " + vCamRootPosOld.z);
                                    // Debug.Log("CamTrueX: " + goCameraRoot.transform.position.x + " CamTruY: " + goCamera.transform.position.z);
@@ -436,7 +438,6 @@ namespace BE {
                                     BuildingLandUnselect(true);
                                 }
 
-
                                 //Debug.Log ("Update3 buildingSelected:"+((buildingSelected != null) ? buildingSelected.name : "none"));
                                 Pick();
                             }
@@ -448,7 +449,7 @@ namespace BE {
 
                 #region Zoom
                 //zoom
-                if (!InFade && (GLOBALS.s.DIALOG_ALREADY_OPENED == false && GLOBALS.s.TUTORIAL_OCCURING == false)) {
+                if (!InFade && !cameraStopping && (GLOBALS.s.DIALOG_ALREADY_OPENED == false && GLOBALS.s.TUTORIAL_OCCURING == false)) {
                     zoomCurrent -= Input.GetAxis("Mouse ScrollWheel") * zoomSpeed;
                     zoomCurrent = Mathf.Clamp(zoomCurrent, zoomMin, zoomMax);
                     //goCamera.transform.localPosition = new Vector3(0,0,-zoomCurrent);
@@ -490,7 +491,9 @@ namespace BE {
             Vector3 newPos = new Vector3(pos.x - 1.5f, pos.y, pos.z - 1.5f);
             Camera cam = goCamera.GetComponent<Camera>();
             if (Math.Abs (cam.orthographicSize - 6f) > 0.1f)
-                cam.DOOrthoSize(6f, duration);
+                cam.DOOrthoSize(6f, duration).OnComplete(()=> zoomCurrent = 6f);
+
+            cameraStopping = true;
             goCameraRoot.transform.DOMove(newPos, duration).SetEase(Ease.OutQuad).OnComplete(() => cameraStopping = false);
         }
 
@@ -901,7 +904,7 @@ namespace BE {
             Building script = BEGround.instance.BuildingAdd(0, 1);
             Vector3 pos = new Vector3(4f, 0f, 4f);
             script.Move(pos);
-            move_camera_to_building(pos);
+            if(GLOBALS.s.TUTORIAL_OCCURING) move_camera_to_building(pos);
 
             script.createExplosion();
             BuildingSelect(script);
@@ -914,7 +917,7 @@ namespace BE {
 
             Vector3 pos = new Vector3(19f, 0f, 4f);
             script.Move(pos);
-            move_camera_to_building(pos);
+            if (GLOBALS.s.TUTORIAL_OCCURING) move_camera_to_building(pos);
 
 
             script.createExplosion();

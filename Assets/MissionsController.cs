@@ -6,6 +6,7 @@ public enum MissionType {
     Spank = 1,
     Build = 2,
     LevelUp = 3,
+    CollectSouls = 4
 }
 
 public class MissionsController : MonoBehaviour {
@@ -16,8 +17,8 @@ public class MissionsController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-	
-	}
+        // GLOBALS.s.TUTORIAL_OCCURING = true ;
+    }
 
     public void GetMissionInfoForList(MissionType type) { 
         if(type == MissionType.Spank)
@@ -48,24 +49,32 @@ public class MissionsController : MonoBehaviour {
 
     public void ActMission(MissionType type)
     {
-        if(type == MissionType.Spank) {
+        CloseMissionDialog();
+
+        if (type == MissionType.Spank) {
             SpankController.s.StartAnimation();
         }
+        else if (type == MissionType.Build) {
+            BE.SceneTown.instance.OnButtonShop();
+        }
+        else if (type == MissionType.CollectSouls) {
+            Vector3 pos = new Vector3(19f, 0f, 4f);
+            BE.SceneTown.instance.move_camera_to_building(pos);
+        }
 
-        CloseMissionDialog();
     }
 
     public void RewardMisison(MissionType type) {
         if(type == MissionType.Spank) {
             GameObject tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/SmallScroll"));
-            MenusController.s.moveMenu(MovementTypes.Right, tempObject, "SmallScroll", 0, 0);
+            MenusController.s.moveMenu(MovementTypes.Left, tempObject, "SmallScroll", 0, 0);
 
             //tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/Satan"));
             tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/SatanProud"));
             MenusController.s.moveMenu(MovementTypes.Left, tempObject, "Satan", 0, 0);
 
             GameObject temp = (GameObject)Instantiate(Resources.Load("Prefabs/Buttons/CollectSoulsBt"));
-            MenusController.s.moveMenu(MovementTypes.Right, temp, "Bt", 0, 0);
+            MenusController.s.moveMenu(MovementTypes.Left, temp, "Bt", 0, 0);
 
             /*
             CollectSoulsBt temp = (CollectSoulsBt)Instantiate(Resources.Load("Prefabs/Buttons/CollectSoulsBt"));

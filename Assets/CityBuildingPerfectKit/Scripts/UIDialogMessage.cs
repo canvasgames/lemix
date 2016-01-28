@@ -157,7 +157,7 @@ namespace BE {
 
 		public static void Show(string message, string buttons, string title = null, Sprite spr = null, Action<int> onFinished = null) { instance._Show(message, buttons, title, spr, onFinished); }
 		public static void Hide() 	{ instance.Close(); }
-        public static bool IsShow() { if (instance != null) return instance.Initialized ? true : false; else { Debug.Log("!!!!!!! ERRO DO IsShow !!!!!!!! "); return false; } }
+        public static bool IsShow(string caller = "") { if (instance != null) return instance.Initialized ? true : false; else { Debug.Log("!!!!!!! ERRO DO IsShow !!!!!!!! caller: " + caller); return false; } }
         //resultado = (nota >= 5) ? conceito ?? " Aprovado " : " Reprovado ";
 
 	}

@@ -11,14 +11,18 @@ public class DialogsTexts : MonoBehaviour
     string text_final = "";
     int k = 0;
     string cur_color = "";
+    string curTextState = "m";
     Text text_component;
+    //Vector3 upperLeftPos = new Vector3(46,-162,0);
+    Vector3 upperLeftPos = new Vector3(40,-32,0);
+    Vector3 middleCenterPos = new Vector3(14,-168,0);
     // Use this for initialization
     void Start()
     {
         myTextHeight = myText.GetComponent<RectTransform>().rect.height;
         transform.localScale = new Vector3(1, 0, 1);
+        ChangeTextFormat("l");
         Invoke("open", 0.3f);
-
     }
 
     // Update is called once per frame
@@ -37,9 +41,10 @@ public class DialogsTexts : MonoBehaviour
 
     }
 
-    public void closeAndReopen()
+    public void closeAndReopen(string textAlign = "")
     {
-        transform.DOScaleY(0f, 0.3f).OnComplete(open); 
+        transform.DOScaleY(0f, 0.3f).OnComplete(open);
+        if (textAlign != "") ChangeTextFormat(textAlign);
     }
 
     public void closeAndDestroy()
@@ -47,28 +52,49 @@ public class DialogsTexts : MonoBehaviour
         transform.DOScaleY(0f, 0.3f).OnComplete(destroy);
         
     }
+
     void destroy()
     {
         MenusController.s.destroyMenu("", transform.parent.gameObject);
     }
+
+    void ChangeTextFormat(string state) {
+        if(curTextState != state) {
+            curTextState = state;
+            if(state == "m") { // change the text to middle and center
+                Debug.Log("CHANGING TEXT STATE TO MIDDLE");
+                myText.GetComponentInChildren<Text>().alignment = TextAnchor.MiddleCenter;
+                myText.GetComponentInChildren<Text>().transform.localPosition -= upperLeftPos;
+            }
+            else if (state == "l") {
+                Debug.Log("CHANGING TEXT STATE TO LEFT");
+                myText.GetComponentInChildren<Text>().alignment = TextAnchor.UpperLeft;
+                myText.GetComponentInChildren<Text>().transform.localPosition += upperLeftPos;
+            }
+        }
+    }
+
     public void changeText(string dialogName = "", bool writeText = false)
     {
         string text_to_display = "";
         Debug.Log("CHANGE TEXT CALLED");
-        Debug.Log(dialogName);
+        //Debug.Log(dialogName);
         if(dialogName == "")
         {
             if (GLOBALS.s.TUTORIAL_PHASE == 1)
             {
-                text_to_display = "That was quite an entrance, right?";
-                myText.GetComponentInChildren<Text>().alignment = TextAnchor.MiddleCenter;
+                Debug.Log("LOCAL POSITION: " + myText.GetComponentInChildren<Text>().transform.localPosition);
+                text_to_display = "That was quite an entrance,\nright?";
+                ChangeTextFormat("l");
+
             }
 
             //text_to_display = "Hi, I'm Satan!  \n You've been promoted to DEMON LORD!";
             else if (GLOBALS.s.TUTORIAL_PHASE == 101)
             {
                 text_to_display = "Back to business then.\nI'm promoting you to \n<color=#fe2323>Demon Lord!</color>";
-                myText.GetComponentInChildren<Text>().alignment = TextAnchor.UpperCenter;
+
+                //myText.GetComponentInChildren<Text>().alignment = TextAnchor.UpperCenter;
             }
             else if (GLOBALS.s.TUTORIAL_PHASE == 2)
                 text_to_display = "You're now in charge of\nthis area of the Hell.\nThat's your Palace.";
@@ -77,72 +103,72 @@ public class DialogsTexts : MonoBehaviour
             else if (GLOBALS.s.TUTORIAL_PHASE == 4)
             {
                 text_to_display = "Tap to Collect Souls.";
-                myText.GetComponentInChildren<Text>().alignment = TextAnchor.MiddleCenter;
+                //myText.GetComponentInChildren<Text>().alignment = TextAnchor.MiddleCenter;
             }
             else if (GLOBALS.s.TUTORIAL_PHASE == 5)
-                text_to_display = "It seems we have nowhere to place the souls..\nWhat's your suggestion?";
+                text_to_display = "It seems we have nowhere\nto place the souls..\nWhat's your suggestion?";
             else if (GLOBALS.s.TUTORIAL_PHASE == 6)
                 text_to_display = "For Antichrist sake!\nWhy did I promoted you?\nThey deserve <color=#fe2323>PUNISHMENT!</color>";
             //
             else if (GLOBALS.s.TUTORIAL_PHASE == 7)
                 text_to_display = "Now lets punish this sinner souls.\nTap the <color=green>Build Button</color>.";
             else if (GLOBALS.s.TUTORIAL_PHASE == 8)
-                text_to_display = "Select one of the <color=#fe2323>Punisher Buldings!</color>";
+                text_to_display = "Select one of the\n<color=#fe2323>Punisher Buldings!</color>";
             // text_to_display = "Hold the finger over the building and drag to replace it and Confirm.";
             else if (GLOBALS.s.TUTORIAL_PHASE == 9)
             {
                 text_to_display = "Place it and confirm";
-                myText.GetComponentInChildren<Text>().alignment = TextAnchor.MiddleCenter;
+                //myText.GetComponentInChildren<Text>().alignment = TextAnchor.MiddleCenter;
             }
 
             // text_to_display = "Tap to Collect Sadness.";
             else if (GLOBALS.s.TUTORIAL_PHASE == 10)
-                text_to_display = "<color=#fe2323>Punisher Buildings</color> increases your <color=#fe2323>Souls Capacity</color>";
+                text_to_display = "<color=#fe2323>Punisher Buildings</color> increases\nyour <color=#fe2323>Souls Capacity</color>";
 
             else if (GLOBALS.s.TUTORIAL_PHASE == -1)
             {
                 text_to_display = "Now kick the chicken";
-                myText.GetComponentInChildren<Text>().alignment = TextAnchor.MiddleCenter;
+                //myText.GetComponentInChildren<Text>().alignment = TextAnchor.MiddleCenter;
             }
 
             else if (GLOBALS.s.TUTORIAL_PHASE == -2)
-                text_to_display = "Muahaha! It is always fun to kick a chicken. Although that has nothing to do with the game";
+                text_to_display = "Muahaha! It's always fun\nto kick a chicken. Although\nthat has nothing to\n do with the game";
 
             // text_to_display = "Great! Now your Hell Gate can Generate Souls! As higher your sadness meter, more souls will be sent to your Hell!";
             else if (GLOBALS.s.TUTORIAL_PHASE == 11)
             {
                 text_to_display = "Ok. Back to Seriousness!\nTap to Collect Souls.";
-                myText.GetComponentInChildren<Text>().alignment = TextAnchor.MiddleCenter;
+                //myText.GetComponentInChildren<Text>().alignment = TextAnchor.MiddleCenter;
             }
 
             else if (GLOBALS.s.TUTORIAL_PHASE == 12)
-                text_to_display = "Why the <color=blue>heaven</color> are you celebrating?\n You barely started!\n There is still a long path to get to be someone other than this <color=blue>bag of holiness</color> you are!";
+                text_to_display = "Why the <color=blue>heaven</color> are you \ncelebrating?\nYou barely started!\nThere is still a long path\nto get to be someone other than\nthis <color=blue>bag of holiness</color> you are!";
             //text_to_display = "Aquire more souls to Level Up and be respected.";
             else if (GLOBALS.s.TUTORIAL_PHASE == 14)
-                text_to_display = "To construct more Punisher Buildings you need <color=#fe2323>HELLFIRE!</color> Tap to construct a Fire Mine.";
+                text_to_display = "to build Punisher Buildings\n you need<color=#fe2323>Hellfire!</color>Tap\nto build a Fire Mine.";
             else if (GLOBALS.s.TUTORIAL_PHASE == 15)
                 text_to_display = "Now Select the <color=#fe2323>Fire Mine</color>";
             else if (GLOBALS.s.TUTORIAL_PHASE == 16)
             {
                 text_to_display = "Place it and confirm";
-                myText.GetComponentInChildren<Text>().alignment = TextAnchor.MiddleCenter;
+                //myText.GetComponentInChildren<Text>().alignment = TextAnchor.MiddleCenter;
             }
             else if (GLOBALS.s.TUTORIAL_PHASE == 17)
                 text_to_display = "Tap to collect Hellfire";
             else if (GLOBALS.s.TUTORIAL_PHASE == 18)
             {
-                myText.GetComponentInChildren<Text>().alignment = TextAnchor.UpperCenter;
-                text_to_display = "Acceptable work, <color=blue>Mr Holiness</color>!\n\n Keep building and upgrading your buildings! Acquire souls to Level Up and be respected. \n\n  I will check your progress later.";
+                //myText.GetComponentInChildren<Text>().alignment = TextAnchor.UpperCenter;
+                text_to_display = "Acceptable work, <color=blue>Mr Holiness</color>!\n\nKeep building and upgrading your buildings!\nAcquire souls to Level Up and be respected.\n\n.";
             }
             else if (GLOBALS.s.TUTORIAL_PHASE == 19)
                 text_to_display = "If you want any missions, tap me. \n Adios! ";
             else if (GLOBALS.s.TUTORIAL_PHASE == 21)
             {
                 text_to_display = "Select the Resources Tab";
-                myText.GetComponentInChildren<Text>().alignment = TextAnchor.MiddleCenter;
+                //myText.GetComponentInChildren<Text>().alignment = TextAnchor.MiddleCenter;
             }
             else if (GLOBALS.s.TUTORIAL_PHASE == 25)
-                text_to_display = "Click on your Rank to see the Demons Rank List";
+                text_to_display = "Tap at your Rank to\ncheck the <color=red>Demons Rank</color> List";
 
         }
         else
@@ -156,7 +182,7 @@ public class DialogsTexts : MonoBehaviour
                 
         }
 
-        if (writeText == true)
+        if (curTextState == "l")
         {
             // myText.GetComponentInChildren<Text>().text = "Good job building yourself an Army! Now give me 50% of them to my next Heaven's Raid.";
             //letter by letter code
@@ -168,10 +194,16 @@ public class DialogsTexts : MonoBehaviour
             text_component = myText.GetComponentInChildren<Text>();
             //Invoke("display_text", 0.2f);
             TextWriter.s.write_text(text_component, text_final);
+
+            ChangeTextFormat("l");
+
+            //myText.GetComponentInChildren<Text>().alignment = TextAnchor.UpperLeft;
+            //myText.GetComponentInChildren<Text>().transform.localPosition = upperLeftPos;
         }
         else
         {
             myText.GetComponentInChildren<Text>().text = text_to_display;
+            ChangeTextFormat("m");
 
         }
 
