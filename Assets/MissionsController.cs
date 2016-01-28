@@ -34,9 +34,13 @@ public class MissionsController : MonoBehaviour {
     #region Open and Close
     public void OpenMissionDialog()
     {
-        Debug.Log(" OPENING MISSION DIALOG");
-        GameObject tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/DialogMissions"));
-        MenusController.s.moveMenu(MovementTypes.Down, tempObject, "DialogMission", 0, 0);
+        if(GLOBALS.s.TUTORIAL_OCCURING == false && GLOBALS.s.DIALOG_ALREADY_OPENED == false)
+        {
+            Debug.Log(" OPENING MISSION DIALOG");
+            GameObject tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/DialogMissions"));
+            MenusController.s.moveMenu(MovementTypes.Down, tempObject, "DialogMission", 0, 0);
+        }
+
     }
 
     public void CloseMissionDialog() {

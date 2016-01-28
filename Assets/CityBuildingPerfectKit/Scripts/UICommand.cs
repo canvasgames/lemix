@@ -233,10 +233,10 @@ namespace BE {
                         Hide();
                         // land building and unselect
                         Debug.Log("BuildingLandUnselect chamado 6");
-                        SceneTown.instance.BuildingLandUnselect(false);
-
-						// decrease build price of the building
-						BuildingDef bd = TBDatabase.GetBuildingDef(building.Type, (building.Level == 0) ? 1 : building.Level);
+                        SceneTown.instance.BuildingLandUnselect(true, true);
+                        SceneTown.instance.BuildingSelect(building);
+                        // decrease build price of the building
+                        BuildingDef bd = TBDatabase.GetBuildingDef(building.Type, (building.Level == 0) ? 1 : building.Level);
 						//building.PayforBuild(bd);
 						// if building level is 0(need buildtime), upgrade to level 1 start 
 						// if not, check resource capacity
@@ -303,6 +303,7 @@ namespace BE {
 
 								//Debug.Log ("wall tilePos New:"+tilePos.ToString ());
 								script.Move((int)tilePos.x, (int)tilePos.y);
+                                
 								script.CheckLandable();
 								SceneTown.instance.BuildingSelect(script);
 							}

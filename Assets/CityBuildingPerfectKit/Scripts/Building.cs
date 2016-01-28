@@ -285,7 +285,8 @@ namespace BE {
 
 		// initialize building
 		public void Init(int type, int level) {
-			Type = type;
+            Debug.Log("Init Building");
+            Type = type;
 			Level = level;
 
 			// delete old meshes
@@ -362,13 +363,30 @@ namespace BE {
 
 			// initialize values 
 			tilePosOld = tilePos;
+            
 			CheckLandable();
 			CheckNeighbor();
 			def = TBDatabase.GetBuildingDef(Type, Level);
 			defNext = bt.GetDefine(Level+1);
 			defLast = bt.GetDefLast();
 			UpgradeTimeTotal = (defNext != null) ? defNext.BuildTime : 0;
-		}
+            if(SceneTown.buildingSelected != null)
+            {
+                Building temp = SceneTown.buildingSelected;
+                
+                if (GLOBALS.s.TUTORIAL_OCCURING == false && temp == this)
+                {
+                    SceneTown.instance.BuildingLandUnselect(true, true);
+                    SceneTown.instance.BuildingSelect(this);
+                }
+                else if(GLOBALS.s.TUTORIAL_OCCURING == true)
+                {
+                    SceneTown.instance.BuildingLandUnselect(true, true);
+                }
+            }
+
+
+        }
 
 		public void UpjustYByState() {
 			Vector3 vPos = transform.localPosition;
@@ -379,16 +397,18 @@ namespace BE {
 		public void Move(Vector3 vTarget) {
 			tilePos = ground.GetTilePos(vTarget, tileSize);
 			ground.Move(gameObject, tilePos, tileSize);
-			//Debug.Log ("Move Pos: "+Landed.ToString ()+" "+TilePosX.ToString()+","+TilePosY.ToString());
-			CheckLandable();
+            //Debug.Log ("Move Pos: "+Landed.ToString ()+" "+TilePosX.ToString()+","+TilePosY.ToString());
+     
+            CheckLandable();
 			UpjustYByState();
 		}
 
 		public void Move(int TileX, int TileZ) {
 			tilePos = new Vector2(TileX, TileZ);
 			ground.Move(gameObject, tilePos, tileSize);
-			//Debug.Log ("Move Pos: "+Landed.ToString ()+" "+TilePosX.ToString()+","+TilePosY.ToString());
-			CheckLandable();
+            //Debug.Log ("Move Pos: "+Landed.ToString ()+" "+TilePosX.ToString()+","+TilePosY.ToString());
+            
+            CheckLandable();
 			UpjustYByState();
 		}
 
@@ -401,7 +421,7 @@ namespace BE {
 			Landable = IsVacant;
 		}
 
-		public void Land(bool landed, bool animate) {
+		public void Land(bool landed, bool animate, bool flagMarota = false) {
 
             Debug.Log("Land called = PARAMETERS");
             Debug.Log("landed = " + landed);
@@ -436,9 +456,9 @@ namespace BE {
 					
 			}
 
-            Debug.Log(Landed + " Landed state after");
+            Debug.Log(Landed + " Landed state antes");
                 Landed = landed;
-            Debug.Log(Landed + " Landed state before");
+            Debug.Log(Landed + " Landed state depois");
             ground.OccupySet(this);
 
 			if(!Landed) {
@@ -457,15 +477,16 @@ namespace BE {
 
 			CheckLandable();
             Debug.Log("Activating or Not Grid, Is Landed Flag is?  " + Landed);
-			goGrid.SetActive(Landed ? false : true);
-			if(goArrowRoot != null)
+            if(flagMarota == false)
+			    goGrid.SetActive(Landed ? false : true);
+			if(goArrowRoot != null && flagMarota == false)
             {
                 Debug.Log("Activating goArrowRoot, by Land Flag");
                 goArrowRoot.SetActive(Landed ? false : true);
             }
 				
 
-			if(uiInfo != null) {
+			if(uiInfo != null && flagMarota == false) {
                 //uiInfo.groupProgress.alpha = 0;
                 Debug.Log("uiinfo animate = " + animate);
                 if (animate) {
@@ -491,7 +512,7 @@ namespace BE {
 			if(Type == 2)
 				CheckNeighbor();
 
-			if(Landed && (goCenter != null)) {
+			if(Landed && (goCenter != null) && flagMarota == false ) {
 				SceneTown.instance.Save();
 
                 Debug.Log("Landed Back to original color");
@@ -647,20 +668,11 @@ namespace BE {
                     //Verify if the production exceeded the capacity
                     if (AllProduction + Production <= CapacityTotal)
                     {
-                        Debug.Log("before Collect" +Production);
-                        createParticleUIandCollect(Production, false);
-                        Debug.Log("After CollecT" + Production);
-                        if (def.eProductionType == PayType.Elixir)
-                            SceneTown.instance.GainExp((int)Production);
-
-                        //Production = 0
+                        createParticleUIandCollect(Production, false,0);
                     }
                     else
                     {
-                        createParticleUIandCollect(CapacityTotal - (float)AllProduction, true);
-
-                        if (def.eProductionType == PayType.Elixir)
-                            SceneTown.instance.GainExp((CapacityTotal - (int)AllProduction));
+                        createParticleUIandCollect(CapacityTotal - (float)AllProduction, true,1);
                     }
 
                     if (GLOBALS.s.TUTORIAL_PHASE == 11)
@@ -723,7 +735,7 @@ namespace BE {
 
         }
 
-        void createParticleUIandCollect(float discountValue,bool outOfBounds)
+        void createParticleUIandCollect(float discountValue,bool outOfBounds, int gainExpCase)
         {
             
             appearedCollectIcon = false;
@@ -746,7 +758,17 @@ namespace BE {
             myParticles.Clear();
 
 
-
+            //Gain Exp
+            if(gainExpCase == 0)
+            {
+                if (def.eProductionType == PayType.Elixir)
+                    SceneTown.instance.GainExp((int)Production);
+            }
+            else
+            {
+                if (def.eProductionType == PayType.Elixir)
+                    SceneTown.instance.GainExp((CapacityTotal - (int)AllProduction));
+            }
 
             // show collect ui to show how many resources was collected
             UICollect script = UIInGame.instance.AddInGameUI(prefUICollect, transform, new Vector3(0, 1.5f, 0)).GetComponent<UICollect>();

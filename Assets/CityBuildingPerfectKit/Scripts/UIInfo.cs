@@ -33,14 +33,15 @@ namespace BE {
 
 
         void Update () {
-			
-		}
+          
+        }
 
 		// when user clicked collect dialog
 		public void OnButtonCollect() {
+         
             if (GLOBALS.s.LOCK_CAMERA_TUTORIAL == false)
             {
-
+                Debug.Log("UInfo collect");
                 // do collect
                 building.Collect();
             }

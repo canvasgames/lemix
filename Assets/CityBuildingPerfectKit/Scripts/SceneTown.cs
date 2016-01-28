@@ -355,7 +355,7 @@ namespace BE {
                                     BETween.alpha(ground.gameObject, 0.1f, 0.3f, 0.0f);
 
                                 if (buildingSelected.Landable && buildingSelected.OnceLanded) {
-                                    BuildingLandUnselect(false);
+                                    //BuildingLandUnselect(false);
                                     Debug.Log("BuildingLandUnselect chamado 3");
                                 }
 
@@ -439,7 +439,11 @@ namespace BE {
                                 }
 
                                 //Debug.Log ("Update3 buildingSelected:"+((buildingSelected != null) ? buildingSelected.name : "none"));
-                                Pick();
+                                if(MouseClickedBuilding != buildingSelected || GLOBALS.s.TUTORIAL_OCCURING == true)
+                                {
+                                    Pick();
+                                }
+                                
                             }
                         }
                     }
@@ -600,7 +604,9 @@ namespace BE {
                 // land building
                 Debug.Log("BuildingLandUnselect chamado 5");
                 BuildingLandUnselect(false);
-				UICommand.Hide();
+                UICommand.Hide();
+                //
+                
 			}
 
 			if(SelectSame) 
@@ -616,10 +622,12 @@ namespace BE {
                 // se tbuilding state unland
                 Debug.Log("Land call 1");
 				buildingSelected.Land(false, true);
-			}
-		}
+                
+            }
+            
+        }
 
-		public void BuildingLandUnselect(bool unselect) {
+		public void BuildingLandUnselect(bool unselect, bool flagzita = false) {
 
             if (buildingSelected == null)
             {
@@ -627,7 +635,7 @@ namespace BE {
                 return;
             }
             Debug.Log("Land call 2");
-            buildingSelected.Land(true, true);
+            buildingSelected.Land(true, true, false);
 
             //Dont select building created by tut (TH e Gate) or unselect flag
             if ((unselect == true || GLOBALS.s.TUTORIAL_PHASE <4 && GLOBALS.s.TUTORIAL_OCCURING == true)  )

@@ -152,6 +152,7 @@ namespace BE {
                         {
                             script.Move(Vector3.zero);
                             BEGround.instance.MoveToVacantTilePos(script);
+                            Debug.Log("UIShopItem called check landable ");
                             script.CheckLandable();
                             SceneTown.instance.BuildingSelect(script);
                             UIShop.instance.Hide();
