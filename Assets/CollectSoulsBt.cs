@@ -7,12 +7,13 @@ using UnityEngine.SceneManagement;
 public enum CollectSoulsType {
     MissionSpank = 0,
     MissionBuild = 1,
-    Catastrophe = 2
+    Catastrophe = 2,
+    MissionCollect = 3
 }
 public class CollectSoulsBt : ButtonCap {
     public GameObject allObjects, souls;
     [HideInInspector]public int quantityToCollect;
-    public CollectSoulsType myType;
+    public CollectSoulsType myBtType;
     // Use this for initialization
     void Start() {
 
@@ -33,7 +34,7 @@ public class CollectSoulsBt : ButtonCap {
             part.moveCatrastofe();
         }
 
-        if (myType == CollectSoulsType.MissionSpank) {
+        if (myBtType == CollectSoulsType.MissionSpank || myBtType == CollectSoulsType.MissionBuild) {
             Debug.Log("Invoking");
             BE.SceneTown.Elixir.ChangeDelta((double)quantityToCollect);
             //allObjects.transform.DOMoveY(-450, 1f).OnComplete(() => M);
@@ -44,7 +45,7 @@ public class CollectSoulsBt : ButtonCap {
     void onAnimationEnd() {
         Debug.Log("Invoked");
 
-        MissionsController.s.OnSoulsCollected();
+        MissionsController.s.OnSoulsCollected(myBtType);
     }
 
 }

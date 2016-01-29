@@ -762,15 +762,18 @@ namespace BE {
 
 
             //Gain Exp
-            if(gainExpCase == 0)
-            {
-                if (def.eProductionType == PayType.Elixir)
+            if (gainExpCase == 0) {
+                if (def.eProductionType == PayType.Elixir) { 
                     SceneTown.instance.GainExp((int)Production);
+                    MissionsController.s.OnSoulsCollected(Production);
+                }
             }
             else
             {
-                if (def.eProductionType == PayType.Elixir)
+                if (def.eProductionType == PayType.Elixir) {
                     SceneTown.instance.GainExp((CapacityTotal - (int)AllProduction));
+                    MissionsController.s.OnSoulsCollected(CapacityTotal - (int)AllProduction);
+                }
             }
 
             // show collect ui to show how many resources was collected
@@ -897,6 +900,8 @@ namespace BE {
             Init(Type, Level+1);
 			InUpgrade = false;
 			UpgradeCompleted = false;
+
+            if (Level == 1) MissionsController.s.OnBuildingComplete(Type);
 
             // increase experience
             //SceneTown.instance.GainExp(def.RewardExp);

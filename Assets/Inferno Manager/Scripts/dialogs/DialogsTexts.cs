@@ -4,7 +4,7 @@ using DG.Tweening;
 using UnityEngine.UI;
 
 public enum ScrollType {
-    smallScroll = 1, bigScroll = 2, bigScrollQuestion = 3
+    smallScroll = 1, bigScroll = 2, bigScrollQuestion = 3, missionsDialog = 4
 }
 public class DialogsTexts : MonoBehaviour
 {
@@ -64,7 +64,7 @@ public class DialogsTexts : MonoBehaviour
     }
 
     void ChangeTextFormat(string state) {
-        if(curTextState != state) {
+        if(curTextState != state && myScrollType != ScrollType.missionsDialog) {
             curTextState = state;
             if(state == "m") { // change the text to middle and center
                 if(myScrollType == ScrollType.smallScroll) {
@@ -187,7 +187,6 @@ public class DialogsTexts : MonoBehaviour
             }
             else if (GLOBALS.s.TUTORIAL_PHASE == 25)
                 text_to_display = "Tap at your Rank to\ncheck the <color=red>Demons Rank</color> List";
-
         }
         else
         {
@@ -197,9 +196,17 @@ public class DialogsTexts : MonoBehaviour
                 Debug.Log("foifofifiofifo ele");
                 text_to_display = "Bacana issaê";
             }
-                
+
+            else if (string.Equals(dialogName, "MissionSpank"))
+                text_to_display = "Spanking Hitler more than 1931415 times really bores you. You are a nice replacement";
+            else if (string.Equals(dialogName, "MissionBuild"))
+                text_to_display = "Seems you do have sense of humor on punishing people with exotic ways";
+            else if (string.Equals(dialogName, "MissionCollect"))
+                text_to_display = "Remember that you need to Souls if you want to be respected";
         }
 
+
+        // PRINT THE TEXT
         if (curTextState == "l")
         {
             // myText.GetComponentInChildren<Text>().text = "Good job building yourself an Army! Now give me 50% of them to my next Heaven's Raid.";
