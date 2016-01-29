@@ -18,7 +18,7 @@ public class SatanController : MonoBehaviour {
 
         //Invoke("satan_entering_animation", 1f);
 
-        Satan = (GameObject)Instantiate(Resources.Load("Prefabs/SatanEntering"));
+        Satan = (GameObject)Instantiate(Resources.Load("Prefabs/Satan/SatanEntering"));
         Satan.transform.SetParent(Canvas, false);
         Satan.SetActive(false);
 

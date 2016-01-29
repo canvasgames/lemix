@@ -38,8 +38,8 @@ public class TutorialController : MonoBehaviour
             GLOBALS.s.LOCK_CAMERA_TUTORIAL = true;
             GLOBALS.s.TUTORIAL_OCCURING     = true;
 
-            //SatanController.s.start_entering(1.4f);
-            startTutorial();
+            SatanController.s.start_entering(1.4f);
+            //startTutorial();
             //tutorial1Timer = 2f;
             // 
 
@@ -54,6 +54,9 @@ public class TutorialController : MonoBehaviour
         }
         //
         #endregion
+    }
+    void OnDestroy() {
+        Debug.Log("TUTORIAL CONTROLLER IS BEING DESTROYED!!!! ");
     }
 
     #region Update and Timers
@@ -74,7 +77,7 @@ public class TutorialController : MonoBehaviour
     {
         //createBuilding();
     
-            GLOBALS.s.TUTORIAL_PHASE = 1;
+        GLOBALS.s.TUTORIAL_PHASE = 1;
         Debug.Log("TUTORIAL PHASE 1");
         tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/Welcome"));
         MenusController.s.moveMenu(MovementTypes.Up, tempObject, "Welcome", 0, 0);
@@ -88,7 +91,7 @@ public class TutorialController : MonoBehaviour
         // MenusController.s.enterFromRight(tempObject, "SmallScroll", 0, 0);
         MenusController.s.moveMenu(MovementTypes.Left, tempObject, "SmallScroll", 0, 0);
          //tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/Satan"));
-         tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/SatanProud"));
+        tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/Satan/SatanProud"));
         MenusController.s.moveMenu(MovementTypes.Right,tempObject, "Satan", 0, 0);
         Invoke("createNextButton", 2f);
     }
@@ -98,6 +101,11 @@ public class TutorialController : MonoBehaviour
         Debug.Log("TUTORIAL PHASE 101");
         GLOBALS.s.TUTORIAL_PHASE = 101;
         MenusController.s.goOutDestroy("Welcome", null,"up");
+        MenusController.s.destroyMenu("Satan", null);
+
+        GameObject atempObject = (GameObject)Instantiate(Resources.Load("Prefabs/Satan/SatanOrderingg"));
+        MenusController.s.addToGUIAndRepositeObject(atempObject, "Satan");
+
 
         fscreen = GameObject.FindObjectsOfType(typeof(DialogsTexts)) as DialogsTexts[];
         fscreen[0].closeAndReopen();

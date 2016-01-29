@@ -3,8 +3,13 @@ using System.Collections;
 using DG.Tweening;
 using UnityEngine.UI;
 
+public enum ScrollType {
+    smallScroll = 1, bigScroll = 2, bigScrollQuestion = 3
+}
 public class DialogsTexts : MonoBehaviour
 {
+    
+    public ScrollType myScrollType = ScrollType.smallScroll;
     public GameObject upPart, downPart, myText;
     float xPos, myTextHeight;
     string text_displaying = "";
@@ -15,7 +20,7 @@ public class DialogsTexts : MonoBehaviour
     Text text_component;
     //Vector3 upperLeftPos = new Vector3(46,-162,0);
     Vector3 upperLeftPos = new Vector3(40,-32,0);
-    Vector3 middleCenterPos = new Vector3(14,-168,0);
+    Vector3 upperLeftPosBig = new Vector3(30,0,0);    //Vector3 middleCenterPos = new Vector3(14,-168,0);
     // Use this for initialization
     void Start()
     {
@@ -62,14 +67,27 @@ public class DialogsTexts : MonoBehaviour
         if(curTextState != state) {
             curTextState = state;
             if(state == "m") { // change the text to middle and center
-                Debug.Log("CHANGING TEXT STATE TO MIDDLE");
-                myText.GetComponentInChildren<Text>().alignment = TextAnchor.MiddleCenter;
-                myText.GetComponentInChildren<Text>().transform.localPosition -= upperLeftPos;
+                if(myScrollType == ScrollType.smallScroll) {
+                    Debug.Log("CHANGING TEXT STATE TO MIDDLE");
+                    myText.GetComponentInChildren<Text>().alignment = TextAnchor.MiddleCenter;
+                    myText.GetComponentInChildren<Text>().transform.localPosition -= upperLeftPos;
+                }
+                else {
+                    myText.GetComponentInChildren<Text>().alignment = TextAnchor.UpperCenter;
+                    myText.GetComponentInChildren<Text>().transform.localPosition -= upperLeftPosBig;
+                }
+                
             }
             else if (state == "l") {
-                Debug.Log("CHANGING TEXT STATE TO LEFT");
-                myText.GetComponentInChildren<Text>().alignment = TextAnchor.UpperLeft;
-                myText.GetComponentInChildren<Text>().transform.localPosition += upperLeftPos;
+                if (myScrollType == ScrollType.smallScroll) {
+                    Debug.Log("CHANGING TEXT STATE TO LEFT");
+                    myText.GetComponentInChildren<Text>().alignment = TextAnchor.UpperLeft;
+                    myText.GetComponentInChildren<Text>().transform.localPosition += upperLeftPos;
+                }
+                else {
+                    myText.GetComponentInChildren<Text>().alignment = TextAnchor.UpperLeft;
+                    myText.GetComponentInChildren<Text>().transform.localPosition += upperLeftPosBig;
+                }
             }
         }
     }
@@ -142,10 +160,10 @@ public class DialogsTexts : MonoBehaviour
             }
 
             else if (GLOBALS.s.TUTORIAL_PHASE == 12)
-                text_to_display = "Why the <color=blue>heaven</color> are you \ncelebrating?\nYou barely started!\nThere is still a long path\nto get to be someone other than\nthis <color=blue>bag of holiness</color> you are!";
+                text_to_display = "Why the <color=blue>heaven</color> are you \ncelebrating?\nYou barely started!\nThere is still a long path\nto get to be someone other\nthan this <color=blue>bag of holiness</color> you are!";
             //text_to_display = "Aquire more souls to Level Up and be respected.";
             else if (GLOBALS.s.TUTORIAL_PHASE == 14)
-                text_to_display = "to build Punisher Buildings\n you need<color=#fe2323>Hellfire!</color>Tap\nto build a Fire Mine.";
+                text_to_display = "To build Punisher Buildings\nyou need <color=#fe2323>Hellfire!</color> Tap\nto build a Fire Mine.";
             else if (GLOBALS.s.TUTORIAL_PHASE == 15)
                 text_to_display = "Now Select the <color=#fe2323>Fire Mine</color>";
             else if (GLOBALS.s.TUTORIAL_PHASE == 16)
@@ -158,10 +176,10 @@ public class DialogsTexts : MonoBehaviour
             else if (GLOBALS.s.TUTORIAL_PHASE == 18)
             {
                 //myText.GetComponentInChildren<Text>().alignment = TextAnchor.UpperCenter;
-                text_to_display = "Acceptable work, <color=blue>Mr Holiness</color>!\n\nKeep building and upgrading your buildings!\nAcquire souls to Level Up and be respected.\n\n.";
+                text_to_display = "Acceptable work, <color=blue>Mr Holiness</color>!\n\nKeep building and upgrading your buildings!\nAcquire souls to Level Up and be respected.\n";
             }
             else if (GLOBALS.s.TUTORIAL_PHASE == 19)
-                text_to_display = "If you want any missions, tap me. \n Adios! ";
+                text_to_display = "If you want any missions, tap me.\nAdios! ";
             else if (GLOBALS.s.TUTORIAL_PHASE == 21)
             {
                 text_to_display = "Select the Resources Tab";

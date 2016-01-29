@@ -32,4 +32,8 @@ public class GLOBALS : MonoBehaviour {
 	void Update () {
 	
 	}
+
+    void OnDestroy() {
+        Debug.Log("GLOBALS ARE BEING DESTROYED!!!! ");
+    }
 }
