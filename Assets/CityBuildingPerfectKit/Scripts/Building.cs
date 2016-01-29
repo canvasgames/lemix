@@ -182,7 +182,15 @@ namespace BE {
                 else
                 {
                     if (GLOBALS.s == null) Debug.Log("GLOBALS IS NULL!!!!!!!!!!");
-                    Production += (float)def.ProductionRate * deltaTime;
+                    if(def.eProductionType == PayType.Gold)
+                    {
+                        Production += (float)def.ProductionRate * deltaTime;
+                    }
+                        
+                    else if(def.eProductionType == PayType.Elixir)
+                    {
+                        Production += (float)def.ProductionRate * deltaTime * GLOBALS.s.ELIXIR_RESEARCH_EXTRA_PERCENTAGE;
+                    }
                 }
 				
 
@@ -900,8 +908,17 @@ namespace BE {
             Init(Type, Level+1);
 			InUpgrade = false;
 			UpgradeCompleted = false;
+            
+            
+            if (Level == 1)
+            {
+                
+                MissionsController.s.OnBuildingComplete(Type);
 
-            if (Level == 1) MissionsController.s.OnBuildingComplete(Type);
+                GLOBALS.s.ELIXIR_RESEARCH_EXTRA_PERCENTAGE = GLOBALS.s.ELIXIR_RESEARCH_EXTRA_PERCENTAGE+ (float)def.SoulProdutionInc/100;
+
+            }
+                
 
             // increase experience
             //SceneTown.instance.GainExp(def.RewardExp);

@@ -121,6 +121,7 @@
     <Compile Include="Assets\CollectSoulsBt.cs" />
     <Compile Include="Assets\Demigiant\DOTween\Examples\Basics.cs" />
     <Compile Include="Assets\Demigiant\DOTween\Examples\Sequences.cs" />
+    <Compile Include="Assets\DialogMission.cs" />
     <Compile Include="Assets\EnterFromDown.cs" />
     <Compile Include="Assets\Inferno Manager\Scripts\BuildBt.cs" />
     <Compile Include="Assets\Inferno Manager\Scripts\Controllers\ButtonCap.cs" />
