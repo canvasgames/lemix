@@ -184,7 +184,8 @@ namespace BE {
 					// set this building to worker
 					BEWorkerManager.instance.SetWorker(building);
 					SceneTown.instance.BuildingSelect(null);
-				}
+                    SceneTown.instance.BuildingSelect(building);
+                }
 				
 				_Hide();
 			}

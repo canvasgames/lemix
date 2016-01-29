@@ -234,7 +234,7 @@ namespace BE {
             if (!GLOBALS.s.SPANKING_OCURRING) { 
                 #region Camera Movement on Mouse button down
                 if (Input.GetMouseButton(0)) {
-                    //Debug.Log("asdas");
+                    
                     if (EventSystem.current.IsPointerOverGameObject() || GLOBALS.s.LOCK_CAMERA_TUTORIAL == true || (GLOBALS.s.DIALOG_ALREADY_OPENED == true && GLOBALS.s.TUTORIAL_OCCURING == false)) {
                         return;
                     }
@@ -327,7 +327,7 @@ namespace BE {
                                 ClickAfter += Time.deltaTime;
                                 if (!bTemporarySelect && (ClickAfter > 0.5f)) {
                                     bTemporarySelect = true;
-                                    //Debug.Log ("Update2 buildingSelected:"+((buildingSelected != null) ? buildingSelected.name : "none"));
+                                    Debug.Log ("Update2 buildingSelected:"+((buildingSelected != null) ? buildingSelected.name : "none"));
                                     Pick();
                                 }
                             }
@@ -441,6 +441,7 @@ namespace BE {
                                 //Debug.Log ("Update3 buildingSelected:"+((buildingSelected != null) ? buildingSelected.name : "none"));
                                 if(MouseClickedBuilding != buildingSelected || GLOBALS.s.TUTORIAL_OCCURING == true)
                                 {
+                                    Debug.Log(" PICK:");
                                     Pick();
                                 }
                                 

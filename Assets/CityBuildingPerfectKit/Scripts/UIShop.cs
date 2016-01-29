@@ -132,8 +132,8 @@ namespace BE {
 				// fill second tab
 				bt.Clear ();
                 bt.Add(TBDatabase.GetBuildingType(3));
+                bt.Add(TBDatabase.GetBuildingType(23));
                 bt.Add(TBDatabase.GetBuildingType(22));
-                bt.Add(TBDatabase.GetBuildingType(21));
                 //bt.Add(TBDatabase.GetBuildingType(5));
                 // bt.Add(TBDatabase.GetBuildingType(6));
                 // bt.Add (TBDatabase.GetBuildingType(2));
@@ -146,6 +146,7 @@ namespace BE {
 				// fill third tab
 				bt.Clear ();
                 bt.Add(TBDatabase.GetBuildingType(18));
+                bt.Add(TBDatabase.GetBuildingType(21));
                 bt.Add(TBDatabase.GetBuildingType(20));
                 bt.Add(TBDatabase.GetBuildingType(19));
                 

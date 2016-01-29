@@ -835,10 +835,26 @@ namespace BE {
                 { BuildingDef bd = new BuildingDef(250, 8900, 0, 0, 20 * 60, 14, 150); bd.SetStorageCapacity(0, 1250); bt.Add(bd); } //20
                 Buildings.Add(bt);
             }
-
-            //21 - FIRE) GENERATOR Refinery
+            //21 - Metal Bands
             {
-                BuildingType bt = new BuildingType(21, "Refinery", "", 3, 3, GLOBALS.s.BUILDING_MAX_LEVEL, 0, GLOBALS.s.PUNISHER_COUNT_EVOLUTION);
+                BuildingType bt = new BuildingType(21, "Metal Bands", "", 4, 4, 8, 0, "1,1,2,2,3,3,4,4,4,4");
+                { BuildingDef bd = new BuildingDef(250, 100, 0, 0, 5, 1, 0, 5); bd.SetStorageCapacity(0, 100); bt.Add(bd); } //20
+                { BuildingDef bd = new BuildingDef(250, 300, 0, 0, 10, 1, 0, 10); bd.SetStorageCapacity(0, 250); bt.Add(bd); } //20
+                { BuildingDef bd = new BuildingDef(250, 750, 0, 0, 30, 2, 0, 20); bd.SetStorageCapacity(0, 500); bt.Add(bd); } //20
+                { BuildingDef bd = new BuildingDef(250, 1250, 0, 0, 60, 0, 40); bd.SetStorageCapacity(0, 750); bt.Add(bd); } //20
+                { BuildingDef bd = new BuildingDef(250, 3300, 0, 0, 2 * 60, 0, 60); bd.SetStorageCapacity(0, 1000); bt.Add(bd); } //20
+                { BuildingDef bd = new BuildingDef(250, 8900, 0, 0, 5 * 60, 0, 80); bd.SetStorageCapacity(0, 1250); bt.Add(bd); } //20
+                { BuildingDef bd = new BuildingDef(250, 8900, 0, 0, 10 * 60, 0, 100); bd.SetStorageCapacity(0, 1250); bt.Add(bd); } //20
+                { BuildingDef bd = new BuildingDef(250, 8900, 0, 0, 15 * 60, 0, 125); bd.SetStorageCapacity(0, 1250); bt.Add(bd); } //20
+                { BuildingDef bd = new BuildingDef(250, 8900, 0, 0, 20 * 60, 0, 150); bd.SetStorageCapacity(0, 1250); bt.Add(bd); } //20
+                Buildings.Add(bt);
+            }
+
+
+
+            //22 - FIRE) GENERATOR Refinery
+            {
+                BuildingType bt = new BuildingType(22, "Refinery", "", 3, 3, GLOBALS.s.BUILDING_MAX_LEVEL, 0, GLOBALS.s.PUNISHER_COUNT_EVOLUTION);
                 //for (int i = 0; i <= GLOBALS.s.BUILDING_MAX_LEVEL; i++) { 
                 { BuildingDef bd = new BuildingDef(400, 100, 0, 0, 5, 1, 6); bd.SetCapacity(100 * 12, 0); bd.SetProduction(PayType.Gold, 100); bt.Add(bd); }
                 { BuildingDef bd = new BuildingDef(440, 200, 0, 0, 10, 1,7); bd.SetCapacity(120 * 24, 0); bd.SetProduction(PayType.Gold, 120); bt.Add(bd); }
@@ -854,9 +870,9 @@ namespace BE {
                 { BuildingDef bd = new BuildingDef(480, 1600200, 700, 0, 1 * 60 * 60, 6, 17); bd.SetCapacity(191000 * 240, 0); bd.SetProduction(PayType.Gold, 191000); bt.Add(bd); }
                 Buildings.Add(bt);
             }
-            //22 - Fire Factory
+            //23 - Fire Factory
             {
-                BuildingType bt = new BuildingType(22, "Factory", "", 3, 3, GLOBALS.s.BUILDING_MAX_LEVEL, 0, GLOBALS.s.PUNISHER_COUNT_EVOLUTION);
+                BuildingType bt = new BuildingType(23, "Factory", "", 3, 3, GLOBALS.s.BUILDING_MAX_LEVEL, 0, GLOBALS.s.PUNISHER_COUNT_EVOLUTION);
                 //for (int i = 0; i <= GLOBALS.s.BUILDING_MAX_LEVEL; i++) { 
                 { BuildingDef bd = new BuildingDef(400, 100, 0, 0, 5, 1,5); bd.SetCapacity(100 * 12, 0); bd.SetProduction(PayType.Gold, 100); bt.Add(bd); }
                 { BuildingDef bd = new BuildingDef(440, 200, 0, 0, 10, 1,6); bd.SetCapacity(120 * 24, 0); bd.SetProduction(PayType.Gold, 120); bt.Add(bd); }

@@ -290,7 +290,7 @@ namespace BE {
 			Level = level;
 
 			// delete old meshes
-			if(goCenter != null) 	{ Destroy (goCenter); goCenter = null; }
+			if(goCenter != null) 	{  Destroy (goCenter); goCenter = null; }
 			if(goXInc != null)	 	{ Destroy (goXInc); goXInc = null; }
 			if(goZInc != null) 		{ Destroy (goZInc); goZInc = null; }
 
@@ -372,12 +372,15 @@ namespace BE {
 			UpgradeTimeTotal = (defNext != null) ? defNext.BuildTime : 0;
             if(SceneTown.buildingSelected != null)
             {
+
                 Building temp = SceneTown.buildingSelected;
                 
-                if (GLOBALS.s.TUTORIAL_OCCURING == false && temp == this)
+                if (GLOBALS.s.TUTORIAL_OCCURING == false && temp == this )
                 {
                     SceneTown.instance.BuildingLandUnselect(true, true);
-                    SceneTown.instance.BuildingSelect(this);
+                    //Descomentar se quiser q o prédio seja selecionado pós build
+                    //Se descomentar tem  o bug do Rect qndo dá upgrade
+                   // SceneTown.instance.BuildingSelect(this);
                 }
                 else if(GLOBALS.s.TUTORIAL_OCCURING == true)
                 {
