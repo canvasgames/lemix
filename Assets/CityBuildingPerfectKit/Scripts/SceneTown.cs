@@ -273,8 +273,8 @@ namespace BE {
                     else {
                         //Mouse Button is in pressed 
                         //if mouse move certain diatance
-
-                        if (Vector3.Distance(Input.mousePosition, mousePosLast) > 0.01f) {
+                        float mDist = Vector3.Distance(Input.mousePosition, mousePosLast);
+                        if (((mDist > 0.01f && !Application.isMobilePlatform) || (mDist > 0.1 && Application.isMobilePlatform)) && mDist < 50f) {
 
                             // set drag flag on
                             if (!Dragged) {
@@ -362,7 +362,7 @@ namespace BE {
                             }
 
                             //camera was moving!! slowdown its movement
-                            else {
+                            else if (QA.s.CameraNavigationOnRelease){
                                 float timeDif = Time.time - lastMoveTime;
                                 //Debug.Log("cameraStopping? " + cameraStopping + " timeDif " + timeDif);
 

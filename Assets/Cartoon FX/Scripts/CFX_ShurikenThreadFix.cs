@@ -15,7 +15,7 @@ public class CFX_ShurikenThreadFix : MonoBehaviour
 		systems = GetComponentsInChildren<ParticleSystem>();
 		
 		foreach(ParticleSystem ps in systems)
-			ps.enableEmission = false;
+			//ps.enableEmission = false;
 		
 		StartCoroutine("WaitFrame");
 	}

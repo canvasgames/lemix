@@ -7,10 +7,11 @@ public class QA : MonoBehaviour {
 
     public bool DontSave = false;
     public bool NoTutorial = false;
+    public bool CameraNavigationOnRelease = false;
 
-    void Awake()
-    {
+
+    void Awake() {
         s = this;
     }
-
 }
+
