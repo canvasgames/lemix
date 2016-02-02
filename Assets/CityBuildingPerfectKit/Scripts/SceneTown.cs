@@ -33,6 +33,7 @@ namespace BE {
 
 		public	static SceneTown instance;
 		public  Text		textLevel;
+        public float minDistSlide = 0.01f;
 
 		private bool 		bInTouch = false;
 		private float 		ClickAfter = 0.0f;
@@ -177,6 +178,10 @@ namespace BE {
 
         #endregion
 
+        public void OnValueChanged (float a) {
+            minDistSlide = a;
+        }
+
         // result of quit messagebox
         public void MessageBoxResult(int result) {
 			BEAudioManager.SoundPlay(6);
@@ -274,10 +279,10 @@ namespace BE {
                         //Mouse Button is in pressed 
                         //if mouse move certain diatance
                         float mDist = Vector3.Distance(Input.mousePosition, mousePosLast);
-                        if (((mDist > 0.01f && !Application.isMobilePlatform) || (mDist > 0.1 && Application.isMobilePlatform)) && mDist < 50f) {
-
-                            // set drag flag on
-                            if (!Dragged) {
+                        //if (((mDist > 0.01f && !Application.isMobilePlatform) || (mDist > 2 && Application.isMobilePlatform)) && mDist < 50f) {
+                        if ( mDist > minDistSlide && mDist < 100f) {
+                                // set drag flag on
+                                if (!Dragged) {
                                 Dragged = true;
 
                                 // show tile grid
