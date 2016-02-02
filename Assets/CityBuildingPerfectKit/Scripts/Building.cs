@@ -170,7 +170,7 @@ namespace BE {
 
 			// if building can produce resources
 			if(Landed && !InUpgrade && (def != null) && (def.eProductionType != PayType.None)) {
-
+                
                 if(GLOBALS.s != null && (GLOBALS.s.TUTORIAL_PHASE == 4 || GLOBALS.s.TUTORIAL_PHASE == 17))
                 {
                     //Automatically generate souls or fire for tutorial
@@ -192,10 +192,10 @@ namespace BE {
                         Production += (float)def.ProductionRate * deltaTime * GLOBALS.s.ELIXIR_RESEARCH_EXTRA_PERCENTAGE;
                     }
                 }
-				
 
-				// check maximum capacity
-				if((int)Production >= def.Capacity[(int)def.eProductionType])
+
+                // check maximum capacity
+                if ((int)Production >= def.Capacity[(int)def.eProductionType])
 					Production = def.Capacity[(int)def.eProductionType];
 
 				// is minimum resources generated, then ser collectable flagand show dialog
@@ -303,11 +303,26 @@ namespace BE {
 			if(goZInc != null) 		{ Destroy (goZInc); goZInc = null; }
 
 			bt = TBDatabase.GetBuildingType(type);
-
+           
 			// get mesh path type and level
 			int displayLevel = (level == 0) ? 1 : level;
-			//string meshPath = "Prefabs/Building/"+bt.Name+"_"+displayLevel.ToString ();
-            string meshPath = "Prefabs/Building/"+bt.Name+"_"+1;
+            //string meshPath = "Prefabs/Building/"+bt.Name+"_"+displayLevel.ToString ();
+            string meshPath;
+            if (type != 0)
+            {
+                 meshPath = "Prefabs/Building/" + bt.Name + "_" + 1;
+            }
+            else
+            {
+                if (level <= 4)
+                {
+                     meshPath = "Prefabs/Building/" + bt.Name + "_" + displayLevel.ToString();
+                }
+                else
+                {
+                     meshPath = "Prefabs/Building/" + bt.Name + "_" + 4;
+                }
+            }
 			//Debug.Log ("Loading Mesh "+meshPath);
 
 			// instantiate mesh and set to goCenter
@@ -488,14 +503,24 @@ namespace BE {
 
 			CheckLandable();
             Debug.Log("Activating or Not Grid, Is Landed Flag is?  " + Landed);
-            if(flagMarota == false)
-			    goGrid.SetActive(Landed ? false : true);
-			if(goArrowRoot != null && flagMarota == false)
+            if (Type != 0 && Type != 4)
             {
-                Debug.Log("Activating goArrowRoot, by Land Flag");
-                goArrowRoot.SetActive(Landed ? false : true);
+                if (flagMarota == false)
+                {
+                    goGrid.SetActive(Landed ? false : true);
+                }
+
+                if (goArrowRoot != null && flagMarota == false)
+                {
+                    Debug.Log("Activating goArrowRoot, by Land Flag");
+                    goArrowRoot.SetActive(Landed ? false : true);
+                }
             }
-				
+            else
+            {
+                goGrid.SetActive(false);
+                goArrowRoot.SetActive(false);
+            }
 
 			if(uiInfo != null && flagMarota == false) {
                 //uiInfo.groupProgress.alpha = 0;
@@ -638,11 +663,11 @@ namespace BE {
 
 			if(Collectable)
             {
-                
+                Collect();
                 defineCapacityTotalAndAllProduction();
                 if (AllProduction < CapacityTotal || GLOBALS.s.TUTORIAL_PHASE == 4)
                 {
-                    Collect();
+                    
                     return true;
                 }     
             }

@@ -158,7 +158,7 @@ namespace BE {
         public int BuildGemPrice;
         public int BuildTime;
         public int RewardExp;
-        public int TownHallLevelRequired;		//Town Hall Level Required	
+        public int TownHallLevelRequired;		//Demon Palace Level Required	
         public int RankRequired;
 
         ////Gold Mine, Elixir Collector
@@ -579,9 +579,9 @@ namespace BE {
 
 
 
-            //0-Town Hall
+            //0-Demon Palace
             {
-                BuildingType bt = new BuildingType(0, "Town Hall", "Your personal Palace", 4, 4, GLOBALS.s.BUILDING_MAX_LEVEL, 0, "1,1,1,1,1,1,1,1,1,1");
+                BuildingType bt = new BuildingType(0, "Demon Palace", "Your personal Palace", 16, 16, GLOBALS.s.BUILDING_MAX_LEVEL, 0, "1,1,1,1,1,1,1,1,1,1");
                 { BuildingDef bd = new BuildingDef(1500, 0, 0, 0, 0, 0, 1); bd.SetStorageCapacity(1000, 0); bt.Add(bd); }
                 { BuildingDef bd = new BuildingDef(1600, 100, 0, 0, 5, 1, 1); bd.SetStorageCapacity(4000, 0); bt.Add(bd); }
                 { BuildingDef bd = new BuildingDef(1850, 300, 0, 0, 10, 2, 2); bd.SetStorageCapacity(12000, 0); bt.Add(bd); }
@@ -618,7 +618,7 @@ namespace BE {
 
             //3 - Gold (DEMON OR HELLFIRE) GENERATOR
             {
-                BuildingType bt = new BuildingType(3, "Fire Mine", "", 3, 3, GLOBALS.s.BUILDING_MAX_LEVEL, 0, GLOBALS.s.PUNISHER_COUNT_EVOLUTION);
+                BuildingType bt = new BuildingType(3, "Fire Mine", "", 6, 6, GLOBALS.s.BUILDING_MAX_LEVEL, 0, GLOBALS.s.PUNISHER_COUNT_EVOLUTION);
                 //for (int i = 0; i <= GLOBALS.s.BUILDING_MAX_LEVEL; i++) { 
                 { BuildingDef bd = new BuildingDef(400, 100, 0, 0, 5, 1); bd.SetCapacity(100 * 12, 0); bd.SetProduction(PayType.Gold, 100); bt.Add(bd); }
                 { BuildingDef bd = new BuildingDef(440, 200, 0, 0, 10, 1); bd.SetCapacity(120 * 24, 0); bd.SetProduction(PayType.Gold, 120); bt.Add(bd); }
@@ -637,7 +637,7 @@ namespace BE {
 
             //4 - Hell's Gate (Old Elixir Collector)
             {
-                BuildingType bt = new BuildingType(4, "Hells Gate", "", 3, 3, GLOBALS.s.BUILDING_MAX_LEVEL, 0, GLOBALS.s.PUNISHER_COUNT_EVOLUTION);
+                BuildingType bt = new BuildingType(4, "Hells Gate", "", 6, 6, GLOBALS.s.BUILDING_MAX_LEVEL, 0, GLOBALS.s.PUNISHER_COUNT_EVOLUTION);
                 //for (int i = 0; i <= GLOBALS.s.BUILDING_MAX_LEVEL; i++) { 
                 { BuildingDef bd = new BuildingDef(400, 100, 0, 0, 5, 1); bd.SetCapacity(0, 100 * 12); bd.SetProduction(PayType.Elixir, 100); bt.Add(bd); }
                 { BuildingDef bd = new BuildingDef(440, 300, 0, 0, 10, 1); bd.SetCapacity(0, 150 * 24); bd.SetProduction(PayType.Elixir, 150); bt.Add(bd); }
@@ -795,7 +795,7 @@ namespace BE {
             #region ================ RESEARCH BUILDINGS (inc soul production) =================
             //18 - Law School
             {
-                BuildingType bt = new BuildingType(18, "Law School", "", 4, 4, 8, 0, "1,1,2,2,3,3,4,4,4,4");
+                BuildingType bt = new BuildingType(18, "Law School", "", 7, 6, 8, 0, "1,1,2,2,3,3,4,4,4,4");
                 { BuildingDef bd = new BuildingDef(250, 100, 0, 0, 5, 1, 0, 5); bd.SetStorageCapacity(0, 100); bt.Add(bd); } //20
                 { BuildingDef bd = new BuildingDef(250, 300, 0, 0, 10, 1, 0, 10); bd.SetStorageCapacity(0, 250); bt.Add(bd); } //20
                 { BuildingDef bd = new BuildingDef(250, 750, 0, 0, 30, 2, 0, 20); bd.SetStorageCapacity(0, 500); bt.Add(bd); } //20

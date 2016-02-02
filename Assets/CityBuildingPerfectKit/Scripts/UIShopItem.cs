@@ -63,7 +63,7 @@ namespace BE {
 				// get next available townhall level
 				int NextTownLevel = bt.GetMoreBuildTownLevel(Count);
 				if(NextTownLevel == -1) DisabledInfo.text = "Reach Maximum Count";
-				else 					DisabledInfo.text = "Upgrade Town Hall to level "+NextTownLevel.ToString ()+" to build more";
+				else 					DisabledInfo.text = "Need Demon Palace Level " + NextTownLevel.ToString ();
 				goDisabled.SetActive(true);
 			}
 
@@ -75,7 +75,7 @@ namespace BE {
                 CountAvailable = false;
                 locked = true;
                 int NextTownLevel = bt.GetMoreBuildTownLevel(Count);
-                DisabledInfo.text = "Upgrade Town Hall to level " + THRankReq + " to build";
+                DisabledInfo.text = "Need Demon Palace Level  " + THRankReq;
                 goDisabled.SetActive(true);
                 LockedInterrogation.SetActive(true);
             }
@@ -164,7 +164,7 @@ namespace BE {
                     if (GLOBALS.s.TUTORIAL_PHASE != 21)
                     { 
                     // show message box
-                        if (!CountAvailable) UIDialogMessage.Show("Upgrade Town Hall to construct a new build", "Ok", "Town Hall Upper Level Required");
+                        if (!CountAvailable) UIDialogMessage.Show("Upgrade Demon Palace to construct a new build", "Ok", "Demon Palace Upper Level Required");
                         else if (!PriceAvailable) UIDialogMessage.Show("More Resource Required", "Ok", "Error");
                         else UIDialogMessage.Show("All workers are working now", "Ok", "Error");
                     }

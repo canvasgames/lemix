@@ -62,7 +62,7 @@ namespace BE {
 			// display progresses of building by building type
 			if(bt.ID == 0) {
 				// incase building si town hall, show gold capacity, elixir capacit and hitpoint
-				textInfo.text = "This is the heart of your village. Upgrading your Town Hall unlocks new defenses, buildings, traps and much more.";
+				textInfo.text = "This is the heart of your village. Upgrading your Demon Palace unlocks new defenses, buildings, traps and much more.";
 				building.UIFillProgress(progresses[0], BDInfo.CapacityGold);
 				building.UIFillProgress(progresses[1], BDInfo.CapacityElixir);
 				building.UIFillProgress(progresses[2], BDInfo.HitPoint);

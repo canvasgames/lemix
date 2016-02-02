@@ -145,7 +145,7 @@ namespace BE {
 			Building buildingTown = BEGround.instance.Buildings[0][0];
 			if(bdNext.TownHallLevelRequired > buildingTown.Level) {
 				goNote.SetActive(true);
-				NoteInfo.text = "To upgrade this building, you first need\n Town Hall Level "+bdNext.TownHallLevelRequired.ToString ()+"!";
+				NoteInfo.text = "To upgrade this building, you first need\n Demon Palace Level " + bdNext.TownHallLevelRequired.ToString ()+"!";
 				TownLevelOk = false;
 				goNormal.SetActive(false);
 			}

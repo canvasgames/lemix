@@ -286,7 +286,7 @@ namespace BE {
                                 Dragged = true;
 
                                 // show tile grid
-                                if ((buildingSelected != null) && (MouseClickedBuilding == buildingSelected)) {
+                                if ((buildingSelected != null) && (MouseClickedBuilding == buildingSelected) && buildingSelected.Type != 0 && buildingSelected.Type != 4) {
                                     BETween.alpha(ground.gameObject, 0.1f, 0.0f, 0.3f);
                                     //Debug.Log ("ground alpha to 0.1");
                                 }
@@ -301,7 +301,8 @@ namespace BE {
 
 
                             // if selected building exist
-                            if ((buildingSelected != null) && (MouseClickedBuilding == buildingSelected)) {
+                            if ((buildingSelected != null) && (MouseClickedBuilding == buildingSelected) && buildingSelected.Type!=0 && buildingSelected.Type!=4) {
+                            
                                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
                                 float enter;
                                 xzPlane.Raycast(ray, out enter);
@@ -356,7 +357,7 @@ namespace BE {
                             // seleted building exist
                             if (buildingSelected != null) {
                                 // hide tile grid
-                                if (MouseClickedBuilding == buildingSelected)
+                                if (MouseClickedBuilding == buildingSelected && buildingSelected.Type != 0 && buildingSelected.Type != 4)
                                     BETween.alpha(ground.gameObject, 0.1f, 0.3f, 0.0f);
 
                                 if (buildingSelected.Landable && buildingSelected.OnceLanded) {
@@ -599,11 +600,11 @@ namespace BE {
 
 			// if user select selected building again
 			bool SelectSame = (buildingNew == buildingSelected) ? true : false;
-
+           
 			if(buildingSelected != null) {
-
-				// if initialy created building, then pass
-				if(!buildingSelected.OnceLanded) return;
+                
+                // if initialy created building, then pass
+                if (!buildingSelected.OnceLanded) return;
 				// building can't land, then pass 
 				if(!buildingSelected.Landed && !buildingSelected.Landable) return;
 
@@ -913,7 +914,7 @@ namespace BE {
         public void createTownHownTutorial()
         {
             Building script = BEGround.instance.BuildingAdd(0, 1);
-            Vector3 pos = new Vector3(4f, 0f, 4f);
+            Vector3 pos = new Vector3(1f, 0f, 28f);
             script.Move(pos);
             if(GLOBALS.s.TUTORIAL_OCCURING) move_camera_to_building(pos);
 
@@ -926,7 +927,7 @@ namespace BE {
         {
             Building script = BEGround.instance.BuildingAdd(4, 1);
 
-            Vector3 pos = new Vector3(19f, 0f, 4f);
+            Vector3 pos = new Vector3(-10f, 0f, 13f);
             script.Move(pos);
             if (GLOBALS.s.TUTORIAL_OCCURING) move_camera_to_building(pos);
 

@@ -1,7 +1,7 @@
 <Database>
   <ConfigVersion value="1" />
   <Building>
-    <BuildingType ID="0" Name="Town Hall" Info="" TileX="4" TileZ="4" LevelMax="5" Category="0" MaxCount="1,1,1,1,1,1,1,1,1,1">
+    <BuildingType ID="0" Name="Demon Palace" Info="" TileX="4" TileZ="4" LevelMax="5" Category="0" MaxCount="1,1,1,1,1,1,1,1,1,1">
       <BuildingDef HitPoint="1500" BuildPrice="0,0,0" BuildTime="0" TownHallLevelRequired="0">
         <StorageCapacity Gold="1002" Elixir="1007" />
       </BuildingDef>
