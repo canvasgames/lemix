@@ -240,12 +240,12 @@ namespace BE {
                 #region Camera Movement on Mouse button down
                 if (Input.GetMouseButton(0)) {
                     
-                    if (EventSystem.current.IsPointerOverGameObject() || GLOBALS.s.LOCK_CAMERA_TUTORIAL == true || (GLOBALS.s.DIALOG_ALREADY_OPENED == true && GLOBALS.s.TUTORIAL_OCCURING == false)) {
+                    if (EventSystem.current.IsPointerOverGameObject() || GLOBALS.s.LOCK_CAMERA_TUTORIAL == true && GLOBALS.s.LOCK_CLICK_TUTORIAL == true || (GLOBALS.s.DIALOG_ALREADY_OPENED == true && GLOBALS.s.TUTORIAL_OCCURING == false)) {
                         return;
                     }
 
                     //Click MouseButton
-                    if (!bInTouch) {
+                    if (!bInTouch && GLOBALS.s.LOCK_CLICK_TUTORIAL == false) {
                         bInTouch = true;
                         ClickAfter = 0.0f;
                         bTemporarySelect = false;
@@ -275,7 +275,7 @@ namespace BE {
                     #endregion
 
                     #region Camera Movement holding button
-                    else {
+                    else if(GLOBALS.s.LOCK_CAMERA_TUTORIAL == false) {
                         //Mouse Button is in pressed 
                         //if mouse move certain diatance
                         float mDist = Vector3.Distance(Input.mousePosition, mousePosLast);
@@ -692,41 +692,38 @@ namespace BE {
 
 		// user clicked shop button
 		public void OnButtonShop() {
-                if (GLOBALS.s.TUTORIAL_OCCURING == true)
-                {
-                    Debug.Log("ON BUTTON SHOP - TUTORIAL OCURRING");
+            if (GLOBALS.s.TUTORIAL_OCCURING == true)
+            {
+                Debug.Log("ON BUTTON SHOP - TUTORIAL OCURRING");
 
                 if (GLOBALS.s.TUTORIAL_PHASE == 7)
-                    {
+                {
 
-                        TutorialController.s.clickedBuildBt();
-                        BEAudioManager.SoundPlay(6);
-                        UIShop.Show(ShopType.Normal);
-                    }
-                    else if (GLOBALS.s.TUTORIAL_PHASE == 14)
-                    {
-                        TutorialController.s.indicateTabFireMine();
-                        BEAudioManager.SoundPlay(6);
-                        UIShop.Show(ShopType.Normal);
-                    }
-
+                    TutorialController.s.clickedBuildBt();
+                    BEAudioManager.SoundPlay(6);
+                    UIShop.Show(ShopType.Normal);
                 }
-                else
-                Debug.Log("ON BUTTON SHOP - TUTORIAL noooooooooot OCURRING");
+                else if (GLOBALS.s.TUTORIAL_PHASE == 14)
+                {
+                    TutorialController.s.indicateTabFireMine();
+                    BEAudioManager.SoundPlay(6);
+                    UIShop.Show(ShopType.Normal);
+                }
 
+            }
+            else
             {
+                Debug.Log("ON BUTTON SHOP - TUTORIAL noooooooooot OCURRING");
                 if (GLOBALS.s.DIALOG_ALREADY_OPENED == false)
                 {
                     BEAudioManager.SoundPlay(6);
                     UIShop.Show(ShopType.Normal);
                 }
-                }
-            
+            }
+        }
 
-		}
-
-		// user clicked gem button
-		public void OnButtonGemShop() {
+        // user clicked gem button
+        public void OnButtonGemShop() {
             if (GLOBALS.s.TUTORIAL_OCCURING == false && GLOBALS.s.DIALOG_ALREADY_OPENED == false)
             {
                 BEAudioManager.SoundPlay(6);

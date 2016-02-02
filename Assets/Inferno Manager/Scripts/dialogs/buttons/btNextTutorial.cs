@@ -79,14 +79,8 @@ public class btNextTutorial : ButtonCap
         else if (GLOBALS.s.TUTORIAL_PHASE == 10)
         {
             MenusController.s.destroyMenu("ArowNext", null);
-            TutorialController.s.start_chicken_tutorial();
-
-        }
-
-        else if (GLOBALS.s.TUTORIAL_PHASE == -2)
-        {
-            MenusController.s.destroyMenu("ArowNext", null);
             TutorialController.s.collectSoulsAgain();
+
         }
 
         // After Back to serious
@@ -106,10 +100,18 @@ public class btNextTutorial : ButtonCap
         {
 
             MenusController.s.destroyMenu("ArowNext", null);
+            TutorialController.s.start_chicken_tutorial();
+           
+
+        }
+
+        else if (GLOBALS.s.TUTORIAL_PHASE == -2)
+        {
+            MenusController.s.destroyMenu("ArowNext", null);
             TutorialController.s.pressBuildBtConstructImp();
 
         }
-        
+
         else if (GLOBALS.s.TUTORIAL_PHASE == 18)
         {
             MenusController.s.destroyMenu("ArowNext", null);

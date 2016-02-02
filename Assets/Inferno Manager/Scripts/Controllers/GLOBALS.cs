@@ -9,6 +9,7 @@ public class GLOBALS : MonoBehaviour {
     [HideInInspector] public int TUTORIAL_PHASE = 0;
     [HideInInspector] public bool TUTORIAL_OCCURING = false;
     [HideInInspector] public bool LOCK_CAMERA_TUTORIAL = false;
+    [HideInInspector] public bool LOCK_CLICK_TUTORIAL = false;
     [HideInInspector] public bool DIALOG_ALREADY_OPENED = false;
     [HideInInspector] public bool SPANKING_OCURRING = false;
 
