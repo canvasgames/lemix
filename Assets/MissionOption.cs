@@ -37,8 +37,11 @@ public class MissionOption : ButtonCap
         }
 
         else if (missionType == MissionType.CollectSouls) {
-            text.GetComponent<Text>().text = "Collect 300 Souls From Hell's Gate";
-            targetQuantity.GetComponent<Text>().text = mission.curQuantity+"/"+mission.targetQuantity;
+            text.GetComponent<Text>().text = "Collect "+mission.targetQuantity +" Souls from Hell's Gate";
+            int a;
+            if (mission.curQuantity >= mission.targetQuantity) a = mission.targetQuantity;
+            else a = mission.curQuantity;
+            targetQuantity.GetComponent<Text>().text = a+"/"+mission.targetQuantity;
         }
 
         if (mission.isComplete) {

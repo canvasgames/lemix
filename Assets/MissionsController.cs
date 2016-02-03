@@ -16,8 +16,6 @@ public class Mission {
     public MissionType type;
     public bool isComplete = false;
 
-    
-
     public Mission( MissionType _type, int _targetQuantity) {
         targetQuantity = _targetQuantity;
         type = _type;
@@ -40,7 +38,7 @@ public class MissionsController : MonoBehaviour {
         // ADDING MISSIONS TEMPORALY
         allMissions.Add(new Mission(MissionType.Spank, 1));
         allMissions.Add(new Mission(MissionType.Build, 2));
-        allMissions.Add(new Mission(MissionType.CollectSouls, 250));
+        allMissions.Add(new Mission(MissionType.CollectSouls, 500));
     }
     
 	
@@ -166,7 +164,7 @@ public class MissionsController : MonoBehaviour {
     public void OnBuildingComplete(int buildingType) {
         if (buildingType >= 11 && buildingType <= 15) { // if the building is a punisher type
             PunisherBuildingsCont++;
-            if(PunisherBuildingsCont == 2) {
+            if(PunisherBuildingsCont == 2 && allMissions[1].isComplete == false) {
                 RewardMisison(MissionType.Build);
             }
         }

@@ -279,8 +279,8 @@ namespace BE {
                         //Mouse Button is in pressed 
                         //if mouse move certain diatance
                         float mDist = Vector3.Distance(Input.mousePosition, mousePosLast);
-                        //if (((mDist > 0.01f && !Application.isMobilePlatform) || (mDist > 2 && Application.isMobilePlatform)) && mDist < 50f) {
-                        if ( mDist > minDistSlide && mDist < 100f) {
+                        if (((mDist > 0.01f && !Application.isMobilePlatform) || (mDist > 3.5f && Application.isMobilePlatform)) && mDist < 150f) {
+                        //if ( mDist > minDistSlide && mDist < 100f) {
                                 // set drag flag on
                                 if (!Dragged) {
                                 Dragged = true;
