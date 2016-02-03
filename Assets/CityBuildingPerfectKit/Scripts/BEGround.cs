@@ -313,7 +313,8 @@ namespace BE {
 					//if(Buildings[i][j].def.eProductionType == type) continue;
 
 					iReturn += Buildings[i][j].def.StorageCapacity[(int)type];
-				}
+
+                }
 			}
 			return iReturn;
 		}

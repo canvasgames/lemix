@@ -21,7 +21,7 @@ namespace BE {
 		ProductionRate		= 3,	
 		HitPoint			= 4,
 		StorageCapacity		= 5,
-	}
+    }
 
 	// use this class to show progress value
 	[System.Serializable]

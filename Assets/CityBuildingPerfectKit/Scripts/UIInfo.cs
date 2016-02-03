@@ -30,6 +30,9 @@ namespace BE {
         public  Image       SatanHand;
         public	Building 	building = null;
 
+        public GameObject soulsValue;
+        public GameObject soulsValueTxt;
+
 
 
         void Update () {
@@ -45,7 +48,7 @@ namespace BE {
                 // do collect
                 building.Collect();
             }
-
+            
 
         }
 		
