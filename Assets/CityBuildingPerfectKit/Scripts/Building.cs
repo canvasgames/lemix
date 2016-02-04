@@ -1008,6 +1008,11 @@ namespace BE
                 }
                 else
                 {
+                    if (scaleSoulsAlreadyCalled == false)
+                    {
+                        scaleSoulsAlreadyCalled = true;
+                        Invoke("scaleBuildingAndSouls", 0.1f);
+                    }
                     return 0f;
                 }
 

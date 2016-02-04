@@ -12,7 +12,7 @@ public class TutorialController : MonoBehaviour
     public GameObject curSatan;
 
     GameObject tempObject;
-    public GameObject HUD, explosion;
+    public GameObject HUD;
 
     BE.Building[] buildings;
     DialogsTexts[] fscreen;
