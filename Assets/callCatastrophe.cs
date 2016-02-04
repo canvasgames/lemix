@@ -16,5 +16,6 @@ public class callCatastrophe : MonoBehaviour {
     public void ActBT()
     {
         MenusController.s.createCatastrophe(0);
+        MenusController.s.destroyMenu ("CatastropheList", null);
     }
 }

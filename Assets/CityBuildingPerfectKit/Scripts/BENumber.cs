@@ -135,7 +135,8 @@ namespace BE {
                   }
 			else  					{ fCurrent -= (double)fInc; if(fCurrent <= fTarget) End(); }
 
-			UpdateUI();
+
+            UpdateUI();
 		}
 
 		public void UpdateUI() {
@@ -148,7 +149,22 @@ namespace BE {
 
             if (UIText != null) UIText.text = to_display;
             if (UIImage != null) UIImage.fillAmount = Ratio();
-		}
+
+            if (my_type == PayType.Elixir)
+            {
+                
+                if ((fCurrent - fMin) == (fMax - fMin))
+                {
+                    UIText.color = new Color(1, 0, 0);
+                }
+                else
+                {
+                    UIText.color = new Color(1, 1, 1);
+                }
+            }
+
+
+        }
 
         public void UpdateUIMax()
         {
