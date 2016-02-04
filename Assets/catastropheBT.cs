@@ -18,9 +18,11 @@ public class catastropheBT : MonoBehaviour {
     {
         if (GLOBALS.s.TUTORIAL_OCCURING == false && GLOBALS.s.DIALOG_ALREADY_OPENED == false)
         {
-             MenusController.s.createCatastrophe(0);
+             //MenusController.s.createCatastrophe(0);
 
         }
+        GLOBALS.s.USER_RANK += 1;
+        MenusController.s.createLevelUp();
         
     }
 }

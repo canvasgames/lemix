@@ -202,7 +202,7 @@ public class DialogsTexts : MonoBehaviour
             else if (string.Equals(dialogName, "MissionBuild"))
                 text_to_display = "Seems you do have sense of humor on punishing people with exotic ways";
             else if (string.Equals(dialogName, "MissionCollect"))
-                text_to_display = "Remember that you need to Souls if you want to be respected";
+                text_to_display = "Remember that you need Souls if you want to be respected";
         }
 
 

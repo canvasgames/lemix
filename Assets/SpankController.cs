@@ -82,7 +82,7 @@ public class SpankController : MonoBehaviour {
                         //Debug.Log(" INVERTED CASE!" );
                     }
                 }
-                if (handSlapper.active == true && Input.GetMouseButton(0)) {
+                if (handSlapper.activeInHierarchy == true && Input.GetMouseButton(0)) {
                     handSlapper.transform.position = Input.mousePosition;
                     //Debug.Log(" MOUSE X: " + Input.mousePosition.x + " Screen center: " + Screen.width / 2);
                 }
@@ -145,7 +145,7 @@ public class SpankController : MonoBehaviour {
         arrowLeft.transform.SetParent(Canvas, false);
         arrowLeft.SetActive(true);
         arrowLeft.GetComponent<CanvasGroup>().alpha = 0;
-        arrowLeft.GetComponent<CanvasGroup>().DOFade(1, 0.9f);
+        arrowLeft.GetComponent<CanvasGroup>().DOFade(1, 0.5f);
         all.Add(arrowLeft);
 
 
@@ -153,7 +153,7 @@ public class SpankController : MonoBehaviour {
         handTutLeft.transform.SetParent(Canvas, false);
         handTutLeft.SetActive(true);
         handTutLeft.GetComponent<CanvasGroup>().alpha = 0;
-        handTutLeft.GetComponent<CanvasGroup>().DOFade(1, 0.9f).OnComplete(() => hand_visible());
+        handTutLeft.GetComponent<CanvasGroup>().DOFade(1, 0.5f).OnComplete(() => hand_visible());
         handLeftX = handTutLeft.transform.localPosition.x;
         all.Add(handTutLeft);
 
@@ -162,14 +162,15 @@ public class SpankController : MonoBehaviour {
         arrowRight.transform.SetParent(Canvas, false);
         arrowRight.SetActive(true);
         arrowRight.GetComponent<CanvasGroup>().alpha = 0;
-        arrowRight.GetComponent<CanvasGroup>().DOFade(1, 0.9f);
+        arrowRight.GetComponent<CanvasGroup>().DOFade(1, 0.5f);
         all.Add(arrowRight);
 
         handTutRight = (GameObject)Instantiate(Resources.Load("Prefabs/Spank/handTutRight"));
         handTutRight.transform.SetParent(Canvas, false);
-        handTutRight.SetActive(true);
+        handTutRight.SetActive(false);
+        /*handTutRight.SetActive(true);
         handTutRight.GetComponent<CanvasGroup>().alpha = 0;
-        handTutRight.GetComponent<CanvasGroup>().DOFade(1, 0.9f);
+        handTutRight.GetComponent<CanvasGroup>().DOFade(1, 0.9f);*/
         handRightX = handTutRight.transform.localPosition.x;
         all.Add(handTutRight);
         #endregion
@@ -200,34 +201,57 @@ public class SpankController : MonoBehaviour {
         touchActive = true;
         firstTime = false;
 
+        Invoke("fade_in_right_hand", 0.5f);
+
+    }
+
+    public void fade_in_right_hand() {
+        handTutRight.SetActive(true);
+        handTutRight.GetComponent<CanvasGroup>().alpha = 0;
+        handTutRight.GetComponent<CanvasGroup>().DOFade(1, 0.5f).OnComplete(() => hand_visible_right());
     }
 
     public void hand_visible() {
         if (GLOBALS.s.SPANKING_OCURRING) {
             handTutLeft.transform.localPosition = new Vector3(handLeftX, handTutLeft.transform.localPosition.y);
-            handTutRight.transform.localPosition = new Vector3(handRightX, handTutRight.transform.localPosition.y);
+            //handTutRight.transform.localPosition = new Vector3(handRightX, handTutRight.transform.localPosition.y);
             Invoke("hand_start_moving", 0.3f);
+        }
+    }
+    public void hand_visible_right() {
+        if (GLOBALS.s.SPANKING_OCURRING) {
+           // handTutLeft.transform.localPosition = new Vector3(handLeftX, handTutLeft.transform.localPosition.y);
+            handTutRight.transform.localPosition = new Vector3(handRightX, handTutRight.transform.localPosition.y);
+            Invoke("hand_start_right_moving", 0.3f);
         }
     }
 
     void hand_start_moving() {
         if (GLOBALS.s.SPANKING_OCURRING) {
-            handTutRight.transform.DOLocalMoveX(handTutRight.transform.localPosition.x - 266, 0.5f).OnComplete(() => restart_hand());
-            handTutLeft.transform.DOLocalMoveX(handTutLeft.transform.localPosition.x + 266, 0.5f);
+            //handTutRight.transform.DOLocalMoveX(handTutRight.transform.localPosition.x - 266, 0.5f).OnComplete(() => restart_hand());
+            handTutLeft.transform.DOLocalMoveX(handTutLeft.transform.localPosition.x + 266, 0.5f).OnComplete(() => restart_hand());
         }
     }
+    void hand_start_right_moving() {
+        if (GLOBALS.s.SPANKING_OCURRING) {
+            handTutRight.transform.DOLocalMoveX(handTutRight.transform.localPosition.x - 266, 0.5f).OnComplete(() => restart_hand_right());
+           // handTutLeft.transform.DOLocalMoveX(handTutLeft.transform.localPosition.x + 266, 0.5f);
+        }
+    }
+
     public void restart_hand() {
         Invoke("hand_visible", 0.25f);
+        
+    }
+
+    public void restart_hand_right() {
+        Invoke("hand_visible_right", 0.25f);
         if (!firstTime) {
             firstTime = true;
             textTime.SetActive(true);
             textSlap.SetActive(true);
             textTitle.SetActive(false);
-
         }
-
-
-
     }
 
     #endregion

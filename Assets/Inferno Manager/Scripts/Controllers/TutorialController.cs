@@ -9,6 +9,8 @@ public class TutorialController : MonoBehaviour
 
     public GameObject missionsBT;
 
+    public GameObject curSatan;
+
     GameObject tempObject;
     public GameObject HUD, explosion;
 
@@ -104,8 +106,8 @@ public class TutorialController : MonoBehaviour
         MenusController.s.goOutDestroy("Welcome", null,"up");
         MenusController.s.destroyMenu("Satan", null);
 
-        GameObject atempObject = (GameObject)Instantiate(Resources.Load("Prefabs/Satan/SatanOrderingg"));
-        MenusController.s.addToGUIAndRepositeObject(atempObject, "Satan");
+        curSatan = (GameObject)Instantiate(Resources.Load("Prefabs/Satan/SatanOrderingg"));
+        MenusController.s.addToGUIAndRepositeObject(curSatan, "Satan");
 
 
         fscreen = GameObject.FindObjectsOfType(typeof(DialogsTexts)) as DialogsTexts[];
@@ -120,6 +122,8 @@ public class TutorialController : MonoBehaviour
     public void tutorial1Clicked()
     {
         GLOBALS.s.TUTORIAL_PHASE = 2;;
+
+        curSatan.GetComponent<Animator>().Rebind();
 
         fscreen = GameObject.FindObjectsOfType(typeof(DialogsTexts)) as DialogsTexts[];
         fscreen[0].closeAndReopen();
@@ -139,6 +143,8 @@ public class TutorialController : MonoBehaviour
     public void tutorial1Phase2Clicked()
     {
         GLOBALS.s.TUTORIAL_PHASE = 3;
+        curSatan.GetComponent<Animator>().Rebind();
+
         BE.SceneTown.instance.CapacityCheck();
         BE.SceneTown.Gold.ChangeDelta((double)200);
         fscreen = GameObject.FindObjectsOfType(typeof(DialogsTexts)) as DialogsTexts[];
@@ -161,6 +167,8 @@ public class TutorialController : MonoBehaviour
     {
         Debug.Log("Tutorial phase 4: Tap to collect souls");
         GLOBALS.s.TUTORIAL_PHASE = 4;
+        curSatan.GetComponent<Animator>().Rebind();
+
         GLOBALS.s.LOCK_CLICK_TUTORIAL = false;
         fscreen = GameObject.FindObjectsOfType(typeof(DialogsTexts)) as DialogsTexts[];
         fscreen[0].closeAndReopen();

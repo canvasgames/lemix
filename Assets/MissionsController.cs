@@ -102,54 +102,36 @@ public class MissionsController : MonoBehaviour {
 
     //Reward Mission Dialog
     public void RewardMisison(MissionType type) {
-        if(type == MissionType.Spank) {
-            GameObject tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/SmallScroll"));
-            MenusController.s.moveMenu(MovementTypes.Left, tempObject, "SmallScroll", 0, 0, "MissionSpank");
+        GameObject tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/SmallScroll"));
+        MenusController.s.moveMenu(MovementTypes.Right, tempObject, "SmallScroll", 0, 0, "MissionCollect");
 
-            //tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/Satan"));
-            tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/Satan/SatanProud"));
-            MenusController.s.moveMenu(MovementTypes.Left, tempObject, "Satan", 0, 0);
+        tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/Satan/SatanProud"));
+        MenusController.s.moveMenu(MovementTypes.Left, tempObject, "Satan", 0, 0);
+        tempObject.GetComponent<Animator>().Rebind();
 
-            GameObject temp = (GameObject)Instantiate(Resources.Load("Prefabs/Buttons/CollectSoulsBt"));
-            MenusController.s.moveMenu(MovementTypes.Left, temp, "Bt", 0, 0);
+        tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/Dialogs/MissionTitle"));
+        MenusController.s.moveMenu(MovementTypes.Left, tempObject, "MissionTitle", 0, 0);
+
+        GameObject temp = (GameObject)Instantiate(Resources.Load("Prefabs/Buttons/CollectSoulsBt"));
+        MenusController.s.moveMenu(MovementTypes.Right, temp, "Bt", 0, 0);
+
+
+        if (type == MissionType.Spank) {
             temp.GetComponent<CollectSoulsBt>().myBtType = CollectSoulsType.MissionSpank;
-
-            /*
-            CollectSoulsBt temp = (CollectSoulsBt)Instantiate(Resources.Load("Prefabs/Buttons/CollectSoulsBt"));
-            temp.myType = CollectSoulsType.MissionSpank;
-            temp.quantityToCollect = 250;
-            */
         }
 
         if (type == MissionType.Build) {
-            GameObject tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/SmallScroll"));
-            MenusController.s.moveMenu(MovementTypes.Left, tempObject, "SmallScroll", 0, 0, "MissionBuild");
-
-            //tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/Satan"));
-            tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/Satan/SatanProud"));
-            MenusController.s.moveMenu(MovementTypes.Left, tempObject, "Satan", 0, 0);
-
-            GameObject temp = (GameObject)Instantiate(Resources.Load("Prefabs/Buttons/CollectSoulsBt"));
-            MenusController.s.moveMenu(MovementTypes.Left, temp, "Bt", 0, 0);
             temp.GetComponent<CollectSoulsBt>().myBtType = CollectSoulsType.MissionBuild;
         }
 
         if (type == MissionType.CollectSouls) {
-            GameObject tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/SmallScroll"));
-            MenusController.s.moveMenu(MovementTypes.Left, tempObject, "SmallScroll", 0, 0, "MissionCollect");
-
-            //tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/Satan"));
-            tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/Satan/SatanProud"));
-            MenusController.s.moveMenu(MovementTypes.Left, tempObject, "Satan", 0, 0);
-
-            GameObject temp = (GameObject)Instantiate(Resources.Load("Prefabs/Buttons/CollectSoulsBt"));
-            MenusController.s.moveMenu(MovementTypes.Left, temp, "Bt", 0, 0);
             temp.GetComponent<CollectSoulsBt>().myBtType = CollectSoulsType.MissionBuild;
         }
     }
 
     public void OnSoulsCollected(CollectSoulsType btType) {
         MenusController.s.destroyMenu("Satan", null);
+        MenusController.s.destroyMenu("MissionTitle", null);
         MenusController.s.destroyMenu("SmallScroll", null);
         MenusController.s.destroyMenu("Bt", null);
 

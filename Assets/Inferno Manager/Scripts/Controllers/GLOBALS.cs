@@ -25,6 +25,25 @@ public class GLOBALS : MonoBehaviour {
         DontDestroyOnLoad(transform.gameObject);
     }
 
+    public string GetRankName(int level) {
+        string txt = "";
+        if (level == 2)
+            txt = "Lord";
+        if (level== 2)
+            txt = "Baron";
+        if (level== 3)
+            txt = "Count";
+        if (level== 4)
+            txt = "Viscount";
+        if (level== 5)
+            txt = "Marquess";
+        if (level== 6)
+            txt = "Prince";
+
+        return txt;
+    }
+
+
     // Use this for initialization
     void Start () {
 	
