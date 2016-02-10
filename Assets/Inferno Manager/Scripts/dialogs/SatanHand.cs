@@ -5,25 +5,28 @@ using UnityEngine.EventSystems;
 
 public class SatanHand : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start () {
         if (GLOBALS.s.TUTORIAL_PHASE == 4 || GLOBALS.s.TUTORIAL_PHASE == 17)
             tutorialCollect();
             
     }
-	
-	// Update is called once per frame
+
+    // Update is called once per frame
     void Update()
     {
-        if (Input.GetMouseButtonUp(0) && GLOBALS.s.TUTORIAL_PHASE == 13)
+
+        if (Input.GetMouseButtonUp(0))
         {
-            MenusController.s.destroyMenu("SatanHand", null);
+            if(GLOBALS.s.TUTORIAL_PHASE == 13)
+            {
+                destroyMe();
+            }
         }
 
 
     }
-
-    void tutorialCollect()
+        void tutorialCollect()
     {
        // transform.DOLocalMove(new Vector3(128, -112, 52), 0.7f).OnComplete(moveback);
         transform.DOLocalMove(new Vector3(112, -267, -200), 0.7f).OnComplete(moveback);

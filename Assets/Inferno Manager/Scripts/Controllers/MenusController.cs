@@ -423,7 +423,7 @@ public class MenusController : MonoBehaviour {
     #endregion
 
     #region MoveRepositeTheMenuToNewPosition
-    public void repositeMenu(string name, GameObject closeClicked, float newXpos, float NewYpos)
+    public void repositeMenu(string name, GameObject closeClicked, float newXpos, float NewYpos, float newScale = 0)
     {
         menusList menu2Move;
 
@@ -432,6 +432,11 @@ public class MenusController : MonoBehaviour {
             menu2Move = forEachFindName(name);
 
             menu2Move.menuObj.transform.DOLocalMove(new Vector3(newXpos, NewYpos, 0f), 1.5f);
+            if(newScale !=0)
+            {
+                menu2Move.menuObj.transform.DOScale(new Vector3(newScale, newScale, newScale), 0f);
+            }
+            
         }
         else
         {

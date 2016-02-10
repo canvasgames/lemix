@@ -162,6 +162,7 @@
     <Compile Include="Assets\enterFromUp.cs" />
     <Compile Include="Assets\explosion_animation_end.cs" />
     <Compile Include="Assets\levelUpHands.cs" />
+    <Compile Include="Assets\textMaxSouls.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Cartoon FX\CartoonFX2 Readme.txt" />

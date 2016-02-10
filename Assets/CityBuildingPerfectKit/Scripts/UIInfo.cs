@@ -41,7 +41,7 @@ namespace BE {
 
 		// when user clicked collect dialog
 		public void OnButtonCollect() {
-         
+            Debug.Log("UInfo collect");
             if (GLOBALS.s.LOCK_CAMERA_TUTORIAL == false)
             {
                 Debug.Log("UInfo collect");

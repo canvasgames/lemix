@@ -11,6 +11,8 @@ public class TutorialController : MonoBehaviour
 
     public GameObject curSatan;
 
+    public GameObject textMaxSouls;
+
     GameObject tempObject;
     public GameObject HUD;
 
@@ -41,7 +43,16 @@ public class TutorialController : MonoBehaviour
             GLOBALS.s.LOCK_CLICK_TUTORIAL = true;
             GLOBALS.s.TUTORIAL_OCCURING     = true;
 
-            SatanController.s.start_entering(1.4f);
+            if(QA.s.NoSatanEntering == false)
+            {
+                SatanController.s.start_entering(1.4f);
+            }
+            else
+            {
+                startTutorial();
+            }
+            
+            
             //startTutorial();
             //tutorial1Timer = 2f;
             // 
@@ -239,7 +250,7 @@ public class TutorialController : MonoBehaviour
        
         fscreen = GameObject.FindObjectsOfType(typeof(DialogsTexts)) as DialogsTexts[];
         fscreen[0].closeAndReopen();
-        MenusController.s.repositeMenu("SmallScroll", null, 252, 154);
+        MenusController.s.repositeMenu("SmallScroll", null, 252, 120);
         tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/DownArrow"));
         MenusController.s.moveMenu(MovementTypes.Right,tempObject, "DownArrow", 0, 0);
         HUD.SetActive(true);
@@ -252,7 +263,7 @@ public class TutorialController : MonoBehaviour
     public void clickedBuildBt()
     {
         Debug.Log("[TUT] 8 SELECT A BUILDING");
-        BE.SceneTown.instance.move_camera_to_building(new Vector3(8, 0, -10));
+        BE.SceneTown.instance.move_camera_to_building(new Vector3(-11, 0, 8));
    
         GLOBALS.s.LOCK_CLICK_TUTORIAL = false;
         GLOBALS.s.LOCK_CAMERA_TUTORIAL = false;
@@ -261,7 +272,7 @@ public class TutorialController : MonoBehaviour
         fscreen[0].closeAndReopen("m");
         MenusController.s.destroyMenu("Satan", null);
         MenusController.s.destroyMenu("DownArrow", null);
-        MenusController.s.repositeMenu("SmallScroll", null, 0f, 181f);
+        MenusController.s.repositeMenu("SmallScroll", null, 0f, 155f, 0.9F);
         //Invoke("createNextButton", 2);
 
     }
@@ -301,6 +312,8 @@ public class TutorialController : MonoBehaviour
 
         tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/SmallScroll"));
         MenusController.s.moveMenu(MovementTypes.Right,tempObject, "SmallScroll", -292f, -113f);
+
+        //textMaxSouls.GetComponent<textMaxSouls>().pulse();
 
         //fscreen = GameObject.FindObjectsOfType(typeof(DialogsTexts)) as DialogsTexts[];
         // fscreen[0].closeAndReopen();
@@ -395,7 +408,7 @@ public class TutorialController : MonoBehaviour
         MenusController.s.destroyMenu("BigScroll", null);
         
         tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/SmallScroll"));
-        MenusController.s.moveMenu(MovementTypes.Right, tempObject, "SmallScroll", -223f, 169f);
+        MenusController.s.moveMenu(MovementTypes.Right, tempObject, "SmallScroll", -223f, 126f);
 
         tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/SatanHand"));
         MenusController.s.addToGUIAndRepositeObject(tempObject, "SatanHand");
@@ -479,7 +492,7 @@ public class TutorialController : MonoBehaviour
         GLOBALS.s.TUTORIAL_PHASE = 14;
         //tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/SmallScroll"));
         //MenusController.s.moveMenu(MovementTypes.Right, tempObject, "SmallScroll", 252, 154);
-        MenusController.s.repositeMenu("SmallScroll", null, 0f, 181f);
+        MenusController.s.repositeMenu("SmallScroll", null, 252, 120);
         fscreen = GameObject.FindObjectsOfType(typeof(DialogsTexts)) as DialogsTexts[];
         fscreen[0].closeAndReopen();
         //tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/Satan"));
@@ -494,10 +507,10 @@ public class TutorialController : MonoBehaviour
     //Indicate tab of fire mine
     public void indicateTabFireMine()
     {
-        BE.SceneTown.instance.move_camera_to_building(new Vector3(17, 0, 14));
+        BE.SceneTown.instance.move_camera_to_building(new Vector3(16, 0, 12),0.5f,14f);
         MenusController.s.destroyMenu("Satan", null);
 
-        MenusController.s.repositeMenu("SmallScroll", null, 0f, 181f);
+        MenusController.s.repositeMenu("SmallScroll", null, 0f, 155f, 0.9F);
         MenusController.s.repositeMenu("DownArrow", null, -190f, -215f);
 
         fscreen = GameObject.FindObjectsOfType(typeof(DialogsTexts)) as DialogsTexts[];

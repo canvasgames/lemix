@@ -38,7 +38,6 @@ public class CreateDemonsScrollView : MonoBehaviour {
         transform.DOLocalMoveY(GetComponent<RectTransform>().rect.height - 410, 3f);
     }
 
-
     void createLine(float yPosition, int numberOfAvatarsInLine, float xSpacing, int line)
     {
 

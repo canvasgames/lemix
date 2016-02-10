@@ -30,6 +30,7 @@ public class btNextTutorial : ButtonCap
 
     public override void ActBT()
     {
+
         base.ActBT();
         if(GLOBALS.s.TUTORIAL_PHASE == 1)
         {

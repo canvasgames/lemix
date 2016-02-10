@@ -243,7 +243,10 @@ namespace BE {
                 if (Input.GetMouseButton(0)) {
                     
                     if (EventSystem.current.IsPointerOverGameObject() || GLOBALS.s.LOCK_CAMERA_TUTORIAL == true && GLOBALS.s.LOCK_CLICK_TUTORIAL == true || (GLOBALS.s.DIALOG_ALREADY_OPENED == true && GLOBALS.s.TUTORIAL_OCCURING == false)) {
+
                         return;
+                        
+         
                     }
 
                     //Click MouseButton
@@ -933,7 +936,7 @@ namespace BE {
             script.Move(pos);
             pos = new Vector3(4f, 0f, 18f);
 
-            if (GLOBALS.s.TUTORIAL_OCCURING) move_camera_to_building(pos, 0.5f, 11);
+            if (GLOBALS.s.TUTORIAL_OCCURING) move_camera_to_building(pos, 0.5f, 14);
 
             script.createExplosion();
             BuildingSelect(script);
@@ -946,7 +949,7 @@ namespace BE {
 
             Vector3 pos = new Vector3(-10f, 0f, 13f);
             script.Move(pos);
-            if (GLOBALS.s.TUTORIAL_OCCURING) move_camera_to_building(pos);
+            if (GLOBALS.s.TUTORIAL_OCCURING) move_camera_to_building(pos,0.5f, 11);
 
 
             script.createExplosion();

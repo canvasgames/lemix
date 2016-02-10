@@ -7,8 +7,10 @@ public class QA : MonoBehaviour {
 
     public bool DontSave = false;
     public bool NoTutorial = false;
+    public bool NoSatanEntering = false;
     public bool CameraNavigationOnRelease = false;
     public bool CrazyProduction = false;
+    
 
     public int ProductionMultiplier = 1;
 

@@ -109,6 +109,7 @@ namespace BE
         public GameObject prefUIInfo;                   // prefab for building info ui
         public GameObject prefUICollect;                // prefab for resource collect ui
         private UIInfo uiInfo = null;
+
         public BuildingType bt = null;                  // building type class of this building
         public BuildingDef def = null;                  // current building's def
         public BuildingDef defNext = null;              // def of next level 
@@ -292,7 +293,7 @@ namespace BE
             {
                 uiInfo.SatanHand.gameObject.SetActive(true);
                 Vector3 pos = new Vector3(goCenter.transform.position.x + 1.5f, 0f, goCenter.transform.position.z + 1.5f);
-                SceneTown.instance.move_camera_to_building(pos);
+                SceneTown.instance.move_camera_to_building(pos, 0.5f, 11);
             }
 
         }
@@ -407,6 +408,7 @@ namespace BE
             uiInfo.Name.text = TBDatabase.GetBuildingName(Type);
             uiInfo.Level.text = "Level " + displayLevel.ToString();
             uiInfo.building = this;
+
             uiInfo.soulsValue.SetActive(false);
             uiInfo.soulsValueTxt.SetActive(false);
 
