@@ -155,7 +155,7 @@ public class DialogsTexts : MonoBehaviour
             // text_to_display = "Great! Now your Hell Gate can Generate Souls! As higher your sadness meter, more souls will be sent to your Hell!";
             else if (GLOBALS.s.TUTORIAL_PHASE == 11)
             {
-                text_to_display = "Ok. Back to Seriousness!\nTap to Collect Souls.";
+                text_to_display = "Tap to Collect Souls.";
                 //myText.GetComponentInChildren<Text>().alignment = TextAnchor.MiddleCenter;
             }
 

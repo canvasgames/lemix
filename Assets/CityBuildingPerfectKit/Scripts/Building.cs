@@ -199,12 +199,12 @@ namespace BE
                     if (GLOBALS.s == null) Debug.Log("GLOBALS IS NULL!!!!!!!!!!");
                     if (def.eProductionType == PayType.Gold)
                     {
-                        Production += (float)def.ProductionRate * deltaTime;
+                        Production += (float)def.ProductionRate * deltaTime * QA.s.ProductionMultiplier;
                     }
 
                     else if (def.eProductionType == PayType.Elixir)
                     {
-                        Production += (float)def.ProductionRate * deltaTime * GLOBALS.s.ELIXIR_RESEARCH_EXTRA_PERCENTAGE;
+                        Production += (float)def.ProductionRate * deltaTime * GLOBALS.s.ELIXIR_RESEARCH_EXTRA_PERCENTAGE * QA.s.ProductionMultiplier;
                     }
                 }
 
@@ -475,7 +475,7 @@ namespace BE
         public void CheckLandable()
         {
             bool IsVacant = ground.IsVacant(tilePos, tileSize);
-            Debug.Log("CheckLandable Vacant " + IsVacant.ToString() + "Change Color of building");
+            //Debug.Log("CheckLandable Vacant " + IsVacant.ToString() + "Change Color of building");
             Color clrTemp = IsVacant ? new Color(0, 1, 0, 0.5f) : new Color(1, 0, 0, 0.5f);
             BEUtil.SetObjectColor(goGrid, "_TintColor", clrTemp);
             Landable = IsVacant;
@@ -540,7 +540,7 @@ namespace BE
 
 
             CheckLandable();
-            Debug.Log("Activating or Not Grid, Is Landed Flag is?  " + Landed);
+           // Debug.Log("Activating or Not Grid, Is Landed Flag is?  " + Landed);
             if (Type != 0 && Type != 4)
             {
                 if (flagMarota == false)
@@ -572,13 +572,13 @@ namespace BE
                 {
                     if (Landed)
                     {
-                        Debug.Log("Landed, Desapear UI Txt Build Info");
+                        //Debug.Log("Landed, Desapear UI Txt Build Info");
                         BETween.alpha(uiInfo.groupInfo.gameObject, 0.1f, 1.0f, 0.0f);
                         BETween.enable(uiInfo.groupInfo.gameObject, 0.1f, true, false);
                     }
                     else
                     {
-                        Debug.Log("Not Landed Appear UI Txt Build Info");
+                        //Debug.Log("Not Landed Appear UI Txt Build Info");
                         BETween.alpha(uiInfo.groupInfo.gameObject, 0.1f, 0.0f, 1.0f);
                         uiInfo.groupInfo.gameObject.SetActive(true);
 
@@ -604,7 +604,7 @@ namespace BE
                 }
                 else
                 {
-                    Debug.Log("else do sei lá o q");
+                   // Debug.Log("else do sei lá o q");
                     uiInfo.groupInfo.alpha = Landed ? 0 : 1;
                     uiInfo.groupInfo.gameObject.SetActive(Landed ? false : true);
                 }
@@ -618,7 +618,7 @@ namespace BE
             {
                 SceneTown.instance.Save();
 
-                Debug.Log("Landed Back to original color");
+               // Debug.Log("Landed Back to original color");
                 BEUtil.SetObjectColor(goCenter, Color.white);
                 BEUtil.SetObjectColor(goXInc, Color.white);
                 BEUtil.SetObjectColor(goZInc, Color.white);

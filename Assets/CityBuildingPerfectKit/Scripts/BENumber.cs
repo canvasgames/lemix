@@ -31,8 +31,11 @@ namespace BE {
 		private double 	fMin 		= 0.0;
 		private double 	fMax 		= 1.0;
 		private double 	fCurrent 	= 0.0;
-		
-		private IncType eType		= IncType.VALUEwithMAX;
+		private double 	fLimitMax = 1.0;
+		private double  fLimitCurrent = 0.0;
+		private double  fLimitTarget = 0.0;
+
+        private IncType eType		= IncType.VALUEwithMAX;
 		
 		private GameObject 		m_EventTarget = null;
 		private string 			m_EventFunction;
@@ -41,6 +44,7 @@ namespace BE {
 		private Text			UIText = null;
 		private Text			UITextMax = null;
         private Image			UIImage = null;
+        private Image           UIImageMax = null;
 
         private PayType         my_type;
 
@@ -76,17 +80,20 @@ namespace BE {
         public void 	AddUIText(Text ui)		{ UIText = ui; if(UIText != null) UIText.text = ToString(); }
         public void 	AddUITextMax(Text ui)		{ UITextMax = ui; if (UITextMax != null) UpdateUIMax(); }
         public void 	AddUIImage(Image ui)	{ UIImage = ui; if(UIImage != null) UIImage.fillAmount = Ratio(); }
+        public void AddUIImageMax(Image ui) { UIImageMax = ui; if (UIImageMax != null) ; } //UIImageMax.fillAmount = RatioMax(); }
 
 		public void 	TypeSet(IncType type)	{ eType = type; }
 		public IncType 	Type()					{ return eType; }
 		
 		public bool 	InChange()				{ return bInChange; }
 		public float 	Ratio()					{ return (float)((fCurrent-fMin)/(fMax-fMin)); }
+		public float    RatioMax()				{ return (float)((fLimitMax-fMin)/(fMax-fMin)); }
 		public float 	TargetRatio()			{ return (float)((fTarget-fMin)/(fMax-fMin)); }
 		public double 	Current()				{ return fCurrent; }
 		public double 	Min()					{ return fMin; }
 		public double 	Max()					{ return fMax; }
 		public void 	MaxSet(double value)	{ fMax = value; UpdateUI(); UpdateUIMax(); }
+        public void 	CurrentMaxSet(double value)	{ if (fLimitMax != value) { fLimitMax = value; UpdateUICurrentMax(); } else Debug.Log("UPDATE LIMIT: Max is the same! do nothing"); }
 		public double 	Target()				{ return fTarget; }
 		public override string 	ToString()		{ 
 			if(eType == IncType.VALUE) 				return ((int)fCurrent).ToString ("#,##0"); 
@@ -117,7 +124,7 @@ namespace BE {
 				fInc = 1.0f;
 			}
 			fTarget = target;
-            
+            //Debug.Log("BENUMBER CHANGE TO: " + target + " FMAX: " + fMax + " FMIN: "+ fMin); 
 		}
 
 		public void ChangeDelta(double target) {
@@ -148,6 +155,7 @@ namespace BE {
             to_display = ToString();
 
             if (UIText != null) UIText.text = to_display;
+
             if (UIImage != null) UIImage.fillAmount = Ratio();
 
             if (my_type == PayType.Elixir)
@@ -165,13 +173,21 @@ namespace BE {
 
 
         }
-
+		
         public void UpdateUIMax()
         {
             if (UITextMax != null) UITextMax.text = "Max: " + fMax.ToString();
+            //if (UIImageMax != null) UIImageMax.fillAmount = RatioMax();
         }
 
-		private void End() {
+        public void UpdateUICurrentMax() {
+           // if (UITextMax != null) UITextMax.text = "Max: " + fCurrentMax.ToString();
+            if (UIImageMax != null) UIImageMax.fillAmount = RatioMax();
+            Debug.Log("UPDATING LIMIT! CAPACITY IS: " + fLimitMax + " FMAX: " + fMax + " FMIN: " +fMin + " f current: " + fCurrent);
+            Debug.Log(" RATIOMAX: " + RatioMax() + " NORMAL RATIO: " + Ratio());
+        }
+
+        private void End() {
 			bInChange = false; 
 			fCurrent = fTarget;
 			

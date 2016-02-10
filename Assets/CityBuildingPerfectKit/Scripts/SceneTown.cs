@@ -90,6 +90,7 @@ namespace BE {
 		public  static 	BENumber	Elixir;
 		public  static 	BENumber	Gem;
 		public  static 	BENumber	Shield;
+        public  static  BENumber    MaxElixir;
 		private static 	int 		Level = 0;
 		private static 	int 		ExpTotal = 0;
 
@@ -107,6 +108,7 @@ namespace BE {
 			// initialize BENumber class and set ui element 
 			Exp = new BENumber(BENumber.IncType.VALUE, 0, 100000000, 0);
 			Exp.AddUIImage(BEUtil.GetObject("PanelOverlay/LabelExp/Fill").GetComponent<Image>());
+			Exp.AddUIImageMax(BEUtil.GetObject("PanelOverlay/LabelExp/FillLimit").GetComponent<Image>());
 
 			Gold = new BENumber(BENumber.IncType.VALUE, 0, 200000, 555); // initial gold count is 1000
 			Gold.AddUIText(BEUtil.GetObject("PanelOverlay/LabelGold/Text").GetComponent<Text>());
@@ -117,7 +119,7 @@ namespace BE {
 			Elixir = new BENumber(BENumber.IncType.VALUE, 0, 300000, 0, PayType.Elixir); // initial elixir count is 1000	
 			Elixir.AddUIText(BEUtil.GetObject("PanelOverlay/LabelElixir/Text").GetComponent<Text>());
 			Elixir.AddUITextMax(BEUtil.GetObject("PanelOverlay/LabelElixir/TextMax").GetComponent<Text>());
-			Elixir.AddUIImage(BEUtil.GetObject("PanelOverlay/LabelElixir/Fill").GetComponent<Image>());
+		    Elixir.AddUIImage(BEUtil.GetObject("PanelOverlay/LabelElixir/Fill").GetComponent<Image>());
 
 			Gem = new BENumber(BENumber.IncType.VALUE, 0, 100000000, 0);	// initial gem count is 100	0	
 			Gem.AddUIText(BEUtil.GetObject("PanelOverlay/LabelGem/Text").GetComponent<Text>());
@@ -496,13 +498,14 @@ namespace BE {
         }
         #endregion
 
-        public void move_camera_to_building(Vector3 pos, float duration = 0.5f)
+        #region Exp and Capacity
+        public void move_camera_to_building(Vector3 pos, float duration = 0.5f, float customZoom = 6f)
         {
             //pos = new Vector3(pos.x, pos.y, pos.z);
             Vector3 newPos = new Vector3(pos.x - 1.5f, pos.y, pos.z - 1.5f);
             Camera cam = goCamera.GetComponent<Camera>();
-            if (Math.Abs (cam.orthographicSize - 6f) > 0.1f)
-                cam.DOOrthoSize(6f, duration).OnComplete(()=> zoomCurrent = 6f);
+            if (Math.Abs (cam.orthographicSize - customZoom) > 0.1f)
+                cam.DOOrthoSize(customZoom, duration).OnComplete(()=> zoomCurrent = customZoom);
 
             cameraStopping = true;
             goCameraRoot.transform.DOMove(newPos, duration).SetEase(Ease.OutQuad).OnComplete(() => cameraStopping = false);
@@ -553,42 +556,15 @@ namespace BE {
 		}
 
 
+
+
         #region BUILDING functions
-        // add exp
-        public void GainExp(int exp) {
-            Debug.Log("GAINING EXP!!: " + exp + " EXP TOTAL: " + ExpTotal); 
-            ExpTotal += exp;
-			int NewLevel = TBDatabase.GetLevel(ExpTotal);
-			int LevelExpToGet = TBDatabase.GetLevelExp(NewLevel);
-			int LevelExpStart = TBDatabase.GetLevelExpTotal(NewLevel);
-
-			SceneTown.Exp.MaxSet(LevelExpToGet);
-			int ExpLeft = ExpTotal - LevelExpStart;
-			SceneTown.Exp.ChangeTo(ExpLeft);
-
-			// if level up occured
-			if((NewLevel > Level) && (Level != 0)) {
-                // show levelup notify here
-                GLOBALS.s.USER_RANK = NewLevel;
-                if(GLOBALS.s.USER_RANK !=2)
-                {
-                    MenusController.s.createLevelUp();
-                }
-                
-
-                
-            }
-			Level = NewLevel;
-			textLevel.text = NewLevel.ToString ();
-
-			// save game data
-			Save ();
-		}
 
 
-		// get building script
-		// if child object was hitted, check parent 
-		public Building BuildingFromObject(GameObject go) {
+
+        // get building script
+        // if child object was hitted, check parent 
+        public Building BuildingFromObject(GameObject go) {
 			Building buildingNew = go.GetComponent<Building>();
 			if(buildingNew == null)  buildingNew = go.transform.parent.gameObject.GetComponent<Building>();
 
@@ -753,6 +729,37 @@ namespace BE {
 
         #endregion
 
+
+        // add exp
+        public void GainExp(int exp) {
+            Debug.Log("[GAIN EX] INIT: " + exp + " EXP TOTAL: " + ExpTotal);
+            ExpTotal += exp;
+            int NewLevel = TBDatabase.GetLevel(ExpTotal);
+            int LevelExpToGet = TBDatabase.GetLevelExp(NewLevel);
+            int LevelExpStart = TBDatabase.GetLevelExpTotal(NewLevel);
+
+            SceneTown.Exp.MaxSet(LevelExpToGet);
+            int ExpLeft = ExpTotal - LevelExpStart;
+            SceneTown.Exp.ChangeTo(ExpLeft);
+
+            Debug.Log("[GAIN EX] NEW LEVEL: " + NewLevel + " | LEVELXPTOGET: " + LevelExpToGet + " LevelExpStart " + LevelExpStart);
+
+            // if level up occured
+            if ((NewLevel > Level) && (Level != 0)) {
+                // show levelup notify here
+                GLOBALS.s.USER_RANK = NewLevel;
+                if (GLOBALS.s.USER_RANK != 2) {
+                    MenusController.s.createLevelUp();
+                }
+            }
+            Level = NewLevel;
+            textLevel.text = NewLevel.ToString();
+
+            // save game data
+            Save();
+        }
+
+
         //check max capacity and, if it is the maximum, set it to maximum.
         public void CapacityCheck() {
 			int GoldCapacityTotal = BEGround.instance.GetCapacityTotal(PayType.Gold);
@@ -766,7 +773,12 @@ namespace BE {
                 Gold.ChangeTo(GoldCapacityTotal);
     
 			Elixir.MaxSet(ElixirCapacityTotal);
-			if(Elixir.Target() > ElixirCapacityTotal)
+
+            int NewLevel = TBDatabase.GetLevel(ExpTotal);
+            int LevelExpStart = TBDatabase.GetLevelExpTotal(NewLevel);
+            Exp.CurrentMaxSet(ElixirCapacityTotal - LevelExpStart);
+
+            if (Elixir.Target() > ElixirCapacityTotal)
                 Elixir.ChangeTo(ElixirCapacityTotal);
 
 			BEGround.instance.DistributeByCapacity(PayType.Gold, (float)Gold.Target());
@@ -775,9 +787,12 @@ namespace BE {
             SoulProductionIncTotal = BEGround.instance.GetSoulProductionInc();
 		}
 
+        #endregion
+
+
         #region Save (and encrypt)
         // related to save and load gamedata with xml format
-        bool	UseEncryption = false;
+        bool    UseEncryption = false;
 		bool	bFirstRun = false;
 		string 	configFilename = "Config.dat";
 		int 	ConfigVersion = 1;
@@ -914,9 +929,11 @@ namespace BE {
         public void createTownHownTutorial()
         {
             Building script = BEGround.instance.BuildingAdd(0, 1);
-            Vector3 pos = new Vector3(1f, 0f, 28f);
+            Vector3 pos = new Vector3(4f, 0f, 28f);
             script.Move(pos);
-            if(GLOBALS.s.TUTORIAL_OCCURING) move_camera_to_building(pos);
+            pos = new Vector3(4f, 0f, 18f);
+
+            if (GLOBALS.s.TUTORIAL_OCCURING) move_camera_to_building(pos, 0.5f, 11);
 
             script.createExplosion();
             BuildingSelect(script);

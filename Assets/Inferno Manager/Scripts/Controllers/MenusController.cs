@@ -128,7 +128,7 @@ public class MenusController : MonoBehaviour {
         else if(myMenu != null)
         {
             menu2Destroy = forEachFindTheMenuItself(myMenu);
-            if (menu2Destroy.menuObj != null)
+            if (menu2Destroy != null && menu2Destroy.menuObj != null)
             {
                 
                 Destroy(menu2Destroy.menuObj);
