@@ -150,7 +150,8 @@ namespace BE {
                         Building script = BEGround.instance.BuildingAdd(bt.ID, (bd.BuildTime == 0) ? 1 : 0);
                         if (script != null)
                         {
-                            script.Move(Vector3.zero);
+                            //script.Move(Vector3.zero);
+                            script.Move(new Vector3(-17.5f,0f,-17.5f));
                             BEGround.instance.MoveToVacantTilePos(script);
                             Debug.Log("UIShopItem called check landable ");
                             script.CheckLandable();

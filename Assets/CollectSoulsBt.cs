@@ -20,7 +20,7 @@ public class CollectSoulsBt : ButtonCap {
     bool alreadyClicked = false;
     // Use this for initialization
     void Start() {
-
+        quantityToCollect = 100;
     }
 
     public override void ActBT() {
@@ -41,11 +41,29 @@ public class CollectSoulsBt : ButtonCap {
                 part.moveCatrastofe();
             }
 
-            if (myBtType == CollectSoulsType.MissionSpank || myBtType == CollectSoulsType.MissionBuild)
+            if (myBtType == CollectSoulsType.MissionSpank || myBtType == CollectSoulsType.MissionBuild || myBtType == CollectSoulsType.MissionCollect)
             {
                 transform.DOScale(0f, 0.6f);
                 Debug.Log("Invoking");
-                BE.SceneTown.Elixir.ChangeDelta((double)quantityToCollect);
+
+                int CapacityTotal = BE.BEGround.instance.GetCapacityTotal(BE.PayType.Elixir);
+
+                double actualvalue = BE.SceneTown.Elixir.ChangeDelta((double)quantityToCollect);
+
+                if (CapacityTotal >= actualvalue + quantityToCollect)
+                {
+                    BE.SceneTown.instance.GainExp((int)quantityToCollect);
+                    MissionsController.s.OnSoulsCollected(quantityToCollect);
+                    distributeSouls(100);
+                }
+                else
+                {
+
+                    BE.SceneTown.instance.GainExp(CapacityTotal - (int)actualvalue);
+                    MissionsController.s.OnSoulsCollected(CapacityTotal - (int)actualvalue);
+                    distributeSouls(CapacityTotal - (int)actualvalue);
+                }
+
                 //allObjects.transform.DOMoveY(-450, 1f).OnComplete(() => M);
                 Invoke("onAnimationEnd", 1.5f);
             }
@@ -59,4 +77,39 @@ public class CollectSoulsBt : ButtonCap {
         MissionsController.s.OnSoulsCollected(myBtType);
     }
 
+
+
+    void distributeSouls(float value)
+    {
+        BE.Building[] buildings;
+        buildings = GameObject.FindObjectsOfType(typeof(BE.Building)) as BE.Building[];
+        int lenght = buildings.Length;
+        float discountEach = 1;
+        int i = 0, cont = 0;
+        float temp;
+        while (value > 0)
+        {
+            for (i = 0; i < lenght; i++)
+            {
+                if (value >= 1)
+                    temp = buildings[i].storeSouls(discountEach);
+                else
+                    temp = buildings[i].storeSouls(value);
+
+                value = value - temp;
+                if (value == 0f)
+                {
+                    break;
+                }
+
+            }
+
+            cont++;
+            if (cont > 1000)
+            {
+                break;
+            }
+            i = 0;
+        }
+    }
 }

@@ -29,7 +29,7 @@ public class MissionsController : MonoBehaviour {
     MissionOption[] MissionOptions;
     public List<Mission> allMissions = new List<Mission>();
     public float soulsCollected = 0;
-
+    GameObject exclamationMissions;
     // Use this for initialization
 
     void Awake() {
@@ -94,8 +94,8 @@ public class MissionsController : MonoBehaviour {
             BE.SceneTown.instance.OnButtonShop();
         }
         else if (type == MissionType.CollectSouls) {
-            Vector3 pos = new Vector3(19f, 0f, 4f);
-            BE.SceneTown.instance.move_camera_to_building(pos);
+            Vector3 pos = new Vector3(-10f, 0f, 13f);
+            BE.SceneTown.instance.move_camera_to_building(pos,0.5f,9);
         }
 
     }
@@ -125,8 +125,10 @@ public class MissionsController : MonoBehaviour {
         }
 
         if (type == MissionType.CollectSouls) {
-            temp.GetComponent<CollectSoulsBt>().myBtType = CollectSoulsType.MissionBuild;
+            temp.GetComponent<CollectSoulsBt>().myBtType = CollectSoulsType.MissionCollect;
         }
+
+        
     }
 
     public void OnSoulsCollected(CollectSoulsType btType) {
@@ -140,7 +142,11 @@ public class MissionsController : MonoBehaviour {
         else if (btType == CollectSoulsType.MissionBuild)
             allMissions[1].isComplete = true;
         else if (btType == CollectSoulsType.MissionCollect)
+        {
             allMissions[2].isComplete = true;
+            Debug.Log("Compelted");
+        }
+        checkIfAllMissionsAreCompleted();
     }
 
     public void OnBuildingComplete(int buildingType) {
@@ -159,4 +165,14 @@ public class MissionsController : MonoBehaviour {
             RewardMisison(MissionType.CollectSouls);
     }
 
+    void checkIfAllMissionsAreCompleted()
+    {
+        Debug.Log("Missions collect compelted " + allMissions[2].isComplete);
+        if(allMissions[0].isComplete == true && allMissions[1].isComplete == true && allMissions[2].isComplete == true)
+        {
+            exclamationMissions = GameObject.Find("MissionExcl");
+            exclamationMissions.SetActive(false);
+        }
+            
+    }
 }

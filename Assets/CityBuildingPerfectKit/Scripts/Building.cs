@@ -936,7 +936,18 @@ namespace BE
             float scale = (12 / (Camera.main.orthographicSize));
             script.transform.localScale = new Vector3(scale, scale, scale);
             script.Init(transform, new Vector3(0, 1.0f, 0));
+            if (def.eProductionType == PayType.Elixir)
+            {
+                Building[] buildings;
+                buildings = GameObject.FindObjectsOfType(typeof(Building)) as Building[];
+                int lenght = buildings.Length;
+                int i;
 
+                for (i = 0; i < lenght; i++)
+                {
+                    buildings[i].scaleBuildingFullCase();
+                }
+            }
         }
 
         void distributeSouls(float value)
@@ -1027,6 +1038,14 @@ namespace BE
 
         }
 
+        public void scaleBuildingFullCase()
+        {
+            if (def != null && bt.ID >= 11 && bt.ID <= 15)
+            {
+                Invoke("scaleBuildingAndSouls", 0.1f);
+            }
+        }
+
         void scaleBuildingAndSouls()
         {
             uiInfo.soulsValueTxt.SetActive(true);
@@ -1082,7 +1101,7 @@ namespace BE
         }
         public void createExplosion()
         {
-            //tempObject = (GameObject)Instantiate(explosion, new Vector3(gameObject.transform.position.x - 2, gameObject.transform.position.y + 2, gameObject.transform.position.z - 2), Quaternion.Euler(89f, 0f, 0f));
+            tempObject = (GameObject)Instantiate(explosion, new Vector3(gameObject.transform.position.x - 2, gameObject.transform.position.y + 2, gameObject.transform.position.z - 2), Quaternion.Euler(89f, 0f, 0f));
         }
         // start upgrade
         public bool Upgrade()

@@ -124,11 +124,14 @@ namespace BE {
 				fInc = 1.0f;
 			}
 			fTarget = target;
+
             //Debug.Log("BENUMBER CHANGE TO: " + target + " FMAX: " + fMax + " FMIN: "+ fMin); 
 		}
 
-		public void ChangeDelta(double target) {
+		public double ChangeDelta(double target) {
 			ChangeTo(fTarget+target);
+
+            return fCurrent;
 		}
 
 		public void Update() {

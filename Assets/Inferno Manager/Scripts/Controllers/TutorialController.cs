@@ -11,7 +11,7 @@ public class TutorialController : MonoBehaviour
 
     public GameObject curSatan;
 
-    public GameObject textMaxSouls;
+    public GameObject txtMaxSouls;
 
     GameObject tempObject;
     public GameObject HUD;
@@ -38,7 +38,7 @@ public class TutorialController : MonoBehaviour
         if (firstGame == 0)
         {
             missionsBT.transform.localScale = new Vector3 (0, 0, 0);
-            HUD.SetActive(false);
+           HUD.SetActive(false);
             GLOBALS.s.LOCK_CAMERA_TUTORIAL = true;
             GLOBALS.s.LOCK_CLICK_TUTORIAL = true;
             GLOBALS.s.TUTORIAL_OCCURING     = true;
@@ -50,6 +50,7 @@ public class TutorialController : MonoBehaviour
             else
             {
                 startTutorial();
+               // punisherCapacityExplanation();
             }
             
             
@@ -303,17 +304,19 @@ public class TutorialController : MonoBehaviour
         GLOBALS.s.LOCK_CAMERA_TUTORIAL = true;
 
         GLOBALS.s.TUTORIAL_PHASE = 10;
-        tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/SatanHand"));
-        MenusController.s.addToGUIAndRepositeObject(tempObject,"SatanHand");
-        
-        SatanHand script;
-        script = (SatanHand)tempObject.GetComponent(typeof(SatanHand));
-        script.initHandSoulsTutorial();
 
         tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/SmallScroll"));
-        MenusController.s.moveMenu(MovementTypes.Right,tempObject, "SmallScroll", -292f, -113f);
+        MenusController.s.moveMenu(MovementTypes.Left,tempObject, "SmallScroll", -292f, -113f);
 
-        //textMaxSouls.GetComponent<textMaxSouls>().pulse();
+        tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/GreenCircle"));
+        MenusController.s.moveMenu(MovementTypes.Left, tempObject, "GreenCircle", -429, 324);
+        tempObject.GetComponent<GreenCircle>().pulse();
+
+        txtMaxSouls.GetComponent<textMaxSouls>().pulse();
+
+        tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/3DArrow"));
+        MenusController.s.moveMenu(MovementTypes.Left, tempObject, "3DArrow", -429, 207);
+        tempObject.GetComponent<Arrow3D>().googogogo();
 
         //fscreen = GameObject.FindObjectsOfType(typeof(DialogsTexts)) as DialogsTexts[];
         // fscreen[0].closeAndReopen();
@@ -332,8 +335,9 @@ public class TutorialController : MonoBehaviour
     {
         GLOBALS.s.TUTORIAL_PHASE = 11;
         GLOBALS.s.LOCK_CLICK_TUTORIAL = false;
-
-        MenusController.s.destroyMenu("SatanHand", null);
+        txtMaxSouls.GetComponent<textMaxSouls>().stop();
+        MenusController.s.destroyMenu("3DArrow", null);
+        MenusController.s.destroyMenu("GreenCircle", null);
 
         tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/Satan"));
         MenusController.s.moveMenu(MovementTypes.Right, tempObject, "Satan", 0, 0);
@@ -368,7 +372,7 @@ public class TutorialController : MonoBehaviour
             element.unactivateHandTutorialUI(4);
         }
 
-        Invoke("StartLevelUpAnimation", 1.5f);
+        Invoke("StartLevelUpAnimation", 2.5f);
     }
 
     void StartLevelUpAnimation()
@@ -458,7 +462,7 @@ public class TutorialController : MonoBehaviour
         MenusController.s.destroyMenu("SatanHand", null);
 
         tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/SmallScroll"));
-        MenusController.s.moveMenu(MovementTypes.Right, tempObject, "SmallScroll", -101f, 155f);
+        MenusController.s.moveMenu(MovementTypes.Right, tempObject, "SmallScroll", -101f, 131);
         fscreen = GameObject.FindObjectsOfType(typeof(DialogsTexts)) as DialogsTexts[];
         fscreen[0].closeAndReopen("m");
 
@@ -470,8 +474,8 @@ public class TutorialController : MonoBehaviour
         Debug.Log("[TUT] -2 AFTER CHICKEN KICKED");
         GLOBALS.s.TUTORIAL_PHASE = -2;
 
-        tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/SmallScroll"));
-        MenusController.s.moveMenu(MovementTypes.Left, tempObject, "SmallScroll", 0, 0);
+        tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/SmallScroll4Lines"));
+        MenusController.s.moveMenu(MovementTypes.Right, tempObject, "SmallScroll4Lines", 0, 0);
     
 
         tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/Satan"));
@@ -487,12 +491,14 @@ public class TutorialController : MonoBehaviour
     public void pressBuildBtConstructImp()
     {
         MenusController.s.destroyMenu("SatanHand", null);
-       
+        MenusController.s.destroyMenu("SmallScroll4Lines", null);
 
         GLOBALS.s.TUTORIAL_PHASE = 14;
         //tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/SmallScroll"));
         //MenusController.s.moveMenu(MovementTypes.Right, tempObject, "SmallScroll", 252, 154);
-        MenusController.s.repositeMenu("SmallScroll", null, 252, 120);
+        
+        tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/SmallScroll"));
+        MenusController.s.moveMenu(MovementTypes.Right, tempObject, "SmallScroll", 252, 120);
         fscreen = GameObject.FindObjectsOfType(typeof(DialogsTexts)) as DialogsTexts[];
         fscreen[0].closeAndReopen();
         //tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/Satan"));
@@ -595,6 +601,7 @@ public class TutorialController : MonoBehaviour
     #endregion
     public void ILlBeThereForYou()
     {
+        BE.SceneTown.instance.move_camera_to_building(new Vector3(3, 0, 15),0.5f,12);
         GLOBALS.s.TUTORIAL_PHASE = 19;
         fscreen = GameObject.FindObjectsOfType(typeof(DialogsTexts)) as DialogsTexts[];
         fscreen[0].closeAndReopen();

@@ -135,11 +135,15 @@ public class ChickenController : MonoBehaviour {
         boot.SetActive(false);
         chicken.SetActive(false);
 
-        TutorialController.s.after_chicken_kicked();
+        Invoke("call", 1.1f);
 
         // call tutorial back
     }
 
-
+    void call()
+    {
+        TutorialController.s.after_chicken_kicked();
+    }
+        
 
 }
