@@ -936,18 +936,34 @@ namespace BE
             float scale = (12 / (Camera.main.orthographicSize));
             script.transform.localScale = new Vector3(scale, scale, scale);
             script.Init(transform, new Vector3(0, 1.0f, 0));
-            if (def.eProductionType == PayType.Elixir)
-            {
+            if (def.eProductionType == PayType.Elixir) {
                 Building[] buildings;
                 buildings = GameObject.FindObjectsOfType(typeof(Building)) as Building[];
                 int lenght = buildings.Length;
                 int i;
 
-                for (i = 0; i < lenght; i++)
-                {
+                for (i = 0; i < lenght; i++) {
                     buildings[i].scaleBuildingFullCase();
                 }
+
+                if (!GLOBALS.s.TUTORIAL_OCCURING) { 
+                    GameObject temp = (GameObject)Instantiate(Resources.Load("Prefabs/Text/WarningMessage"));
+                    temp.transform.SetParent(MenusController.s.bigDaddy, false);
+                    temp.GetComponent<Text>().text = "Build more Punisher Buildings!";
+                    temp.SendMessage("Init");
+                }
             }
+
+            if (def.eProductionType == PayType.Gold) {
+                if (!GLOBALS.s.TUTORIAL_OCCURING) {
+                    GameObject temp = (GameObject)Instantiate(Resources.Load("Prefabs/Text/WarningMessage"));
+                    temp.transform.SetParent(MenusController.s.bigDaddy, false);
+                    temp.GetComponent<Text>().text = "Upgrade your Demon Palace!";
+                    temp.SendMessage("Init");
+                }
+            }
+
+
         }
 
         void distributeSouls(float value)
@@ -1189,6 +1205,8 @@ namespace BE
                 MissionsController.s.OnBuildingComplete(Type);
 
                 GLOBALS.s.ELIXIR_RESEARCH_EXTRA_PERCENTAGE = GLOBALS.s.ELIXIR_RESEARCH_EXTRA_PERCENTAGE + (float)def.SoulProdutionInc / 100;
+
+                if(bt.ID == 15) BE.BEAudioManager.SoundPlay(12);
 
             }
 
