@@ -4,6 +4,8 @@ using System.Collections;
 public class SoundController : MonoBehaviour {
     public static SoundController s;
 
+    public AudioClip ChickenHit;
+
     void Awake()
     {
         s = this;

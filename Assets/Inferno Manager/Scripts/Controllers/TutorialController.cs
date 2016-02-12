@@ -40,7 +40,7 @@ public class TutorialController : MonoBehaviour
         if (firstGame == 0)
         {
             missionsBT.transform.localScale = new Vector3 (0, 0, 0);
-           HUD.SetActive(false);
+            HUD.SetActive(false);
             GLOBALS.s.LOCK_CAMERA_TUTORIAL = true;
             GLOBALS.s.LOCK_CLICK_TUTORIAL = true;
             GLOBALS.s.TUTORIAL_OCCURING     = true;
@@ -54,8 +54,7 @@ public class TutorialController : MonoBehaviour
                 startTutorial();
                 // clickRankHUD();
             }
-
-
+			
             //startTutorial();
             //tutorial1Timer = 2f;
             // 
@@ -67,7 +66,6 @@ public class TutorialController : MonoBehaviour
             createGate();
             BE.SceneTown.instance.CapacityCheck();
             BE.SceneTown.Gold.ChangeDelta((double)200);
-
         }
         //
         #endregion
@@ -118,8 +116,8 @@ public class TutorialController : MonoBehaviour
         Debug.Log("TUTORIAL PHASE 101");
         GLOBALS.s.TUTORIAL_PHASE = 101;
         MenusController.s.goOutDestroy("Welcome", null,"up");
-        MenusController.s.destroyMenu("Satan", null);
 
+        MenusController.s.destroyMenu("Satan", null);
         curSatan = (GameObject)Instantiate(Resources.Load("Prefabs/Satan/SatanOrderingg"));
         MenusController.s.addToGUIAndRepositeObject(curSatan, "Satan");
 
@@ -220,6 +218,10 @@ public class TutorialController : MonoBehaviour
 
     void tutorial1Phase4ClickedPart2()
     {
+        MenusController.s.destroyMenu("Satan", null);
+        curSatan = (GameObject)Instantiate(Resources.Load("Prefabs/Satan/SatanBoasting"));
+        MenusController.s.addToGUIAndRepositeObject(curSatan, "Satan");
+
         HUD.SetActive(false);
         tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/BigScrollQuestion"));
         MenusController.s.moveMenu(MovementTypes.Right, tempObject, "BigScrollQuestion", 0, 0);
@@ -227,12 +229,19 @@ public class TutorialController : MonoBehaviour
     }
     #endregion
 
-    #region Tutorial Phase 6 Blablabla
+    #region Tutorial Phase 6 Are you Stupid?
     //Chicachicabum, começa e não para. Avisa todo mundo que meu nome é Sara
     public void questionAnswered()
     {
         Debug.Log("[TUT] 6 - BLA BLA ");
         GLOBALS.s.TUTORIAL_PHASE = 6;
+
+        MenusController.s.destroyMenu("Satan", null);
+
+        curSatan = (GameObject)Instantiate(Resources.Load("Prefabs/Satan/SatanAngry"));
+        MenusController.s.addToGUIAndRepositeObject(curSatan, "Satan");
+
+
         fscreen = GameObject.FindObjectsOfType(typeof(DialogsTexts)) as DialogsTexts[];
         fscreen[0].closeAndDestroy();
 
@@ -250,7 +259,12 @@ public class TutorialController : MonoBehaviour
         Debug.Log("[TUT] 7 TOUCH THE BUILD BUTTON | tutorial occuring: " + GLOBALS.s.TUTORIAL_OCCURING);
 
         GLOBALS.s.TUTORIAL_PHASE = 7;
-       
+
+        MenusController.s.destroyMenu("Satan", null);
+
+        curSatan = (GameObject)Instantiate(Resources.Load("Prefabs/Satan/SatanOrderingg"));
+        MenusController.s.addToGUIAndRepositeObject(curSatan, "Satan");
+
         fscreen = GameObject.FindObjectsOfType(typeof(DialogsTexts)) as DialogsTexts[];
         fscreen[0].closeAndReopen();
         MenusController.s.repositeMenu("SmallScroll", null, 252, 120);
@@ -341,8 +355,8 @@ public class TutorialController : MonoBehaviour
         MenusController.s.destroyMenu("3DArrow", null);
         MenusController.s.destroyMenu("GreenCircle", null);
 
-        tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/Satan"));
-        MenusController.s.moveMenu(MovementTypes.Right, tempObject, "Satan", 0, 0);
+        curSatan = (GameObject)Instantiate(Resources.Load("Prefabs/Satan/SatanOrderingg"));
+        MenusController.s.moveMenu(MovementTypes.Right, curSatan, "Satan", 0, 0);
 
         fscreen = GameObject.FindObjectsOfType(typeof(DialogsTexts)) as DialogsTexts[];
         fscreen[0].closeAndReopen();
@@ -396,11 +410,11 @@ public class TutorialController : MonoBehaviour
         MenusController.s.destroyMenu("ArowNext", null);
         GLOBALS.s.TUTORIAL_PHASE = 12;
 
+        curSatan = (GameObject)Instantiate(Resources.Load("Prefabs/Satan/SatanAngryLeft"));
+        MenusController.s.moveMenu(MovementTypes.Right, curSatan, "Satan", 0, 0);
+
         tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/BigScroll"));
         MenusController.s.moveMenu(MovementTypes.Left, tempObject, "BigScroll", 0, 0);
-
-        tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/Satan"));
-        MenusController.s.moveMenu(MovementTypes.Right, tempObject, "Satan", 0, 0);
 
         Invoke("createNextButton", 2);
     }
@@ -412,7 +426,11 @@ public class TutorialController : MonoBehaviour
         HUD.SetActive(true);
         GLOBALS.s.TUTORIAL_PHASE = 25;
         MenusController.s.destroyMenu("BigScroll", null);
-        
+
+        MenusController.s.destroyMenu("Satan", null);
+        curSatan = (GameObject)Instantiate(Resources.Load("Prefabs/Satan/SatanOrderingg"));
+        MenusController.s.addToGUIAndRepositeObject(curSatan, "Satan");
+
         tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/SmallScroll"));
         MenusController.s.moveMenu(MovementTypes.Right, tempObject, "SmallScroll", -223f, 126f);
 
@@ -424,8 +442,6 @@ public class TutorialController : MonoBehaviour
         script.initRankTutorial();
     }
     #endregion
-
-    
 
     #region Tutorial Phase 13 Show Rank List
     public void showRankList()
@@ -508,10 +524,9 @@ public class TutorialController : MonoBehaviour
 
         tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/SmallScroll4Lines"));
         MenusController.s.moveMenu(MovementTypes.Right, tempObject, "SmallScroll4Lines", 0, 0);
-    
 
-        tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/Satan"));
-        MenusController.s.moveMenu(MovementTypes.Right, tempObject, "Satan", 0, 0);
+        curSatan = (GameObject)Instantiate(Resources.Load("Prefabs/Satan/SatanProud"));
+        MenusController.s.moveMenu(MovementTypes.Right, curSatan, "Satan", 0, 0);
 
         Invoke("createNextButton", 2);
     }
@@ -538,6 +553,14 @@ public class TutorialController : MonoBehaviour
 
         tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/DownArrow"));
         MenusController.s.moveMenu(MovementTypes.Right, tempObject, "DownArrow", 0, 0);
+
+        //curSatan.GetComponent<Animator>().Rebind();
+
+        MenusController.s.destroyMenu("Satan", null);
+        curSatan = (GameObject)Instantiate(Resources.Load("Prefabs/Satan/SatanOrderingg"));
+        MenusController.s.addToGUIAndRepositeObject(curSatan, "Satan");
+
+
     }
     #endregion
 
@@ -617,8 +640,8 @@ public class TutorialController : MonoBehaviour
         tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/BigScroll"));
         MenusController.s.moveMenu(MovementTypes.Left, tempObject, "BigScroll", 0, 0);
 
-        tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/Satan"));
-        MenusController.s.moveMenu(MovementTypes.Right, tempObject, "Satan", 0, 0);
+        curSatan = (GameObject)Instantiate(Resources.Load("Prefabs/Satan/SatanOrderingg"));
+        MenusController.s.moveMenu(MovementTypes.Right, curSatan, "Satan", 0, 0);
 
         buildings = GameObject.FindObjectsOfType(typeof(BE.Building)) as BE.Building[];
         foreach (BE.Building element in buildings)
@@ -631,12 +654,17 @@ public class TutorialController : MonoBehaviour
         Invoke("createNextButton", 1);
     }
     #endregion
+
     public void ILlBeThereForYou()
     {
         BE.SceneTown.instance.move_camera_to_building(new Vector3(3, 0, 15),0.5f,12);
         GLOBALS.s.TUTORIAL_PHASE = 19;
         fscreen = GameObject.FindObjectsOfType(typeof(DialogsTexts)) as DialogsTexts[];
         fscreen[0].closeAndReopen();
+
+        MenusController.s.destroyMenu("Satan", null);
+        curSatan = (GameObject)Instantiate(Resources.Load("Prefabs/Satan/SatanProud"));
+        MenusController.s.addToGUIAndRepositeObject(curSatan, "Satan");
 
         Invoke("createNextButton", 1);
     }
