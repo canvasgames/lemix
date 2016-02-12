@@ -126,7 +126,7 @@ public class DialogsTexts : MonoBehaviour
             else if (GLOBALS.s.TUTORIAL_PHASE == 5)
                 text_to_display = "It seems we have nowhere\nto place the souls..\nWhat's your suggestion?";
             else if (GLOBALS.s.TUTORIAL_PHASE == 6)
-                text_to_display = "For Antichrist sake!\nWhy did I promoted you?\nThey deserve <color=#fe2323>PUNISHMENT!</color>";
+                text_to_display = "For <color=#fe2323>Antichrist sake!</color>\nWhy did I promoted you?\nThey deserve <color=#fe2323>Punishment!</color>";
             //
             else if (GLOBALS.s.TUTORIAL_PHASE == 7)
                 text_to_display = "Now lets punish this sinner souls.\nTap the <color=green>Build Button</color>.";
@@ -150,7 +150,7 @@ public class DialogsTexts : MonoBehaviour
             }
 
             else if (GLOBALS.s.TUTORIAL_PHASE == -2)
-                text_to_display = "Muahaha! It's always fun\nto kick a chicken. Although\nthat has nothing to\n do with the game";
+                text_to_display = "MUAHAHA! It's always fun\nto kick a chicken. Although\nthat has nothing to\n do with the game";
 
             // text_to_display = "Great! Now your Hell Gate can Generate Souls! As higher your sadness meter, more souls will be sent to your Hell!";
             else if (GLOBALS.s.TUTORIAL_PHASE == 11)
