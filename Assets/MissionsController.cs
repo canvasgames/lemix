@@ -38,7 +38,7 @@ public class MissionsController : MonoBehaviour {
         // ADDING MISSIONS TEMPORALY
         allMissions.Add(new Mission(MissionType.Spank, 1));
         allMissions.Add(new Mission(MissionType.Build, 2));
-        allMissions.Add(new Mission(MissionType.CollectSouls, 500));
+        allMissions.Add(new Mission(MissionType.CollectSouls, 1000));
     }
     
 	

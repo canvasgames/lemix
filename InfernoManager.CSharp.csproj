@@ -55,6 +55,12 @@
     <Reference Include="UnityEngine.Networking">
       <HintPath>Library\UnityAssemblies\UnityEngine.Networking.dll</HintPath>
     </Reference>
+    <Reference Include="UnityEngine.Networking">
+      <HintPath>Library\UnityAssemblies\UnityEngine.Networking.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UI">
+      <HintPath>Library\UnityAssemblies\UnityEngine.UI.dll</HintPath>
+    </Reference>
     <Reference Include="UnityEditor">
       <HintPath>Library\UnityAssemblies\UnityEditor.dll</HintPath>
     </Reference>
@@ -157,6 +163,7 @@
     <Compile Include="Assets\callCatastrophe.cs" />
     <Compile Include="Assets\cat_animation_script.cs" />
     <Compile Include="Assets\catastropheBT.cs" />
+    <Compile Include="Assets\cityOP.cs" />
     <Compile Include="Assets\collectSouls.cs" />
     <Compile Include="Assets\demonMoving.cs" />
     <Compile Include="Assets\demonsCreator.cs" />

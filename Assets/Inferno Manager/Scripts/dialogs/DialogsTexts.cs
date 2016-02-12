@@ -108,12 +108,7 @@ public class DialogsTexts : MonoBehaviour
             }
 
             //text_to_display = "Hi, I'm Satan!  \n You've been promoted to DEMON LORD!";
-            else if (GLOBALS.s.TUTORIAL_PHASE == 101)
-            {
-                text_to_display = "Back to business then.\nI'm promoting you to \n<color=#fe2323>Demon Lord!</color>";
 
-                //myText.GetComponentInChildren<Text>().alignment = TextAnchor.UpperCenter;
-            }
             else if (GLOBALS.s.TUTORIAL_PHASE == 2)
                 text_to_display = "You're now in charge of\nthis area of the Hell.\nThat's your Palace.";
             else if (GLOBALS.s.TUTORIAL_PHASE == 3)
@@ -187,6 +182,18 @@ public class DialogsTexts : MonoBehaviour
             }
             else if (GLOBALS.s.TUTORIAL_PHASE == 25)
                 text_to_display = "Tap at your Rank to\ncheck the <color=red>Demons Rank</color> List";
+            else if (GLOBALS.s.TUTORIAL_PHASE == 100)
+                text_to_display = "Tap here to check all catastrophes!";
+            else if (GLOBALS.s.TUTORIAL_PHASE == 101)
+            {
+                text_to_display = "Back to business then.\nI'm promoting you to \n<color=#fe2323>Demon Lord!</color>";
+
+                //myText.GetComponentInChildren<Text>().alignment = TextAnchor.UpperCenter;
+            }
+            else if (GLOBALS.s.TUTORIAL_PHASE == -13)
+                text_to_display = "Tap in the Demon Lord to se his Town";
+            else if (GLOBALS.s.TUTORIAL_PHASE == -14)
+                text_to_display = "Nice City, hm?";
         }
         else
         {

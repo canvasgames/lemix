@@ -6,11 +6,15 @@ public class GLOBALS : MonoBehaviour {
 
     //GAME STATUS
     [HideInInspector] public bool GAME_RUNNING = false;
+
     [HideInInspector] public int TUTORIAL_PHASE = 0;
     [HideInInspector] public bool TUTORIAL_OCCURING = false;
     [HideInInspector] public bool LOCK_CAMERA_TUTORIAL = false;
     [HideInInspector] public bool LOCK_CLICK_TUTORIAL = false;
-    [HideInInspector] public bool DIALOG_ALREADY_OPENED = false;
+    [HideInInspector]
+    public bool TUT_CAT_ALREADY_OCURRED = false;
+
+[HideInInspector] public bool DIALOG_ALREADY_OPENED = false;
     [HideInInspector] public bool SPANKING_OCURRING = false;
 
     [HideInInspector] public int USER_RANK = 0;

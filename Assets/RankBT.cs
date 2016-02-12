@@ -15,7 +15,8 @@ public class RankBT : MonoBehaviour {
 
     public void clicked()
     {
-        Debug.Log("CLICKCLC");
+        
+
          if(GLOBALS.s.TUTORIAL_OCCURING == false && GLOBALS.s.DIALOG_ALREADY_OPENED == false)
         {
                 

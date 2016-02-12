@@ -88,4 +88,28 @@ public class demonCreateAvatar : MonoBehaviour {
         temp.transform.SetParent(gameObject.transform, false);
         temp.GetComponent<RectTransform>().localPosition = new Vector3(0, 0, 0);
     }
+
+    public void click()
+    {
+        if (GLOBALS.s.TUTORIAL_OCCURING == false)
+        {
+            GameObject tempObject;
+            tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/CityOP"));
+            MenusController.s.addToGUIAndRepositeObject(tempObject, "CityOP");
+        }
+        else if (GLOBALS.s.TUTORIAL_PHASE == -13)
+        {
+            GameObject tempObject;
+            tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/CityOP"));
+            MenusController.s.addToGUIAndRepositeObject(tempObject, "CityOP");
+            MenusController.s.destroyMenu("SmallScroll", null);
+
+            Invoke("invokeTut", 0.5f);
+        }
+    }
+
+    void invokeTut()
+    {
+        TutorialController.s.niceCity();
+    }
 }

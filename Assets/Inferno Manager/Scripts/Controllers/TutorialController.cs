@@ -13,6 +13,8 @@ public class TutorialController : MonoBehaviour
 
     public GameObject txtMaxSouls;
 
+    public GameObject catastrophesBt;
+
     GameObject tempObject;
     public GameObject HUD;
 
@@ -50,10 +52,10 @@ public class TutorialController : MonoBehaviour
             else
             {
                 startTutorial();
-               // punisherCapacityExplanation();
+                // clickRankHUD();
             }
-            
-            
+
+
             //startTutorial();
             //tutorial1Timer = 2f;
             // 
@@ -316,7 +318,7 @@ public class TutorialController : MonoBehaviour
 
         tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/3DArrow"));
         MenusController.s.moveMenu(MovementTypes.Left, tempObject, "3DArrow", -429, 207);
-        tempObject.GetComponent<Arrow3D>().googogogo();
+       // tempObject.GetComponent<Arrow3D>().googogogo();
 
         //fscreen = GameObject.FindObjectsOfType(typeof(DialogsTexts)) as DialogsTexts[];
         // fscreen[0].closeAndReopen();
@@ -446,11 +448,41 @@ public class TutorialController : MonoBehaviour
         CreateDemonsScrollView[] list;
         list = GameObject.FindObjectsOfType(typeof(CreateDemonsScrollView)) as CreateDemonsScrollView[];
         list[0].moveList();
-        Invoke("createNextButton", 3);
+        Invoke("clickDemonLordToOpenCity", 3);
 
 
     }
     #endregion
+
+    void clickDemonLordToOpenCity()
+    {
+        GLOBALS.s.TUTORIAL_PHASE = -13;
+        tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/SmallScroll"));
+        MenusController.s.moveMenu(MovementTypes.Left, tempObject, "SmallScroll", -101f, 131);
+
+        tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/SatanHandCatBT"));
+        MenusController.s.moveMenu(MovementTypes.Right, tempObject, "SatanHandCatBT", 214, 87.5f);
+    }
+
+    public void niceCity()
+    {
+        GLOBALS.s.TUTORIAL_PHASE = -14;
+        MenusController.s.destroyMenu("SatanHandCatBT",null);
+
+        tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/SmallScroll"));
+        MenusController.s.moveMenu(MovementTypes.Left, tempObject, "SmallScroll", -403, -328);
+        MenusController.s.repositeMenu("SmallScroll", null,-403, -328,0.8f);
+        Invoke("createNextButton", 2);
+    }
+
+    public void backPhase13()
+    {
+        GLOBALS.s.TUTORIAL_PHASE = 13;
+        MenusController.s.destroyMenu("SmallScroll", null);
+        MenusController.s.destroyMenu("CityOP", null);
+
+        Invoke("createNextButton", 2);
+    }
 
     #region Chicken 
 
@@ -628,6 +660,30 @@ public class TutorialController : MonoBehaviour
         MenusController.s.goOutDestroy("BigScroll", null,"right");
 
         // PlayerPrefs.SetInt("firstGame", 1);
+    }
+    #endregion
+
+    #region Catastrophes
+    public void catExplanation()
+    {
+        GLOBALS.s.TUTORIAL_PHASE = 100;
+        GLOBALS.s.TUTORIAL_OCCURING = true;
+        catastrophesBt.SetActive(true);
+
+        tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/SmallScroll"));
+        MenusController.s.moveMenu(MovementTypes.Left, tempObject, "SmallScroll", -85, -58);
+
+        tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/SatanHandCatBT"));
+        MenusController.s.moveMenu(MovementTypes.Left, tempObject, "SatanHandCatBT", 0, 0);
+    }
+
+    public void endCatBT()
+    {
+        MenusController.s.destroyMenu("SmallScroll", null);
+        MenusController.s.destroyMenu("SatanHandCatBT", null);
+
+        GLOBALS.s.TUTORIAL_PHASE = 0;
+        GLOBALS.s.TUTORIAL_OCCURING = false;
     }
     #endregion
 
