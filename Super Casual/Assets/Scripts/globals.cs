@@ -25,9 +25,14 @@ public class globals : MonoBehaviour {
 	public float BALL_R = 0.5f;
 	public float BALL_D = 1f;
 	public int SCREEN_WIDTH = 980;
-	// Use this for initialization
 
-	void Awake () {
+    public int BEST_RECORD;
+    public int LAST_RECORD;
+    public int BEST_RECORD_TODAY;
+
+    // Use this for initialization
+
+    void Awake () {
 		s = this;
 
         HOLE_SPK_DIST = 2.6f;

@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using System;
+
 
 public class hud_controller : MonoBehaviour {
 
@@ -17,8 +19,12 @@ public class hud_controller : MonoBehaviour {
     }
 
     void Start () {
+        display_best(PlayerPrefs.GetInt("best", 0));
 
-	}
+        
+        
+
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -37,16 +43,95 @@ public class hud_controller : MonoBehaviour {
 
     }
 
-    public void show_game_over(int score, int best)
+    public void show_game_over(int currentFloor)
     {
         game_over_text.SetActive(true);
+
         if (game_over_text.GetComponent<Text>().IsActive()) print(" IS GAME OVER ACTIVE ");
-        game_over_text.GetComponent<Text>().text = "GAME OVER\nSCORE: " + score + "\n\n BEST: " + best;
+
+        int last_score = PlayerPrefs.GetInt("last_score", currentFloor);
+        int bestFloor = get_and_set_best_score(currentFloor);
+        int dayFloor = get_and_set_day_score(currentFloor);
+
+        game_over_text.GetComponent<Text>().text = "GAME OVER\n\nSCORE: " + currentFloor + "\n LAST: " + last_score
+            + "\n\n BEST: " + bestFloor + "\n DAY BEST: " + dayFloor;
+
+        PlayerPrefs.SetInt("last_score", currentFloor);
 
     }
 
     public void display_best(int value)
     {
         best.GetComponent<Text>().text = "BEST " + value;
+    }
+
+    int get_and_set_best_score(int cur_floor)
+    {
+        int cur_best = PlayerPrefs.GetInt("best", 0);
+        
+
+        if (cur_floor > cur_best)
+        {
+            PlayerPrefs.SetInt("best", cur_floor);
+            cur_best = cur_floor;
+        }
+
+        return cur_best;
+    }
+
+    int get_and_set_day_score(int cur_floor)
+    {
+        int day_best = PlayerPrefs.GetInt("day_best", 0);
+        bool day_gone = day_passed();
+
+        if(day_gone == false)
+        {
+            if (cur_floor > day_best)
+            {
+                PlayerPrefs.SetInt("day_best", cur_floor);
+                day_best = cur_floor;
+            }
+        }
+        else
+        {
+            day_best = 0;
+            PlayerPrefs.SetInt("day_best", 0);
+        }
+
+        return day_best;
+    }
+
+    bool day_passed()
+    {
+        DateTime newDate = System.DateTime.Now;
+        string stringDate = PlayerPrefs.GetString("PlayDate");
+        DateTime oldDate;
+
+        if (stringDate == "")
+        {
+            oldDate = newDate;
+            PlayerPrefs.SetString("PlayDate", newDate.ToString());
+        }
+        else
+        {
+            oldDate = Convert.ToDateTime(stringDate);
+        }
+
+        Debug.Log("LastDay: " + oldDate);
+        Debug.Log("CurrDay: " + newDate);
+
+        TimeSpan difference = newDate.Subtract(oldDate);
+
+        Debug.Log("Dif Houras: " + difference);
+        if (difference.Days >= 1)
+        {
+            Debug.Log("Day passed");
+            string newStringDate = Convert.ToString(newDate);
+            PlayerPrefs.SetString("PlayDate", newStringDate);
+            return true;
+
+        }
+
+        return false;
     }
 }

@@ -13,7 +13,7 @@ public class wall : MonoBehaviour
     void Start()
     {
        // rb = transform.GetComponent<Rigidbody2D>();
-        transform.localScale = new Vector3(1, 0, 1);
+        transform.localScale = new Vector3(1, 0, 0.79f);
     }
 
     void Update()
@@ -60,7 +60,7 @@ public class wall : MonoBehaviour
     {
         Debug.Log("\n NNNNNNNNNNNNNNNNNNNNNNNNNNNNNN SCALE ME UP! DIST: " + Mathf.Abs(transform.position.x - globals.s.BALL_X) );
         already_appeared = true;
-        transform.DOScaleY(1, 0.2f);
+        transform.DOScaleY(0.79f, 0.2f);
 
         if (spike_trigger)
         {

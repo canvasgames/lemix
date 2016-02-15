@@ -52,7 +52,7 @@ public class game_controller : MonoBehaviour {
     public wave_controller[] wave_ctrl;
 
 
-    void Awake (){
+        void Awake (){
         
         s = this;
         hole_size = hole_type.transform.GetComponent<SpriteRenderer>().bounds.size.x;
@@ -80,9 +80,6 @@ public class game_controller : MonoBehaviour {
 
     void Start () {
 
-        hud_controller.si.display_best(PlayerPrefs.GetInt("best",0));
-
-        //int k = PlayerPrefs.GetInt("best", 0);
 
         globals.s.GAME_OVER = 0;
         globals.s.CAN_RESTART = false;
@@ -167,14 +164,9 @@ public class game_controller : MonoBehaviour {
     void show_game_over()
     {
         globals.s.CAN_RESTART = true;
-        int cur_best = PlayerPrefs.GetInt("best", 0);
-        if (cur_floor > cur_best)
-        {
-            PlayerPrefs.SetInt("best", cur_floor);
-            cur_best = cur_floor;
-        }
 
-        hud_controller.si.show_game_over(cur_floor, cur_best);
+
+        hud_controller.si.show_game_over(cur_floor + 1);
     }
 
     #endregion
