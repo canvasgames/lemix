@@ -126,6 +126,8 @@ public class ChickenController : MonoBehaviour {
 
         chicken.GetComponent<Animator>().SetTrigger("kick");
         chicken.transform.DOLocalMoveX(chicken.transform.position.x + 300, 0.65f).OnComplete(() => chicken_kicked_success());
+
+        BE.BEAudioManager.SoundPlay(11);
     }
 
     #endregion

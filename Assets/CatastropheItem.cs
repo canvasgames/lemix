@@ -24,7 +24,7 @@ public class CatastropheItem : MonoBehaviour {
         { 
             temp = (GameObject)Instantiate(cat, new Vector3(0, 0, 0), Quaternion.identity);
             title.GetComponent<Text>().text = "Cat-astrophe";
-            description.GetComponent<Text>().text = "A giant cat have 40% of chance to destroy a city \nReward: 100 souls";
+            description.GetComponent<Text>().text = "A giant cat attacks, 40% chance to destroy a city \nReward: 100 souls";
         }
         else
         { 
@@ -34,23 +34,23 @@ public class CatastropheItem : MonoBehaviour {
             Activate.SetActive(false);
             if(line == 2)
             {
-                title.GetComponent<Text>().text = "Pool's Stairs (Locked)";
-                description.GetComponent<Text>().text = "Remove pool's stairs and have 40% of chance to drown\nReward: 100 souls";
+                title.GetComponent<Text>().text = "Remove Pool's Stairs (Locked)";
+                description.GetComponent<Text>().text = "40% chance to drown people\nReward: 150 souls";
             }
             if (line == 3)
             {
-                title.GetComponent<Text>().text = "Black Friday (Locked)";
-                description.GetComponent<Text>().text = "Black Friday have 40% to end with deaths\nReward: 100 souls";
+                title.GetComponent<Text>().text = "Bacon Free (Locked)";
+                description.GetComponent<Text>().text = "Distribute Bacon, 50% chance of Infarts\nReward: 200 souls";
             }
             if (line == 4)
             {
-                title.GetComponent<Text>().text = "Nutella (Locked)";
-                description.GetComponent<Text>().text = "Destroy Nutella's Factory, 40% of chance to raise the rate of suicides\nReward: 100 souls";
+                title.GetComponent<Text>().text = "Burn Condom Factory (Locked)";
+                description.GetComponent<Text>().text = "Destroy Nutella's Factory, 40% of chance to raise the rate of suicides\nReward: 300 souls";
             }
             if (line == 5)
             {
-                title.GetComponent<Text>().text = "ACME (Locked)";
-                description.GetComponent<Text>().text = "40% chance of occurring rain of anvils\nReward: 100 souls";
+                title.GetComponent<Text>().text = "Anvil Rain (Locked)";
+                description.GetComponent<Text>().text = "Sponsered by ACME, 60% chance of occurring rain of anvils\nReward: 500 souls";
             }
 
         }

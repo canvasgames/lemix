@@ -14,18 +14,26 @@ public class catastropheBT : MonoBehaviour {
 	
 	}
 
-    public void clicked()
-    {
-        if (GLOBALS.s.TUTORIAL_OCCURING == false && GLOBALS.s.DIALOG_ALREADY_OPENED == false || GLOBALS.s.TUTORIAL_OCCURING == true && GLOBALS.s.TUTORIAL_PHASE == 100)
-        {
-            //MenusController.s.createCatastrophe(0);
+    public void clicked() {
+        /* if (GLOBALS.s.TUTORIAL_OCCURING == false && GLOBALS.s.DIALOG_ALREADY_OPENED == false)
+         {
+             //MenusController.s.createCatastrophe(0);
+             tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/CatastropheList/CatastropheList"));
+             MenusController.s.moveMenu(MovementTypes.Left, tempObject, "CatastropheList", 0, 0);
+         }*/
+
+        if (GLOBALS.s.DIALOG_ALREADY_OPENED == false) { 
+
             tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/CatastropheList/CatastropheList"));
             MenusController.s.moveMenu(MovementTypes.Left, tempObject, "CatastropheList", 0, 0);
-            if(GLOBALS.s.TUTORIAL_OCCURING == true && GLOBALS.s.TUTORIAL_PHASE == 100)
-            {
+
+            if (!GLOBALS.s.TUT_CAT_ALREADY_OCURRED) {
                 TutorialController.s.endCatBT();
+                GLOBALS.s.TUT_CAT_ALREADY_OCURRED = true;
+
             }
         }
+
 
     }
 }

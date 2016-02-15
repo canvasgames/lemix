@@ -56,9 +56,12 @@ public class collectSouls : MonoBehaviour {
         Invoke("realDestroy", 2f);
         if (GLOBALS.s.USER_RANK == 3 && GLOBALS.s.TUT_CAT_ALREADY_OCURRED == false)
         {
-            GLOBALS.s.TUT_CAT_ALREADY_OCURRED = true;
             TutorialController.s.catExplanation();
         }
+        //GLOBALS.s.TUT_CAT_ALREADY_OCURRED = true;
+
+        //TutorialController.s.catExplanation();
+
     }
     void realDestroy()
     {

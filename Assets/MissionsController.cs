@@ -150,7 +150,7 @@ public class MissionsController : MonoBehaviour {
     }
 
     public void OnBuildingComplete(int buildingType) {
-        if (buildingType >= 11 && buildingType <= 15) { // if the building is a punisher type
+        if (!GLOBALS.s.TUTORIAL_OCCURING && buildingType >= 11 && buildingType <= 15) { // if the building is a punisher type
             PunisherBuildingsCont++;
             if(PunisherBuildingsCont == 2 && allMissions[1].isComplete == false) {
                 RewardMisison(MissionType.Build);
