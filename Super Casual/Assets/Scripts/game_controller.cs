@@ -85,6 +85,7 @@ public class game_controller : MonoBehaviour {
         //int k = PlayerPrefs.GetInt("best", 0);
 
         globals.s.GAME_OVER = 0;
+        globals.s.CAN_RESTART = false;
        // print("AHHHHHHHHH CORNER LIMIT RIGHT: " + corner_limit_right);
         //Time.timeScale = 0.3f;
         last_hole = false;
@@ -116,6 +117,7 @@ public class game_controller : MonoBehaviour {
                        // create_corner_wall(i);
                         wave_found = true;
                         wave_found = create_just_hole(i, 0);
+                        last_hole = true;
                         //Debug.Log(" CREATING 1ST EASY:");
                         //create_wave_easy(i);
                         //create_hole(i);
@@ -164,6 +166,7 @@ public class game_controller : MonoBehaviour {
 
     void show_game_over()
     {
+        globals.s.CAN_RESTART = true;
         int cur_best = PlayerPrefs.GetInt("best", 0);
         if (cur_floor > cur_best)
         {
@@ -348,7 +351,7 @@ public class game_controller : MonoBehaviour {
             if (rand > 30 && rand <= 60)
             {
                 create_floor(0, n);
-                create_triple_spike(Random.Range(-screen_w / 3, screen_w / 3), actual_y, n);
+                create_triple_spike(Random.Range(-screen_w / 3 + 0.5f, screen_w / 3 - 0.5f), actual_y, n);
                 last_spike_right = false;
                 last_spike_left = false;
                 last_hole = false;
@@ -434,7 +437,7 @@ public class game_controller : MonoBehaviour {
                 else last_spike_left = false;
 
                 //second spike
-                rand_x = Random.Range(rand_x + min_spk_dist, rand_x + min_spk_dist + 2f);
+                rand_x = Random.Range(rand_x + min_spk_dist+ 0.5f, rand_x + min_spk_dist + 2f);
                 create_spike(rand_x, actual_y, n);
                 if (rand_x <= corner_limit_right) last_spike_right = true;
                 else last_spike_right = false;

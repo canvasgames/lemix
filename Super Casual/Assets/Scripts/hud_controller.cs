@@ -23,7 +23,7 @@ public class hud_controller : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 	
-        if(globals.s.GAME_OVER == 1 && Input.GetMouseButtonDown(0))
+        if(globals.s.CAN_RESTART && Input.GetMouseButtonDown(0))
         {
             Application.LoadLevel("Gameplay");
         }
