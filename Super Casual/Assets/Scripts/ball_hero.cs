@@ -175,6 +175,8 @@ public class ball_hero : MonoBehaviour
                 //Debug.Log(my_id + " KKKKKKKKKKKKKKKKKK KOLLISION! MY NEW FLOOR: " + my_floor + " I AM GROUNDED ");
 
                 grounded = true;
+
+                coll.gameObject.GetComponent<floor>().blink();
             }
             else { Debug.Log("\n\n" + my_id + " ***************ERROR! THIS SHOULD NEVER HAPPEN ***************\n\n"); }
         }

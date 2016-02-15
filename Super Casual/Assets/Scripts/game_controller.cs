@@ -1012,8 +1012,9 @@ public class game_controller : MonoBehaviour {
             obj.GetComponent<floor>().my_floor = n;
             obj = (GameObject)Instantiate(floor_type, new Vector3(rand + hole_size / 2 + floor_type.transform.GetComponent<SpriteRenderer>().bounds.size.x / 2, globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * n, 0), transform.rotation);
             obj.GetComponent<floor>().my_floor = n;
-
+            
             if (not_hidden == false) obj = (GameObject)Instantiate(hole_type, new Vector3(rand, globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * n, 0), transform.rotation);
+            obj.GetComponent<hole_behaviour>().my_floor = n;
             //return obj;
             last_hole_x = rand;
 

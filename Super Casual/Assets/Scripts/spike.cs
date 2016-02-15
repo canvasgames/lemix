@@ -2,13 +2,13 @@
 using System.Collections;
 using DG.Tweening;
 
-public class spike : MonoBehaviour {
+public class spike : scenario_objects {
 
     public bool hidden = false;
     public bool manual_trigger = false;
     public bool corner_repositionable = false;
     bool already_appeared = false;
-    public int my_floor;
+   // public int my_floor;
     Rigidbody2D rb;
     float timer = 0;
     float target_y;

@@ -55,12 +55,6 @@
     <Reference Include="UnityEngine.Networking">
       <HintPath>Library\UnityAssemblies\UnityEngine.Networking.dll</HintPath>
     </Reference>
-    <Reference Include="UnityEngine.Networking">
-      <HintPath>Library\UnityAssemblies\UnityEngine.Networking.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.UI">
-      <HintPath>Library\UnityAssemblies\UnityEngine.UI.dll</HintPath>
-    </Reference>
     <Reference Include="UnityEditor">
       <HintPath>Library\UnityAssemblies\UnityEditor.dll</HintPath>
     </Reference>
@@ -79,6 +73,7 @@
     <Compile Include="Assets\Scripts\hole_behaviour.cs" />
     <Compile Include="Assets\Scripts\hud_controller.cs" />
     <Compile Include="Assets\Scripts\main_camera.cs" />
+    <Compile Include="Assets\Scripts\scenario_objects.cs" />
     <Compile Include="Assets\Scripts\spike.cs" />
     <Compile Include="Assets\Scripts\text_z_order.cs" />
     <Compile Include="Assets\Scripts\wall.cs" />

@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class hole_behaviour : MonoBehaviour
+public class hole_behaviour : scenario_objects
 {
 
     // Use this for initialization
