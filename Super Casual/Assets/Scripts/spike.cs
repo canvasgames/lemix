@@ -23,7 +23,9 @@ public class spike : MonoBehaviour {
 	void Start () {
         rb = transform.GetComponent<Rigidbody2D>();
         //GetComponent<SpriteRenderer>().color = Color.green;
-        
+        if(QA.s.INVENCIBLE == true)
+            my_collider.enabled = false;
+
     }
 
     // Update is called once per frame
@@ -51,7 +53,8 @@ public class spike : MonoBehaviour {
         target_y = transform.position.y + transform.GetComponent<SpriteRenderer>().bounds.size.y;
         transform.DOMoveY(target_y, 0.14f);
         already_appeared = true;
-        my_collider.enabled = true;
+        if(QA.s.INVENCIBLE == false)
+            my_collider.enabled = true;
         /*rb.velocity = new Vector2(0, 20f);
         timer = (transform.GetComponent<SpriteRenderer>().bounds.size.y ) / 20f ;
         Debug.Log(" MMMMMMMMMMMM MOVE SPIKE! TIMER: " + timer);

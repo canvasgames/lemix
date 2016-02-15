@@ -495,7 +495,8 @@ public class game_controller : MonoBehaviour {
                 create_floor(0, n);
                 
                 // Sort between normal spike, hidden spike or manual hidden spike
-                float rand_x = Random.Range(-mid_area + 0.5f, mid_area - 0.5f);
+               // float rand_x = Random.Range(-mid_area + 0.5f, mid_area - 0.5f);
+                float rand_x = 0;
                 rand = Random.Range(1, 100);
 
                 if (rand < 60) // Normal spike
