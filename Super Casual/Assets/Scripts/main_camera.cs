@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using DG.Tweening;
 
 public class main_camera : MonoBehaviour {
 
@@ -16,7 +17,7 @@ public class main_camera : MonoBehaviour {
     //{
   
      // Use this for initialization
-     void Start()
+    void Start()
     {
         rb = transform.GetComponent<Rigidbody2D>();
 
@@ -62,11 +63,13 @@ public class main_camera : MonoBehaviour {
     }
 
 
-
+    public void OnBallFalling() {
+        transform.DOMoveY(transform.position.y + globals.s.FLOOR_HEIGHT, 0.4f);
+    }
 
 
 // Update is called once per frame
-void Update () {
+    void Update () {
         //transform.position = new Vector3 (0, 0,0);
         if (globals.s.GAME_OVER == 0) {
             if (initiated == false)

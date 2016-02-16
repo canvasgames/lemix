@@ -204,6 +204,7 @@ public class game_controller : MonoBehaviour {
             {
                 rand = Random.Range(1, 4);
                 rand = 2;
+
                 switch (rand)
                 {
                     case 1:
@@ -261,6 +262,9 @@ public class game_controller : MonoBehaviour {
                 rand = 2;
                 switch (rand)
                 {
+                    case 2:
+                        wave_found = create_wave_medium(n_floor);
+                        break;
                     case 3:
                         wave_found = create_wave_hard(n_floor);
                         break;
@@ -388,7 +392,8 @@ public class game_controller : MonoBehaviour {
         int rand = Random.Range(1, 100);
         int hole_chance = 30 + 10 * hole_creation_failed;
         if (hole_chance > 60) hole_chance = 60;
-        Debug.Log("\n "+ n+ " ~~~~~~~~~~~~ TRY CREATE MEDIUM HOLE! ~~~~~~~~~~~~ | rand " + rand + " HOLE CHANCE: "+ hole_chance + " N FAILED: " + hole_creation_failed);
+        
+        //Debug.Log("\n "+ n+ " ~~~~~~~~~~~~ TRY CREATE MEDIUM HOLE! ~~~~~~~~~~~~ | rand " + rand + " HOLE CHANCE: "+ hole_chance + " N FAILED: " + hole_creation_failed);
    
         
         // FIRST, LET'S TRY TO CREATE A HOLE
@@ -415,7 +420,7 @@ public class game_controller : MonoBehaviour {
             
             rand = Random.Range(1, 100);
             //rand = Random.Range(44, 68);
-            Debug.Log("\n " + n + " ========= CREATE WAVE MEDIUM! ========== | rand " + rand);
+           // Debug.Log("\n " + n + " ========= CREATE WAVE MEDIUM! ========== | rand " + rand);
             //rand = 50;
 
             // 2 SPK MIDDLE |__^_^__|

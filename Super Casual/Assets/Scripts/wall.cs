@@ -9,11 +9,12 @@ public class wall : MonoBehaviour
     public int my_floor;
     public bool corner_wall = false;
     bool already_placed = false;
+    public GameObject my_skin;
 
     void Start()
     {
        // rb = transform.GetComponent<Rigidbody2D>();
-        transform.localScale = new Vector3(1, 0, 0.79f);
+        my_skin.transform.localScale = new Vector3(1, 0, 0.79f);
     }
 
     void Update()
@@ -33,7 +34,7 @@ public class wall : MonoBehaviour
             {
                 show_me();
             }
-            else if (corner_wall && !already_placed)
+            /*else if (corner_wall && !already_placed)
             {
                 if(globals.s.BALL_X > 0)
                     transform.position = new Vector2(globals.s.LIMIT_LEFT + globals.s.SLOT/2, transform.position.y);
@@ -49,10 +50,28 @@ public class wall : MonoBehaviour
                     //spk.manual_trigger_cancel(transform.position.x, my_floor);
                     spk.reposite_me_at_the_other_corner(transform.position.x, my_floor);
                 }
-            }
+            }*/
         }
 
         //Debug.Log(" WALL DIST: " + Mathf.Abs(transform.position.x - globals.s.BALL_X) + " BALL X: " + globals.s.BALL_X  + " MY X: "  +transform.position.x + " | MY Y-2f: " + (transform.position.y-2f)+ " BALL Y-R : "+ (globals.s.BALL_Y - globals.s.BALL_R) );
+    }
+
+    public void place_me_at_the_other_corner(float ball_x, int floor) {
+        if (corner_wall && !already_placed && floor == my_floor) {
+            if (ball_x> 0)
+                transform.position = new Vector2(globals.s.LIMIT_LEFT + globals.s.SLOT / 2, transform.position.y);
+            else
+                transform.position = new Vector2(globals.s.LIMIT_RIGHT - globals.s.SLOT / 2, transform.position.y);
+            already_placed = true;
+
+            // Deactivate the manual trigger from spikes that are at the same side as I am
+            spike[] spks = FindObjectsOfType(typeof(spike)) as spike[];
+
+            foreach (spike spk in spks) {
+                //spk.manual_trigger_cancel(transform.position.x, my_floor);
+                spk.reposite_me_at_the_other_corner(transform.position.x, my_floor);
+            }
+        }
     }
 
 
@@ -60,7 +79,7 @@ public class wall : MonoBehaviour
     {
         Debug.Log("\n NNNNNNNNNNNNNNNNNNNNNNNNNNNNNN SCALE ME UP! DIST: " + Mathf.Abs(transform.position.x - globals.s.BALL_X) );
         already_appeared = true;
-        transform.DOScaleY(0.79f, 0.2f);
+        my_skin.transform.DOScaleY(0.79f, 0.2f);
 
         if (spike_trigger)
         {

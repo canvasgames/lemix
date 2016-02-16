@@ -97,7 +97,7 @@ public class ball_hero : MonoBehaviour
 
             //globals.s.BALL_FLOOR = my_floor;
         }
-
+        #region ================ Ball Up ====================
         if (son_created == false && ((transform.position.x <= globals.s.LIMIT_LEFT + globals.s.BALL_R + 0.3f && rb.velocity.x < 0) ||
                                      (transform.position.x >= globals.s.LIMIT_RIGHT - globals.s.BALL_R - 0.3f && rb.velocity.x > 0)))
         {
@@ -115,6 +115,7 @@ public class ball_hero : MonoBehaviour
             {
                 x_new_pos = globals.s.LIMIT_RIGHT + Mathf.Abs(globals.s.LIMIT_RIGHT - transform.position.x);
             }
+
             //instantiating my son at the other side of the screen
             my_son = (GameObject)Instantiate(bola,
                                               new Vector3(x_new_pos,
@@ -137,9 +138,17 @@ public class ball_hero : MonoBehaviour
             //game_controller.s.create_new_wave()   ;
             game_controller.s.ball_up(my_floor);
 
+            wall[] paredez = GameObject.FindObjectsOfType(typeof(wall)) as wall[];
+            foreach(wall p in paredez){
+                p.place_me_at_the_other_corner(my_son.transform.position.x, my_floor + 1);
+            }
+
+
             //my_son = (GameObject)Instantiate (ball_hero, new Vector3 (0, 0, 0), transform.rotation);
 
         }
+        #endregion
+
         else if (son_created == true && (transform.position.x < globals.s.LIMIT_LEFT - globals.s.BALL_D ||
                                      transform.position.x > globals.s.LIMIT_RIGHT + globals.s.BALL_D))
         {
@@ -200,7 +209,12 @@ public class ball_hero : MonoBehaviour
 
     void destroy_me()
     {
-        Destroy(bola);
+        ball_hero[] bolas = GameObject.FindObjectsOfType(typeof(ball_hero)) as ball_hero[];
+
+        foreach (ball_hero b in bolas) {
+            Destroy(b);
+        }
+
         Instantiate(explosion, new Vector3(transform.position.x, transform.position.y, transform.position.z), transform.rotation);
         game_controller.s.game_over();
     }
