@@ -14,6 +14,7 @@ public class game_controller : MonoBehaviour {
     public GameObject hole_type;
     public GameObject triple_spike_type;
     public GameObject wall_type;
+    public GameObject pw_icon;
 
     private int n_floor = 5;
     private int cur_floor = -1;
@@ -199,11 +200,19 @@ public class game_controller : MonoBehaviour {
         {
             count++;
 
+            //PW Creation
+            rand = Random.Range(0, 100);
+            rand = 10;
+            if (rand <=10)
+            {
+                create_pw_icon(0, n_floor);
+            }
+
             // INITIAL WAVES!
-            if(n_floor <= 7)
+            if (n_floor <= 7)
             {
                 rand = Random.Range(1, 4);
-                rand = 2;
+               // rand = 2;
 
                 switch (rand)
                 {
@@ -223,7 +232,7 @@ public class game_controller : MonoBehaviour {
             else if (n_floor <= 13)
             {
                 rand = Random.Range(2, 4);
-                rand = 2;
+               // rand = 2;
 
                 switch (rand)
                 {
@@ -240,7 +249,7 @@ public class game_controller : MonoBehaviour {
             else if (n_floor <=  27)
             {
                 rand = Random.Range(2, 5);
-                rand = 2;
+             //   rand = 2;
                 switch (rand)
                 {
                     case 2:
@@ -259,7 +268,7 @@ public class game_controller : MonoBehaviour {
             else 
             {
                 rand = Random.Range(3, 5);
-                rand = 2;
+               // rand = 2;
                 switch (rand)
                 {
                     case 2:
@@ -393,7 +402,7 @@ public class game_controller : MonoBehaviour {
         int hole_chance = 30 + 10 * hole_creation_failed;
         if (hole_chance > 60) hole_chance = 60;
         
-        //Debug.Log("\n "+ n+ " ~~~~~~~~~~~~ TRY CREATE MEDIUM HOLE! ~~~~~~~~~~~~ | rand " + rand + " HOLE CHANCE: "+ hole_chance + " N FAILED: " + hole_creation_failed);
+        Debug.Log("\n "+ n+ " ~~~~~~~~~~~~ TRY CREATE MEDIUM HOLE! ~~~~~~~~~~~~ | rand " + rand + " HOLE CHANCE: "+ hole_chance + " N FAILED: " + hole_creation_failed);
    
         
         // FIRST, LET'S TRY TO CREATE A HOLE
@@ -420,7 +429,7 @@ public class game_controller : MonoBehaviour {
             
             rand = Random.Range(1, 100);
             //rand = Random.Range(44, 68);
-           // Debug.Log("\n " + n + " ========= CREATE WAVE MEDIUM! ========== | rand " + rand);
+            Debug.Log("\n " + n + " ========= CREATE WAVE MEDIUM! ========== | rand " + rand);
             //rand = 50;
 
             // 2 SPK MIDDLE |__^_^__|
@@ -1037,5 +1046,10 @@ public class game_controller : MonoBehaviour {
         return true;
     }
 #endregion
+
+    void create_pw_icon(float x, int n)
+    {
+        Instantiate(pw_icon, new Vector3(x, 2 + globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * n, 0), transform.rotation);
+    }
 
 }

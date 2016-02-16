@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using DG.Tweening;
 
 public class ball_hero : MonoBehaviour
 {
@@ -18,6 +19,7 @@ public class ball_hero : MonoBehaviour
     [HideInInspector]
     public GameObject my_son;
     public GameObject bola;
+    public GameObject heart;
 
     //public GameObject
 
@@ -192,7 +194,16 @@ public class ball_hero : MonoBehaviour
 
         else if (coll.gameObject.CompareTag("Spike"))
         {
-            destroy_me();
+            if(globals.s.PW_INVENCIBLE == false)
+            {
+                destroy_me();
+            }
+            else
+            {
+                Destroy(coll.gameObject);
+                heart_end();
+            }
+            
         }
 
         else if (coll.gameObject.CompareTag("Hole"))
@@ -205,6 +216,11 @@ public class ball_hero : MonoBehaviour
         {
             rb.velocity = new Vector2(-rb.velocity.x, rb.velocity.y);
         }
+        else if (coll.gameObject.CompareTag("PW"))
+        {
+            PW_Collect temp = coll.gameObject.GetComponent<PW_Collect>();
+            pw_do_something(temp);
+        }
     }
 
     void destroy_me()
@@ -212,11 +228,37 @@ public class ball_hero : MonoBehaviour
         ball_hero[] bolas = GameObject.FindObjectsOfType(typeof(ball_hero)) as ball_hero[];
 
         foreach (ball_hero b in bolas) {
-            Destroy(b);
+            Destroy(b.gameObject);
         }
 
         Instantiate(explosion, new Vector3(transform.position.x, transform.position.y, transform.position.z), transform.rotation);
         game_controller.s.game_over();
     }
 
+    void pw_do_something(PW_Collect temp)
+    {
+        
+        temp.collect();
+        Debug.Log(temp.pw_type + "meu tipinho");
+        if (temp.pw_type == 1)
+        {
+            heart_start();
+        }
+    }
+
+    void heart_start()
+    {
+        globals.s.PW_INVENCIBLE = true;
+        heart.SetActive(true);
+        //heart.transform.GetComponent<SpriteRenderer>().
+        
+    }
+
+
+    void heart_end()
+    {
+        globals.s.PW_INVENCIBLE = false;
+        //heart.transform.GetComponent<SpriteRenderer>().DOFade(1, 0);
+        heart.SetActive(false);
+    }
 }

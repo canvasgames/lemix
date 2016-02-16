@@ -30,6 +30,9 @@ public class globals : MonoBehaviour {
     public int LAST_RECORD;
     public int BEST_RECORD_TODAY;
 
+    [HideInInspector]
+    public bool PW_INVENCIBLE = false;
+
     // Use this for initialization
 
     void Awake () {

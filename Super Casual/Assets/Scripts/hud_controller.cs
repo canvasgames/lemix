@@ -11,6 +11,7 @@ public class hud_controller : MonoBehaviour {
     public GameObject game_over_text;
     public GameObject floor;
     public GameObject best;
+    [HideInInspector]
     public int BEST_SCORE, LAST_SCORE, DAY_SCORE;
 	// Use this for initialization
     void Awake()
@@ -53,9 +54,8 @@ public class hud_controller : MonoBehaviour {
         int bestFloor = get_and_set_best_score(currentFloor);
         int dayFloor = get_and_set_day_score(currentFloor);
 
-        game_over_text.GetComponent<Text>().text = "GAME OVER\n\nSCORE: " + currentFloor + "\n LAST: " + last_score
-            + "\n\n BEST: " + bestFloor + "\n DAY BEST: " + dayFloor;
-
+        game_over_text.GetComponent<Text>().text = "GAME OVER\n\nSCORE: " + currentFloor + "\n BEST: " + bestFloor ;
+        
         PlayerPrefs.SetInt("last_score", currentFloor);
 
     }

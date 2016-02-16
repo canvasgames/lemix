@@ -65,6 +65,8 @@
   <ItemGroup>
     <Compile Include="Assets\Demigiant\DOTween\Examples\Basics.cs" />
     <Compile Include="Assets\Demigiant\DOTween\Examples\Sequences.cs" />
+    <Compile Include="Assets\Score_floor_txt.cs" />
+    <Compile Include="Assets\Scripts\PW_Collect.cs" />
     <Compile Include="Assets\Scripts\QA.cs" />
     <Compile Include="Assets\Scripts\ball_hero.cs" />
     <Compile Include="Assets\Scripts\floor.cs" />
