@@ -22,4 +22,5 @@ public class PW_Collect : MonoBehaviour {
     {
         Destroy(transform.gameObject);
     }
+
 }

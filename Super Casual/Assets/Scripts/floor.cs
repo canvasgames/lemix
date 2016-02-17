@@ -7,7 +7,8 @@ public class floor : scenario_objects {
 
    // public int my_floor;
     public GameObject scoreInfo;
-
+    public GameObject squaresUp;
+    public GameObject squaresDown;
 
     // Use this for initialization
     void Start () {
@@ -107,5 +108,12 @@ public class floor : scenario_objects {
         {
             obj.GetComponentInChildren<TextMesh>().text = "LAST";
         }
+    }
+
+    public void activate_squares()
+    {
+        squaresDown.SetActive(true);
+        squaresUp.SetActive(true);
+        //transform.GetComponent<SpriteRenderer>().enabled = false;
     }
 }

@@ -39,4 +39,10 @@ public class scenario_objects : MonoBehaviour {
         if (count_blink > 0)
             Invoke("blink_color", 0.1f);
     }
+
+    public void unactivate_collider()
+    {
+        if(transform.GetComponent<Collider2D>() != null)
+            transform.GetComponent<Collider2D>().isTrigger = true;
+    }
 }

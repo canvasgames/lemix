@@ -77,7 +77,7 @@ public class ball_hero : MonoBehaviour
 
         // SET X SPEED TO MAX EVERY FRAME
         if (rb.velocity.x > 0) rb.velocity = new Vector2(globals.s.BALL_SPEED_X, rb.velocity.y);
-        else rb.velocity = new Vector2(-globals.s.BALL_SPEED_X, rb.velocity.y);
+        else if (rb.velocity.x < 0) rb.velocity = new Vector2(-globals.s.BALL_SPEED_X, rb.velocity.y);
     }
 
     void FixedUpdate()
@@ -173,10 +173,13 @@ public class ball_hero : MonoBehaviour
         //else Debug.Log("ÇÇÇÇÇÇÇÇÇÇÇÇÇÇÇ CANT JUMP! I AM NOT GROUNDED");
     }
 
+
     void OnCollisionEnter2D(Collision2D coll)
     {
+
         if (coll.gameObject.CompareTag("Floor"))
         {
+            Debug.Log("colideFlorororrrrrrrrrrrrrrrrr");
             if (coll.transform.position.y + coll.transform.GetComponent<SpriteRenderer>().bounds.size.y / 2 <= transform.position.y - globals.s.BALL_R + 1f)
             {
                 //rb.AddForce (new Vector2 (0, 0));
@@ -224,6 +227,10 @@ public class ball_hero : MonoBehaviour
             PW_Collect temp = coll.gameObject.GetComponent<PW_Collect>();
             pw_do_something(temp);
         }
+        else if (globals.s.PW_INVENCIBLE == true && coll.gameObject.CompareTag("PW_Trigger"))
+        {
+            coll.gameObject.GetComponent<floor_pw_collider>().unactive_sprite_daddy();
+        }
     }
 
     void destroy_me()
@@ -242,7 +249,8 @@ public class ball_hero : MonoBehaviour
     {
         
         temp.collect();
-        Debug.Log(temp.pw_type + "meu tipinho");
+
+
         if (temp.pw_type == 1)
         {
             heart_start();
@@ -253,15 +261,48 @@ public class ball_hero : MonoBehaviour
     {
         globals.s.PW_INVENCIBLE = true;
         heart.SetActive(true);
-        //heart.transform.GetComponent<SpriteRenderer>().
         
+
+
+        rb.velocity = new Vector2(0, 0);
+       
+
+        rb.gameObject.GetComponent<Rigidbody2D>().gravityScale = 0;
+        rb.gameObject.GetComponent<Rigidbody2D>().isKinematic = true;
+        int i;
+
+
+        floor[] floors = GameObject.FindObjectsOfType(typeof(floor)) as floor[];
+
+        for (i = 0; i < floors.Length; i++)
+        {
+            floors[i].activate_squares();
+        }
+
+        Invoke("go_up_PW", 2f);
+        //chMotor.movement.gravity = g;
+        //heart.transform.GetComponent<SpriteRenderer>().
+
     }
 
 
     void heart_end()
     {
-        globals.s.PW_INVENCIBLE = false;
+       globals.s.PW_INVENCIBLE = false;
         //heart.transform.GetComponent<SpriteRenderer>().DOFade(1, 0);
         heart.SetActive(false);
+    }
+
+    void go_up_PW()
+    {
+       // rb.gameObject.GetComponent<Rigidbody2D>().gravityScale = 1;
+        rb.velocity = new Vector2(0, 10);
+       
+       // Invoke("stop_go_up_PW", 1f);
+    }
+
+    void stop_go_up_PW()
+    {
+        rb.velocity = new Vector2(0, 0);
     }
 }
