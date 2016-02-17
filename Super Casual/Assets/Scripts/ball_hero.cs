@@ -206,10 +206,13 @@ public class ball_hero : MonoBehaviour
             
         }
 
-        else if (coll.gameObject.CompareTag("Hole"))
+        else if (coll.gameObject.CompareTag("HoleFalling"))
         {
             //grounded = false;
             //coll.gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2(0, -100f);
+            main_camera.s.OnBallFalling();
+            Debug.Log(" ~~~~~~~~~~~~~~~~~~~~~~~~~COLLIDING WITH HOLE FALLING TAG!!!");
+            
 
         }
         else if (coll.gameObject.CompareTag("Wall"))

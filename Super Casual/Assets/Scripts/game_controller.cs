@@ -502,22 +502,22 @@ public class game_controller : MonoBehaviour {
                 
                 // Sort between normal spike, hidden spike or manual hidden spike
                // float rand_x = Random.Range(-mid_area + 0.5f, mid_area - 0.5f);
-                float rand_x = 0;
+                float rand_x = Random.Range(-0.35f, 0.35f);
                 rand = Random.Range(1, 100);
 
                 if (rand < 60) // Normal spike
                 {
-                    create_corner_wall(n);
+                    create_wall_corner(n);
                     create_spike(rand_x, actual_y, n);
                 }
                 else if (rand < 80) // Hidden Spike
                 {
-                    create_corner_wall(n);
+                    create_wall_corner(n);
                     create_hidden_spike(rand_x, actual_y, n);
                 }
                 else // Hidden spike manual trigger
                 {
-                    create_corner_wall(n,true);
+                    create_wall_corner(n,true);
                     create_hidden_spike(rand_x, actual_y, n, true);
                 }
                     
@@ -579,20 +579,46 @@ public class game_controller : MonoBehaviour {
         {
             //bool success = create_hole(n, false, screen_w / 4 - screen_w / 8);
             bool success = create_hole(n, false, 1.5f);
+            //success = true;
 
-            if (success)
-            {
+            if (success) {
 
-                float spk_pos = Random.Range(corner_left, last_hole_x - min_spk_dist - 0.6f);
+                float spk_pos = 0;
+                if (last_hole_x > corner_left + (min_spk_dist + 0.6f)) {
+                    spk_pos = Random.Range(corner_left, last_hole_x - min_spk_dist - 0.6f);
+                    if (spk_pos <= corner_limit_left) {
+                        if (!last_spike_left) {
+                            last_spike_left = true;
+                            //spk_pos = corner_left;
+                            //Debug.Log("SPK LEFT: " + spk_pos);
+                            create_spike(spk_pos, actual_y, n);
+                        }
+                        else last_spike_left = false;
+                    }
+                    else {
+                        last_spike_left = false;
+                        create_spike(spk_pos, actual_y, n);
+                    }
+                }
 
-                if (spk_pos <= corner_limit_left) last_spike_left = true;
-                else last_spike_left = false;
-                create_spike(spk_pos, actual_y, n);
-
-                spk_pos = Random.Range(last_hole_x + min_spk_dist + 0.6f, corner_right);
-                if (spk_pos >= corner_limit_right) last_spike_right = true;
-                else last_spike_right = false;
-                create_spike(spk_pos, actual_y, n);
+                if (last_hole_x < corner_right - (min_spk_dist + 0.6f)) { 
+                    spk_pos = Random.Range(last_hole_x + min_spk_dist + 0.6f, corner_right);
+                    if (spk_pos >= corner_limit_right &&!last_spike_right ) last_spike_right = true;
+                    else last_spike_right = false;
+                    //Debug.Log("SPK RIGHT: " + spk_pos);
+                    create_spike(spk_pos, actual_y, n);
+                    if (spk_pos >= corner_limit_right) {
+                        if (!last_spike_right) {
+                            last_spike_right = true;
+                            create_spike(spk_pos, actual_y, n);
+                        }
+                        else last_spike_right = false;
+                    }
+                    else {
+                        last_spike_right = false;
+                        create_spike(spk_pos, actual_y, n);
+                    }
+                }
             }
 
             return success;
@@ -649,7 +675,7 @@ public class game_controller : MonoBehaviour {
             else if (!last_wall && !last_spike_left && rand > 50 && rand <= 65)
             {
                 float wall_pos = Random.Range(-screen_w / 4, 0 - 0.5f);
-                float spk_pos = Random.Range(wall_pos + min_spk_dist + 0.7f, corner_right);
+                float spk_pos = Random.Range(wall_pos + min_spk_dist + 0.8f, corner_right);
 
                 if (spk_pos >= corner_limit_right && last_spike_right)
                     return false;
@@ -672,7 +698,7 @@ public class game_controller : MonoBehaviour {
             else if (!last_wall && !last_spike_right && rand > 65 && rand <= 80)
             {
                 float wall_pos = Random.Range(0 + 0.5f, screen_w / 4);
-                float spk_pos = Random.Range(corner_left, wall_pos - min_spk_dist - 0.7f);
+                float spk_pos = Random.Range(corner_left, wall_pos - min_spk_dist - 0.8f);
 
                 if (spk_pos <= corner_limit_left && last_spike_left)
                     return false;
@@ -856,7 +882,7 @@ public class game_controller : MonoBehaviour {
 
                 create_floor(0, n);
                
-                float rand_x = Random.Range(-screen_w / 4, 0 - 0.5f);
+                float rand_x = Random.Range(-screen_w / 4, 0 - 0.8f);
                 rand_x = Random.Range(-center_mid_area, center_mid_area);
                 //first spike, located at middle
                 rand = Random.Range(1, 100);
@@ -872,12 +898,12 @@ public class game_controller : MonoBehaviour {
                 }
 
                 //second spike, manually triggered located at the opposite corner of the wall
-                float rand_x2 = Random.Range(corner_right - 1f,corner_right);
+                float rand_x2 = Random.Range(corner_right - 1.5f,corner_right);
 
                 create_hidden_spike(rand_x2, actual_y, n, true, true);
                 there_is_manual = true;
 
-                create_corner_wall(n, there_is_manual);
+                create_wall_corner(n, there_is_manual);
 
                 last_spike_right = true;
                 last_spike_left = true;
@@ -917,7 +943,7 @@ public class game_controller : MonoBehaviour {
         obj.GetComponent<wall>().my_floor = n;
     }
 
-    void create_corner_wall(int n, bool spk_trigger= false)
+    void create_wall_corner(int n, bool spk_trigger= false)
     {
         GameObject obj = (GameObject)Instantiate(wall_type, new Vector3(0, globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * n  + globals.s.SLOT / 2, 0), transform.rotation);
         wall temp_wall = obj.GetComponent<wall>();

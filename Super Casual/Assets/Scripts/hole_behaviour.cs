@@ -1,13 +1,15 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class hole_behaviour : scenario_objects
+public class hole_behaviour : MonoBehaviour
 {
+    public GameObject my_skin;
+    public int my_floor;
 
     // Use this for initialization
     void Start()
     {
-
+        my_skin.GetComponent<hole_skin_behaviour>().my_floor = my_floor;
     }
 
     // Update is called once per frame
@@ -21,7 +23,8 @@ public class hole_behaviour : scenario_objects
     {
         if (coll.gameObject.CompareTag("Ball"))
         {
-            GetComponent<Rigidbody2D>().velocity = new Vector2(0, -15f);
+            my_skin.GetComponent<Rigidbody2D>().velocity = new Vector2(0, -15f);
+            GetComponent<BoxCollider2D>().enabled = false;
 
            // gameObject.SetActive(false);
 

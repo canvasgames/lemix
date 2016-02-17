@@ -7,14 +7,10 @@ public class main_camera : MonoBehaviour {
     private Rigidbody2D rb;
     bool initiated= false;
     public bool moving = false;
+    public bool falling = false;
+    public static main_camera s;
 
-    // Use this for initialization
-   // void Start () {
-     //   rb = transform.GetComponent<Rigidbody2D>();
-
-    //}
-
-    //{
+    void Awake (){ s = this; }
   
      // Use this for initialization
     void Start()
@@ -64,14 +60,17 @@ public class main_camera : MonoBehaviour {
 
 
     public void OnBallFalling() {
-        transform.DOMoveY(transform.position.y + globals.s.FLOOR_HEIGHT, 0.4f);
+        if (!falling) { 
+            falling = true;
+            transform.DOMoveY(transform.position.y - globals.s.FLOOR_HEIGHT-1f, 0.4f).SetEase(Ease.InOutQuad).OnComplete(() => falling = false);
+        }
     }
 
 
 // Update is called once per frame
     void Update () {
         //transform.position = new Vector3 (0, 0,0);
-        if (globals.s.GAME_OVER == 0) {
+        if (globals.s.GAME_OVER == 0 && !falling) {
             if (initiated == false)
             {
                 if (globals.s.BALL_Y > transform.position.y)
