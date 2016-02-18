@@ -9,6 +9,7 @@ public class floor : scenario_objects {
     public GameObject scoreInfo;
     public GameObject squaresUp;
     public GameObject squaresDown;
+    public GameObject colliderPW;
 
     // Use this for initialization
     void Start () {
@@ -114,11 +115,29 @@ public class floor : scenario_objects {
     {
         squaresDown.SetActive(true);
         squaresUp.SetActive(true);
+        colliderPW.SetActive(true);
     }
 
     public void unactivate_squares()
     {
-        squaresDown.SetActive(true);
-        squaresUp.SetActive(true);
+        squaresDown.SetActive(false);
+        squaresUp.SetActive(false);
+        
+    }
+
+    public void destroy_pw_super_under_floors(float y_pos_ball)
+    {
+        if(colliderPW != null)
+            colliderPW.SetActive(false);
+
+        if (y_pos_ball > transform.position.y)
+        {
+            transform.DOScaleZ(1, 0.3f).OnComplete(destroy_me_baby);
+        }
+    }
+
+    void destroy_me_baby()
+    {
+        Destroy(gameObject);
     }
 }

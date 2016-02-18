@@ -202,7 +202,7 @@ public class game_controller : MonoBehaviour {
 
             //PW Creation
             rand = Random.Range(0, 100);
-            rand = 10;
+            rand = 100;
             if (rand <=10)
             {
                 create_pw_icon(0, n_floor);
@@ -1185,7 +1185,7 @@ public class game_controller : MonoBehaviour {
     }
 
 
-    GameObject create_floor(float x, int n)
+    public GameObject create_floor(float x, int n)
     {
         GameObject obj = (GameObject)Instantiate(floor_type, new Vector3(x, globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * n, 0), transform.rotation);
         obj.GetComponent<floor>().my_floor = n;

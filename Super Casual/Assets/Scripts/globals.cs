@@ -35,6 +35,10 @@ public class globals : MonoBehaviour {
 
     [HideInInspector]
     public bool PW_SUPER_JUMP = false;
+
+    [HideInInspector]
+    public bool PW_SIGHT_BEYOND_SIGHT = false;
+
     // Use this for initialization
 
     void Awake () {

@@ -8,6 +8,7 @@ public class spike : scenario_objects {
     public bool manual_trigger = false;
     public bool corner_repositionable = false;
     bool already_appeared = false;
+
    // public int my_floor;
     Rigidbody2D rb;
     float timer = 0;
@@ -18,6 +19,7 @@ public class spike : scenario_objects {
 	// Use this for initialization
     void Awake()
     {
+
         my_collider = GetComponent<PolygonCollider2D>();
     }
 	void Start () {
@@ -25,6 +27,11 @@ public class spike : scenario_objects {
         //GetComponent<SpriteRenderer>().color = Color.green;
         if(QA.s.INVENCIBLE == true)
             my_collider.enabled = false;
+        if(globals.s.PW_SIGHT_BEYOND_SIGHT == true)
+        {
+            show_me_pw_sight();
+        }
+        
 
     }
 
@@ -50,6 +57,7 @@ public class spike : scenario_objects {
     // method for hidden spikess
     void show_me()
     {
+        transform.GetComponent<SpriteRenderer>().color = Color.white;
         target_y = transform.position.y + transform.GetComponent<SpriteRenderer>().bounds.size.y;
         transform.DOMoveY(target_y, 0.14f);
         already_appeared = true;
@@ -94,5 +102,25 @@ public class spike : scenario_objects {
             else
                 transform.position = new Vector2(0 + Mathf.Abs(0 - transform.position.x), transform.position.y);
         }
+    }
+
+
+    public void destroy_throwed_spikes(float y_pos_ball)
+    {
+        if( y_pos_ball > transform.position.y)
+        {
+            transform.DOScale(0, 0.3f).OnComplete(destroy_me_baby);
+        }
+    }
+
+    void destroy_me_baby()
+    {
+        Destroy(gameObject);
+    }
+
+    public void show_me_pw_sight()
+    {
+        if(hidden == true)
+            transform.GetComponent<SpriteRenderer>().color = Color.magenta;
     }
 }

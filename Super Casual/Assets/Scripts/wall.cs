@@ -15,6 +15,10 @@ public class wall : MonoBehaviour
     {
        // rb = transform.GetComponent<Rigidbody2D>();
         my_skin.transform.localScale = new Vector3(1,0,0);
+        if (globals.s.PW_SIGHT_BEYOND_SIGHT == true)
+        {
+            show_me_pw_sight();
+        }
     }
 
     void Update()
@@ -79,6 +83,7 @@ public class wall : MonoBehaviour
     void show_me()
     {
         Debug.Log("\n NNNNNNNNNNNNNNNNNNNNNNNNNNNNNN SCALE ME UP! DIST: " + Mathf.Abs(transform.position.x - globals.s.BALL_X) );
+        transform.GetComponent<SpriteRenderer>().color = new Color32(0, 0, 0, 0);
         already_appeared = true;
         my_skin.transform.DOScaleY(1f, 0.2f);
 
@@ -102,5 +107,11 @@ public class wall : MonoBehaviour
     }*/
 
 
+    }
+
+    public void show_me_pw_sight()
+    {
+       // transform.GetComponent<SpriteRenderer>().color.a = 100;
+      transform.GetComponent<SpriteRenderer>().color = Color.magenta;
     }
 }

@@ -77,12 +77,17 @@ public class main_camera : MonoBehaviour {
 
     public void init_PW_super_jump(float pos_y)
     {
-        transform.DOMoveY(pos_y, 0.8f).SetEase(Ease.InOutQuad);
+        transform.DOMoveY(pos_y, 0.1f).SetEase(Ease.InOutQuad);
     }
     public void PW_super_jump(float pos_y)
     {
         pw_super_jump = true;
         transform.position = new Vector3(transform.position.x, pos_y, transform.position.z);
+    }
+
+    public void pw_super_jump_end()
+    {
+        pw_super_jump = false;
     }
 
     // Update is called once per frame

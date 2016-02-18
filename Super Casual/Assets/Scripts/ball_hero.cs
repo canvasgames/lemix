@@ -19,7 +19,7 @@ public class ball_hero : MonoBehaviour
     [HideInInspector]
     public GameObject my_son;
     public GameObject bola;
-    public GameObject heart, super;
+    public GameObject heart, super, sight;
 
     //public GameObject
 
@@ -252,9 +252,13 @@ public class ball_hero : MonoBehaviour
     }
     void OnCollisionStay2D(Collision2D coll)
     {
-        if (globals.s.PW_SUPER_JUMP == true && coll.gameObject.CompareTag("PW_Trigger"))
+        if (globals.s.PW_SUPER_JUMP == true )
         {
-            coll.gameObject.GetComponent<floor_pw_collider>().unactive_sprite_daddy();
+            if (coll.gameObject.CompareTag("PW_Trigger"))
+            {
+                if (coll.gameObject.GetComponent<floor_pw_collider>() != null)
+                    coll.gameObject.GetComponent<floor_pw_collider>().unactive_sprite_daddy();
+            }
         }
     }
         #endregion
@@ -279,10 +283,12 @@ public class ball_hero : MonoBehaviour
         if (temp.pw_type == 1)
         {
             // heart_start();
-            go_up_pw_start();
+            //go_up_pw_start();
+            sight_start();
         }
     }
 
+    #region POWER UP -> LIFE
     void heart_start()
     {
         globals.s.PW_INVENCIBLE = true;
@@ -301,7 +307,9 @@ public class ball_hero : MonoBehaviour
         //heart.transform.GetComponent<SpriteRenderer>().DOFade(1, 0);
         heart.SetActive(false);
     }
+    #endregion
 
+    #region POWER UP -> GO UP
     void go_up_pw_start()
     {
         super.SetActive(true);
@@ -321,27 +329,137 @@ public class ball_hero : MonoBehaviour
         }
 
         //activate squares of collisions
-        floor[] floors = GameObject.FindObjectsOfType(typeof(floor)) as floor[];
-
-        for (i = 0; i < floors.Length; i++)
-        {
-            floors[i].activate_squares();
-        }
+        activate_particles_floor();
 
         main_camera.s.init_PW_super_jump(transform.position.y);
 
-        Invoke("go_up_PW", 2f);
+        Invoke("go_up_PW", 0.1f);
     }
     void go_up_PW()
     {
         globals.s.PW_SUPER_JUMP = true;
         // rb.gameObject.GetComponent<Rigidbody2D>().gravityScale = 1;
-        rb.velocity = new Vector2(0, 20);
-        // Invoke("stop_go_up_PW", 1f);
+        int ball_speed = 20;
+        rb.velocity = new Vector2(0, ball_speed);
+
+        Invoke("stop_go_up_PW", 5*( globals.s.FLOOR_HEIGHT/ ball_speed));
     }
 
     void stop_go_up_PW()
     {
-        rb.velocity = new Vector2(0, 0);
+        rb.velocity = new Vector2(2, 0);
+        unactivate_particles_floor();
+        Invoke("create_floor", 0.1f);
     }
+
+    void create_floor()
+    {
+       GameObject floor = game_controller.s.create_floor(12, my_son.GetComponent<ball_hero>().my_floor + 1);
+        destroy_spikes();
+        floor.transform.DOMoveX(0, 0.3f);//.OnComplete(pw_super_end);
+        pw_super_end();
+    }
+   
+    void pw_super_end()
+    {
+        super.SetActive(false);
+        globals.s.PW_SUPER_JUMP = false;
+        rb.gameObject.GetComponent<Rigidbody2D>().gravityScale = 1;
+        rb.gameObject.GetComponent<Rigidbody2D>().isKinematic = false;
+        main_camera.s.pw_super_jump_end();
+    }
+
+    void activate_particles_floor()
+    {
+        floor[] floors = GameObject.FindObjectsOfType(typeof(floor)) as floor[];
+        int i;
+        for (i = 0; i < floors.Length; i++)
+        {
+            floors[i].activate_squares();
+        }
+
+        hole_behaviour[] holes = GameObject.FindObjectsOfType(typeof(hole_behaviour)) as hole_behaviour[];
+
+        for (i = 0; i < holes.Length; i++)
+        {
+            holes[i].activate_squares();
+        }
+    }
+
+    void unactivate_particles_floor()
+    {
+        int i;
+
+        floor_square_pw_destruct[] squares = GameObject.FindObjectsOfType(typeof(floor_square_pw_destruct)) as floor_square_pw_destruct[];
+        for (i = 0; i < squares.Length; i++)
+        {
+            squares[i].scale_down_to_dessapear();
+        }
+
+        destroy_spikes();
+
+        floor[] floors = GameObject.FindObjectsOfType(typeof(floor)) as floor[];
+        for (i = 0; i < floors.Length; i++)
+        {
+            floors[i].destroy_pw_super_under_floors(transform.position.y);
+        }
+
+        hole_behaviour[] holes = GameObject.FindObjectsOfType(typeof(hole_behaviour)) as hole_behaviour[];
+
+        for (i = 0; i < holes.Length; i++)
+        {
+            holes[i].destroy_pw_super_under_floors(transform.position.y);
+        }
+    }
+
+    void destroy_spikes()
+    {
+        int i;
+        spike[] spikes = GameObject.FindObjectsOfType(typeof(spike)) as spike[];
+        for (i = 0; i < spikes.Length; i++)
+        {
+            spikes[i].destroy_throwed_spikes(transform.position.y);
+        }
+    }
+    #endregion
+
+    #region POWER UP -> SIGHT BEYOND SIGHT 
+    void sight_start()
+    {
+        globals.s.PW_SIGHT_BEYOND_SIGHT = true;
+        sight.SetActive(true);
+        change_color_pw();
+        Invoke("sight_end", 10);
+    }
+
+    void sight_end()
+    {
+        globals.s.PW_SIGHT_BEYOND_SIGHT = false;
+        sight.SetActive(false);
+    }
+
+    void change_color_pw()
+    {
+        int i;
+
+        wall[] walls = GameObject.FindObjectsOfType(typeof(wall)) as wall[];
+        for (i = 0; i < walls.Length; i++)
+        {
+            walls[i].show_me_pw_sight();
+        }
+
+        spike[] spikes = GameObject.FindObjectsOfType(typeof(spike)) as spike[];
+        for (i = 0; i < spikes.Length; i++)
+        {
+            spikes[i].show_me_pw_sight();
+        }
+
+
+        hole_behaviour[] holes = GameObject.FindObjectsOfType(typeof(hole_behaviour)) as hole_behaviour[];
+        for (i = 0; i < holes.Length; i++)
+        {
+            holes[i].show_me_pw_sight();
+        }
+    }
+    #endregion
 }
