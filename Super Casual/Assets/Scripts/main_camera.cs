@@ -9,6 +9,7 @@ public class main_camera : MonoBehaviour {
     public bool moving = false;
     public bool falling = false;
     public static main_camera s;
+    public bool hitted_on_wall = false;
 
     void Awake (){ s = this; }
   
@@ -66,18 +67,32 @@ public class main_camera : MonoBehaviour {
         }
     }
 
+    public void OnBallTooHigh() {
+        if (!falling) {
+            falling = true;
+            transform.DOMoveY(transform.position.y + globals.s.FLOOR_HEIGHT, 0.4f).SetEase(Ease.InOutQuad).OnComplete(() => falling = false);
+        }
+    }
 
-// Update is called once per frame
+
+
+    // Update is called once per frame
     void Update () {
         //transform.position = new Vector3 (0, 0,0);
-        if (globals.s.GAME_OVER == 0 && !falling) {
+        if (globals.s.GAME_OVER == 0 && !falling && !hitted_on_wall) {
             if (initiated == false)
             {
-                if (globals.s.BALL_Y > transform.position.y)
+                if (globals.s.BALL_Y > transform.position.y) //if ball is in a superior position than the camera
                 {
-                    rb.velocity = new Vector2(0, globals.s.CAMERA_SPEED);
-                    initiated = true;
-                    moving = true;
+                    if(globals.s.BALL_Y > transform.position.y + globals.s.FLOOR_HEIGHT) {
+                        OnBallTooHigh();
+                    }
+                    else{
+                        rb.velocity = new Vector2(0, globals.s.CAMERA_SPEED);
+                        initiated = true;
+                        moving = true;
+                    }
+                    
                 }
             }
             else

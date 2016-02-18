@@ -14,7 +14,7 @@ public class wall : MonoBehaviour
     void Start()
     {
        // rb = transform.GetComponent<Rigidbody2D>();
-        my_skin.transform.localScale = new Vector3(1, 0, 0.79f);
+        my_skin.transform.localScale = new Vector3(1,0,0);
     }
 
     void Update()
@@ -58,6 +58,7 @@ public class wall : MonoBehaviour
 
     public void place_me_at_the_other_corner(float ball_x, int floor) {
         if (corner_wall && !already_placed && floor == my_floor) {
+            Debug.Log("WALL OF FLOOR " + floor + " REPOSITIONING!! BALL X: " + ball_x);
             if (ball_x> 0)
                 transform.position = new Vector2(globals.s.LIMIT_LEFT + globals.s.SLOT / 2, transform.position.y);
             else
@@ -79,7 +80,7 @@ public class wall : MonoBehaviour
     {
         Debug.Log("\n NNNNNNNNNNNNNNNNNNNNNNNNNNNNNN SCALE ME UP! DIST: " + Mathf.Abs(transform.position.x - globals.s.BALL_X) );
         already_appeared = true;
-        my_skin.transform.DOScaleY(0.79f, 0.2f);
+        my_skin.transform.DOScaleY(1f, 0.2f);
 
         if (spike_trigger)
         {

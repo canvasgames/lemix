@@ -31,6 +31,8 @@ public class ball_hero : MonoBehaviour
 
     public GameObject explosion;
 
+    bool hitted_wall = false;
+
     void Awake()
     {
         rb = transform.GetComponent<Rigidbody2D>();
@@ -140,6 +142,8 @@ public class ball_hero : MonoBehaviour
             //game_controller.s.create_new_wave()   ;
             game_controller.s.ball_up(my_floor);
 
+            if(hitted_wall) main_camera.s.hitted_on_wall = false;
+
             wall[] paredez = GameObject.FindObjectsOfType(typeof(wall)) as wall[];
             foreach(wall p in paredez){
                 p.place_me_at_the_other_corner(my_son.transform.position.x, my_floor + 1);
@@ -174,6 +178,8 @@ public class ball_hero : MonoBehaviour
     }
 
 
+#region ========= COLLISIONS ================
+
     void OnCollisionEnter2D(Collision2D coll)
     {
 
@@ -206,32 +212,40 @@ public class ball_hero : MonoBehaviour
                 Destroy(coll.gameObject);
                 heart_end();
             }
-            
         }
 
         else if (coll.gameObject.CompareTag("HoleFalling"))
         {
             //grounded = false;
             //coll.gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2(0, -100f);
-            main_camera.s.OnBallFalling();
+            if(transform.position.y < main_camera.s.transform.position.y - 10f)
+                main_camera.s.OnBallFalling();
             Debug.Log(" ~~~~~~~~~~~~~~~~~~~~~~~~~COLLIDING WITH HOLE FALLING TAG!!!");
-            
-
+            Physics2D.IgnoreCollision(coll.collider, GetComponent<Collider2D>());
         }
+
         else if (coll.gameObject.CompareTag("Wall"))
         {
             rb.velocity = new Vector2(-rb.velocity.x, rb.velocity.y);
+            if (transform.position.y < main_camera.s.transform.position.y - 10f) {
+                hitted_wall = true;
+                main_camera.s.hitted_on_wall = true;
+            }   
         }
+		
         else if (coll.gameObject.CompareTag("PW"))
         {
             PW_Collect temp = coll.gameObject.GetComponent<PW_Collect>();
             pw_do_something(temp);
         }
+
         else if (globals.s.PW_INVENCIBLE == true && coll.gameObject.CompareTag("PW_Trigger"))
         {
             coll.gameObject.GetComponent<floor_pw_collider>().unactive_sprite_daddy();
         }
     }
+	
+	 #endregion
 
     void destroy_me()
     {

@@ -400,7 +400,7 @@ public class game_controller : MonoBehaviour {
         float actual_y = globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * n;
         int rand = Random.Range(1, 100);
         int hole_chance = 30 + 10 * hole_creation_failed;
-        if (hole_chance > 60) hole_chance = 60;
+        if (hole_chance > 85) hole_chance = 85;
         
         Debug.Log("\n "+ n+ " ~~~~~~~~~~~~ TRY CREATE MEDIUM HOLE! ~~~~~~~~~~~~ | rand " + rand + " HOLE CHANCE: "+ hole_chance + " N FAILED: " + hole_creation_failed);
    
@@ -410,9 +410,7 @@ public class game_controller : MonoBehaviour {
         {
             bool success = create_hole(n);
 
-            if (!success)
-                hole_creation_failed++;
-            else
+            if (success)
             {
                 hole_creation_failed = 0;
                 last_spike_right = false;
@@ -426,8 +424,8 @@ public class game_controller : MonoBehaviour {
 
         else
         {
-            
-            rand = Random.Range(1, 100);
+            hole_creation_failed++;
+
             //rand = Random.Range(44, 68);
             Debug.Log("\n " + n + " ========= CREATE WAVE MEDIUM! ========== | rand " + rand);
             //rand = 50;
@@ -436,14 +434,14 @@ public class game_controller : MonoBehaviour {
             if (rand > 0 && rand <= 20)
             {
                 create_floor(0, n);
-                float rand_x = Random.Range(-screen_w / 4, 0 - 0.5f);
+                float rand_x = Random.Range(-screen_w / 4, 0 - 1f);
                 //first spike
                 create_spike(rand_x, actual_y, n);
                 if (rand_x <= corner_limit_left) last_spike_left = true;
                 else last_spike_left = false;
 
                 //second spike
-                rand_x = Random.Range(rand_x + min_spk_dist+ 0.5f, rand_x + min_spk_dist + 2f);
+                rand_x = Random.Range(rand_x + min_spk_dist+ 0.5f, rand_x + min_spk_dist + 1.5f);
                 create_spike(rand_x, actual_y, n);
                 if (rand_x <= corner_limit_right) last_spike_right = true;
                 else last_spike_right = false;
@@ -570,7 +568,7 @@ public class game_controller : MonoBehaviour {
         float actual_y = globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * n;
         int rand = Random.Range(1, 100);
         int hole_chance = 30 + 10 * hole_creation_failed;
-        if (hole_chance > 60) hole_chance = 60;
+        if (hole_chance > 85) hole_chance = 85;
         Debug.Log("\n " + n + " ^^^^^^^^^^^^^^^^^^ TRY CREATE HARD HOLE! ^^^^^^^^^^^^^^^^^^ | rand " + rand + " HOLE CHANCE: " + hole_chance + " N FAILED: " + hole_creation_failed);
 
 
@@ -582,6 +580,8 @@ public class game_controller : MonoBehaviour {
             //success = true;
 
             if (success) {
+                last_hole = true;
+                hole_creation_failed = 0;
 
                 float spk_pos = 0;
                 if (last_hole_x > corner_left + (min_spk_dist + 0.6f)) {
@@ -601,9 +601,9 @@ public class game_controller : MonoBehaviour {
                     }
                 }
 
-                if (last_hole_x < corner_right - (min_spk_dist + 0.6f)) { 
+                if (last_hole_x < corner_right - (min_spk_dist + 0.6f)) {
                     spk_pos = Random.Range(last_hole_x + min_spk_dist + 0.6f, corner_right);
-                    if (spk_pos >= corner_limit_right &&!last_spike_right ) last_spike_right = true;
+                    if (spk_pos >= corner_limit_right && !last_spike_right) last_spike_right = true;
                     else last_spike_right = false;
                     //Debug.Log("SPK RIGHT: " + spk_pos);
                     create_spike(spk_pos, actual_y, n);
@@ -621,9 +621,12 @@ public class game_controller : MonoBehaviour {
                 }
             }
 
+
+
             return success;
         }
         else {
+            hole_creation_failed++;
             rand = Random.Range(1, 100);
             Debug.Log("\n " + n + " ========= CREATE WAVE HARD! ========== | rand " + rand);
 
@@ -721,10 +724,12 @@ public class game_controller : MonoBehaviour {
             if (rand > 80)
             {
                 create_floor(0, n);
-                float rand_x = Random.Range(-screen_w / 4+0.2f, 0 - 1.00f);
+                //float rand_x = Random.Range(-screen_w / 4+0.2f, 0 - 1.00f);
+                float dist = Random.Range(min_spk_dist/2 + 0.2f, min_spk_dist/2 + 0.5f);
+                float rand_x = Random.Range(-0.6f, 0.6f);
                 //first spike
-                create_hidden_spike(rand_x, actual_y, n);
-                create_hidden_spike(Random.Range(rand_x + min_spk_dist + 0.3f, rand_x + min_spk_dist + 2.1f), actual_y, n);
+                create_hidden_spike(rand_x - dist, actual_y, n);
+                create_hidden_spike(rand_x + dist, actual_y, n);
 
                 last_spike_right = false;
                 last_spike_left = false;
@@ -744,7 +749,7 @@ public class game_controller : MonoBehaviour {
         int rand = Random.Range(1, 100);
         //rand = 1;
         int hole_chance = 35 + 10 * hole_creation_failed;
-        if (hole_chance > 65) hole_chance = 65;
+        if (hole_chance > 85) hole_chance = 85;
         Debug.Log("\n " + n + " &&&&&&&&&&&&&& TRY CREATE VERY HARD HOLE! &&&&&&&&&&| rand " + rand + " HOLE CHANCE: " + hole_chance + " N FAILED: " + hole_creation_failed);
 
       // rand = 80;
@@ -799,6 +804,7 @@ public class game_controller : MonoBehaviour {
                     }
 
                 }
+                hole_creation_failed = 0;
                 last_hole = true;
                 last_wall = false;
             }
@@ -807,6 +813,7 @@ public class game_controller : MonoBehaviour {
         }
         else
         {
+            hole_creation_failed++;
             rand = Random.Range(1, 100);
             Debug.Log("\n " + n + " ========== CREATE WAVE VERY HARD! ========== | rand " + rand);
             //rand = 35;
@@ -898,7 +905,7 @@ public class game_controller : MonoBehaviour {
                 }
 
                 //second spike, manually triggered located at the opposite corner of the wall
-                float rand_x2 = Random.Range(corner_right - 1.5f,corner_right);
+                float rand_x2 = Random.Range(corner_right - 1.3f,corner_right);
 
                 create_hidden_spike(rand_x2, actual_y, n, true, true);
                 there_is_manual = true;
@@ -916,10 +923,11 @@ public class game_controller : MonoBehaviour {
             if (rand > 75)
             {
                 create_floor(0, n);
-                float rand_x = Random.Range(min_spk_dist/2, min_spk_dist/2 + 0.5f );
+                float rand_x = Random.Range(min_spk_dist/2+0.2f, min_spk_dist/2 + 0.7f );
+                float pos = Random.Range(-0.7f,0.7f);
                 //first spike
-                create_triple_hidden_spike(-rand_x, actual_y, n);
-                create_triple_hidden_spike(rand_x, actual_y, n);
+                create_triple_hidden_spike(pos -rand_x, actual_y, n);
+                create_triple_hidden_spike(pos + rand_x, actual_y, n);
 
                 last_spike_right = false;
                 last_spike_left = false;
@@ -931,6 +939,195 @@ public class game_controller : MonoBehaviour {
             else return false;
         }
     }
+
+    bool create_wave_super_hard(int n) {
+        float actual_y = globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * n;
+        int rand = Random.Range(1, 100);
+        //rand = 1;
+        int hole_chance = 35 + 10 * hole_creation_failed;
+        if (hole_chance > 85) hole_chance = 85;
+        Debug.Log("\n " + n + "SSSSSSSSSSSSSS TRY CREATE SUPER HARD HOLE! SSSSSSSSSSSSS| rand " + rand + " HOLE CHANCE: " + hole_chance + " N FAILED: " + hole_creation_failed);
+
+        // rand = 80;
+
+        // HOLE + 2 TRIPLE SPIKES |_^__\/__^_|
+        if (!last_wall && !last_hole && !last_spike_left && !last_spike_right && rand > 0 && rand <= hole_chance) {
+            bool success = create_hole(n, false, 1.5f);
+
+            if (success) {
+                rand = Random.Range(1, 100);
+                //rand = 68;
+                // SPIKES FAR FROM HOLE
+                if (rand < 65) {
+                    float spk_pos = Random.Range(corner_left, last_hole_x - min_spk_dist - 0.8f);
+                    //spike left
+                    if (spk_pos <= corner_limit_left) last_spike_left = true;
+                    else last_spike_left = false;
+                    create_triple_spike(spk_pos, actual_y, n);
+
+                    spk_pos = Random.Range(last_hole_x + min_spk_dist + 0.8f, corner_right);
+                    if (spk_pos >= corner_limit_right) last_spike_right = true;
+                    else last_spike_right = false;
+                    create_triple_spike(spk_pos, actual_y, n);
+                }
+                else // 1 SPIKE AT HOLE BORDER! THAT'S KILLER =)
+                {
+                    int left_or_right = Random.Range(0, 2);
+                    if (left_or_right == 0) {
+                        float spk_pos = Random.Range(corner_left, last_hole_x - min_spk_dist - 0.6f);
+
+                        create_hidden_spike(spk_pos, actual_y, n);
+                        if (spk_pos <= corner_limit_left) last_spike_left = true;
+                        else last_spike_left = false;
+
+                        spk_pos = last_hole_x + 1.168f;
+                        create_hidden_spike(spk_pos, actual_y, n);
+                        last_spike_right = false;
+                    }
+                    else {
+                        float spk_pos = Random.Range(last_hole_x + min_spk_dist + 0.6f, corner_right);
+                        create_hidden_spike(spk_pos, actual_y, n);
+                        if (spk_pos >= corner_limit_right) last_spike_right = true;
+                        else last_spike_right = false;
+
+                        spk_pos = last_hole_x - 1.168f;
+                        create_hidden_spike(spk_pos, actual_y, n);
+                        last_spike_left = false;
+                    }
+
+                }
+                hole_creation_failed = 0;
+                last_hole = true;
+                last_wall = false;
+            }
+
+            return success;
+        }
+        else {
+            hole_creation_failed++;
+            rand = Random.Range(1, 100);
+            Debug.Log("\n " + n + " ========== CREATE WAVE VERY HARD! ========== | rand " + rand);
+            //rand = 35;
+            // rand = Random.Range(1, 25);
+
+
+            // 3 SPIKES MID (LEFT priority) |__^_^_^__|
+            if (!last_spike_left && rand > 0 && rand <= 15) {
+                create_floor(0, n);
+                float triple_range = min_spk_dist + Random.Range(0.5f, 0.6f);
+                float spk_pos = Random.Range(corner_left, corner_limit_left + 0.35f);
+
+                //first spike
+                create_triple_spike(spk_pos, actual_y, n);
+
+                if (spk_pos <= corner_limit_left) last_spike_left = true;
+                else last_spike_left = false;
+
+                //TRY TO HIDE THE MIDDLE SPIKE
+                spk_pos += triple_range;
+                rand = Random.Range(1, 100);
+                if (rand < 75)
+                    create_triple_spike(spk_pos, actual_y, n);
+                else
+                    create_triple_hidden_spike(spk_pos, actual_y, n);
+
+                spk_pos += triple_range;
+                create_triple_spike(spk_pos, actual_y, n);
+
+                if (spk_pos >= corner_limit_right) last_spike_right = true;
+                else last_spike_right = false;
+
+                last_hole = false;
+                last_wall = false;
+
+                return true;
+            }
+            // 3 SPIKES MID (RIGHT priority |__^_^_^__|)
+            if (!last_spike_right && rand > 15 && rand <= 30) {
+                create_floor(0, n);
+                float triple_range = min_spk_dist + Random.Range(0.5f, 0.6f);
+
+                float spk_pos = Random.Range(corner_limit_right - 0.45f, corner_right);
+
+                create_triple_spike(spk_pos, actual_y, n);
+                if (spk_pos >= corner_limit_right) last_spike_right = true;
+                else last_spike_right = false;
+
+                //TRY TO HIDE THE MIDDLE SPIKE
+                spk_pos -= triple_range;
+                rand = Random.Range(1, 100);
+                if (rand < 75)
+                    create_triple_spike(spk_pos, actual_y, n);
+                else
+                    create_triple_hidden_spike(spk_pos, actual_y, n);
+
+                spk_pos -= triple_range;
+                create_triple_spike(spk_pos, actual_y, n);
+
+                if (spk_pos <= corner_limit_left) last_spike_left = true;
+                else last_spike_left = false;
+
+                last_hole = false;
+                last_wall = false;
+
+                return true;
+            }
+
+            // WALL CORNER + 2 spks (normal, hidden or manual_trigger)  ||__v_v__|
+            else if (!last_wall && rand > 30 && rand <= 75) {
+                bool there_is_manual = false;
+
+                create_floor(0, n);
+
+                float rand_x = Random.Range(-screen_w / 4, 0 - 0.8f);
+                rand_x = Random.Range(-center_mid_area, center_mid_area);
+                //first spike, located at middle
+                rand = Random.Range(1, 100);
+                if (rand < 40)
+                    create_spike(rand_x, actual_y, n);
+
+                else if (rand < 65)
+                    create_hidden_spike(rand_x, actual_y, n);
+                else {
+                    create_hidden_spike(rand_x, actual_y, n, true);
+                    there_is_manual = true;
+                }
+
+                //second spike, manually triggered located at the opposite corner of the wall
+                float rand_x2 = Random.Range(corner_right - 1.3f,corner_right);
+
+                create_hidden_spike(rand_x2, actual_y, n, true, true);
+                there_is_manual = true;
+
+                create_wall_corner(n, there_is_manual);
+
+                last_spike_right = true;
+                last_spike_left = true;
+                last_wall = true;
+                last_hole = false;
+                return true;
+            }
+
+            // 2 HIDDEN TRIPLE SPIKE MID |___v__v___|
+            if (rand > 75) {
+                create_floor(0, n);
+                float rand_x = Random.Range(min_spk_dist/2+0.2f, min_spk_dist/2 + 0.7f );
+                float pos = Random.Range(-0.7f,0.7f);
+                //first spike
+                create_triple_hidden_spike(pos - rand_x, actual_y, n);
+                create_triple_hidden_spike(pos + rand_x, actual_y, n);
+
+                last_spike_right = false;
+                last_spike_left = false;
+                last_hole = false;
+                last_wall = false;
+
+                return true;
+            }
+            else return false;
+        }
+    }
+
 
 
     #endregion
