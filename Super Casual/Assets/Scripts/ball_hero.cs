@@ -19,7 +19,7 @@ public class ball_hero : MonoBehaviour
     [HideInInspector]
     public GameObject my_son;
     public GameObject bola;
-    public GameObject heart;
+    public GameObject heart, super;
 
     //public GameObject
 
@@ -80,6 +80,7 @@ public class ball_hero : MonoBehaviour
         // SET X SPEED TO MAX EVERY FRAME
         if (rb.velocity.x > 0) rb.velocity = new Vector2(globals.s.BALL_SPEED_X, rb.velocity.y);
         else if (rb.velocity.x < 0) rb.velocity = new Vector2(-globals.s.BALL_SPEED_X, rb.velocity.y);
+
     }
 
     void FixedUpdate()
@@ -89,7 +90,10 @@ public class ball_hero : MonoBehaviour
 
         //
 
-
+        if (globals.s.PW_SUPER_JUMP == true)
+        {
+            main_camera.s.PW_super_jump(transform.position.y);
+        }
         // falling case
         if (rb.velocity.y < -0.02f) grounded = false; //else grounded = true;
 
@@ -183,9 +187,10 @@ public class ball_hero : MonoBehaviour
     void OnCollisionEnter2D(Collision2D coll)
     {
 
+
         if (coll.gameObject.CompareTag("Floor"))
         {
-            Debug.Log("colideFlorororrrrrrrrrrrrrrrrr");
+            
             if (coll.transform.position.y + coll.transform.GetComponent<SpriteRenderer>().bounds.size.y / 2 <= transform.position.y - globals.s.BALL_R + 1f)
             {
                 //rb.AddForce (new Vector2 (0, 0));
@@ -203,15 +208,19 @@ public class ball_hero : MonoBehaviour
 
         else if (coll.gameObject.CompareTag("Spike"))
         {
-            if(globals.s.PW_INVENCIBLE == false)
+            if(globals.s.PW_SUPER_JUMP == false)
             {
-                destroy_me();
+                if (globals.s.PW_INVENCIBLE == false)
+                {
+                    destroy_me();
+                }
+                else
+                {
+                    Destroy(coll.gameObject);
+                    heart_end();
+                }
             }
-            else
-            {
-                Destroy(coll.gameObject);
-                heart_end();
-            }
+
         }
 
         else if (coll.gameObject.CompareTag("HoleFalling"))
@@ -239,15 +248,18 @@ public class ball_hero : MonoBehaviour
             pw_do_something(temp);
         }
 
-        else if (globals.s.PW_INVENCIBLE == true && coll.gameObject.CompareTag("PW_Trigger"))
+
+    }
+    void OnCollisionStay2D(Collision2D coll)
+    {
+        if (globals.s.PW_SUPER_JUMP == true && coll.gameObject.CompareTag("PW_Trigger"))
         {
             coll.gameObject.GetComponent<floor_pw_collider>().unactive_sprite_daddy();
         }
     }
-	
-	 #endregion
+        #endregion
 
-    void destroy_me()
+        void destroy_me()
     {
         ball_hero[] bolas = GameObject.FindObjectsOfType(typeof(ball_hero)) as ball_hero[];
 
@@ -264,10 +276,10 @@ public class ball_hero : MonoBehaviour
         
         temp.collect();
 
-
         if (temp.pw_type == 1)
         {
-            heart_start();
+            // heart_start();
+            go_up_pw_start();
         }
     }
 
@@ -277,23 +289,6 @@ public class ball_hero : MonoBehaviour
         heart.SetActive(true);
         
 
-
-        rb.velocity = new Vector2(0, 0);
-       
-
-        rb.gameObject.GetComponent<Rigidbody2D>().gravityScale = 0;
-        rb.gameObject.GetComponent<Rigidbody2D>().isKinematic = true;
-        int i;
-
-
-        floor[] floors = GameObject.FindObjectsOfType(typeof(floor)) as floor[];
-
-        for (i = 0; i < floors.Length; i++)
-        {
-            floors[i].activate_squares();
-        }
-
-        Invoke("go_up_PW", 2f);
         //chMotor.movement.gravity = g;
         //heart.transform.GetComponent<SpriteRenderer>().
 
@@ -307,12 +302,42 @@ public class ball_hero : MonoBehaviour
         heart.SetActive(false);
     }
 
+    void go_up_pw_start()
+    {
+        super.SetActive(true);
+        rb.velocity = new Vector2(0, 0);
+
+        rb.gameObject.GetComponent<Rigidbody2D>().gravityScale = 0;
+        rb.gameObject.GetComponent<Rigidbody2D>().isKinematic = true;
+
+        //construct floors
+        int i;
+        int temp = my_floor;
+
+        for (i = my_floor + 1; i < temp + 5; i++)
+        {
+            my_son.GetComponent<ball_hero>().my_floor = i;
+            game_controller.s.ball_up(i);
+        }
+
+        //activate squares of collisions
+        floor[] floors = GameObject.FindObjectsOfType(typeof(floor)) as floor[];
+
+        for (i = 0; i < floors.Length; i++)
+        {
+            floors[i].activate_squares();
+        }
+
+        main_camera.s.init_PW_super_jump(transform.position.y);
+
+        Invoke("go_up_PW", 2f);
+    }
     void go_up_PW()
     {
-       // rb.gameObject.GetComponent<Rigidbody2D>().gravityScale = 1;
-        rb.velocity = new Vector2(0, 10);
-       
-       // Invoke("stop_go_up_PW", 1f);
+        globals.s.PW_SUPER_JUMP = true;
+        // rb.gameObject.GetComponent<Rigidbody2D>().gravityScale = 1;
+        rb.velocity = new Vector2(0, 20);
+        // Invoke("stop_go_up_PW", 1f);
     }
 
     void stop_go_up_PW()

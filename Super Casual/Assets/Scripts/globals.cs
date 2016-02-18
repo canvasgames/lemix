@@ -33,6 +33,8 @@ public class globals : MonoBehaviour {
     [HideInInspector]
     public bool PW_INVENCIBLE = false;
 
+    [HideInInspector]
+    public bool PW_SUPER_JUMP = false;
     // Use this for initialization
 
     void Awake () {

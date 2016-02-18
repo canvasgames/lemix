@@ -8,6 +8,7 @@ public class main_camera : MonoBehaviour {
     bool initiated= false;
     public bool moving = false;
     public bool falling = false;
+    public bool pw_super_jump = false;
     public static main_camera s;
     public bool hitted_on_wall = false;
 
@@ -74,46 +75,57 @@ public class main_camera : MonoBehaviour {
         }
     }
 
-
+    public void init_PW_super_jump(float pos_y)
+    {
+        transform.DOMoveY(pos_y, 0.8f).SetEase(Ease.InOutQuad);
+    }
+    public void PW_super_jump(float pos_y)
+    {
+        pw_super_jump = true;
+        transform.position = new Vector3(transform.position.x, pos_y, transform.position.z);
+    }
 
     // Update is called once per frame
-    void Update () {
+    void Update() {
         //transform.position = new Vector3 (0, 0,0);
-        if (globals.s.GAME_OVER == 0 && !falling && !hitted_on_wall) {
-            if (initiated == false)
-            {
-                if (globals.s.BALL_Y > transform.position.y) //if ball is in a superior position than the camera
+        if (pw_super_jump == false)
+        {
+            if (globals.s.GAME_OVER == 0 && !falling && !hitted_on_wall) {
+                if (initiated == false)
                 {
-                    if(globals.s.BALL_Y > transform.position.y + globals.s.FLOOR_HEIGHT) {
-                        OnBallTooHigh();
+                    if (globals.s.BALL_Y > transform.position.y) //if ball is in a superior position than the camera
+                    {
+                        if (globals.s.BALL_Y > transform.position.y + globals.s.FLOOR_HEIGHT) {
+                            OnBallTooHigh();
+                        }
+                        else {
+                            rb.velocity = new Vector2(0, globals.s.CAMERA_SPEED);
+                            initiated = true;
+                            moving = true;
+                        }
+
                     }
-                    else{
+                }
+                else
+                {
+                    if (moving && globals.s.BALL_Y < transform.position.y - globals.s.FLOOR_HEIGHT)
+                    {
+                        rb.velocity = new Vector2(0, 0);
+                        moving = false;
+                    }
+
+                    else if (globals.s.BALL_Y > transform.position.y - globals.s.FLOOR_HEIGHT / 4 && globals.s.BALL_GROUNDED == true)//Debug.Log("MY Y POS: " + transform.position.y);  if (globals.s.BALL_Y > transform.position.y)
+                    {
                         rb.velocity = new Vector2(0, globals.s.CAMERA_SPEED);
-                        initiated = true;
                         moving = true;
                     }
-                    
                 }
             }
             else
             {
-                if (moving && globals.s.BALL_Y < transform.position.y - globals.s.FLOOR_HEIGHT)
-                {
-                    rb.velocity = new Vector2(0, 0);
-                    moving = false;
-                }
-
-                else if (globals.s.BALL_Y > transform.position.y - globals.s.FLOOR_HEIGHT / 4 && globals.s.BALL_GROUNDED == true)//Debug.Log("MY Y POS: " + transform.position.y);  if (globals.s.BALL_Y > transform.position.y)
-                {
-                    rb.velocity = new Vector2(0, globals.s.CAMERA_SPEED);
-                    moving = true;
-                }
+                rb.velocity = new Vector2(0, 0);
+                moving = false;
             }
-        }
-        else
-        {
-            rb.velocity = new Vector2(0, 0);
-            moving = false;
         }
     }
 }

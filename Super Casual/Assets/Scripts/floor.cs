@@ -114,6 +114,11 @@ public class floor : scenario_objects {
     {
         squaresDown.SetActive(true);
         squaresUp.SetActive(true);
-        //transform.GetComponent<SpriteRenderer>().enabled = false;
+    }
+
+    public void unactivate_squares()
+    {
+        squaresDown.SetActive(true);
+        squaresUp.SetActive(true);
     }
 }
