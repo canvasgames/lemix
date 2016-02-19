@@ -30,7 +30,8 @@ public class hole_behaviour : MonoBehaviour
     {
         if (coll.gameObject.CompareTag("Ball"))
         {
-            my_skin.GetComponent<Rigidbody2D>().velocity = new Vector2(0, -15f);
+            //my_skin.GetComponent<Rigidbody2D>().velocity = new Vector2(0, -15f);
+            my_skin.transform.DOMoveY(my_skin.transform.position.y - 8f, 0.6f).OnComplete ( ()=>Destroy(my_skin));
             GetComponent<BoxCollider2D>().enabled = false;
 
             // gameObject.SetActive(false);

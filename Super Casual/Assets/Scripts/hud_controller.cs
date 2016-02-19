@@ -11,6 +11,7 @@ public class hud_controller : MonoBehaviour {
     public GameObject game_over_text;
     public GameObject floor;
     public GameObject best;
+    public GameObject intro;
     [HideInInspector]
     public int BEST_SCORE, LAST_SCORE, DAY_SCORE;
 	// Use this for initialization
@@ -34,7 +35,12 @@ public class hud_controller : MonoBehaviour {
         {
             Application.LoadLevel("Gameplay");
         }
-	}
+
+        if(!globals.s.GAME_STARTED && Input.GetMouseButtonDown(0)) {
+            globals.s.GAME_STARTED = true;
+            Destroy(intro);
+        }
+    }
 
     public void update_floor(int n)
     {

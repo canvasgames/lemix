@@ -6,6 +6,7 @@ public class globals : MonoBehaviour {
 
     public int GAME_OVER = 0;
     public bool CAN_RESTART = false;
+    public bool GAME_STARTED = false;
 
     public int BALL_ID = 0;
     public float BALL_Y = -8f;

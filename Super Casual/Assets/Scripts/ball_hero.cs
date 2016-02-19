@@ -186,6 +186,7 @@ public class ball_hero : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D coll)
     {
+        //Debug.Log("xxxxxxxxxxxxxxxxxxxxx COLLIDING WITH SOMETHING!");
 
 
         if (coll.gameObject.CompareTag("Floor"))
@@ -208,7 +209,7 @@ public class ball_hero : MonoBehaviour
 
         else if (coll.gameObject.CompareTag("Spike"))
         {
-            if(globals.s.PW_SUPER_JUMP == false)
+            if(globals.s.PW_SUPER_JUMP == false && !QA.s.INVENCIBLE)
             {
                 if (globals.s.PW_INVENCIBLE == false)
                 {
@@ -220,18 +221,29 @@ public class ball_hero : MonoBehaviour
                     heart_end();
                 }
             }
-
+            else{
+                Physics2D.IgnoreCollision(coll.collider, GetComponent<Collider2D>());
+                GetComponent<SpriteRenderer>().color = Color.blue;
+                Invoke("back_to_normal_color", 0.2f);
+                   
+            }
         }
 
         else if (coll.gameObject.CompareTag("HoleFalling"))
         {
+            Debug.Log(" ~~~~~~~~~~~~~~~~~~~~~~~~~COLLIDING WITH HOLE FALLING TAG!!!");
             //grounded = false;
             //coll.gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2(0, -100f);
-            if(transform.position.y < main_camera.s.transform.position.y - 10f)
+            if (transform.position.y < main_camera.s.transform.position.y - 10f)
                 main_camera.s.OnBallFalling();
-            Debug.Log(" ~~~~~~~~~~~~~~~~~~~~~~~~~COLLIDING WITH HOLE FALLING TAG!!!");
+            
             Physics2D.IgnoreCollision(coll.collider, GetComponent<Collider2D>());
         }
+
+        else if (coll.gameObject.CompareTag("Hole")) {
+            Physics2D.IgnoreCollision(coll.collider, GetComponent<Collider2D>());
+        }
+
 
         else if (coll.gameObject.CompareTag("Wall"))
         {
@@ -351,6 +363,10 @@ public class ball_hero : MonoBehaviour
         unactivate_particles_floor();
         Invoke("create_floor", 0.1f);
     }
+	
+    void back_to_normal_color() {
+        GetComponent<SpriteRenderer>().color = Color.white;
+    }
 
     void create_floor()
     {
@@ -462,4 +478,5 @@ public class ball_hero : MonoBehaviour
         }
     }
     #endregion
+
 }
