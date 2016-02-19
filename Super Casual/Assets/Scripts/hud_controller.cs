@@ -12,9 +12,10 @@ public class hud_controller : MonoBehaviour {
     public GameObject floor;
     public GameObject best;
     public GameObject intro;
-    [HideInInspector]
-    public int BEST_SCORE, LAST_SCORE, DAY_SCORE;
-	// Use this for initialization
+
+    [HideInInspector] public int BEST_SCORE, LAST_SCORE, DAY_SCORE;
+    [HideInInspector] public bool PW_ACTIVE = false;
+    // Use this for initialization
     void Awake()
     {
         si = this;
@@ -38,6 +39,8 @@ public class hud_controller : MonoBehaviour {
 
         if(!globals.s.GAME_STARTED && Input.GetMouseButtonDown(0)) {
             globals.s.GAME_STARTED = true;
+            floor.SetActive(true);
+            best.SetActive(true);
             Destroy(intro);
         }
     }
@@ -139,4 +142,7 @@ public class hud_controller : MonoBehaviour {
 
         return false;
     }
+
+    #region LIFE SYSTEM
+    #endregion
 }

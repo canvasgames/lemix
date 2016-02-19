@@ -20,6 +20,8 @@ public class ball_hero : MonoBehaviour
     public GameObject my_son;
     public GameObject bola;
     public GameObject heart, super, sight;
+    bool sight_active = false;
+    bool heart_active = false;
 
     //public GameObject
 
@@ -77,6 +79,8 @@ public class ball_hero : MonoBehaviour
             jump();
         }
 
+        symbols_PW_activate();
+            
         // SET X SPEED TO MAX EVERY FRAME
         if (rb.velocity.x > 0) rb.velocity = new Vector2(globals.s.BALL_SPEED_X, rb.velocity.y);
         else if (rb.velocity.x < 0) rb.velocity = new Vector2(-globals.s.BALL_SPEED_X, rb.velocity.y);
@@ -218,7 +222,7 @@ public class ball_hero : MonoBehaviour
                 else
                 {
                     Destroy(coll.gameObject);
-                    heart_end();
+                    PW_controller.s.heart_end();
                 }
             }
             else{
@@ -283,8 +287,31 @@ public class ball_hero : MonoBehaviour
             Destroy(b.gameObject);
         }
 
+
+        if(my_floor > hud_controller.si.BEST_SCORE)
+        {
+            floor[] chaozis = GameObject.FindObjectsOfType(typeof(floor)) as floor[];
+            int i;
+            for (i = 0; i < chaozis.Length; i++)
+            {
+                chaozis[i].create_score_game_over(my_floor, 1);
+            }
+        }
+        else if(my_floor > hud_controller.si.DAY_SCORE)
+        {
+
+            floor[] chaozis = GameObject.FindObjectsOfType(typeof(floor)) as floor[];
+            int i;
+            for (i = 0; i < chaozis.Length; i++)
+            {
+                chaozis[i].create_score_game_over(my_floor,2);
+            }
+
+        }
         Instantiate(explosion, new Vector3(transform.position.x, transform.position.y, transform.position.z), transform.rotation);
         game_controller.s.game_over();
+
+
     }
 
     void pw_do_something(PW_Collect temp)
@@ -292,34 +319,19 @@ public class ball_hero : MonoBehaviour
         
         temp.collect();
 
-        if (temp.pw_type == 1)
+        if (temp.pw_type == (int) PW_Types.Heart)
         {
-            // heart_start();
-            //go_up_pw_start();
-            sight_start();
+            PW_controller.s.heart_start();
+        }
+        else if (temp.pw_type == (int)PW_Types.Super)
+        {
+            go_up_pw_start();
+        }
+        else if((temp.pw_type == (int)PW_Types.Sight))
+        {
+            PW_controller.s.PW_sight_start();
         }
     }
-
-    #region POWER UP -> LIFE
-    void heart_start()
-    {
-        globals.s.PW_INVENCIBLE = true;
-        heart.SetActive(true);
-        
-
-        //chMotor.movement.gravity = g;
-        //heart.transform.GetComponent<SpriteRenderer>().
-
-    }
-
-
-    void heart_end()
-    {
-       globals.s.PW_INVENCIBLE = false;
-        //heart.transform.GetComponent<SpriteRenderer>().DOFade(1, 0);
-        heart.SetActive(false);
-    }
-    #endregion
 
     #region POWER UP -> GO UP
     void go_up_pw_start()
@@ -439,44 +451,56 @@ public class ball_hero : MonoBehaviour
     }
     #endregion
 
-    #region POWER UP -> SIGHT BEYOND SIGHT 
-    void sight_start()
+    #region POWER UP -> SYMBOLS PW
+    void symbols_PW_activate()
     {
-        globals.s.PW_SIGHT_BEYOND_SIGHT = true;
-        sight.SetActive(true);
-        change_color_pw();
-        Invoke("sight_end", 10);
-    }
-
-    void sight_end()
-    {
-        globals.s.PW_SIGHT_BEYOND_SIGHT = false;
-        sight.SetActive(false);
-    }
-
-    void change_color_pw()
-    {
-        int i;
-
-        wall[] walls = GameObject.FindObjectsOfType(typeof(wall)) as wall[];
-        for (i = 0; i < walls.Length; i++)
+        if (globals.s.PW_SIGHT_BEYOND_SIGHT == true && sight_active == false)
         {
-            walls[i].show_me_pw_sight();
+            sight_start();
+        }
+        else if ((globals.s.PW_SIGHT_BEYOND_SIGHT == false && sight_active == true))
+        {
+            sight_end();
         }
 
-        spike[] spikes = GameObject.FindObjectsOfType(typeof(spike)) as spike[];
-        for (i = 0; i < spikes.Length; i++)
+        if (globals.s.PW_INVENCIBLE == true && heart_active == false)
         {
-            spikes[i].show_me_pw_sight();
+            heart_start();
         }
-
-
-        hole_behaviour[] holes = GameObject.FindObjectsOfType(typeof(hole_behaviour)) as hole_behaviour[];
-        for (i = 0; i < holes.Length; i++)
+        else if (globals.s.PW_INVENCIBLE == false && heart_active == true)
         {
-            holes[i].show_me_pw_sight();
+            heart_end();
         }
     }
     #endregion
 
+    #region POWER UP -> SIGHT BEYOND SIGHT 
+    public void sight_start()
+    {
+        sight_active = true;
+        sight.SetActive(true);
+    }
+
+    void sight_end()
+    {
+        sight_active = false;
+        sight.SetActive(false);
+    }
+    #endregion
+
+    #region POWER UP -> LIFE
+    void heart_start()
+    {
+        heart_active = true;
+        heart.SetActive(true);
+    }
+
+
+    void heart_end()
+    {
+        heart_active = false;
+        heart.SetActive(false);
+    }
+
+    #endregion
 }

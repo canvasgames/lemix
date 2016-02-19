@@ -1,6 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+public enum PW_Types
+{
+
+    Heart = 1, Super = 2, Sight = 3
+}
+
 public class PW_Collect : MonoBehaviour {
 
     public int pw_type;
@@ -8,8 +14,8 @@ public class PW_Collect : MonoBehaviour {
     // Use this for initialization
     void Start () {
         
-        rand = Random.Range(1, 3);
-        rand = 1;
+        rand = Random.Range((int)PW_Types.Heart, (int)PW_Types.Sight);
+        rand = (int)PW_Types.Super;
         pw_type = rand;
     }
 	

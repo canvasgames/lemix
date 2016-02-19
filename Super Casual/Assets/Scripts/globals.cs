@@ -27,18 +27,12 @@ public class globals : MonoBehaviour {
 	public float BALL_D = 1f;
 	public int SCREEN_WIDTH = 980;
 
-    public int BEST_RECORD;
-    public int LAST_RECORD;
-    public int BEST_RECORD_TODAY;
 
-    [HideInInspector]
-    public bool PW_INVENCIBLE = false;
 
-    [HideInInspector]
-    public bool PW_SUPER_JUMP = false;
 
-    [HideInInspector]
-    public bool PW_SIGHT_BEYOND_SIGHT = false;
+    [HideInInspector] public bool PW_INVENCIBLE = false;
+    [HideInInspector] public bool PW_SUPER_JUMP = false;
+    [HideInInspector] public bool PW_SIGHT_BEYOND_SIGHT = false;
 
     // Use this for initialization
 

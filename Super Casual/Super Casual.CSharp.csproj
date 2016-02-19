@@ -61,12 +61,23 @@
     <Reference Include="DOTween">
       <HintPath>Assets\Demigiant\DOTween\DOTween.dll</HintPath>
     </Reference>
+    <Reference Include="DOTween43">
+      <HintPath>Assets\Demigiant\DOTween\DOTween43.dll</HintPath>
+    </Reference>
+    <Reference Include="DOTween46">
+      <HintPath>Assets\Demigiant\DOTween\DOTween46.dll</HintPath>
+    </Reference>
+    <Reference Include="DOTween50">
+      <HintPath>Assets\Demigiant\DOTween\DOTween50.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Demigiant\DOTween\Examples\Basics.cs" />
     <Compile Include="Assets\Demigiant\DOTween\Examples\Sequences.cs" />
+    <Compile Include="Assets\GD.cs" />
     <Compile Include="Assets\Score_floor_txt.cs" />
     <Compile Include="Assets\Scripts\PW_Collect.cs" />
+    <Compile Include="Assets\Scripts\PW_controller.cs" />
     <Compile Include="Assets\Scripts\QA.cs" />
     <Compile Include="Assets\Scripts\ball_hero.cs" />
     <Compile Include="Assets\Scripts\floor.cs" />
@@ -83,9 +94,12 @@
     <Compile Include="Assets\floor_pw_collider.cs" />
     <Compile Include="Assets\floor_square_pw_destruct.cs" />
     <Compile Include="Assets\hole_skin_behaviour.cs" />
+    <Compile Include="Assets\tapToPlay.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Assets\Demigiant\DOTween\DOTween.XML" />
+    <None Include="Assets\Demigiant\DOTween\DOTween43.xml" />
+    <None Include="Assets\Demigiant\DOTween\DOTween46.xml" />
+    <None Include="Assets\Demigiant\DOTween\DOTween50.xml" />
     <None Include="Assets\Demigiant\DOTween\Editor\DOTweenEditor.XML" />
     <None Include="Assets\Demigiant\DOTween\readme.txt" />
     <None Include="Assets\Fonts\Aldo the Apache_Regular.xml" />

@@ -92,16 +92,22 @@ public class floor : scenario_objects {
         for (i = 0; i < Score_txt.Length; i++)
         {
             Score_txt[i].try_destroy_me(my_floor - 1, score_type);
+            Score_txt[i].try_destroy_me(my_floor, score_type);
         }
 
+        create_score_text(score_type);
 
+    }
+
+    public void create_score_text(int score_type)
+    {
         GameObject obj = (GameObject)Instantiate(scoreInfo, new Vector3(0, transform.position.y - 0.6f, transform.position.z), transform.rotation);
 
-        if(score_type == 1)
+        if (score_type == 1)
         {
             obj.GetComponentInChildren<TextMesh>().text = "BEST";
         }
-        else if(score_type == 2)
+        else if (score_type == 2)
         {
             obj.GetComponentInChildren<TextMesh>().text = "DAY";
         }
@@ -111,6 +117,14 @@ public class floor : scenario_objects {
         }
     }
 
+    public void create_score_game_over (int floor, int type)
+    {
+        if(floor == my_floor)
+        {
+            create_score_text(type);
+            try_blink(floor);
+        }
+    }
     public void activate_squares()
     {
         squaresDown.SetActive(true);

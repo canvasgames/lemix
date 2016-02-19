@@ -46,7 +46,13 @@ public class spike : scenario_objects {
 
         //Destroy check
         if (transform.position.y < globals.s.BALL_Y - globals.s.FLOOR_HEIGHT * 4)
-            Destroy(gameObject);
+        {
+            if(gameObject!=null)
+            {
+                Destroy(gameObject);
+            }
+        }
+            
     }
     
     public void show_me_by_floor(int n)
@@ -122,5 +128,11 @@ public class spike : scenario_objects {
     {
         if(hidden == true)
             transform.GetComponent<SpriteRenderer>().color = Color.magenta;
+    }
+
+    public void back_original_color_pw_sight()
+    {
+
+        transform.GetComponent<SpriteRenderer>().color = Color.white;
     }
 }

@@ -68,7 +68,13 @@ public class hole_behaviour : MonoBehaviour
 
     public void show_me_pw_sight()
     {
+        if (my_skin != null)
+            my_skin.transform.GetComponent<SpriteRenderer>().color = Color.magenta;
+    }
 
-        my_skin.transform.GetComponent<SpriteRenderer>().color = Color.magenta;
+    public void back_original_color_pw_sight()
+    {
+        if(my_skin != null)
+            my_skin.transform.GetComponent<SpriteRenderer>().color = Color.white;
     }
 }

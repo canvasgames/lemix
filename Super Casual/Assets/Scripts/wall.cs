@@ -133,7 +133,13 @@ public class wall : MonoBehaviour
 
     public void show_me_pw_sight()
     {
-       // transform.GetComponent<SpriteRenderer>().color.a = 100;
+       //transform.GetComponent<SpriteRenderer>().color.a = 100;
       transform.GetComponent<SpriteRenderer>().color = Color.magenta;
+    }
+
+    public void back_original_color_pw_sight()
+    {
+
+        transform.GetComponent<SpriteRenderer>().color = new Color (0,0,0,0);
     }
 }
