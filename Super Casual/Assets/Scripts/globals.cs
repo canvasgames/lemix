@@ -27,13 +27,15 @@ public class globals : MonoBehaviour {
 	public float BALL_D = 1f;
 	public int SCREEN_WIDTH = 980;
 
+   
 
-
-
+    [HideInInspector] public bool PW_ACTIVE;
     [HideInInspector] public bool PW_INVENCIBLE = false;
     [HideInInspector] public bool PW_SUPER_JUMP = false;
     [HideInInspector] public bool PW_SIGHT_BEYOND_SIGHT = false;
 
+
+    [HideInInspector] public bool FIRST_GAME = true;
     // Use this for initialization
 
     void Awake () {

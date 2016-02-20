@@ -8,13 +8,22 @@ public class hud_controller : MonoBehaviour {
 
     public static hud_controller si;
 
+    [HideInInspector]
+    public bool HUD_BUTTON_CLICKED = false;
+
     public GameObject game_over_text;
     public GameObject floor;
     public GameObject best;
     public GameObject intro;
+    public GameObject activate_pw_bt;
+    public GameObject pw_info;
+    public Text PW_time_text;
+
+    string PW_date;
+    DateTime tempDate;
+    DateTime tempcurDate;
 
     [HideInInspector] public int BEST_SCORE, LAST_SCORE, DAY_SCORE;
-    [HideInInspector] public bool PW_ACTIVE = false;
     // Use this for initialization
     void Awake()
     {
@@ -27,6 +36,23 @@ public class hud_controller : MonoBehaviour {
         BEST_SCORE = PlayerPrefs.GetInt("best", 0);
         LAST_SCORE = PlayerPrefs.GetInt("last_score", 0);
         DAY_SCORE = PlayerPrefs.GetInt("day_best", 0);
+
+       PW_date = PlayerPrefs.GetString("PWDate2ChangeState");
+        tempDate = Convert.ToDateTime(PW_date);
+        Debug.Log(PW_date);
+        if(globals.s.FIRST_GAME == true)
+        {
+
+            activate_pw_bt.SetActive(false);
+            pw_info.SetActive(false);
+        }
+        else
+        {
+            if (globals.s.PW_ACTIVE == false)
+            {
+                activate_pw_bt.SetActive(true);
+            }
+        }
     }
 	
 	// Update is called once per frame
@@ -37,12 +63,35 @@ public class hud_controller : MonoBehaviour {
             Application.LoadLevel("Gameplay");
         }
 
-        if(!globals.s.GAME_STARTED && Input.GetMouseButtonDown(0)) {
-            globals.s.GAME_STARTED = true;
-            floor.SetActive(true);
-            best.SetActive(true);
-            Destroy(intro);
+        if(!globals.s.GAME_STARTED)
+        {
+            if (globals.s.FIRST_GAME == false)
+            {
+                show_pw_time();
+            }
+
+            if (Input.GetMouseButtonUp(0) && HUD_BUTTON_CLICKED == false)
+            {
+                globals.s.GAME_STARTED = true;
+                start_game();
+            }
+            else if(Input.GetMouseButtonUp(0) && HUD_BUTTON_CLICKED == true)
+            {
+                HUD_BUTTON_CLICKED = false;
+            }
+            
+
         }
+    }
+
+    void start_game()
+    {
+        globals.s.FIRST_GAME = false;
+        floor.SetActive(true);
+        best.SetActive(true);
+        Destroy(intro);
+
+            
     }
 
     public void update_floor(int n)
@@ -144,5 +193,60 @@ public class hud_controller : MonoBehaviour {
     }
 
     #region LIFE SYSTEM
+
+    void show_pw_time()
+    {
+        tempcurDate = System.DateTime.Now;
+        
+        //NO DATE CASE, TRIGGER 5 MINUTES
+        if (PW_date == "")
+        {
+            PW_time_set_new_date_and_state(true);
+        }
+        else
+        {
+            if (tempDate < tempcurDate)
+            {
+                PW_time_set_new_date_and_state(!globals.s.PW_ACTIVE);
+            }
+        }
+
+        TimeSpan difference = tempDate.Subtract(tempcurDate);
+        if(globals.s.PW_ACTIVE == true)
+        {
+            PW_time_text.text = "POWER UPS ON \nTIME LEFT: " + difference.Minutes + "m " + difference.Seconds + "s ";
+        }
+        else
+        {
+            PW_time_text.text = "POWER UPS OFF \nTIME LEFT: " + difference.Minutes + "m " + difference.Seconds + "s ";
+        }  
+    }
+
+    public void PW_time_set_new_date_and_state(bool PW_active_state)
+    {
+        if(PW_active_state == true)
+        {
+            globals.s.PW_ACTIVE = true;
+            tempDate = tempcurDate;
+            tempDate = tempDate.AddMinutes(GD.s.GD_WITH_PW_TIME);
+            //tempDate = tempDate.AddSeconds(6);
+            PW_date = tempDate.ToString();
+            activate_pw_bt.SetActive(false);
+
+            PlayerPrefs.SetString("PWDate2ChangeState", PW_date);
+        }
+        else
+        {
+            globals.s.PW_ACTIVE = false;
+            tempDate = tempcurDate;
+            tempDate = tempDate.AddMinutes(GD.s.GD_WITHOUT_PW_TIME);
+            //tempDate = tempDate.AddSeconds(6);
+
+            PW_date = tempDate.ToString();
+
+            activate_pw_bt.SetActive(true);
+            PlayerPrefs.SetString("PWDate2ChangeState", PW_date);
+        }
+    }
     #endregion
 }

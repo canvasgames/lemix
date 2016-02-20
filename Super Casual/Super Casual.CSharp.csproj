@@ -91,6 +91,7 @@
     <Compile Include="Assets\Scripts\text_z_order.cs" />
     <Compile Include="Assets\Scripts\wall.cs" />
     <Compile Include="Assets\Scripts\wave_controller.cs" />
+    <Compile Include="Assets\activate_pw_button.cs" />
     <Compile Include="Assets\floor_pw_collider.cs" />
     <Compile Include="Assets\floor_square_pw_destruct.cs" />
     <Compile Include="Assets\hole_skin_behaviour.cs" />

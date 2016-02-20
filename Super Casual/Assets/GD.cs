@@ -8,6 +8,8 @@ public class GD : MonoBehaviour {
     public int GD_PW_SIGHT_TIME = 15;
     public int GD_PW_HEARTH_TIME = 15;
 
+    public int GD_WITH_PW_TIME = 5;
+    public int GD_WITHOUT_PW_TIME = 10;
     // Use this for initialization
     void Start()
     {
