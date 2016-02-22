@@ -74,28 +74,28 @@
   <ItemGroup>
     <Compile Include="Assets\Demigiant\DOTween\Examples\Basics.cs" />
     <Compile Include="Assets\Demigiant\DOTween\Examples\Sequences.cs" />
-    <Compile Include="Assets\GD.cs" />
-    <Compile Include="Assets\Score_floor_txt.cs" />
+    <Compile Include="Assets\Scripts\GD.cs" />
     <Compile Include="Assets\Scripts\PW_Collect.cs" />
     <Compile Include="Assets\Scripts\PW_controller.cs" />
     <Compile Include="Assets\Scripts\QA.cs" />
+    <Compile Include="Assets\Scripts\Score_floor_txt.cs" />
+    <Compile Include="Assets\Scripts\activate_pw_button.cs" />
     <Compile Include="Assets\Scripts\ball_hero.cs" />
     <Compile Include="Assets\Scripts\floor.cs" />
+    <Compile Include="Assets\Scripts\floor_pw_collider.cs" />
+    <Compile Include="Assets\Scripts\floor_square_pw_destruct.cs" />
     <Compile Include="Assets\Scripts\game_controller.cs" />
     <Compile Include="Assets\Scripts\globals.cs" />
     <Compile Include="Assets\Scripts\hole_behaviour.cs" />
+    <Compile Include="Assets\Scripts\hole_skin_behaviour.cs" />
     <Compile Include="Assets\Scripts\hud_controller.cs" />
     <Compile Include="Assets\Scripts\main_camera.cs" />
     <Compile Include="Assets\Scripts\scenario_objects.cs" />
     <Compile Include="Assets\Scripts\spike.cs" />
+    <Compile Include="Assets\Scripts\tapToPlay.cs" />
     <Compile Include="Assets\Scripts\text_z_order.cs" />
     <Compile Include="Assets\Scripts\wall.cs" />
     <Compile Include="Assets\Scripts\wave_controller.cs" />
-    <Compile Include="Assets\activate_pw_button.cs" />
-    <Compile Include="Assets\floor_pw_collider.cs" />
-    <Compile Include="Assets\floor_square_pw_destruct.cs" />
-    <Compile Include="Assets\hole_skin_behaviour.cs" />
-    <Compile Include="Assets\tapToPlay.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Demigiant\DOTween\DOTween43.xml" />

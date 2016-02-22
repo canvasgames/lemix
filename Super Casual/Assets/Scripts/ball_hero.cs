@@ -74,7 +74,7 @@ public class ball_hero : MonoBehaviour
     void Update()
     {
 
-        if (Input.GetMouseButton(0) || Input.GetKey("space"))
+        if ((Input.GetMouseButton(0) || Input.GetKey("space")) && globals.s.GAME_STARTED == true)
         {
             jump();
         }

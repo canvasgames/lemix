@@ -38,11 +38,41 @@ public class hud_controller : MonoBehaviour {
         DAY_SCORE = PlayerPrefs.GetInt("day_best", 0);
 
        PW_date = PlayerPrefs.GetString("PWDate2ChangeState");
-        tempDate = Convert.ToDateTime(PW_date);
-        Debug.Log(PW_date);
+
+        //SETTING  FIRST_GAME GLOBAL
+        int tmp_first = PlayerPrefs.GetInt("first_game", 1); ;
+        if(tmp_first == 1)
+        {
+            globals.s.FIRST_GAME = true;
+            PlayerPrefs.SetInt("first_game", 0); ;
+        }
+        else
+        {
+            globals.s.FIRST_GAME = false;
+        }
+
+        //SETTING PW STATE
+        int temp_state = PlayerPrefs.GetInt("PWState", 1);
+        if(temp_state == 1)
+        {
+            globals.s.PW_ACTIVE = true;
+        }
+        else
+        {
+            globals.s.PW_ACTIVE = false;
+        }
+
+
+        // PlayerPrefs.DeleteAll();
+        //Debug.Log(PW_date);
+        if (PW_date != "")
+        {
+           
+            tempDate = Convert.ToDateTime(PW_date);
+        }
+        
         if(globals.s.FIRST_GAME == true)
         {
-
             activate_pw_bt.SetActive(false);
             pw_info.SetActive(false);
         }
@@ -58,6 +88,7 @@ public class hud_controller : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 	
+        //GAME OVER GAME CASE
         if(globals.s.CAN_RESTART && Input.GetMouseButtonDown(0))
         {
             Application.LoadLevel("Gameplay");
@@ -175,15 +206,15 @@ public class hud_controller : MonoBehaviour {
             oldDate = Convert.ToDateTime(stringDate);
         }
 
-        Debug.Log("LastDay: " + oldDate);
-        Debug.Log("CurrDay: " + newDate);
+       // Debug.Log("LastDay: " + oldDate);
+       // Debug.Log("CurrDay: " + newDate);
 
         TimeSpan difference = newDate.Subtract(oldDate);
 
-        Debug.Log("Dif Houras: " + difference);
+       // Debug.Log("Dif Houras: " + difference);
         if (difference.Days >= 1)
         {
-            Debug.Log("Day passed");
+           // Debug.Log("Day passed");
             PlayerPrefs.SetString("PlayDate", newDate.ToString());
             return true;
 
@@ -205,20 +236,29 @@ public class hud_controller : MonoBehaviour {
         }
         else
         {
-            if (tempDate < tempcurDate)
+            TimeSpan diff = tempDate.Subtract(tempcurDate);
+            if(diff.Minutes > 30)
             {
-                PW_time_set_new_date_and_state(!globals.s.PW_ACTIVE);
+                PW_time_set_new_date_and_state(true);
             }
+            else
+            {
+                if (tempDate < tempcurDate)
+                {
+                    PW_time_set_new_date_and_state(!globals.s.PW_ACTIVE);
+                }
+            }
+
         }
 
         TimeSpan difference = tempDate.Subtract(tempcurDate);
         if(globals.s.PW_ACTIVE == true)
         {
-            PW_time_text.text = "POWER UPS ON \nTIME LEFT: " + difference.Minutes + "m " + difference.Seconds + "s ";
+            PW_time_text.text = "POWER UPS <color=blue>ON</color> \nTIME LEFT: " + difference.Minutes + "m " + difference.Seconds + "s ";
         }
         else
         {
-            PW_time_text.text = "POWER UPS OFF \nTIME LEFT: " + difference.Minutes + "m " + difference.Seconds + "s ";
+            PW_time_text.text = "POWER UPS <color=red>OFF</color> \nTIME LEFT: " + difference.Minutes + "m " + difference.Seconds + "s ";
         }  
     }
 
@@ -234,6 +274,7 @@ public class hud_controller : MonoBehaviour {
             activate_pw_bt.SetActive(false);
 
             PlayerPrefs.SetString("PWDate2ChangeState", PW_date);
+            PlayerPrefs.SetInt("PWState", 1);
         }
         else
         {
@@ -246,6 +287,7 @@ public class hud_controller : MonoBehaviour {
 
             activate_pw_bt.SetActive(true);
             PlayerPrefs.SetString("PWDate2ChangeState", PW_date);
+            PlayerPrefs.SetInt("PWState", 0);
         }
     }
     #endregion
