@@ -15,8 +15,8 @@ public class floor_pw_collider : MonoBehaviour {
 
     public void unactive_sprite_daddy()
     {
-       daddy.GetComponent<SpriteRenderer>().enabled = false;
-        Destroy(gameObject);
+       if(daddy != null ) daddy.GetComponent<SpriteRenderer>().enabled = false;
+       Destroy(gameObject);
 
     }
 }

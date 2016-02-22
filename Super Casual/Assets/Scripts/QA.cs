@@ -6,7 +6,7 @@ public class QA : MonoBehaviour {
     public static QA s;
 
     public bool INVENCIBLE ;
-    public int TIMESCALE = 1;
+    public float TIMESCALE = 1;
 	// Use this for initialization
 	void Start () {
         s = this;

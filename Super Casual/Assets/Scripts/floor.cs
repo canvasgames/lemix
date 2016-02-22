@@ -50,9 +50,10 @@ public class floor : scenario_objects {
 		}
     }
 
-    public void blink()
+    public void try_to_display_best_score()
     {
         if (already_blinked == false && hud_controller.si.DAY_SCORE >=5 )
+
         {
             //hud_controller.si.LAST_SCORE + 1 == my_floor
             if (hud_controller.si.DAY_SCORE + 1 == my_floor  || hud_controller.si.BEST_SCORE + 1 == my_floor)
@@ -66,7 +67,6 @@ public class floor : scenario_objects {
                         allScenario[i].try_blink(my_floor);
                     }
 
-                
 
                 if (hud_controller.si.BEST_SCORE + 1 == my_floor)
                 {
@@ -131,7 +131,7 @@ public class floor : scenario_objects {
     {
         squaresDown.SetActive(true);
         squaresUp.SetActive(true);
-        colliderPW.SetActive(true);
+        if(colliderPW != null) colliderPW.SetActive(true);
     }
 
     public void unactivate_squares()

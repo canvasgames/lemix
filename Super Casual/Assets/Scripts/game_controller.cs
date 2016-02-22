@@ -69,9 +69,14 @@ public class game_controller : MonoBehaviour {
         wave_ctrl = FindObjectsOfType(typeof(wave_controller)) as wave_controller[];
         ball = FindObjectsOfType(typeof(ball_hero)) as ball_hero[];
 
-        cur_floor = -1;
+        // init variables
 
-       
+        cur_floor = -1;
+        last_spike_left = false;
+        last_spike_right = false;
+        last_hole = false;
+        last_wall = false;
+
 
     }
 
@@ -204,10 +209,10 @@ public class game_controller : MonoBehaviour {
 
             //PW Creation
             rand = Random.Range(0, 100);
-            rand = 100;
+           // rand = 100;
             if (rand <=10)
             {
-                create_pw_icon(0, n_floor);
+                create_pw_icon(Random.Range(corner_limit_left, corner_limit_right), n_floor);
             }
 
             // SORT INITIAL WAVES!
@@ -1332,6 +1337,7 @@ public class game_controller : MonoBehaviour {
 
     void create_pw_icon(float x, int n)
     {
+        Debug.Log("[GM] CREATING POWER UP!");
         Instantiate(pw_icon, new Vector3(x, 2 + globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * n, 0), transform.rotation);
     }
 

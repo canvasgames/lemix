@@ -82,8 +82,10 @@ public class ball_hero : MonoBehaviour
         symbols_PW_activate();
             
         // SET X SPEED TO MAX EVERY FRAME
-        if (rb.velocity.x > 0) rb.velocity = new Vector2(globals.s.BALL_SPEED_X, rb.velocity.y);
-        else if (rb.velocity.x < 0) rb.velocity = new Vector2(-globals.s.BALL_SPEED_X, rb.velocity.y);
+        if (!globals.s.PW_SUPER_JUMP) {
+            if (rb.velocity.x > 0) rb.velocity = new Vector2(globals.s.BALL_SPEED_X, rb.velocity.y);
+            else if (rb.velocity.x < 0) rb.velocity = new Vector2(-globals.s.BALL_SPEED_X, rb.velocity.y);
+        }
 
     }
 
@@ -94,10 +96,10 @@ public class ball_hero : MonoBehaviour
 
         //
 
-        if (globals.s.PW_SUPER_JUMP == true)
+       /* if (globals.s.PW_SUPER_JUMP == true)
         {
             main_camera.s.PW_super_jump(transform.position.y);
-        }
+        }*/
         // falling case
         if (rb.velocity.y < -0.02f) grounded = false; //else grounded = true;
 
@@ -204,9 +206,13 @@ public class ball_hero : MonoBehaviour
                 my_floor = coll.gameObject.GetComponent<floor>().my_floor;
                 //Debug.Log(my_id + " KKKKKKKKKKKKKKKKKK KOLLISION! MY NEW FLOOR: " + my_floor + " I AM GROUNDED ");
 
+                if (globals.s.PW_SUPER_JUMP) {
+                    pw_super_end_for_real();
+                }
+
                 grounded = true;
 
-                coll.gameObject.GetComponent<floor>().blink();
+                coll.gameObject.GetComponent<floor>().try_to_display_best_score();
             }
             else { Debug.Log("\n\n" + my_id + " ***************ERROR! THIS SHOULD NEVER HAPPEN ***************\n\n"); }
         }
@@ -238,7 +244,7 @@ public class ball_hero : MonoBehaviour
             Debug.Log(" ~~~~~~~~~~~~~~~~~~~~~~~~~COLLIDING WITH HOLE FALLING TAG!!!");
             //grounded = false;
             //coll.gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2(0, -100f);
-            if (transform.position.y < main_camera.s.transform.position.y - 10f)
+            if (transform.position.y < main_camera.s.transform.position.y - 2f)
                 main_camera.s.OnBallFalling();
             
             Physics2D.IgnoreCollision(coll.collider, GetComponent<Collider2D>());
@@ -277,9 +283,10 @@ public class ball_hero : MonoBehaviour
             }
         }
     }
-        #endregion
+    
+    #endregion
 
-        void destroy_me()
+    void destroy_me()
     {
         ball_hero[] bolas = GameObject.FindObjectsOfType(typeof(ball_hero)) as ball_hero[];
 
@@ -348,53 +355,74 @@ public class ball_hero : MonoBehaviour
 
         for (i = my_floor + 1; i < temp + 5; i++)
         {
-            my_son.GetComponent<ball_hero>().my_floor = i;
             game_controller.s.ball_up(i);
         }
 
         //activate squares of collisions
         activate_particles_floor();
+        //main_camera.s.init_PW_super_jump(transform.position.y + 5 * globals.s.FLOOR_HEIGHT + 2f, 5 * (globals.s.FLOOR_HEIGHT / 20) + 0.5f);
+        float pos = ((globals.s.BASE_Y + ((my_floor+1) * globals.s.FLOOR_HEIGHT) +  (5* globals.s.FLOOR_HEIGHT) + globals.s.FLOOR_HEIGHT / 2 ));
+        main_camera.s.init_PW_super_jump( pos,  (pos-transform.position.y)/20  + 0.5f);
 
-        main_camera.s.init_PW_super_jump(transform.position.y);
+
 
         Invoke("go_up_PW", 0.1f);
     }
-    void go_up_PW()
-    {
+
+    void go_up_PW() {
         globals.s.PW_SUPER_JUMP = true;
         // rb.gameObject.GetComponent<Rigidbody2D>().gravityScale = 1;
         int ball_speed = 20;
-        rb.velocity = new Vector2(0, ball_speed);
 
-        Invoke("stop_go_up_PW", 5*( globals.s.FLOOR_HEIGHT/ ball_speed));
+        rb.velocity = new Vector2(0, ball_speed);
+        float dist = ((globals.s.BASE_Y + ((my_floor) * globals.s.FLOOR_HEIGHT) +  (5* globals.s.FLOOR_HEIGHT) + globals.s.FLOOR_HEIGHT / 2 ) - transform.position.y);
+        //float dist = (globals.s.FLOOR_HEIGHT *5);
+        Debug.Log("[GO UP PW] Dist: " + dist + " OLD Dist: " + (5*globals.s.FLOOR_HEIGHT) + " dist/speed: " + (dist / ball_speed) + " | OLD dist/speed: " + ((5 *globals.s.FLOOR_HEIGHT) / ball_speed));
+        Debug.Log("[GO UP PW] MY POS: " + transform.position.y + " BASE Y+FLOOR "+ (globals.s.BASE_Y + my_floor * globals.s.FLOOR_HEIGHT) + " BASE Y: " + globals.s.BASE_Y + " MY FLOOR: " + my_floor);
+        Invoke("stop_go_up_PW", ( dist / ball_speed));
+        //Invoke("stop_go_up_PW", ((globals.s.BASE_Y + (my_floor * globals.s.FLOOR_HEIGHT) + 5* globals.s.FLOOR_HEIGHT + (globals.s.FLOOR_HEIGHT/2) ) - transform.position.y) / ball_speed);
+
+
+        //transform.DOMoveY(transform.position.y + 5 * globals.s.FLOOR_HEIGHT, 2.5f).SetEase(Ease.OutSine);
+
     }
 
     void stop_go_up_PW()
     {
-        rb.velocity = new Vector2(2, 0);
+        Debug.Log("[GOUPPW] FINISHED GOING UP ! ");
+        rb.velocity = new Vector2(0.3f, globals.s.BALL_SPEED_Y/2);
+        rb.gameObject.GetComponent<Rigidbody2D>().gravityScale = 0.5f;
+        rb.gameObject.GetComponent<Rigidbody2D>().isKinematic = false;
+
+        //Physics2D.gra;
         unactivate_particles_floor();
-        Invoke("create_floor", 0.1f);
+        Invoke("create_floor", 0.2f);
     }
 	
-    void back_to_normal_color() {
-        GetComponent<SpriteRenderer>().color = Color.white;
-    }
 
     void create_floor()
     {
-       GameObject floor = game_controller.s.create_floor(12, my_son.GetComponent<ball_hero>().my_floor + 1);
+        my_floor += 5;
+        GameObject floor = game_controller.s.create_floor(12, my_floor);
         destroy_spikes();
         floor.transform.DOMoveX(0, 0.3f);//.OnComplete(pw_super_end);
-        pw_super_end();
+        //pw_super_end();
     }
-   
+   void pw_super_end_for_real() {
+        globals.s.PW_SUPER_JUMP = false;
+        rb.gameObject.GetComponent<Rigidbody2D>().gravityScale = 1;
+        main_camera.s.pw_super_jump_end();
+        super.SetActive(false);
+
+    }
+
     void pw_super_end()
     {
         super.SetActive(false);
-        globals.s.PW_SUPER_JUMP = false;
-        rb.gameObject.GetComponent<Rigidbody2D>().gravityScale = 1;
-        rb.gameObject.GetComponent<Rigidbody2D>().isKinematic = false;
-        main_camera.s.pw_super_jump_end();
+        //globals.s.PW_SUPER_JUMP = false;
+        //rb.gameObject.GetComponent<Rigidbody2D>().gravityScale = 1;
+        //rb.gameObject.GetComponent<Rigidbody2D>().isKinematic = false;
+        //main_camera.s.pw_super_jump_end();
     }
 
     void activate_particles_floor()
@@ -503,4 +531,12 @@ public class ball_hero : MonoBehaviour
     }
 
     #endregion
+
+    #region =========== DEBUG ================
+    void back_to_normal_color() {
+        GetComponent<SpriteRenderer>().color = Color.white;
+    }
+
+    #endregion
+
 }

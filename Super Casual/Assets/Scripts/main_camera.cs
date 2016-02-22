@@ -62,22 +62,24 @@ public class main_camera : MonoBehaviour {
 
 
     public void OnBallFalling() {
-        if (!falling) { 
+        if (!falling) {
+            Debug.Log("[CAMERA] ON BALL FALLING !! ");
             falling = true;
-            transform.DOMoveY(transform.position.y - globals.s.FLOOR_HEIGHT-1f, 0.4f).SetEase(Ease.InOutQuad).OnComplete(() => falling = false);
+            transform.DOMoveY(transform.position.y - globals.s.FLOOR_HEIGHT-0.5f, 0.4f).SetEase(Ease.InOutQuad).OnComplete(() => falling = false);
         }
     }
 
     public void OnBallTooHigh() {
         if (!falling) {
+            Debug.Log("[CAMERA] ON BALL TOO HIGH !! ");
             falling = true;
-            transform.DOMoveY(transform.position.y + globals.s.FLOOR_HEIGHT, 0.4f).SetEase(Ease.InOutQuad).OnComplete(() => falling = false);
+            transform.DOMoveY(transform.position.y + globals.s.FLOOR_HEIGHT + 0.5f, 0.4f).SetEase(Ease.InOutQuad).OnComplete(() => falling = false);
         }
     }
 
-    public void init_PW_super_jump(float pos_y)
+    public void init_PW_super_jump(float pos_y, float time)
     {
-        transform.DOMoveY(pos_y, 0.1f).SetEase(Ease.InOutQuad);
+        transform.DOMoveY(pos_y, time).SetEase(Ease.InOutSine);
     }
     public void PW_super_jump(float pos_y)
     {
@@ -87,6 +89,7 @@ public class main_camera : MonoBehaviour {
 
     public void pw_super_jump_end()
     {
+        Debug.Log("[CAMERA] SUPER JUMP END !! ");
         pw_super_jump = false;
     }
 
@@ -100,20 +103,18 @@ public class main_camera : MonoBehaviour {
                 {
                     if (globals.s.BALL_Y > transform.position.y) //if ball is in a superior position than the camera
                     {
-                        if (globals.s.BALL_Y > transform.position.y + globals.s.FLOOR_HEIGHT) {
-                            OnBallTooHigh();
-                        }
-                        else {
-                            rb.velocity = new Vector2(0, globals.s.CAMERA_SPEED);
-                            initiated = true;
-                            moving = true;
-                        }
-
+                        rb.velocity = new Vector2(0, globals.s.CAMERA_SPEED);
+                        initiated = true;
+                        moving = true;
                     }
                 }
                 else
                 {
-                    if (moving && globals.s.BALL_Y < transform.position.y - globals.s.FLOOR_HEIGHT)
+                    if (globals.s.BALL_Y > transform.position.y + globals.s.FLOOR_HEIGHT + 1f) { // ball is to high
+                        OnBallTooHigh();
+                    }
+
+                    else if (moving && globals.s.BALL_Y < transform.position.y - globals.s.FLOOR_HEIGHT)
                     {
                         rb.velocity = new Vector2(0, 0);
                         moving = false;

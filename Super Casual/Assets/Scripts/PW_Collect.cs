@@ -3,7 +3,6 @@ using System.Collections;
 
 public enum PW_Types
 {
-
     Heart = 1, Super = 2, Sight = 3
 }
 
@@ -15,7 +14,7 @@ public class PW_Collect : MonoBehaviour {
     void Start () {
         
         rand = Random.Range((int)PW_Types.Heart, (int)PW_Types.Sight);
-        rand = (int)PW_Types.Super;
+       // rand = (int)PW_Types.Super;
         pw_type = rand;
     }
 	
