@@ -218,7 +218,6 @@ public class game_controller : MonoBehaviour {
         {
             count++;
 
-<<<<<<< .mine
             //PW Creation
             rand = Random.Range(0, 100);
            // rand = 100;
