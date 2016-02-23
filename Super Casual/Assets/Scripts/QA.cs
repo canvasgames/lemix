@@ -8,6 +8,7 @@ public class QA : MonoBehaviour {
     public bool INVENCIBLE ;
     public float TIMESCALE = 1;
     public float TRACE_PROFUNDITY = 1;
+    public bool COLLECTABLE_PW_TRUE_OR_JUMP_FALSE = true;
     // 1 = Just Main info
     // 2 = All floor excential creation information
     // 3 = More detailed info of creation floor process and physics

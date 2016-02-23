@@ -183,7 +183,7 @@ public class ball_hero : MonoBehaviour
         //GetComponent<EdgeCollider2D>().enabled = false;
         if (grounded == true)
         {
-            if (globals.s.JUMP_COUNT_PW < GD.s.GD_JUMPS_PW_BAR_FULL && globals.s.GAME_STARTED == true)
+            if (globals.s.JUMP_COUNT_PW < GD.s.GD_JUMPS_PW_BAR_FULL && globals.s.GAME_STARTED == true &&  QA.s.COLLECTABLE_PW_TRUE_OR_JUMP_FALSE == false)
             {
                 globals.s.JUMP_COUNT_PW += 1;
                 Invoke("jump_bar", 0.1f);
@@ -238,7 +238,7 @@ public class ball_hero : MonoBehaviour
         {
             if(globals.s.PW_SUPER_JUMP == false && !QA.s.INVENCIBLE)
             {
-                if (1==2 && globals.s.PW_INVENCIBLE == false)
+                if (globals.s.PW_INVENCIBLE == false)
                 {
                     destroy_me();
                 }
@@ -359,7 +359,7 @@ public class ball_hero : MonoBehaviour
 
     void pw_jump_bar()
     {
-        int temp_rand = Random.Range(0, 3);
+       int temp_rand = Random.Range(0, 3);
 
         if (temp_rand == 0)
         {
@@ -389,7 +389,7 @@ public class ball_hero : MonoBehaviour
 
         for (i = my_floor + 1; i <= temp + 6; i++)
         {
-            game_controller.s.create_new_wave();
+           game_controller.s.create_new_wave();
         }
 
         //activate squares of collisions
@@ -404,7 +404,9 @@ public class ball_hero : MonoBehaviour
     }
 
     void go_up_PW() {
+        
         globals.s.PW_SUPER_JUMP = true;
+        desactivate_pws_super();
         // rb.gameObject.GetComponent<Rigidbody2D>().gravityScale = 1;
         int ball_speed = 20;
 
@@ -444,9 +446,12 @@ public class ball_hero : MonoBehaviour
     }
    void pw_super_end_for_real() {
         globals.s.PW_SUPER_JUMP = false;
+        squares_desappear();
         rb.gameObject.GetComponent<Rigidbody2D>().gravityScale = 1;
         main_camera.s.pw_super_jump_end();
         super.SetActive(false);
+
+        Invoke("unactivate_squares", 0.3f);
 
     }
 
@@ -459,10 +464,13 @@ public class ball_hero : MonoBehaviour
         //main_camera.s.pw_super_jump_end();
     }
 
+
     void activate_particles_floor()
     {
-        floor[] floors = GameObject.FindObjectsOfType(typeof(floor)) as floor[];
-        int i;
+        floor[] floors = null;
+        floors = GameObject.FindObjectsOfType(typeof(floor)) as floor[];
+        int i=0;
+
         for (i = 0; i < floors.Length; i++)
         {
             floors[i].activate_squares();
@@ -474,20 +482,15 @@ public class ball_hero : MonoBehaviour
         {
             holes[i].activate_squares();
         }
+   
     }
+
+
 
     void unactivate_particles_floor()
     {
-        int i;
-
-        floor_square_pw_destruct[] squares = GameObject.FindObjectsOfType(typeof(floor_square_pw_destruct)) as floor_square_pw_destruct[];
-        for (i = 0; i < squares.Length; i++)
-        {
-            squares[i].scale_down_to_dessapear();
-        }
-
         destroy_spikes();
-
+        int i;
         floor[] floors = GameObject.FindObjectsOfType(typeof(floor)) as floor[];
         for (i = 0; i < floors.Length; i++)
         {
@@ -500,8 +503,37 @@ public class ball_hero : MonoBehaviour
         {
             holes[i].destroy_pw_super_under_floors(transform.position.y);
         }
+
     }
 
+    //Called by invoke
+    void unactivate_squares()
+    {
+        int i;
+        floor[] floors = GameObject.FindObjectsOfType(typeof(floor)) as floor[];
+        for (i = 0; i < floors.Length; i++)
+        {
+            floors[i].unactivate_squares();
+        }
+
+        hole_behaviour[] holes = GameObject.FindObjectsOfType(typeof(hole_behaviour)) as hole_behaviour[];
+
+        for (i = 0; i < holes.Length; i++)
+        {
+            holes[i].unactivate_squares();
+        }
+        squares_desappear();
+    }
+    void squares_desappear()
+    {
+        int i;
+
+        floor_square_pw_destruct[] squares = GameObject.FindObjectsOfType(typeof(floor_square_pw_destruct)) as floor_square_pw_destruct[];
+        for (i = 0; i < squares.Length; i++)
+        {
+            squares[i].scale_down_to_dessapear();
+        }
+    }
     void destroy_spikes()
     {
         int i;
@@ -509,6 +541,17 @@ public class ball_hero : MonoBehaviour
         for (i = 0; i < spikes.Length; i++)
         {
             spikes[i].destroy_throwed_spikes(transform.position.y);
+        }
+    }
+
+
+    void desactivate_pws_super()
+    {
+        int i;
+        PW_Collect[] pws = GameObject.FindObjectsOfType(typeof(PW_Collect)) as PW_Collect[];
+        for (i = 0; i < pws.Length; i++)
+        {
+            pws[i].destroy_by_floor_PW_Super(my_floor + 6);
         }
     }
     #endregion

@@ -72,8 +72,33 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\AnalyticController.cs" />
+    <Compile Include="Assets\DeltaDNA\Ads.cs" />
+    <Compile Include="Assets\DeltaDNA\DDNA.cs" />
+    <Compile Include="Assets\DeltaDNA\EventBuilder.cs" />
+    <Compile Include="Assets\DeltaDNA\Example\DeltaDNAExample.cs" />
+    <Compile Include="Assets\DeltaDNA\Helpers\ClientInfo.cs" />
+    <Compile Include="Assets\DeltaDNA\Helpers\ConcurrentQueue.cs" />
+    <Compile Include="Assets\DeltaDNA\Helpers\EngageArchive.cs" />
+    <Compile Include="Assets\DeltaDNA\Helpers\EventStore.cs" />
+    <Compile Include="Assets\DeltaDNA\Helpers\Logger.cs" />
+    <Compile Include="Assets\DeltaDNA\Helpers\Network.cs" />
+    <Compile Include="Assets\DeltaDNA\Helpers\Settings.cs" />
+    <Compile Include="Assets\DeltaDNA\Helpers\Singleton.cs" />
+    <Compile Include="Assets\DeltaDNA\Helpers\Utils.cs" />
+    <Compile Include="Assets\DeltaDNA\Libraries\MiniJSON.cs" />
+    <Compile Include="Assets\DeltaDNA\Messaging\IPopup.cs" />
+    <Compile Include="Assets\DeltaDNA\Messaging\Popup.cs" />
+    <Compile Include="Assets\DeltaDNA\Notifications\AndroidNotifications.cs" />
+    <Compile Include="Assets\DeltaDNA\Notifications\IosNotifications.cs" />
+    <Compile Include="Assets\DeltaDNA\ProductBuilder.cs" />
+    <Compile Include="Assets\DeltaDNA\TransactionBuilder.cs" />
     <Compile Include="Assets\Demigiant\DOTween\Examples\Basics.cs" />
     <Compile Include="Assets\Demigiant\DOTween\Examples\Sequences.cs" />
+    <Compile Include="Assets\Platforms\Android\GcmClient.cs" />
+    <Compile Include="Assets\Platforms\Android\GcmListener.cs" />
+    <Compile Include="Assets\Platforms\Android\Utils.cs" />
+    <Compile Include="Assets\QA_PW_type.cs" />
     <Compile Include="Assets\Scripts\GD.cs" />
     <Compile Include="Assets\Scripts\Jump_bar.cs" />
     <Compile Include="Assets\Scripts\PW_Collect.cs" />

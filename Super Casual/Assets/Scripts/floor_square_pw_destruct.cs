@@ -2,32 +2,30 @@
 using System.Collections;
 using DG.Tweening;
 public class floor_square_pw_destruct : MonoBehaviour {
-
+    bool can_disappear = false;
+    bool voe_pinta = false;
+    float initial_y;
 	// Use this for initialization
 	void Start () {
-	
-	}
+        initial_y = transform.position.y;
+    }
 	
 	// Update is called once per frame
-	void Update () {
-	
-	}
-
-    void OnCollisionStart2D(Collision2D coll)
-    {
-        if (globals.s.PW_SUPER_JUMP == true)
+	void FixedUpdate () {
+        if (can_disappear == false)
         {
-            if (coll.gameObject.CompareTag("PW_Trigger"))
+            if (transform.GetComponent<Rigidbody2D>().velocity != new Vector2(0, 0))
             {
-                if (coll.gameObject.GetComponent<floor_pw_collider>() != null)
-                    coll.gameObject.GetComponent<floor_pw_collider>().unactive_sprite_daddy();
+                can_disappear = true;
             }
-                
         }
     }
 
+
+
     public void scale_down_to_dessapear()
     {
+     if (can_disappear == true)
         transform.DOScale(0, 0.3f).OnComplete(destroy_me_baby); ;
     }
 
@@ -35,4 +33,5 @@ public class floor_square_pw_destruct : MonoBehaviour {
     {
         Destroy(gameObject);
     }
+
 }

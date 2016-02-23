@@ -131,14 +131,21 @@ public class floor : scenario_objects {
     {
         squaresDown.SetActive(true);
         squaresUp.SetActive(true);
-        if(colliderPW != null) colliderPW.SetActive(true);
+        if (colliderPW != null)
+        {
+            colliderPW.SetActive(true);
+        }
     }
 
     public void unactivate_squares()
     {
         squaresDown.SetActive(false);
         squaresUp.SetActive(false);
-        
+        if (colliderPW != null)
+        {
+            colliderPW.SetActive(false);
+        }
+
     }
 
     public void destroy_pw_super_under_floors(float y_pos_ball)

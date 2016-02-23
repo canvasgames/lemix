@@ -83,6 +83,8 @@ public class hud_controller : MonoBehaviour {
                 activate_pw_bt.SetActive(true);
             }
         }
+
+      
     }
 	
 	// Update is called once per frame

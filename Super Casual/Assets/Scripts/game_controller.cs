@@ -207,24 +207,16 @@ public class game_controller : MonoBehaviour {
 
         //PW Creation
         rand = Random.Range(0, 100);
-         rand = 10;
-        if (rand <= 25 && globals.s.PW_ACTIVE == true)
+        rand=10;
+        if (rand <= 15 && globals.s.PW_ACTIVE == true && QA.s.COLLECTABLE_PW_TRUE_OR_JUMP_FALSE == true)
         {
-       
+            
             create_pw_icon(Random.Range(corner_limit_left, corner_limit_right), n_floor);
         }
 
         while (wave_found == false && count < 50)
         {
             count++;
-
-            //PW Creation
-            rand = Random.Range(0, 100);
-           // rand = 100;
-            if (rand <=90)
-            {
-                create_pw_icon(Random.Range(corner_limit_left, corner_limit_right), n_floor);
-            }
 
             // ======== SORT INITIAL WAVES! ========
             if (n_floor <= 6) {
@@ -1416,6 +1408,7 @@ public class game_controller : MonoBehaviour {
         {
             if (QA.s.TRACE_PROFUNDITY >= 3) Debug.Log("[GM] CREATING POWER UP!");
             Instantiate(pw_icon, new Vector3(x, 2 + globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * n, 0), transform.rotation);
+            pw_icon.GetComponent<PW_Collect>().my_floor = n;
         }
     }
 }

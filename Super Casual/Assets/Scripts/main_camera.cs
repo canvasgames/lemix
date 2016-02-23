@@ -80,10 +80,10 @@ public class main_camera : MonoBehaviour {
     public void init_PW_super_jump(float pos_y, float time)
     {
         transform.DOMoveY(pos_y, time).SetEase(Ease.InOutSine);
+        pw_super_jump = true;
     }
     public void PW_super_jump(float pos_y)
     {
-        pw_super_jump = true;
         transform.position = new Vector3(transform.position.x, pos_y, transform.position.z);
     }
 

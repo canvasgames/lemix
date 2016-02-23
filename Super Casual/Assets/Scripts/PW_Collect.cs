@@ -9,6 +9,7 @@ public enum PW_Types
 public class PW_Collect : MonoBehaviour {
 
     public int pw_type;
+    public int my_floor;
     int rand;
     // Use this for initialization
     void Start () {
@@ -33,7 +34,7 @@ public class PW_Collect : MonoBehaviour {
             }
         }
             
-      // rand = (int)PW_Types.Invencible;
+      // rand = (int)PW_Types.Super;
       pw_type = rand;
     }
 	
@@ -47,4 +48,13 @@ public class PW_Collect : MonoBehaviour {
         Destroy(transform.gameObject);
     }
 
+
+    public void destroy_by_floor_PW_Super(int floor_plus_6)
+    {
+        if(pw_type == (int)PW_Types.Super && my_floor <= floor_plus_6)
+        {
+            Destroy(transform.gameObject);
+        }
+            
+    }
 }
