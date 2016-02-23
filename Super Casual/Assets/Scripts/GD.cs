@@ -10,6 +10,8 @@ public class GD : MonoBehaviour {
 
     public int GD_WITH_PW_TIME;
     public int GD_WITHOUT_PW_TIME;
+
+    public int GD_JUMPS_PW_BAR_FULL;
     // Use this for initialization
     void Start()
     {

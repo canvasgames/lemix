@@ -76,9 +76,12 @@ public class ball_hero : MonoBehaviour
 
         if ((Input.GetMouseButton(0) || Input.GetKey("space")) && globals.s.GAME_STARTED == true)
         {
+            jump(); 
+        }
+        else if(Input.GetMouseButtonUp(0) && hud_controller.si.HUD_BUTTON_CLICKED == false)
+        {
             jump();
         }
-
         symbols_PW_activate();
             
         // SET X SPEED TO MAX EVERY FRAME
@@ -180,13 +183,27 @@ public class ball_hero : MonoBehaviour
         //GetComponent<EdgeCollider2D>().enabled = false;
         if (grounded == true)
         {
+            if (globals.s.JUMP_COUNT_PW < GD.s.GD_JUMPS_PW_BAR_FULL && globals.s.GAME_STARTED == true)
+            {
+                globals.s.JUMP_COUNT_PW += 1;
+                Invoke("jump_bar", 0.1f);
+            }
+                
             grounded = false;
             //rb.AddForce (new Vector2 (0, y_jump));
             rb.velocity = new Vector2(rb.velocity.x, globals.s.BALL_SPEED_Y);
         }
         //else Debug.Log("ÇÇÇÇÇÇÇÇÇÇÇÇÇÇÇ CANT JUMP! I AM NOT GROUNDED");
     }
-
+    void jump_bar()
+    {
+        Jump_bar.s.update_value();
+        if(globals.s.JUMP_COUNT_PW == GD.s.GD_JUMPS_PW_BAR_FULL)
+        {
+            pw_jump_bar();
+            globals.s.JUMP_COUNT_PW = 0;
+        }
+    }
 
 #region ========= COLLISIONS ================
 
@@ -228,7 +245,7 @@ public class ball_hero : MonoBehaviour
                 else
                 {
                     Destroy(coll.gameObject);
-                    PW_controller.s.heart_end();
+                    PW_controller.s.invencible_end();
                 }
             }
             else{
@@ -326,9 +343,9 @@ public class ball_hero : MonoBehaviour
         
         temp.collect();
 
-        if (temp.pw_type == (int) PW_Types.Heart)
+        if (temp.pw_type == (int) PW_Types.Invencible)
         {
-            PW_controller.s.heart_start();
+            PW_controller.s.invencible_start();
         }
         else if (temp.pw_type == (int)PW_Types.Super)
         {
@@ -340,6 +357,23 @@ public class ball_hero : MonoBehaviour
         }
     }
 
+    void pw_jump_bar()
+    {
+        int temp_rand = Random.Range(0, 3);
+
+        if (temp_rand == 0)
+        {
+            PW_controller.s.invencible_start();
+        }
+        else if (temp_rand == 1)
+        {
+            go_up_pw_start();
+        }
+        else if (temp_rand == 2)
+        {
+            PW_controller.s.PW_sight_start();
+        }
+    }
     #region POWER UP -> GO UP
     void go_up_pw_start()
     {

@@ -8,6 +8,10 @@ public class PW_controller : MonoBehaviour {
     // Use this for initialization
     void Start () {
         s = this;
+        globals.s.PW_INVENCIBLE = false;
+        globals.s.PW_SIGHT_BEYOND_SIGHT = false;
+        globals.s.PW_SUPER_JUMP = false;
+        globals.s.JUMP_COUNT_PW = 0;
     }
 	
 	// Update is called once per frame
@@ -16,16 +20,16 @@ public class PW_controller : MonoBehaviour {
 	}
 
     #region HEART
-    public void heart_start()
+    public void invencible_start()
     {
         globals.s.PW_INVENCIBLE = true;
-        Invoke("heart_end", GD.s.GD_PW_HEARTH_TIME);
+        Invoke("invencible_end", GD.s.GD_PW_HEARTH_TIME);
     }
 
-    public void heart_end()
+    public void invencible_end()
     {
         globals.s.PW_INVENCIBLE = false;
-        CancelInvoke("heart_end");
+        CancelInvoke("invencible_end");
     }
     #endregion
 

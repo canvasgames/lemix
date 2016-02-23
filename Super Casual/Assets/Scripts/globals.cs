@@ -34,6 +34,7 @@ public class globals : MonoBehaviour {
     [HideInInspector] public bool PW_SUPER_JUMP = false;
     [HideInInspector] public bool PW_SIGHT_BEYOND_SIGHT = false;
 
+    [HideInInspector] public int JUMP_COUNT_PW = 0;
 
     [HideInInspector] public bool FIRST_GAME = true;
     // Use this for initialization

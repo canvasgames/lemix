@@ -202,18 +202,20 @@ public class game_controller : MonoBehaviour {
         //rand = 1;
         wave_found = false;
 
+        //PW Creation
+        rand = Random.Range(0, 100);
+         rand = 10;
+        if (rand <= 25 && globals.s.PW_ACTIVE == true)
+        {
+       
+            create_pw_icon(Random.Range(corner_limit_left, corner_limit_right), n_floor);
+        }
 
-        while(wave_found == false && count < 50)
+        while (wave_found == false && count < 50)
         {
             count++;
 
-            //PW Creation
-            rand = Random.Range(0, 100);
-           // rand = 100;
-            if (rand <=10)
-            {
-                create_pw_icon(Random.Range(corner_limit_left, corner_limit_right), n_floor);
-            }
+
 
             // SORT INITIAL WAVES!
             if (n_floor <= 6) {
@@ -1288,7 +1290,11 @@ public class game_controller : MonoBehaviour {
                     foreach (spike spk in spks_below)
                     {
                         can_create = spk.check_range_for_hole(n-1, rand);
-                        if (can_create == false) { break; Debug.Log("NO WAY.. RANDX: " + rand + " SPIKE POS: " + spk.transform.position.x); }
+                        if (can_create == false)
+                        {
+                            //Debug.Log("NO WAY.. RANDX: " + rand + " SPIKE POS: " + spk.transform.position.x); 
+                            break;
+                        }
                     }
                     count++;
                 }
@@ -1337,8 +1343,13 @@ public class game_controller : MonoBehaviour {
 
     void create_pw_icon(float x, int n)
     {
-        Debug.Log("[GM] CREATING POWER UP!");
-        Instantiate(pw_icon, new Vector3(x, 2 + globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * n, 0), transform.rotation);
+        
+        if(globals.s.PW_INVENCIBLE == false || globals.s.PW_SIGHT_BEYOND_SIGHT == false || globals.s.PW_SUPER_JUMP == false)
+        {
+            Debug.Log("[GM] CREATING POWER UP!");
+            Instantiate(pw_icon, new Vector3(x, 2 + globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * n, 0), transform.rotation);
+        }
+            
     }
 
 }

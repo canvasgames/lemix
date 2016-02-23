@@ -75,6 +75,7 @@
     <Compile Include="Assets\Demigiant\DOTween\Examples\Basics.cs" />
     <Compile Include="Assets\Demigiant\DOTween\Examples\Sequences.cs" />
     <Compile Include="Assets\Scripts\GD.cs" />
+    <Compile Include="Assets\Scripts\Jump_bar.cs" />
     <Compile Include="Assets\Scripts\PW_Collect.cs" />
     <Compile Include="Assets\Scripts\PW_controller.cs" />
     <Compile Include="Assets\Scripts\QA.cs" />

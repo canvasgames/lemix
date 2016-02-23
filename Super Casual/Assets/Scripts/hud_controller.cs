@@ -105,6 +105,7 @@ public class hud_controller : MonoBehaviour {
             {
                 globals.s.GAME_STARTED = true;
                 start_game();
+                
             }
             else if(Input.GetMouseButtonUp(0) && HUD_BUTTON_CLICKED == true)
             {
@@ -121,10 +122,14 @@ public class hud_controller : MonoBehaviour {
         floor.SetActive(true);
         best.SetActive(true);
         Destroy(intro);
+        Invoke("first_update_jump_bar", 0.1f);
 
-            
     }
 
+    void first_update_jump_bar()
+    {
+        Jump_bar.s.update_value();
+    }
     public void update_floor(int n)
     {
         Debug.Log(" NEW FLOOR!!!!!! ");
