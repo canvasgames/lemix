@@ -226,46 +226,106 @@ public class game_controller : MonoBehaviour {
                 create_pw_icon(Random.Range(corner_limit_left, corner_limit_right), n_floor);
             }
 
-            // SORT INITIAL WAVES!
+            // ======== SORT INITIAL WAVES! ========
             if (n_floor <= 6) {
                 rand = Random.Range(1, 3);
+
+                switch (rand) {
+                    case 1:
+                        wave_found = create_wave_easy(n_floor);
+                        break;
+                    case 2:
+                        wave_found = create_wave_medium(n_floor);
+                        break;
+                }
             }
 
             // USER HAD SOME PROGRESS
             else if (n_floor <= 13) {
                 rand = Random.Range(2, 4);
+
+                switch (rand) {
+
+                    case 2:
+                        wave_found = create_wave_medium(n_floor);
+                        break;
+                    case 3:
+                        wave_found = create_wave_hard(n_floor);
+                        break;
+                }
             }
+
             // LETS GET SERIOUS!
-            else if (n_floor <= 27) {
-                rand = Random.Range(1, 5);
+            else if (n_floor <= 24) {
+                rand = Random.Range(1, 100);
+
+                if (rand <= 10)
+                    wave_found = create_wave_easy(n_floor);
+                else if (rand <= 25)
+                     wave_found = create_wave_medium(n_floor);
+                else if (rand <= 65)
+                    wave_found = create_wave_hard(n_floor);
+                else
+                    wave_found = create_wave_very_hard(n_floor);
             }
+            
 
             // LETS GET SERIOUS!
             else {
-                rand = Random.Range(1, 6);
-            }
+                rand = Random.Range(1, 100);
 
-            //rand = 4;
-
-            switch (rand) {
-                case 1:
+                if (rand <= 10)
                     wave_found = create_wave_easy(n_floor);
-                    break;
-                case 2:
+                else if (rand <= 20)
                     wave_found = create_wave_medium(n_floor);
-                    break;
-                case 3:
+                else if (rand <= 48)
                     wave_found = create_wave_hard(n_floor);
-                    break;
-                case 4:
+                else if (rand <= 75)
                     wave_found = create_wave_very_hard(n_floor);
-                    break;
-                case 5:
+                else
                     wave_found = create_wave_super_hard(n_floor);
-                    break;
             }
-
         }
+        /*
+        if (n_floor <= 6) {
+            rand = Random.Range(1, 3);
+        }
+
+        // USER HAD SOME PROGRESS
+        else if (n_floor <= 13) {
+            rand = Random.Range(2, 4);
+        }
+        // LETS GET SERIOUS!
+        else if (n_floor <= 27) {
+            rand = Random.Range(1, 5);
+        }
+
+        // LETS GET SERIOUS!
+        else {
+            rand = Random.Range(1, 6);
+        }
+
+        //rand = 4;
+
+        switch (rand) {
+            case 1:
+                wave_found = create_wave_easy(n_floor);
+                break;
+            case 2:
+                wave_found = create_wave_medium(n_floor);
+                break;
+            case 3:
+                wave_found = create_wave_hard(n_floor);
+                break;
+            case 4:
+                wave_found = create_wave_very_hard(n_floor);
+                break;
+            case 5:
+                wave_found = create_wave_super_hard(n_floor);
+                break;
+        }
+
+    }*/
 
         if (wave_found == false) Debug.Log("\n******* ERROR! WAVE NOT FOUND!! ********");
         n_floor++;

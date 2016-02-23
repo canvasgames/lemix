@@ -8,6 +8,8 @@ public class AnalyticController : MonoBehaviour {
 
 
         // Launch the SDK
+        DDNA.Instance.Settings.DebugMode = true;
+        DDNA.Instance.ClientVersion = "1.0.0";
         DDNA.Instance.StartSDK(
             "87199148446217602329834496314561",
             "http://collect7976sprcs.deltadna.net/collect/api",
