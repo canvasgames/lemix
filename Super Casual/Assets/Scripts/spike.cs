@@ -19,7 +19,6 @@ public class spike : scenario_objects {
 	// Use this for initialization
     void Awake()
     {
-
         my_collider = GetComponent<PolygonCollider2D>();
     }
 	void Start () {
@@ -67,8 +66,10 @@ public class spike : scenario_objects {
         target_y = transform.position.y + transform.GetComponent<SpriteRenderer>().bounds.size.y;
         transform.DOMoveY(target_y, 0.14f);
         already_appeared = true;
+        my_collider.enabled = true;
+
         //if(QA.s.INVENCIBLE == false)
-            //my_collider.enabled = true;
+        //my_collider.enabled = true;
         /*rb.velocity = new Vector2(0, 20f);
         timer = (transform.GetComponent<SpriteRenderer>().bounds.size.y ) / 20f ;
         Debug.Log(" MMMMMMMMMMMM MOVE SPIKE! TIMER: " + timer);

@@ -183,15 +183,18 @@ public class game_controller : MonoBehaviour {
 
     public void ball_up(int ball_floor)
     {
-        if(ball_floor > cur_floor)
-        {
-           // if (ball_floor >= 1) camerda.GetComponent<Rigidbody2D>().velocity = new Vector2(0, globals.s.CAMERA_SPEED);
+        if (ball_floor > cur_floor) {
+            // if (ball_floor >= 1) camerda.GetComponent<Rigidbody2D>().velocity = new Vector2(0, globals.s.CAMERA_SPEED);
             cur_floor = ball_floor;
             hud_controller.si.update_floor(cur_floor);
 
             create_new_wave();
         }
-        else if (ball_floor >=1) camerda.GetComponent<Rigidbody2D>().velocity = new Vector2(0,0);
+        else if (ball_floor >= 1) {
+            camerda.GetComponent<Rigidbody2D>().velocity = new Vector2(0, 0);
+            Debug.Log( "~~~~~~~~~~~~~~~~ DON'T CREATE FLOOR!!!! BALL FLOOR: "+ ball_floor + " CUR FLOOR: " + cur_floor);
+        }
+
     }
 
     public void create_new_wave (){
@@ -215,7 +218,14 @@ public class game_controller : MonoBehaviour {
         {
             count++;
 
-
+<<<<<<< .mine
+            //PW Creation
+            rand = Random.Range(0, 100);
+           // rand = 100;
+            if (rand <=90)
+            {
+                create_pw_icon(Random.Range(corner_limit_left, corner_limit_right), n_floor);
+            }
 
             // SORT INITIAL WAVES!
             if (n_floor <= 6) {
@@ -277,7 +287,7 @@ public class game_controller : MonoBehaviour {
         int rand = Random.Range(1, 100);
         int hole_chance = 30 + 10 * hole_creation_failed;
         if (hole_chance > 60) hole_chance = 60;
-        Debug.Log("\n " + n + " ~~~~~~~~~~~~ TRY CREATE MEDIUM HOLE! ~~~~~~~~~~~~ | rand " + rand + " HOLE CHANCE: " + hole_chance + " N FAILED: " + hole_creation_failed);
+        if (QA.s.TRACE_PROFUNDITY >=2) Debug.Log("\n " + n + " ~~~~~~~~~~~~ TRY CREATE MEDIUM HOLE! ~~~~~~~~~~~~ | rand " + rand + " HOLE CHANCE: " + hole_chance + " N FAILED: " + hole_creation_failed);
 
 
         // HOLE + SPIKE
@@ -312,7 +322,7 @@ public class game_controller : MonoBehaviour {
 
 
             rand = Random.Range(1, 100);
-            Debug.Log("\n " + n + " ======= CREATE WAVE EASY! ========== | rand: " + rand);
+            if (QA.s.TRACE_PROFUNDITY >= 2) Debug.Log("\n " + n + " ======= CREATE WAVE EASY! ========== | rand: " + rand);
 
             // 1 SPK MIDDLE |___^___|
             if (rand > 0 && rand <= 30)
@@ -374,8 +384,8 @@ public class game_controller : MonoBehaviour {
         int rand = Random.Range(1, 100);
         int hole_chance = 30 + 10 * hole_creation_failed;
         if (hole_chance > 85) hole_chance = 85;
-        
-        Debug.Log("\n "+ n+ " ~~~~~~~~~~~~ TRY CREATE MEDIUM HOLE! ~~~~~~~~~~~~ | rand " + rand + " HOLE CHANCE: "+ hole_chance + " N FAILED: " + hole_creation_failed);
+
+        if (QA.s.TRACE_PROFUNDITY >= 2) Debug.Log("\n "+ n+ " ~~~~~~~~~~~~ TRY CREATE MEDIUM HOLE! ~~~~~~~~~~~~ | rand " + rand + " HOLE CHANCE: "+ hole_chance + " N FAILED: " + hole_creation_failed);
    
         
         // FIRST, LET'S TRY TO CREATE A HOLE
@@ -400,7 +410,7 @@ public class game_controller : MonoBehaviour {
             hole_creation_failed++;
 
             //rand = Random.Range(44, 68);
-            Debug.Log("\n " + n + " ========= CREATE WAVE MEDIUM! ========== | rand " + rand);
+            if (QA.s.TRACE_PROFUNDITY >= 2) Debug.Log("\n " + n + " ========= CREATE WAVE MEDIUM! ========== | rand " + rand);
             //rand = 50;
 
             // 2 SPK MIDDLE |__^_^__|
@@ -542,7 +552,7 @@ public class game_controller : MonoBehaviour {
         int rand = Random.Range(1, 100);
         int hole_chance = 30 + 10 * hole_creation_failed;
         if (hole_chance > 85) hole_chance = 85;
-        Debug.Log("\n " + n + " ^^^^^^^^^^^^^^^^^^ TRY CREATE HARD HOLE! ^^^^^^^^^^^^^^^^^^ | rand " + rand + " HOLE CHANCE: " + hole_chance + " N FAILED: " + hole_creation_failed);
+        if (QA.s.TRACE_PROFUNDITY >= 2) Debug.Log("\n " + n + " ^^^^^^^^^^^^^^^^^^ TRY CREATE HARD HOLE! ^^^^^^^^^^^^^^^^^^ | rand " + rand + " HOLE CHANCE: " + hole_chance + " N FAILED: " + hole_creation_failed);
 
 
         // HOLE + 2 SPIKES 
@@ -597,7 +607,7 @@ public class game_controller : MonoBehaviour {
         else {
             hole_creation_failed++;
             rand = Random.Range(1, 100);
-            Debug.Log("\n " + n + " ========= CREATE WAVE HARD! ========== | rand " + rand);
+            if (QA.s.TRACE_PROFUNDITY >= 2) Debug.Log("\n " + n + " ========= CREATE WAVE HARD! ========== | rand " + rand);
 
             // CORNERS AND 1 SPK MIDDLE |^__^__^|
             if (!last_spike_right && !last_spike_left && rand > 0 && rand <= 25)
@@ -719,7 +729,7 @@ public class game_controller : MonoBehaviour {
         //rand = 1;
         int hole_chance = 35 + 10 * hole_creation_failed;
         if (hole_chance > 85) hole_chance = 85;
-        Debug.Log("\n " + n + " &&&&&&&&&&&&&& TRY CREATE VERY HARD HOLE! &&&&&&&&&&| rand " + rand + " HOLE CHANCE: " + hole_chance + " N FAILED: " + hole_creation_failed);
+        if (QA.s.TRACE_PROFUNDITY >= 2) Debug.Log("\n " + n + " &&&&&&&&&&&&&& TRY CREATE VERY HARD HOLE! &&&&&&&&&&| rand " + rand + " HOLE CHANCE: " + hole_chance + " N FAILED: " + hole_creation_failed);
 
         // rand = 80;
 
@@ -786,7 +796,7 @@ public class game_controller : MonoBehaviour {
                 }
                 // AT RIGHT OF THE ROLE
                 else  {
-                    Debug.Log(" _^ 1 SPIKE NEXT AT RIGHT FROM THE HOLE");
+                    if (QA.s.TRACE_PROFUNDITY >= 3) Debug.Log(" _^ 1 SPIKE NEXT AT RIGHT FROM THE HOLE");
                     float spk_pos = last_hole_x + 1.168f;
                     create_spike(spk_pos, actual_y, n); // create the 1st spike, next to the hole at its left
 
@@ -843,7 +853,7 @@ public class game_controller : MonoBehaviour {
         {
             hole_creation_failed++;
             rand = Random.Range(1, 100);
-            Debug.Log("\n " + n + " ========== CREATE WAVE VERY HARD! ========== | rand " + rand);
+            if (QA.s.TRACE_PROFUNDITY >= 2) Debug.Log("\n " + n + " ========== CREATE WAVE VERY HARD! ========== | rand " + rand);
             //rand = 1;
             // rand = Random.Range(1, 25);
             
@@ -980,7 +990,7 @@ public class game_controller : MonoBehaviour {
         //rand = 1;
         int hole_chance = 35 + 10 * hole_creation_failed;
         if (hole_chance > 85) hole_chance = 85;
-        Debug.Log("\n " + n + " SSSSSSSSSSSSSS TRY CREATE SUPER HARD HOLE! SSSSSSSSSSSSS| rand " + rand + " HOLE CHANCE: " + hole_chance + " N FAILED: " + hole_creation_failed);
+        if (QA.s.TRACE_PROFUNDITY >= 2) Debug.Log("\n " + n + " SSSSSSSSSSSSSS TRY CREATE SUPER HARD HOLE! SSSSSSSSSSSSS| rand " + rand + " HOLE CHANCE: " + hole_chance + " N FAILED: " + hole_creation_failed);
 
         // rand = 80;
 
@@ -1053,7 +1063,7 @@ public class game_controller : MonoBehaviour {
         else {
             hole_creation_failed++;
             rand = Random.Range(1, 100);
-            Debug.Log("\n " + n + " ========== CREATE WAVE VERY HARD! ========== | rand " + rand);
+            if (QA.s.TRACE_PROFUNDITY >= 2) Debug.Log("\n " + n + " ========== CREATE WAVE SUPER HARD! ========== | rand " + rand);
             //rand = 35;
             // rand = Random.Range(1, 25);
 
@@ -1256,7 +1266,7 @@ public class game_controller : MonoBehaviour {
     {
         GameObject obj = (GameObject)Instantiate(floor_type, new Vector3(x, globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * n, 0), transform.rotation);
         obj.GetComponent<floor>().my_floor = n;
-        obj.GetComponentInChildren<TextMesh>().text = n.ToString();
+        //obj.GetComponentInChildren<TextMesh>().text = n.ToString();
         return obj;
     }
 
@@ -1315,7 +1325,7 @@ public class game_controller : MonoBehaviour {
         // SUCCESS! LETS CREATE A HOLE!
         if (can_create)
         {
-            Debug.Log("SUCCESSFULLY CREATING HOLE!!");
+            if (QA.s.TRACE_PROFUNDITY >= 2) Debug.Log("SUCCESSFULLY CREATING HOLE!!");
             GameObject obj = (GameObject)Instantiate(floor_type, new Vector3(rand - hole_size / 2 - floor_type.transform.GetComponent<SpriteRenderer>().bounds.size.x / 2, globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * n, 0), transform.rotation);
             obj.GetComponent<floor>().my_floor = n;
             obj = (GameObject)Instantiate(floor_type, new Vector3(rand + hole_size / 2 + floor_type.transform.GetComponent<SpriteRenderer>().bounds.size.x / 2, globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * n, 0), transform.rotation);
@@ -1328,7 +1338,7 @@ public class game_controller : MonoBehaviour {
 
             return true;
         }
-        else { return false; Debug.Log(" FffffffffffffAILED TO CREATE HOLE..."); }
+        else { return false; if (QA.s.TRACE_PROFUNDITY >= 2) Debug.Log(" FffffffffffffAILED TO CREATE HOLE..."); }
     }
 
     bool create_just_hole(int n, float x)
@@ -1343,13 +1353,10 @@ public class game_controller : MonoBehaviour {
 
     void create_pw_icon(float x, int n)
     {
-        
         if(globals.s.PW_INVENCIBLE == false || globals.s.PW_SIGHT_BEYOND_SIGHT == false || globals.s.PW_SUPER_JUMP == false)
         {
-            Debug.Log("[GM] CREATING POWER UP!");
+            if (QA.s.TRACE_PROFUNDITY >= 3) Debug.Log("[GM] CREATING POWER UP!");
             Instantiate(pw_icon, new Vector3(x, 2 + globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * n, 0), transform.rotation);
         }
-            
     }
-
 }

@@ -42,7 +42,7 @@ public class hole_behaviour : MonoBehaviour
     public void activate_squares()
     {
         squares.SetActive(true);
-        colliderPW.SetActive(true);
+        if (colliderPW) colliderPW.SetActive(true);
     }
 
     public void unactivate_squares()

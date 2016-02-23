@@ -132,7 +132,7 @@ public class hud_controller : MonoBehaviour {
     }
     public void update_floor(int n)
     {
-        Debug.Log(" NEW FLOOR!!!!!! ");
+        if (QA.s.TRACE_PROFUNDITY >= 3) Debug.Log(" NEW FLOOR!!!!!! ");
         //GetComponentInChildren<TextMesh>().text =  "Floor " + (n+1).ToString();
         floor.GetComponent<Text>().text = "Floor " + (n + 1).ToString();
 

@@ -238,7 +238,7 @@ public class ball_hero : MonoBehaviour
         {
             if(globals.s.PW_SUPER_JUMP == false && !QA.s.INVENCIBLE)
             {
-                if (globals.s.PW_INVENCIBLE == false)
+                if (1==2 && globals.s.PW_INVENCIBLE == false)
                 {
                     destroy_me();
                 }
@@ -258,7 +258,7 @@ public class ball_hero : MonoBehaviour
 
         else if (coll.gameObject.CompareTag("HoleFalling"))
         {
-            Debug.Log(" ~~~~~~~~~~~~~~~~~~~~~~~~~COLLIDING WITH HOLE FALLING TAG!!!");
+            if (QA.s.TRACE_PROFUNDITY >= 3) Debug.Log(" ~~~~~~~~~~~~~~~~~~~~~~~~~COLLIDING WITH HOLE FALLING TAG!!!");
             //grounded = false;
             //coll.gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2(0, -100f);
             if (transform.position.y < main_camera.s.transform.position.y - 2f)
@@ -387,9 +387,9 @@ public class ball_hero : MonoBehaviour
         int i;
         int temp = my_floor;
 
-        for (i = my_floor + 1; i < temp + 5; i++)
+        for (i = my_floor + 1; i <= temp + 6; i++)
         {
-            game_controller.s.ball_up(i);
+            game_controller.s.create_new_wave();
         }
 
         //activate squares of collisions
