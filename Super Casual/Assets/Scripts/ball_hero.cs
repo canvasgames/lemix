@@ -20,6 +20,7 @@ public class ball_hero : MonoBehaviour
     public GameObject my_son;
     public GameObject bola;
     public GameObject heart, super, sight;
+    public GameObject symbols;
     bool sight_active = false;
     bool heart_active = false;
 
@@ -34,7 +35,8 @@ public class ball_hero : MonoBehaviour
     public GameObject explosion;
 
     bool hitted_wall = false;
-
+    float duration = 2f;
+    float startTime;
     void Awake()
     {
         rb = transform.GetComponent<Rigidbody2D>();
@@ -43,7 +45,7 @@ public class ball_hero : MonoBehaviour
     // START THE DANCE
     void Start()
     {
-
+        startTime = Time.time;
         my_id = globals.s.BALL_ID; globals.s.BALL_ID++;
         
 
@@ -183,11 +185,7 @@ public class ball_hero : MonoBehaviour
         //GetComponent<EdgeCollider2D>().enabled = false;
         if (grounded == true)
         {
-            if (globals.s.JUMP_COUNT_PW < GD.s.GD_JUMPS_PW_BAR_FULL && globals.s.GAME_STARTED == true &&  QA.s.COLLECTABLE_PW_TRUE_OR_JUMP_FALSE == false)
-            {
-                globals.s.JUMP_COUNT_PW += 1;
-                Invoke("jump_bar", 0.1f);
-            }
+
                 
             grounded = false;
             //rb.AddForce (new Vector2 (0, y_jump));
@@ -195,15 +193,7 @@ public class ball_hero : MonoBehaviour
         }
         //else Debug.Log("ÇÇÇÇÇÇÇÇÇÇÇÇÇÇÇ CANT JUMP! I AM NOT GROUNDED");
     }
-    void jump_bar()
-    {
-        Jump_bar.s.update_value();
-        if(globals.s.JUMP_COUNT_PW == GD.s.GD_JUMPS_PW_BAR_FULL)
-        {
-            pw_jump_bar();
-            globals.s.JUMP_COUNT_PW = 0;
-        }
-    }
+
 
 #region ========= COLLISIONS ================
 
@@ -342,6 +332,16 @@ public class ball_hero : MonoBehaviour
     {
         
         temp.collect();
+        if(globals.s.PW_INVENCIBLE == true)
+        {
+            PW_controller.s.invencible_end();
+        }
+        else if(globals.s.PW_SIGHT_BEYOND_SIGHT == true)
+        {
+            PW_controller.s.sight_end();
+        }
+
+        
 
         if (temp.pw_type == (int) PW_Types.Invencible)
         {
@@ -357,23 +357,6 @@ public class ball_hero : MonoBehaviour
         }
     }
 
-    void pw_jump_bar()
-    {
-       int temp_rand = Random.Range(0, 3);
-
-        if (temp_rand == 0)
-        {
-            PW_controller.s.invencible_start();
-        }
-        else if (temp_rand == 1)
-        {
-            go_up_pw_start();
-        }
-        else if (temp_rand == 2)
-        {
-            PW_controller.s.PW_sight_start();
-        }
-    }
     #region POWER UP -> GO UP
     void go_up_pw_start()
     {
@@ -407,17 +390,14 @@ public class ball_hero : MonoBehaviour
         
         globals.s.PW_SUPER_JUMP = true;
         desactivate_pws_super();
-        // rb.gameObject.GetComponent<Rigidbody2D>().gravityScale = 1;
         int ball_speed = 20;
 
         rb.velocity = new Vector2(0, ball_speed);
         float dist = ((globals.s.BASE_Y + ((my_floor) * globals.s.FLOOR_HEIGHT) +  (5* globals.s.FLOOR_HEIGHT) + globals.s.FLOOR_HEIGHT / 2 ) - transform.position.y);
-        //float dist = (globals.s.FLOOR_HEIGHT *5);
         Debug.Log("[GO UP PW] Dist: " + dist + " OLD Dist: " + (5*globals.s.FLOOR_HEIGHT) + " dist/speed: " + (dist / ball_speed) + " | OLD dist/speed: " + ((5 *globals.s.FLOOR_HEIGHT) / ball_speed));
         Debug.Log("[GO UP PW] MY POS: " + transform.position.y + " BASE Y+FLOOR "+ (globals.s.BASE_Y + my_floor * globals.s.FLOOR_HEIGHT) + " BASE Y: " + globals.s.BASE_Y + " MY FLOOR: " + my_floor);
         Invoke("stop_go_up_PW", ( dist / ball_speed));
         //Invoke("stop_go_up_PW", ((globals.s.BASE_Y + (my_floor * globals.s.FLOOR_HEIGHT) + 5* globals.s.FLOOR_HEIGHT + (globals.s.FLOOR_HEIGHT/2) ) - transform.position.y) / ball_speed);
-
 
         //transform.DOMoveY(transform.position.y + 5 * globals.s.FLOOR_HEIGHT, 2.5f).SetEase(Ease.OutSine);
 
@@ -430,7 +410,6 @@ public class ball_hero : MonoBehaviour
         rb.gameObject.GetComponent<Rigidbody2D>().gravityScale = 0.5f;
         rb.gameObject.GetComponent<Rigidbody2D>().isKinematic = false;
 
-        //Physics2D.gra;
         unactivate_particles_floor();
         Invoke("create_floor", 0.2f);
     }
@@ -442,7 +421,7 @@ public class ball_hero : MonoBehaviour
         GameObject floor = game_controller.s.create_floor(12, my_floor);
         destroy_spikes();
         floor.transform.DOMoveX(0, 0.3f);//.OnComplete(pw_super_end);
-        //pw_super_end();
+
     }
    void pw_super_end_for_real() {
         globals.s.PW_SUPER_JUMP = false;
@@ -454,16 +433,6 @@ public class ball_hero : MonoBehaviour
         Invoke("unactivate_squares", 0.3f);
 
     }
-
-    void pw_super_end()
-    {
-        super.SetActive(false);
-        //globals.s.PW_SUPER_JUMP = false;
-        //rb.gameObject.GetComponent<Rigidbody2D>().gravityScale = 1;
-        //rb.gameObject.GetComponent<Rigidbody2D>().isKinematic = false;
-        //main_camera.s.pw_super_jump_end();
-    }
-
 
     void activate_particles_floor()
     {
@@ -482,7 +451,14 @@ public class ball_hero : MonoBehaviour
         {
             holes[i].activate_squares();
         }
-   
+
+        wall[] walls = GameObject.FindObjectsOfType(typeof(wall)) as wall[];
+
+        for (i = 0; i < walls.Length; i++)
+        {
+            walls[i].destroy_me_PW_super();
+        }
+
     }
 
 
@@ -559,6 +535,9 @@ public class ball_hero : MonoBehaviour
     #region POWER UP -> SYMBOLS PW
     void symbols_PW_activate()
     {
+        float t = (Time.time - startTime) / duration;
+        symbols.transform.GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f, Mathf.SmoothStep(1, 0, t));
+
         if (globals.s.PW_SIGHT_BEYOND_SIGHT == true && sight_active == false)
         {
             sight_start();

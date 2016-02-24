@@ -67,6 +67,7 @@ public class spike : scenario_objects {
         transform.DOMoveY(target_y, 0.14f);
         already_appeared = true;
         my_collider.enabled = true;
+        hidden = false;
 
         //if(QA.s.INVENCIBLE == false)
         //my_collider.enabled = true;
@@ -127,7 +128,7 @@ public class spike : scenario_objects {
 
     public void show_me_pw_sight()
     {
-        if(hidden == true)
+        if ( hidden == true)
             transform.GetComponent<SpriteRenderer>().color = Color.magenta;
     }
 

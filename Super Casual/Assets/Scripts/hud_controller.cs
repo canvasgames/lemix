@@ -124,14 +124,10 @@ public class hud_controller : MonoBehaviour {
         floor.SetActive(true);
         best.SetActive(true);
         Destroy(intro);
-        Invoke("first_update_jump_bar", 0.1f);
 
     }
 
-    void first_update_jump_bar()
-    {
-        Jump_bar.s.update_value();
-    }
+
     public void update_floor(int n)
     {
         if (QA.s.TRACE_PROFUNDITY >= 3) Debug.Log(" NEW FLOOR!!!!!! ");

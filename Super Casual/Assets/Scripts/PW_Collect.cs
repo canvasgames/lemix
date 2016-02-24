@@ -14,7 +14,9 @@ public class PW_Collect : MonoBehaviour {
     // Use this for initialization
     void Start () {
 
-        if (globals.s.PW_INVENCIBLE == false && globals.s.PW_SIGHT_BEYOND_SIGHT == false && globals.s.PW_SUPER_JUMP == false)
+        rand = Random.Range((int)PW_Types.Invencible, (int)PW_Types.Sight + 1);
+
+        /*if (globals.s.PW_INVENCIBLE == false && globals.s.PW_SIGHT_BEYOND_SIGHT == false && globals.s.PW_SUPER_JUMP == false)
         {
             rand = Random.Range((int)PW_Types.Invencible, (int)PW_Types.Sight + 1);
         }
@@ -33,9 +35,10 @@ public class PW_Collect : MonoBehaviour {
                 rand = (int)PW_Types.Super;
             }
         }
-            
-      // rand = (int)PW_Types.Super;
-      pw_type = rand;
+            */
+      rand = (int)PW_Types.Sight;
+      //  rand = (int)PW_Types.Super;
+        pw_type = rand;
     }
 	
 	// Update is called once per frame
@@ -49,12 +52,9 @@ public class PW_Collect : MonoBehaviour {
     }
 
 
-    public void destroy_by_floor_PW_Super(int floor_plus_6)
+    public void destroy_by_floor_PW_Super(int floor_plus_n)
     {
-        if(pw_type == (int)PW_Types.Super && my_floor <= floor_plus_6)
-        {
+        if(my_floor <= floor_plus_n)
             Destroy(transform.gameObject);
-        }
-            
     }
 }

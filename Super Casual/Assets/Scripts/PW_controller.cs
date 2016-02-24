@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
-
+using DG.Tweening;
 public class PW_controller : MonoBehaviour {
 
     public static PW_controller s;
@@ -11,25 +11,31 @@ public class PW_controller : MonoBehaviour {
         globals.s.PW_INVENCIBLE = false;
         globals.s.PW_SIGHT_BEYOND_SIGHT = false;
         globals.s.PW_SUPER_JUMP = false;
-        globals.s.JUMP_COUNT_PW = 0;
     }
 	
 	// Update is called once per frame
 	void Update () {
 	
 	}
+    public void pw_ending()
+    {
+        globals.s.PW_ENDING = true;
+        globals.s.PW_ENDING_TIME = 5f;
+    }
+
+    public void invencible_end()
+    {
+        CancelInvoke("invencible_end");
+        globals.s.PW_INVENCIBLE = false;
+        globals.s.PW_ENDING = false;
+    }
 
     #region HEART
     public void invencible_start()
     {
         globals.s.PW_INVENCIBLE = true;
         Invoke("invencible_end", GD.s.GD_PW_HEARTH_TIME);
-    }
-
-    public void invencible_end()
-    {
-        globals.s.PW_INVENCIBLE = false;
-        CancelInvoke("invencible_end");
+        Invoke("pw_ending", GD.s.GD_PW_HEARTH_TIME - 5);
     }
     #endregion
 
@@ -42,8 +48,9 @@ public class PW_controller : MonoBehaviour {
         Invoke("sight_end", GD.s.GD_PW_SIGHT_TIME);
     }
 
-    void sight_end()
+    public void sight_end()
     {
+        CancelInvoke("sight_end");
         globals.s.PW_SIGHT_BEYOND_SIGHT = false;
         back_color_sight_pw();
     }

@@ -208,7 +208,7 @@ public class game_controller : MonoBehaviour {
         //PW Creation
         rand = Random.Range(0, 100);
         rand=10;
-        if (rand <= 15 && globals.s.PW_ACTIVE == true && QA.s.COLLECTABLE_PW_TRUE_OR_JUMP_FALSE == true)
+        if (rand <= 15 && globals.s.PW_ACTIVE == true)
         {
             
             create_pw_icon(Random.Range(corner_limit_left, corner_limit_right), n_floor);
@@ -1389,7 +1389,7 @@ public class game_controller : MonoBehaviour {
 
             return true;
         }
-        else { return false; if (QA.s.TRACE_PROFUNDITY >= 2) Debug.Log(" FffffffffffffAILED TO CREATE HOLE..."); }
+        else { if (QA.s.TRACE_PROFUNDITY >= 2) Debug.Log(" FffffffffffffAILED TO CREATE HOLE..."); return false;  }
     }
 
     bool create_just_hole(int n, float x)

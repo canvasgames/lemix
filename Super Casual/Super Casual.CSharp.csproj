@@ -98,9 +98,7 @@
     <Compile Include="Assets\Platforms\Android\GcmClient.cs" />
     <Compile Include="Assets\Platforms\Android\GcmListener.cs" />
     <Compile Include="Assets\Platforms\Android\Utils.cs" />
-    <Compile Include="Assets\QA_PW_type.cs" />
     <Compile Include="Assets\Scripts\GD.cs" />
-    <Compile Include="Assets\Scripts\Jump_bar.cs" />
     <Compile Include="Assets\Scripts\PW_Collect.cs" />
     <Compile Include="Assets\Scripts\PW_controller.cs" />
     <Compile Include="Assets\Scripts\QA.cs" />

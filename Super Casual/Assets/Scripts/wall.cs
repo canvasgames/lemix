@@ -142,4 +142,10 @@ public class wall : MonoBehaviour
 
         transform.GetComponent<SpriteRenderer>().color = new Color (0,0,0,0);
     }
+
+    public void destroy_me_PW_super()
+    {
+        if(gameObject != null)
+            Destroy(gameObject);
+    }
 }
