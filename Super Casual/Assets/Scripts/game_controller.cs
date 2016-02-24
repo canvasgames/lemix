@@ -197,6 +197,7 @@ public class game_controller : MonoBehaviour {
 
     }
 
+
     public void create_new_wave (){
 		Debug.Log(" \n::::::::::::::::::::::: CREATING NEW FLOOR: " +n_floor);
 
@@ -207,7 +208,7 @@ public class game_controller : MonoBehaviour {
 
         //PW Creation
         rand = Random.Range(0, 100);
-        rand=10;
+        //rand=10;
         if (rand <= 15 && globals.s.PW_ACTIVE == true)
         {
             
@@ -216,6 +217,7 @@ public class game_controller : MonoBehaviour {
 
         while (wave_found == false && count < 50)
         {
+            //hole_creation_failed = 9;
             count++;
 
             // ======== SORT INITIAL WAVES! ========
@@ -379,7 +381,7 @@ public class game_controller : MonoBehaviour {
             if (rand > 0 && rand <= 30)
             {
                 create_floor(0, n);
-                create_spike(Random.Range(corner_limit_left, corner_limit_right), actual_y, n);
+                create_spike(Random.Range(corner_limit_left + 0.35f, corner_limit_right - 0.35f), actual_y, n);
                 last_spike_right = false;
                 last_spike_left = false;
                 last_hole = false;
@@ -707,7 +709,7 @@ public class game_controller : MonoBehaviour {
             // WALL MID-LEFT + SPIKE (12%) |__|____^_|
             else if (!last_wall && !last_spike_left && rand > 50 && rand <= 65)
             {
-                float wall_pos = Random.Range(-screen_w / 4, 0 - 0.5f);
+                float wall_pos = Random.Range(-screen_w / 4 + 0.35f, 0 - 0.5f);
                 float spk_pos = Random.Range(wall_pos + min_spk_dist + 0.8f, corner_right);
 
                 if (spk_pos >= corner_limit_right && last_spike_right)
@@ -730,7 +732,7 @@ public class game_controller : MonoBehaviour {
             // WALL MID-RIGHT + SPIKE (12%) |_^____|__|
             else if (!last_wall && !last_spike_right && rand > 65 && rand <= 80)
             {
-                float wall_pos = Random.Range(0 + 0.5f, screen_w / 4);
+                float wall_pos = Random.Range(0 + 0.5f, screen_w / 4 - 0.35f);
                 float spk_pos = Random.Range(corner_left, wall_pos - min_spk_dist - 0.8f);
 
                 if (spk_pos <= corner_limit_left && last_spike_left)
@@ -1267,7 +1269,7 @@ public class game_controller : MonoBehaviour {
     }
 
     wall create_wall_corner(int n, bool spk_trigger = false){
-        GameObject obj = (GameObject)Instantiate(wall_type, new Vector3(0, globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * n  + globals.s.SLOT / 2, 0), transform.rotation);
+        GameObject obj = (GameObject)Instantiate(wall_type, new Vector3(corner_right, globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * n  + globals.s.SLOT / 2, 0), transform.rotation);
         wall temp_wall = obj.GetComponent<wall>();
         temp_wall.my_floor = n;
         temp_wall.corner_wall = true;

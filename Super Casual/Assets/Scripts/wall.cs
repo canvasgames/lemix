@@ -66,7 +66,7 @@ public class wall : MonoBehaviour
     }
 
     public void place_me_at_the_other_corner(float ball_x, int floor) {
-        if (corner_wall && !already_placed && floor == my_floor) {
+        if (corner_wall && floor == my_floor) {
 
             if(!wall_triggered_by_wall) GetComponent<BoxCollider2D>().enabled = true;
 

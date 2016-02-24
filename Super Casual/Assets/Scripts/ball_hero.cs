@@ -24,6 +24,8 @@ public class ball_hero : MonoBehaviour
     bool sight_active = false;
     bool heart_active = false;
 
+    public GameObject my_light;
+
     //public GameObject
 
     // Use this for initialization
@@ -37,6 +39,8 @@ public class ball_hero : MonoBehaviour
     bool hitted_wall = false;
     float duration = 2f;
     float startTime;
+    public float cam_fall_dist = 0;
+
     void Awake()
     {
         rb = transform.GetComponent<Rigidbody2D>();
@@ -120,6 +124,8 @@ public class ball_hero : MonoBehaviour
         if (son_created == false && ((transform.position.x <= globals.s.LIMIT_LEFT + globals.s.BALL_R + 0.3f && rb.velocity.x < 0) ||
                                      (transform.position.x >= globals.s.LIMIT_RIGHT - globals.s.BALL_R - 0.3f && rb.velocity.x > 0)))
         {
+            // my_light.SetActive(false);
+           // Destroy(my_light);
             //Debug.Log ("END REACHED!!!!!!! MY POS: " + transform.position.x + " LEFT: " + globals.s.LIMIT_LEFT + " RIGHT: "  + globals.s.LIMIT_RIGHT);
             son_created = true;
             float x_new_pos = 0f;
@@ -159,9 +165,10 @@ public class ball_hero : MonoBehaviour
 
             if(hitted_wall) main_camera.s.hitted_on_wall = false;
 
+            // MAKE WALLS POSITION THEMSELVES
             wall[] paredez = GameObject.FindObjectsOfType(typeof(wall)) as wall[];
             foreach(wall p in paredez){
-                p.place_me_at_the_other_corner(my_son.transform.position.x, my_floor + 1);
+                p.place_me_at_the_other_corner(-my_son.transform.position.x, my_floor + 2);
             }
 
 
@@ -174,7 +181,9 @@ public class ball_hero : MonoBehaviour
                                      transform.position.x > globals.s.LIMIT_RIGHT + globals.s.BALL_D))
         {
             //Debug.Log("Destroy me !!!! my pos:" + transform.position.x);
-            Destroy(gameObject);
+            //Destroy(gameObject);
+            //my_light.SetActive(false);
+            
         }
     }
 
@@ -202,11 +211,9 @@ public class ball_hero : MonoBehaviour
         //Debug.Log("xxxxxxxxxxxxxxxxxxxxx COLLIDING WITH SOMETHING!");
 
 
-        if (coll.gameObject.CompareTag("Floor"))
-        {
-            
-            if (coll.transform.position.y + coll.transform.GetComponent<SpriteRenderer>().bounds.size.y / 2 <= transform.position.y - globals.s.BALL_R + 1f)
-            {
+        if (coll.gameObject.CompareTag("Floor")) {
+
+            if (coll.transform.position.y + coll.transform.GetComponent<SpriteRenderer>().bounds.size.y / 2 <= transform.position.y - globals.s.BALL_R + 1f) {
                 //rb.AddForce (new Vector2 (0, 0));
                 rb.velocity = new Vector2(rb.velocity.x, 0);
                 //transform.position = new Vector2(transform.position.x, coll.transform.position.y + coll.transform.GetComponent<SpriteRenderer>().bounds.size.y / 2 + globals.s.BALL_R);
@@ -224,35 +231,36 @@ public class ball_hero : MonoBehaviour
             else { Debug.Log("\n\n" + my_id + " ***************ERROR! THIS SHOULD NEVER HAPPEN ***************\n\n"); }
         }
 
-        else if (coll.gameObject.CompareTag("Spike"))
-        {
-            if(globals.s.PW_SUPER_JUMP == false && !QA.s.INVENCIBLE)
-            {
-                if (globals.s.PW_INVENCIBLE == false)
-                {
+        else if (coll.gameObject.CompareTag("Spike")) {
+            if (globals.s.PW_SUPER_JUMP == false && !QA.s.INVENCIBLE) {
+                if (globals.s.PW_INVENCIBLE == false) {
                     destroy_me();
                 }
-                else
-                {
+                else {
                     Destroy(coll.gameObject);
                     PW_controller.s.invencible_end();
                 }
             }
-            else{
+            else {
                 Physics2D.IgnoreCollision(coll.collider, GetComponent<Collider2D>());
                 GetComponent<SpriteRenderer>().color = Color.blue;
                 Invoke("back_to_normal_color", 0.2f);
-                   
+
             }
         }
 
-        else if (coll.gameObject.CompareTag("HoleFalling"))
-        {
-            if (QA.s.TRACE_PROFUNDITY >= 3) Debug.Log(" ~~~~~~~~~~~~~~~~~~~~~~~~~COLLIDING WITH HOLE FALLING TAG!!!");
+        else if (coll.gameObject.CompareTag("HoleFalling")) {
+            //if (QA.s.TRACE_PROFUNDITY >= 3) Debug.Log(" ~~~~~~~~~~~~~~~~~~~~~~~~~COLLIDING WITH HOLE FALLING TAG!!!");
+            Debug.Log(" ~~~~~~~~~~~~~~~~~~~~~~~~~COLLIDING WITH HOLE FALLING TAG!!!");
+            coll.transform.gameObject.GetComponent<SpriteRenderer>().enabled = true;
+            coll.transform.gameObject.GetComponent<SpriteRenderer>().color = Color.green;
             //grounded = false;
             //coll.gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2(0, -100f);
-            if (transform.position.y < main_camera.s.transform.position.y - 2f)
+            if (transform.position.y < main_camera.s.transform.position.y + cam_fall_dist) { 
                 main_camera.s.OnBallFalling();
+                coll.transform.gameObject.GetComponent<SpriteRenderer>().color = Color.red;
+
+            }
             
             Physics2D.IgnoreCollision(coll.collider, GetComponent<Collider2D>());
         }

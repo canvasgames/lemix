@@ -9,7 +9,7 @@ public class PW_controller : MonoBehaviour {
     void Start () {
         s = this;
         globals.s.PW_INVENCIBLE = false;
-        globals.s.PW_SIGHT_BEYOND_SIGHT = false;
+        globals.s.PW_SIGHT_BEYOND_SIGHT = true;
         globals.s.PW_SUPER_JUMP = false;
     }
 	
