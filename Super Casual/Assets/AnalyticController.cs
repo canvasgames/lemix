@@ -39,6 +39,13 @@ public class AnalyticController : MonoBehaviour {
                         .AddParam("rewardName", "Medal"));
 
         DDNA.Instance.RecordEvent("achievement", achievementParams);
+
+
+        eventParams = new EventBuilder();
+        eventParams.AddParam("aaa", "lime");
+        eventParams.AddParam("aaction", "be a dark Lord");
+        DDNA.Instance.RecordEvent("zeptile", eventParams);
+
     }
 
     void Update() {
