@@ -7,9 +7,12 @@ public class PW_controller : MonoBehaviour {
 
     public ball_hero[] balls; 
     int balls_i = 0;
-    float actual_symbol_alpha = 0;
 
-    float PW_ending_end_time;
+    float actual_mask_symbol_alpha = 0;
+    float PW_symbol_startTime = 0;
+    float PW_symbol_ending_duration = 3f;
+
+    bool fade_in_mask = true;
     // Use this for initialization
     void Start () {
         s = this;
@@ -17,56 +20,79 @@ public class PW_controller : MonoBehaviour {
         balls = new ball_hero[2];
 
         globals.s.PW_INVENCIBLE = false;
-        globals.s.PW_SIGHT_BEYOND_SIGHT = true;
+        globals.s.PW_SIGHT_BEYOND_SIGHT = false;
         globals.s.PW_SUPER_JUMP = false;
     }
 	
 	// Update is called once per frame
-	void Update () {
+	void Update ()
+    {
 	    if (globals.s.PW_ENDING == true)
         {
-            globals.s.PW_ENDING_TIME = PW_ending_end_time - Time.time;
+            change_alpha_signs();
         }
 	}
+
+    //Called by invoke
     public void pw_ending()
     {
         globals.s.PW_ENDING = true;
-        globals.s.PW_ENDING_TIME = 5f;
-        PW_ending_end_time = Time.time;
+        PW_symbol_startTime = Time.time;
+    }
+
+
+    #region INVENCIBLE HEART
+    public void invencible_start()
+    {
+        globals.s.PW_INVENCIBLE = true;
+        Invoke("invencible_end", GD.s.GD_PW_HEARTH_TIME);
+        Invoke("pw_ending", GD.s.GD_PW_HEARTH_TIME - PW_symbol_ending_duration);
+        symbols_start();
     }
 
     public void invencible_end()
     {
         CancelInvoke("invencible_end");
+        CancelInvoke("pw_ending");
         globals.s.PW_INVENCIBLE = false;
         globals.s.PW_ENDING = false;
-    }
 
-    #region HEART
-    public void invencible_start()
-    {
-        globals.s.PW_INVENCIBLE = true;
-        Invoke("invencible_end", GD.s.GD_PW_HEARTH_TIME);
-        Invoke("pw_ending", GD.s.GD_PW_HEARTH_TIME - 5);
+        actual_mask_symbol_alpha = 0;
+        change_balls_symbol_mask_alpha();
     }
     #endregion
-
     #region SIGHT
     public void PW_sight_start()
     {
         globals.s.PW_SIGHT_BEYOND_SIGHT = true;
         change_color_sight_pw();
-
+        
         Invoke("sight_end", GD.s.GD_PW_SIGHT_TIME);
+        Invoke("pw_ending", GD.s.GD_PW_SIGHT_TIME - PW_symbol_ending_duration);
+        symbols_start();
     }
+
 
     public void sight_end()
     {
+        CancelInvoke("pw_ending");
         CancelInvoke("sight_end");
+        globals.s.PW_ENDING = false;
         globals.s.PW_SIGHT_BEYOND_SIGHT = false;
         back_color_sight_pw();
-    }
 
+        actual_mask_symbol_alpha = 0;
+        change_balls_symbol_mask_alpha();
+
+    }
+    #endregion
+
+    void symbols_start()
+    {
+        actual_mask_symbol_alpha = 0;
+        change_balls_symbol_mask_alpha();
+    }
+    #region SIGHT CHANGE COLOR
     void change_color_sight_pw()
     {
         int i;
@@ -132,15 +158,42 @@ public class PW_controller : MonoBehaviour {
 
     void change_alpha_signs()
     {
-        //float t = (Time.time - startTime) / duration;
-        //symbols.transform.GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f, Mathf.SmoothStep(1, 0, t));
+        float t = (Time.time - PW_symbol_startTime) / PW_symbol_ending_duration;
+        actual_mask_symbol_alpha = Mathf.SmoothStep(0, 1, t);
+        /*
+        if (fade_in_mask == true)
+        {
+            
+            if (actual_mask_symbol_alpha >= 1)
+            {
+                fade_in_mask = false;
+                PW_symbol_startTime = Time.time;
+                PW_symbol_duration = PW_symbol_duration - 0.2f;
+            } 
+        }
+        else
+        {        
+            actual_mask_symbol_alpha = Mathf.SmoothStep(1, 0, t);
+            if(actual_mask_symbol_alpha <=0)
+            {
+                fade_in_mask = true;
+                PW_symbol_startTime = Time.time;
+                PW_symbol_duration = PW_symbol_duration - 0.2f;
+            }
+        }
+        */
+        change_balls_symbol_mask_alpha();
+    }
+
+    void change_balls_symbol_mask_alpha()
+    {
         if (balls[0] != null)
         {
-            balls[0].set_symbols_alpha(actual_symbol_alpha);
+            balls[0].set_symbols_alpha(actual_mask_symbol_alpha);
         }
         if (balls[1] != null)
         {
-            balls[1].set_symbols_alpha(actual_symbol_alpha);
+            balls[1].set_symbols_alpha(actual_mask_symbol_alpha);
         }
     }
 }

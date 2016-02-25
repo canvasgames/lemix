@@ -35,7 +35,6 @@ public class globals : MonoBehaviour {
     [HideInInspector] public bool PW_SIGHT_BEYOND_SIGHT = false;
 
     [HideInInspector] public bool PW_ENDING = false;
-    [HideInInspector] public float PW_ENDING_TIME = 3f;
 
     [HideInInspector] public bool FIRST_GAME = true;
     // Use this for initialization

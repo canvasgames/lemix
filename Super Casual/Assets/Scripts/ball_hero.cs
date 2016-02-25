@@ -181,8 +181,8 @@ public class ball_hero : MonoBehaviour
         else if (son_created == true && (transform.position.x < globals.s.LIMIT_LEFT - globals.s.BALL_D ||
                                      transform.position.x > globals.s.LIMIT_RIGHT + globals.s.BALL_D))
         {
-            //Debug.Log("Destroy me !!!! my pos:" + transform.position.x);
-            //Destroy(gameObject);
+            Debug.Log("Destroy me !!!! my pos:" + transform.position.x);
+            Destroy(gameObject);
             //my_light.SetActive(false);
             
         }

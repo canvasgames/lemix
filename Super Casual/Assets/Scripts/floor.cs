@@ -46,7 +46,7 @@ public class floor : scenario_objects {
 	// Update is called once per frame
 	void Update () {
 		if(transform.position.y < globals.s.BALL_Y - globals.s.FLOOR_HEIGHT*4){
-			Destroy(gameObject);
+			//Destroy(gameObject);
 		}
     }
 
@@ -155,12 +155,13 @@ public class floor : scenario_objects {
 
         if (y_pos_ball > transform.position.y)
         {
-            transform.DOScaleZ(1, 0.3f).OnComplete(destroy_me_baby);
+            transform.DOScaleZ(1, 0.3f)
+                //.OnComplete(destroy_me_baby);
         }
     }
 
-    void destroy_me_baby()
+   /* void destroy_me_baby()
     {
         Destroy(gameObject);
-    }
+    }*/
 }

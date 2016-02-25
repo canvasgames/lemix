@@ -73,6 +73,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\AnalyticController.cs" />
+    <Compile Include="Assets\BallLight.cs" />
     <Compile Include="Assets\DeltaDNA\Ads.cs" />
     <Compile Include="Assets\DeltaDNA\DDNA.cs" />
     <Compile Include="Assets\DeltaDNA\EventBuilder.cs" />
@@ -114,6 +115,7 @@
     <Compile Include="Assets\Scripts\hole_skin_behaviour.cs" />
     <Compile Include="Assets\Scripts\hud_controller.cs" />
     <Compile Include="Assets\Scripts\main_camera.cs" />
+    <Compile Include="Assets\Scripts\objects_pool_controller.cs" />
     <Compile Include="Assets\Scripts\scenario_objects.cs" />
     <Compile Include="Assets\Scripts\spike.cs" />
     <Compile Include="Assets\Scripts\tapToPlay.cs" />
