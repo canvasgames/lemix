@@ -37,8 +37,7 @@ public class ball_hero : MonoBehaviour
     public GameObject explosion;
 
     bool hitted_wall = false;
-    float duration = 2f;
-    float startTime;
+
     public float cam_fall_dist = 0;
 
     void Awake()
@@ -49,7 +48,6 @@ public class ball_hero : MonoBehaviour
     // START THE DANCE
     void Start()
     {
-        startTime = Time.time;
         my_id = globals.s.BALL_ID; globals.s.BALL_ID++;
         
 
@@ -148,6 +146,9 @@ public class ball_hero : MonoBehaviour
                                                             transform.position.y + globals.s.FLOOR_HEIGHT,
                                                               0),
                                               transform.rotation);
+
+            PW_controller.s.add_ball(my_son.GetComponent<ball_hero>());
+
             my_son.GetComponent<Rigidbody2D>().velocity = new Vector2(-rb.velocity.x, rb.velocity.y);
             //Debug.Log("MMMMMM MY SON VY " + my_son.GetComponent<Rigidbody2D>().velocity.y + " | MY VY: " + rb.velocity.y);
             my_son.GetComponent<ball_hero>().my_floor = my_floor + 1;
@@ -543,9 +544,6 @@ public class ball_hero : MonoBehaviour
     #region POWER UP -> SYMBOLS PW
     void symbols_PW_activate()
     {
-        float t = (Time.time - startTime) / duration;
-        symbols.transform.GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f, Mathf.SmoothStep(1, 0, t));
-
         if (globals.s.PW_SIGHT_BEYOND_SIGHT == true && sight_active == false)
         {
             sight_start();
@@ -595,6 +593,11 @@ public class ball_hero : MonoBehaviour
     }
 
     #endregion
+
+    public void set_symbols_alpha(float alpha)
+    {
+        symbols.transform.GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f, alpha);
+    }
 
     #region =========== DEBUG ================
     void back_to_normal_color() {

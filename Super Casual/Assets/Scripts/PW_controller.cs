@@ -5,9 +5,17 @@ public class PW_controller : MonoBehaviour {
 
     public static PW_controller s;
 
+    public ball_hero[] balls; 
+    int balls_i = 0;
+    float actual_symbol_alpha = 0;
+
+    float PW_ending_end_time;
     // Use this for initialization
     void Start () {
         s = this;
+
+        balls = new ball_hero[2];
+
         globals.s.PW_INVENCIBLE = false;
         globals.s.PW_SIGHT_BEYOND_SIGHT = true;
         globals.s.PW_SUPER_JUMP = false;
@@ -15,12 +23,16 @@ public class PW_controller : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-	
+	    if (globals.s.PW_ENDING == true)
+        {
+            globals.s.PW_ENDING_TIME = PW_ending_end_time - Time.time;
+        }
 	}
     public void pw_ending()
     {
         globals.s.PW_ENDING = true;
         globals.s.PW_ENDING_TIME = 5f;
+        PW_ending_end_time = Time.time;
     }
 
     public void invencible_end()
@@ -103,4 +115,32 @@ public class PW_controller : MonoBehaviour {
         }
     }
     #endregion
+
+    public void add_ball(ball_hero new_ball)
+    {
+        balls[balls_i] = new_ball;
+
+        if(balls_i == 0)
+        {
+            balls_i++;
+        }
+        else
+        {
+            balls_i = 0;
+        }
+    }
+
+    void change_alpha_signs()
+    {
+        //float t = (Time.time - startTime) / duration;
+        //symbols.transform.GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f, Mathf.SmoothStep(1, 0, t));
+        if (balls[0] != null)
+        {
+            balls[0].set_symbols_alpha(actual_symbol_alpha);
+        }
+        if (balls[1] != null)
+        {
+            balls[1].set_symbols_alpha(actual_symbol_alpha);
+        }
+    }
 }
