@@ -60,11 +60,11 @@ public class objects_pool_controller : MonoBehaviour {
             triple_spikes_pool[i] = (GameObject)Instantiate(triple_spike_prefab, new Vector3(55, 0, 0), transform.rotation);
         }
 
-        for (i = 0; i < squares_floor_pool_size; i++)
+      /*  for (i = 0; i < squares_floor_pool_size; i++)
         {
             squares_floor_pool[i] = (GameObject)Instantiate(squares_floor_prefab, new Vector3(105, 10*i, 0), transform.rotation);
-            //squares_floor_pool[i].GetComponent<Rigidbody2D>().isKinematic = true;
-        }
+            
+        }*/
     }
 
     #region FLOOR THINGS
@@ -74,7 +74,7 @@ public class objects_pool_controller : MonoBehaviour {
         floor_pool[floor_pool_actual_i].transform.position = new Vector3(x_pos, y_pos, 0);
         GameObject repositing_floor = floor_pool[floor_pool_actual_i];
 
-        reposite_squares_floor_particle(x_pos,y_pos);
+        //reposite_squares_floor_particle(x_pos,y_pos);
 
 
         floor_pool_actual_i++;
@@ -208,8 +208,6 @@ public class objects_pool_controller : MonoBehaviour {
     void clear_squares_floor_particle_now()
     {
         int i;
-
-        Debug.Log("ueeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee");
         for (i = 0; i < squares_floor_pool_size; i++)
         {
 
@@ -220,7 +218,6 @@ public class objects_pool_controller : MonoBehaviour {
                 {
                     rigid.GetComponent<Rigidbody2D>().isKinematic = true;
                     rigid.GetComponent<Rigidbody2D>().velocity = Vector3.zero;
-                    Debug.Log("Mudando Roqueeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee");
                 }
             }
 

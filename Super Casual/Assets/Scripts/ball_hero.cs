@@ -519,7 +519,7 @@ public class ball_hero : MonoBehaviour
             squares[i].scale_down_to_dessapear();
         }
 
-        objects_pool_controller.s.clear_squares_floor_particle();
+       // objects_pool_controller.s.clear_squares_floor_particle();
     }
 
 
