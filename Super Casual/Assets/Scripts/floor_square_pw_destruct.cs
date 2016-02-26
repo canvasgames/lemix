@@ -2,12 +2,14 @@
 using System.Collections;
 using DG.Tweening;
 public class floor_square_pw_destruct : MonoBehaviour {
+
     bool can_disappear = false;
-    bool voe_pinta = false;
-    float initial_y;
+
+    float initial_y, initial_x;
 	// Use this for initialization
 	void Start () {
-        initial_y = transform.position.y;
+        initial_y = transform.localPosition.y;
+        initial_x = transform.localPosition.x;
     }
 	
 	// Update is called once per frame
@@ -26,12 +28,13 @@ public class floor_square_pw_destruct : MonoBehaviour {
     public void scale_down_to_dessapear()
     {
      if (can_disappear == true)
-        transform.DOScale(0, 0.3f).OnComplete(destroy_me_baby); ;
+        transform.DOScale(0, 0.3f) ;
     }
 
-    void destroy_me_baby()
+    public void reposite_squares_tururu()
     {
-        Destroy(gameObject);
+        transform.DOScale(1, 0.1f);
+        transform.localPosition = new Vector3(initial_x, initial_y, 0);
     }
 
 }

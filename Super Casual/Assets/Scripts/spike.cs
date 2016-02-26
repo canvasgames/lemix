@@ -9,8 +9,6 @@ public class spike : scenario_objects {
     public bool corner_repositionable = false;
     bool already_appeared = false;
 
-   // public int my_floor;
-    Rigidbody2D rb;
     float timer = 0;
     float target_y;
     public PolygonCollider2D my_collider;
@@ -22,7 +20,7 @@ public class spike : scenario_objects {
         my_collider = GetComponent<PolygonCollider2D>();
     }
 	void Start () {
-        rb = transform.GetComponent<Rigidbody2D>();
+
         //GetComponent<SpriteRenderer>().color = Color.green;
         //if(QA.s.INVENCIBLE == true)
             //my_collider.enabled = false;
@@ -48,7 +46,7 @@ public class spike : scenario_objects {
         {
             if(gameObject!=null)
             {
-                Destroy(gameObject);
+               // Destroy(gameObject);
             }
         }
             
@@ -117,13 +115,13 @@ public class spike : scenario_objects {
     {
         if( y_pos_ball > transform.position.y)
         {
-            transform.DOScale(0, 0.3f).OnComplete(destroy_me_baby);
+            transform.DOScale(0, 0.3f);//.OnComplete(destroy_me_baby);
         }
     }
 
     void destroy_me_baby()
     {
-        Destroy(gameObject);
+        //Destroy(gameObject);
     }
 
     public void show_me_pw_sight()
@@ -136,5 +134,17 @@ public class spike : scenario_objects {
     {
 
         transform.GetComponent<SpriteRenderer>().color = Color.white;
+    }
+
+    public void clear_flags_reposite()
+    {
+        hidden = false;
+        manual_trigger = false;
+        corner_repositionable = false;
+        already_appeared = false;
+
+        timer = 0;
+
+        transform.DOScale(0.7f, 0.1f);
     }
 }

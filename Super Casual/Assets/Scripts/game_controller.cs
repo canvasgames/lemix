@@ -1281,37 +1281,54 @@ public class game_controller : MonoBehaviour {
 
     void create_spike(float x, float y, int n, bool corner_repositionable = false)
     {
-        GameObject obj = (GameObject)Instantiate(spike_type, new Vector3(x, y + globals.s.SLOT/2, 0), transform.rotation);
+        //GameObject obj = (GameObject)Instantiate(spike_type, new Vector3(x, y + globals.s.SLOT/2, 0), transform.rotation);
+        GameObject obj = objects_pool_controller.s.reposite_double_spikes(x, y + globals.s.SLOT / 2);
         spike spk = obj.GetComponent<spike>();
-        spk.my_floor = n;
-        spk.corner_repositionable = corner_repositionable;
-    }
-
-    void create_triple_spike(float x, float y, int n)
-    {
-        GameObject obj = (GameObject)Instantiate(triple_spike_type, new Vector3(x, y + globals.s.SLOT / 2, 0), transform.rotation);
-        obj.GetComponent<spike>().my_floor = n;
+        if(spk != null)
+        {
+            spk.my_floor = n;
+            spk.corner_repositionable = corner_repositionable;
+        }
+        
     }
 
     void create_hidden_spike(float x, float y, int n, bool manual_trigger = false, bool corner_repositionable = false)
     {
-        GameObject obj = (GameObject)Instantiate(spike_type, new Vector3(x, y + globals.s.SLOT/2 - spike_type.transform.GetComponent<SpriteRenderer>().bounds.size.y, 0), transform.rotation);
+        //GameObject obj = (GameObject)Instantiate(spike_type, new Vector3(x, y + globals.s.SLOT/2 - spike_type.transform.GetComponent<SpriteRenderer>().bounds.size.y, 0), transform.rotation);
+        GameObject obj = objects_pool_controller.s.reposite_double_spikes(x, y + globals.s.SLOT / 2 - spike_type.transform.GetComponent<SpriteRenderer>().bounds.size.y);
         spike spk = obj.GetComponent<spike>();
-        spk.hidden = true;
-        spk.my_floor = n;
-        spk.manual_trigger = manual_trigger;
-        spk.my_collider.enabled = false;
-        spk.corner_repositionable = corner_repositionable;
+        if (spk != null)
+        {
+            spk.hidden = true;
+            spk.my_floor = n;
+            spk.manual_trigger = manual_trigger;
+            spk.my_collider.enabled = false;
+            spk.corner_repositionable = corner_repositionable;
+        }
+    }
+
+    void create_triple_spike(float x, float y, int n)
+    {
+       // GameObject obj = (GameObject)Instantiate(triple_spike_type, new Vector3(x, y + globals.s.SLOT / 2, 0), transform.rotation);
+        GameObject obj = objects_pool_controller.s.reposite_triple_spikes(x, y + globals.s.SLOT / 2);
+        if (obj.GetComponent<spike>() != null)
+        {
+            obj.GetComponent<spike>().my_floor = n;
+        }
     }
 
     void create_triple_hidden_spike(float x, float y, int n, bool manual_trigger = false)
     {
-        GameObject obj = (GameObject)Instantiate(triple_spike_type, new Vector3(x, y + globals.s.SLOT / 2 - triple_spike_type.transform.GetComponent<SpriteRenderer>().bounds.size.y, 0), transform.rotation);
+       // GameObject obj = (GameObject)Instantiate(triple_spike_type, new Vector3(x, y + globals.s.SLOT / 2 - triple_spike_type.transform.GetComponent<SpriteRenderer>().bounds.size.y, 0), transform.rotation);
+        GameObject obj = objects_pool_controller.s.reposite_triple_spikes(x, y + globals.s.SLOT / 2 - triple_spike_type.transform.GetComponent<SpriteRenderer>().bounds.size.y);
         spike spk = obj.GetComponent<spike>();
-        spk.hidden = true;
-        spk.my_floor = n;
-        spk.manual_trigger = manual_trigger;
-        spk.my_collider.enabled = false;
+        if (spk != null)
+        {
+            spk.hidden = true;
+            spk.my_floor = n;
+            spk.manual_trigger = manual_trigger;
+            spk.my_collider.enabled = false;
+        }
     }
 
 

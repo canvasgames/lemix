@@ -7,9 +7,9 @@ public class floor : scenario_objects {
 
    // public int my_floor;
     public GameObject scoreInfo;
-    public GameObject squaresUp;
-    public GameObject squaresDown;
     public GameObject colliderPW;
+    GameObject my_text;
+    public bool pw_super_collided = false;
 
     // Use this for initialization
     void Start () {
@@ -103,19 +103,19 @@ public class floor : scenario_objects {
 
     public void create_score_text(int score_type)
     {
-        GameObject obj = (GameObject)Instantiate(scoreInfo, new Vector3(0, transform.position.y - 0.6f, transform.position.z), transform.rotation);
+        my_text = (GameObject)Instantiate(scoreInfo, new Vector3(0, transform.position.y - 0.6f, transform.position.z), transform.rotation);
 
         if (score_type == 1)
         {
-            obj.GetComponentInChildren<TextMesh>().text = "BEST";
+            my_text.GetComponentInChildren<TextMesh>().text = "BEST";
         }
         else if (score_type == 2)
         {
-            obj.GetComponentInChildren<TextMesh>().text = "DAY";
+            my_text.GetComponentInChildren<TextMesh>().text = "DAY";
         }
         else if (score_type == 3)
         {
-            obj.GetComponentInChildren<TextMesh>().text = "LAST";
+            my_text.GetComponentInChildren<TextMesh>().text = "LAST";
         }
     }
 
@@ -126,38 +126,42 @@ public class floor : scenario_objects {
             create_score_text(type);
             try_blink(floor);
         }
-    }
-    public void activate_squares()
-    {
-        squaresDown.SetActive(true);
-        squaresUp.SetActive(true);
-        if (colliderPW != null)
-        {
-            colliderPW.SetActive(true);
-        }
-    }
-
-    public void unactivate_squares()
-    {
-        squaresDown.SetActive(false);
-        squaresUp.SetActive(false);
-        if (colliderPW != null)
-        {
-            colliderPW.SetActive(false);
-        }
 
     }
 
-    public void destroy_pw_super_under_floors(float y_pos_ball)
+    public void activate_colider_super_pw()
     {
-        if(colliderPW != null)
-            colliderPW.SetActive(false);
+        colliderPW.SetActive(true);
+    }
 
-        if (y_pos_ball > transform.position.y)
+    public void unactivate_colider_super_pw()
+    {
+        colliderPW.SetActive(false);
+    }
+
+    public void colidded_super_pw()
+    {
+        pw_super_collided = true;
+        transform.GetComponent<SpriteRenderer>().enabled = false;
+    }
+
+
+
+    public void clear_flags_reposite()
+    {
+
+        if(my_text != null)
         {
-            transform.DOScaleZ(1, 0.3f)
-                //.OnComplete(destroy_me_baby);
+            Destroy(my_text);   
         }
+
+        if(pw_super_collided == true)
+        {
+            pw_super_collided = false;
+            transform.GetComponent<SpriteRenderer>().enabled = true;
+        }
+        
+
     }
 
    /* void destroy_me_baby()

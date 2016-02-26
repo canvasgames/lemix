@@ -181,7 +181,7 @@ public class ball_hero : MonoBehaviour
         else if (son_created == true && (transform.position.x < globals.s.LIMIT_LEFT - globals.s.BALL_D ||
                                      transform.position.x > globals.s.LIMIT_RIGHT + globals.s.BALL_D))
         {
-            Debug.Log("Destroy me !!!! my pos:" + transform.position.x);
+           // Debug.Log("Destroy me !!!! my pos:" + transform.position.x);
             Destroy(gameObject);
             //my_light.SetActive(false);
             
@@ -238,7 +238,7 @@ public class ball_hero : MonoBehaviour
                     destroy_me();
                 }
                 else {
-                    Destroy(coll.gameObject);
+                   // Destroy(coll.gameObject);
                     PW_controller.s.invencible_end();
                 }
             }
@@ -378,7 +378,7 @@ public class ball_hero : MonoBehaviour
         //construct floors
         int i;
         int temp = my_floor;
-
+        globals.s.PW_SUPER_JUMP = true;
         for (i = my_floor + 1; i <= temp + 6; i++)
         {
            game_controller.s.create_new_wave();
@@ -397,7 +397,7 @@ public class ball_hero : MonoBehaviour
 
     void go_up_PW() {
         
-        globals.s.PW_SUPER_JUMP = true;
+        //globals.s.PW_SUPER_JUMP = true;
         desactivate_pws_super();
         int ball_speed = 20;
 
@@ -445,14 +445,14 @@ public class ball_hero : MonoBehaviour
 
     void activate_particles_floor()
     {
-        floor[] floors = null;
-        floors = GameObject.FindObjectsOfType(typeof(floor)) as floor[];
+        
         int i=0;
-
+        floor[] floors = null;
+       floors = GameObject.FindObjectsOfType(typeof(floor)) as floor[];
         for (i = 0; i < floors.Length; i++)
-        {
-            floors[i].activate_squares();
-        }
+          {
+            floors[i].activate_colider_super_pw();
+          }
 
         hole_behaviour[] holes = GameObject.FindObjectsOfType(typeof(hole_behaviour)) as hole_behaviour[];
 
@@ -476,10 +476,10 @@ public class ball_hero : MonoBehaviour
     {
         destroy_spikes();
         int i;
-        floor[] floors = GameObject.FindObjectsOfType(typeof(floor)) as floor[];
+       floor[] floors = GameObject.FindObjectsOfType(typeof(floor)) as floor[];
         for (i = 0; i < floors.Length; i++)
         {
-            floors[i].destroy_pw_super_under_floors(transform.position.y);
+            floors[i].unactivate_colider_super_pw();
         }
 
         hole_behaviour[] holes = GameObject.FindObjectsOfType(typeof(hole_behaviour)) as hole_behaviour[];
@@ -495,11 +495,11 @@ public class ball_hero : MonoBehaviour
     void unactivate_squares()
     {
         int i;
-        floor[] floors = GameObject.FindObjectsOfType(typeof(floor)) as floor[];
+        /*floor[] floors = GameObject.FindObjectsOfType(typeof(floor)) as floor[];
         for (i = 0; i < floors.Length; i++)
         {
             floors[i].unactivate_squares();
-        }
+        }*/
 
         hole_behaviour[] holes = GameObject.FindObjectsOfType(typeof(hole_behaviour)) as hole_behaviour[];
 
@@ -518,7 +518,11 @@ public class ball_hero : MonoBehaviour
         {
             squares[i].scale_down_to_dessapear();
         }
+
+        objects_pool_controller.s.clear_squares_floor_particle();
     }
+
+
     void destroy_spikes()
     {
         int i;
