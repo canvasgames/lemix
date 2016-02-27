@@ -115,7 +115,8 @@ public class spike : scenario_objects {
     {
         if( y_pos_ball > transform.position.y)
         {
-            transform.DOScale(0, 0.3f);//.OnComplete(destroy_me_baby);
+            /// transform.DOScale(0, 0.3f);//.OnComplete(destroy_me_baby);
+            transform.position = new Vector3(transform.position.x - Random.Range(50,150), transform.position.y - Random.Range(50, 150), transform.position.z);
         }
     }
 

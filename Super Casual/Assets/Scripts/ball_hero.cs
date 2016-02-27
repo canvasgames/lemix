@@ -286,11 +286,7 @@ public class ball_hero : MonoBehaviour
             pw_do_something(temp);
         }
 
-
-    }
-    void OnCollisionStay2D(Collision2D coll)
-    {
-        if (globals.s.PW_SUPER_JUMP == true )
+        if (globals.s.PW_SUPER_JUMP == true)
         {
             if (coll.gameObject.CompareTag("PW_Trigger"))
             {
@@ -298,6 +294,11 @@ public class ball_hero : MonoBehaviour
                     coll.gameObject.GetComponent<floor_pw_collider>().unactive_sprite_daddy();
             }
         }
+
+    }
+    void OnCollisionStay2D(Collision2D coll)
+    {
+
     }
     
     #endregion
@@ -419,8 +420,8 @@ public class ball_hero : MonoBehaviour
         rb.gameObject.GetComponent<Rigidbody2D>().gravityScale = 0.5f;
         rb.gameObject.GetComponent<Rigidbody2D>().isKinematic = false;
 
-        unactivate_particles_floor();
-        Invoke("create_floor", 0.2f);
+      unactivate_particles_floor();
+      Invoke("create_floor", 0.2f);
     }
 	
 
@@ -474,20 +475,20 @@ public class ball_hero : MonoBehaviour
 
     void unactivate_particles_floor()
     {
-        destroy_spikes();
-        int i;
-       floor[] floors = GameObject.FindObjectsOfType(typeof(floor)) as floor[];
-        for (i = 0; i < floors.Length; i++)
-        {
-            floors[i].unactivate_colider_super_pw();
-        }
+         //destroy_spikes();
+         int i;
+         floor[] floors = GameObject.FindObjectsOfType(typeof(floor)) as floor[];
+          for (i = 0; i < floors.Length; i++)
+          {
+              floors[i].unactivate_colider_super_pw();
+          }
 
-        hole_behaviour[] holes = GameObject.FindObjectsOfType(typeof(hole_behaviour)) as hole_behaviour[];
+          hole_behaviour[] holes = GameObject.FindObjectsOfType(typeof(hole_behaviour)) as hole_behaviour[];
 
-        for (i = 0; i < holes.Length; i++)
-        {
-            holes[i].destroy_pw_super_under_floors(transform.position.y);
-        }
+          for (i = 0; i < holes.Length; i++)
+          {
+              holes[i].destroy_pw_super_under_floors(transform.position.y);
+          }
 
     }
 
