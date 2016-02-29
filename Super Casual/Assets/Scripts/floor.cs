@@ -132,6 +132,7 @@ public class floor : scenario_objects {
     public void activate_colider_super_pw()
     {
         colliderPW.SetActive(true);
+        colliderPW.GetComponent<Rigidbody2D>().isKinematic = false;
     }
 
     public void unactivate_colider_super_pw()
@@ -155,15 +156,19 @@ public class floor : scenario_objects {
             Destroy(my_text);   
         }
 
-        if(pw_super_collided == true)
+
+            pw_super_collided = false;
+            transform.GetComponent<SpriteRenderer>().enabled = true;
+    }
+
+    public void reaper_post_PW_super(int floor)
+    {
+        if(my_floor > floor)
         {
             pw_super_collided = false;
             transform.GetComponent<SpriteRenderer>().enabled = true;
         }
-        
-
     }
-
    /* void destroy_me_baby()
     {
         Destroy(gameObject);

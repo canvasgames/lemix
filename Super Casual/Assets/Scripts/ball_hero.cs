@@ -380,7 +380,7 @@ public class ball_hero : MonoBehaviour
         int i;
         int temp = my_floor;
         globals.s.PW_SUPER_JUMP = true;
-        for (i = my_floor + 1; i <= temp + 6; i++)
+        for (i = my_floor + 1; i <= temp + 5; i++)
         {
            game_controller.s.create_new_wave();
         }
@@ -421,16 +421,19 @@ public class ball_hero : MonoBehaviour
         rb.gameObject.GetComponent<Rigidbody2D>().isKinematic = false;
 
       unactivate_particles_floor();
-      Invoke("create_floor", 0.2f);
+        
+        Invoke("create_floor", 0.2f);
     }
 	
 
     void create_floor()
     {
         my_floor += 5;
+        appear_floors();
         GameObject floor = game_controller.s.create_floor(12, my_floor);
         destroy_spikes();
         floor.transform.DOMoveX(0, 0.3f);//.OnComplete(pw_super_end);
+        
 
     }
    void pw_super_end_for_real() {
@@ -471,7 +474,16 @@ public class ball_hero : MonoBehaviour
 
     }
 
-
+    void appear_floors()
+    {
+        floor[] floors = null;
+        int i;
+        floors = GameObject.FindObjectsOfType(typeof(floor)) as floor[];
+        for (i = 0; i < floors.Length; i++)
+        {
+            floors[i].reaper_post_PW_super(my_floor);
+        }
+    }
 
     void unactivate_particles_floor()
     {
@@ -481,7 +493,7 @@ public class ball_hero : MonoBehaviour
           for (i = 0; i < floors.Length; i++)
           {
               floors[i].unactivate_colider_super_pw();
-          }
+             }
 
           hole_behaviour[] holes = GameObject.FindObjectsOfType(typeof(hole_behaviour)) as hole_behaviour[];
 

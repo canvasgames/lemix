@@ -17,10 +17,12 @@ public class floor_pw_collider : MonoBehaviour {
     {
         if(daddy!= null)
         {
+            transform.GetComponent<Rigidbody2D>().isKinematic = true;
             if (daddy.GetComponent<floor>() != null)
             {
                 daddy.GetComponent<floor>().colidded_super_pw();
             }
+
         }
 
     }
