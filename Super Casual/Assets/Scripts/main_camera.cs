@@ -17,6 +17,7 @@ public class main_camera : MonoBehaviour {
      // Use this for initialization
     void Start()
     {
+        transform.position = new Vector3(0, 0, -10);
         rb = transform.GetComponent<Rigidbody2D>();
 
         // set the desired aspect ratio (the values in this example are

@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 using System.Collections;
 using UnityEngine.UI;
 using System;
@@ -24,6 +25,7 @@ public class hud_controller : MonoBehaviour {
     DateTime tempcurDate;
 
     [HideInInspector] public int BEST_SCORE, LAST_SCORE, DAY_SCORE;
+    [HideInInspector] public int USER_TOTAL_GAMES, USER_TOTAL_VIDEOS_WATCHED;
     // Use this for initialization
     void Awake()
     {
@@ -83,8 +85,6 @@ public class hud_controller : MonoBehaviour {
                 activate_pw_bt.SetActive(true);
             }
         }
-
-      
     }
 	
 	// Update is called once per frame
@@ -93,7 +93,9 @@ public class hud_controller : MonoBehaviour {
         //GAME OVER GAME CASE
         if(globals.s.CAN_RESTART && Input.GetMouseButtonDown(0))
         {
-            Application.LoadLevel("Gameplay");
+            //Application.LoadLevel("Gameplay");
+            //Application.LoadLevel()
+            SceneManager.LoadScene("Gameplay");
         }
 
         if(!globals.s.GAME_STARTED)
@@ -113,8 +115,6 @@ public class hud_controller : MonoBehaviour {
             {
                 HUD_BUTTON_CLICKED = false;
             }
-            
-
         }
     }
 
@@ -125,6 +125,7 @@ public class hud_controller : MonoBehaviour {
         best.SetActive(true);
         Destroy(intro);
 
+        game_controller.s.game_running();
     }
 
 
@@ -133,7 +134,6 @@ public class hud_controller : MonoBehaviour {
         if (QA.s.TRACE_PROFUNDITY >= 3) Debug.Log(" NEW FLOOR!!!!!! ");
         //GetComponentInChildren<TextMesh>().text =  "Floor " + (n+1).ToString();
         floor.GetComponent<Text>().text = "Floor " + (n + 1).ToString();
-
     }
 
     public void show_game_over(int currentFloor)
@@ -160,7 +160,6 @@ public class hud_controller : MonoBehaviour {
     int get_and_set_best_score(int cur_floor)
     {
         int cur_best = PlayerPrefs.GetInt("best", 0);
-        
 
         if (cur_floor > cur_best)
         {

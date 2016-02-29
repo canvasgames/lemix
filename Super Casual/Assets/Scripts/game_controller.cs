@@ -7,6 +7,8 @@ public class game_controller : MonoBehaviour {
     #region ============= Variables Declaration ================
     public static game_controller s;
 
+    float starting_time, match_time;
+
     // TYPES
     [HideInInspector] public GameObject floor;
     public GameObject floor_type;
@@ -19,6 +21,8 @@ public class game_controller : MonoBehaviour {
     private int n_floor = 5;
     private int cur_floor = -1;
 
+    public int wave_id;
+    public string wave_name = "";
     public ball_hero[] ball;
 
 	public GameObject single;
@@ -100,7 +104,7 @@ public class game_controller : MonoBehaviour {
 
 		// Calculate ball speed(SLOT*4)/((480+25)/CASUAL_SPEED_X)
 		globals.s.CAMERA_SPEED = globals.s.FLOOR_HEIGHT / ((globals.s.LIMIT_RIGHT*2 )/ globals.s.BALL_SPEED_X);
-		Debug.Log ("\n\n\n============= NEW GAME !!!!!!!!!! ===============");
+		Debug.Log ("\n============= NEW GAME !!!!!!!!!! ===============");
 
         int count = 0;
         // create initial platforms
@@ -113,7 +117,8 @@ public class game_controller : MonoBehaviour {
                 switch (i)
                 {
                     case 0:
-                        create_floor(0, i);
+                        GameObject b = create_floor(0, i);
+                        if (b == null) Debug.Log("ERROR CREATING THE FIRST FLOOR!!!");
                         wave_found = true;
                         //create_spike_wave(i, globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * i);
                         break;
@@ -158,24 +163,33 @@ public class game_controller : MonoBehaviour {
 
     #endregion
 
+    #region ================ GAME RUNNING ================
+
+    public void game_running() {
+        AnalyticController.s.ReportGameStarted();
+        starting_time = Time.time;
+    }
+
+    #endregion
+
+
     #region ================= GAME END ===================
 
-    public void game_over()
+    public void game_over(string killer_wave_name)
     {
         //Time.timeScale = 0;
+        AnalyticController.s.ReportGameEnded(killer_wave_name, (int)(Time.time - starting_time));
 
         globals.s.GAME_OVER = 1;
 
         Invoke("show_game_over", 1f);
     }
 
-    void show_game_over()
-    {
+    void show_game_over() {
         globals.s.CAN_RESTART = true;
-
-
         hud_controller.si.show_game_over(cur_floor + 1);
     }
+
 
     #endregion
 
@@ -187,6 +201,7 @@ public class game_controller : MonoBehaviour {
             // if (ball_floor >= 1) camerda.GetComponent<Rigidbody2D>().velocity = new Vector2(0, globals.s.CAMERA_SPEED);
             cur_floor = ball_floor;
             hud_controller.si.update_floor(cur_floor);
+            globals.s.BALL_FLOOR = cur_floor;
 
             create_new_wave();
         }
@@ -335,30 +350,29 @@ public class game_controller : MonoBehaviour {
     //SINGLE SPIKE SOMEWHERE
     bool create_wave_easy(int n)
     {
-        
         float actual_y = globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * n;
         int rand = Random.Range(1, 100);
         int hole_chance = 30 + 10 * hole_creation_failed;
         if (hole_chance > 60) hole_chance = 60;
-        if (QA.s.TRACE_PROFUNDITY >=2) Debug.Log("\n " + n + " ~~~~~~~~~~~~ TRY CREATE MEDIUM HOLE! ~~~~~~~~~~~~ | rand " + rand + " HOLE CHANCE: " + hole_chance + " N FAILED: " + hole_creation_failed);
+        if (QA.s.TRACE_PROFUNDITY >=2) Debug.Log("\n " + n + " ~~~~~~~~~~~~ TRY CREATE EASY HOLE! ~~~~~~~~~~~~ | rand " + rand + " HOLE CHANCE: " + hole_chance + " N FAILED: " + hole_creation_failed);
 
 
-        // HOLE + SPIKE
+        // HOLE + SPIKE -> 
         if (!last_wall && !last_hole && rand > 0 && rand <= hole_chance)
         {
             bool success = create_hole(n, false, screen_w / 4 - screen_w / 8);
 
             if (success)
             {
+                wave_name = "easy_hole";
 
                 float spk_pos;
-                if (last_hole_x < 0)
-                {
-                    spk_pos = last_hole_x + min_spk_dist + Random.Range(0.60f, 1f);
+                if (last_hole_x < 0) {
+                    spk_pos = Random.Range(last_hole_x + min_spk_dist,  corner_limit_right - 0.4f);
                 }
-                else
-                {
-                    spk_pos = last_hole_x - min_spk_dist - Random.Range(0.60f, 1f);
+                else {
+                    spk_pos = Random.Range(corner_limit_left + 0.4f, last_hole_x - min_spk_dist);
+
                 }
 
                 create_spike(spk_pos, actual_y, n);
@@ -372,16 +386,16 @@ public class game_controller : MonoBehaviour {
         }
         else
         {
-
-
             rand = Random.Range(1, 100);
             if (QA.s.TRACE_PROFUNDITY >= 2) Debug.Log("\n " + n + " ======= CREATE WAVE EASY! ========== | rand: " + rand);
 
             // 1 SPK MIDDLE |___^___|
             if (rand > 0 && rand <= 30)
             {
+                wave_name = "easy_spk_mid";
+
                 create_floor(0, n);
-                create_spike(Random.Range(corner_limit_left + 0.35f, corner_limit_right - 0.35f), actual_y, n);
+                create_spike(Random.Range(corner_limit_left + 0.6f, corner_limit_right - 0.6f), actual_y, n);
                 last_spike_right = false;
                 last_spike_left = false;
                 last_hole = false;
@@ -391,8 +405,9 @@ public class game_controller : MonoBehaviour {
             // 1 TRIPLE SPK MIDDLE |___/\___|
             if (rand > 30 && rand <= 60)
             {
+                wave_name = "easy_triple_spk_mid";
                 create_floor(0, n);
-                create_triple_spike(Random.Range(-screen_w / 3 + 0.5f, screen_w / 3 - 0.5f), actual_y, n);
+                create_triple_spike(Random.Range(-screen_w / 3 + 0.8f, screen_w / 3 - 0.8f), actual_y, n);
                 last_spike_right = false;
                 last_spike_left = false;
                 last_hole = false;
@@ -404,6 +419,7 @@ public class game_controller : MonoBehaviour {
             // 1 SPK CORNER LEFT |^_____|
             else if (last_spike_left == false && rand > 60 && rand <= 80)
             {
+                wave_name = "easy_spike_left";
                 create_floor(0, n);
                 create_spike(corner_left, actual_y, n);
                 last_spike_right = false;
@@ -416,6 +432,7 @@ public class game_controller : MonoBehaviour {
             // 1 SPK CORNER RIGHT |____^|
             else if (last_spike_right == false && rand > 80)
             {
+                wave_name = "easy_spk_right";
                 create_floor(0, n);
                 create_spike(corner_right, actual_y, n);
                 last_spike_right = true;
@@ -448,6 +465,7 @@ public class game_controller : MonoBehaviour {
 
             if (success)
             {
+                wave_name = "medium_hole_mid";
                 hole_creation_failed = 0;
                 last_spike_right = false;
                 last_spike_left = false;
@@ -469,6 +487,8 @@ public class game_controller : MonoBehaviour {
             // 2 SPK MIDDLE |__^_^__|
             if (rand > 0 && rand <= 20)
             {
+                wave_name = "medium_2_spks_mid";
+
                 create_floor(0, n);
                 float rand_x = Random.Range(-screen_w / 4, 0 - 1f);
                 //first spike
@@ -491,6 +511,8 @@ public class game_controller : MonoBehaviour {
             // 2 SPK CRONER |^______^|
             else if (!last_spike_left && !last_spike_right && rand > 20 && rand <= 30)
             {
+                wave_name = "medium_2_spks_corners";
+
                 create_floor(0, n);
                 create_spike(corner_left, actual_y, n);
                 create_spike(corner_right, actual_y, n);
@@ -505,6 +527,8 @@ public class game_controller : MonoBehaviour {
             // 1 SPK CORNER LEFT, 1 SPK MID |^___^____|
             else if (!last_spike_left && rand > 30 && rand <= 37)
             {
+                wave_name = "medium_1_spk_mid_1_spk_corner";
+
                 create_floor(0, n);
                 create_spike(corner_left, actual_y, n);
                 create_spike(Random.Range(-mid_area + 0.30f, mid_area - 0.30f), actual_y, n);
@@ -518,6 +542,8 @@ public class game_controller : MonoBehaviour {
             // 1 SPK CORNER RIGHT, 1 SPK MID |____^___^|
             else if (!last_spike_right && rand > 37 && rand <= 44)
             {
+                wave_name = "medium_1_spk_mid_1_spk_corner";
+
                 create_floor(0, n);
                 create_spike(corner_right, actual_y, n);
                 create_spike(Random.Range(-mid_area  +0.30f, mid_area - 0.30f), actual_y, n);
@@ -531,10 +557,12 @@ public class game_controller : MonoBehaviour {
 
             // WALL CORNER + 1 SPK ||___^__|
             else if (!last_wall && rand > 44 && rand <= 68)
-            {                   
+            {
+                wave_name = "medium_wall_corner_1_spk";
+
                 create_floor(0, n);
                 
-                // Sort between normal spike, hidden spike or manual hidden spike
+               // Sort between normal spike, hidden spike or manual hidden spike
                // float rand_x = Random.Range(-mid_area + 0.5f, mid_area - 0.5f);
                 float rand_x = Random.Range(-0.35f, 0.35f);
                 rand = Random.Range(1, 100);
@@ -566,6 +594,8 @@ public class game_controller : MonoBehaviour {
             // 1 HIDDEN SPK |____v____|
             else if (rand > 68 && rand <= 87)
             {
+                wave_name = "medium_1_hidden_spk";
+
                 create_floor(0, n);
                 create_hidden_spike(Random.Range(-mid_area + 0.2f, mid_area - 0.2f), actual_y, n);
 
@@ -580,6 +610,8 @@ public class game_controller : MonoBehaviour {
             // 2 TRIPLE SPK MID |___/\__/\___|
             if ( rand > 87)
             {
+                wave_name = "2_triple_spk_mid";
+
                 create_floor(0, n);
                 float rand_x = Random.Range(-screen_w / 4 - 1f, 0 - 0.5f);
                 //first spike
@@ -618,6 +650,8 @@ public class game_controller : MonoBehaviour {
             if (success) {
                 last_hole = true;
                 hole_creation_failed = 0;
+
+                wave_name = "hard_hole";
 
                 float spk_pos = 0;
                 if (last_hole_x > corner_left + (min_spk_dist + 0.6f)) { // can create spike left check
@@ -665,6 +699,8 @@ public class game_controller : MonoBehaviour {
             // CORNERS AND 1 SPK MIDDLE |^__^__^|
             if (!last_spike_right && !last_spike_left && rand > 0 && rand <= 25)
             {
+                wave_name = "hard_3_spks";
+
                 create_floor(0, n);
                 //first spike
                 create_spike(corner_left, actual_y, n);
@@ -682,20 +718,23 @@ public class game_controller : MonoBehaviour {
             // 1 HIDDEN SPK  + 1 SPK MID |__ v_^__|
             else if (rand > 25 && rand <= 50)
             {
+                wave_name = "hard_1_hidden_spk_1_spk_mid";
+
                 create_floor(0, n);
                 int is_left = Random.Range(0, 2);
-                float rand_x = Random.Range(-screen_w / 4, 0 - 1.20f);
+                float rand_x = Random.Range(-0.5f, 0.5f);
+                float dist = Random.Range(min_spk_dist/2 + 0.2f, min_spk_dist/2 + 0.45f);
 
                 if (is_left == 1)
                 {
                     //first spike
-                    create_hidden_spike(rand_x, actual_y, n);
-                    create_spike(Random.Range(rand_x + min_spk_dist + 0.5f, rand_x + min_spk_dist + 1.4f), actual_y, n);
+                    create_hidden_spike(rand_x - dist, actual_y, n);
+                    create_spike(rand_x + dist, actual_y, n);
                 }
                 else
                 {
-                    create_spike(rand_x, actual_y, n);
-                    create_hidden_spike(Random.Range(rand_x + min_spk_dist + 0.5f, rand_x + min_spk_dist + 1.4f), actual_y, n);
+                    create_spike(rand_x - dist, actual_y, n);
+                    create_hidden_spike(rand_x + dist, actual_y, n);
                 }
 
                 last_spike_right = false;
@@ -709,7 +748,9 @@ public class game_controller : MonoBehaviour {
             // WALL MID-LEFT + SPIKE (12%) |__|____^_|
             else if (!last_wall && !last_spike_left && rand > 50 && rand <= 65)
             {
-                float wall_pos = Random.Range(-screen_w / 4 + 0.35f, 0 - 0.5f);
+                wave_name = "hard_wall_midleft";
+
+                float wall_pos = Random.Range(-screen_w / 4 + 0.5f, 0 - 0.5f);
                 float spk_pos = Random.Range(wall_pos + min_spk_dist + 0.8f, corner_right);
 
                 if (spk_pos >= corner_limit_right && last_spike_right)
@@ -732,7 +773,9 @@ public class game_controller : MonoBehaviour {
             // WALL MID-RIGHT + SPIKE (12%) |_^____|__|
             else if (!last_wall && !last_spike_right && rand > 65 && rand <= 80)
             {
-                float wall_pos = Random.Range(0 + 0.5f, screen_w / 4 - 0.35f);
+                wave_name = "hard_wall_mid_right";
+
+                float wall_pos = Random.Range(0 + 0.5f, screen_w / 4 - 0.5f);
                 float spk_pos = Random.Range(corner_left, wall_pos - min_spk_dist - 0.8f);
 
                 if (spk_pos <= corner_limit_left && last_spike_left)
@@ -755,10 +798,12 @@ public class game_controller : MonoBehaviour {
             // 2 HIDDEN SPIKE MID |___v__v___|
             if (rand > 80)
             {
+                wave_name = "hard_2_hidden_spk_mid";
+
                 create_floor(0, n);
                 //float rand_x = Random.Range(-screen_w / 4+0.2f, 0 - 1.00f);
-                float dist = Random.Range(min_spk_dist/2 + 0.2f, min_spk_dist/2 + 0.5f);
-                float rand_x = Random.Range(-0.6f, 0.6f);
+                float dist = Random.Range(min_spk_dist/2 + 0.2f, min_spk_dist/2 + 0.4f);
+                float rand_x = Random.Range(-0.5f, 0.5f);
                 //first spike
                 create_hidden_spike(rand_x - dist, actual_y, n);
                 create_hidden_spike(rand_x + dist, actual_y, n);
@@ -793,6 +838,8 @@ public class game_controller : MonoBehaviour {
 
             if (success)
             {
+                wave_name = "vhard_hole";
+
                 hole_creation_failed = 0;
                 last_hole = true;
                 last_wall = false;
@@ -920,6 +967,8 @@ public class game_controller : MonoBehaviour {
             // 3 SPIKES MID (LEFT priority) |__^_^_^__|
             else if (!last_spike_left && rand > 0 && rand <= 15)
             {
+                wave_name = "vhard_3_spks";
+
                 create_floor(0, n);
                 float triple_range = min_spk_dist + Random.Range(0.45f, 0.6f);
                 float spk_pos = Random.Range(corner_left, corner_limit_left + 0.35f);
@@ -950,6 +999,8 @@ public class game_controller : MonoBehaviour {
             // 3 SPIKES MID (RIGHT priority |__^_^_^__|)
             else if (!last_spike_right && rand >15 && rand <= 30)
             {
+                wave_name = "vhard_3_spks";
+
                 create_floor(0, n);
                 float triple_range = min_spk_dist + Random.Range(0.45f, 0.6f);
 
@@ -982,6 +1033,8 @@ public class game_controller : MonoBehaviour {
             // WALL CORNER + 2 spks (normal, hidden or manual_trigger)  ||__v_v__|
             else if (!last_wall && rand > 30 && rand <= 75)
             {
+                wave_name = "vhard_wall";
+
                 bool there_is_manual = false;
 
                 create_floor(0, n);
@@ -1019,9 +1072,10 @@ public class game_controller : MonoBehaviour {
             // 2 HIDDEN TRIPLE SPIKE MID |___v__v___|
             else if (rand > 75)
             {
+                wave_name = "vhard_2_hidden_triple_spk_mid";
                 create_floor(0, n);
-                float rand_x = Random.Range(min_spk_dist/2+0.2f, min_spk_dist/2 + 0.7f );
-                float pos = Random.Range(-0.7f,0.7f);
+                float rand_x = Random.Range(min_spk_dist/2+0.3f, min_spk_dist/2 + 0.6f );
+                float pos = Random.Range(-0.45f,0.45f);
                 //first spike
                 create_triple_hidden_spike(pos -rand_x, actual_y, n);
                 create_triple_hidden_spike(pos + rand_x, actual_y, n);
@@ -1052,26 +1106,39 @@ public class game_controller : MonoBehaviour {
             bool success = create_hole(n, false, 1.5f);
 
             if (success) {
+
+                wave_name = "shard_hole";
+                hole_creation_failed = 0;
+                last_hole = true;
+                last_wall = false;
+
                 rand = Random.Range(1, 100);
+                float spk_pos = 0;
                 //rand = 68;
                 // SPIKES FAR FROM HOLE
                 if (rand < 65) {
-                    float spk_pos = Random.Range(corner_left, last_hole_x - min_spk_dist - 0.8f);
-                    //spike left
-                    if (spk_pos <= corner_limit_left) last_spike_left = true;
-                    else last_spike_left = false;
-                    create_triple_spike(spk_pos, actual_y, n);
+                    if (last_hole_x - min_spk_dist - 0.8f > corner_left) {
+                        spk_pos = Random.Range(corner_left, last_hole_x - min_spk_dist - 0.8f);
 
-                    spk_pos = Random.Range(last_hole_x + min_spk_dist + 0.8f, corner_right);
-                    if (spk_pos >= corner_limit_right) last_spike_right = true;
-                    else last_spike_right = false;
-                    create_triple_spike(spk_pos, actual_y, n);
+                        //spike left
+                        if (spk_pos <= corner_limit_left) last_spike_left = true;
+                        else last_spike_left = false;
+                        create_triple_spike(spk_pos, actual_y, n);
+                    }
+
+                    if (last_hole_x + min_spk_dist + 0.8f < corner_right) {
+                        spk_pos = Random.Range(last_hole_x + min_spk_dist + 0.8f, corner_right);
+                        if (spk_pos >= corner_limit_right) last_spike_right = true;
+                        else last_spike_right = false;
+                        create_triple_spike(spk_pos, actual_y, n);
+                    }
+                    
                 }
                 else // 1 HIDDEN SPIKE OR TRIPLE SPIKE AT CORNER + 1 TRIPLE SPIKE AT HOLE BORDER! 
                 {
                     int left_or_right = Random.Range(0, 2);
                     if (left_or_right == 0) {
-                        float spk_pos = Random.Range(corner_left+0.2f, last_hole_x - min_spk_dist - 0.5f);
+                        spk_pos = Random.Range(corner_left+0.2f, last_hole_x - min_spk_dist - 0.5f);
 
                         if (spk_pos >= corner_limit_left) {
                             last_spike_left = true;
@@ -1088,7 +1155,7 @@ public class game_controller : MonoBehaviour {
                         last_spike_right = false;
                     }
                     else {
-                        float spk_pos = Random.Range(last_hole_x + min_spk_dist + 0.6f, corner_right);
+                        spk_pos = Random.Range(last_hole_x + min_spk_dist + 0.6f, corner_right);
 
                         if (spk_pos <= corner_limit_right) {
                             last_spike_right = true;
@@ -1106,9 +1173,7 @@ public class game_controller : MonoBehaviour {
                     }
 
                 }
-                hole_creation_failed = 0;
-                last_hole = true;
-                last_wall = false;
+                
             }
 
             return success;
@@ -1123,6 +1188,8 @@ public class game_controller : MonoBehaviour {
 
             // 3 TRIPLE SPIKES MID (LEFT priority) |__^_^_^__|
             if (!last_spike_left && rand > 0 && rand <= 15) {
+                wave_name = "shard_3_triple_spks";
+
                 create_floor(0, n);
                 float triple_range = min_spk_dist + Random.Range(0.5f, 0.6f);
                 float spk_pos = Random.Range(corner_left, corner_limit_left + 0.35f);
@@ -1155,6 +1222,8 @@ public class game_controller : MonoBehaviour {
            
             // 3 TRIPLE SPIKES MID (RIGHT priority |__^_^_^__|)
             if (!last_spike_right && rand > 15 && rand <= 30) {
+                wave_name = "shard_3_triple_spks";
+
                 create_floor(0, n);
                 float triple_range = min_spk_dist + Random.Range(0.5f, 0.6f);
 
@@ -1186,6 +1255,8 @@ public class game_controller : MonoBehaviour {
 
             // DOUBLE WALL CORNER + 1 spk (normal, hidden or manual_trigger)  ||__v_v__|
             else if (!last_wall && rand > 30 && rand <= 65) {
+                wave_name = "shard_double_wall";
+
                 bool there_is_manual = false;
 
                 create_floor(0, n);
@@ -1226,6 +1297,8 @@ public class game_controller : MonoBehaviour {
 
             // 4 SPIKES IN PAIRS |___v_v___v_v___|
             if (rand > 65 && !last_spike_left && !last_spike_right) {
+                wave_name = "shard_4_spikes";
+
                 create_floor(0, n);
                 float pair_range = Random.Range(2.2f, 2.35f);
 
@@ -1284,12 +1357,13 @@ public class game_controller : MonoBehaviour {
         //GameObject obj = (GameObject)Instantiate(spike_type, new Vector3(x, y + globals.s.SLOT/2, 0), transform.rotation);
         GameObject obj = objects_pool_controller.s.reposite_double_spikes(x, y + globals.s.SLOT / 2);
         spike spk = obj.GetComponent<spike>();
+
         if(spk != null)
         {
             spk.my_floor = n;
             spk.corner_repositionable = corner_repositionable;
+            spk.wave_name = wave_name;
         }
-        
     }
 
     void create_hidden_spike(float x, float y, int n, bool manual_trigger = false, bool corner_repositionable = false)
@@ -1304,16 +1378,21 @@ public class game_controller : MonoBehaviour {
             spk.manual_trigger = manual_trigger;
             spk.my_collider.enabled = false;
             spk.corner_repositionable = corner_repositionable;
+            spk.wave_name = wave_name;
+
         }
     }
 
     void create_triple_spike(float x, float y, int n)
     {
+
        // GameObject obj = (GameObject)Instantiate(triple_spike_type, new Vector3(x, y + globals.s.SLOT / 2, 0), transform.rotation);
         GameObject obj = objects_pool_controller.s.reposite_triple_spikes(x, y + globals.s.SLOT / 2);
         if (obj.GetComponent<spike>() != null)
         {
             obj.GetComponent<spike>().my_floor = n;
+            obj.GetComponent<spike>().wave_name = wave_name;
+
         }
     }
 
@@ -1322,20 +1401,22 @@ public class game_controller : MonoBehaviour {
        // GameObject obj = (GameObject)Instantiate(triple_spike_type, new Vector3(x, y + globals.s.SLOT / 2 - triple_spike_type.transform.GetComponent<SpriteRenderer>().bounds.size.y, 0), transform.rotation);
         GameObject obj = objects_pool_controller.s.reposite_triple_spikes(x, y + globals.s.SLOT / 2 - triple_spike_type.transform.GetComponent<SpriteRenderer>().bounds.size.y);
         spike spk = obj.GetComponent<spike>();
+
         if (spk != null)
         {
             spk.hidden = true;
             spk.my_floor = n;
             spk.manual_trigger = manual_trigger;
             spk.my_collider.enabled = false;
+            spk.wave_name = wave_name;
         }
     }
 
 
     public GameObject create_floor(float x, int n)
     {
-        // GameObject obj = (GameObject)Instantiate(floor_type, new Vector3(x, globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * n, 0), transform.rotation);
-        GameObject obj = objects_pool_controller.s.reposite_floor(x, globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * n);
+        GameObject obj = (GameObject)Instantiate(floor_type, new Vector3(x, globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * n, 0), transform.rotation);
+        //GameObject obj = objects_pool_controller.s.reposite_floor(x, globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * n);
         obj.GetComponent<floor>().my_floor = n;
         //obj.GetComponentInChildren<TextMesh>().text = n.ToString();
         return obj;
@@ -1397,12 +1478,12 @@ public class game_controller : MonoBehaviour {
         if (can_create)
         {
             if (QA.s.TRACE_PROFUNDITY >= 2) Debug.Log("SUCCESSFULLY CREATING HOLE!!");
-            // GameObject obj = (GameObject)Instantiate(floor_type, new Vector3(rand - hole_size / 2 - floor_type.transform.GetComponent<SpriteRenderer>().bounds.size.x / 2, globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * n, 0), transform.rotation);
-            GameObject obj = objects_pool_controller.s.reposite_floor(rand - hole_size / 2 - floor_type.transform.GetComponent<SpriteRenderer>().bounds.size.x / 2, globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * n);
+             GameObject obj = (GameObject)Instantiate(floor_type, new Vector3(rand - hole_size / 2 - floor_type.transform.GetComponent<SpriteRenderer>().bounds.size.x / 2, globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * n, 0), transform.rotation);
+            //GameObject obj = objects_pool_controller.s.reposite_floor(rand - hole_size / 2 - floor_type.transform.GetComponent<SpriteRenderer>().bounds.size.x / 2, globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * n);
             obj.GetComponent<floor>().my_floor = n;
 
-            // obj = (GameObject)Instantiate(floor_type, new Vector3(rand + hole_size / 2 + floor_type.transform.GetComponent<SpriteRenderer>().bounds.size.x / 2, globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * n, 0), transform.rotation);
-            obj = objects_pool_controller.s.reposite_floor(rand + hole_size / 2 + floor_type.transform.GetComponent<SpriteRenderer>().bounds.size.x / 2, globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * n);
+            obj = (GameObject)Instantiate(floor_type, new Vector3(rand + hole_size / 2 + floor_type.transform.GetComponent<SpriteRenderer>().bounds.size.x / 2, globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * n, 0), transform.rotation);
+           // obj = objects_pool_controller.s.reposite_floor(rand + hole_size / 2 + floor_type.transform.GetComponent<SpriteRenderer>().bounds.size.x / 2, globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * n);
             obj.GetComponent<floor>().my_floor = n;
             
             if (not_hidden == false) obj = (GameObject)Instantiate(hole_type, new Vector3(rand, globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * n, 0), transform.rotation);
@@ -1417,11 +1498,11 @@ public class game_controller : MonoBehaviour {
 
     bool create_just_hole(int n, float x)
     {
-        //GameObject obj = (GameObject)Instantiate(floor_type, new Vector3(x - hole_size / 2 - floor_type.transform.GetComponent<SpriteRenderer>().bounds.size.x / 2, globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * n, 0), transform.rotation);
-        GameObject obj = objects_pool_controller.s.reposite_floor(x - hole_size / 2 - floor_type.transform.GetComponent<SpriteRenderer>().bounds.size.x / 2, globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * n);
+        GameObject obj = (GameObject)Instantiate(floor_type, new Vector3(x - hole_size / 2 - floor_type.transform.GetComponent<SpriteRenderer>().bounds.size.x / 2, globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * n, 0), transform.rotation);
+        //GameObject obj = objects_pool_controller.s.reposite_floor(x - hole_size / 2 - floor_type.transform.GetComponent<SpriteRenderer>().bounds.size.x / 2, globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * n);
         obj.GetComponent<floor>().my_floor = n;
-        //obj = (GameObject)Instantiate(floor_type, new Vector3(x + hole_size / 2 + floor_type.transform.GetComponent<SpriteRenderer>().bounds.size.x / 2, globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * n, 0), transform.rotation);
-        obj = objects_pool_controller.s.reposite_floor(x + hole_size / 2 + floor_type.transform.GetComponent<SpriteRenderer>().bounds.size.x / 2, globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * n);
+        obj = (GameObject)Instantiate(floor_type, new Vector3(x + hole_size / 2 + floor_type.transform.GetComponent<SpriteRenderer>().bounds.size.x / 2, globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * n, 0), transform.rotation);
+        //obj = objects_pool_controller.s.reposite_floor(x + hole_size / 2 + floor_type.transform.GetComponent<SpriteRenderer>().bounds.size.x / 2, globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * n);
         obj.GetComponent<floor>().my_floor = n;
         return true;
     }

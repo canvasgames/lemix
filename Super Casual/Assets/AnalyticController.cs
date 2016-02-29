@@ -3,10 +3,13 @@ using DeltaDNA;
 
 public class AnalyticController : MonoBehaviour {
 
+    public static AnalyticController s;
+
+    void Awake() { s = this; }
+
     void Start() {
         // Enter additional configuration here
-
-
+        
         // Launch the SDK
         DDNA.Instance.Settings.DebugMode = true;
         DDNA.Instance.ClientVersion = "1.0.0";
@@ -17,6 +20,44 @@ public class AnalyticController : MonoBehaviour {
             DDNA.AUTO_GENERATED_USER_ID
         );
     }
+
+
+    public void ReportGameStarted() {
+        EventBuilder eventParams = new EventBuilder();
+        //eventParams.AddParam("clientVersion", "teste");
+        eventParams.AddParam("isTutorial", false);
+        eventParams.AddParam("missionName", "game started");
+        //eventParams.AddParam("platform", DDNA.Instance.Platform);
+        eventParams.AddParam("userHighScore", hud_controller.si.BEST_SCORE);
+        eventParams.AddParam("userTotalGames", hud_controller.si.USER_TOTAL_GAMES);
+        eventParams.AddParam("userTotalVideosWatched", hud_controller.si.USER_TOTAL_VIDEOS_WATCHED);
+
+        DDNA.Instance.RecordEvent("missionStarted", eventParams);
+    }
+
+    public void ReportGameEnded(string killer_wave_name, int duration) {
+        EventBuilder eventParams = new EventBuilder();
+        //eventParams.AddParam("clientVersion", "teste");
+        eventParams.AddParam("isTutorial", false);
+        eventParams.AddParam("missionName", "game ended");
+       // eventParams.AddParam("platform", DDNA.Instance.Platform);
+        eventParams.AddParam("userHighScore", hud_controller.si.BEST_SCORE);
+        eventParams.AddParam("userTotalGames", hud_controller.si.USER_TOTAL_GAMES);
+        eventParams.AddParam("userTotalVideosWatched", hud_controller.si.USER_TOTAL_VIDEOS_WATCHED);
+        eventParams.AddParam("userScore", globals.s.BALL_FLOOR);
+        eventParams.AddParam("killerWaveName", killer_wave_name);
+        eventParams.AddParam("gameDuration", 5);
+
+        DDNA.Instance.RecordEvent("missionCompleted", eventParams);
+    }
+
+    void Update() {
+        if (Input.GetMouseButtonDown(0)) {
+            //ReportTest();
+
+        }
+    }
+
 
     void ReportTest() {
         Debug.Log("REPORTING EVENT!! ");
@@ -45,15 +86,7 @@ public class AnalyticController : MonoBehaviour {
         eventParams.AddParam("aaa", "lime");
         eventParams.AddParam("aaction", "be a dark Lord");
         DDNA.Instance.RecordEvent("zeptile", eventParams);
-
     }
 
-    void Update() {
-        if (Input.GetMouseButtonDown(0)) {
-            ReportTest();
 
-        }
-
-
-    }
 }

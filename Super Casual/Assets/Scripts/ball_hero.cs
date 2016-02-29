@@ -235,7 +235,7 @@ public class ball_hero : MonoBehaviour
         else if (coll.gameObject.CompareTag("Spike")) {
             if (globals.s.PW_SUPER_JUMP == false && !QA.s.INVENCIBLE) {
                 if (globals.s.PW_INVENCIBLE == false) {
-                    destroy_me();
+                    destroy_me(coll.gameObject.GetComponent<spike>().wave_name);
                 }
                 else {
                    // Destroy(coll.gameObject);
@@ -253,13 +253,13 @@ public class ball_hero : MonoBehaviour
         else if (coll.gameObject.CompareTag("HoleFalling")) {
             //if (QA.s.TRACE_PROFUNDITY >= 3) Debug.Log(" ~~~~~~~~~~~~~~~~~~~~~~~~~COLLIDING WITH HOLE FALLING TAG!!!");
             Debug.Log(" ~~~~~~~~~~~~~~~~~~~~~~~~~COLLIDING WITH HOLE FALLING TAG!!!");
-            coll.transform.gameObject.GetComponent<SpriteRenderer>().enabled = true;
-            coll.transform.gameObject.GetComponent<SpriteRenderer>().color = Color.green;
+            //coll.transform.gameObject.GetComponent<SpriteRenderer>().enabled = true;
+            //coll.transform.gameObject.GetComponent<SpriteRenderer>().color = Color.green;
             //grounded = false;
             //coll.gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2(0, -100f);
             if (transform.position.y < main_camera.s.transform.position.y + cam_fall_dist) { 
                 main_camera.s.OnBallFalling();
-                coll.transform.gameObject.GetComponent<SpriteRenderer>().color = Color.red;
+                //coll.transform.gameObject.GetComponent<SpriteRenderer>().color = Color.red;
 
             }
             
@@ -303,7 +303,7 @@ public class ball_hero : MonoBehaviour
     
     #endregion
 
-    void destroy_me()
+    void destroy_me(string killer_wave_name)
     {
         ball_hero[] bolas = GameObject.FindObjectsOfType(typeof(ball_hero)) as ball_hero[];
 
@@ -333,7 +333,7 @@ public class ball_hero : MonoBehaviour
 
         }
         Instantiate(explosion, new Vector3(transform.position.x, transform.position.y, transform.position.z), transform.rotation);
-        game_controller.s.game_over();
+        game_controller.s.game_over(killer_wave_name);
 
 
     }

@@ -3,7 +3,7 @@ using System.Collections;
 using DG.Tweening;
 
 public class spike : scenario_objects {
-
+    public string wave_name;
     public bool hidden = false;
     public bool manual_trigger = false;
     public bool corner_repositionable = false;
