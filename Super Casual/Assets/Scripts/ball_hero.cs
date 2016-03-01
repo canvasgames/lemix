@@ -428,7 +428,7 @@ public class ball_hero : MonoBehaviour
         rb.gameObject.GetComponent<Rigidbody2D>().isKinematic = false;
         target_y = 0;
 
-        target_y_reached = true;
+        target_y_reached = true; // bla
 
         unactivate_particles_floor();
         

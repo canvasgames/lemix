@@ -224,10 +224,8 @@ public class game_controller : MonoBehaviour {
 
         //PW Creation
         rand = Random.Range(0, 100);
-        rand=10;
-        if (rand <= 15 && globals.s.PW_ACTIVE == true)
-        {
-            
+        rand = 10;
+        if (!QA.s.NO_PWS && rand <= 15 && globals.s.PW_ACTIVE == true) { 
             create_pw_icon(Random.Range(corner_limit_left, corner_limit_right), n_floor);
         }
 
@@ -237,8 +235,9 @@ public class game_controller : MonoBehaviour {
             count++;
 
             // ======== SORT INITIAL WAVES! ========
-            if (n_floor <= 6) {
-                rand = Random.Range(1, 3);
+            if (n_floor <= 7) {
+                if (USER.s.TOTAL_GAMES > 3) rand = Random.Range(1, 3);
+                else rand = 1;
 
                 switch (rand) {
                     case 1:
@@ -367,16 +366,6 @@ public class game_controller : MonoBehaviour {
             {
                 wave_name = "easy_hole";
 
-                float spk_pos;
-                if (last_hole_x < 0) {
-                    spk_pos = Random.Range(last_hole_x + min_spk_dist,  corner_limit_right - 0.4f);
-                }
-                else {
-                    spk_pos = Random.Range(corner_limit_left + 0.4f, last_hole_x - min_spk_dist);
-
-                }
-
-                create_spike(spk_pos, actual_y, n);
                 last_spike_right = false;
                 last_spike_left = false;
                 last_hole = true;
@@ -467,6 +456,17 @@ public class game_controller : MonoBehaviour {
             if (success)
             {
                 wave_name = "medium_hole_mid";
+
+                float spk_pos;
+                if (last_hole_x < 0) {
+                    spk_pos = Random.Range(last_hole_x + min_spk_dist, corner_limit_right - 0.8f);
+                }
+                else {
+                    spk_pos = Random.Range(corner_limit_left + 0.8f, last_hole_x - min_spk_dist);
+
+                }
+                create_spike(spk_pos, actual_y, n);
+
                 hole_creation_failed = 0;
                 last_spike_right = false;
                 last_spike_left = false;
@@ -706,7 +706,7 @@ public class game_controller : MonoBehaviour {
                 //first spike
                 create_spike(corner_left, actual_y, n);
                 create_spike(corner_right, actual_y, n);
-                create_spike(Random.Range(-mid_area, mid_area), actual_y, n);
+                create_spike(Random.Range(-mid_area + 0.25f, mid_area - 0.25f), actual_y, n);
 
                 last_spike_right = true;
                 last_spike_left = true;

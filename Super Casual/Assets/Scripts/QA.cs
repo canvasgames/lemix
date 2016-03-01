@@ -11,6 +11,7 @@ public class QA : MonoBehaviour {
     // 1 = Just Main info
     // 2 = All floor excential creation information
     // 3 = More detailed info of creation floor process and physics
+    public bool NO_PWS = false;
 
 	// Use this for initialization
 	void Awake() {
