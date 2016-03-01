@@ -129,10 +129,15 @@ public class floor : scenario_objects {
 
     }
 
-    public void activate_colider_super_pw()
+    public void activate_colider_super_pw(int floor_actual)
     {
         colliderPW.SetActive(true);
         colliderPW.GetComponent<Rigidbody2D>().isKinematic = false;
+
+        if(my_floor > floor_actual && my_floor < floor_actual+6)
+        {
+           objects_pool_controller.s.reposite_squares_floor_particle(transform.position.x, transform.position.y);
+        }
     }
 
     public void unactivate_colider_super_pw()

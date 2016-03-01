@@ -380,6 +380,7 @@ public class ball_hero : MonoBehaviour
         int i;
         int temp = my_floor;
         globals.s.PW_SUPER_JUMP = true;
+
         for (i = my_floor + 1; i <= temp + 5; i++)
         {
            game_controller.s.create_new_wave();
@@ -455,7 +456,7 @@ public class ball_hero : MonoBehaviour
        floors = GameObject.FindObjectsOfType(typeof(floor)) as floor[];
         for (i = 0; i < floors.Length; i++)
           {
-            floors[i].activate_colider_super_pw();
+            floors[i].activate_colider_super_pw(my_floor);
           }
 
         hole_behaviour[] holes = GameObject.FindObjectsOfType(typeof(hole_behaviour)) as hole_behaviour[];

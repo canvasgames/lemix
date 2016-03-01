@@ -77,4 +77,9 @@ public class hole_behaviour : MonoBehaviour
         if(my_skin != null)
             my_skin.transform.GetComponent<SpriteRenderer>().color = Color.white;
     }
+
+    public void colidded_super_pw()
+    {
+        my_skin.transform.GetComponent<SpriteRenderer>().enabled = false;
+    }
 }

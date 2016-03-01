@@ -60,11 +60,11 @@ public class objects_pool_controller : MonoBehaviour {
             triple_spikes_pool[i] = (GameObject)Instantiate(triple_spike_prefab, new Vector3(55, 0, 0), transform.rotation);
         }
 
-      /*  for (i = 0; i < squares_floor_pool_size; i++)
+        for (i = 0; i < squares_floor_pool_size; i++)
         {
             squares_floor_pool[i] = (GameObject)Instantiate(squares_floor_prefab, new Vector3(105, 10*i, 0), transform.rotation);
             
-        }*/
+        }
     }
 
     #region FLOOR THINGS
@@ -73,9 +73,6 @@ public class objects_pool_controller : MonoBehaviour {
         clear_flags_floor();
         floor_pool[floor_pool_actual_i].transform.position = new Vector3(x_pos, y_pos, 0);
         GameObject repositing_floor = floor_pool[floor_pool_actual_i];
-
-        //reposite_squares_floor_particle(x_pos,y_pos);
-
 
         floor_pool_actual_i++;
         if(floor_pool_actual_i == floor_pool_size)
