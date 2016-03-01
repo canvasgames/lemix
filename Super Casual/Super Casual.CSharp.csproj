@@ -104,6 +104,7 @@
     <Compile Include="Assets\Scripts\PW_controller.cs" />
     <Compile Include="Assets\Scripts\QA.cs" />
     <Compile Include="Assets\Scripts\Score_floor_txt.cs" />
+    <Compile Include="Assets\Scripts\USER.cs" />
     <Compile Include="Assets\Scripts\activate_pw_button.cs" />
     <Compile Include="Assets\Scripts\ball_hero.cs" />
     <Compile Include="Assets\Scripts\floor.cs" />

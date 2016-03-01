@@ -6,7 +6,7 @@ public class hole_behaviour : MonoBehaviour
 {
     public GameObject my_skin;
     public int my_floor;
-    public GameObject squares, colliderPW;
+    public GameObject colliderPW;
     // Use this for initialization
     void Start()
     {
@@ -41,13 +41,11 @@ public class hole_behaviour : MonoBehaviour
 
     public void activate_squares()
     {
-        squares.SetActive(true);
         if (colliderPW) colliderPW.SetActive(true);
     }
 
     public void unactivate_squares()
     {
-        squares.SetActive(false);
     }
 
     public void destroy_pw_super_under_floors(float y_pos_ball)

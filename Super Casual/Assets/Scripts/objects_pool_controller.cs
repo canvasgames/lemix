@@ -174,27 +174,35 @@ public class objects_pool_controller : MonoBehaviour {
     #endregion
 
     #region SQUARES PARTICLE PW
-    public GameObject reposite_squares_floor_particle(float x_pos, float y_pos)
+    public void reposite_squares_floor_particle(float x_pos, float y_pos)
     {
-        squares_floor_pool[squares_floor_pool_actual_i].transform.position = new Vector3(x_pos, y_pos, 0);
-        GameObject repos_squares = squares_floor_pool[squares_floor_pool_actual_i];
+        //GameObject repos_squares = squares_floor_pool[squares_floor_pool_actual_i];
 
-        Rigidbody2D[] rigids = squares_floor_pool[squares_floor_pool_actual_i].GetComponentsInChildren<Rigidbody2D>();
-        if (rigids != null)
-        {
+            squares_floor_pool[squares_floor_pool_actual_i].transform.position = new Vector3(x_pos, y_pos, 0);
+            
 
-            foreach (Rigidbody2D rigid in rigids)
+            Rigidbody2D[] rigids = squares_floor_pool[squares_floor_pool_actual_i].GetComponentsInChildren<Rigidbody2D>();
+            if (rigids != null)
             {
-                rigid.GetComponent<Rigidbody2D>().isKinematic = false;
+
+                foreach (Rigidbody2D rigid in rigids)
+                {
+                    rigid.GetComponent<Rigidbody2D>().isKinematic = false;
+                }
             }
-        }
+
+            squares_floor_pool_actual_i++;
+            if (squares_floor_pool_actual_i == squares_floor_pool_size)
+            {
+                squares_floor_pool_actual_i = 0;
+            }
+
+
+           
         
-        squares_floor_pool_actual_i++;
-        if (squares_floor_pool_actual_i == squares_floor_pool_size)
-        {
-            squares_floor_pool_actual_i = 0;
-        }
-        return repos_squares;
+
+       // return repos_squares;
+
     }
 
     public void clear_squares_floor_particle()

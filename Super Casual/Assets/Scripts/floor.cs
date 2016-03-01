@@ -135,9 +135,9 @@ public class floor : scenario_objects {
         colliderPW.SetActive(true);
         colliderPW.GetComponent<Rigidbody2D>().isKinematic = false;
 
-        if(my_floor > floor_actual && my_floor < floor_actual+6)
+        if(my_floor > floor_actual && my_floor < floor_actual+6 && transform.position.x>=0)
         {
-           objects_pool_controller.s.reposite_squares_floor_particle(transform.position.x, transform.position.y);
+           objects_pool_controller.s.reposite_squares_floor_particle(0, transform.position.y);
         }
     }
 

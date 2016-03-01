@@ -6,6 +6,7 @@ public class floor_square_pw_destruct : MonoBehaviour {
     bool can_disappear = false;
 
     float initial_y, initial_x;
+
 	// Use this for initialization
 	void Start () {
         initial_y = transform.localPosition.y;
