@@ -395,7 +395,7 @@ public class game_controller : MonoBehaviour {
                 wave_name = "easy_spk_mid";
 
                 create_floor(0, n);
-                create_spike(Random.Range(corner_limit_left + 0.6f, corner_limit_right - 0.6f), actual_y, n);
+                create_spike(Random.Range(corner_limit_left + 1.4f, corner_limit_right - 1.4f), actual_y, n);
                 last_spike_right = false;
                 last_spike_left = false;
                 last_hole = false;

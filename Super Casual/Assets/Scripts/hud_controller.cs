@@ -35,10 +35,6 @@ public class hud_controller : MonoBehaviour {
     void Start () {
         display_best(PlayerPrefs.GetInt("best", 0));
 
-        BEST_SCORE = PlayerPrefs.GetInt("best", 0);
-        LAST_SCORE = PlayerPrefs.GetInt("last_score", 0);
-        DAY_SCORE = PlayerPrefs.GetInt("day_best", 0);
-
        PW_date = PlayerPrefs.GetString("PWDate2ChangeState");
 
         //SETTING  FIRST_GAME GLOBAL

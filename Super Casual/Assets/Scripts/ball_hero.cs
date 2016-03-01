@@ -115,7 +115,7 @@ public class ball_hero : MonoBehaviour
             globals.s.BALL_Y = transform.position.y;
             globals.s.BALL_X = transform.position.x;
             globals.s.BALL_GROUNDED = grounded;
-
+            //Debug.Log("XY UPDATED | MY ID: " + my_id  + " time: " + Time.time);
             //globals.s.BALL_FLOOR = my_floor;
         }
         #region ================ Ball Up ====================
@@ -154,15 +154,12 @@ public class ball_hero : MonoBehaviour
             my_son.GetComponent<ball_hero>().my_floor = my_floor + 1;
             my_son.GetComponent<ball_hero>().grounded = grounded;
 
-            /*1st camera movement check
-            if (my_floor == 1){
-				camerda.GetComponent<Rigidbody2D>().velocity = new Vector2(0,globals.s.CAMERA_SPEED);
-		    }*/
-
+            globals.s.BALL_Y = my_son.transform.position.y;
+            globals.s.BALL_X = my_son.transform.position.x;
 
             // CALL GAME CONTROLLER
-            //game_controller.s.create_new_wave()   ;
             game_controller.s.ball_up(my_floor);
+            if (my_floor >= 1) main_camera.s.on_ball_up();
 
             if(hitted_wall) main_camera.s.hitted_on_wall = false;
 
@@ -172,8 +169,8 @@ public class ball_hero : MonoBehaviour
                 p.place_me_at_the_other_corner(-my_son.transform.position.x, my_floor + 2);
             }
 
-
             //my_son = (GameObject)Instantiate (ball_hero, new Vector3 (0, 0, 0), transform.rotation);
+            //Debug.Log("------------ NEW BALL CREATED! MY ID: " +my_id +" time: " + Time.time);
 
         }
         #endregion
@@ -392,8 +389,6 @@ public class ball_hero : MonoBehaviour
         float pos = ((globals.s.BASE_Y + ((my_floor+1) * globals.s.FLOOR_HEIGHT) +  (5* globals.s.FLOOR_HEIGHT) + globals.s.FLOOR_HEIGHT / 2 ));
         main_camera.s.init_PW_super_jump( pos,  (pos-transform.position.y)/20  + 0.5f);
 
-
-
         Invoke("go_up_PW", 0.1f);
     }
 
@@ -402,23 +397,24 @@ public class ball_hero : MonoBehaviour
         //globals.s.PW_SUPER_JUMP = true;
         desactivate_pws_super();
         int ball_speed = 20;
+        float target_y = (globals.s.BASE_Y + ((my_floor) * globals.s.FLOOR_HEIGHT) +  (5* globals.s.FLOOR_HEIGHT) + globals.s.FLOOR_HEIGHT / 2 );
 
-        rb.velocity = new Vector2(0, ball_speed);
-        float dist = ((globals.s.BASE_Y + ((my_floor) * globals.s.FLOOR_HEIGHT) +  (5* globals.s.FLOOR_HEIGHT) + globals.s.FLOOR_HEIGHT / 2 ) - transform.position.y);
+        //rb.velocity = new Vector2(0, ball_speed);
+        float dist = (target_y - transform.position.y);
         Debug.Log("[GO UP PW] Dist: " + dist + " OLD Dist: " + (5*globals.s.FLOOR_HEIGHT) + " dist/speed: " + (dist / ball_speed) + " | OLD dist/speed: " + ((5 *globals.s.FLOOR_HEIGHT) / ball_speed));
         Debug.Log("[GO UP PW] MY POS: " + transform.position.y + " BASE Y+FLOOR "+ (globals.s.BASE_Y + my_floor * globals.s.FLOOR_HEIGHT) + " BASE Y: " + globals.s.BASE_Y + " MY FLOOR: " + my_floor);
-        Invoke("stop_go_up_PW", ( dist / ball_speed));
+        //Invoke("stop_go_up_PW", ( dist / ball_speed));
         //Invoke("stop_go_up_PW", ((globals.s.BASE_Y + (my_floor * globals.s.FLOOR_HEIGHT) + 5* globals.s.FLOOR_HEIGHT + (globals.s.FLOOR_HEIGHT/2) ) - transform.position.y) / ball_speed);
 
-        //transform.DOMoveY(transform.position.y + 5 * globals.s.FLOOR_HEIGHT, 2.5f).SetEase(Ease.OutSine);
+        transform.DOMoveY(target_y, 1.1f).SetEase(Ease.Linear).OnComplete(()=> stop_go_up_PW());
 
     }
 
     void stop_go_up_PW()
     {
-        Debug.Log("[GOUPPW] FINISHED GOING UP ! ");
+        Debug.Log("[GOUPPW] FINISHED GOING UP ! MY Y: " + transform.position.y);
         rb.velocity = new Vector2(0.3f, globals.s.BALL_SPEED_Y/2);
-        rb.gameObject.GetComponent<Rigidbody2D>().gravityScale = 0.5f;
+        rb.gameObject.GetComponent<Rigidbody2D>().gravityScale = 0.65f;
         rb.gameObject.GetComponent<Rigidbody2D>().isKinematic = false;
 
       unactivate_particles_floor();

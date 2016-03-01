@@ -15,7 +15,7 @@ public class floor : scenario_objects {
     void Start () {
         if (globals.s.GAME_STARTED == true)
         {
-            if (hud_controller.si.BEST_SCORE == my_floor)
+            if (USER.s.BEST_SCORE == my_floor)
             {
 
                 GameObject obj = (GameObject)Instantiate(scoreInfo, new Vector3(0, transform.position.y - 0.6f, transform.position.z), transform.rotation);
@@ -23,7 +23,7 @@ public class floor : scenario_objects {
                 obj.GetComponentInChildren<Score_floor_txt>().my_floor = my_floor;
                 obj.GetComponentInChildren<Score_floor_txt>().my_type = 1;
             }
-            else if (hud_controller.si.DAY_SCORE == my_floor)
+            else if (USER.s.DAY_SCORE == my_floor)
             {
 
                 GameObject obj = (GameObject)Instantiate(scoreInfo, new Vector3(0, transform.position.y - 0.6f, transform.position.z), transform.rotation);
@@ -31,7 +31,7 @@ public class floor : scenario_objects {
                 obj.GetComponentInChildren<Score_floor_txt>().my_floor = my_floor;
                 obj.GetComponentInChildren<Score_floor_txt>().my_type = 2;
             }
-            else if (hud_controller.si.LAST_SCORE == my_floor)
+            else if (USER.s.LAST_SCORE == my_floor)
             {
 
                 GameObject obj = (GameObject)Instantiate(scoreInfo, new Vector3(0, transform.position.y - 0.6f, transform.position.z), transform.rotation);
@@ -52,11 +52,12 @@ public class floor : scenario_objects {
 
     public void try_to_display_best_score()
     {
-        if (already_blinked == false && hud_controller.si.DAY_SCORE >=5 )
+        Debug.Log("user day score: " + USER.s.DAY_SCORE);
+        if (already_blinked == false && USER.s.DAY_SCORE >= 5 )
 
         {
-            //hud_controller.si.LAST_SCORE + 1 == my_floor
-            if (hud_controller.si.DAY_SCORE + 1 == my_floor  || hud_controller.si.BEST_SCORE + 1 == my_floor)
+            //USER.s.LAST_SCORE + 1 == my_floor
+            if (USER.s.DAY_SCORE + 1 == my_floor  || USER.s.BEST_SCORE + 1 == my_floor)
             {
 
                     int i;
@@ -68,15 +69,15 @@ public class floor : scenario_objects {
                     }
 
 
-                if (hud_controller.si.BEST_SCORE + 1 == my_floor)
+                if (USER.s.BEST_SCORE + 1 == my_floor)
                 {
                     destroy_previous_score_create_new(1);
                 }
-                else if (hud_controller.si.DAY_SCORE + 1 == my_floor)
+                else if (USER.s.DAY_SCORE + 1 == my_floor)
                 {
                     destroy_previous_score_create_new(2); 
                 }
-                else if (hud_controller.si.LAST_SCORE + 1 == my_floor)
+                else if (USER.s.LAST_SCORE + 1 == my_floor)
                 {
                     destroy_previous_score_create_new(3);  
                 }
