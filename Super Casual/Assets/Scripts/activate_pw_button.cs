@@ -17,5 +17,8 @@ public class activate_pw_button : MonoBehaviour {
     {
         hud_controller.si.PW_time_set_new_date_and_state(!globals.s.PW_ACTIVE);
         hud_controller.si.HUD_BUTTON_CLICKED = true;
+
+        USER.s.TOTAL_VIDEOS_WATCHED++;
+        PlayerPrefs.SetInt("total_videos_watched", USER.s.TOTAL_VIDEOS_WATCHED);
     }
 }

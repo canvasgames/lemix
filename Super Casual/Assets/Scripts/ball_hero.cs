@@ -4,6 +4,9 @@ using DG.Tweening;
 
 public class ball_hero : MonoBehaviour
 {
+    #region Variables Declaration
+    float target_y;
+    bool target_y_reached;
 
     [HideInInspector]
     public int my_id;
@@ -40,6 +43,10 @@ public class ball_hero : MonoBehaviour
 
     public float cam_fall_dist = 0;
 
+    #endregion
+
+    #region Init
+
     void Awake()
     {
         rb = transform.GetComponent<Rigidbody2D>();
@@ -75,6 +82,8 @@ public class ball_hero : MonoBehaviour
         }
     }
 
+    #endregion
+
     void Update()
     {
 
@@ -103,10 +112,13 @@ public class ball_hero : MonoBehaviour
 
         //
 
-       /* if (globals.s.PW_SUPER_JUMP == true)
-        {
-            main_camera.s.PW_super_jump(transform.position.y);
-        }*/
+        if (globals.s.PW_SUPER_JUMP == true && target_y_reached == false) {
+            // main_camera.s.PW_super_jump(transform.position.y);
+            if (transform.position.y >= target_y) { 
+                stop_go_up_PW();
+            }
+        }
+
         // falling case
         if (rb.velocity.y < -0.02f) grounded = false; //else grounded = true;
 
@@ -192,8 +204,6 @@ public class ball_hero : MonoBehaviour
         //GetComponent<EdgeCollider2D>().enabled = false;
         if (grounded == true)
         {
-
-                
             grounded = false;
             //rb.AddForce (new Vector2 (0, y_jump));
             rb.velocity = new Vector2(rb.velocity.x, globals.s.BALL_SPEED_Y);
@@ -397,16 +407,17 @@ public class ball_hero : MonoBehaviour
         //globals.s.PW_SUPER_JUMP = true;
         desactivate_pws_super();
         int ball_speed = 20;
-        float target_y = (globals.s.BASE_Y + ((my_floor) * globals.s.FLOOR_HEIGHT) +  (5* globals.s.FLOOR_HEIGHT) + globals.s.FLOOR_HEIGHT / 2 );
+        target_y = (globals.s.BASE_Y + ((my_floor) * globals.s.FLOOR_HEIGHT) +  (5* globals.s.FLOOR_HEIGHT) + globals.s.FLOOR_HEIGHT / 2 - 0.6f );
+        target_y_reached = false;
 
-        //rb.velocity = new Vector2(0, ball_speed);
+        rb.velocity = new Vector2(0, ball_speed);
         float dist = (target_y - transform.position.y);
         Debug.Log("[GO UP PW] Dist: " + dist + " OLD Dist: " + (5*globals.s.FLOOR_HEIGHT) + " dist/speed: " + (dist / ball_speed) + " | OLD dist/speed: " + ((5 *globals.s.FLOOR_HEIGHT) / ball_speed));
         Debug.Log("[GO UP PW] MY POS: " + transform.position.y + " BASE Y+FLOOR "+ (globals.s.BASE_Y + my_floor * globals.s.FLOOR_HEIGHT) + " BASE Y: " + globals.s.BASE_Y + " MY FLOOR: " + my_floor);
         //Invoke("stop_go_up_PW", ( dist / ball_speed));
         //Invoke("stop_go_up_PW", ((globals.s.BASE_Y + (my_floor * globals.s.FLOOR_HEIGHT) + 5* globals.s.FLOOR_HEIGHT + (globals.s.FLOOR_HEIGHT/2) ) - transform.position.y) / ball_speed);
 
-        transform.DOMoveY(target_y, 1.1f).SetEase(Ease.Linear).OnComplete(()=> stop_go_up_PW());
+        //transform.DOMoveY(target_y, 1.1f).SetEase(Ease.Linear).OnComplete(()=> stop_go_up_PW());
 
     }
 
@@ -414,10 +425,12 @@ public class ball_hero : MonoBehaviour
     {
         Debug.Log("[GOUPPW] FINISHED GOING UP ! MY Y: " + transform.position.y);
         rb.velocity = new Vector2(0.3f, globals.s.BALL_SPEED_Y/2);
-        rb.gameObject.GetComponent<Rigidbody2D>().gravityScale = 0.65f;
+        rb.gameObject.GetComponent<Rigidbody2D>().gravityScale = 0.5f;
         rb.gameObject.GetComponent<Rigidbody2D>().isKinematic = false;
 
-      unactivate_particles_floor();
+        target_y_reached = true;
+
+        unactivate_particles_floor();
         
         Invoke("create_floor", 0.2f);
     }

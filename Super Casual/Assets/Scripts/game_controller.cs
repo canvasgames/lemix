@@ -181,6 +181,7 @@ public class game_controller : MonoBehaviour {
         AnalyticController.s.ReportGameEnded(killer_wave_name, (int)(Time.time - starting_time));
 
         globals.s.GAME_OVER = 1;
+        PlayerPrefs.SetInt("total_games", USER.s.TOTAL_GAMES + 1);
 
         Invoke("show_game_over", 1f);
     }
