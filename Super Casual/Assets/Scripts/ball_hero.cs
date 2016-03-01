@@ -5,7 +5,7 @@ using DG.Tweening;
 public class ball_hero : MonoBehaviour
 {
     #region Variables Declaration
-    float target_y;
+    float target_y = 0;
     bool target_y_reached;
 
     [HideInInspector]
@@ -112,7 +112,7 @@ public class ball_hero : MonoBehaviour
 
         //
 
-        if (globals.s.PW_SUPER_JUMP == true && target_y_reached == false) {
+        if (globals.s.PW_SUPER_JUMP == true && target_y_reached == false && target_y > 0) {
             // main_camera.s.PW_super_jump(transform.position.y);
             if (transform.position.y >= target_y) { 
                 stop_go_up_PW();
@@ -388,8 +388,7 @@ public class ball_hero : MonoBehaviour
         int temp = my_floor;
         globals.s.PW_SUPER_JUMP = true;
 
-        for (i = my_floor + 1; i <= temp + 5; i++)
-        {
+        for (i = my_floor + 1; i <= temp + 5; i++) {
            game_controller.s.create_new_wave();
         }
 
@@ -427,6 +426,7 @@ public class ball_hero : MonoBehaviour
         rb.velocity = new Vector2(0.3f, globals.s.BALL_SPEED_Y/2);
         rb.gameObject.GetComponent<Rigidbody2D>().gravityScale = 0.5f;
         rb.gameObject.GetComponent<Rigidbody2D>().isKinematic = false;
+        target_y = 0;
 
         target_y_reached = true;
 
