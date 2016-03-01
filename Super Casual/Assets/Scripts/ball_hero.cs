@@ -517,19 +517,6 @@ public class ball_hero : MonoBehaviour
     //Called by invoke
     void unactivate_squares()
     {
-        int i;
-        /*floor[] floors = GameObject.FindObjectsOfType(typeof(floor)) as floor[];
-        for (i = 0; i < floors.Length; i++)
-        {
-            floors[i].unactivate_squares();
-        }*/
-
-        hole_behaviour[] holes = GameObject.FindObjectsOfType(typeof(hole_behaviour)) as hole_behaviour[];
-
-        for (i = 0; i < holes.Length; i++)
-        {
-            holes[i].unactivate_squares();
-        }
         squares_desappear();
     }
     void squares_desappear()
@@ -542,7 +529,7 @@ public class ball_hero : MonoBehaviour
             squares[i].scale_down_to_dessapear();
         }
 
-       // objects_pool_controller.s.clear_squares_floor_particle();
+       objects_pool_controller.s.clear_squares_floor_particle();
     }
 
 

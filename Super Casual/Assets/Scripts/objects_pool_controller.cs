@@ -207,7 +207,7 @@ public class objects_pool_controller : MonoBehaviour {
 
     public void clear_squares_floor_particle()
     {
-        Invoke("clear_squares_floor_particle_now", 2f);
+        Invoke("clear_squares_floor_particle_now", 1f);
     }
 
     void clear_squares_floor_particle_now()

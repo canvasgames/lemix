@@ -36,6 +36,7 @@ public class floor_square_pw_destruct : MonoBehaviour {
     {
         transform.DOScale(1, 0.1f);
         transform.localPosition = new Vector3(initial_x, initial_y, 0);
+        transform.localRotation = new Quaternion(0, 0, 0, 0);
     }
 
 }
