@@ -56,6 +56,11 @@ public class game_controller : MonoBehaviour {
 
     public wave_controller[] wave_ctrl;
 
+    //PW VARIABLES
+    int pw_dont_create_for_n_floors = 5;
+    int pw_floors_not_created = 0;
+    bool first_pw_created = false;
+
 
     void Awake (){
         
@@ -104,7 +109,7 @@ public class game_controller : MonoBehaviour {
 
 		// Calculate ball speed(SLOT*4)/((480+25)/CASUAL_SPEED_X)
 		globals.s.CAMERA_SPEED = globals.s.FLOOR_HEIGHT / ((globals.s.LIMIT_RIGHT*2 )/ globals.s.BALL_SPEED_X);
-		Debug.Log ("\n============= NEW GAME !!!!!!!!!! ===============");
+		Debug.Log ("\n============= NEW GAME !!!!!!!!!! =============== USER TOTAL GAMES: " + USER.s.TOTAL_GAMES);
 
         int count = 0;
         // create initial platforms
@@ -213,6 +218,41 @@ public class game_controller : MonoBehaviour {
 
     }
 
+    #region ================= POWER UPS =========================
+    void create_power_up_logic() {
+        int rand = Random.Range(0, 100);
+
+        // create chance check
+        if (!QA.s.NO_PWS && ((pw_floors_not_created > pw_dont_create_for_n_floors && rand <= (pw_floors_not_created - 
+            pw_dont_create_for_n_floors) * 7) || (USER.s.TOTAL_GAMES == 2 && !first_pw_created))) {
+       // if (!QA.s.NO_PWS && pw_floors_not_created > pw_dont_create_for_n_floors && rand <= 15 && globals.s.PW_ACTIVE == true) {
+            int my_type = 0;
+            rand = Random.Range(0, 100);
+            if (rand < 20 || (USER.s.TOTAL_GAMES == 2 && !first_pw_created)) my_type = (int)PW_Types.Super;
+            else if (rand < 60) my_type = (int)PW_Types.Invencible;
+            else if (rand < 100) my_type = (int)PW_Types.Sight;
+
+            first_pw_created = true;
+ // int my_type = Random.Range((int)PW_Types.Invencible, (int)PW_Types.Sight + 1);
+
+            create_pw_icon(Random.Range(corner_limit_left, corner_limit_right), n_floor, my_type);
+
+            pw_floors_not_created = 0;
+        }
+        else
+            pw_floors_not_created++;
+    }
+
+    void create_pw_icon(float x, int n, int type) {
+        if (globals.s.PW_INVENCIBLE == false || globals.s.PW_SIGHT_BEYOND_SIGHT == false || globals.s.PW_SUPER_JUMP == false) {
+            if (QA.s.TRACE_PROFUNDITY >= 3) Debug.Log("[GM] CREATING POWER UP!");
+            Instantiate(pw_icon, new Vector3(x, 2 + globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * n, 0), transform.rotation);
+            pw_icon.GetComponent<PW_Collect>().my_floor = n;
+            pw_icon.GetComponent<PW_Collect>().pw_type = type;
+        }
+    }
+
+    #endregion
 
     public void create_new_wave (){
 		Debug.Log(" \n::::::::::::::::::::::: CREATING NEW FLOOR: " +n_floor);
@@ -223,11 +263,7 @@ public class game_controller : MonoBehaviour {
         wave_found = false;
 
         //PW Creation
-        rand = Random.Range(0, 100);
-        rand = 10;
-        if (!QA.s.NO_PWS && rand <= 15 && globals.s.PW_ACTIVE == true) { 
-            create_pw_icon(Random.Range(corner_limit_left, corner_limit_right), n_floor);
-        }
+        create_power_up_logic();
 
         while (wave_found == false && count < 50)
         {
@@ -1509,13 +1545,4 @@ public class game_controller : MonoBehaviour {
     }
 #endregion
 
-    void create_pw_icon(float x, int n)
-    {
-        if(globals.s.PW_INVENCIBLE == false || globals.s.PW_SIGHT_BEYOND_SIGHT == false || globals.s.PW_SUPER_JUMP == false)
-        {
-            if (QA.s.TRACE_PROFUNDITY >= 3) Debug.Log("[GM] CREATING POWER UP!");
-            Instantiate(pw_icon, new Vector3(x, 2 + globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * n, 0), transform.rotation);
-            pw_icon.GetComponent<PW_Collect>().my_floor = n;
-        }
-    }
 }

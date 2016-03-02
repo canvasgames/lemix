@@ -319,7 +319,7 @@ public class ball_hero : MonoBehaviour
         }
 
 
-        if(my_floor > hud_controller.si.BEST_SCORE)
+        if(my_floor > USER.s.BEST_SCORE)
         {
             floor[] chaozis = GameObject.FindObjectsOfType(typeof(floor)) as floor[];
             int i;
@@ -328,7 +328,7 @@ public class ball_hero : MonoBehaviour
                 chaozis[i].create_score_game_over(my_floor, 1);
             }
         }
-        else if(my_floor > hud_controller.si.DAY_SCORE)
+        else if(my_floor > USER.s.DAY_SCORE)
         {
 
             floor[] chaozis = GameObject.FindObjectsOfType(typeof(floor)) as floor[];
@@ -357,8 +357,6 @@ public class ball_hero : MonoBehaviour
         {
             PW_controller.s.sight_end();
         }
-
-        
 
         if (temp.pw_type == (int) PW_Types.Invencible)
         {

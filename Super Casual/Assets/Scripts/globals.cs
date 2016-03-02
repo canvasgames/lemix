@@ -42,6 +42,8 @@ public class globals : MonoBehaviour {
     void Awake () {
 		s = this;
 
+        BALL_Y = -8f;
+
         HOLE_SPK_DIST = 2.6f;
 
         DontDestroyOnLoad (transform.gameObject);

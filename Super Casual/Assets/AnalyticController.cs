@@ -28,9 +28,9 @@ public class AnalyticController : MonoBehaviour {
         eventParams.AddParam("isTutorial", false);
         eventParams.AddParam("missionName", "game started");
         //eventParams.AddParam("platform", DDNA.Instance.Platform);
-        eventParams.AddParam("userHighScore", hud_controller.si.BEST_SCORE);
-        eventParams.AddParam("userTotalGames", hud_controller.si.USER_TOTAL_GAMES);
-        eventParams.AddParam("userTotalVideosWatched", hud_controller.si.USER_TOTAL_VIDEOS_WATCHED);
+        eventParams.AddParam("userHighScore",USER.s.BEST_SCORE);
+        eventParams.AddParam("userTotalGames", USER.s.TOTAL_GAMES);
+        eventParams.AddParam("userTotalVideosWatched", USER.s.TOTAL_VIDEOS_WATCHED);
 
         DDNA.Instance.RecordEvent("missionStarted", eventParams);
     }
@@ -41,9 +41,9 @@ public class AnalyticController : MonoBehaviour {
         eventParams.AddParam("isTutorial", false);
         eventParams.AddParam("missionName", "game ended");
        // eventParams.AddParam("platform", DDNA.Instance.Platform);
-        eventParams.AddParam("userHighScore", hud_controller.si.BEST_SCORE);
-        eventParams.AddParam("userTotalGames", hud_controller.si.USER_TOTAL_GAMES);
-        eventParams.AddParam("userTotalVideosWatched", hud_controller.si.USER_TOTAL_VIDEOS_WATCHED);
+        eventParams.AddParam("userHighScore", USER.s.BEST_SCORE);
+        eventParams.AddParam("userTotalGames", USER.s.TOTAL_GAMES);
+        eventParams.AddParam("userTotalVideosWatched", USER.s.TOTAL_VIDEOS_WATCHED);
         eventParams.AddParam("userScore", globals.s.BALL_FLOOR);
         eventParams.AddParam("killerWaveName", killer_wave_name);
         eventParams.AddParam("gameDuration", 5);

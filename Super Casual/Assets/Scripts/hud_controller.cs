@@ -24,8 +24,6 @@ public class hud_controller : MonoBehaviour {
     DateTime tempDate;
     DateTime tempcurDate;
 
-    [HideInInspector] public int BEST_SCORE, LAST_SCORE, DAY_SCORE;
-    [HideInInspector] public int USER_TOTAL_GAMES, USER_TOTAL_VIDEOS_WATCHED;
     // Use this for initialization
     void Awake()
     {

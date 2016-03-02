@@ -72,7 +72,7 @@ public class main_camera : MonoBehaviour {
 
     public void OnBallTooHigh() {
         if (!falling) {
-            Debug.Log("[CAMERA] ON BALL TOO HIGH !! ");
+            Debug.Log("[CAMERA] ON BALL TOO HIGH !! BALL Y: " + globals.s.BALL_Y  + " | LIMIT: " + (transform.position.y + globals.s.FLOOR_HEIGHT + 1.5f));
             falling = true;
             transform.DOMoveY(transform.position.y + globals.s.FLOOR_HEIGHT + 0.5f, 0.4f).SetEase(Ease.InOutQuad).OnComplete(() => falling = false);
         }
@@ -96,7 +96,7 @@ public class main_camera : MonoBehaviour {
 
     public void on_ball_up() {
         if (!moving && globals.s.BALL_Y > transform.position.y - globals.s.FLOOR_HEIGHT / 4)//Debug.Log("MY Y POS: " + transform.position.y);  if (globals.s.BALL_Y > transform.position.y)
-                    {
+        {
             rb.velocity = new Vector2(0, globals.s.CAMERA_SPEED);
             moving = true;
         }
@@ -120,7 +120,7 @@ public class main_camera : MonoBehaviour {
                 else
                 {
                     // ball is to high
-                    if (!globals.s.BALL_GROUNDED && globals.s.BALL_Y > transform.position.y + globals.s.FLOOR_HEIGHT + 1.5f) { 
+                    if (globals.s.BALL_GROUNDED && globals.s.BALL_Y > transform.position.y + globals.s.FLOOR_HEIGHT + 1.5f) { 
                         OnBallTooHigh();
                     }
 
