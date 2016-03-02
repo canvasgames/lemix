@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
-public class New_Game_QA : MonoBehaviour {
+public class Button_New_Game_QA : MonoBehaviour {
     int cont_click = 0;
 	// Use this for initialization
 	void Start () {
@@ -23,6 +23,7 @@ public class New_Game_QA : MonoBehaviour {
             USER.s.TOTAL_GAMES = 0;
              PlayerPrefs.SetInt("total_games", 0);
             transform.GetComponent<Image>().color = Color.blue;
+            //PlayerPrefs.DeleteAll();
             Invoke("back_to_white", 2);
         }
     }

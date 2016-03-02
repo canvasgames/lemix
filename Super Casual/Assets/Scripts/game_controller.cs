@@ -192,8 +192,17 @@ public class game_controller : MonoBehaviour {
     }
 
     void show_game_over() {
-        globals.s.CAN_RESTART = true;
+        
         hud_controller.si.show_game_over(cur_floor + 1);
+
+        if (globals.s.CAN_REVIVE == true)
+        {
+            hud_controller.si.show_revive_menu();
+        }
+        else
+        {
+            globals.s.CAN_RESTART = true;
+        }
     }
 
 

@@ -247,6 +247,7 @@ public class ball_hero : MonoBehaviour
                 else {
                    // Destroy(coll.gameObject);
                     PW_controller.s.invencible_end();
+                    coll.gameObject.transform.position = new Vector3(coll.gameObject.transform.position.x + 50, coll.gameObject.transform.position.y, coll.gameObject.transform.position.z);
                 }
             }
             else {
@@ -292,7 +293,11 @@ public class ball_hero : MonoBehaviour
             PW_Collect temp = coll.gameObject.GetComponent<PW_Collect>();
             pw_do_something(temp);
         }
-
+        else if (coll.gameObject.CompareTag("Revive"))
+        {
+            globals.s.CAN_REVIVE = true;
+            Destroy(coll.gameObject);
+        }
         if (globals.s.PW_SUPER_JUMP == true)
         {
             if (coll.gameObject.CompareTag("PW_Trigger"))
@@ -608,9 +613,17 @@ public class ball_hero : MonoBehaviour
 
     public void set_symbols_alpha(float alpha)
     {
-        symbols.transform.GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f, alpha);
+        if(symbols != null)
+        {
+            symbols.transform.GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f, alpha);
+        }
+        
     }
 
+    public void set_symbols_active(bool active)
+    {
+        symbols.SetActive(active);
+    }
     #region =========== DEBUG ================
     void back_to_normal_color() {
         GetComponent<SpriteRenderer>().color = Color.white;

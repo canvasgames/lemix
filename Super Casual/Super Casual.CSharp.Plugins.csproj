@@ -5,16 +5,16 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{8DCF50CB-AB6B-BFC0-1AF9-6C67A040024A}</ProjectGuid>
+    <ProjectGuid>{DBABF813-4992-846C-4795-67FD0228696B}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <AssemblyName>Assembly-CSharp</AssemblyName>
+    <AssemblyName>Assembly-CSharp-firstpass</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{E097FAD1-6243-4DAD-9C02-E9B9EFC3FFC1};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>Unity Web v3.5</TargetFrameworkProfile>
     <CompilerResponseFile></CompilerResponseFile>
-    <UnityProjectType>Game:1</UnityProjectType>
+    <UnityProjectType>GamePlugins:3</UnityProjectType>
     <UnityBuildTarget>WebPlayer:6</UnityBuildTarget>
     <UnityVersion>5.3.2f1</UnityVersion>
     <RootNamespace></RootNamespace>
@@ -72,65 +72,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="Super Casual.CSharp.Plugins.csproj">
-      <Project>{DBABF813-4992-846C-4795-67FD0228696B}</Project>
-      <Name>Super Casual.CSharp.Plugins</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Assets\AnalyticController.cs" />
-    <Compile Include="Assets\BallLight.cs" />
-    <Compile Include="Assets\DeltaDNA\Ads.cs" />
-    <Compile Include="Assets\DeltaDNA\DDNA.cs" />
-    <Compile Include="Assets\DeltaDNA\EventBuilder.cs" />
-    <Compile Include="Assets\DeltaDNA\Example\DeltaDNAExample.cs" />
-    <Compile Include="Assets\DeltaDNA\Helpers\ClientInfo.cs" />
-    <Compile Include="Assets\DeltaDNA\Helpers\ConcurrentQueue.cs" />
-    <Compile Include="Assets\DeltaDNA\Helpers\EngageArchive.cs" />
-    <Compile Include="Assets\DeltaDNA\Helpers\EventStore.cs" />
-    <Compile Include="Assets\DeltaDNA\Helpers\Logger.cs" />
-    <Compile Include="Assets\DeltaDNA\Helpers\Network.cs" />
-    <Compile Include="Assets\DeltaDNA\Helpers\Settings.cs" />
-    <Compile Include="Assets\DeltaDNA\Helpers\Singleton.cs" />
-    <Compile Include="Assets\DeltaDNA\Helpers\Utils.cs" />
-    <Compile Include="Assets\DeltaDNA\Libraries\MiniJSON.cs" />
-    <Compile Include="Assets\DeltaDNA\Messaging\IPopup.cs" />
-    <Compile Include="Assets\DeltaDNA\Messaging\Popup.cs" />
-    <Compile Include="Assets\DeltaDNA\Notifications\AndroidNotifications.cs" />
-    <Compile Include="Assets\DeltaDNA\Notifications\IosNotifications.cs" />
-    <Compile Include="Assets\DeltaDNA\ProductBuilder.cs" />
-    <Compile Include="Assets\DeltaDNA\TransactionBuilder.cs" />
-    <Compile Include="Assets\Demigiant\DOTween\Examples\Basics.cs" />
-    <Compile Include="Assets\Demigiant\DOTween\Examples\Sequences.cs" />
-    <Compile Include="Assets\Platforms\Android\GcmClient.cs" />
-    <Compile Include="Assets\Platforms\Android\GcmListener.cs" />
-    <Compile Include="Assets\Platforms\Android\Utils.cs" />
-    <Compile Include="Assets\Revive_Collectable.cs" />
-    <Compile Include="Assets\Scripts\Button_New_Game_QA.cs" />
-    <Compile Include="Assets\Scripts\GD.cs" />
-    <Compile Include="Assets\Scripts\PW_Collect.cs" />
-    <Compile Include="Assets\Scripts\PW_controller.cs" />
-    <Compile Include="Assets\Scripts\QA.cs" />
-    <Compile Include="Assets\Scripts\Score_floor_txt.cs" />
-    <Compile Include="Assets\Scripts\USER.cs" />
-    <Compile Include="Assets\Scripts\activate_pw_button.cs" />
-    <Compile Include="Assets\Scripts\ball_hero.cs" />
-    <Compile Include="Assets\Scripts\floor.cs" />
-    <Compile Include="Assets\Scripts\floor_pw_collider.cs" />
-    <Compile Include="Assets\Scripts\floor_square_pw_destruct.cs" />
-    <Compile Include="Assets\Scripts\game_controller.cs" />
-    <Compile Include="Assets\Scripts\globals.cs" />
-    <Compile Include="Assets\Scripts\hole_behaviour.cs" />
-    <Compile Include="Assets\Scripts\hole_skin_behaviour.cs" />
-    <Compile Include="Assets\Scripts\hud_controller.cs" />
-    <Compile Include="Assets\Scripts\main_camera.cs" />
-    <Compile Include="Assets\Scripts\objects_pool_controller.cs" />
-    <Compile Include="Assets\Scripts\scenario_objects.cs" />
-    <Compile Include="Assets\Scripts\spike.cs" />
-    <Compile Include="Assets\Scripts\tapToPlay.cs" />
-    <Compile Include="Assets\Scripts\text_z_order.cs" />
-    <Compile Include="Assets\Scripts\wall.cs" />
-    <Compile Include="Assets\Scripts\wave_controller.cs" />
+    <Compile Include="Assets\Standard Assets\Utility\FPSCounter.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Demigiant\DOTween\DOTween43.xml" />

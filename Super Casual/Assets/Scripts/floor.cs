@@ -15,30 +15,36 @@ public class floor : scenario_objects {
     void Start () {
         if (globals.s.GAME_STARTED == true)
         {
-            if (USER.s.BEST_SCORE == my_floor)
-            {
 
-                GameObject obj = (GameObject)Instantiate(scoreInfo, new Vector3(0, transform.position.y - 0.6f, transform.position.z), transform.rotation);
-                obj.GetComponentInChildren<TextMesh>().text = "BEST";
-                obj.GetComponentInChildren<Score_floor_txt>().my_floor = my_floor;
-                obj.GetComponentInChildren<Score_floor_txt>().my_type = 1;
-            }
-            else if (USER.s.DAY_SCORE == my_floor)
+            if(my_floor > 5)
             {
+                if (USER.s.BEST_SCORE == my_floor)
+                {
 
-                GameObject obj = (GameObject)Instantiate(scoreInfo, new Vector3(0, transform.position.y - 0.6f, transform.position.z), transform.rotation);
-                obj.GetComponentInChildren<TextMesh>().text = "DAY";
-                obj.GetComponentInChildren<Score_floor_txt>().my_floor = my_floor;
-                obj.GetComponentInChildren<Score_floor_txt>().my_type = 2;
-            }
-            else if (USER.s.LAST_SCORE == my_floor)
-            {
+                    GameObject obj = (GameObject)Instantiate(scoreInfo, new Vector3(0, transform.position.y - 0.6f, transform.position.z), transform.rotation);
+                    obj.GetComponentInChildren<TextMesh>().text = "BEST";
+                    obj.GetComponentInChildren<Score_floor_txt>().my_floor = my_floor;
+                    obj.GetComponentInChildren<Score_floor_txt>().my_type = 1;
+                }
+                else if (USER.s.DAY_SCORE == my_floor)
+                {
 
-                GameObject obj = (GameObject)Instantiate(scoreInfo, new Vector3(0, transform.position.y - 0.6f, transform.position.z), transform.rotation);
-                obj.GetComponentInChildren<TextMesh>().text = "LAST";
-                obj.GetComponentInChildren<Score_floor_txt>().my_floor = my_floor;
-                obj.GetComponentInChildren<Score_floor_txt>().my_type = 3;
+                    GameObject obj = (GameObject)Instantiate(scoreInfo, new Vector3(0, transform.position.y - 0.6f, transform.position.z), transform.rotation);
+                    obj.GetComponentInChildren<TextMesh>().text = "DAY";
+                    obj.GetComponentInChildren<Score_floor_txt>().my_floor = my_floor;
+                    obj.GetComponentInChildren<Score_floor_txt>().my_type = 2;
+                }
+                else if (USER.s.LAST_SCORE == my_floor)
+                {
+
+                    GameObject obj = (GameObject)Instantiate(scoreInfo, new Vector3(0, transform.position.y - 0.6f, transform.position.z), transform.rotation);
+                    obj.GetComponentInChildren<TextMesh>().text = "LAST";
+                    obj.GetComponentInChildren<Score_floor_txt>().my_floor = my_floor;
+                    obj.GetComponentInChildren<Score_floor_txt>().my_type = 3;
+                }
+
             }
+
         }
         
     }

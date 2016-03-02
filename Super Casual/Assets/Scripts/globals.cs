@@ -37,6 +37,12 @@ public class globals : MonoBehaviour {
     [HideInInspector] public bool PW_ENDING = false;
 
     [HideInInspector] public bool FIRST_GAME = true;
+
+    [HideInInspector]
+    public bool CAN_REVIVE = false;
+
+    [HideInInspector]
+    public bool MENU_OPEN = false;
     // Use this for initialization
 
     void Awake () {

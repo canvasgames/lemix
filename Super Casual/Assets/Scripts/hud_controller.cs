@@ -18,6 +18,7 @@ public class hud_controller : MonoBehaviour {
     public GameObject intro;
     public GameObject activate_pw_bt;
     public GameObject pw_info;
+    public GameObject revive;
     public Text PW_time_text;
 
     string PW_date;
@@ -287,4 +288,9 @@ public class hud_controller : MonoBehaviour {
         }
     }
     #endregion
+
+    public void show_revive_menu()
+    {
+        revive.SetActive(true);
+    }
 }

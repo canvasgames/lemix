@@ -129,11 +129,12 @@ public class spike : scenario_objects {
     {
         if ( hidden == true)
             transform.GetComponent<SpriteRenderer>().color = Color.magenta;
+        //transform.GetComponent<Animator>().Play("red");
     }
 
     public void back_original_color_pw_sight()
     {
-
+        //transform.GetComponent<Animator>().Play("blue");
         transform.GetComponent<SpriteRenderer>().color = Color.white;
     }
 
