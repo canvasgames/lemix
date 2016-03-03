@@ -107,6 +107,7 @@
     <Compile Include="Assets\Platforms\Android\Utils.cs" />
     <Compile Include="Assets\Play_Video.cs" />
     <Compile Include="Assets\Revive_Collectable.cs" />
+    <Compile Include="Assets\Revive_menu_ctrl.cs" />
     <Compile Include="Assets\Scripts\Button_New_Game_QA.cs" />
     <Compile Include="Assets\Scripts\GD.cs" />
     <Compile Include="Assets\Scripts\PW_Collect.cs" />
@@ -132,6 +133,8 @@
     <Compile Include="Assets\Scripts\text_z_order.cs" />
     <Compile Include="Assets\Scripts\wall.cs" />
     <Compile Include="Assets\Scripts\wave_controller.cs" />
+    <Compile Include="Assets\close_bt_revive.cs" />
+    <Compile Include="Assets\revive_later_button.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Demigiant\DOTween\DOTween43.xml" />

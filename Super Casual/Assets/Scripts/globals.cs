@@ -40,8 +40,10 @@ public class globals : MonoBehaviour {
 
     [HideInInspector]
     public bool CAN_REVIVE = false;
-
     [HideInInspector]
+    public bool SHOW_VIDEO_AFTER = false;
+
+[HideInInspector]
     public bool MENU_OPEN = false;
     // Use this for initialization
 

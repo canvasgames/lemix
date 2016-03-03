@@ -19,6 +19,7 @@ public class hud_controller : MonoBehaviour {
     public GameObject activate_pw_bt;
     public GameObject pw_info;
     public GameObject revive;
+    public GameObject video;
     public Text PW_time_text;
 
     string PW_date;
@@ -84,12 +85,16 @@ public class hud_controller : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-	
+
         //GAME OVER GAME CASE
-        if(globals.s.CAN_RESTART && Input.GetMouseButtonDown(0))
+        //if(Input.GetMouseButtonDown(0))
+         //   Debug.Log("ueeeeeeeeeeeeeeeeee epaaaaaaaaaaaaaaaaaaa epa, veja la como fala sua " + globals.s.CAN_RESTART);
+
+        if (globals.s.CAN_RESTART && Input.GetMouseButtonDown(0))
         {
             //Application.LoadLevel("Gameplay");
             //Application.LoadLevel()
+            
             SceneManager.LoadScene("Gameplay");
         }
 
@@ -145,6 +150,12 @@ public class hud_controller : MonoBehaviour {
         
         PlayerPrefs.SetInt("last_score", currentFloor);
 
+    }
+
+    public void hide_game_over()
+    {
+        globals.s.GAME_OVER = 0;
+        game_over_text.SetActive(false);
     }
 
     public void display_best(int value)
@@ -292,5 +303,25 @@ public class hud_controller : MonoBehaviour {
     public void show_revive_menu()
     {
         revive.SetActive(true);
+    }
+
+    public void close_revive_menu()
+    {
+
+        revive.SetActive(false);
+        
+    }
+
+    public void show_video()
+    {
+        video.SetActive(true);
+        video.GetComponentInChildren<Play_Video>().solta_a_vinheta_sombra();
+    }
+
+    public void watched_the_video()
+    {
+        video.SetActive(false);
+        globals.s.CAN_RESTART = true;
+        globals.s.SHOW_VIDEO_AFTER = false;
     }
 }

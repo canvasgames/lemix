@@ -18,6 +18,8 @@ public class game_controller : MonoBehaviour {
     public GameObject wall_type;
     public GameObject pw_icon;
 
+    ball_hero[] temp_ball;
+
     private int n_floor = 5;
     private int cur_floor = -1;
 
@@ -180,7 +182,7 @@ public class game_controller : MonoBehaviour {
 
     #region ================= GAME END ===================
 
-    public void game_over(string killer_wave_name)
+    public void game_over(string killer_wave_name, ball_hero[] ball_hero)
     {
         //Time.timeScale = 0;
         AnalyticController.s.ReportGameEnded(killer_wave_name, (int)(Time.time - starting_time));
@@ -188,26 +190,49 @@ public class game_controller : MonoBehaviour {
         globals.s.GAME_OVER = 1;
         PlayerPrefs.SetInt("total_games", USER.s.TOTAL_GAMES + 1);
 
+        temp_ball = ball_hero;
         Invoke("show_game_over", 1f);
     }
 
-    void show_game_over() {
-        
-        hud_controller.si.show_game_over(cur_floor + 1);
 
-        if (globals.s.CAN_REVIVE == true)
+    void show_game_over() {
+
+
+        hud_controller.si.show_game_over(cur_floor + 1);
+        if (globals.s.SHOW_VIDEO_AFTER == false)
         {
-            hud_controller.si.show_revive_menu();
+            if (globals.s.CAN_REVIVE == true)
+            {
+                hud_controller.si.show_revive_menu();
+                globals.s.CAN_REVIVE = false;
+            }
+            else
+            {
+                globals.s.CAN_RESTART = true;
+            }
         }
         else
         {
-            globals.s.CAN_RESTART = true;
+            hud_controller.si.show_video();
+            //globals.s.SHOW_VIDEO_AFTER = false;
+            //globals.s.CAN_RESTART = true;
         }
+
     }
 
-
+    
     #endregion
-
+    #region ================ REVIVE LOGIC  ================ 
+    public void revive_logic()
+    {
+        foreach (ball_hero b in temp_ball)
+        {
+            //Destroy(b.gameObject);
+            b.gameObject.SetActive(true);
+            break;
+        }
+    }
+    #endregion
     #region ================ GAME LOGIC ================ 
 
     public void ball_up(int ball_floor)

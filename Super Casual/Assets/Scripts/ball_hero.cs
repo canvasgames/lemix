@@ -240,17 +240,22 @@ public class ball_hero : MonoBehaviour
         }
 
         else if (coll.gameObject.CompareTag("Spike")) {
-            if (globals.s.PW_SUPER_JUMP == false && !QA.s.INVENCIBLE) {
-                if (globals.s.PW_INVENCIBLE == false) {
+            if (globals.s.PW_SUPER_JUMP == false && !QA.s.INVENCIBLE)
+            {
+                if (globals.s.PW_INVENCIBLE == false)
+                {
                     destroy_me(coll.gameObject.GetComponent<spike>().wave_name);
+                    coll.gameObject.transform.position = new Vector3(coll.gameObject.transform.position.x + 50, coll.gameObject.transform.position.y, coll.gameObject.transform.position.z);
                 }
-                else {
+                else
+                {
                    // Destroy(coll.gameObject);
                     PW_controller.s.invencible_end();
                     coll.gameObject.transform.position = new Vector3(coll.gameObject.transform.position.x + 50, coll.gameObject.transform.position.y, coll.gameObject.transform.position.z);
                 }
             }
-            else {
+            else
+            {
                 Physics2D.IgnoreCollision(coll.collider, GetComponent<Collider2D>());
                 GetComponent<SpriteRenderer>().color = Color.blue;
                 Invoke("back_to_normal_color", 0.2f);
@@ -308,11 +313,7 @@ public class ball_hero : MonoBehaviour
         }
 
     }
-    void OnCollisionStay2D(Collision2D coll)
-    {
 
-    }
-    
     #endregion
 
     void destroy_me(string killer_wave_name)
@@ -320,7 +321,8 @@ public class ball_hero : MonoBehaviour
         ball_hero[] bolas = GameObject.FindObjectsOfType(typeof(ball_hero)) as ball_hero[];
 
         foreach (ball_hero b in bolas) {
-            Destroy(b.gameObject);
+            //Destroy(b.gameObject);
+            b.gameObject.SetActive(false);
         }
 
 
@@ -345,7 +347,7 @@ public class ball_hero : MonoBehaviour
 
         }
         Instantiate(explosion, new Vector3(transform.position.x, transform.position.y, transform.position.z), transform.rotation);
-        game_controller.s.game_over(killer_wave_name);
+        game_controller.s.game_over(killer_wave_name, bolas);
 
 
     }
