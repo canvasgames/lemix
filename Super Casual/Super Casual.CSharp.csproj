@@ -133,7 +133,9 @@
     <Compile Include="Assets\Scripts\text_z_order.cs" />
     <Compile Include="Assets\Scripts\wall.cs" />
     <Compile Include="Assets\Scripts\wave_controller.cs" />
+    <Compile Include="Assets\button_close_video_ended.cs" />
     <Compile Include="Assets\close_bt_revive.cs" />
+    <Compile Include="Assets\external_link_bt.cs" />
     <Compile Include="Assets\revive_later_button.cs" />
   </ItemGroup>
   <ItemGroup>

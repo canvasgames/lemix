@@ -352,6 +352,19 @@ public class ball_hero : MonoBehaviour
 
     }
 
+    public void send_actual_balls()
+    {
+        ball_hero[] bolas = GameObject.FindObjectsOfType(typeof(ball_hero)) as ball_hero[];
+
+        game_controller.s.store_unactive_balls(bolas);
+
+        foreach (ball_hero b in bolas)
+        {
+            //Destroy(b.gameObject);
+            b.gameObject.SetActive(false);
+        }
+    }
+
     void pw_do_something(PW_Collect temp)
     {
         

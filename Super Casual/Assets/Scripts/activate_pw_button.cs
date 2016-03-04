@@ -15,9 +15,16 @@ public class activate_pw_button : MonoBehaviour {
 
     public void click()
     {
-        hud_controller.si.PW_time_set_new_date_and_state(!globals.s.PW_ACTIVE);
-        hud_controller.si.HUD_BUTTON_CLICKED = true;
+        ball_hero[] bolas = GameObject.FindObjectsOfType(typeof(ball_hero)) as ball_hero[];
+        foreach (ball_hero b in bolas)
+        {
+            //Destroy(b.gameObject);
+            b.send_actual_balls();
+            break;
+        }
 
+        hud_controller.si.HUD_BUTTON_CLICKED = true;
+        hud_controller.si.show_video_pw();
         USER.s.TOTAL_VIDEOS_WATCHED++;
         PlayerPrefs.SetInt("total_videos_watched", USER.s.TOTAL_VIDEOS_WATCHED);
     }

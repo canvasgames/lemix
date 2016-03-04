@@ -18,7 +18,7 @@ public class revive_later_button : MonoBehaviour {
         globals.s.SHOW_VIDEO_AFTER = true;
         globals.s.CAN_RESTART = false;
         hud_controller.si.close_revive_menu();
-        game_controller.s.revive_logic();
+        game_controller.s.activate_logic();
         hud_controller.si.hide_game_over();
     }
 }

@@ -213,7 +213,7 @@ public class game_controller : MonoBehaviour {
         }
         else
         {
-            hud_controller.si.show_video();
+            hud_controller.si.show_video_revive();
             //globals.s.SHOW_VIDEO_AFTER = false;
             //globals.s.CAN_RESTART = true;
         }
@@ -222,8 +222,20 @@ public class game_controller : MonoBehaviour {
 
     
     #endregion
-    #region ================ REVIVE LOGIC  ================ 
-    public void revive_logic()
+
+    #region ================ ACTIVATE/UNA LOGIC  ================ 
+    public void store_unactive_balls(ball_hero[] ball_hero)
+    {
+        temp_ball = ball_hero;
+        foreach (ball_hero b in temp_ball)
+        {
+            //Destroy(b.gameObject);
+            b.gameObject.SetActive(true);
+            break;
+        }
+    }
+
+    public void activate_logic()
     {
         foreach (ball_hero b in temp_ball)
         {

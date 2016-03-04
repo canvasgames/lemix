@@ -98,7 +98,7 @@ public class hud_controller : MonoBehaviour {
             SceneManager.LoadScene("Gameplay");
         }
 
-        if(!globals.s.GAME_STARTED)
+        if(globals.s.GAME_STARTED == false && globals.s.MENU_OPEN == false)
         {
             if (globals.s.FIRST_GAME == false)
             {
@@ -312,16 +312,33 @@ public class hud_controller : MonoBehaviour {
         
     }
 
-    public void show_video()
+    public void show_video_revive()
     {
+        globals.s.MENU_OPEN = true;
         video.SetActive(true);
-        video.GetComponentInChildren<Play_Video>().solta_a_vinheta_sombra();
+        video.GetComponentInChildren<Play_Video>().solta_a_vinheta_sombra(true,false);
     }
 
-    public void watched_the_video()
+    public void watched_the_video_revive()
     {
+        globals.s.MENU_OPEN = false;
         video.SetActive(false);
         globals.s.CAN_RESTART = true;
         globals.s.SHOW_VIDEO_AFTER = false;
+    }
+
+    public void show_video_pw()
+    {
+        globals.s.MENU_OPEN = true;
+        video.SetActive(true);
+        video.GetComponentInChildren<Play_Video>().solta_a_vinheta_sombra(false, true);
+    }
+
+    public void watched_the_video_pw()
+    {
+        globals.s.MENU_OPEN = false;
+        hud_controller.si.PW_time_set_new_date_and_state(!globals.s.PW_ACTIVE);
+        game_controller.s.activate_logic();
+        video.SetActive(false);
     }
 }

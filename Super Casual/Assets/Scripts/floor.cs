@@ -58,7 +58,7 @@ public class floor : scenario_objects {
 
     public void try_to_display_best_score()
     {
-        Debug.Log("user day score: " + USER.s.DAY_SCORE);
+       // Debug.Log("user day score: " + USER.s.DAY_SCORE);
         if (already_blinked == false && USER.s.DAY_SCORE >= 5 )
 
         {
