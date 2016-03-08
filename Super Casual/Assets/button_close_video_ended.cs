@@ -30,6 +30,7 @@ public class button_close_video_ended : MonoBehaviour {
         {
             hud_controller.si.watched_the_video_pw();
         }
+        transform.gameObject.SetActive(false);
         transform.parent.gameObject.SetActive(false);
     }
 }

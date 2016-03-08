@@ -1467,6 +1467,7 @@ public class game_controller : MonoBehaviour {
 
     void create_spike(float x, float y, int n, bool corner_repositionable = false)
     {
+
         //GameObject obj = (GameObject)Instantiate(spike_type, new Vector3(x, y + globals.s.SLOT/2, 0), transform.rotation);
         GameObject obj = objects_pool_controller.s.reposite_double_spikes(x, y + globals.s.SLOT / 2);
         spike spk = obj.GetComponent<spike>();

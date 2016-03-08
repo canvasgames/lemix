@@ -6,6 +6,10 @@ public class Play_Video : MonoBehaviour {
 
     public MovieTexture movie1, movie2;
     private AudioSource audios;
+
+    public Text seconds_left_txt;
+    float seconds_left;
+
     bool playing1 = false;
     bool playing2 = false;
     bool video_revive = false;
@@ -24,24 +28,25 @@ public class Play_Video : MonoBehaviour {
 
     void Update()
     {
-
-
-            if (movie1 != null && movie1.isPlaying == false && playing1 == true )
+        if(playing1== true || playing2 == true)
+        {
+            seconds_left_txt.text = "Video ends in "+ ((int)(seconds_left - Time.time)) + " seconds";
+        }
+        if (movie1 != null && movie1.isPlaying == false && playing1 == true )
             {
+                
                 playing1 = false;
 
                 video_ended_img.SetActive(true);
                 video_ended_img.GetComponent<Animator>().Play("battle_pegs");
 
-            if (video_revive == true)
+                if (video_revive == true)
                 {
                     video_ended_img.GetComponentInChildren<external_link_bt>().set_variables(true,false, video_sorted);
                     video_ended_img.GetComponentInChildren<button_close_video_ended>().set_variables(true, false);
-
                 }
                 else if (video_activate_pw == true)
                 {
-
                     video_ended_img.GetComponentInChildren<external_link_bt>().set_variables(false, true, video_sorted);
                     video_ended_img.GetComponentInChildren<button_close_video_ended>().set_variables(false, true);
                 }
@@ -56,9 +61,9 @@ public class Play_Video : MonoBehaviour {
                 playing2 = false;
 
                 video_ended_img.SetActive(true);
-            video_ended_img.GetComponent<Animator>().Play("bomblast");
+                video_ended_img.GetComponent<Animator>().Play("bomblast");
 
-            if (video_revive == true)
+                if (video_revive == true)
                 {
                     video_ended_img.GetComponentInChildren<external_link_bt>().set_variables(true, false, video_sorted);
                     video_ended_img.GetComponentInChildren<button_close_video_ended>().set_variables(true, false);
@@ -84,13 +89,14 @@ public class Play_Video : MonoBehaviour {
 
         int temp_rand = Random.Range(0, 2);
         video_sorted = temp_rand;
-
+        
         movie2.Stop();
         movie1.Stop();
 
         if(temp_rand == 0)
         {
             GetComponent<RawImage>().texture = movie1 as MovieTexture;
+            seconds_left = Time.time + movie1.duration;
             playing2 = false;
             playing1 = true;
             movie1.Play();
@@ -98,13 +104,14 @@ public class Play_Video : MonoBehaviour {
         else
         {
             GetComponent<RawImage>().texture = movie2 as MovieTexture;
+            seconds_left = Time.time + movie2.duration;
             playing2 = true;
             playing1 = false;
             movie2.Play();
         }
-        
-        
-         // audios.Play();
+
+
+        // audios.Play();
     }
-    
+
 }

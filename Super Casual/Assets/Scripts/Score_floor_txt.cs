@@ -23,4 +23,5 @@ public class Score_floor_txt : MonoBehaviour {
             Destroy(transform.gameObject);
         }
     }
+
 }

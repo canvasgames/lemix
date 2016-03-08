@@ -346,7 +346,8 @@ public class hud_controller : MonoBehaviour {
     {
         globals.s.MENU_OPEN = true;
         video.SetActive(true);
-        video.GetComponentInChildren<Play_Video>().solta_a_vinheta_sombra(true,false);
+        //video.GetComponentInChildren<Play_Video>().solta_a_vinheta_sombra(true,false);
+        video.GetComponent<new_external_link_bt>().set_variables(true, false);
     }
 
     public void watched_the_video_revive()
@@ -361,7 +362,8 @@ public class hud_controller : MonoBehaviour {
     {
         globals.s.MENU_OPEN = true;
         video.SetActive(true);
-        video.GetComponentInChildren<Play_Video>().solta_a_vinheta_sombra(false, true);
+        //video.GetComponentInChildren<Play_Video>().solta_a_vinheta_sombra(false, true);
+        video.GetComponent<new_external_link_bt>().set_variables(false, true);
     }
 
     public void watched_the_video_pw()
