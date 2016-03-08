@@ -27,6 +27,8 @@ public class hud_controller : MonoBehaviour {
     DateTime tempDate;
     DateTime tempcurDate;
 
+    int temp_cur_floor;
+    int temp_best_floor;
     // Use this for initialization
     void Awake()
     {
@@ -36,7 +38,8 @@ public class hud_controller : MonoBehaviour {
     void Start () {
         display_best(PlayerPrefs.GetInt("best", 0));
 
-       PW_date = PlayerPrefs.GetString("PWDate2ChangeState");
+        PlayerPrefs.DeleteAll();
+        PW_date = PlayerPrefs.GetString("PWDate2ChangeState");
 
         //SETTING  FIRST_GAME GLOBAL
         int tmp_first = PlayerPrefs.GetInt("first_game", 1); ;
@@ -62,7 +65,6 @@ public class hud_controller : MonoBehaviour {
         }
 
 
-        // PlayerPrefs.DeleteAll();
         //Debug.Log(PW_date);
         if (PW_date != "")
         {
@@ -139,18 +141,30 @@ public class hud_controller : MonoBehaviour {
 
     public void show_game_over(int currentFloor)
     {
-        game_over_text.SetActive(true);
-
-        if (game_over_text.GetComponent<Text>().IsActive()) print(" IS GAME OVER ACTIVE ");
 
         int last_score = PlayerPrefs.GetInt("last_score", currentFloor);
         int bestFloor = get_and_set_best_score(currentFloor);
         int dayFloor = get_and_set_day_score(currentFloor);
 
-        game_over_text.GetComponent<Text>().text = "GAME OVER\n\nSCORE: " + currentFloor + "\n BEST: " + bestFloor ;
-        
         PlayerPrefs.SetInt("last_score", currentFloor);
 
+        temp_cur_floor = currentFloor;
+        temp_best_floor = bestFloor;
+        Invoke("appear_game_over", 2);
+
+
+    }
+
+    void appear_game_over()
+    {
+        if(globals.s.GAME_OVER == 1)
+        {
+            game_over_text.SetActive(true);
+
+            if (game_over_text.GetComponent<Text>().IsActive()) print(" IS GAME OVER ACTIVE ");
+            game_over_text.GetComponent<Text>().text = "GAME OVER\n\nSCORE: " + temp_cur_floor + "\n BEST: " + temp_best_floor;
+        }
+        
     }
 
     public void hide_game_over()
