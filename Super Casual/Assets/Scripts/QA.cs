@@ -8,6 +8,7 @@ public class QA : MonoBehaviour {
     public bool INVENCIBLE ;
     public float TIMESCALE = 1;
     public float TRACE_PROFUNDITY = 1;
+
     // 1 = Just Main info
     // 2 = All floor excential creation information
     // 3 = More detailed info of creation floor process and physics
@@ -20,6 +21,9 @@ public class QA : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        Time.timeScale = TIMESCALE;
+
+            Time.timeScale = TIMESCALE;
+
+        
     }
 }

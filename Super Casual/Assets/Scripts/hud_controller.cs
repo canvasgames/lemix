@@ -20,6 +20,7 @@ public class hud_controller : MonoBehaviour {
     public GameObject pw_info;
     public GameObject revive;
     public GameObject video;
+    public GameObject ready;
     public Text PW_time_text;
 
     string PW_date;
@@ -311,6 +312,35 @@ public class hud_controller : MonoBehaviour {
         revive.SetActive(false);
         
     }
+
+    public void revive_menu_start()
+    {
+        globals.s.SHOW_VIDEO_AFTER = true;
+        globals.s.CAN_RESTART = false;
+        globals.s.REVIVING = true;
+
+        hide_game_over();
+        revive.SetActive(false);
+        ready.SetActive(true);
+
+        game_controller.s.activate_logic();
+        game_controller.s.destroy_spikes_2_floors();
+
+        Invoke("partiu", 1);
+    }
+    void partiu()
+    {
+        ready.GetComponent<Text>().text = "GO!";
+        Invoke("vaivaivai", 1);
+    }
+    void vaivaivai()
+    {
+        game_controller.s.anda_bolinha_fdd();
+        globals.s.REVIVING = false;
+        ready.SetActive(false);
+       
+    }
+
 
     public void show_video_revive()
     {

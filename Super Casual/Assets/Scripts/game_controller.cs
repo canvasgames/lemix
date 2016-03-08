@@ -223,7 +223,7 @@ public class game_controller : MonoBehaviour {
     
     #endregion
 
-    #region ================ ACTIVATE/UNA LOGIC  ================ 
+    #region ================ ACTIVATE/UNA LOGIC REVIVE ================ 
     public void store_unactive_balls(ball_hero[] ball_hero)
     {
         temp_ball = ball_hero;
@@ -241,7 +241,37 @@ public class game_controller : MonoBehaviour {
         {
             //Destroy(b.gameObject);
             b.gameObject.SetActive(true);
+            if (b.gameObject.transform.position.x < -3)
+            {
+                b.gameObject.transform.position = new Vector3(-3, b.gameObject.transform.position.y, b.gameObject.transform.position.z);
+            }
+            else if (b.gameObject.transform.position.x > 3)
+            {
+                b.gameObject.transform.position = new Vector3(3, b.gameObject.transform.position.y, b.gameObject.transform.position.z);
+            }
+            //b.gameObject.rigidbody2D.
+
             break;
+        }
+    }
+    public void anda_bolinha_fdd()
+    {
+        foreach (ball_hero b in temp_ball)
+        {
+            //Destroy(b.gameObject);
+            b.activate_pos_revive();
+            //b.gameObject.rigidbody2D.
+
+            break;
+        }
+    }
+    public void destroy_spikes_2_floors()
+    {
+        int i;
+        spike[] spikes = GameObject.FindObjectsOfType(typeof(spike)) as spike[];
+        for (i = 0; i < spikes.Length; i++)
+        {
+            spikes[i].remove_spikes_revive(cur_floor);
         }
     }
     #endregion

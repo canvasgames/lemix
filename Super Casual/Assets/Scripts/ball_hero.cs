@@ -98,13 +98,24 @@ public class ball_hero : MonoBehaviour
         symbols_PW_activate();
             
         // SET X SPEED TO MAX EVERY FRAME
-        if (!globals.s.PW_SUPER_JUMP) {
-            if (rb.velocity.x > 0) rb.velocity = new Vector2(globals.s.BALL_SPEED_X, rb.velocity.y);
-            else if (rb.velocity.x < 0) rb.velocity = new Vector2(-globals.s.BALL_SPEED_X, rb.velocity.y);
+        if (!globals.s.PW_SUPER_JUMP && !globals.s.REVIVING)
+        {
+            if (rb.velocity.x > 0)
+                rb.velocity = new Vector2(globals.s.BALL_SPEED_X, rb.velocity.y);
+            else if (rb.velocity.x < 0)
+                rb.velocity = new Vector2(-globals.s.BALL_SPEED_X, rb.velocity.y);
         }
 
     }
 
+    public void activate_pos_revive()
+    {
+        if (transform.position.x > 0)
+            rb.velocity = new Vector2(-globals.s.BALL_SPEED_X, rb.velocity.y);
+        else 
+            rb.velocity = new Vector2(globals.s.BALL_SPEED_X, rb.velocity.y);
+    }
+   
     void FixedUpdate()
     {
         //Debug.Log (" MY X SPEED: " + rb.velocity.x);
@@ -323,6 +334,7 @@ public class ball_hero : MonoBehaviour
         foreach (ball_hero b in bolas) {
             //Destroy(b.gameObject);
             b.gameObject.SetActive(false);
+
         }
 
 

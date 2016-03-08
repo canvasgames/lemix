@@ -25,11 +25,14 @@ public class external_link_bt : MonoBehaviour {
 
     public void click()
     {
-        if(video_played >= 0)
+        if(video_played == 0)
+        {
+            Application.OpenURL("https://www.facebook.com/battlepegsmultiplayer/");
+        }
+        else
         {
             Application.OpenURL("https://play.google.com/store/apps/details?id=mominis.Generic_Android.Bomblast");
         }
-        
         
         if (video_revive == true)
         {
@@ -39,6 +42,6 @@ public class external_link_bt : MonoBehaviour {
         {
             hud_controller.si.watched_the_video_pw();
         }
-        transform.parent.gameObject.SetActive(false);
+        transform.gameObject.SetActive(false);
     }
 }

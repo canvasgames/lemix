@@ -105,7 +105,7 @@ public class main_camera : MonoBehaviour {
     // Update is called once per frame
     void Update() {
         //transform.position = new Vector3 (0, 0,0);
-        if (pw_super_jump == false)
+        if (pw_super_jump == false && globals.s.REVIVING == false)
         {
             if (globals.s.GAME_OVER == 0 && !falling && !hitted_on_wall) {
                 if (initiated == false)

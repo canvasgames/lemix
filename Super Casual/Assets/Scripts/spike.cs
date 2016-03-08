@@ -120,6 +120,15 @@ public class spike : scenario_objects {
         }
     }
 
+
+    public void remove_spikes_revive(int floor)
+    {
+        if (floor == my_floor || floor+1 == my_floor || floor+2 == my_floor)
+        {
+            transform.position = new Vector3(transform.position.x - Random.Range(50, 150), transform.position.y - Random.Range(50, 150), transform.position.z);
+
+        }
+    }
     void destroy_me_baby()
     {
         //Destroy(gameObject);
