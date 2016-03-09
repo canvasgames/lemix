@@ -322,9 +322,9 @@ public class hud_controller : MonoBehaviour {
 
     public void close_revive_menu()
     {
-
         revive.SetActive(false);
-        
+        AnalyticController.s.ReportRevive(false);
+        game_controller.s.game_over_for_real();
     }
 
     public void revive_menu_start()
@@ -339,6 +339,8 @@ public class hud_controller : MonoBehaviour {
 
         game_controller.s.activate_logic();
         game_controller.s.destroy_spikes_2_floors();
+
+        AnalyticController.s.ReportRevive(true);
 
         Invoke("partiu", 1);
     }

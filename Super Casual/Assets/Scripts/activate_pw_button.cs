@@ -27,5 +27,7 @@ public class activate_pw_button : MonoBehaviour {
         hud_controller.si.show_video_pw();
         USER.s.TOTAL_VIDEOS_WATCHED++;
         PlayerPrefs.SetInt("total_videos_watched", USER.s.TOTAL_VIDEOS_WATCHED);
+
+        AnalyticController.s.ReportVideoWatchedForPowerUps();
     }
 }

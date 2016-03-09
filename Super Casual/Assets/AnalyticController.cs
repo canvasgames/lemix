@@ -11,14 +11,30 @@ public class AnalyticController : MonoBehaviour {
         // Enter additional configuration here
         
         // Launch the SDK
-        DDNA.Instance.Settings.DebugMode = true;
-        DDNA.Instance.ClientVersion = "1.0.0";
-        DDNA.Instance.StartSDK(
-            "87199148446217602329834496314561",
-            "http://collect7976sprcs.deltadna.net/collect/api",
-            "http://engage7976sprcs.deltadna.net",
-            DDNA.AUTO_GENERATED_USER_ID
-        );
+        if (GD.s.AnalyticsLive == false) {
+            DDNA.Instance.Settings.DebugMode = true;
+            DDNA.Instance.Settings.OnInitSendGameStartedEvent = true;
+            DDNA.Instance.ClientVersion = "1.0.0";
+            DDNA.Instance.StartSDK(
+                "87199148446217602329834496314561",
+                "http://collect7976sprcs.deltadna.net/collect/api",
+                "http://engage7976sprcs.deltadna.net",
+                "00"
+            );
+        }
+
+        else {
+            //DDNA.Instance.Settings.DebugMode = true;
+            DDNA.Instance.ClientVersion = "1.0.0";
+            DDNA.Instance.StartSDK(
+                "87199152274143954720021478014561",
+                "http://collect7976sprcs.deltadna.net/collect/api",
+                "http://engage7976sprcs.deltadna.net",
+                DDNA.AUTO_GENERATED_USER_ID
+                );
+        }
+
+        
     }
 
 
@@ -36,6 +52,7 @@ public class AnalyticController : MonoBehaviour {
     }
 
     public void ReportGameEnded(string killer_wave_name, int duration) {
+        Debug.Log("[ANAL] REPORTING GAME ENDED");
         EventBuilder eventParams = new EventBuilder();
         //eventParams.AddParam("clientVersion", "teste");
         eventParams.AddParam("isTutorial", false);
@@ -46,9 +63,36 @@ public class AnalyticController : MonoBehaviour {
         eventParams.AddParam("userTotalVideosWatched", USER.s.TOTAL_VIDEOS_WATCHED);
         eventParams.AddParam("userScore", globals.s.BALL_FLOOR);
         eventParams.AddParam("killerWaveName", killer_wave_name);
-        eventParams.AddParam("gameDuration", 5);
+        eventParams.AddParam("gameDuration", duration);
 
         DDNA.Instance.RecordEvent("missionCompleted", eventParams);
+    }
+
+    public void ReportRevive(bool success) {
+        Debug.Log("[ANAL] REPORTING REVIVE " + success);
+        EventBuilder eventParams = new EventBuilder();
+        //eventParams.AddParam("clientVersion", "teste");
+        eventParams.AddParam("success", success);
+        // eventParams.AddParam("platform", DDNA.Instance.Platform);
+        eventParams.AddParam("userHighScore", USER.s.BEST_SCORE);
+        eventParams.AddParam("userTotalGames", USER.s.TOTAL_GAMES);
+        eventParams.AddParam("userTotalVideosWatched", USER.s.TOTAL_VIDEOS_WATCHED);
+        eventParams.AddParam("userScore", globals.s.BALL_FLOOR);
+
+        DDNA.Instance.RecordEvent("revive", eventParams);
+    }
+
+    public void ReportVideoWatchedForPowerUps() {
+        Debug.Log("[ANAL] REPORTING GAME ENDED");
+        EventBuilder eventParams = new EventBuilder();
+        //eventParams.AddParam("clientVersion", "teste");
+        // eventParams.AddParam("platform", DDNA.Instance.Platform);
+        eventParams.AddParam("userHighScore", USER.s.BEST_SCORE);
+        eventParams.AddParam("userTotalGames", USER.s.TOTAL_GAMES);
+        eventParams.AddParam("userTotalVideosWatched", USER.s.TOTAL_VIDEOS_WATCHED);
+        eventParams.AddParam("userScore", globals.s.BALL_FLOOR);
+
+        DDNA.Instance.RecordEvent("activatePwPressed", eventParams);
     }
 
     void Update() {

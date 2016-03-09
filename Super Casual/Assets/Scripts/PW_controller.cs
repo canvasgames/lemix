@@ -183,7 +183,7 @@ public class PW_controller : MonoBehaviour
                 PW_symbol_active_time = PW_symbol_active_time - 0.1f;
             }
             
-            Debug.Log("tempo ativoooooooooooo ou inativooooooo  " + PW_symbol_active_time);
+            //Debug.Log("tempo ativoooooooooooo ou inativooooooo  " + PW_symbol_active_time);
             PW_symbol_active_actual_time = Time.time + PW_symbol_active_time;
             PW_symbol_active = !PW_symbol_active;
             change_balls_symbol_mask_active(PW_symbol_active);

@@ -72,10 +72,11 @@ public class main_camera : MonoBehaviour {
 
     public void OnBallTooHigh() {
         if (!falling) {
-            Debug.Log("[CAMERA] ON BALL TOO HIGH !! BALL Y: " + globals.s.BALL_Y  + " | LIMIT: " + (transform.position.y + globals.s.FLOOR_HEIGHT + 1.5f));
+            Debug.Log("[CAMERA] ON BALL TOO HIGH !! BALL Y: " + globals.s.BALL_Y + " | LIMIT: " + (transform.position.y + globals.s.FLOOR_HEIGHT + 1.5f));
             falling = true;
             transform.DOMoveY(transform.position.y + globals.s.FLOOR_HEIGHT + 0.5f, 0.4f).SetEase(Ease.InOutQuad).OnComplete(() => falling = false);
         }
+        else Debug.Log("[CAMERA] IT IS FALLING! NOT BALL TO HIGH =/");
     }
 
     public void init_PW_super_jump(float pos_y, float time)
@@ -104,6 +105,7 @@ public class main_camera : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
+        
         //transform.position = new Vector3 (0, 0,0);
         if (pw_super_jump == false && globals.s.REVIVING == false)
         {

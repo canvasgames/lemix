@@ -12,8 +12,10 @@ public class GD : MonoBehaviour {
     public int GD_WITHOUT_PW_TIME;
 
     public int GD_JUMPS_PW_BAR_FULL;
+
+    public bool AnalyticsLive = false;
     // Use this for initialization
-    void Start()
+    void Awake()
     {
         s = this;
     }

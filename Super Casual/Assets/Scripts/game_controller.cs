@@ -58,10 +58,16 @@ public class game_controller : MonoBehaviour {
 
     public wave_controller[] wave_ctrl;
 
+    public int there_was_revive = 0;
+    public int n_games_without_revive = 0;
+
     //PW VARIABLES
     int pw_dont_create_for_n_floors = 5;
     int pw_floors_not_created = 0;
     bool first_pw_created = false;
+
+    string killer_wave_to_report = "";
+    int time_to_report = 0;
 
 
     void Awake (){
@@ -185,30 +191,60 @@ public class game_controller : MonoBehaviour {
     public void game_over(string killer_wave_name, ball_hero[] ball_hero)
     {
         //Time.timeScale = 0;
-        AnalyticController.s.ReportGameEnded(killer_wave_name, (int)(Time.time - starting_time));
+        Debug.Log("[GM] GAME OVER");
+        killer_wave_to_report = killer_wave_name;
+        time_to_report = (int)(Time.time - starting_time);
 
         globals.s.GAME_OVER = 1;
-        PlayerPrefs.SetInt("total_games", USER.s.TOTAL_GAMES + 1);
+        
 
         temp_ball = ball_hero;
         Invoke("show_game_over", 1f);
     }
 
+    bool revive_logic() {
+        globals.s.CAN_REVIVE = false;
+        there_was_revive = PlayerPrefs.GetInt("there_was_revive", 0); 
+        n_games_without_revive = PlayerPrefs.GetInt("n_games_without_revive", 0);
+        if (1==1 || USER.s.BEST_SCORE > 6 && globals.s.BALL_FLOOR > 6 && globals.s.BALL_FLOOR > USER.s.BEST_SCORE - 5 && there_was_revive == 0) {
+
+            int rand = Random.Range(1,100);
+            int dif = 0;
+            if (globals.s.BALL_FLOOR < USER.s.BEST_SCORE) dif = 0;
+            else dif = USER.s.BEST_SCORE - globals.s.BALL_FLOOR;
+
+            Debug.Log("~~~~~~~~ REVIVE LOGIC ~~~~~~~ RAND: " + rand + " CHANCE TOTAL:  "+ (15 + 5 * dif + n_games_without_revive * 5) + " CHANCE: " + (20 + 5 * dif) + " N games: " + n_games_without_revive);
+            if (rand < 15 + 5 * dif + n_games_without_revive*5)
+                globals.s.CAN_REVIVE = true;
+        }
+
+        if (globals.s.CAN_REVIVE == true) {
+            PlayerPrefs.SetInt("there_was_revive", 1);
+        }
+        else {
+            PlayerPrefs.SetInt("there_was_revive", 0);
+            n_games_without_revive++;
+            PlayerPrefs.SetInt("n_games_without_revive", n_games_without_revive);
+        }
+
+        return globals.s.CAN_REVIVE;
+    }
+
 
     void show_game_over() {
-
 
         hud_controller.si.show_game_over(cur_floor + 1);
         if (globals.s.SHOW_VIDEO_AFTER == false)
         {
+            revive_logic();
             if (globals.s.CAN_REVIVE == true)
             {
                 hud_controller.si.show_revive_menu();
                 globals.s.CAN_REVIVE = false;
             }
-            else
-            {
+            else {
                 globals.s.CAN_RESTART = true;
+                game_over_for_real();
             }
         }
         else
@@ -217,7 +253,11 @@ public class game_controller : MonoBehaviour {
             //globals.s.SHOW_VIDEO_AFTER = false;
             //globals.s.CAN_RESTART = true;
         }
+    }
 
+    public void game_over_for_real() {
+        AnalyticController.s.ReportGameEnded(killer_wave_to_report, time_to_report);
+        PlayerPrefs.SetInt("total_games", USER.s.TOTAL_GAMES + 1);
     }
 
     
@@ -399,9 +439,9 @@ public class game_controller : MonoBehaviour {
                     wave_found = create_wave_easy(n_floor);
                 else if (rand <= 20)
                     wave_found = create_wave_medium(n_floor);
-                else if (rand <= 48)
+                else if (rand <= 55)
                     wave_found = create_wave_hard(n_floor);
-                else if (rand <= 75)
+                else if (rand <= 80)
                     wave_found = create_wave_very_hard(n_floor);
                 else
                     wave_found = create_wave_super_hard(n_floor);
@@ -449,6 +489,8 @@ public class game_controller : MonoBehaviour {
     }*/
 
         if (wave_found == false) Debug.Log("\n******* ERROR! WAVE NOT FOUND!! ********");
+        else if (QA.s.TRACE_PROFUNDITY >= 1) Debug.Log("\n " + n_floor + " - " + wave_name);
+
         n_floor++;
 
 
@@ -723,13 +765,14 @@ public class game_controller : MonoBehaviour {
             // 2 TRIPLE SPK MID |___/\__/\___|
             if ( rand > 87)
             {
-                wave_name = "2_triple_spk_mid";
+                wave_name = "medium_2_triple_spk_mid";
 
                 create_floor(0, n);
-                float rand_x = Random.Range(-screen_w / 4 - 1f, 0 - 0.5f);
+                float dist = Random.Range(min_spk_dist/2 + 0.2f, min_spk_dist/2 + 0.4f);
+                float rand_x = Random.Range(-0.5f, 0.5f);
                 //first spike
-                create_spike(rand_x, actual_y, n);
-                create_spike(Random.Range(rand_x + min_spk_dist + 0.35f, rand_x + min_spk_dist + 2f), actual_y, n);
+                create_triple_spike(rand_x - dist, actual_y, n);
+                create_triple_spike(rand_x + dist, actual_y, n);
 
                 last_spike_right = false;
                 last_spike_left = false;
@@ -818,7 +861,7 @@ public class game_controller : MonoBehaviour {
                 //first spike
                 create_spike(corner_left, actual_y, n);
                 create_spike(corner_right, actual_y, n);
-                create_spike(Random.Range(-mid_area + 0.25f, mid_area - 0.25f), actual_y, n);
+                create_spike(Random.Range(-mid_area + 0.35f, mid_area - 0.35f), actual_y, n);
 
                 last_spike_right = true;
                 last_spike_left = true;
@@ -1144,7 +1187,7 @@ public class game_controller : MonoBehaviour {
 
 
             // WALL CORNER + 2 spks (normal, hidden or manual_trigger)  ||__v_v__|
-            else if (!last_wall && rand > 30 && rand <= 75)
+            else if (!last_wall && rand > 30 && rand <= 70)
             {
                 wave_name = "vhard_wall";
 
@@ -1183,7 +1226,7 @@ public class game_controller : MonoBehaviour {
             }
 
             // 2 HIDDEN TRIPLE SPIKE MID |___v__v___|
-            else if (rand > 75)
+            else if (rand > 70)
             {
                 wave_name = "vhard_2_hidden_triple_spk_mid";
                 create_floor(0, n);
@@ -1212,7 +1255,7 @@ public class game_controller : MonoBehaviour {
         if (hole_chance > 85) hole_chance = 85;
         if (QA.s.TRACE_PROFUNDITY >= 2) Debug.Log("\n " + n + " SSSSSSSSSSSSSS TRY CREATE SUPER HARD HOLE! SSSSSSSSSSSSS| rand " + rand + " HOLE CHANCE: " + hole_chance + " N FAILED: " + hole_creation_failed);
 
-        // rand = 80;
+        //rand = 80;
 
         // HOLE + 2 TRIPLE SPIKES |_^__\/__^_|
         if (!last_wall && !last_hole && !last_spike_left && !last_spike_right && rand > 0 && rand <= hole_chance) {
@@ -1226,10 +1269,14 @@ public class game_controller : MonoBehaviour {
                 last_wall = false;
 
                 rand = Random.Range(1, 100);
+                if (QA.s.TRACE_PROFUNDITY >= 2)
+                    Debug.Log("RAND IS :" + rand);
                 float spk_pos = 0;
                 //rand = 68;
                 // SPIKES FAR FROM HOLE
                 if (rand < 65) {
+                    
+
                     if (last_hole_x - min_spk_dist - 0.8f > corner_left) {
                         spk_pos = Random.Range(corner_left, last_hole_x - min_spk_dist - 0.8f);
 
@@ -1334,7 +1381,7 @@ public class game_controller : MonoBehaviour {
             }
            
             // 3 TRIPLE SPIKES MID (RIGHT priority |__^_^_^__|)
-            if (!last_spike_right && rand > 15 && rand <= 30) {
+            else if (!last_spike_right && rand > 15 && rand <= 30) {
                 wave_name = "shard_3_triple_spks";
 
                 create_floor(0, n);
@@ -1367,7 +1414,7 @@ public class game_controller : MonoBehaviour {
             }
 
             // DOUBLE WALL CORNER + 1 spk (normal, hidden or manual_trigger)  ||__v_v__|
-            else if (!last_wall && rand > 30 && rand <= 65) {
+            else if (!last_wall && rand > 30 && rand <= 55) {
                 wave_name = "shard_double_wall";
 
                 bool there_is_manual = false;
@@ -1408,8 +1455,28 @@ public class game_controller : MonoBehaviour {
                 return true;
             }
 
+            // 2 TRIPLE SPIKE CLOSE to each other AT MID
+            else if (rand > 55 && rand <= 80) {
+                wave_name = "shard_2_triple_spikes";
+
+                create_floor(0, n);
+                float pair_range = 1.18f;
+
+
+                create_triple_spike(0 - pair_range, actual_y, n);
+                create_triple_spike(0 + pair_range, actual_y, n);
+
+                last_hole = false;
+                last_wall = false;
+                last_spike_left = false;
+                last_spike_right = false;
+
+                return true;
+            }
+
+
             // 4 SPIKES IN PAIRS |___v_v___v_v___|
-            if (rand > 65 && !last_spike_left && !last_spike_right) {
+            else if (rand > 80 && !last_spike_left && !last_spike_right) {
                 wave_name = "shard_4_spikes";
 
                 create_floor(0, n);

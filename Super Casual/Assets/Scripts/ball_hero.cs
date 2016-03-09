@@ -179,6 +179,7 @@ public class ball_hero : MonoBehaviour
 
             globals.s.BALL_Y = my_son.transform.position.y;
             globals.s.BALL_X = my_son.transform.position.x;
+            //Debug.Log
 
             // CALL GAME CONTROLLER
             game_controller.s.ball_up(my_floor);
@@ -193,7 +194,7 @@ public class ball_hero : MonoBehaviour
             }
 
             //my_son = (GameObject)Instantiate (ball_hero, new Vector3 (0, 0, 0), transform.rotation);
-            //Debug.Log("------------ NEW BALL CREATED! MY ID: " +my_id +" time: " + Time.time);
+            //Debug.Log("------------ NEW BALL CREATED! MY ID: " +my_id +" time: " + Time.time + " | pos y: " +my_son.transform.position.y + " CAMERA Y: " + main_camera.s.transform.position.y);
 
         }
         #endregion
