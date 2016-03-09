@@ -6,7 +6,7 @@ public class game_controller : MonoBehaviour {
 
     #region ============= Variables Declaration ================
     public static game_controller s;
-
+    
     float starting_time, match_time;
 
     // TYPES
@@ -69,6 +69,7 @@ public class game_controller : MonoBehaviour {
     string killer_wave_to_report = "";
     int time_to_report = 0;
 
+    bool temp_flag_high_score_game_over;
 
     void Awake (){
         
@@ -188,25 +189,13 @@ public class game_controller : MonoBehaviour {
 
     #region ================= GAME END ===================
 
-    public void game_over(string killer_wave_name, ball_hero[] ball_hero)
-    {
-        //Time.timeScale = 0;
-        Debug.Log("[GM] GAME OVER");
-        killer_wave_to_report = killer_wave_name;
-        time_to_report = (int)(Time.time - starting_time);
 
-        globals.s.GAME_OVER = 1;
-        
-
-        temp_ball = ball_hero;
-        Invoke("show_game_over", 1f);
-    }
 
     bool revive_logic() {
         globals.s.CAN_REVIVE = false;
         there_was_revive = PlayerPrefs.GetInt("there_was_revive", 0); 
         n_games_without_revive = PlayerPrefs.GetInt("n_games_without_revive", 0);
-        if (1==1 || USER.s.BEST_SCORE > 6 && globals.s.BALL_FLOOR > 6 && globals.s.BALL_FLOOR > USER.s.BEST_SCORE - 5 && there_was_revive == 0) {
+        if ( USER.s.BEST_SCORE > 6 && globals.s.BALL_FLOOR > 6 && globals.s.BALL_FLOOR > USER.s.BEST_SCORE - 5 && there_was_revive == 0) {
 
             int rand = Random.Range(1,100);
             int dif = 0;
@@ -230,10 +219,24 @@ public class game_controller : MonoBehaviour {
         return globals.s.CAN_REVIVE;
     }
 
+    public void game_over(string killer_wave_name, ball_hero[] ball_hero, bool with_high_score)
+    {
+        temp_flag_high_score_game_over = with_high_score;
+        //Time.timeScale = 0;
+        Debug.Log("[GM] GAME OVER");
+        killer_wave_to_report = killer_wave_name;
+        time_to_report = (int)(Time.time - starting_time);
+
+        globals.s.GAME_OVER = 1;
+
+
+        temp_ball = ball_hero;
+        Invoke("show_game_over", 1f);
+    }
 
     void show_game_over() {
 
-        hud_controller.si.show_game_over(cur_floor + 1);
+        hud_controller.si.show_game_over(cur_floor + 1, temp_flag_high_score_game_over);
         if (globals.s.SHOW_VIDEO_AFTER == false)
         {
             revive_logic();
@@ -313,6 +316,12 @@ public class game_controller : MonoBehaviour {
         {
             spikes[i].remove_spikes_revive(cur_floor);
         }
+
+        wall[] wallss = GameObject.FindObjectsOfType(typeof(wall)) as wall[];
+        for (i = 0; i < wallss.Length; i++)
+        {
+            wallss[i].destroy_me_PW_super();
+        }
     }
     #endregion
     #region ================ GAME LOGIC ================ 
@@ -379,7 +388,11 @@ public class game_controller : MonoBehaviour {
         wave_found = false;
 
         //PW Creation
-        create_power_up_logic();
+        if(globals.s.PW_ACTIVE == true)
+        {
+            create_power_up_logic();
+        }
+        
 
         while (wave_found == false && count < 50)
         {

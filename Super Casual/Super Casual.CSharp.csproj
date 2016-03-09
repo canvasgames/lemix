@@ -108,7 +108,6 @@
     <Compile Include="Assets\Platforms\Android\GcmClient.cs" />
     <Compile Include="Assets\Platforms\Android\GcmListener.cs" />
     <Compile Include="Assets\Platforms\Android\Utils.cs" />
-    <Compile Include="Assets\Play_Video.cs" />
     <Compile Include="Assets\Revive_Collectable.cs" />
     <Compile Include="Assets\Revive_menu_ctrl.cs" />
     <Compile Include="Assets\Scripts\Button_New_Game_QA.cs" />

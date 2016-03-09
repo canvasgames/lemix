@@ -38,7 +38,7 @@ public class hud_controller : MonoBehaviour {
     void Start () {
         display_best(PlayerPrefs.GetInt("best", 0));
 
-        PlayerPrefs.DeleteAll();
+        //PlayerPrefs.DeleteAll();
         PW_date = PlayerPrefs.GetString("PWDate2ChangeState");
 
         //SETTING  FIRST_GAME GLOBAL
@@ -139,7 +139,7 @@ public class hud_controller : MonoBehaviour {
         floor.GetComponent<Text>().text = "Floor " + (n + 1).ToString();
     }
 
-    public void show_game_over(int currentFloor)
+    public void show_game_over(int currentFloor, bool with_high_score)
     {
 
         int last_score = PlayerPrefs.GetInt("last_score", currentFloor);
@@ -150,7 +150,11 @@ public class hud_controller : MonoBehaviour {
 
         temp_cur_floor = currentFloor;
         temp_best_floor = bestFloor;
-        Invoke("appear_game_over", 2);
+
+        if(with_high_score == false)
+            Invoke("appear_game_over", 0.7f);
+        else
+            Invoke("appear_game_over", 2);
 
 
     }

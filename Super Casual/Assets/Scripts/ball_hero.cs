@@ -338,9 +338,11 @@ public class ball_hero : MonoBehaviour
 
         }
 
+        bool with_high_score = false;
 
         if(my_floor > USER.s.BEST_SCORE)
         {
+            with_high_score = true;
             floor[] chaozis = GameObject.FindObjectsOfType(typeof(floor)) as floor[];
             int i;
             for (i = 0; i < chaozis.Length; i++)
@@ -350,7 +352,7 @@ public class ball_hero : MonoBehaviour
         }
         else if(my_floor > USER.s.DAY_SCORE)
         {
-
+            with_high_score = true;
             floor[] chaozis = GameObject.FindObjectsOfType(typeof(floor)) as floor[];
             int i;
             for (i = 0; i < chaozis.Length; i++)
@@ -360,7 +362,7 @@ public class ball_hero : MonoBehaviour
 
         }
         Instantiate(explosion, new Vector3(transform.position.x, transform.position.y, transform.position.z), transform.rotation);
-        game_controller.s.game_over(killer_wave_name, bolas);
+        game_controller.s.game_over(killer_wave_name, bolas, with_high_score);
 
 
     }
