@@ -116,7 +116,7 @@ public class hud_controller : MonoBehaviour {
                 start_game();
                 
             }
-            else if(Input.GetMouseButtonUp(0) && HUD_BUTTON_CLICKED == true)
+            else if(Input.GetMouseButtonDown(0) && HUD_BUTTON_CLICKED == true)
             {
                 HUD_BUTTON_CLICKED = false;
             }
