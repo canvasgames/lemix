@@ -138,6 +138,7 @@
     <Compile Include="Assets\external_link_bt.cs" />
     <Compile Include="Assets\new_external_link_bt.cs" />
     <Compile Include="Assets\revive_later_button.cs" />
+    <Compile Include="Assets\start_bt.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Demigiant\DOTween\DOTween43.xml" />

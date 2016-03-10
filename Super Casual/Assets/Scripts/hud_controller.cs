@@ -112,8 +112,8 @@ public class hud_controller : MonoBehaviour {
 
             if (Input.GetMouseButtonUp(0) && HUD_BUTTON_CLICKED == false)
             {
-                globals.s.GAME_STARTED = true;
-                start_game();
+                //globals.s.GAME_STARTED = true;
+               // start_game();
                 
             }
             else if(Input.GetMouseButtonDown(0) && HUD_BUTTON_CLICKED == true)
@@ -123,7 +123,7 @@ public class hud_controller : MonoBehaviour {
         }
     }
 
-    void start_game()
+    public void start_game()
     {
         globals.s.FIRST_GAME = false;
         floor.SetActive(true);
