@@ -19,7 +19,7 @@ public class floor : scenario_objects {
 
     public void check_if_have_score()
     {
-        if(my_floor > 5 && globals.s.GAME_STARTED == true)
+        if(my_floor > 1)
         {
             if (USER.s.BEST_SCORE == my_floor)
             {
@@ -59,7 +59,7 @@ public class floor : scenario_objects {
     public void try_to_display_best_score()
     {
        // Debug.Log("user day score: " + USER.s.DAY_SCORE);
-        if (already_blinked == false && USER.s.DAY_SCORE >= 5 )
+        if (already_blinked == false && USER.s.DAY_SCORE >= 4 )
 
         {
             //USER.s.LAST_SCORE + 1 == my_floor

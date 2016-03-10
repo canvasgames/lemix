@@ -189,21 +189,19 @@ public class game_controller : MonoBehaviour {
 
     #region ================= GAME END ===================
 
-
-
     bool revive_logic() {
         globals.s.CAN_REVIVE = false;
         there_was_revive = PlayerPrefs.GetInt("there_was_revive", 0); 
         n_games_without_revive = PlayerPrefs.GetInt("n_games_without_revive", 0);
-        if ( USER.s.BEST_SCORE > 6 && globals.s.BALL_FLOOR > 6 && globals.s.BALL_FLOOR > USER.s.BEST_SCORE - 5 && there_was_revive == 0) {
+        if ( USER.s.DAY_SCORE > 6 && globals.s.BALL_FLOOR > 6 && ( n_floor > 20 || globals.s.BALL_FLOOR > USER.s.DAY_SCORE - 5)  && there_was_revive == 0) {
 
             int rand = Random.Range(1,100);
             int dif = 0;
-            if (globals.s.BALL_FLOOR < USER.s.BEST_SCORE) dif = 0;
-            else dif = USER.s.BEST_SCORE - globals.s.BALL_FLOOR;
+            if (globals.s.BALL_FLOOR < USER.s.DAY_SCORE) dif = 0;
+            else dif = USER.s.DAY_SCORE - globals.s.BALL_FLOOR;
 
             Debug.Log("~~~~~~~~ REVIVE LOGIC ~~~~~~~ RAND: " + rand + " CHANCE TOTAL:  "+ (15 + 5 * dif + n_games_without_revive * 5) + " CHANCE: " + (20 + 5 * dif) + " N games: " + n_games_without_revive);
-            if (rand < 15 + 5 * dif + n_games_without_revive*5)
+            if (rand < 15 + 5 * dif + n_games_without_revive * 5)
                 globals.s.CAN_REVIVE = true;
         }
 
@@ -346,12 +344,12 @@ public class game_controller : MonoBehaviour {
     #region ================= POWER UPS =========================
     void create_power_up_logic() {
         int rand = Random.Range(0, 100);
-        rand = 0;
+        //rand = 0;
         // create chance check
 
         // if (!QA.s.NO_PWS && pw_floors_not_created > pw_dont_create_for_n_floors && rand <= 15 && globals.s.PW_ACTIVE == true) {
-        //if (!QA.s.NO_PWS && ((pw_floors_not_created > pw_dont_create_for_n_floors && 
-        //rand <= (pw_floors_not_created - pw_dont_create_for_n_floors) * 7) || (USER.s.TOTAL_GAMES == 2 && !first_pw_created)))
+        if (!QA.s.NO_PWS && ((pw_floors_not_created > pw_dont_create_for_n_floors && 
+            rand <= (pw_floors_not_created - pw_dont_create_for_n_floors) * 7) || (USER.s.TOTAL_GAMES == 2 && !first_pw_created)))
         {
 
             int my_type = 0;
@@ -367,7 +365,7 @@ public class game_controller : MonoBehaviour {
 
             pw_floors_not_created = 0;
         }
-       // else
+        else
             pw_floors_not_created++;
     }
 

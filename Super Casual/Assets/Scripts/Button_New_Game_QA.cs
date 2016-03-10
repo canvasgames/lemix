@@ -10,8 +10,14 @@ public class Button_New_Game_QA : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-	
-	}
+        if (globals.s.GAME_STARTED)
+            Invoke("destroy_me", 1f);
+
+    }
+
+    void destroy_me() {
+        Destroy(gameObject);
+    }
 
     public void click()
     {
@@ -30,6 +36,7 @@ public class Button_New_Game_QA : MonoBehaviour {
             //PlayerPrefs.DeleteAll();
             hud_controller.si.display_best(0);
             Invoke("back_to_white", 2);
+            Destroy(gameObject);
         }
     }
 

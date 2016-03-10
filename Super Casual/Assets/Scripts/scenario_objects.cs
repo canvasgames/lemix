@@ -19,7 +19,6 @@ public class scenario_objects : MonoBehaviour {
 
     public void try_blink(int floor)
     {
-
         if (floor == my_floor)
         {
             already_blinked = true;

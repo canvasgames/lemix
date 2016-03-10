@@ -122,7 +122,7 @@ public class main_camera : MonoBehaviour {
                 else
                 {
                     // ball is to high
-                    if (globals.s.BALL_GROUNDED && globals.s.BALL_Y > transform.position.y + globals.s.FLOOR_HEIGHT + 1.5f) { 
+                    if (globals.s.GAME_STARTED && globals.s.BALL_FLOOR > 1 && globals.s.BALL_GROUNDED && globals.s.BALL_Y > transform.position.y + globals.s.FLOOR_HEIGHT + 1.5f) { 
                         OnBallTooHigh();
                     }
 
