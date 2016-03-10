@@ -346,11 +346,14 @@ public class game_controller : MonoBehaviour {
     #region ================= POWER UPS =========================
     void create_power_up_logic() {
         int rand = Random.Range(0, 100);
-
+        rand = 0;
         // create chance check
-        if (!QA.s.NO_PWS && ((pw_floors_not_created > pw_dont_create_for_n_floors && rand <= (pw_floors_not_created - 
-            pw_dont_create_for_n_floors) * 7) || (USER.s.TOTAL_GAMES == 2 && !first_pw_created))) {
-       // if (!QA.s.NO_PWS && pw_floors_not_created > pw_dont_create_for_n_floors && rand <= 15 && globals.s.PW_ACTIVE == true) {
+
+        // if (!QA.s.NO_PWS && pw_floors_not_created > pw_dont_create_for_n_floors && rand <= 15 && globals.s.PW_ACTIVE == true) {
+        //if (!QA.s.NO_PWS && ((pw_floors_not_created > pw_dont_create_for_n_floors && 
+        //rand <= (pw_floors_not_created - pw_dont_create_for_n_floors) * 7) || (USER.s.TOTAL_GAMES == 2 && !first_pw_created)))
+        {
+
             int my_type = 0;
             rand = Random.Range(0, 100);
             if (rand < 20 || (USER.s.TOTAL_GAMES == 2 && !first_pw_created)) my_type = (int)PW_Types.Super;
@@ -358,13 +361,13 @@ public class game_controller : MonoBehaviour {
             else if (rand < 100) my_type = (int)PW_Types.Sight;
 
             first_pw_created = true;
- // int my_type = Random.Range((int)PW_Types.Invencible, (int)PW_Types.Sight + 1);
+            // int my_type = Random.Range((int)PW_Types.Invencible, (int)PW_Types.Sight + 1);
 
             create_pw_icon(Random.Range(corner_limit_left, corner_limit_right), n_floor, my_type);
 
             pw_floors_not_created = 0;
         }
-        else
+       // else
             pw_floors_not_created++;
     }
 

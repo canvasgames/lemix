@@ -410,6 +410,7 @@ public class ball_hero : MonoBehaviour
     #region POWER UP -> GO UP
     void go_up_pw_start()
     {
+        symbols.transform.GetComponent<SpriteRenderer>().DOFade(0, 0);
         super.SetActive(true);
         rb.velocity = new Vector2(0, 0);
 
@@ -614,20 +615,24 @@ public class ball_hero : MonoBehaviour
     #region POWER UP -> SIGHT BEYOND SIGHT 
     public void sight_start()
     {
+        symbols.transform.GetComponent<SpriteRenderer>().DOFade(0, 0);
         sight_active = true;
         sight.SetActive(true);
+        
     }
 
     void sight_end()
     {
         sight_active = false;
         sight.SetActive(false);
+        
     }
     #endregion
 
     #region POWER UP -> LIFE
     void heart_start()
     {
+        symbols.transform.GetComponent<SpriteRenderer>().DOFade(0, 0);
         heart_active = true;
         heart.SetActive(true);
     }
@@ -640,6 +645,16 @@ public class ball_hero : MonoBehaviour
     }
 
     #endregion
+
+    public void pw_ending_fade_symbol_mask(float alpha)
+    {
+        if (symbols != null)
+        {
+            symbols.transform.GetComponent<SpriteRenderer>().DOFade(alpha, 0);
+        }
+
+    }
+
 
     public void set_symbols_alpha(float alpha)
     {

@@ -18,6 +18,8 @@ public class PW_controller : MonoBehaviour
     float PW_symbol_active_actual_time = 0f;
 
     bool fade_in_mask = true;
+
+    float temp_alpha;
     // Use this for initialization
     void Start()
     {
@@ -34,9 +36,10 @@ public class PW_controller : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (globals.s.PW_ENDING == true)
+       if (globals.s.PW_ENDING == true)
         {
-            change_alpha_signs();
+            //change_alpha_signs();
+            new_change_balls_symbol_mask_alpha();
         }
     }
 
@@ -44,11 +47,12 @@ public class PW_controller : MonoBehaviour
     public void pw_ending()
     {
         globals.s.PW_ENDING = true;
-        PW_symbol_startTime = Time.time;
+        transform.GetComponent<SpriteRenderer>().DOFade(1, 500);
+        /* PW_symbol_startTime = Time.time;
 
-        PW_symbol_active = true;
-        PW_symbol_active_time = 0.6f;
-        PW_symbol_active_actual_time = Time.time + PW_symbol_active_time;
+         PW_symbol_active = true;
+         PW_symbol_active_time = 0.6f;
+         PW_symbol_active_actual_time = Time.time + PW_symbol_active_time;*/
     }
 
 
@@ -68,9 +72,7 @@ public class PW_controller : MonoBehaviour
         globals.s.PW_INVENCIBLE = false;
         globals.s.PW_ENDING = false;
 
-        //actual_mask_symbol_alpha = 0;
-        //change_balls_symbol_mask_alpha();
-        change_balls_symbol_mask_active(true);
+        //change_balls_symbol_mask_active(true);
 
     }
     #endregion
@@ -94,10 +96,8 @@ public class PW_controller : MonoBehaviour
         globals.s.PW_SIGHT_BEYOND_SIGHT = false;
         back_color_sight_pw();
 
-        //actual_mask_symbol_alpha = 0;
-        //change_balls_symbol_mask_alpha();
 
-        change_balls_symbol_mask_active(true);
+        //change_balls_symbol_mask_active(true);
 
     }
     #endregion
@@ -105,7 +105,7 @@ public class PW_controller : MonoBehaviour
     void symbols_start()
     {
         actual_mask_symbol_alpha = 0;
-        change_balls_symbol_mask_alpha();
+        //change_balls_symbol_mask_alpha();
     }
     #region SIGHT CHANGE COLOR
     void change_color_sight_pw()
@@ -173,8 +173,7 @@ public class PW_controller : MonoBehaviour
 
     void change_alpha_signs()
     {
-       // float t = (Time.time - PW_symbol_startTime) / PW_symbol_ending_duration;
-      //  actual_mask_symbol_alpha = Mathf.SmoothStep(0, 1, t);
+       /*
 
         if (PW_symbol_active_actual_time <= Time.time)
         {
@@ -187,34 +186,28 @@ public class PW_controller : MonoBehaviour
             PW_symbol_active_actual_time = Time.time + PW_symbol_active_time;
             PW_symbol_active = !PW_symbol_active;
             change_balls_symbol_mask_active(PW_symbol_active);
-        }
+        }*/
 
-        /*
-        if (fade_in_mask == true)
+    
+    }
+    void new_change_balls_symbol_mask_alpha()
+    {
+        temp_alpha = temp_alpha + 0.003f;
+        Debug.Log(temp_alpha);
+
+        if (balls[0] != null)
         {
-            
-            if (actual_mask_symbol_alpha >= 1)
-            {
-                fade_in_mask = false;
-                PW_symbol_startTime = Time.time;
-                PW_symbol_duration = PW_symbol_duration - 0.2f;
-            } 
+            balls[0].pw_ending_fade_symbol_mask(temp_alpha);
         }
-        else
-        {        
-            actual_mask_symbol_alpha = Mathf.SmoothStep(1, 0, t);
-            if(actual_mask_symbol_alpha <=0)
-            {
-                fade_in_mask = true;
-                PW_symbol_startTime = Time.time;
-                PW_symbol_duration = PW_symbol_duration - 0.2f;
-            }
+        if (balls[1] != null)
+        {
+            balls[1].pw_ending_fade_symbol_mask(temp_alpha);
         }
-        */
-        //change_balls_symbol_mask_alpha();
     }
 
-    void change_balls_symbol_mask_alpha()
+
+
+    /*void change_balls_symbol_mask_alpha()
     {
         if (balls[0] != null)
         {
@@ -222,8 +215,9 @@ public class PW_controller : MonoBehaviour
         }
         if (balls[1] != null)
         {
-            balls[1].set_symbols_alpha(actual_mask_symbol_alpha);
+           balls[1].set_symbols_alpha(actual_mask_symbol_alpha);
         }
+
     }
 
     void change_balls_symbol_mask_active(bool active)
@@ -236,5 +230,5 @@ public class PW_controller : MonoBehaviour
         {
             balls[1].set_symbols_active(active);
         }
-    }
+    }*/
 }
