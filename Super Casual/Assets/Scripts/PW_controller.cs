@@ -197,7 +197,7 @@ public class PW_controller : MonoBehaviour
         if(previous_time + 0.01f < Time.time)
         {
             previous_time = Time.time;
-            temp_alpha = temp_alpha + 0.0035f;
+            temp_alpha = temp_alpha + 0.0025f;
         }
 
 
