@@ -37,7 +37,8 @@ public class wall : MonoBehaviour
 
     void FixedUpdate()
     {
-        if ((!wall_triggered_by_wall || wall_triggered_by_wall && trigger_back) && already_appeared == false && globals.s.BALL_Y - globals.s.BALL_R > transform.position.y - 2f)
+        if ((!wall_triggered_by_wall || wall_triggered_by_wall && trigger_back) && already_appeared == false && 
+            globals.s.BALL_Y - globals.s.BALL_R > transform.position.y - 2f && my_floor >= globals.s.BALL_FLOOR)
         {
             if ((!corner_wall || (corner_wall && already_placed)) && Mathf.Abs(transform.position.x - globals.s.BALL_X) < 2f)
             {
