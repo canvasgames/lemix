@@ -369,7 +369,7 @@ public class hud_controller : MonoBehaviour {
     public void show_video_revive()
     {
         globals.s.MENU_OPEN = true;
-        Invoke("appear_video", 1f);
+        Invoke("appear_video", 1.7f);
     }
 
     void appear_video()

@@ -86,15 +86,18 @@ public class ball_hero : MonoBehaviour
 
     void Update()
     {
+        if(globals.s.GAME_STARTED == true)
+        {
+            if ((Input.GetMouseButton(0) || Input.GetKey("space")) && globals.s.GAME_STARTED == true)
+            {
+                jump();
+            }
+            else if (Input.GetMouseButtonUp(0) && hud_controller.si.HUD_BUTTON_CLICKED == false)
+            {
+                jump();
+            }
+        }
 
-        if ((Input.GetMouseButton(0) || Input.GetKey("space")) && globals.s.GAME_STARTED == true)
-        {
-            jump(); 
-        }
-        else if(Input.GetMouseButtonUp(0) && hud_controller.si.HUD_BUTTON_CLICKED == false)
-        {
-            jump();
-        }
         symbols_PW_activate();
             
         // SET X SPEED TO MAX EVERY FRAME
