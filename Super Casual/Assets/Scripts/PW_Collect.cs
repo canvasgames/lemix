@@ -37,8 +37,8 @@ public class PW_Collect : MonoBehaviour {
         }
             */
         //rand = (int)PW_Types.Sight;
-        //rand = (int)PW_Types.Super;
-       // pw_type = rand;
+        rand = (int)PW_Types.Super;
+        pw_type = rand;
     }
 	
 	// Update is called once per frame

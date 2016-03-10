@@ -62,7 +62,7 @@ public class game_controller : MonoBehaviour {
     public int n_games_without_revive = 0;
 
     //PW VARIABLES
-    int pw_dont_create_for_n_floors = 4;
+    int pw_dont_create_for_n_floors = 5;
     int pw_floors_not_created = 0;
     bool first_pw_created = false;
 
@@ -185,6 +185,7 @@ public class game_controller : MonoBehaviour {
     }
 
     #endregion
+
 
     #region ================= GAME END ===================
 
@@ -323,7 +324,6 @@ public class game_controller : MonoBehaviour {
         }
     }
     #endregion
-    
     #region ================ GAME LOGIC ================ 
 
     public void ball_up(int ball_floor)
@@ -346,18 +346,18 @@ public class game_controller : MonoBehaviour {
     #region ================= POWER UPS =========================
     void create_power_up_logic() {
         int rand = Random.Range(0, 100);
-        //rand = 0;
+        rand = 0;
         // create chance check
 
-        //if (!QA.s.NO_PWS && pw_floors_not_created > pw_dont_create_for_n_floors && rand <= 15 && globals.s.PW_ACTIVE == true) {
-        if (!QA.s.NO_PWS && ((pw_floors_not_created > pw_dont_create_for_n_floors && n_floor > 3 &&
-            rand <= (pw_floors_not_created - pw_dont_create_for_n_floors) * 7) || (USER.s.TOTAL_GAMES == 2 && !first_pw_created)))
+        // if (!QA.s.NO_PWS && pw_floors_not_created > pw_dont_create_for_n_floors && rand <= 15 && globals.s.PW_ACTIVE == true) {
+        //if (!QA.s.NO_PWS && ((pw_floors_not_created > pw_dont_create_for_n_floors && 
+        //rand <= (pw_floors_not_created - pw_dont_create_for_n_floors) * 7) || (USER.s.TOTAL_GAMES == 2 && !first_pw_created)))
         {
 
             int my_type = 0;
             rand = Random.Range(0, 100);
-            if (rand < 33 || (USER.s.TOTAL_GAMES == 2 && !first_pw_created)) my_type = (int)PW_Types.Super;
-            else if (rand < 66) my_type = (int)PW_Types.Invencible;
+            if (rand < 20 || (USER.s.TOTAL_GAMES == 2 && !first_pw_created)) my_type = (int)PW_Types.Super;
+            else if (rand < 60) my_type = (int)PW_Types.Invencible;
             else if (rand < 100) my_type = (int)PW_Types.Sight;
 
             first_pw_created = true;
@@ -367,7 +367,7 @@ public class game_controller : MonoBehaviour {
 
             pw_floors_not_created = 0;
         }
-        else
+       // else
             pw_floors_not_created++;
     }
 
@@ -1615,6 +1615,7 @@ public class game_controller : MonoBehaviour {
        // GameObject obj = (GameObject)Instantiate(floor_type, new Vector3(x, globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * n, 0), transform.rotation);
         GameObject obj = objects_pool_controller.s.reposite_floor(x, globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * n);
         obj.GetComponent<floor>().my_floor = n;
+        obj.GetComponent<floor>().check_if_have_score();
         //obj.GetComponentInChildren<TextMesh>().text = n.ToString();
         return obj;
     }
@@ -1678,13 +1679,16 @@ public class game_controller : MonoBehaviour {
             // GameObject obj = (GameObject)Instantiate(floor_type, new Vector3(rand - hole_size / 2 - floor_type.transform.GetComponent<SpriteRenderer>().bounds.size.x / 2, globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * n, 0), transform.rotation);
             GameObject obj = objects_pool_controller.s.reposite_floor(rand - hole_size / 2 - floor_type.transform.GetComponent<SpriteRenderer>().bounds.size.x / 2, globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * n);
             obj.GetComponent<floor>().my_floor = n;
+            obj.GetComponent<floor>().check_if_have_score();
 
             //obj = (GameObject)Instantiate(floor_type, new Vector3(rand + hole_size / 2 + floor_type.transform.GetComponent<SpriteRenderer>().bounds.size.x / 2, globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * n, 0), transform.rotation);
             obj = objects_pool_controller.s.reposite_floor(rand + hole_size / 2 + floor_type.transform.GetComponent<SpriteRenderer>().bounds.size.x / 2, globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * n);
             obj.GetComponent<floor>().my_floor = n;
-            
+
+
             if (not_hidden == false) obj = (GameObject)Instantiate(hole_type, new Vector3(rand, globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * n, 0), transform.rotation);
             obj.GetComponent<hole_behaviour>().my_floor = n;
+
             //return obj;
             last_hole_x = rand;
 
@@ -1698,9 +1702,12 @@ public class game_controller : MonoBehaviour {
         //GameObject obj = (GameObject)Instantiate(floor_type, new Vector3(x - hole_size / 2 - floor_type.transform.GetComponent<SpriteRenderer>().bounds.size.x / 2, globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * n, 0), transform.rotation);
         GameObject obj = objects_pool_controller.s.reposite_floor(x - hole_size / 2 - floor_type.transform.GetComponent<SpriteRenderer>().bounds.size.x / 2, globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * n);
         obj.GetComponent<floor>().my_floor = n;
+        obj.GetComponent<floor>().check_if_have_score();
+
         // obj = (GameObject)Instantiate(floor_type, new Vector3(x + hole_size / 2 + floor_type.transform.GetComponent<SpriteRenderer>().bounds.size.x / 2, globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * n, 0), transform.rotation);
         obj = objects_pool_controller.s.reposite_floor(x + hole_size / 2 + floor_type.transform.GetComponent<SpriteRenderer>().bounds.size.x / 2, globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * n);
         obj.GetComponent<floor>().my_floor = n;
+
         return true;
     }
 #endregion

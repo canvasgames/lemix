@@ -485,6 +485,12 @@ public class ball_hero : MonoBehaviour
         squares_desappear();
         rb.gameObject.GetComponent<Rigidbody2D>().gravityScale = 1;
         main_camera.s.pw_super_jump_end();
+
+        if (transform.position.x > 0)
+            rb.velocity = new Vector2(-globals.s.BALL_SPEED_X, rb.velocity.y);
+        else
+            rb.velocity = new Vector2(globals.s.BALL_SPEED_X, rb.velocity.y);
+
         super.SetActive(false);
 
         Invoke("unactivate_squares", 0.3f);

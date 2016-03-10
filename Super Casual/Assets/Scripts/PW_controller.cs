@@ -32,6 +32,7 @@ public class PW_controller : MonoBehaviour
         globals.s.PW_SIGHT_BEYOND_SIGHT = false;
         globals.s.PW_SUPER_JUMP = false;
         globals.s.CAN_REVIVE = false;
+        globals.s.PW_ENDING = false;
     }
 
     // Update is called once per frame

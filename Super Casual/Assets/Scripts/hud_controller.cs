@@ -21,6 +21,7 @@ public class hud_controller : MonoBehaviour {
     public GameObject revive;
     public GameObject video;
     public GameObject ready;
+    public GameObject v_pw_on;
     public Text PW_time_text;
 
     string PW_date;
@@ -62,6 +63,7 @@ public class hud_controller : MonoBehaviour {
         else
         {
             globals.s.PW_ACTIVE = false;
+            v_pw_on.SetActive(false);
         }
 
 
@@ -281,11 +283,11 @@ public class hud_controller : MonoBehaviour {
         TimeSpan difference = tempDate.Subtract(tempcurDate);
         if(globals.s.PW_ACTIVE == true)
         {
-            PW_time_text.text = "POWER UPS <color=blue>ON</color> \nTIME LEFT: " + difference.Minutes + "m " + difference.Seconds + "s ";
+            PW_time_text.text = "    POWER UPS \nTIME LEFT: " + difference.Minutes + "m " + difference.Seconds + "s ";
         }
         else
         {
-            PW_time_text.text = "POWER UPS <color=red>OFF</color> \nTIME LEFT: " + difference.Minutes + "m " + difference.Seconds + "s ";
+            PW_time_text.text = "    POWER UPS \nTIME LEFT: " + difference.Minutes + "m " + difference.Seconds + "s ";
         }  
     }
 
@@ -293,6 +295,7 @@ public class hud_controller : MonoBehaviour {
     {
         if(PW_active_state == true)
         {
+            v_pw_on.SetActive(true);
             globals.s.PW_ACTIVE = true;
             tempDate = tempcurDate;
             tempDate = tempDate.AddMinutes(GD.s.GD_WITH_PW_TIME);
@@ -305,6 +308,7 @@ public class hud_controller : MonoBehaviour {
         }
         else
         {
+            v_pw_on.SetActive(false);
             globals.s.PW_ACTIVE = false;
             tempDate = tempcurDate;
             tempDate = tempDate.AddMinutes(GD.s.GD_WITHOUT_PW_TIME);
@@ -365,6 +369,11 @@ public class hud_controller : MonoBehaviour {
     public void show_video_revive()
     {
         globals.s.MENU_OPEN = true;
+        Invoke("appear_video", 1f);
+    }
+
+    void appear_video()
+    {
         video.SetActive(true);
         //video.GetComponentInChildren<Play_Video>().solta_a_vinheta_sombra(true,false);
         video.GetComponent<new_external_link_bt>().set_variables(true, false);
