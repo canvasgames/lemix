@@ -154,7 +154,7 @@ public class hud_controller : MonoBehaviour {
         if(with_high_score == false)
             Invoke("appear_game_over", 0.7f);
         else
-            Invoke("appear_game_over", 2);
+            Invoke("appear_game_over", 1.6f);
 
 
     }

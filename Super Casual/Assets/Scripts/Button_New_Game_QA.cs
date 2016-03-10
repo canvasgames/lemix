@@ -17,15 +17,18 @@ public class Button_New_Game_QA : MonoBehaviour {
     {
         hud_controller.si.HUD_BUTTON_CLICKED = true;
         cont_click++;
-        if (cont_click >= 5)
+        if (cont_click >= 1)
         {
+
             cont_click = 0;
             USER.s.TOTAL_GAMES = 0;
             PlayerPrefs.SetInt("total_games", 0);
             PlayerPrefs.SetInt("day_best", 0);
-            PlayerPrefs.SetInt("last_score", 7);
+            PlayerPrefs.SetInt("best", 0);
+            PlayerPrefs.SetInt("last_score", 0);
             transform.GetComponent<Image>().color = Color.blue;
             //PlayerPrefs.DeleteAll();
+            hud_controller.si.display_best(0);
             Invoke("back_to_white", 2);
         }
     }

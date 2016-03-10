@@ -20,6 +20,7 @@ public class PW_controller : MonoBehaviour
     bool fade_in_mask = true;
 
     float temp_alpha;
+    float previous_time;
     // Use this for initialization
     void Start()
     {
@@ -46,6 +47,7 @@ public class PW_controller : MonoBehaviour
     //Called by invoke
     public void pw_ending()
     {
+        previous_time = Time.time;
         globals.s.PW_ENDING = true;
         transform.GetComponent<SpriteRenderer>().DOFade(1, 500);
         /* PW_symbol_startTime = Time.time;
@@ -192,8 +194,12 @@ public class PW_controller : MonoBehaviour
     }
     void new_change_balls_symbol_mask_alpha()
     {
-        temp_alpha = temp_alpha + 0.003f;
-        Debug.Log(temp_alpha);
+        if(previous_time + 0.01f < Time.time)
+        {
+            previous_time = Time.time;
+            temp_alpha = temp_alpha + 0.0035f;
+        }
+
 
         if (balls[0] != null)
         {
