@@ -45,8 +45,8 @@ public class game_controller : MonoBehaviour {
     float center_mid_area = 1f;
     float min_spk_dist = 2.5f;
 
-    float corner_limit_right = 3.2f;
-    float corner_limit_left = -3.2f;
+    float corner_limit_right = 3.5f;
+    float corner_limit_left = -3.5f;
 
     bool last_spike_left;
     bool last_spike_right;
@@ -63,7 +63,7 @@ public class game_controller : MonoBehaviour {
 
     //PW VARIABLES
     int pw_dont_create_for_n_floors = 5;
-    int pw_floors_not_created = 0;
+    int pw_floors_not_created = 6;
     bool first_pw_created = false;
 
     string killer_wave_to_report = "";
@@ -121,6 +121,7 @@ public class game_controller : MonoBehaviour {
 		Debug.Log ("\n============= NEW GAME !!!!!!!!!! =============== USER TOTAL GAMES: " + USER.s.TOTAL_GAMES);
 
         int count = 0;
+        n_floor = 0;
         // create initial platforms
         for (int i = 0; i < 5; i++)
         {
@@ -165,7 +166,13 @@ public class game_controller : MonoBehaviour {
                 }
             }
 
+            if (globals.s.PW_ACTIVE == true && n_floor >= 2 && USER.s.TOTAL_GAMES >= 2) {
+                Debug.Log(" n floor: " + n_floor + " CREATE PW!! ");
+                create_power_up_logic();
+            }
+
             n_floor = i+1;
+            
 
             // if (i > 0) { create_spike_wave(i, globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * i); }
         }
@@ -185,7 +192,6 @@ public class game_controller : MonoBehaviour {
     }
 
     #endregion
-
 
     #region ================= GAME END ===================
 
@@ -322,6 +328,46 @@ public class game_controller : MonoBehaviour {
         }
     }
     #endregion
+
+
+    #region ================= POWER UPS =========================
+    void create_power_up_logic() {
+        int rand = Random.Range(0, 100);
+        //rand = 0;
+        // create chance check
+        Debug.Log(" CREATE POWER UPS CHANCE: " + rand + " .. CONDITION: " + ((pw_floors_not_created - pw_dont_create_for_n_floors) * 7));
+        // if (!QA.s.NO_PWS && pw_floors_not_created > pw_dont_create_for_n_floors && rand <= 15 && globals.s.PW_ACTIVE == true) {
+        if (!QA.s.NO_PWS && USER.s.TOTAL_GAMES >= 2 && ((pw_floors_not_created > pw_dont_create_for_n_floors &&
+            rand <= (pw_floors_not_created - pw_dont_create_for_n_floors) * 7) || (USER.s.FIRST_PW_CREATED == 0 && !first_pw_created))) {
+
+            int my_type = 0;
+            rand = Random.Range(0, 100);
+            if (rand < 20 || (USER.s.TOTAL_GAMES >= 2 && USER.s.FIRST_PW_CREATED == 0 && !first_pw_created)) my_type = (int)PW_Types.Super;
+            else if (rand < 60) my_type = (int)PW_Types.Invencible;
+            else if (rand < 100) my_type = (int)PW_Types.Sight;
+
+            first_pw_created = true;
+            // int my_type = Random.Range((int)PW_Types.Invencible, (int)PW_Types.Sight + 1);
+
+            create_pw_icon(Random.Range(corner_limit_left + 0.7f, corner_limit_right - 0.7f), n_floor, my_type);
+
+            pw_floors_not_created = 0;
+        }
+        else
+            pw_floors_not_created++;
+    }
+
+    void create_pw_icon(float x, int n, int type) {
+        if (globals.s.PW_INVENCIBLE == false || globals.s.PW_SIGHT_BEYOND_SIGHT == false || globals.s.PW_SUPER_JUMP == false) {
+            if (QA.s.TRACE_PROFUNDITY >= 3) Debug.Log("[GM] CREATING POWER UP!");
+            Instantiate(pw_icon, new Vector3(x, 2 + globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * n, 0), transform.rotation);
+            pw_icon.GetComponent<PW_Collect>().my_floor = n;
+            pw_icon.GetComponent<PW_Collect>().pw_type = type;
+        }
+    }
+
+    #endregion
+
     #region ================ GAME LOGIC ================ 
 
     public void ball_up(int ball_floor)
@@ -341,45 +387,6 @@ public class game_controller : MonoBehaviour {
 
     }
 
-    #region ================= POWER UPS =========================
-    void create_power_up_logic() {
-        int rand = Random.Range(0, 100);
-        //rand = 0;
-        // create chance check
-
-        // if (!QA.s.NO_PWS && pw_floors_not_created > pw_dont_create_for_n_floors && rand <= 15 && globals.s.PW_ACTIVE == true) {
-        if (!QA.s.NO_PWS && ((pw_floors_not_created > pw_dont_create_for_n_floors && 
-            rand <= (pw_floors_not_created - pw_dont_create_for_n_floors) * 7) || (USER.s.TOTAL_GAMES == 2 && !first_pw_created)))
-        {
-
-            int my_type = 0;
-            rand = Random.Range(0, 100);
-            if (rand < 20 || (USER.s.TOTAL_GAMES == 2 && !first_pw_created)) my_type = (int)PW_Types.Super;
-            else if (rand < 60) my_type = (int)PW_Types.Invencible;
-            else if (rand < 100) my_type = (int)PW_Types.Sight;
-
-            first_pw_created = true;
-            // int my_type = Random.Range((int)PW_Types.Invencible, (int)PW_Types.Sight + 1);
-
-            create_pw_icon(Random.Range(corner_limit_left, corner_limit_right), n_floor, my_type);
-
-            pw_floors_not_created = 0;
-        }
-        else
-            pw_floors_not_created++;
-    }
-
-    void create_pw_icon(float x, int n, int type) {
-        if (globals.s.PW_INVENCIBLE == false || globals.s.PW_SIGHT_BEYOND_SIGHT == false || globals.s.PW_SUPER_JUMP == false) {
-            if (QA.s.TRACE_PROFUNDITY >= 3) Debug.Log("[GM] CREATING POWER UP!");
-            Instantiate(pw_icon, new Vector3(x, 2 + globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * n, 0), transform.rotation);
-            pw_icon.GetComponent<PW_Collect>().my_floor = n;
-            pw_icon.GetComponent<PW_Collect>().pw_type = type;
-        }
-    }
-
-    #endregion
-
     public void create_new_wave (){
 		Debug.Log(" \n::::::::::::::::::::::: CREATING NEW FLOOR: " +n_floor);
 
@@ -389,12 +396,10 @@ public class game_controller : MonoBehaviour {
         wave_found = false;
 
         //PW Creation
-        if(globals.s.PW_ACTIVE == true)
-        {
+        if(globals.s.PW_ACTIVE == true && globals.s.PW_SUPER_JUMP == false){
             create_power_up_logic();
         }
-        
-
+       
         while (wave_found == false && count < 50)
         {
             //hole_creation_failed = 9;
@@ -408,6 +413,7 @@ public class game_controller : MonoBehaviour {
                 switch (rand) {
                     case 1:
                         wave_found = create_wave_easy(n_floor);
+                        //wave_found = create_wave_super_hard(n_floor);
                         break;
                     case 2:
                         wave_found = create_wave_medium(n_floor);
@@ -627,10 +633,10 @@ public class game_controller : MonoBehaviour {
 
                 float spk_pos;
                 if (last_hole_x < 0) {
-                    spk_pos = Random.Range(last_hole_x + min_spk_dist, corner_limit_right - 0.8f);
+                    spk_pos = Random.Range(last_hole_x + min_spk_dist, corner_limit_right -1f);
                 }
                 else {
-                    spk_pos = Random.Range(corner_limit_left + 0.8f, last_hole_x - min_spk_dist);
+                    spk_pos = Random.Range(corner_limit_left + 1f, last_hole_x - min_spk_dist);
 
                 }
                 create_spike(spk_pos, actual_y, n);
@@ -654,7 +660,7 @@ public class game_controller : MonoBehaviour {
             //rand = 50;
 
             // 2 SPK MIDDLE |__^_^__|
-            if (rand > 0 && rand <= 20)
+            if (rand > 0 && rand <= 25)
             {
                 wave_name = "medium_2_spks_mid";
 
@@ -678,7 +684,7 @@ public class game_controller : MonoBehaviour {
             }
 
             // 2 SPK CRONER |^______^|
-            else if (!last_spike_left && !last_spike_right && rand > 20 && rand <= 30)
+            else if (!last_spike_left && !last_spike_right && rand > 25 && rand <= 40)
             {
                 wave_name = "medium_2_spks_corners";
 
@@ -694,7 +700,7 @@ public class game_controller : MonoBehaviour {
             }
 
             // 1 SPK CORNER LEFT, 1 SPK MID |^___^____|
-            else if (!last_spike_left && rand > 30 && rand <= 37)
+            else if (!last_spike_left && rand > 40 && rand <= 48)
             {
                 wave_name = "medium_1_spk_mid_1_spk_corner";
 
@@ -709,7 +715,7 @@ public class game_controller : MonoBehaviour {
                 return true;
             } 
             // 1 SPK CORNER RIGHT, 1 SPK MID |____^___^|
-            else if (!last_spike_right && rand > 37 && rand <= 44)
+            else if (!last_spike_right && rand > 48 && rand <= 56)
             {
                 wave_name = "medium_1_spk_mid_1_spk_corner";
 
@@ -725,7 +731,7 @@ public class game_controller : MonoBehaviour {
             }
 
             // WALL CORNER + 1 SPK ||___^__|
-            else if (!last_wall && rand > 44 && rand <= 68)
+            else if (!last_wall && rand > 56 && rand <= 80)
             {
                 wave_name = "medium_wall_corner_1_spk";
 
@@ -761,7 +767,7 @@ public class game_controller : MonoBehaviour {
             }
 
             // 1 HIDDEN SPK |____v____|
-            else if (rand > 68 && rand <= 87)
+            else if (rand > 80)
             {
                 wave_name = "medium_1_hidden_spk";
 
@@ -776,25 +782,7 @@ public class game_controller : MonoBehaviour {
                 return true;
             }
 
-            // 2 TRIPLE SPK MID |___/\__/\___|
-            if ( rand > 87)
-            {
-                wave_name = "medium_2_triple_spk_mid";
-
-                create_floor(0, n);
-                float dist = Random.Range(min_spk_dist/2 + 0.2f, min_spk_dist/2 + 0.4f);
-                float rand_x = Random.Range(-0.5f, 0.5f);
-                //first spike
-                create_triple_spike(rand_x - dist, actual_y, n);
-                create_triple_spike(rand_x + dist, actual_y, n);
-
-                last_spike_right = false;
-                last_spike_left = false;
-                last_hole = false;
-                last_wall = false;
-
-                return true;
-                }
+          
             else return false;
         }
         
@@ -886,7 +874,7 @@ public class game_controller : MonoBehaviour {
             }
 
             // 1 HIDDEN SPK  + 1 SPK MID |__ v_^__|
-            else if (rand > 25 && rand <= 50)
+            else if (rand > 25 && rand <= 45)
             {
                 wave_name = "hard_1_hidden_spk_1_spk_mid";
 
@@ -916,7 +904,7 @@ public class game_controller : MonoBehaviour {
             }
 
             // WALL MID-LEFT + SPIKE (12%) |__|____^_|
-            else if (!last_wall && !last_spike_left && rand > 50 && rand <= 65)
+            else if (!last_wall && !last_spike_left && rand > 45 && rand <= 58)
             {
                 wave_name = "hard_wall_midleft";
 
@@ -941,7 +929,7 @@ public class game_controller : MonoBehaviour {
             }
 
             // WALL MID-RIGHT + SPIKE (12%) |_^____|__|
-            else if (!last_wall && !last_spike_right && rand > 65 && rand <= 80)
+            else if (!last_wall && !last_spike_right && rand > 58 && rand <= 73)
             {
                 wave_name = "hard_wall_mid_right";
 
@@ -966,7 +954,7 @@ public class game_controller : MonoBehaviour {
             }
 
             // 2 HIDDEN SPIKE MID |___v__v___|
-            if (rand > 80)
+            if (rand > 73 && rand <= 86)
             {
                 wave_name = "hard_2_hidden_spk_mid";
 
@@ -985,6 +973,26 @@ public class game_controller : MonoBehaviour {
 
                 return true;
             }
+
+            // 2 TRIPLE SPK MID |___/\__/\___|
+            if (rand > 86) {
+                wave_name = "medium_2_triple_spk_mid";
+
+                create_floor(0, n);
+                float dist = Random.Range(min_spk_dist/2 + 0.2f, min_spk_dist/2 + 0.4f);
+                float rand_x = Random.Range(-0.5f, 0.5f);
+                //first spike
+                create_triple_spike(rand_x - dist, actual_y, n);
+                create_triple_spike(rand_x + dist, actual_y, n);
+
+                last_spike_right = false;
+                last_spike_left = false;
+                last_hole = false;
+                last_wall = false;
+
+                return true;
+            }
+
             else return false;
         }
     }
@@ -1289,7 +1297,6 @@ public class game_controller : MonoBehaviour {
                 //rand = 68;
                 // SPIKES FAR FROM HOLE
                 if (rand < 65) {
-                    
 
                     if (last_hole_x - min_spk_dist - 0.8f > corner_left) {
                         spk_pos = Random.Range(corner_left, last_hole_x - min_spk_dist - 0.8f);
@@ -1297,14 +1304,14 @@ public class game_controller : MonoBehaviour {
                         //spike left
                         if (spk_pos <= corner_limit_left) last_spike_left = true;
                         else last_spike_left = false;
-                        create_triple_spike(spk_pos, actual_y, n);
+                        create_triple_spike(spk_pos+0.2f, actual_y, n);
                     }
 
                     if (last_hole_x + min_spk_dist + 0.8f < corner_right) {
                         spk_pos = Random.Range(last_hole_x + min_spk_dist + 0.8f, corner_right);
                         if (spk_pos >= corner_limit_right) last_spike_right = true;
                         else last_spike_right = false;
-                        create_triple_spike(spk_pos, actual_y, n);
+                        create_triple_spike(spk_pos-0.2f, actual_y, n);
                     }
                     
                 }
@@ -1312,34 +1319,42 @@ public class game_controller : MonoBehaviour {
                 {
                     int left_or_right = Random.Range(0, 2);
                     if (left_or_right == 0) {
-                        spk_pos = Random.Range(corner_left+0.2f, last_hole_x - min_spk_dist - 0.5f);
+                        if (last_hole_x - min_spk_dist - 0.5f > corner_left) {
+                            spk_pos = Random.Range(corner_left + 0.2f, last_hole_x - min_spk_dist - 0.5f);
 
-                        if (spk_pos >= corner_limit_left) {
-                            last_spike_left = true;
-                            create_hidden_spike(spk_pos, actual_y, n);
+                            if (spk_pos >= corner_limit_left) {
+                                last_spike_left = true;
+                                create_hidden_spike(spk_pos, actual_y, n);
 
+                            }
+                            else {
+                                last_spike_left = false;
+                                create_triple_spike(spk_pos, actual_y, n);
+                            }
                         }
-                        else {
+                        else
                             last_spike_left = false;
-                            create_triple_spike(spk_pos, actual_y, n);
-                        }
-
                         spk_pos = last_hole_x + 1.168f + 0.17f;
                         create_triple_spike(spk_pos, actual_y, n);
                         last_spike_right = false;
+
                     }
                     else {
-                        spk_pos = Random.Range(last_hole_x + min_spk_dist + 0.6f, corner_right);
+                        if (last_hole_x + min_spk_dist + 0.6f < corner_right) {
+                            spk_pos = Random.Range(last_hole_x + min_spk_dist + 0.6f, corner_right);
 
-                        if (spk_pos <= corner_limit_right) {
-                            last_spike_right = true;
-                            create_hidden_spike(spk_pos, actual_y, n);
+                            if (spk_pos <= corner_limit_right) {
+                                last_spike_right = true;
+                                create_hidden_spike(spk_pos, actual_y, n);
+                            }
+
+                            else {
+                                last_spike_right = false;
+                                create_triple_spike(spk_pos, actual_y, n);
+                            }
                         }
-
-                        else {
+                        else
                             last_spike_right = false;
-                            create_triple_spike(spk_pos, actual_y, n);
-                        }
 
                         spk_pos = last_hole_x - 1.168f - 0.17f;
                         create_hidden_spike(spk_pos, actual_y, n);
@@ -1371,13 +1386,13 @@ public class game_controller : MonoBehaviour {
                 //first spike
                 create_triple_spike(spk_pos, actual_y, n);
 
-                if (spk_pos <= corner_limit_left) last_spike_left = true;
+                if (spk_pos <= corner_limit_left + 0.5f) last_spike_left = true;
                 else last_spike_left = false;
 
                 //TRY TO HIDE THE MIDDLE SPIKE
                 spk_pos += triple_range;
                 rand = Random.Range(1, 100);
-                if (rand < 75)
+                if (rand < 65)
                     create_triple_spike(spk_pos, actual_y, n);
                 else
                     create_triple_hidden_spike(spk_pos, actual_y, n);
@@ -1385,7 +1400,7 @@ public class game_controller : MonoBehaviour {
                 spk_pos += triple_range;
                 create_triple_spike(spk_pos, actual_y, n);
 
-                if (spk_pos >= corner_limit_right) last_spike_right = true;
+                if (spk_pos >= corner_limit_right - 0.5f) last_spike_right = true;
                 else last_spike_right = false;
 
                 last_hole = false;
@@ -1404,7 +1419,7 @@ public class game_controller : MonoBehaviour {
                 float spk_pos = Random.Range(corner_limit_right - 0.45f, corner_right);
 
                 create_triple_spike(spk_pos, actual_y, n);
-                if (spk_pos >= corner_limit_right) last_spike_right = true;
+                if (spk_pos >= corner_limit_right - 0.5f) last_spike_right = true;
                 else last_spike_right = false;
 
                 //TRY TO HIDE THE MIDDLE SPIKE
@@ -1418,7 +1433,7 @@ public class game_controller : MonoBehaviour {
                 spk_pos -= triple_range;
                 create_triple_spike(spk_pos, actual_y, n);
 
-                if (spk_pos <= corner_limit_left) last_spike_left = true;
+                if (spk_pos <= corner_limit_left + 0.5f) last_spike_left = true;
                 else last_spike_left = false;
 
                 last_hole = false;
@@ -1474,7 +1489,7 @@ public class game_controller : MonoBehaviour {
                 wave_name = "shard_2_triple_spikes";
 
                 create_floor(0, n);
-                float pair_range = 1.18f;
+                float pair_range = 1.27f;
 
 
                 create_triple_spike(0 - pair_range, actual_y, n);
@@ -1494,7 +1509,7 @@ public class game_controller : MonoBehaviour {
                 wave_name = "shard_4_spikes";
 
                 create_floor(0, n);
-                float pair_range = Random.Range(2.2f, 2.35f);
+                float pair_range = Random.Range(2.42f, 2.50f);
 
                 // left spike
                 float spk_pos = corner_left;

@@ -33,6 +33,7 @@ public class Button_New_Game_QA : MonoBehaviour {
             PlayerPrefs.SetInt("day_best", 0);
             PlayerPrefs.SetInt("best", 0);
             PlayerPrefs.SetInt("last_score", 0);
+            PlayerPrefs.SetInt("first_pw_created", 0);
             transform.GetComponent<Image>().color = Color.blue;
             //PlayerPrefs.DeleteAll();
             hud_controller.si.display_best(0);

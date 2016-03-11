@@ -37,8 +37,8 @@ public class PW_Collect : MonoBehaviour {
         }
             */
         //rand = (int)PW_Types.Sight;
-        rand = (int)PW_Types.Super;
-        pw_type = rand;
+       // rand = (int)PW_Types.Super;
+        //pw_type = rand;
     }
 	
 	// Update is called once per frame
@@ -48,6 +48,9 @@ public class PW_Collect : MonoBehaviour {
 
     public void collect()
     {
+        USER.s.FIRST_PW_CREATED = 1;
+        PlayerPrefs.SetInt("first_pw_created", 1);
+
         Destroy(transform.gameObject);
     }
 

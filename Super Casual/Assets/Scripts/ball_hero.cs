@@ -480,9 +480,8 @@ public class ball_hero : MonoBehaviour
         GameObject floor = game_controller.s.create_floor(12, my_floor);
         destroy_spikes();
         floor.transform.DOMoveX(0, 0.3f);//.OnComplete(pw_super_end);
-        
-
     }
+
    void pw_super_end_for_real() {
         globals.s.PW_SUPER_JUMP = false;
         squares_desappear();
