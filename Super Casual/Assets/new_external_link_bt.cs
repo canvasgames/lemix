@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using System.Runtime.InteropServices;
 
 public class new_external_link_bt : MonoBehaviour {
     bool video_revive = false;
@@ -62,11 +63,17 @@ public class new_external_link_bt : MonoBehaviour {
     {
         if (video_played == 0)
         {
-            Application.OpenURL("https://www.facebook.com/battlepegsmultiplayer/");
-        }
+            //Application.OpenURL("https://www.facebook.com/battlepegsmultiplayer/");
+
+
+            openWindow("https://www.facebook.com/battlepegsmultiplayer/");
+
+}
         else
         {
-            Application.OpenURL("https://play.google.com/store/apps/details?id=mominis.Generic_Android.Bomblast");
+          //  Application.OpenURL("https://play.google.com/store/apps/details?id=mominis.Generic_Android.Bomblast");
+
+            openWindow("https://play.google.com/store/apps/details?id=mominis.Generic_Android.Bomblast");
         }
 
         if(can_close == true)
@@ -84,6 +91,9 @@ public class new_external_link_bt : MonoBehaviour {
         }
 
     }
+
+    [DllImport("__Internal")]
+    private static extern void openWindow(string url);
 
     void appear_and_set_close_bt()
     {

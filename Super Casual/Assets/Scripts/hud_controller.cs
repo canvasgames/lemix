@@ -381,10 +381,11 @@ public class hud_controller : MonoBehaviour {
 
     public void watched_the_video_revive()
     {
-        globals.s.MENU_OPEN = false;
+        
         video.SetActive(false);
         globals.s.CAN_RESTART = true;
         globals.s.SHOW_VIDEO_AFTER = false;
+        Invoke("change_menu_open", 1f);
     }
 
     public void show_video_pw()
@@ -397,9 +398,14 @@ public class hud_controller : MonoBehaviour {
 
     public void watched_the_video_pw()
     {
-        globals.s.MENU_OPEN = false;
         hud_controller.si.PW_time_set_new_date_and_state(!globals.s.PW_ACTIVE);
         game_controller.s.activate_logic();
         video.SetActive(false);
+        Invoke("change_menu_open_state", 1f);
+    }
+
+    void change_menu_open_state()
+    {
+        globals.s.MENU_OPEN = false;
     }
 }
