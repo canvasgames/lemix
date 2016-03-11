@@ -115,6 +115,8 @@ public class objects_pool_controller : MonoBehaviour {
         {
             double_spikes_pool_actual_i = 0;
         }
+
+
         return repos_spike;
     }
 
@@ -125,6 +127,7 @@ public class objects_pool_controller : MonoBehaviour {
             if (double_spikes_pool[double_spikes_pool_actual_i].GetComponent<spike>() != null)
             {
                 double_spikes_pool[double_spikes_pool_actual_i].GetComponent<spike>().clear_flags_reposite();
+                
             }
             else
             {
@@ -160,6 +163,7 @@ public class objects_pool_controller : MonoBehaviour {
             if (triple_spikes_pool[triple_spikes_pool_actual_i].GetComponent<spike>() != null)
             {
                 triple_spikes_pool[triple_spikes_pool_actual_i].GetComponent<spike>().clear_flags_reposite();
+
             }
             else
             {

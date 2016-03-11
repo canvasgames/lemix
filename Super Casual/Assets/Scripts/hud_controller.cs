@@ -385,7 +385,7 @@ public class hud_controller : MonoBehaviour {
         video.SetActive(false);
         globals.s.CAN_RESTART = true;
         globals.s.SHOW_VIDEO_AFTER = false;
-        Invoke("change_menu_open", 1f);
+        Invoke("change_menu_open", 2f);
     }
 
     public void show_video_pw()
@@ -401,7 +401,7 @@ public class hud_controller : MonoBehaviour {
         hud_controller.si.PW_time_set_new_date_and_state(!globals.s.PW_ACTIVE);
         game_controller.s.activate_logic();
         video.SetActive(false);
-        Invoke("change_menu_open_state", 1f);
+        Invoke("change_menu_open_state", 2f);
     }
 
     void change_menu_open_state()

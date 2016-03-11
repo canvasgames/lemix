@@ -114,11 +114,11 @@ public class floor : scenario_objects {
 
         if (score_type == 1)
         {
-            my_text.GetComponentInChildren<TextMesh>().text = "BEST";
+            my_text.GetComponentInChildren<TextMesh>().text = "NEW BEST";
         }
         else if (score_type == 2)
         {
-            my_text.GetComponentInChildren<TextMesh>().text = "DAY";
+            my_text.GetComponentInChildren<TextMesh>().text = "NEW DAILY";
         }
         else if (score_type == 3)
         {
@@ -130,6 +130,16 @@ public class floor : scenario_objects {
     {
         if(floor == my_floor)
         {
+            //destroy previous scores
+            Score_floor_txt[] Score_txt = GameObject.FindObjectsOfType(typeof(Score_floor_txt)) as Score_floor_txt[];
+            int i;
+
+            for (i = 0; i < Score_txt.Length; i++)
+            {
+                Score_txt[i].try_destroy_me(0, 0, true);
+            }
+
+            //create new
             create_score_text(type);
             try_blink(floor);
         }

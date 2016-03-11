@@ -16,9 +16,9 @@ public class Score_floor_txt : MonoBehaviour {
 	
 	}
 
-    public void try_destroy_me(int floor, int type)
+    public void try_destroy_me(int floor, int type, bool destroy_now = false)
     {
-        if(floor == my_floor && type == my_type)
+        if(floor == my_floor && type == my_type || destroy_now == true)
         {
             Destroy(transform.gameObject);
         }

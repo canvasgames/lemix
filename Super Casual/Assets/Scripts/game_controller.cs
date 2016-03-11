@@ -1589,6 +1589,10 @@ public class game_controller : MonoBehaviour {
             spk.my_collider.enabled = false;
             spk.corner_repositionable = corner_repositionable;
             spk.wave_name = wave_name;
+            if (globals.s.PW_SIGHT_BEYOND_SIGHT == true)
+            {
+                spk.show_me_pw_sight();
+            }
 
         }
     }
@@ -1619,6 +1623,10 @@ public class game_controller : MonoBehaviour {
             spk.manual_trigger = manual_trigger;
             spk.my_collider.enabled = false;
             spk.wave_name = wave_name;
+            if (globals.s.PW_SIGHT_BEYOND_SIGHT == true)
+            {
+                spk.show_me_pw_sight();
+            }
         }
     }
 

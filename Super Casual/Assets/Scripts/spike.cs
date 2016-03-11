@@ -24,10 +24,7 @@ public class spike : scenario_objects {
         //GetComponent<SpriteRenderer>().color = Color.green;
         //if(QA.s.INVENCIBLE == true)
             //my_collider.enabled = false;
-        if(globals.s.PW_SIGHT_BEYOND_SIGHT == true)
-        {
-            show_me_pw_sight();
-        }
+
         
 
     }
