@@ -63,21 +63,25 @@ public class new_external_link_bt : MonoBehaviour {
     {
         if (video_played == 0)
         {
-            //  Application.OpenURL("https://www.facebook.com/battlepegsmultiplayer/");
-#if !UNITY_EDITOR
-		openWindow("https://www.facebook.com/battlepegsmultiplayer/");
-#endif
+
+        #if !UNITY_EDITOR
+		    openWindow("https://www.facebook.com/battlepegsmultiplayer/");
+        #else
+            Application.OpenURL("https://www.facebook.com/battlepegsmultiplayer/");
+        #endif
 
 
 
         }
         else
         {
-           // Application.OpenURL("https://play.google.com/store/apps/details?id=mominis.Generic_Android.Bomblast");
-#if !UNITY_EDITOR
-		openWindow("https://play.google.com/store/apps/details?id=mominis.Generic_Android.Bomblast");
-#endif
-            
+            // 
+        #if !UNITY_EDITOR
+		    openWindow("https://play.google.com/store/apps/details?id=mominis.Generic_Android.Bomblast");
+        #else
+            Application.OpenURL("https://play.google.com/store/apps/details?id=mominis.Generic_Android.Bomblast");
+        #endif
+
         }
 
         if (can_close == true)
