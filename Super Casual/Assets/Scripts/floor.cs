@@ -110,6 +110,16 @@ public class floor : scenario_objects {
 
     public void create_score_text(int score_type)
     {
+
+        Score_floor_txt[] Score_txt = GameObject.FindObjectsOfType(typeof(Score_floor_txt)) as Score_floor_txt[];
+        int i;
+
+        for (i = 0; i < Score_txt.Length; i++)
+        {
+            Score_txt[i].destroy_same_floor(my_floor);
+        }
+
+
         my_text = (GameObject)Instantiate(scoreInfo, new Vector3(0, transform.position.y - 0.6f, transform.position.z), transform.rotation);
 
         if (score_type == 1)

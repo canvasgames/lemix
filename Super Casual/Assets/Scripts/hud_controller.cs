@@ -381,11 +381,16 @@ public class hud_controller : MonoBehaviour {
 
     public void watched_the_video_revive()
     {
-        
         video.SetActive(false);
-        globals.s.CAN_RESTART = true;
+       
         globals.s.SHOW_VIDEO_AFTER = false;
-        Invoke("change_menu_open", 2f);
+        Invoke("change_menu_open_state_revive", 2f);
+    }
+
+    void change_menu_open_state_revive()
+    {
+        globals.s.MENU_OPEN = false;
+        globals.s.CAN_RESTART = true;
     }
 
     public void show_video_pw()
@@ -408,4 +413,5 @@ public class hud_controller : MonoBehaviour {
     {
         globals.s.MENU_OPEN = false;
     }
+
 }

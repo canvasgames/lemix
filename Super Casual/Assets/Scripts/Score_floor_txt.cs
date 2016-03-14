@@ -24,4 +24,11 @@ public class Score_floor_txt : MonoBehaviour {
         }
     }
 
+    public void destroy_same_floor(int floor)
+    {
+        if (floor == my_floor)
+        {
+            Destroy(transform.gameObject);
+        }
+    }
 }

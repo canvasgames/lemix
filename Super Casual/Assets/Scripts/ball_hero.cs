@@ -219,6 +219,7 @@ public class ball_hero : MonoBehaviour
         //GetComponent<EdgeCollider2D>().enabled = false;
         if (grounded == true)
         {
+            sound_controller.s.PlayJump();
             grounded = false;
             //rb.AddForce (new Vector2 (0, y_jump));
             rb.velocity = new Vector2(rb.velocity.x, globals.s.BALL_SPEED_Y);
@@ -364,6 +365,8 @@ public class ball_hero : MonoBehaviour
             }
 
         }
+
+        sound_controller.s.PlayExplosion();
         Instantiate(explosion, new Vector3(transform.position.x, transform.position.y, transform.position.z), transform.rotation);
         game_controller.s.game_over(killer_wave_name, bolas, with_high_score);
 

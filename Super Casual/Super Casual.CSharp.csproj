@@ -82,7 +82,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\AnalyticController.cs" />
-    <Compile Include="Assets\BallLight.cs" />
     <Compile Include="Assets\DeltaDNA\Ads.cs" />
     <Compile Include="Assets\DeltaDNA\DDNA.cs" />
     <Compile Include="Assets\DeltaDNA\EventBuilder.cs" />
@@ -108,8 +107,7 @@
     <Compile Include="Assets\Platforms\Android\GcmClient.cs" />
     <Compile Include="Assets\Platforms\Android\GcmListener.cs" />
     <Compile Include="Assets\Platforms\Android\Utils.cs" />
-    <Compile Include="Assets\Revive_Collectable.cs" />
-    <Compile Include="Assets\Revive_menu_ctrl.cs" />
+    <Compile Include="Assets\Scripts\BallLight.cs" />
     <Compile Include="Assets\Scripts\Button_New_Game_QA.cs" />
     <Compile Include="Assets\Scripts\GD.cs" />
     <Compile Include="Assets\Scripts\PW_Collect.cs" />
@@ -117,10 +115,16 @@
     <Compile Include="Assets\Scripts\PluginClick\Scripts\Link.cs" />
     <Compile Include="Assets\Scripts\PluginClick\Scripts\PressHandler.cs" />
     <Compile Include="Assets\Scripts\QA.cs" />
+    <Compile Include="Assets\Scripts\Revive_Collectable.cs" />
+    <Compile Include="Assets\Scripts\Revive_menu_ctrl.cs" />
     <Compile Include="Assets\Scripts\Score_floor_txt.cs" />
     <Compile Include="Assets\Scripts\USER.cs" />
     <Compile Include="Assets\Scripts\activate_pw_button.cs" />
     <Compile Include="Assets\Scripts\ball_hero.cs" />
+    <Compile Include="Assets\Scripts\bt_sound.cs" />
+    <Compile Include="Assets\Scripts\button_close_video_ended.cs" />
+    <Compile Include="Assets\Scripts\close_bt_revive.cs" />
+    <Compile Include="Assets\Scripts\external_link_bt.cs" />
     <Compile Include="Assets\Scripts\floor.cs" />
     <Compile Include="Assets\Scripts\floor_pw_collider.cs" />
     <Compile Include="Assets\Scripts\floor_square_pw_destruct.cs" />
@@ -130,19 +134,17 @@
     <Compile Include="Assets\Scripts\hole_skin_behaviour.cs" />
     <Compile Include="Assets\Scripts\hud_controller.cs" />
     <Compile Include="Assets\Scripts\main_camera.cs" />
+    <Compile Include="Assets\Scripts\new_external_link_bt.cs" />
     <Compile Include="Assets\Scripts\objects_pool_controller.cs" />
+    <Compile Include="Assets\Scripts\revive_later_button.cs" />
     <Compile Include="Assets\Scripts\scenario_objects.cs" />
+    <Compile Include="Assets\Scripts\sound_controller.cs" />
     <Compile Include="Assets\Scripts\spike.cs" />
+    <Compile Include="Assets\Scripts\start_bt.cs" />
     <Compile Include="Assets\Scripts\tapToPlay.cs" />
     <Compile Include="Assets\Scripts\text_z_order.cs" />
     <Compile Include="Assets\Scripts\wall.cs" />
     <Compile Include="Assets\Scripts\wave_controller.cs" />
-    <Compile Include="Assets\button_close_video_ended.cs" />
-    <Compile Include="Assets\close_bt_revive.cs" />
-    <Compile Include="Assets\external_link_bt.cs" />
-    <Compile Include="Assets\new_external_link_bt.cs" />
-    <Compile Include="Assets\revive_later_button.cs" />
-    <Compile Include="Assets\start_bt.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Demigiant\DOTween\DOTween43.xml" />

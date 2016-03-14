@@ -26,7 +26,7 @@ public class new_external_link_bt : MonoBehaviour {
     {
         if(close_started == true)
         {
-            seconds_left.text = "Add can be closed in " + ((int)(close_timer - Time.time)) + " seconds";
+            seconds_left.text = "Click on the add to close or wait " + ((int)(close_timer - Time.time)) + " seconds";
             if(close_timer - Time.time <= 0)
             {
                 can_close = true;
@@ -83,8 +83,8 @@ public class new_external_link_bt : MonoBehaviour {
         #endif
 
         }
-
-        if (can_close == true)
+        //      if (can_close == true)
+        if (1 == 1)
         {
             if (video_revive == true)
             {
