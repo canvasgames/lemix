@@ -39,6 +39,7 @@ public class AnalyticController : MonoBehaviour {
 
 
     public void ReportGameStarted() {
+        Debug.Log("[ANAL] REPORTING GAME STARTED");
         EventBuilder eventParams = new EventBuilder();
         //eventParams.AddParam("clientVersion", "teste");
         eventParams.AddParam("isTutorial", false);
@@ -83,7 +84,7 @@ public class AnalyticController : MonoBehaviour {
     }
 
     public void ReportVideoWatchedForPowerUps() {
-        Debug.Log("[ANAL] REPORTING GAME ENDED");
+        Debug.Log("[ANAL] REPORTING VIDEO WATCHED");
         EventBuilder eventParams = new EventBuilder();
         //eventParams.AddParam("clientVersion", "teste");
         // eventParams.AddParam("platform", DDNA.Instance.Platform);

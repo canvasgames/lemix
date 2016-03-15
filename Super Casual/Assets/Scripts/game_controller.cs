@@ -263,6 +263,7 @@ public class game_controller : MonoBehaviour {
         else
         {
             hud_controller.si.show_video_revive();
+            AnalyticController.s.ReportGameEnded(killer_wave_to_report, time_to_report);
             //globals.s.SHOW_VIDEO_AFTER = false;
             //globals.s.CAN_RESTART = true;
         }
