@@ -71,6 +71,10 @@ public class game_controller : MonoBehaviour {
 
     bool temp_flag_high_score_game_over;
 
+    bool first_hole_already_created = false;
+    bool first_wall_already_created = false;
+
+
     void Awake (){
         
         s = this;
@@ -104,7 +108,7 @@ public class game_controller : MonoBehaviour {
 
     void Start () {
 
-
+        
         globals.s.GAME_OVER = 0;
         globals.s.CAN_RESTART = false;
         globals.s.GAME_STARTED = false;
@@ -115,6 +119,8 @@ public class game_controller : MonoBehaviour {
         last_spike_left = false;
         last_spike_right = false;
         last_wall = false;
+        first_hole_already_created = false;
+        first_wall_already_created = false;
 
 		// Calculate ball speed(SLOT*4)/((480+25)/CASUAL_SPEED_X)
 		globals.s.CAMERA_SPEED = globals.s.FLOOR_HEIGHT / ((globals.s.LIMIT_RIGHT*2 )/ globals.s.BALL_SPEED_X);
@@ -329,7 +335,6 @@ public class game_controller : MonoBehaviour {
     }
     #endregion
 
-
     #region ================= POWER UPS =========================
     void create_power_up_logic() {
         int rand = Random.Range(0, 100);
@@ -382,7 +387,7 @@ public class game_controller : MonoBehaviour {
         }
         else if (ball_floor >= 1) {
             camerda.GetComponent<Rigidbody2D>().velocity = new Vector2(0, 0);
-            Debug.Log( "~~~~~~~~~~~~~~~~ DON'T CREATE FLOOR!!!! BALL FLOOR: "+ ball_floor + " CUR FLOOR: " + cur_floor);
+            //Debug.Log( "~~~~~~~~~~~~~~~~ DON'T CREATE FLOOR!!!! BALL FLOOR: "+ ball_floor + " CUR FLOOR: " + cur_floor);
         }
 
     }
@@ -467,53 +472,11 @@ public class game_controller : MonoBehaviour {
                     wave_found = create_wave_super_hard(n_floor);
             }
         }
-        /*
-        if (n_floor <= 6) {
-            rand = Random.Range(1, 3);
-        }
-
-        // USER HAD SOME PROGRESS
-        else if (n_floor <= 13) {
-            rand = Random.Range(2, 4);
-        }
-        // LETS GET SERIOUS!
-        else if (n_floor <= 27) {
-            rand = Random.Range(1, 5);
-        }
-
-        // LETS GET SERIOUS!
-        else {
-            rand = Random.Range(1, 6);
-        }
-
-        //rand = 4;
-
-        switch (rand) {
-            case 1:
-                wave_found = create_wave_easy(n_floor);
-                break;
-            case 2:
-                wave_found = create_wave_medium(n_floor);
-                break;
-            case 3:
-                wave_found = create_wave_hard(n_floor);
-                break;
-            case 4:
-                wave_found = create_wave_very_hard(n_floor);
-                break;
-            case 5:
-                wave_found = create_wave_super_hard(n_floor);
-                break;
-        }
-
-    }*/
 
         if (wave_found == false) Debug.Log("\n******* ERROR! WAVE NOT FOUND!! ********");
         else if (QA.s.TRACE_PROFUNDITY >= 1) Debug.Log("\n " + n_floor + " - " + wave_name);
 
         n_floor++;
-
-
 
     }
 
@@ -521,13 +484,24 @@ public class game_controller : MonoBehaviour {
 
     #region ============== WAVES CREATION LOGIC ==================
 
+    int define_hole_chance() {
+        int hole_chance;
+        if(USER.s.FIRST_HOLE_CREATED == 0 && first_hole_already_created == false && USER.s.TOTAL_GAMES >=1 && n_floor >=4 ) {
+            hole_chance = 90;
+        }
+        else {
+            hole_chance = 30 + 10 * hole_creation_failed;
+            if (hole_chance > 85) hole_chance = 85;
+        }
+        return hole_chance;
+    }
+
     //SINGLE SPIKE SOMEWHERE
     bool create_wave_easy(int n)
     {
         float actual_y = globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * n;
         int rand = Random.Range(1, 100);
-        int hole_chance = 30 + 10 * hole_creation_failed;
-        if (hole_chance > 60) hole_chance = 60;
+        int hole_chance = define_hole_chance();
         if (QA.s.TRACE_PROFUNDITY >=2) Debug.Log("\n " + n + " ~~~~~~~~~~~~ TRY CREATE EASY HOLE! ~~~~~~~~~~~~ | rand " + rand + " HOLE CHANCE: " + hole_chance + " N FAILED: " + hole_creation_failed);
 
 
@@ -552,6 +526,39 @@ public class game_controller : MonoBehaviour {
         {
             rand = Random.Range(1, 100);
             if (QA.s.TRACE_PROFUNDITY >= 2) Debug.Log("\n " + n + " ======= CREATE WAVE EASY! ========== | rand: " + rand);
+
+            // WALL EXCEPTION
+            if (!last_wall &&  ((USER.s.FIRST_WALL_CREATED == 0 && first_wall_already_created == false && USER.s.TOTAL_GAMES >= 1 && n_floor > 4 && rand < 95))) {
+                wave_name = "medium_wall_corner_1_spk";
+                create_floor(0, n);
+                // Sort between normal spike, hidden spike or manual hidden spike
+                // float rand_x = Random.Range(-mid_area + 0.5f, mid_area - 0.5f);
+                float rand_x = Random.Range(-0.35f, 0.35f);
+                rand = Random.Range(1, 100);
+
+                if (rand < 60) // Normal spike
+                {
+                    create_wall_corner(n);
+                    create_spike(rand_x, actual_y, n);
+                }
+                else if (rand < 80) // Hidden Spike
+                {
+                    create_wall_corner(n);
+                    create_hidden_spike(rand_x, actual_y, n);
+                }
+                else // Hidden spike manual trigger
+                {
+                    create_wall_corner(n, true);
+                    create_hidden_spike(rand_x, actual_y, n, true);
+                }
+
+                last_spike_right = true;
+                last_spike_left = true;
+                last_wall = true;
+                last_hole = false;
+                return true;
+            }
+
 
             // 1 SPK MIDDLE |___^___|
             if (rand > 0 && rand <= 30)
@@ -616,8 +623,7 @@ public class game_controller : MonoBehaviour {
     {
         float actual_y = globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * n;
         int rand = Random.Range(1, 100);
-        int hole_chance = 30 + 10 * hole_creation_failed;
-        if (hole_chance > 85) hole_chance = 85;
+        int hole_chance = define_hole_chance();
 
         if (QA.s.TRACE_PROFUNDITY >= 2) Debug.Log("\n "+ n+ " ~~~~~~~~~~~~ TRY CREATE MEDIUM HOLE! ~~~~~~~~~~~~ | rand " + rand + " HOLE CHANCE: "+ hole_chance + " N FAILED: " + hole_creation_failed);
    
@@ -659,32 +665,42 @@ public class game_controller : MonoBehaviour {
             if (QA.s.TRACE_PROFUNDITY >= 2) Debug.Log("\n " + n + " ========= CREATE WAVE MEDIUM! ========== | rand " + rand);
             //rand = 50;
 
-            // 2 SPK MIDDLE |__^_^__|
-            if (rand > 0 && rand <= 25)
-            {
-                wave_name = "medium_2_spks_mid";
+            // WALL CORNER + 1 SPK ||___^__|
+            if (!last_wall && ((rand > 0 && rand <= 25) || (USER.s.FIRST_WALL_CREATED == 0 && first_wall_already_created == false && USER.s.TOTAL_GAMES >= 1 && n_floor > 4 && rand < 95 ) )) {
+                wave_name = "medium_wall_corner_1_spk";
 
                 create_floor(0, n);
-                float rand_x = Random.Range(-screen_w / 4, 0 - 1f);
-                //first spike
-                create_spike(rand_x, actual_y, n);
-                if (rand_x <= corner_limit_left) last_spike_left = true;
-                else last_spike_left = false;
 
-                //second spike
-                rand_x = Random.Range(rand_x + min_spk_dist+ 0.5f, rand_x + min_spk_dist + 1.5f);
-                create_spike(rand_x, actual_y, n);
-                if (rand_x <= corner_limit_right) last_spike_right = true;
-                else last_spike_right = false;
+                // Sort between normal spike, hidden spike or manual hidden spike
+                // float rand_x = Random.Range(-mid_area + 0.5f, mid_area - 0.5f);
+                float rand_x = Random.Range(-0.35f, 0.35f);
+                rand = Random.Range(1, 100);
 
+                if (rand < 60) // Normal spike
+                {
+                    create_wall_corner(n);
+                    create_spike(rand_x, actual_y, n);
+                }
+                else if (rand < 80) // Hidden Spike
+                {
+                    create_wall_corner(n);
+                    create_hidden_spike(rand_x, actual_y, n);
+                }
+                else // Hidden spike manual trigger
+                {
+                    create_wall_corner(n, true);
+                    create_hidden_spike(rand_x, actual_y, n, true);
+                }
+
+                last_spike_right = true;
+                last_spike_left = true;
+                last_wall = true;
                 last_hole = false;
-                last_wall = false;
-
                 return true;
             }
-
+            
             // 2 SPK CRONER |^______^|
-            else if (!last_spike_left && !last_spike_right && rand > 25 && rand <= 40)
+            else if (!last_spike_left && !last_spike_right && rand <= 40)
             {
                 wave_name = "medium_2_spks_corners";
 
@@ -730,41 +746,29 @@ public class game_controller : MonoBehaviour {
                 return true;
             }
 
-            // WALL CORNER + 1 SPK ||___^__|
-            else if (!last_wall && rand > 56 && rand <= 80)
-            {
-                wave_name = "medium_wall_corner_1_spk";
+            // 2 SPK MIDDLE |__^_^__|
+            if (rand > 56 && rand <= 80) {
+                wave_name = "medium_2_spks_mid";
 
                 create_floor(0, n);
-                
-               // Sort between normal spike, hidden spike or manual hidden spike
-               // float rand_x = Random.Range(-mid_area + 0.5f, mid_area - 0.5f);
-                float rand_x = Random.Range(-0.35f, 0.35f);
-                rand = Random.Range(1, 100);
+                float rand_x = Random.Range(-screen_w / 4, 0 - 1f);
+                //first spike
+                create_spike(rand_x, actual_y, n);
+                if (rand_x <= corner_limit_left) last_spike_left = true;
+                else last_spike_left = false;
 
-                if (rand < 60) // Normal spike
-                {
-                    create_wall_corner(n);
-                    create_spike(rand_x, actual_y, n);
-                }
-                else if (rand < 80) // Hidden Spike
-                {
-                    create_wall_corner(n);
-                    create_hidden_spike(rand_x, actual_y, n);
-                }
-                else // Hidden spike manual trigger
-                {
-                    create_wall_corner(n,true);
-                    create_hidden_spike(rand_x, actual_y, n, true);
-                }
-                    
+                //second spike
+                rand_x = Random.Range(rand_x + min_spk_dist + 0.5f, rand_x + min_spk_dist + 1.5f);
+                create_spike(rand_x, actual_y, n);
+                if (rand_x <= corner_limit_right) last_spike_right = true;
+                else last_spike_right = false;
 
-                last_spike_right = true;
-                last_spike_left = true;
-                last_wall = true;
                 last_hole = false;
+                last_wall = false;
+
                 return true;
             }
+
 
             // 1 HIDDEN SPK |____v____|
             else if (rand > 80)
@@ -793,8 +797,7 @@ public class game_controller : MonoBehaviour {
     {
         float actual_y = globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * n;
         int rand = Random.Range(1, 100);
-        int hole_chance = 30 + 10 * hole_creation_failed;
-        if (hole_chance > 85) hole_chance = 85;
+        int hole_chance = define_hole_chance();
         if (QA.s.TRACE_PROFUNDITY >= 2) Debug.Log("\n " + n + " ^^^^^^^^^^^^^^^^^^ TRY CREATE HARD HOLE! ^^^^^^^^^^^^^^^^^^ | rand " + rand + " HOLE CHANCE: " + hole_chance + " N FAILED: " + hole_creation_failed);
 
 
@@ -1003,8 +1006,7 @@ public class game_controller : MonoBehaviour {
         float actual_y = globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * n;
         int rand = Random.Range(1, 100);
         //rand = 1;
-        int hole_chance = 35 + 10 * hole_creation_failed;
-        if (hole_chance > 85) hole_chance = 85;
+        int hole_chance = define_hole_chance();
         if (QA.s.TRACE_PROFUNDITY >= 2) Debug.Log("\n " + n + " &&&&&&&&&&&&&& TRY CREATE VERY HARD HOLE! &&&&&&&&&&| rand " + rand + " HOLE CHANCE: " + hole_chance + " N FAILED: " + hole_creation_failed);
 
         // rand = 80;
@@ -1269,12 +1271,12 @@ public class game_controller : MonoBehaviour {
         }
     }
 
+    // MADE FOR YOU TO DIE
     bool create_wave_super_hard(int n) {
         float actual_y = globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * n;
         int rand = Random.Range(1, 100);
         //rand = 1;
-        int hole_chance = 35 + 10 * hole_creation_failed;
-        if (hole_chance > 85) hole_chance = 85;
+        int hole_chance = define_hole_chance();
         if (QA.s.TRACE_PROFUNDITY >= 2) Debug.Log("\n " + n + " SSSSSSSSSSSSSS TRY CREATE SUPER HARD HOLE! SSSSSSSSSSSSS| rand " + rand + " HOLE CHANCE: " + hole_chance + " N FAILED: " + hole_creation_failed);
 
         //rand = 80;
@@ -1538,8 +1540,6 @@ public class game_controller : MonoBehaviour {
         }
     }
 
-
-
     #endregion
 
     #region ============== WAVE ELEMENTS =================
@@ -1548,6 +1548,8 @@ public class game_controller : MonoBehaviour {
     {
         GameObject obj = (GameObject)Instantiate(wall_type, new Vector3(x, globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * n +  globals.s.SLOT/2, 0), transform.rotation);
         obj.GetComponent<wall>().my_floor = n;
+
+       
     }
 
     wall create_wall_corner(int n, bool spk_trigger = false){
@@ -1712,6 +1714,11 @@ public class game_controller : MonoBehaviour {
 
             //return obj;
             last_hole_x = rand;
+
+            if(USER.s.FIRST_HOLE_CREATED == 0) {
+                USER.s.FIRST_HOLE_CREATED = 1;
+                PlayerPrefs.SetInt("first_hole_created", 1);
+            }
 
             return true;
         }

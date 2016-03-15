@@ -7,7 +7,7 @@ public class USER : MonoBehaviour {
 
     [HideInInspector]   public int BEST_SCORE, LAST_SCORE, DAY_SCORE;
     [HideInInspector]   public int TOTAL_GAMES, TOTAL_VIDEOS_WATCHED;
-    [HideInInspector]   public int FIRST_PW_CREATED;
+    [HideInInspector]   public int FIRST_PW_CREATED, FIRST_HOLE_CREATED, FIRST_WALL_CREATED;
 
     void Awake() {
         //PlayerPrefs.SetInt("total_games", 2);
@@ -17,7 +17,11 @@ public class USER : MonoBehaviour {
         DAY_SCORE = PlayerPrefs.GetInt("day_best", 0);
         TOTAL_GAMES = PlayerPrefs.GetInt("total_games", 0);
         TOTAL_VIDEOS_WATCHED =  PlayerPrefs.GetInt("total_videos_watched", 0);
+
+        // new user variables
         FIRST_PW_CREATED =  PlayerPrefs.GetInt("first_pw_created", 0);
+        FIRST_HOLE_CREATED =  PlayerPrefs.GetInt("first_hole_created", 0);
+        FIRST_WALL_CREATED =  PlayerPrefs.GetInt("first_wall_created", 0);
 
         s = this;
     } 

@@ -64,9 +64,21 @@ public class main_camera : MonoBehaviour {
 
     public void OnBallFalling() {
         if (!falling) {
-            Debug.Log("[CAMERA] ON BALL FALLING !! ");
             falling = true;
-            transform.DOMoveY(transform.position.y - globals.s.FLOOR_HEIGHT-0.5f, 0.4f).SetEase(Ease.InOutQuad).OnComplete(() => falling = false);
+            float target_dif = 0;
+            float dif = (transform.position.y - globals.s.BALL_Y);
+            if (dif > 1)
+                target_dif = globals.s.FLOOR_HEIGHT - 0.5f;
+            else { 
+                target_dif = globals.s.FLOOR_HEIGHT - 0.5f;
+                target_dif = target_dif / 2 + target_dif/4 + (((dif*target_dif)/100) * (target_dif/2)) ;
+
+            }
+
+            Debug.Log("vvvvvvvvvvvvvvvvvvvvv [CAMERA] ON BALL FALLING !! TDIF: " + target_dif + " [] YD: " + (transform.position.y - globals.s.BALL_Y) + " MY POSITION: " + transform.position.y + "  MY TARGET Y " + (transform.position.y - globals.s.FLOOR_HEIGHT - 0.5f));
+
+
+            transform.DOMoveY(transform.position.y - target_dif, 0.4f).SetEase(Ease.InOutQuad).OnComplete(() => falling = false);
         }
     }
 
@@ -95,8 +107,8 @@ public class main_camera : MonoBehaviour {
         pw_super_jump = false;
     }
 
-    public void on_ball_up() {
-        if (!moving && globals.s.BALL_Y > transform.position.y - globals.s.FLOOR_HEIGHT / 4)//Debug.Log("MY Y POS: " + transform.position.y);  if (globals.s.BALL_Y > transform.position.y)
+    public void on_ball_up(float ball_y) {
+        if (!moving && ball_y > transform.position.y - globals.s.FLOOR_HEIGHT / 4)//Debug.Log("MY Y POS: " + transform.position.y);  if (globals.s.BALL_Y > transform.position.y)
         {
             rb.velocity = new Vector2(0, globals.s.CAMERA_SPEED);
             moving = true;
@@ -127,7 +139,7 @@ public class main_camera : MonoBehaviour {
                     }
 
                     // stop camera
-                    else if (moving && globals.s.BALL_Y < transform.position.y - globals.s.FLOOR_HEIGHT)
+                    else if (moving && globals.s.BALL_Y < transform.position.y - globals.s.FLOOR_HEIGHT && globals.s.BALL_GROUNDED == true)
                     {
                         rb.velocity = new Vector2(0, 0);
                         moving = false;

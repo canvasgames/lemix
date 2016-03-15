@@ -49,6 +49,8 @@ public class globals : MonoBehaviour {
     public bool MENU_OPEN = false;
     // Use this for initialization
 
+    public int ad_type = 0;
+
     void Awake () {
 		s = this;
 

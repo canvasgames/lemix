@@ -145,6 +145,7 @@ public class ball_hero : MonoBehaviour
             //globals.s.BALL_FLOOR = my_floor;
         }
         #region ================ Ball Up ====================
+
         if (son_created == false && ((transform.position.x <= globals.s.LIMIT_LEFT + globals.s.BALL_R + 0.3f && rb.velocity.x < 0) ||
                                      (transform.position.x >= globals.s.LIMIT_RIGHT - globals.s.BALL_R - 0.3f && rb.velocity.x > 0)))
         {
@@ -186,7 +187,10 @@ public class ball_hero : MonoBehaviour
 
             // CALL GAME CONTROLLER
             game_controller.s.ball_up(my_floor);
-            if (my_floor >= 1) main_camera.s.on_ball_up();
+            // CALL MAIN CAMERA
+            float pos = ((globals.s.BASE_Y + (my_floor+1) * globals.s.FLOOR_HEIGHT) ) + 1f;
+            //Debug.Log("================ CALCULATED POS: " + pos + " MYSON POS: " + globals.s.BALL_Y + "my pos: " + transform.position.y);
+            if (my_floor >= 1) main_camera.s.on_ball_up(pos);
 
             if(hitted_wall) main_camera.s.hitted_on_wall = false;
 
@@ -281,7 +285,7 @@ public class ball_hero : MonoBehaviour
 
         else if (coll.gameObject.CompareTag("HoleFalling")) {
             //if (QA.s.TRACE_PROFUNDITY >= 3) Debug.Log(" ~~~~~~~~~~~~~~~~~~~~~~~~~COLLIDING WITH HOLE FALLING TAG!!!");
-            Debug.Log(" ~~~~~~~~~~~~~~~~~~~~~~~~~COLLIDING WITH HOLE FALLING TAG!!!");
+            if (QA.s.TRACE_PROFUNDITY >= 2) Debug.Log(" ~~~~~~~~~~~~~~~~~~~~~~~~~COLLIDING WITH HOLE FALLING TAG!!!");
             //coll.transform.gameObject.GetComponent<SpriteRenderer>().enabled = true;
             //coll.transform.gameObject.GetComponent<SpriteRenderer>().color = Color.green;
             //grounded = false;

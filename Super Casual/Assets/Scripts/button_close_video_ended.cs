@@ -30,6 +30,10 @@ public class button_close_video_ended : MonoBehaviour {
         {
             hud_controller.si.watched_the_video_pw();
         }
+
+        if (globals.s.ad_type == 0) AnalyticController.s.ReportAdAction("battlepegs", "closed");
+        else if (globals.s.ad_type == 1) AnalyticController.s.ReportAdAction("bomblast", "closed");
+
         transform.gameObject.SetActive(false);
         transform.parent.gameObject.SetActive(false);
     }

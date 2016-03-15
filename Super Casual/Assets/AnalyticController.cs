@@ -95,6 +95,22 @@ public class AnalyticController : MonoBehaviour {
         DDNA.Instance.RecordEvent("activatePwPressed", eventParams);
     }
 
+    public void ReportAdAction(string adName = "bomblast", string action = "closed") {
+        Debug.Log("[ANAL] REPORTING AD ACTION");
+
+        EventBuilder eventParams = new EventBuilder();
+        eventParams.AddParam("action", action); // "clicked" or "closed"
+        eventParams.AddParam("adName", adName); // "bomblast or battlepegs 
+
+        eventParams.AddParam("userHighScore", USER.s.BEST_SCORE);
+        eventParams.AddParam("userTotalGames", USER.s.TOTAL_GAMES);
+        eventParams.AddParam("userTotalVideosWatched", USER.s.TOTAL_VIDEOS_WATCHED);
+        eventParams.AddParam("userScore", globals.s.BALL_FLOOR);
+
+        DDNA.Instance.RecordEvent("adAction", eventParams);
+
+    }
+
     void Update() {
         if (Input.GetMouseButtonDown(0)) {
             //ReportTest();

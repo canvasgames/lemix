@@ -25,7 +25,7 @@ public class floor : scenario_objects {
             {
 
                 GameObject obj = (GameObject)Instantiate(scoreInfo, new Vector3(0, transform.position.y - 0.6f, transform.position.z), transform.rotation);
-                obj.GetComponentInChildren<TextMesh>().text = "BEST";
+                obj.GetComponentInChildren<TextMesh>().text = "YOUR BEST";
                 obj.GetComponentInChildren<Score_floor_txt>().my_floor = my_floor;
                 obj.GetComponentInChildren<Score_floor_txt>().my_type = 1;
             }
@@ -33,7 +33,7 @@ public class floor : scenario_objects {
             {
 
                 GameObject obj = (GameObject)Instantiate(scoreInfo, new Vector3(0, transform.position.y - 0.6f, transform.position.z), transform.rotation);
-                obj.GetComponentInChildren<TextMesh>().text = "DAY";
+                obj.GetComponentInChildren<TextMesh>().text = "DAILY BEST";
                 obj.GetComponentInChildren<Score_floor_txt>().my_floor = my_floor;
                 obj.GetComponentInChildren<Score_floor_txt>().my_type = 2;
             }
@@ -41,7 +41,7 @@ public class floor : scenario_objects {
             {
 
                 GameObject obj = (GameObject)Instantiate(scoreInfo, new Vector3(0, transform.position.y - 0.6f, transform.position.z), transform.rotation);
-                obj.GetComponentInChildren<TextMesh>().text = "LAST";
+                obj.GetComponentInChildren<TextMesh>().text = "LAST GAME";
                 obj.GetComponentInChildren<Score_floor_txt>().my_floor = my_floor;
                 obj.GetComponentInChildren<Score_floor_txt>().my_type = 3;
             }
@@ -124,15 +124,15 @@ public class floor : scenario_objects {
 
         if (score_type == 1)
         {
-            my_text.GetComponentInChildren<TextMesh>().text = "NEW BEST";
+            my_text.GetComponentInChildren<TextMesh>().text = "NEW RECORD";
         }
         else if (score_type == 2)
         {
-            my_text.GetComponentInChildren<TextMesh>().text = "NEW DAILY";
+            my_text.GetComponentInChildren<TextMesh>().text = "NEW DAILY RECORD";
         }
         else if (score_type == 3)
         {
-            my_text.GetComponentInChildren<TextMesh>().text = "LAST";
+            my_text.GetComponentInChildren<TextMesh>().text = "LAST GAME";
         }
     }
 

@@ -42,6 +42,7 @@ public class new_external_link_bt : MonoBehaviour {
         video_revive = revive_case;
         video_activate_pw = activate_pw_case;
         video_played = Random.Range(0, 2);
+        globals.s.ad_type = video_played;
 
         close_timer = Time.time  + 5f;
         close_started = true;
@@ -68,9 +69,9 @@ public class new_external_link_bt : MonoBehaviour {
 		    openWindow("https://www.facebook.com/battlepegsmultiplayer/");
         #else
             Application.OpenURL("https://www.facebook.com/battlepegsmultiplayer/");
-        #endif
+#endif
 
-
+            AnalyticController.s.ReportAdAction("battlepegs", "clicked");
 
         }
         else
@@ -81,6 +82,7 @@ public class new_external_link_bt : MonoBehaviour {
         #else
             Application.OpenURL("https://play.google.com/store/apps/details?id=mominis.Generic_Android.Bomblast");
         #endif
+            AnalyticController.s.ReportAdAction("bomblast", "clicked");
 
         }
         //      if (can_close == true)
