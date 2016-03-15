@@ -10,6 +10,9 @@ public class sound_controller : MonoBehaviour
 
     public AudioClip Jump, Explosion;
 
+    public GameObject bt_sound;
+
+    bool can_play_jump = true;
 
     void Awake()
     {
@@ -19,12 +22,27 @@ public class sound_controller : MonoBehaviour
         else if (s != this)
             Destroy(gameObject);
         DontDestroyOnLoad(gameObject);
+
+        int temp_sound = PlayerPrefs.GetInt("sound_state_0on_1off", 0);
+
         musicSource.Play();
+
+        if(temp_sound == 1)
+        {
+            muteMusic();
+            muteSFX();
+
+            if(bt_sound != null)
+            {
+                bt_sound.GetComponent<Animator>().Play("bt_sound_off");
+            }
+            
+        }
     }
     // Use this for initialization
     void Start()
     {
-
+        can_play_jump = true;
     }
 
     // Update is called once per frame
@@ -36,8 +54,18 @@ public class sound_controller : MonoBehaviour
 
     public void PlayJump()
     {
-        if (efxSource.volume > 0)
+        if (efxSource.volume > 0 && can_play_jump == true)
+        {
+            can_play_jump = false;
             PlaySingle(Jump);
+            Invoke("can_play_jump_again", 0.3f);
+        }
+            
+    }
+
+    void can_play_jump_again()
+    {
+        can_play_jump = true;
     }
     public void PlayExplosion()
     {
@@ -78,6 +106,7 @@ public class sound_controller : MonoBehaviour
 
     public void muteSFX()
     {
+        PlayerPrefs.SetInt("sound_state_0on_1off", 1);
         efxSource.volume = 0;
         efxSource2.volume = 0;
         efxSource3.volume = 0;
@@ -85,6 +114,7 @@ public class sound_controller : MonoBehaviour
 
     public void unmuteSFX()
     {
+        PlayerPrefs.SetInt("sound_state_0on_1off", 0);
         efxSource.volume = 1;
         efxSource2.volume = 1;
         efxSource3.volume = 1;
