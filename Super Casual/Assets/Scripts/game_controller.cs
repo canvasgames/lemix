@@ -46,8 +46,8 @@ public class game_controller : MonoBehaviour {
     float center_mid_area = 1f;
     float min_spk_dist = 2.5f;
 
-    float corner_limit_right = 3.5f;
-    float corner_limit_left = -3.5f;
+    float corner_limit_right = 2.7f;
+    float corner_limit_left = -2.7f;
 
     bool last_spike_left;
     bool last_spike_right;
@@ -239,7 +239,6 @@ public class game_controller : MonoBehaviour {
         time_to_report = (int)(Time.time - starting_time);
 
         globals.s.GAME_OVER = 1;
-
 
         temp_ball = ball_hero;
         Invoke("show_game_over", 1f);
@@ -968,13 +967,12 @@ public class game_controller : MonoBehaviour {
             // WALL MID-LEFT + SPIKE (12%) |__|____^_|
             else if (!last_wall && !last_spike_left && rand > 45 && rand <= 58)
             {
-                wave_name = "hard_wall_midleft";
+                wave_name = "hard_wall_mid_left";
                 if (QA.s.SHOW_WAVE_TYPE == true)
-                {
                     create_wave_name(0, actual_y, wave_name);
-                }
+
                 float wall_pos = Random.Range(-screen_w / 4 + 0.5f, 0 - 0.5f);
-                float spk_pos = Random.Range(wall_pos + min_spk_dist + 0.8f, corner_right);
+                float spk_pos = Random.Range(wall_pos + min_spk_dist + 1.1f, corner_right);
 
                 if (spk_pos >= corner_limit_right && last_spike_right)
                     return false;
@@ -998,11 +996,10 @@ public class game_controller : MonoBehaviour {
             {
                 wave_name = "hard_wall_mid_right";
                 if (QA.s.SHOW_WAVE_TYPE == true)
-                {
                     create_wave_name(0, actual_y, wave_name);
-                }
+
                 float wall_pos = Random.Range(0 + 0.5f, screen_w / 4 - 0.5f);
-                float spk_pos = Random.Range(corner_left, wall_pos - min_spk_dist - 0.8f);
+                float spk_pos = Random.Range(corner_left, wall_pos - min_spk_dist - 1.1f);
 
                 if (spk_pos <= corner_limit_left && last_spike_left)
                     return false;
@@ -1091,9 +1088,8 @@ public class game_controller : MonoBehaviour {
             {
                 wave_name = "vhard_hole";
                 if (QA.s.SHOW_WAVE_TYPE == true)
-                {
                     create_wave_name(0, actual_y, wave_name);
-                }
+
                 hole_creation_failed = 0;
                 last_hole = true;
                 last_wall = false;
@@ -1222,9 +1218,8 @@ public class game_controller : MonoBehaviour {
             {
                 wave_name = "vhard_3_spks";
                 if (QA.s.SHOW_WAVE_TYPE == true)
-                {
                     create_wave_name(0, actual_y, wave_name);
-                }
+
                 create_floor(0, n);
                 float triple_range = min_spk_dist + Random.Range(0.45f, 0.6f);
                 float spk_pos = Random.Range(corner_left, corner_limit_left + 0.35f);
@@ -1595,7 +1590,7 @@ public class game_controller : MonoBehaviour {
                     create_wave_name(0, actual_y, wave_name);
                 }
                 create_floor(0, n);
-                float pair_range = 1.27f;
+                float pair_range = 1.3f;
 
 
                 create_triple_spike(0 - pair_range, actual_y, n);

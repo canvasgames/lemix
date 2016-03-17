@@ -6,6 +6,7 @@ public class AnalyticController : MonoBehaviour {
     public static AnalyticController s;
 
     public string siteName = "Kongregate";
+    public string clientVersion = "1.0.1";
 
     void Awake() { s = this; }
 
@@ -16,7 +17,7 @@ public class AnalyticController : MonoBehaviour {
         if (GD.s.AnalyticsLive == false) {
             DDNA.Instance.Settings.DebugMode = true;
             DDNA.Instance.Settings.OnInitSendGameStartedEvent = true;
-            DDNA.Instance.ClientVersion = "1.0.0";
+            DDNA.Instance.ClientVersion = clientVersion;
             DDNA.Instance.StartSDK(
                 "87199148446217602329834496314561",
                 "http://collect7976sprcs.deltadna.net/collect/api",
@@ -27,7 +28,7 @@ public class AnalyticController : MonoBehaviour {
 
         else {
             //DDNA.Instance.Settings.DebugMode = true;
-            DDNA.Instance.ClientVersion = "1.0.0";
+            DDNA.Instance.ClientVersion = clientVersion;
             DDNA.Instance.StartSDK(
                 "87199152274143954720021478014561",
                 "http://collect7976sprcs.deltadna.net/collect/api",
@@ -40,7 +41,7 @@ public class AnalyticController : MonoBehaviour {
     public void ReportGameStarted() {
         Debug.Log("[ANAL] REPORTING GAME STARTED");
         EventBuilder eventParams = new EventBuilder();
-        //eventParams.AddParam("clientVersion", "teste");
+        eventParams.AddParam("clientVersion", clientVersion);
         eventParams.AddParam("isTutorial", false);
         eventParams.AddParam("missionName", "game started");
         //eventParams.AddParam("platform", DDNA.Instance.Platform);
@@ -55,7 +56,8 @@ public class AnalyticController : MonoBehaviour {
     public void ReportGameEnded(string killer_wave_name, int duration) {
         Debug.Log("[ANAL] REPORTING GAME ENDED");
         EventBuilder eventParams = new EventBuilder();
-        //eventParams.AddParam("clientVersion", "teste");
+        eventParams.AddParam("clientVersion", clientVersion);
+
         eventParams.AddParam("isTutorial", false);
         eventParams.AddParam("missionName", "game ended");
        // eventParams.AddParam("platform", DDNA.Instance.Platform);
@@ -72,7 +74,8 @@ public class AnalyticController : MonoBehaviour {
     public void ReportRevive(bool success) {
         Debug.Log("[ANAL] REPORTING REVIVE " + success);
         EventBuilder eventParams = new EventBuilder();
-        //eventParams.AddParam("clientVersion", "teste");
+        eventParams.AddParam("clientVersion", clientVersion);
+
         eventParams.AddParam("success", success);
         // eventParams.AddParam("platform", DDNA.Instance.Platform);
         eventParams.AddParam("userHighScore", USER.s.BEST_SCORE);
@@ -86,7 +89,8 @@ public class AnalyticController : MonoBehaviour {
     public void ReportVideoWatchedForPowerUps() {
         Debug.Log("[ANAL] REPORTING VIDEO WATCHED");
         EventBuilder eventParams = new EventBuilder();
-        //eventParams.AddParam("clientVersion", "teste");
+        eventParams.AddParam("clientVersion", clientVersion);
+
         //eventParams.AddParam("platform", DDNA.Instance.Platform);
         eventParams.AddParam("userHighScore", USER.s.BEST_SCORE);
         eventParams.AddParam("userTotalGames", USER.s.TOTAL_GAMES);
@@ -101,6 +105,8 @@ public class AnalyticController : MonoBehaviour {
         EventBuilder eventParams = new EventBuilder();
         eventParams.AddParam("action", action); // "clicked" or "closed"
         eventParams.AddParam("adName", adName); // "bomblast or battlepegs 
+        eventParams.AddParam("clientVersion", clientVersion);
+
 
         eventParams.AddParam("userHighScore", USER.s.BEST_SCORE);
         eventParams.AddParam("userTotalGames", USER.s.TOTAL_GAMES);
