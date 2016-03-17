@@ -1198,7 +1198,6 @@ public class game_controller : MonoBehaviour {
                         if (spk_pos > corner_limit_right) last_spike_right = true;
                     }
                 }
-
             }
 
             return success;
@@ -1254,7 +1253,7 @@ public class game_controller : MonoBehaviour {
                 return true;
             }
             // 3 SPIKES MID (RIGHT priority |__^_^_^__|)
-            else if (!last_spike_right && rand >15 && rand <= 30)
+            else if (!last_spike_right && rand>15 && rand <= 30)
             {
                 wave_name = "vhard_3_spks";
                 if (QA.s.SHOW_WAVE_TYPE == true)
@@ -1301,8 +1300,8 @@ public class game_controller : MonoBehaviour {
                 bool there_is_manual = false;
 
                 create_floor(0, n);
-               
-                float rand_x = Random.Range(-screen_w / 4, 0 - 0.8f);
+
+                float rand_x;
                 rand_x = Random.Range(-center_mid_area, center_mid_area);
                 //first spike, located at middle
                 rand = Random.Range(1, 100);
@@ -1318,7 +1317,7 @@ public class game_controller : MonoBehaviour {
                 }
 
                 //second spike, manually triggered located at the opposite corner of the wall
-                float rand_x2 = Random.Range(corner_right - 1.3f,corner_right);
+                float rand_x2 = Random.Range(corner_right - 1.3f, corner_right);
 
                 create_hidden_spike(rand_x2, actual_y, n, true, true);
                 there_is_manual = true;
@@ -1415,14 +1414,15 @@ public class game_controller : MonoBehaviour {
                         if (last_hole_x - min_spk_dist - 0.5f > corner_left) {
                             spk_pos = Random.Range(corner_left + 0.2f, last_hole_x - min_spk_dist - 0.5f);
 
-                            if (spk_pos >= corner_limit_left) {
+                            if (spk_pos >= corner_limit_left - 0.5f) {
                                 last_spike_left = true;
-                                create_hidden_spike(spk_pos, actual_y, n);
+                                create_triple_spike(spk_pos, actual_y, n);
+
 
                             }
                             else {
+                                create_hidden_spike(spk_pos, actual_y, n);
                                 last_spike_left = false;
-                                create_triple_spike(spk_pos, actual_y, n);
                             }
                         }
                         else
@@ -1436,14 +1436,15 @@ public class game_controller : MonoBehaviour {
                         if (last_hole_x + min_spk_dist + 0.6f < corner_right) {
                             spk_pos = Random.Range(last_hole_x + min_spk_dist + 0.6f, corner_right);
 
-                            if (spk_pos <= corner_limit_right) {
+                            if (spk_pos <= corner_limit_right + 0.5f) {
                                 last_spike_right = true;
-                                create_hidden_spike(spk_pos, actual_y, n);
+                                create_triple_spike(spk_pos, actual_y, n);
+
                             }
 
                             else {
+                                create_hidden_spike(spk_pos, actual_y, n);
                                 last_spike_right = false;
-                                create_triple_spike(spk_pos, actual_y, n);
                             }
                         }
                         else

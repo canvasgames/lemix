@@ -5,6 +5,8 @@ public class AnalyticController : MonoBehaviour {
 
     public static AnalyticController s;
 
+    public string siteName = "Kongregate";
+
     void Awake() { s = this; }
 
     void Start() {
@@ -32,11 +34,8 @@ public class AnalyticController : MonoBehaviour {
                 "http://engage7976sprcs.deltadna.net",
                 DDNA.AUTO_GENERATED_USER_ID
                 );
-        }
-
-        
+        }    
     }
-
 
     public void ReportGameStarted() {
         Debug.Log("[ANAL] REPORTING GAME STARTED");
@@ -48,6 +47,7 @@ public class AnalyticController : MonoBehaviour {
         eventParams.AddParam("userHighScore",USER.s.BEST_SCORE);
         eventParams.AddParam("userTotalGames", USER.s.TOTAL_GAMES);
         eventParams.AddParam("userTotalVideosWatched", USER.s.TOTAL_VIDEOS_WATCHED);
+        eventParams.AddParam("siteName", siteName);
 
         DDNA.Instance.RecordEvent("missionStarted", eventParams);
     }
@@ -87,13 +87,12 @@ public class AnalyticController : MonoBehaviour {
         Debug.Log("[ANAL] REPORTING VIDEO WATCHED");
         EventBuilder eventParams = new EventBuilder();
         //eventParams.AddParam("clientVersion", "teste");
-        // eventParams.AddParam("platform", DDNA.Instance.Platform);
+        //eventParams.AddParam("platform", DDNA.Instance.Platform);
         eventParams.AddParam("userHighScore", USER.s.BEST_SCORE);
         eventParams.AddParam("userTotalGames", USER.s.TOTAL_GAMES);
         eventParams.AddParam("userTotalVideosWatched", USER.s.TOTAL_VIDEOS_WATCHED);
-        eventParams.AddParam("userScore", globals.s.BALL_FLOOR);
 
-        DDNA.Instance.RecordEvent("activatePwPressed", eventParams);
+        DDNA.Instance.RecordEvent("activatePwsPressed", eventParams);
     }
 
     public void ReportAdAction(string adName = "bomblast", string action = "closed") {
