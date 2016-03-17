@@ -6,7 +6,7 @@ using DG.Tweening;
 public class floor : scenario_objects {
 
    // public int my_floor;
-    public GameObject scoreInfo, QA_wave_name;
+    public GameObject QA_wave_name;
     public GameObject colliderPW;
     GameObject my_text;
     public bool pw_super_collided = false;
@@ -24,7 +24,8 @@ public class floor : scenario_objects {
             if (USER.s.BEST_SCORE == my_floor)
             {
 
-                GameObject obj = (GameObject)Instantiate(scoreInfo, new Vector3(0, transform.position.y - 0.6f, transform.position.z), transform.rotation);
+                //GameObject obj = (GameObject)Instantiate(scoreInfo, new Vector3(0, transform.position.y - 0.6f, transform.position.z), transform.rotation);
+                GameObject obj = objects_pool_controller.s.reposite_score(0, transform.position.y - 0.6f);
                 obj.GetComponentInChildren<TextMesh>().text = "YOUR BEST";
                 obj.GetComponentInChildren<Score_floor_txt>().my_floor = my_floor;
                 obj.GetComponentInChildren<Score_floor_txt>().my_type = 1;
@@ -32,7 +33,8 @@ public class floor : scenario_objects {
             else if (USER.s.DAY_SCORE == my_floor)
             {
 
-                GameObject obj = (GameObject)Instantiate(scoreInfo, new Vector3(0, transform.position.y - 0.6f, transform.position.z), transform.rotation);
+                // GameObject obj = (GameObject)Instantiate(scoreInfo, new Vector3(0, transform.position.y - 0.6f, transform.position.z), transform.rotation);
+                GameObject obj = objects_pool_controller.s.reposite_score(0, transform.position.y - 0.6f);
                 obj.GetComponentInChildren<TextMesh>().text = "DAILY BEST";
                 obj.GetComponentInChildren<Score_floor_txt>().my_floor = my_floor;
                 obj.GetComponentInChildren<Score_floor_txt>().my_type = 2;
@@ -40,7 +42,8 @@ public class floor : scenario_objects {
             else if (USER.s.LAST_SCORE == my_floor)
             {
 
-                GameObject obj = (GameObject)Instantiate(scoreInfo, new Vector3(0, transform.position.y - 0.6f, transform.position.z), transform.rotation);
+                // GameObject obj = (GameObject)Instantiate(scoreInfo, new Vector3(0, transform.position.y - 0.6f, transform.position.z), transform.rotation);
+                GameObject obj = objects_pool_controller.s.reposite_score(0, transform.position.y - 0.6f);
                 obj.GetComponentInChildren<TextMesh>().text = "LAST GAME";
                 obj.GetComponentInChildren<Score_floor_txt>().my_floor = my_floor;
                 obj.GetComponentInChildren<Score_floor_txt>().my_type = 3;
@@ -122,8 +125,8 @@ public class floor : scenario_objects {
         }
 
 
-        my_text = (GameObject)Instantiate(scoreInfo, new Vector3(0, transform.position.y - 0.6f, transform.position.z), transform.rotation);
-
+       // my_text = (GameObject)Instantiate(scoreInfo, new Vector3(0, transform.position.y - 0.6f, transform.position.z), transform.rotation);
+        my_text = objects_pool_controller.s.reposite_score(0, transform.position.y - 0.6f);
         if (score_type == 1)
         {
             my_text.GetComponentInChildren<TextMesh>().text = "NEW RECORD";

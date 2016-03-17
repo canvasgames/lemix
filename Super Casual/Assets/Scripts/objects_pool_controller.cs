@@ -5,7 +5,7 @@ public class objects_pool_controller : MonoBehaviour {
 
     public static objects_pool_controller s;
 
-    public GameObject floor_prefab, double_spike_prefab, triple_spike_prefab, squares_floor_prefab;
+    public GameObject floor_prefab, double_spike_prefab, triple_spike_prefab, squares_floor_prefab, scores_floor_prefab;
 
     [HideInInspector] public GameObject[] floor_pool;
     int floor_pool_size = 15;
@@ -24,12 +24,18 @@ public class objects_pool_controller : MonoBehaviour {
     int squares_floor_pool_size = 9;
     int squares_floor_pool_actual_i = 0;
 
+    [HideInInspector]
+    public GameObject[] scores_floor_pool;
+    int scores_floor_pool_size = 4;
+    int scores_floor_pool_actual_i = 0;
+
     void Awake()
     {
         floor_pool = new GameObject[floor_pool_size];
         double_spikes_pool = new GameObject[double_spikes_pool_size];
         triple_spikes_pool = new GameObject[triple_spikes_pool_size];
         squares_floor_pool = new GameObject[squares_floor_pool_size];
+        scores_floor_pool = new GameObject[scores_floor_pool_size];
         create_initial_tudo();
     }
 	// Use this for initialization
@@ -64,6 +70,13 @@ public class objects_pool_controller : MonoBehaviour {
         {
             squares_floor_pool[i] = (GameObject)Instantiate(squares_floor_prefab, new Vector3(105, 10*i, 0), transform.rotation);
             
+        }
+
+
+        for (i = 0; i < scores_floor_pool_size; i++)
+        {
+            scores_floor_pool[i] = (GameObject)Instantiate(scores_floor_prefab, new Vector3(105, 10 * i, 0), transform.rotation);
+
         }
     }
 
@@ -249,4 +262,20 @@ public class objects_pool_controller : MonoBehaviour {
         }
     }
     #endregion
+
+    public GameObject reposite_score(float x_pos, float y_pos)
+    {
+        
+        scores_floor_pool[scores_floor_pool_actual_i].transform.position = new Vector3(x_pos, y_pos, 0);
+        GameObject repositing_score = scores_floor_pool[scores_floor_pool_actual_i];
+
+        scores_floor_pool_actual_i++;
+        if (scores_floor_pool_actual_i == scores_floor_pool_size)
+        {
+            scores_floor_pool_actual_i = 0;
+        }
+
+        return repositing_score;
+    }
+
 }
