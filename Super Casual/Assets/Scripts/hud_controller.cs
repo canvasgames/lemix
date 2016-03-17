@@ -347,7 +347,7 @@ public class hud_controller : MonoBehaviour {
 
         game_controller.s.activate_logic();
         game_controller.s.destroy_spikes_2_floors();
-
+        sound_controller.s.play_music();
         AnalyticController.s.ReportRevive(true);
 
         Invoke("partiu", 1);

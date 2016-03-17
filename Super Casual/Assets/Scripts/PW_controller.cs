@@ -9,15 +9,7 @@ public class PW_controller : MonoBehaviour
     public ball_hero[] balls;
     int balls_i = 0;
 
-    float actual_mask_symbol_alpha = 0;
-    float PW_symbol_startTime = 0;
     float PW_symbol_ending_duration = 5f;
-
-    bool PW_symbol_active = true;
-    float PW_symbol_active_time = 1f;
-    float PW_symbol_active_actual_time = 0f;
-
-    bool fade_in_mask = true;
 
     float temp_alpha;
     float previous_time;
@@ -48,9 +40,9 @@ public class PW_controller : MonoBehaviour
     //Called by invoke
     public void pw_ending()
     {
+        temp_alpha = 0;
         previous_time = Time.time;
         globals.s.PW_ENDING = true;
-        transform.GetComponent<SpriteRenderer>().DOFade(1, 500);
         /* PW_symbol_startTime = Time.time;
 
          PW_symbol_active = true;
@@ -65,7 +57,6 @@ public class PW_controller : MonoBehaviour
         globals.s.PW_INVENCIBLE = true;
         Invoke("invencible_end", GD.s.GD_PW_HEARTH_TIME);
         Invoke("pw_ending", GD.s.GD_PW_HEARTH_TIME - PW_symbol_ending_duration);
-        symbols_start();
     }
 
     public void invencible_end()
@@ -87,7 +78,7 @@ public class PW_controller : MonoBehaviour
 
         Invoke("sight_end", GD.s.GD_PW_SIGHT_TIME);
         Invoke("pw_ending", GD.s.GD_PW_SIGHT_TIME - PW_symbol_ending_duration);
-        symbols_start();
+
     }
 
 
@@ -105,11 +96,6 @@ public class PW_controller : MonoBehaviour
     }
     #endregion
 
-    void symbols_start()
-    {
-        actual_mask_symbol_alpha = 0;
-        //change_balls_symbol_mask_alpha();
-    }
     #region SIGHT CHANGE COLOR
     void change_color_sight_pw()
     {
@@ -174,25 +160,6 @@ public class PW_controller : MonoBehaviour
         }
     }
 
-    void change_alpha_signs()
-    {
-       /*
-
-        if (PW_symbol_active_actual_time <= Time.time)
-        {
-            if(PW_symbol_active == false)
-            {
-                PW_symbol_active_time = PW_symbol_active_time - 0.1f;
-            }
-            
-            //Debug.Log("tempo ativoooooooooooo ou inativooooooo  " + PW_symbol_active_time);
-            PW_symbol_active_actual_time = Time.time + PW_symbol_active_time;
-            PW_symbol_active = !PW_symbol_active;
-            change_balls_symbol_mask_active(PW_symbol_active);
-        }*/
-
-    
-    }
     void new_change_balls_symbol_mask_alpha()
     {
         if(previous_time + 0.01f < Time.time)
@@ -213,29 +180,4 @@ public class PW_controller : MonoBehaviour
     }
 
 
-
-    /*void change_balls_symbol_mask_alpha()
-    {
-        if (balls[0] != null)
-        {
-            balls[0].set_symbols_alpha(actual_mask_symbol_alpha);
-        }
-        if (balls[1] != null)
-        {
-           balls[1].set_symbols_alpha(actual_mask_symbol_alpha);
-        }
-
-    }
-
-    void change_balls_symbol_mask_active(bool active)
-    {
-        if (balls[0] != null)
-        {
-            balls[0].set_symbols_active(active);
-        }
-        if (balls[1] != null)
-        {
-            balls[1].set_symbols_active(active);
-        }
-    }*/
 }

@@ -79,6 +79,8 @@ public class objects_pool_controller : MonoBehaviour {
         {
             floor_pool_actual_i = 0;
         }
+
+        
         return repositing_floor;
     }
 

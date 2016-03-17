@@ -25,8 +25,6 @@ public class sound_controller : MonoBehaviour
 
         int temp_sound = PlayerPrefs.GetInt("sound_state_0on_1off", 0);
 
-        musicSource.Play();
-
         if(temp_sound == 1)
         {
             muteMusic();
@@ -72,7 +70,14 @@ public class sound_controller : MonoBehaviour
         if (efxSource.volume > 0)
             PlaySingle(Explosion);
     }
-
+    public void play_music()
+    {
+        musicSource.Play();
+    }
+    public void stop_music()
+    {
+        musicSource.Stop();
+    }
     //#####################################################
     void PlaySingle(AudioClip clip)
     {

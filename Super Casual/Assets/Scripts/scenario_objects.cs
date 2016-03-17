@@ -19,6 +19,7 @@ public class scenario_objects : MonoBehaviour {
 
     public void try_blink(int floor)
     {
+        Debug.Log(floor +" sdffsdfsdf " + " meu floor   " + my_floor);
         if (floor == my_floor)
         {
             already_blinked = true;

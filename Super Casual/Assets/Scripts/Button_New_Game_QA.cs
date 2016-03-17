@@ -38,7 +38,7 @@ public class Button_New_Game_QA : MonoBehaviour {
             PlayerPrefs.SetInt("first_wall_created", 0);
             PlayerPrefs.SetInt("first_hole_created", 0);
             transform.GetComponent<Image>().color = Color.blue;
-            //PlayerPrefs.DeleteAll();
+            PlayerPrefs.DeleteAll();
             hud_controller.si.display_best(0);
             Invoke("back_to_white", 2);
 

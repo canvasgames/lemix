@@ -8,12 +8,15 @@ public enum PW_Types
 
 public class PW_Collect : MonoBehaviour {
 
-    public int pw_type;
-    public int my_floor;
+    public int pw_type = 2;
+    public int my_floor = 5;
     int rand;
     // Use this for initialization
     void Start () {
-
+        if(pw_type == 0)
+        {
+            pw_type = 2;
+        }
         //rand = Random.Range((int)PW_Types.Invencible, (int)PW_Types.Sight + 1);
 
         /*if (globals.s.PW_INVENCIBLE == false && globals.s.PW_SIGHT_BEYOND_SIGHT == false && globals.s.PW_SUPER_JUMP == false)
@@ -37,7 +40,7 @@ public class PW_Collect : MonoBehaviour {
         }
             */
         //rand = (int)PW_Types.Sight;
-       // rand = (int)PW_Types.Super;
+        // rand = (int)PW_Types.Super;
         //pw_type = rand;
     }
 	

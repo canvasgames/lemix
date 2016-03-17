@@ -37,7 +37,7 @@ public class ball_hero : MonoBehaviour
     [HideInInspector]
     public Vector2 vetor;
 
-    public GameObject explosion;
+    public GameObject explosion, spike_explosion;
 
     bool hitted_wall = false;
 
@@ -265,11 +265,12 @@ public class ball_hero : MonoBehaviour
                 if (globals.s.PW_INVENCIBLE == false)
                 {
                     destroy_me(coll.gameObject.GetComponent<spike>().wave_name);
-                    coll.gameObject.transform.position = new Vector3(coll.gameObject.transform.position.x + 50, coll.gameObject.transform.position.y, coll.gameObject.transform.position.z);
+                    //coll.gameObject.transform.position = new Vector3(coll.gameObject.transform.position.x + 50, coll.gameObject.transform.position.y, coll.gameObject.transform.position.z);
                 }
                 else
                 {
-                   // Destroy(coll.gameObject);
+                    // Destroy(coll.gameObject);
+                    Instantiate(spike_explosion, new Vector3(coll.transform.position.x, coll.transform.position.y, coll.transform.position.z), transform.rotation);
                     PW_controller.s.invencible_end();
                     coll.gameObject.transform.position = new Vector3(coll.gameObject.transform.position.x + 50, coll.gameObject.transform.position.y, coll.gameObject.transform.position.z);
                 }
@@ -403,6 +404,7 @@ public class ball_hero : MonoBehaviour
             PW_controller.s.sight_end();
         }
 
+        Debug.Log("Tipodo PW q peguei " + temp.pw_type);
         if (temp.pw_type == (int) PW_Types.Invencible)
         {
             PW_controller.s.invencible_start();

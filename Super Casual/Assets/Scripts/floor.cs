@@ -6,7 +6,7 @@ using DG.Tweening;
 public class floor : scenario_objects {
 
    // public int my_floor;
-    public GameObject scoreInfo;
+    public GameObject scoreInfo, QA_wave_name;
     public GameObject colliderPW;
     GameObject my_text;
     public bool pw_super_collided = false;
@@ -108,6 +108,8 @@ public class floor : scenario_objects {
 
     }
 
+
+
     public void create_score_text(int score_type)
     {
 
@@ -151,7 +153,13 @@ public class floor : scenario_objects {
 
             //create new
             create_score_text(type);
-            try_blink(floor);
+            
+            scenario_objects[] allScenario = GameObject.FindObjectsOfType(typeof(scenario_objects)) as scenario_objects[];
+
+            for (i = 0; i < allScenario.Length; i++)
+            {
+                allScenario[i].try_blink(my_floor);
+            }
         }
 
     }
