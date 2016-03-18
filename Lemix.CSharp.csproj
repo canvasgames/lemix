@@ -16,8 +16,9 @@
     <CompilerResponseFile></CompilerResponseFile>
     <UnityProjectType>Game:1</UnityProjectType>
     <UnityBuildTarget>WebPlayer:6</UnityBuildTarget>
-    <UnityVersion>5.2.3f1</UnityVersion>
+    <UnityVersion>5.3.3f1</UnityVersion>
     <RootNamespace></RootNamespace>
+    <LangVersion Condition=" '$(VisualStudioVersion)' != '10.0' ">4</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -26,7 +27,7 @@
     <IntermediateOutputPath>Temp\UnityVS_obj\Debug\</IntermediateOutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DefineConstants>DEBUG;TRACE;UNITY_5_2_3;UNITY_5_2;UNITY_5;ENABLE_NEW_BUGREPORTER;ENABLE_2D_PHYSICS;ENABLE_4_6_FEATURES;ENABLE_AUDIO;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_DUCK_TYPING;ENABLE_FRAME_DEBUGGER;ENABLE_GENERICS;ENABLE_HOME_SCREEN;ENABLE_IMAGEEFFECTS;ENABLE_LIGHT_PROBES_LEGACY;ENABLE_MICROPHONE;ENABLE_MULTIPLE_DISPLAYS;ENABLE_PHYSICS;ENABLE_PLUGIN_INSPECTOR;ENABLE_SHADOWS;ENABLE_SINGLE_INSTANCE_BUILD_SETTING;ENABLE_SPRITES;ENABLE_TERRAIN;ENABLE_RAKNET;ENABLE_UNET;ENABLE_UNITYEVENTS;ENABLE_WEBCAM;ENABLE_WWW;ENABLE_CLOUD_SERVICES;ENABLE_CLOUD_SERVICES_ADS;ENABLE_CLOUD_HUB;ENABLE_CLOUD_PROJECT_ID;ENABLE_CLOUD_SERVICES_ANALYTICS;ENABLE_CLOUD_SERVICES_UNET;ENABLE_CLOUD_SERVICES_BUILD;ENABLE_CLOUD_LICENSE;ENABLE_EDITOR_METRICS;ENABLE_REFLECTION_BUFFERS;INCLUDE_DYNAMIC_GI;INCLUDE_GI;INCLUDE_IL2CPP;INCLUDE_DIRECTX12;PLATFORM_SUPPORTS_MONO;RENDER_SOFTWARE_CURSOR;ENABLE_LOCALIZATION;ENABLE_ANDROID_ATLAS_ETC1_COMPRESSION;UNITY_WEBPLAYER;ENABLE_SUBSTANCE;WEBPLUG;ENABLE_TEXTUREID_MAP;ENABLE_RUNTIME_GI;ENABLE_MOVIES;ENABLE_NETWORK;ENABLE_CRUNCH_TEXTURE_COMPRESSION;ENABLE_MONO;ENABLE_PROFILER;DEBUG;TRACE;UNITY_ASSERTIONS;UNITY_EDITOR;UNITY_EDITOR_64;UNITY_EDITOR_WIN</DefineConstants>
+    <DefineConstants>DEBUG;TRACE;UNITY_5_3_3;UNITY_5_3;UNITY_5;ENABLE_NEW_BUGREPORTER;ENABLE_AUDIO;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_DUCK_TYPING;ENABLE_FRAME_DEBUGGER;ENABLE_GENERICS;ENABLE_HOME_SCREEN;ENABLE_IMAGEEFFECTS;ENABLE_LIGHT_PROBES_LEGACY;ENABLE_MICROPHONE;ENABLE_MULTIPLE_DISPLAYS;ENABLE_PHYSICS;ENABLE_PLUGIN_INSPECTOR;ENABLE_SHADOWS;ENABLE_SINGLE_INSTANCE_BUILD_SETTING;ENABLE_SPRITERENDERER_FLIPPING;ENABLE_SPRITES;ENABLE_SPRITE_POLYGON;ENABLE_TERRAIN;ENABLE_RAKNET;ENABLE_UNET;ENABLE_UNITYEVENTS;ENABLE_WEBCAM;ENABLE_WWW;ENABLE_CLOUD_SERVICES;ENABLE_CLOUD_SERVICES_ADS;ENABLE_CLOUD_HUB;ENABLE_CLOUD_PROJECT_ID;ENABLE_CLOUD_SERVICES_PURCHASING;ENABLE_CLOUD_SERVICES_ANALYTICS;ENABLE_CLOUD_SERVICES_UNET;ENABLE_CLOUD_SERVICES_BUILD;ENABLE_CLOUD_LICENSE;ENABLE_EDITOR_METRICS;ENABLE_EDITOR_METRICS_CACHING;INCLUDE_DYNAMIC_GI;INCLUDE_GI;INCLUDE_IL2CPP;INCLUDE_DIRECTX12;PLATFORM_SUPPORTS_MONO;RENDER_SOFTWARE_CURSOR;ENABLE_LOCALIZATION;ENABLE_ANDROID_ATLAS_ETC1_COMPRESSION;ENABLE_EDITOR_TESTS_RUNNER;UNITY_WEBPLAYER;ENABLE_SUBSTANCE;WEBPLUG;ENABLE_TEXTUREID_MAP;ENABLE_RUNTIME_GI;ENABLE_MOVIES;ENABLE_NETWORK;ENABLE_CRUNCH_TEXTURE_COMPRESSION;ENABLE_MONO;ENABLE_PROFILER;DEBUG;TRACE;UNITY_ASSERTIONS;UNITY_EDITOR;UNITY_EDITOR_64;UNITY_EDITOR_WIN</DefineConstants>
     <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -36,7 +37,7 @@
     <IntermediateOutputPath>Temp\UnityVS_obj\Release\</IntermediateOutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DefineConstants>TRACE;UNITY_5_2_3;UNITY_5_2;UNITY_5;ENABLE_NEW_BUGREPORTER;ENABLE_2D_PHYSICS;ENABLE_4_6_FEATURES;ENABLE_AUDIO;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_DUCK_TYPING;ENABLE_FRAME_DEBUGGER;ENABLE_GENERICS;ENABLE_HOME_SCREEN;ENABLE_IMAGEEFFECTS;ENABLE_LIGHT_PROBES_LEGACY;ENABLE_MICROPHONE;ENABLE_MULTIPLE_DISPLAYS;ENABLE_PHYSICS;ENABLE_PLUGIN_INSPECTOR;ENABLE_SHADOWS;ENABLE_SINGLE_INSTANCE_BUILD_SETTING;ENABLE_SPRITES;ENABLE_TERRAIN;ENABLE_RAKNET;ENABLE_UNET;ENABLE_UNITYEVENTS;ENABLE_WEBCAM;ENABLE_WWW;ENABLE_CLOUD_SERVICES;ENABLE_CLOUD_SERVICES_ADS;ENABLE_CLOUD_HUB;ENABLE_CLOUD_PROJECT_ID;ENABLE_CLOUD_SERVICES_ANALYTICS;ENABLE_CLOUD_SERVICES_UNET;ENABLE_CLOUD_SERVICES_BUILD;ENABLE_CLOUD_LICENSE;ENABLE_EDITOR_METRICS;ENABLE_REFLECTION_BUFFERS;INCLUDE_DYNAMIC_GI;INCLUDE_GI;INCLUDE_IL2CPP;INCLUDE_DIRECTX12;PLATFORM_SUPPORTS_MONO;RENDER_SOFTWARE_CURSOR;ENABLE_LOCALIZATION;ENABLE_ANDROID_ATLAS_ETC1_COMPRESSION;UNITY_WEBPLAYER;ENABLE_SUBSTANCE;WEBPLUG;ENABLE_TEXTUREID_MAP;ENABLE_RUNTIME_GI;ENABLE_MOVIES;ENABLE_NETWORK;ENABLE_CRUNCH_TEXTURE_COMPRESSION;ENABLE_MONO;ENABLE_PROFILER;DEBUG;TRACE;UNITY_ASSERTIONS;UNITY_EDITOR;UNITY_EDITOR_64;UNITY_EDITOR_WIN</DefineConstants>
+    <DefineConstants>TRACE;UNITY_5_3_3;UNITY_5_3;UNITY_5;ENABLE_NEW_BUGREPORTER;ENABLE_AUDIO;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_DUCK_TYPING;ENABLE_FRAME_DEBUGGER;ENABLE_GENERICS;ENABLE_HOME_SCREEN;ENABLE_IMAGEEFFECTS;ENABLE_LIGHT_PROBES_LEGACY;ENABLE_MICROPHONE;ENABLE_MULTIPLE_DISPLAYS;ENABLE_PHYSICS;ENABLE_PLUGIN_INSPECTOR;ENABLE_SHADOWS;ENABLE_SINGLE_INSTANCE_BUILD_SETTING;ENABLE_SPRITERENDERER_FLIPPING;ENABLE_SPRITES;ENABLE_SPRITE_POLYGON;ENABLE_TERRAIN;ENABLE_RAKNET;ENABLE_UNET;ENABLE_UNITYEVENTS;ENABLE_WEBCAM;ENABLE_WWW;ENABLE_CLOUD_SERVICES;ENABLE_CLOUD_SERVICES_ADS;ENABLE_CLOUD_HUB;ENABLE_CLOUD_PROJECT_ID;ENABLE_CLOUD_SERVICES_PURCHASING;ENABLE_CLOUD_SERVICES_ANALYTICS;ENABLE_CLOUD_SERVICES_UNET;ENABLE_CLOUD_SERVICES_BUILD;ENABLE_CLOUD_LICENSE;ENABLE_EDITOR_METRICS;ENABLE_EDITOR_METRICS_CACHING;INCLUDE_DYNAMIC_GI;INCLUDE_GI;INCLUDE_IL2CPP;INCLUDE_DIRECTX12;PLATFORM_SUPPORTS_MONO;RENDER_SOFTWARE_CURSOR;ENABLE_LOCALIZATION;ENABLE_ANDROID_ATLAS_ETC1_COMPRESSION;ENABLE_EDITOR_TESTS_RUNNER;UNITY_WEBPLAYER;ENABLE_SUBSTANCE;WEBPLUG;ENABLE_TEXTUREID_MAP;ENABLE_RUNTIME_GI;ENABLE_MOVIES;ENABLE_NETWORK;ENABLE_CRUNCH_TEXTURE_COMPRESSION;ENABLE_MONO;ENABLE_PROFILER;DEBUG;TRACE;UNITY_ASSERTIONS;UNITY_EDITOR;UNITY_EDITOR_64;UNITY_EDITOR_WIN</DefineConstants>
     <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
@@ -55,20 +56,8 @@
     <Reference Include="UnityEngine.Networking">
       <HintPath>Library\UnityAssemblies\UnityEngine.Networking.dll</HintPath>
     </Reference>
-    <Reference Include="UnityEngine.Networking">
-      <HintPath>Library\UnityAssemblies\UnityEngine.Networking.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.UI">
-      <HintPath>Library\UnityAssemblies\UnityEngine.UI.dll</HintPath>
-    </Reference>
     <Reference Include="UnityEditor">
       <HintPath>Library\UnityAssemblies\UnityEditor.dll</HintPath>
-    </Reference>
-    <Reference Include="Mono.Cecil">
-      <HintPath>Library\UnityAssemblies\Mono.Cecil.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEditor.iOS.Extensions.Xcode">
-      <HintPath>Library\UnityAssemblies\UnityEditor.iOS.Extensions.Xcode.dll</HintPath>
     </Reference>
     <Reference Include="DOTween">
       <HintPath>Assets\Demigiant\DOTween\DOTween.dll</HintPath>
@@ -101,38 +90,44 @@
     <Compile Include="Assets\Lemix\prefabs &amp; animations\controllers\Sound_Controller.cs" />
     <Compile Include="Assets\Lemix\scripts\GLOBALS.cs" />
     <Compile Include="Assets\Lemix\scripts\ParticleSorintgLayer.cs" />
-    <Compile Include="Assets\Lemix\scripts\bt\bt_menu.cs" />
+    <Compile Include="Assets\Lemix\scripts\WordVerifyTabajara.cs" />
+    <Compile Include="Assets\Lemix\scripts\bt\BtsGuiClick.cs" />
+    <Compile Include="Assets\Lemix\scripts\bt\BtsMenuClassCollider.cs" />
     <Compile Include="Assets\Lemix\scripts\bt\in game\Power_Up_BT.cs" />
     <Compile Include="Assets\Lemix\scripts\bt\in game\Shuffle.cs" />
     <Compile Include="Assets\Lemix\scripts\bt\in game\TextSubmitBT.cs" />
-    <Compile Include="Assets\Lemix\scripts\bt\in game\bt_music.cs" />
+    <Compile Include="Assets\Lemix\scripts\bt\in game\bt_backspace.cs" />
     <Compile Include="Assets\Lemix\scripts\bt\in game\bt_pause.cs" />
-    <Compile Include="Assets\Lemix\scripts\bt\in game\bt_sound.cs" />
+    <Compile Include="Assets\Lemix\scripts\bt\in game\controllers\Bot_controller.cs" />
+    <Compile Include="Assets\Lemix\scripts\bt\in game\controllers\GameController.cs" />
+    <Compile Include="Assets\Lemix\scripts\bt\in game\controllers\Menus_Controller.cs" />
+    <Compile Include="Assets\Lemix\scripts\bt\in game\controllers\PowerUpCtrl.cs" />
+    <Compile Include="Assets\Lemix\scripts\bt\in game\controllers\Submit_And_Input_Ctrl.cs" />
+    <Compile Include="Assets\Lemix\scripts\bt\in game\controllers\WController.cs" />
+    <Compile Include="Assets\Lemix\scripts\bt\in game\controllers\Word_Sorter_Controller.cs" />
+    <Compile Include="Assets\Lemix\scripts\bt\in game\controllers\mp\ctrl_Photon.cs" />
+    <Compile Include="Assets\Lemix\scripts\bt\in game\controllers\mp\mp_controller.cs" />
+    <Compile Include="Assets\Lemix\scripts\bt\in game\controllers\mp\send_mess.cs" />
     <Compile Include="Assets\Lemix\scripts\bt\in game\power_bar.cs" />
     <Compile Include="Assets\Lemix\scripts\bt\main_menu\DialogOnTop.cs" />
+    <Compile Include="Assets\Lemix\scripts\bt\main_menu\avatar_main_menu.cs" />
+    <Compile Include="Assets\Lemix\scripts\bt\main_menu\avatar_menu\avatar_menu.cs" />
     <Compile Include="Assets\Lemix\scripts\bt\main_menu\bot_bt_main.cs" />
     <Compile Include="Assets\Lemix\scripts\bt\main_menu\bt_multiplayer.cs" />
-    <Compile Include="Assets\Lemix\scripts\bt\main_menu\bt_no_leave.cs" />
-    <Compile Include="Assets\Lemix\scripts\bt\main_menu\bt_statistics.cs" />
+    <Compile Include="Assets\Lemix\scripts\bt\main_menu\bt_music.cs" />
+    <Compile Include="Assets\Lemix\scripts\bt\main_menu\bt_sound.cs" />
     <Compile Include="Assets\Lemix\scripts\bt\main_menu\cancel_bt.cs" />
+    <Compile Include="Assets\Lemix\scripts\bt\main_menu\clickAndCloseMenus.cs" />
+    <Compile Include="Assets\Lemix\scripts\bt\main_menu\mm_choose_lang.cs" />
     <Compile Include="Assets\Lemix\scripts\bt\menus\bt_equip_menu.cs" />
+    <Compile Include="Assets\Lemix\scripts\bt\menus\bt_menu.cs" />
+    <Compile Include="Assets\Lemix\scripts\bt\menus\bt_music_menu.cs" />
+    <Compile Include="Assets\Lemix\scripts\bt\menus\bt_no_leave.cs" />
     <Compile Include="Assets\Lemix\scripts\bt\menus\bt_revenge.cs" />
+    <Compile Include="Assets\Lemix\scripts\bt\menus\bt_sound_menu.cs" />
     <Compile Include="Assets\Lemix\scripts\bt\menus\bt_yes_leave.cs" />
-    <Compile Include="Assets\Lemix\scripts\bt\menus\change_avatar_match_end_P1.cs" />
-    <Compile Include="Assets\Lemix\scripts\bt\menus\change_avatar_match_end_P2.cs" />
-    <Compile Include="Assets\Lemix\scripts\bt\menus\clickAndCloseMenus.cs" />
     <Compile Include="Assets\Lemix\scripts\bt\menus\no_are_you_sure.cs" />
     <Compile Include="Assets\Lemix\scripts\bt\menus\yes_are_you_sure.cs" />
-    <Compile Include="Assets\Lemix\scripts\controllers\Bot_controller.cs" />
-    <Compile Include="Assets\Lemix\scripts\controllers\GameController.cs" />
-    <Compile Include="Assets\Lemix\scripts\controllers\Menus_Controller.cs" />
-    <Compile Include="Assets\Lemix\scripts\controllers\PowerUpCtrl.cs" />
-    <Compile Include="Assets\Lemix\scripts\controllers\Submit_And_Input_Ctrl.cs" />
-    <Compile Include="Assets\Lemix\scripts\controllers\WController.cs" />
-    <Compile Include="Assets\Lemix\scripts\controllers\Word_Sorter_Controller.cs" />
-    <Compile Include="Assets\Lemix\scripts\controllers\mp\ctrl_Photon.cs" />
-    <Compile Include="Assets\Lemix\scripts\controllers\mp\mp_controller.cs" />
-    <Compile Include="Assets\Lemix\scripts\controllers\mp\send_mess.cs" />
     <Compile Include="Assets\Lemix\scripts\game\Avatar_player_1.cs" />
     <Compile Include="Assets\Lemix\scripts\game\Avatar_player_2.cs" />
     <Compile Include="Assets\Lemix\scripts\game\ConstructTable.cs" />
@@ -142,16 +137,18 @@
     <Compile Include="Assets\Lemix\scripts\game\WhiteSquare.cs" />
     <Compile Include="Assets\Lemix\scripts\game\earthquakePlayer2.cs" />
     <Compile Include="Assets\Lemix\scripts\game\eraser_sprite.cs" />
-    <Compile Include="Assets\Lemix\scripts\main_menu\avatar_main_menu.cs" />
-    <Compile Include="Assets\Lemix\scripts\main_menu\avatar_menu.cs" />
+    <Compile Include="Assets\Lemix\scripts\game\word_points_feed.cs" />
     <Compile Include="Assets\Lemix\scripts\main_menu\main_menu_controller.cs" />
-    <Compile Include="Assets\Lemix\scripts\main_menu\mm_choose_lang.cs" />
     <Compile Include="Assets\Lemix\scripts\main_menu\mm_connect_status.cs" />
     <Compile Include="Assets\Lemix\scripts\main_menu\mm_statistics.cs" />
     <Compile Include="Assets\Lemix\scripts\menus\Waiting_scrpit.cs" />
+    <Compile Include="Assets\Lemix\scripts\menus\change_avatar_match_end_P1.cs" />
+    <Compile Include="Assets\Lemix\scripts\menus\change_avatar_match_end_P2.cs" />
     <Compile Include="Assets\Lemix\scripts\menus\menu_loading_script.cs" />
+    <Compile Include="Assets\Lemix\scripts\menus\menu_op_disconnected.cs" />
     <Compile Include="Assets\Lemix\scripts\menus\menu_score_match_end.cs" />
     <Compile Include="Assets\Lemix\scripts\menus\menu_sync.cs" />
+    <Compile Include="Assets\Lemix\scripts\txt_copy_father_layer.cs" />
     <Compile Include="Assets\Photon Unity Networking\Plugins\PhotonNetwork\CustomTypes.cs" />
     <Compile Include="Assets\Photon Unity Networking\Plugins\PhotonNetwork\Enums.cs" />
     <Compile Include="Assets\Photon Unity Networking\Plugins\PhotonNetwork\Extensions.cs" />
@@ -212,8 +209,6 @@
     <Compile Include="Assets\Photon Unity Networking\UtilityScripts\SmoothSyncMovement.cs" />
     <Compile Include="Assets\Photon Unity Networking\UtilityScripts\SupportLogger.cs" />
     <Compile Include="Assets\Photon Unity Networking\UtilityScripts\TimeKeeper.cs" />
-    <Compile Include="Assets\bt_backspace.cs" />
-    <Compile Include="Assets\txt_copy_father_layer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Demigiant\DOTween\DOTween.XML" />

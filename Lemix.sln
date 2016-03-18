@@ -1,11 +1,11 @@
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2008
-
-Project("{316D1417-85AA-23C5-4B2D-6F86691784A3}") = "Lemix", "Assembly-CSharp-firstpass.csproj", "{8E6DF5CF-9853-7B93-47DB-52A0E201883A}"
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2015
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lemix.CSharp.Plugins", "Lemix.CSharp.Plugins.csproj", "{1010913E-E899-7CE5-B70A-F25B84C23E91}"
 EndProject
-Project("{316D1417-85AA-23C5-4B2D-6F86691784A3}") = "Lemix", "Assembly-CSharp.csproj", "{74F7392D-1CDD-22FB-C391-D3A2F0A1DD00}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lemix.CSharp", "Lemix.CSharp.csproj", "{C1013B95-E8DA-6CF5-62D1-020A5C1AEC1C}"
 EndProject
-Project("{316D1417-85AA-23C5-4B2D-6F86691784A3}") = "Lemix", "Assembly-CSharp-Editor.csproj", "{B4F80151-5FC8-4162-1B69-F723DB0C2011}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lemix.CSharp.Editor", "Lemix.CSharp.Editor.csproj", "{76736A44-B5C8-8202-E88B-A3A3ED35F4BF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,40 +13,20 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{8E6DF5CF-9853-7B93-47DB-52A0E201883A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8E6DF5CF-9853-7B93-47DB-52A0E201883A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8E6DF5CF-9853-7B93-47DB-52A0E201883A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8E6DF5CF-9853-7B93-47DB-52A0E201883A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{74F7392D-1CDD-22FB-C391-D3A2F0A1DD00}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{74F7392D-1CDD-22FB-C391-D3A2F0A1DD00}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{74F7392D-1CDD-22FB-C391-D3A2F0A1DD00}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{74F7392D-1CDD-22FB-C391-D3A2F0A1DD00}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B4F80151-5FC8-4162-1B69-F723DB0C2011}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B4F80151-5FC8-4162-1B69-F723DB0C2011}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B4F80151-5FC8-4162-1B69-F723DB0C2011}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B4F80151-5FC8-4162-1B69-F723DB0C2011}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1010913E-E899-7CE5-B70A-F25B84C23E91}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1010913E-E899-7CE5-B70A-F25B84C23E91}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1010913E-E899-7CE5-B70A-F25B84C23E91}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1010913E-E899-7CE5-B70A-F25B84C23E91}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C1013B95-E8DA-6CF5-62D1-020A5C1AEC1C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C1013B95-E8DA-6CF5-62D1-020A5C1AEC1C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C1013B95-E8DA-6CF5-62D1-020A5C1AEC1C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C1013B95-E8DA-6CF5-62D1-020A5C1AEC1C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{76736A44-B5C8-8202-E88B-A3A3ED35F4BF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{76736A44-B5C8-8202-E88B-A3A3ED35F4BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{76736A44-B5C8-8202-E88B-A3A3ED35F4BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{76736A44-B5C8-8202-E88B-A3A3ED35F4BF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
-																																																																																																																																																																																																																																																																																																																													GlobalSection(MonoDevelopProperties) = preSolution
-		StartupItem = Assembly-CSharp.csproj
-		Policies = $0
-		$0.TextStylePolicy = $1
-		$1.inheritsSet = null
-		$1.scope = text/x-csharp
-		$0.CSharpFormattingPolicy = $2
-		$2.inheritsSet = Mono
-		$2.inheritsScope = text/x-csharp
-		$2.scope = text/x-csharp
-		$0.TextStylePolicy = $3
-		$3.FileWidth = 120
-		$3.TabWidth = 4
-		$3.IndentWidth = 4
-		$3.EolMarker = Unix
-		$3.inheritsSet = Mono
-		$3.inheritsScope = text/plain
-		$3.scope = text/plain
-	EndGlobalSection
-
 EndGlobal
