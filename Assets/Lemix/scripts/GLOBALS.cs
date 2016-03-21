@@ -131,7 +131,7 @@ public class GLOBALS : MonoBehaviour {
         //Discover the user level ----- x = n((n+1)/2) ------ n is the level x is the number of victories
         //evolution of values http://www.wolframalpha.com/input/?i=n%28%28n%2B1%29%2F2%29 -> Values
 
-        Debug.Log(tempWins + " EUWWWWWWWWWWWWWWWWWWWW");
+
         if (tempWins == 0)
             level = 0;
         else
