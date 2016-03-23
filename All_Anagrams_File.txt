@@ -1,7 +1,2 @@
-aar
-anagram
-aga
-agar
-aaa
-agm
-arm
+scat
+cat

@@ -11,14 +11,20 @@ public class WordVerifyTabajara : MonoBehaviour {
     // public string word;
     string url = "dictionary.cambridge.org/dictionary/english/";
     string textfieldString;
-    StreamWriter outfile;
+    StreamWriter outfile, outfile_with_abbreviations;
     bool verify = true;
+    public string word_8_letters_max;
+    int actual_word_i = 0;
+    int array_word_size = 0;
+    int threads_active = 0;
+
+    List<string> wordsletters = new List<string>();
 
     void Start()
     {
         s = this;
         
-        verifyWords("ANAGRAM");
+        verifyWords(word_8_letters_max);
     }
 
     // Update is called once per frame
@@ -34,7 +40,6 @@ public class WordVerifyTabajara : MonoBehaviour {
         int maxlenght = word2verify.Length;
         string tempString;
 
-        List<string> wordsletters = new List<string>();
 
 
 
@@ -207,12 +212,61 @@ public class WordVerifyTabajara : MonoBehaviour {
             }
         }
         Debug.Log("PRIMINDO " + wordsletters.Count + " PALAVRINHAS MAROTAS");
-        int pp = 0;
+        array_word_size = wordsletters.Count;
          outfile = new StreamWriter("All_Anagrams_File.txt");
-        for (pp = 0; pp < 1000; pp++)
+      //  outfile_with_abbreviations = new StreamWriter("All_Anagrams_File_With_Abbreviations.txt");
+
+        int theards_number = 0;
+
+        if(array_word_size > 200)
         {
-            StartCoroutine(verify_cambridge(wordsletters[pp].ToLower(), pp));
+            theards_number = 200;
         }
+        else
+        {
+            theards_number = array_word_size - 10;
+        }
+
+        threads_active = theards_number+1;
+
+        StartCoroutine(verify_cambridge(wordsletters[0].ToLower(), ((int)array_word_size/ theards_number)));
+        Debug.Log(" começaaaaaaaa " + ((int)array_word_size / theards_number));
+        int multiplicador = 1;
+        while (multiplicador < theards_number )
+        {
+            
+            StartCoroutine(verify_cambridge(wordsletters[((multiplicador * (int)(array_word_size / theards_number)) + 1)].ToLower(), ((multiplicador + 1) * (int)(array_word_size / theards_number))));
+            multiplicador++;
+            
+        }
+        if(((multiplicador * (int)(array_word_size / theards_number)) + 1) < array_word_size)
+        {
+            StartCoroutine(verify_cambridge(wordsletters[((multiplicador * (int)(array_word_size / theards_number)) + 1)].ToLower(), array_word_size));
+        }
+        
+
+        // StartCoroutine(verify_cambridge(wordsletters[((multiplicador * (int)(array_word_size / theards_number)) + 1)].ToLower(), array_word_size));
+
+        /*
+              StartCoroutine(verify_cambridge(wordsletters[0].ToLower(), ((int)array_word_size/ theards_number)));
+        StartCoroutine(verify_cambridge(wordsletters[((int)array_word_size / theards_number) +1].ToLower(), (2*(int)array_word_size / theards_number)));
+        StartCoroutine(verify_cambridge(wordsletters[((2 * (int)(array_word_size / theards_number))+1)].ToLower(), (3 * (int)(array_word_size / theards_number))));
+        StartCoroutine(verify_cambridge(wordsletters[((3 * (int)(array_word_size / theards_number)) + 1)].ToLower(), array_word_size));
+        
+        
+        
+        for (pp = 0; pp < 10; pp++)
+        {
+            if(active_courotines >= 20)
+            {
+                pp--;
+            }
+            else
+            {
+                StartCoroutine(verify_cambridge(wordsletters[pp].ToLower(), pp));
+            }
+            
+        }*/
 
         /*    foreach (string s in wordsletters)
             {
@@ -247,24 +301,64 @@ public class WordVerifyTabajara : MonoBehaviour {
 
 
 
-    public IEnumerator verify_cambridge(string word, int i)
+    public IEnumerator verify_cambridge(string word, int limit)
     {
-        
-            WWW www = new WWW(url + word);
+
+        WWW www = new WWW(url + word);
             yield return www;
             textfieldString = www.text;
-        Debug.Log("VISH TRETETETETEAAAAAAA "+ word);
+        
         if (textfieldString[115] == 'n' && textfieldString[116] == 'o' && textfieldString[117] == 't')
         {
-            Debug.Log(i+" palavra n existe " + word);
+            //Debug.Log(" palavra n existe ");
+
 
         }
         else
         {
-            Debug.Log(i + "EXISTE AAAAAAAAAAAAA " + word);
-            outfile.WriteLine(word);
+            Debug.Log(" ");
+            Debug.Log("EXISTE AAAAAAAAAAAAA " + textfieldString.Length);
+
+            //outfile.WriteLine(word);
+            //outfile_with_abbreviations.WriteLine(word);
+            Debug.Log(url + word);
+            Debug.Log(textfieldString);
+            if (textfieldString.Contains(": abbreviation") == true)
+            {
+                if (word == "cast")
+                {
+                    Debug.Log("ALERTA VERMELHO UIUIUIUI");
+                  
+
+                }
+                Debug.Log("Abre o viado" + textfieldString.Length);
+                //outfile.WriteLine(word);
+            }
+            else
+            {
+                if (word == "cast")
+                {
+                    Debug.Log("ALERTA VERDE UIUIUIUI");
+                }
+                Debug.Log("escreve essa porra caraleo que eu to mandanu");
+                outfile.WriteLine(word);
+            }
+            Debug.Log(" ");
         }
 
+        actual_word_i++;
+        if (actual_word_i < limit)//array_word_size
+        {
+            StartCoroutine(verify_cambridge(wordsletters[actual_word_i].ToLower(), limit));
+        }
+        else
+        {
+            threads_active--;
+            if(threads_active == 0)
+            {
+                outfile.Close();
+            }
+        }
 
     }
 }
