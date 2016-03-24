@@ -4,7 +4,8 @@ using System.Collections.Generic;
 using System.Text;
 using System.IO;
 using System.Linq;
-
+using System;
+using System.Xml;
 public class WordVerifyTabajara : MonoBehaviour {
     public static WordVerifyTabajara s = null;
     // Use this for initialization
@@ -17,7 +18,7 @@ public class WordVerifyTabajara : MonoBehaviour {
     int actual_word_i = 0;
     int array_word_size = 0;
     int threads_active = 0;
-
+    bool stop = false;
     List<string> wordsletters = new List<string>();
 
     void Start()
@@ -220,10 +221,12 @@ public class WordVerifyTabajara : MonoBehaviour {
 
         if(array_word_size > 200)
         {
-            theards_number = 200;
+            Debug.Log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+            theards_number = 100;
         }
         else
         {
+            Debug.Log("turururururur");
             theards_number = array_word_size - 10;
         }
 
@@ -307,58 +310,91 @@ public class WordVerifyTabajara : MonoBehaviour {
         WWW www = new WWW(url + word);
             yield return www;
             textfieldString = www.text;
-        
-        if (textfieldString[115] == 'n' && textfieldString[116] == 'o' && textfieldString[117] == 't')
+
+        if (textfieldString.Contains("Page not found"))
         {
-            //Debug.Log(" palavra n existe ");
+           // Debug.Log(word);
+            Debug.Log(" palavra n existe ");
 
 
         }
         else
         {
-            Debug.Log(" ");
-            Debug.Log("EXISTE AAAAAAAAAAAAA " + textfieldString.Length);
+            stop = false;
+            string[] stringSeparators = new string[] {"<span class=\"def-block\">"};
+            string[] temp;
+            
+            string temp3 = textfieldString;
+            temp = textfieldString.Split(stringSeparators, StringSplitOptions.None);
 
-            //outfile.WriteLine(word);
-            //outfile_with_abbreviations.WriteLine(word);
-            Debug.Log(url + word);
-            Debug.Log(textfieldString);
-            if (textfieldString.Contains(": abbreviation") == true)
+            if (temp.Length > 1)
             {
-                if (word == "cast")
-                {
-                    Debug.Log("ALERTA VERMELHO UIUIUIUI");
-                  
+                int tempi, count = 1;
 
+                for (tempi = 0; count != 0 && tempi < temp[1].Length; tempi++)
+                {
+
+                    if (temp[1][tempi] == '<' && temp[1][tempi+1] == 's' && temp[1][tempi + 2] == 'p')
+                    {
+                       
+                        count++;
+                    }
+                    if (temp[1][tempi] == '<' && temp[1][tempi + 1] == '/' && temp[1][tempi + 2] == 's' && temp[1][tempi + 3] == 'p')
+                    {
+                        count--;
+                    }
                 }
-                Debug.Log("Abre o viado" + textfieldString.Length);
-                //outfile.WriteLine(word);
+                string temp_2_string;
+                temp_2_string = temp[1].Substring(0, tempi);
+
+                if(temp_2_string.Contains("abbreviation"))
+                {
+                    
+                    Debug.Log(word);
+                    //Debug.Log(textfieldString);
+                    Debug.Log("ALERTA VERMELHO UIUIUIUI");
+                }
+                else
+                {
+
+                    //Debug.Log("escreve essa porra caraleo que eu to mandanu");
+                    outfile.WriteLine(word);
+                }
+
             }
             else
             {
-                if (word == "cast")
-                {
-                    Debug.Log("ALERTA VERDE UIUIUIUI");
-                }
-                Debug.Log("escreve essa porra caraleo que eu to mandanu");
+               
+                Debug.Log(word);
+                Debug.Log(textfieldString.Length);
+                Debug.Log(temp3.Length);
+                Debug.Log("NULLLLLLLLLLLLLLLLLLLL");
+                //Debug.Log("escreve essa porra caraleo que eu to mandanu");
                 outfile.WriteLine(word);
             }
-            Debug.Log(" ");
+
+
         }
 
-        actual_word_i++;
-        if (actual_word_i < limit)//array_word_size
-        {
-            StartCoroutine(verify_cambridge(wordsletters[actual_word_i].ToLower(), limit));
-        }
-        else
-        {
-            threads_active--;
-            if(threads_active == 0)
+
+
+            actual_word_i++;
+            if (actual_word_i < limit)//array_word_size
             {
-                outfile.Close();
+                StartCoroutine(verify_cambridge(wordsletters[actual_word_i].ToLower(), limit));
             }
-        }
+            else
+            {
+                threads_active--;
+            Debug.Log(threads_active + "    threads ativas");
+            if (threads_active == 0)
+                {
+                    outfile.Close();
+                    Debug.Log("ENDED");
+                }
+            }
+        
+
 
     }
 }
