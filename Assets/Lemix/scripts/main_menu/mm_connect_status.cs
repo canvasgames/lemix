@@ -9,8 +9,6 @@ public class mm_connect_status : MonoBehaviour
     float timeTrigger = 0.6f, botTimer = 8f, timerMatchFound = 3f;
     int connectionState = 0;
 
-    Lobby_Master[] lobby_master;
-
     public GameObject searching_op;
 
     // Use this for initialization
@@ -53,8 +51,7 @@ public class mm_connect_status : MonoBehaviour
 
     public void letsPlay()
     {
-        lobby_master = FindObjectsOfType(typeof(Lobby_Master)) as Lobby_Master[];
-        lobby_master[0].send_my_words_already_sorted_list();
+        Lobby_Master.s.send_my_words_already_sorted_list();
         connectionState = 999;
     }
 

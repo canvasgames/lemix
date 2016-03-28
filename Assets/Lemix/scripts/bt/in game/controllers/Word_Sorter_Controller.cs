@@ -8,7 +8,7 @@ using UnityEngine.UI;
 
 
 public class Word_Sorter_Controller : MonoBehaviour {
-    
+    public static Word_Sorter_Controller s = null;
     int numberOfFiles;
     string tempWords, tempWordsOP;
 
@@ -17,7 +17,7 @@ public class Word_Sorter_Controller : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-	
+        s = this;
 	}
 	
 	// Update is called once per frame

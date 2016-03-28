@@ -5,13 +5,11 @@ public class mp_controller : Photon.MonoBehaviour {
     public static mp_controller access;
 
     // Use this for initialization
-    public WController w_controller;
 	public GameObject ss;
 	private static PhotonView ScenePhotonView;
 	bool are_you_here_received= false;
 	Waiting_scrpit[] waitingMenu;
-	GameController[] gCtrlr;
-	Word_Sorter_Controller[] wSort;
+
 	Avatar_player_2[] avatarP2;
 
 	void Awake () {
@@ -20,8 +18,6 @@ public class mp_controller : Photon.MonoBehaviour {
     }
 	
 	void Start () {
-		gCtrlr =  FindObjectsOfType(typeof(GameController)) as GameController[];
-		wSort = FindObjectsOfType(typeof(Word_Sorter_Controller)) as Word_Sorter_Controller[];
 		are_you_here_received= false;
 	//	WController[] wordCTRL = FindObjectsOfType(typeof(WController)) as WController[];
 
@@ -91,7 +87,7 @@ public class mp_controller : Photon.MonoBehaviour {
 	public void receive_i_am_here(int x){
 		Debug.Log("i am here RECEIVED");
 		float time = (float) PhotonNetwork.time + 1f;
-		gCtrlr[0].sinc_received(time);
+        GameController.s.sinc_received(time);
 		send_time_2_OP(time);
 	}
 
@@ -103,7 +99,7 @@ public class mp_controller : Photon.MonoBehaviour {
 	[PunRPC]
 	public void receive_time_from_host(float time){
 		Debug.Log("time to sincronize RECEIVED");
-		gCtrlr[0].sinc_received(time);
+        GameController.s.sinc_received(time);
 	}
 
 
@@ -144,8 +140,8 @@ public class mp_controller : Photon.MonoBehaviour {
 	{
 		Debug.Log("Receveid Word Id " + word_id);
 
-		//wordCTRL[0].wordfound(GLOBALS.Singleton.OP_PLAYER, word_id);
-		w_controller.wordfound(GLOBALS.Singleton.OP_PLAYER, word_id, goldLetterActive);
+        //wordCTRL[0].wordfound(GLOBALS.Singleton.OP_PLAYER, word_id);
+        WController.s.wordfound(GLOBALS.Singleton.OP_PLAYER, word_id, goldLetterActive);
 	}
 
 	public void send_word_found(int word_id){
@@ -219,7 +215,7 @@ public class mp_controller : Photon.MonoBehaviour {
 			GLOBALS.Singleton.REMATCH_SENT = 1;
 
 			// get anagram id
-			int anagram_id = wSort[0].sortWordAndReturnAnagramID("");
+			int anagram_id = Word_Sorter_Controller.s.sortWordAndReturnAnagramID("");
 	
 
 			ScenePhotonView.RPC("rematch_request_received", PhotonTargets.Others ,anagram_id);

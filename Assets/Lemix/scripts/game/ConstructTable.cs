@@ -2,8 +2,9 @@
 using System.Collections;
 
 public class ConstructTable : MonoBehaviour {
+    public static ConstructTable s;
 
-	public GameObject tile;	
+    public GameObject tile;	
 	public GameObject tileSpace;	
 	public GameObject whiteSquare;	
 	[HideInInspector] public int x_pos_init;
@@ -19,7 +20,7 @@ public class ConstructTable : MonoBehaviour {
 	// Use this for initialization
 	void Start () 
 	{
-
+        s = this;
 
 	}
 	
@@ -52,9 +53,8 @@ public class ConstructTable : MonoBehaviour {
 		
 
 		int width_ant;
-		WController[] wordCTRL = FindObjectsOfType(typeof(WController)) as WController[];
 
-		float numberofWords = wordCTRL[0].numberofWords; 
+		float numberofWords = WController.s.numberofWords; 
 		int numberofWordsInt;
 		
 		numberofWordsInt = (int)numberofWords;
@@ -143,12 +143,12 @@ public class ConstructTable : MonoBehaviour {
 	{
 		int majorWordSize=0;
 		int i;
-		WController[] wordCTRL = FindObjectsOfType(typeof(WController)) as WController[];
+
 		//Encontra a maior palavra da coluna
 		for(i=initial_index_string;i<=final_index_string;i++)
 		{
-			if(wordCTRL[0].list[i].myWord.Length > majorWordSize)
-				majorWordSize = wordCTRL[0].list[i].myWord.Length ;
+			if(WController.s.list[i].myWord.Length > majorWordSize)
+				majorWordSize = WController.s.list[i].myWord.Length ;
 		}
 		return majorWordSize;
 	}
@@ -157,12 +157,11 @@ public class ConstructTable : MonoBehaviour {
 	{
 		
 		int i,k;
-		WController[] wordCTRL = FindObjectsOfType(typeof(WController)) as WController[];
 		//Constroi a coluna
 		for(i=initial_index_string,k=0;i<=final_index_string;i++,k++)
 		{
 			int j;
-			int lengtword = wordCTRL[0].list[i].myWord.Length;
+			int lengtword = WController.s.list[i].myWord.Length;
 			for(j=0;lengtword>0;j++)		
 			{
 				GLOBALS.Singleton.MAX_SCORE += 10;
@@ -171,7 +170,7 @@ public class ConstructTable : MonoBehaviour {
 				lengtword --;
 				//wtSquare.GetComponent<TextMesh> ().text = list[i].myWord[j].ToString ();
 				wtSquare.GetComponent<TextMesh> ().text = "";
-				wtSquare.myLetter = wordCTRL[0].list[i].myWord[j].ToString ();
+				wtSquare.myLetter = WController.s.list[i].myWord[j].ToString ();
 				wtSquare.myID = i;
 				wtSquare.myIDindex = j;
 
@@ -187,12 +186,11 @@ public class ConstructTable : MonoBehaviour {
 	public void constructInitialTiles()
 	{
 		int rand;
-		WController[] wordCTRL = FindObjectsOfType(typeof(WController)) as WController[];
 
 		string word_original;
 		string[] temp;
 
-		temp = wordCTRL[0].word_original_ret().Split("\n"[0]);
+		temp = WController.s.word_original_ret().Split("\n"[0]);
 		word_original = temp [0];
 		//word_original = wordCTRL[0].word_original_ret().Split("\n"[0]);
 		//Debug.Log ("PALAVRA MAIOR: " + word_original);

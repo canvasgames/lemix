@@ -5,7 +5,7 @@ using System.Text;
 using System.IO;
 using System.Linq;
 using System;
-using System.Xml;
+
 public class WordVerifyTabajara : MonoBehaviour {
     public static WordVerifyTabajara s = null;
     // Use this for initialization
@@ -19,7 +19,7 @@ public class WordVerifyTabajara : MonoBehaviour {
     int actual_word_i = 0;
     int array_word_size = 0;
     int threads_active = 0;
-    int output_files_count = 0;
+    int output_files_count = 571;
 
     List<string> allwordsofgame = new List<string>();
     List<string> wordsletters = new List<string>();

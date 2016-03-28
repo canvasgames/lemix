@@ -4,11 +4,10 @@ using DG.Tweening;
 
 public class bt_menu : BtsMenuClassCollider
 {
-
-	GameController[] gc;
+  
 	// Use this for initialization
 	void Start () {
-		gc = FindObjectsOfType(typeof(GameController)) as GameController[];
+
 	}
 	
 	// Update is called once per frame
@@ -21,7 +20,7 @@ public class bt_menu : BtsMenuClassCollider
            base.ActBT();
             Debug.Log ("GO TO LOBBY NOW !");
 			Time.timeScale = 1;
-			gc [0].go_to_lobby ();
+            GameController.s.go_to_lobby ();
 	}
     public override void clicked()
     {

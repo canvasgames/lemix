@@ -116,17 +116,13 @@ public class PowerUpCtrl : MonoBehaviour {
 
 		//Embaralhando a string da palavra
 		int rand;
-		WController[] wordCTRL = FindObjectsOfType(typeof(WController)) as WController[];
-		
-	
-		
 
 		//Porcentagem e talz
 		float percentage;
 
 		//Hat
 
-		percentage = wordCTRL[0].list.Count * (GLOBALS.Singleton.PULetterInitPercentage + (GLOBALS.Singleton.PULetterPlusPercentage * GLOBALS.Singleton.USER_HAT_POWER)) ;
+		percentage = WController.s.list.Count * (GLOBALS.Singleton.PULetterInitPercentage + (GLOBALS.Singleton.PULetterPlusPercentage * GLOBALS.Singleton.USER_HAT_POWER)) ;
 
 		while (percentage > 0 && list.Count>0 ) 
 		{
@@ -157,17 +153,13 @@ public class PowerUpCtrl : MonoBehaviour {
 		
 		//Embaralhando a string da palavra
 		int rand;
-		WController[] wordCTRL = FindObjectsOfType(typeof(WController)) as WController[];
-		
-		
-		
 		
 		//Porcentagem e talz
 		float percentage;
 		
 		//Hat
 		
-		percentage = wordCTRL[0].list.Count * (GLOBALS.Singleton.PULetterInitPercentage + (GLOBALS.Singleton.PULetterPlusPercentage * GLOBALS.Singleton.USER_HAT_POWER)) ;
+		percentage = WController.s.list.Count * (GLOBALS.Singleton.PULetterInitPercentage + (GLOBALS.Singleton.PULetterPlusPercentage * GLOBALS.Singleton.USER_HAT_POWER)) ;
 		
 		while (percentage > 0 && list.Count>0 ) 
 		{
@@ -323,8 +315,7 @@ public class PowerUpCtrl : MonoBehaviour {
 	//Hit me baby one more time
 	public void moreTime()
 	{
-		GameController[] gcontroller = FindObjectsOfType(typeof(GameController)) as GameController[];
-		gcontroller[0].AddTime(30f);
+        GameController.s.AddTime(30f);
 	}
 
 	public void goldLetter()
@@ -361,16 +352,14 @@ public class PowerUpCtrl : MonoBehaviour {
 
 	public void eraseWord(int player)
 	{
-
-		WController[] wctrl = FindObjectsOfType(typeof(WController)) as WController[];
 		int i;
 		List<int> temp = new List<int>();
 
 		//Procura palavras ja encontradas
-		for(i=0;i<wctrl[0].list.Count;i++)
+		for(i=0;i< WController.s.list.Count;i++)
 		{
 			//Se foi encontrada pelo player passado (OP ou MP)
-			if(wctrl[0].list[i].foundedByPlayer == player)
+			if(WController.s.list[i].foundedByPlayer == player)
 			{
 					//Adiciona no temporario
 					temp.Add(i);
@@ -383,9 +372,9 @@ public class PowerUpCtrl : MonoBehaviour {
 		if(temp.Count>0)
 		{
 
-			//Change the word variables
-			wctrl[0].list[temp[sortID]].found = false;
-			wctrl[0].list[temp[sortID]].foundedByPlayer = 0;
+            //Change the word variables
+            WController.s.list[temp[sortID]].found = false;
+            WController.s.list[temp[sortID]].foundedByPlayer = 0;
 
 
 			WhiteSquare[] squares = FindObjectsOfType(typeof(WhiteSquare)) as WhiteSquare[];
@@ -407,8 +396,8 @@ public class PowerUpCtrl : MonoBehaviour {
 			if(GLOBALS.Singleton.MP_MODE == 1)
                 mp_controller.access.send_erase(temp[sortID]);
 
-			wctrl[0].eraseWordUpdateScore(player, temp[sortID], wctrl[0].list[temp[sortID]].goldLetterActive);
-			wctrl[0].list[temp[sortID]].goldLetterActive = 0;
+            WController.s.eraseWordUpdateScore(player, temp[sortID], WController.s.list[temp[sortID]].goldLetterActive);
+            WController.s.list[temp[sortID]].goldLetterActive = 0;
 		}
 
 
@@ -416,7 +405,6 @@ public class PowerUpCtrl : MonoBehaviour {
 
 	public void eraseWordReceive(int ID)
 	{
-		WController[] wctrl = FindObjectsOfType(typeof(WController)) as WController[];
 		WhiteSquare[] squares = FindObjectsOfType(typeof(WhiteSquare)) as WhiteSquare[];
 		int i;
 
@@ -425,13 +413,13 @@ public class PowerUpCtrl : MonoBehaviour {
 			if(squares[i].myID == ID)
 			{
 				squares[i].erasePowerUp();
-				wctrl[0].list[ID].found = false;
-				wctrl[0].list[ID].foundedByPlayer = 0;
+                WController.s.list[ID].found = false;
+                WController.s.list[ID].foundedByPlayer = 0;
 			}
 
 
 		}
-		wctrl[0].eraseWordUpdateScore(GLOBALS.Singleton.MP_PLAYER , ID, wctrl[0].list[ID].goldLetterActive);
+        WController.s.eraseWordUpdateScore(GLOBALS.Singleton.MP_PLAYER , ID, WController.s.list[ID].goldLetterActive);
 		//Call the big eraser in the screen
 		callEraser();
 	}

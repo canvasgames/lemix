@@ -6,12 +6,10 @@ public class Earthquake : MonoBehaviour {
 	float shake, reoganize, shakeAmount, reorgInterval;
 	float decreaseFactor  = 1f;
 	Shuffle[] earth;
-	WController[] wordCTRL;
-
 
 	// Use this for initialization
 	void Start () {
-		wordCTRL = FindObjectsOfType(typeof(WController)) as WController[];
+
 
 	}
 	
@@ -26,7 +24,7 @@ public class Earthquake : MonoBehaviour {
 				reoganize -= Time.deltaTime * decreaseFactor;
 				if(reoganize <0)
 				{
-					wordCTRL[0].reorganize();
+                    WController.s.reorganize();
 					reoganize = reorgInterval;
 				}
 			}

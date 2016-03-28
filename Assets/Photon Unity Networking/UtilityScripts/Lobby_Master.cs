@@ -14,6 +14,7 @@ using UnityEngine.UI;
 /// </summary>
 public class Lobby_Master : Photon.MonoBehaviour
 {
+    public static Lobby_Master s = null;
     /// <summary>Connect automatically? If false you can set this to true later on or call ConnectUsingSettings in your own scripts.</summary>
     public bool AutoConnect = true;
 
@@ -22,8 +23,6 @@ public class Lobby_Master : Photon.MonoBehaviour
     public byte Version = 1;
 
     mm_connect_status[] mm_status;
-    Word_Sorter_Controller[] wSort;
-
 
     public static int playerWhoIsIt = 0;
     private static PhotonView ScenePhotonView;
@@ -32,10 +31,14 @@ public class Lobby_Master : Photon.MonoBehaviour
     private bool ConnectInUpdate = true;
     private bool connected = false;
 
+    void Start()
+    {
+        s = this;
+    }
     public virtual void OnEnable()
     {
 
-        wSort = FindObjectsOfType(typeof(Word_Sorter_Controller)) as Word_Sorter_Controller[];
+
         ScenePhotonView = this.GetComponent<PhotonView>();
         ConnectInUpdate = true;
         
@@ -242,7 +245,7 @@ public class Lobby_Master : Photon.MonoBehaviour
             Debug.Log("get_word_list(info): I am the host, receiving word list and sorting");
             //Sort the word id
           
-            word_id = wSort[0].sortWordAndReturnAnagramID(words);
+            word_id = Word_Sorter_Controller.s.sortWordAndReturnAnagramID(words);
             Debug.Log("Nao deu pau");
             GLOBALS.Singleton.ANAGRAM_ID = word_id;
             //Send to infeliz
@@ -258,7 +261,7 @@ public class Lobby_Master : Photon.MonoBehaviour
         if (GLOBALS.Singleton.MP_PLAYER == 2)
         {
             //Add sorted word to the list of sorted words
-            wSort[0].addSortedWordOP(word_id);
+            Word_Sorter_Controller.s.addSortedWordOP(word_id);
 
             Debug.Log("get_player(info): I am not the host, sending a confirmation and loading next scene | WORD ID RECEIVED: " + word_id);
             ScenePhotonView.RPC("confirmation_received", PhotonTargets.Others, 0);

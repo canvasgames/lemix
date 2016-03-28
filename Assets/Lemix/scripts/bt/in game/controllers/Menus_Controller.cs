@@ -6,7 +6,7 @@ public class Menus_Controller : MonoBehaviour {
 
 	public GameObject rematch_menu, wait_title, op_disconnected, countdown, sync, quit_game;
 	GameObject wait, disco, load, syncro, quit, rematch;
-	GameController[] gctrller;
+
 	int disconect_state;
 	float disconect_time;
 
@@ -84,10 +84,9 @@ public class Menus_Controller : MonoBehaviour {
                 if (disconect_state == 1)
 				{
 					Destroy(disco);
-					gctrller = FindObjectsOfType(typeof(GameController)) as GameController[];
 					GLOBALS.Singleton.WIN = true;
 					GLOBALS.Singleton.GAME_RUNNING = false;
-					gctrller[0].win_case_statistics();
+                    GameController.s.win_case_statistics();
 				}
                 //Match end case
                 else if (disconect_state == 2)

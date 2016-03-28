@@ -6,13 +6,11 @@ public class menu_loading_script : MonoBehaviour {
 	TextMesh instruction;
 	int waiting = 1;
 	float timeTrigger = 0.4f;
-	GameController[] gController;
 
 	// Use this for initialization
 	void Start () {
 		instruction = GetComponent<TextMesh>();
 		instruction.text = "Starts in 3";
-		gController = FindObjectsOfType(typeof(GameController)) as GameController[];
 	}
 	
 	// Update is called once per frame
@@ -32,7 +30,7 @@ public class menu_loading_script : MonoBehaviour {
 					instruction.text = "Game Started!";
 				else if (instruction.text == "Game Started!")
 				{
-					gController[0].start_for_real();
+                    GameController.s.start_for_real();
 					Destroy(transform.parent.gameObject);
 				}
 				timeTrigger = 0.4f;

@@ -4,7 +4,6 @@ using System.Collections;
 public class Bot_controller : MonoBehaviour {
 	float botGameTime, botPUTime;
 	float botDifficulty = 1;
-	WController[] wordCTRL;
 
 	// Use this for initialization
 	void Start () {
@@ -13,7 +12,6 @@ public class Bot_controller : MonoBehaviour {
 			botGameTime = 6f;
 			botPUTime = Random.Range (25f,28f);
 			//botPUTime = 2f;
-			wordCTRL = FindObjectsOfType(typeof(WController)) as WController[];
 		}
 	}
 	
@@ -37,13 +35,13 @@ public class Bot_controller : MonoBehaviour {
 			// se esta no começo do jogo (30%)
 			//Debug.Log(wordCTRL[0].bot_number_of_words_founded());
 			//Debug.Log(wordCTRL[0].numberofWords * 0.3f);
-			if(wordCTRL[0].bot_number_of_words_founded() < (wordCTRL[0].numberofWords * 0.3f) )
+			if(WController.s.bot_number_of_words_founded() < (WController.s.numberofWords * 0.3f) )
 			{
 				//Debug.Log("30%");
 				botGameTime = Random.Range(4f,6f) * botDifficulty;
 				bot_on_init();
 			}
-			else if(wordCTRL[0].bot_number_of_words_founded() < (wordCTRL[0].numberofWords * 0.6f))
+			else if(WController.s.bot_number_of_words_founded() < (WController.s.numberofWords * 0.6f))
 			{
 				//Debug.Log("60%");
 				botGameTime = Random.Range(8f,10f) * botDifficulty;
@@ -66,16 +64,16 @@ public class Bot_controller : MonoBehaviour {
 
 		//faixa de palavras com menos letras
 		if(rand < 65)
-			rand = Random.Range (0, (int) (wordCTRL[0].numberofWords* 0.3f));
+			rand = Random.Range (0, (int) (WController.s.numberofWords * 0.3f));
 
 		//meio da tabela
 		else if(rand < 90)
-			rand = Random.Range ((int) (wordCTRL[0].numberofWords* 0.3f),(int) (wordCTRL[0].numberofWords* 0.6f));
+			rand = Random.Range ((int) (WController.s.numberofWords * 0.3f),(int) (WController.s.numberofWords * 0.6f));
 		else
-			rand = Random.Range ((int) (wordCTRL[0].numberofWords* 0.6f),(int) (wordCTRL[0].numberofWords));
+			rand = Random.Range ((int) (WController.s.numberofWords * 0.6f),(int) (WController.s.numberofWords));
 
-		//tenta submeter a palavra
-		wordCTRL[0].bot_try_to_submit_word(rand);
+        //tenta submeter a palavra
+        WController.s.bot_try_to_submit_word(rand);
 	}
 
 	// se esta no meio começo do jogo (30%-80%)
@@ -83,10 +81,10 @@ public class Bot_controller : MonoBehaviour {
 	{
 		int rand;	
 
-		rand = Random.Range (0, (int) (wordCTRL[0].numberofWords));
-				
-		//tenta submeter a palavra
-		wordCTRL[0].bot_try_to_submit_word(rand);
+		rand = Random.Range (0, (int) (WController.s.numberofWords));
+
+        //tenta submeter a palavra
+        WController.s.bot_try_to_submit_word(rand);
 	}	
 
 	// se esta no meio pro fim do jogo (>80%)
@@ -95,11 +93,11 @@ public class Bot_controller : MonoBehaviour {
 	{
 		int rand;	
 		
-		rand = Random.Range (0, (int) (wordCTRL[0].numberofWords));
+		rand = Random.Range (0, (int) (WController.s.numberofWords));
 
 		//Try to submit the word again
-		if(wordCTRL[0].bot_try_to_submit_word(rand)==false)
-			wordCTRL[0].bot_try_to_submit_word(rand);
+		if(WController.s.bot_try_to_submit_word(rand)==false)
+            WController.s.bot_try_to_submit_word(rand);
 	}
 
 	void try_to_user_power_up()

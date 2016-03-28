@@ -12,9 +12,11 @@ using Thinksquirrel.WordGameBuilder.ObjectModel;
 
 
 public class GameController : MonoBehaviour {
+    public static GameController s = null;
 
-	//Change this to change the world
-	float matchTotaltime = 90f;
+    //Change this to change the world
+    [HideInInspector]
+    public float matchTotaltime;
     bool countdownCalled = false;
 
     //Syncronization
@@ -36,10 +38,11 @@ public class GameController : MonoBehaviour {
 	}
 
 	void Start () {
+        s = this;
+        //DontDestroyOnLoad(gameObject);
+        matchTotaltime = QA.s.match_time;
 
-		//DontDestroyOnLoad(gameObject);
-
-		GLOBALS.Singleton.Reset_Globals ();
+        GLOBALS.Singleton.Reset_Globals ();
 
 		clock = GameObject.Find ("hud_clock"); 
 		clock.GetComponentInChildren<TextMesh> ().GetComponent<Renderer>().sortingOrder = 10;

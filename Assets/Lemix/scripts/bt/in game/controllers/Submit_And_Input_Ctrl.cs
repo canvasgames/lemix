@@ -4,8 +4,8 @@ using System.Collections;
 
 
 public class Submit_And_Input_Ctrl : MonoBehaviour {
-
-	private int changed = 0;
+    public static Submit_And_Input_Ctrl s;
+    private int changed = 0;
 	public GameObject LeftBar;
 	public GameObject RightBar;
 
@@ -14,7 +14,7 @@ public class Submit_And_Input_Ctrl : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-
+        s = this;
 
 	}
 
@@ -23,8 +23,7 @@ public class Submit_And_Input_Ctrl : MonoBehaviour {
 		//Desaparece o bt submit na primeira jogada
 		if (changed < 8)
 		{
-			WController[] wordCTRL = FindObjectsOfType(typeof(WController)) as WController[];
-			changeScale(wordCTRL[0].word.Length+1);
+			changeScale(WController.s.word.Length+1);
 		}
 
 		//Trigger para submeter a mesa cheia
@@ -43,8 +42,7 @@ public class Submit_And_Input_Ctrl : MonoBehaviour {
 		{
 			if(Input.GetKeyDown("space"))
 			{
-				WController[] wordCTRL = FindObjectsOfType(typeof(WController)) as WController[];
-				wordCTRL[0].reorganize();
+                WController.s.reorganize();
 			}
 			else if(Input.GetKeyDown("return"))
 			{
@@ -128,22 +126,21 @@ public class Submit_And_Input_Ctrl : MonoBehaviour {
 	public void ResizeandReposite()
 	{
 		//Seta posiçao do bt submit na primeira rodada de acordo com o tamanho da palavra
-		WController[] wordCTRL = FindObjectsOfType(typeof(WController)) as WController[];
 
-		if(wordCTRL[0].word.Length==5)
+		if(WController.s.word.Length==5)
 		{
 			transform.position -= new Vector3(240, 0, 0);
 
 		}
-		if(wordCTRL[0].word.Length==6)
+		if(WController.s.word.Length==6)
 		{
 			transform.position -= new Vector3(160, 0, 0);
 		}
-		if(wordCTRL[0].word.Length==7)
+		if(WController.s.word.Length==7)
 		{
 			transform.position -= new Vector3(80, 0, 0);
 		}
-		if(wordCTRL[0].word.Length==8)
+		if(WController.s.word.Length==8)
 		{	
 			transform.position -= new Vector3(-10, 0, 0);
 		}
@@ -158,10 +155,9 @@ public class Submit_And_Input_Ctrl : MonoBehaviour {
 
 	public void verifyFullTable(int numberOfLetters)
 	{
-		WController[] wordCTRL = FindObjectsOfType(typeof(WController)) as WController[];
 
 		//Se todas letras estao na mesa ativa o trigger para submeter automaticamente a palavra
-		if(numberOfLetters == wordCTRL[0].word.Length)
+		if(numberOfLetters == WController.s.word.Length)
 		{
 			timer2Submit = 0.7f;
 			submitFullTrigger = 1;
@@ -177,17 +173,16 @@ public class Submit_And_Input_Ctrl : MonoBehaviour {
             int j = 0;
             string word = "";
 
-            WController[] wordCTRL = FindObjectsOfType(typeof(WController)) as WController[];
 
             //Constroi a string da palavra que esta no tabuleiro
-            while (wordCTRL[0].atable[j] != '0' && wordCTRL[0].atable[j] != '\0')
+            while (WController.s.atable[j] != '0' && WController.s.atable[j] != '\0')
             {
-                word = word + wordCTRL[0].atable[j];
+                word = word + WController.s.atable[j];
                 j++;
             }
 
             //Verifica se palavra esta no dicionario ou nao
-            wordCTRL[0].verifyWord(word);
+            WController.s.verifyWord(word);
 
             clearTable();
 
@@ -213,18 +208,17 @@ public class Submit_And_Input_Ctrl : MonoBehaviour {
 		}
 		
 		//Zera a tabela de tiles na mesa
-		WController[] wordCTRL = FindObjectsOfType(typeof(WController)) as WController[];
+		
 		for(i=0;i<10;i++)
-			wordCTRL[0].atable [i] = '\0';
+            WController.s.atable [i] = '\0';
 		
 		//Muda tamanho do BT submit
-		changeScale(wordCTRL[0].word.Length+1);
+		changeScale(WController.s.word.Length+1);
 	}
 
 	//Muda o tamanho do bt Submit conforme o numero de letras no tabuleiro
 	public void changeScale(int numOfLetters)
 	{
-		WController[] wordCTRL = FindObjectsOfType(typeof(WController)) as WController[];
 		TextSubmitBT[] SubmitTxt = FindObjectsOfType(typeof(TextSubmitBT)) as TextSubmitBT[];
 
 
@@ -266,7 +260,7 @@ public class Submit_And_Input_Ctrl : MonoBehaviour {
 		Color colorida = GetComponent<Renderer>().material.color;
 
 		//Verifica quantas letras foram colocadas no tabuleiro e muda a cor e o txt do bt
-		if(numOfLetters == wordCTRL[0].word.Length+1)
+		if(numOfLetters == WController.s.word.Length+1)
 		{
 			SubmitTxt[0].GetComponent<TextMesh> ().text = "+3 LETTERS";
 
@@ -276,7 +270,7 @@ public class Submit_And_Input_Ctrl : MonoBehaviour {
 		
 
 		}
-		else if (numOfLetters == wordCTRL[0].word.Length)
+		else if (numOfLetters == WController.s.word.Length)
 		{
 			SubmitTxt[0].GetComponent<TextMesh> ().text = "+2 LETTERS";
 
@@ -285,7 +279,7 @@ public class Submit_And_Input_Ctrl : MonoBehaviour {
 			colorida.a = 0.4f;
 
 		}
-		else if (numOfLetters == wordCTRL[0].word.Length-1)
+		else if (numOfLetters == WController.s.word.Length-1)
 		{
 			SubmitTxt[0].GetComponent<TextMesh> ().text = "+1 LETTERS";
 
@@ -321,13 +315,10 @@ public class Submit_And_Input_Ctrl : MonoBehaviour {
 
 	public void inputBackspaceCase()
 	{
-		WController[] wordCTRL = FindObjectsOfType(typeof(WController)) as WController[];
-		Submit_And_Input_Ctrl[] submitBT = FindObjectsOfType(typeof(Submit_And_Input_Ctrl)) as Submit_And_Input_Ctrl[];
-
 		int i = 0;
 		int have_letter = 0;
 		//Procura uma posiçao vaga na mesa
-		while (wordCTRL[0].atable[i] != '\0') 
+		while (WController.s.atable[i] != '\0') 
 		{
 			i++;
 			have_letter = 1;
@@ -336,14 +327,14 @@ public class Submit_And_Input_Ctrl : MonoBehaviour {
 
 		if(have_letter == 1)
 		{
-			//Limpa a ultima posiçao ocupada
-			wordCTRL[0].atable [i-1] = '\0';
+            //Limpa a ultima posiçao ocupada
+            WController.s.atable [i-1] = '\0';
 		
 			//Muda scale do BT submit
 			if((i-1)>=0)
-				submitBT[0].changeScale(wordCTRL[0].word.Length - (i-2));
-			else 
-				submitBT[0].changeScale(1);
+                Submit_And_Input_Ctrl.s.changeScale(WController.s.word.Length - (i-2));
+			else
+                Submit_And_Input_Ctrl.s.changeScale(1);
 		
 		
 			Tile[] myTiles = FindObjectsOfType(typeof(Tile)) as Tile[];

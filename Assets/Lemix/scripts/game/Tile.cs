@@ -89,36 +89,33 @@ public class Tile : MonoBehaviour {
 	public void move()
 	{
 		
-		WController[] wordCTRL = FindObjectsOfType(typeof(WController)) as WController[];
-		Submit_And_Input_Ctrl[] submitBT = FindObjectsOfType(typeof(Submit_And_Input_Ctrl)) as Submit_And_Input_Ctrl[];
 
 		//If is not on the submission table or is goin to low position
 		if (onTheTable == 0 || onTheTable == 3) 
 		{
-			ConstructTable[] constTab = FindObjectsOfType(typeof(ConstructTable)) as ConstructTable[];
 			int i = 0;
 
 			//Search a position on the submission table
-			while (wordCTRL[0].atable[i] != '\0') 
+			while (WController.s.atable[i] != '\0') 
 				i++;
-			
-			//Empty position receive the letter
-			wordCTRL[0].atable [i] = _myLetter;
+
+            //Empty position receive the letter
+            WController.s.atable [i] = _myLetter;
 			
 			
 			//Set my ID on the table
 			myID = i;
 			
 			//Move the tile
-			float pos = constTab[0].x_pos_init + i * constTab[0].tiles_space;
-			target = new Vector3 (pos, constTab[0].y_pos_submit_table, 0);
+			float pos = ConstructTable.s.x_pos_init + i * ConstructTable.s.tiles_space;
+			target = new Vector3 (pos, ConstructTable.s.y_pos_submit_table, 0);
 			transform.DOKill();
 			transform.DOMove(target,tileSpeed).OnStepComplete(changeStatusTo1);
 			onTheTable = 2;
 			
 			//Changes the scale of submit BT 
 			if(i>=0)
-				submitBT[0].changeScale(wordCTRL[0].word.Length - i);
+                Submit_And_Input_Ctrl.s.changeScale(WController.s.word.Length - i);
 			
 			/*//Verifica se eh pra dar autosubmit
 			submitBT[0].verifyFullTable(i+1);*/
@@ -131,17 +128,17 @@ public class Tile : MonoBehaviour {
 			int i = 0;
 			
 			//Search a position on the table
-			while (wordCTRL[0].atable[i] != '\0') 
+			while (WController.s.atable[i] != '\0') 
 				i++;
-			
-			//Clear the last ocuppied position
-			wordCTRL[0].atable [i-1] = '\0';
+
+            //Clear the last ocuppied position
+            WController.s.atable [i-1] = '\0';
 			
 			///Changes the scale of submit BT 
 			if((i-1)>=1)
-				submitBT[0].changeScale(wordCTRL[0].word.Length - (i-2));
-			else 
-				submitBT[0].changeScale(1);
+                Submit_And_Input_Ctrl.s.changeScale(WController.s.word.Length - (i-2));
+			else
+                Submit_And_Input_Ctrl.s.changeScale(1);
 			
 			
 			Tile[] myTiles = FindObjectsOfType(typeof(Tile)) as Tile[];
@@ -182,10 +179,8 @@ public class Tile : MonoBehaviour {
 	{
 		onTheTable = 1;
 
-		Submit_And_Input_Ctrl[] submitBT = FindObjectsOfType(typeof(Submit_And_Input_Ctrl)) as Submit_And_Input_Ctrl[];
-
-		//Verifica se eh pra dar autosubmit
-		submitBT[0].verifyFullTable(myID+1);
+        //Verifica se eh pra dar autosubmit
+        Submit_And_Input_Ctrl.s.verifyFullTable(myID+1);
 	}
 	void changeStatusTo0()
 	{

@@ -12,8 +12,9 @@ using DG.Tweening;
 using UnityEngine.UI;
 
 public class WController : MonoBehaviour {
-	Word_Sorter_Controller[] wSort;
-	private string word_original = "";
+    public static WController s = null;
+
+    private string word_original = "";
 	public string word = ""; 
     int magicalBarScaleNumber = 4;
 	//Array de chars com os tiles na mesa
@@ -51,16 +52,16 @@ public class WController : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		//this.gameObject.AddComponent<PhotonView>();
+        //this.gameObject.AddComponent<PhotonView>();
 
-		//Quantos arquivos tem a biblioteca de palavras
-		//int numberOfFiles = GLOBALS.Singleton.NumberOfWordFiles;
-		//Debug.Log(numberOfFiles);
-		//Sorteia um dos arquivos de palavras
-		wSort = FindObjectsOfType(typeof(Word_Sorter_Controller)) as Word_Sorter_Controller[];
+        //Quantos arquivos tem a biblioteca de palavras
+        //int numberOfFiles = GLOBALS.Singleton.NumberOfWordFiles;
+        //Debug.Log(numberOfFiles);
+        //Sorteia um dos arquivos de palavras
 
 
-		//Feedback position
+        //Feedback position
+        s = this;
 		wnotfoundpos = wnotfound.transform.position;
 		walreadypos = walready.transform.position;
 		wfoundpointspos = wfoundpoints.transform.position;
@@ -96,7 +97,7 @@ public class WController : MonoBehaviour {
             else
             {
                 Debug.Log("WORD ID Vazia, sorteando nova palavra");
-                rand = wSort[0].sortWordAndReturnAnagramID("");
+                rand = Word_Sorter_Controller.s.sortWordAndReturnAnagramID("");
             }
 		}
 
@@ -136,11 +137,9 @@ public class WController : MonoBehaviour {
 //		Debug.Log (word_original + "ASDAS");
 		word = word_original;
 		
-		
-		Submit_And_Input_Ctrl[] submitScp = FindObjectsOfType(typeof(Submit_And_Input_Ctrl)) as Submit_And_Input_Ctrl[];
-		ConstructTable[] constTab = FindObjectsOfType(typeof(ConstructTable)) as ConstructTable[];
-		submitScp[0].ResizeandReposite();
-		constTab[0].construct();
+
+        Submit_And_Input_Ctrl.s.ResizeandReposite();
+        ConstructTable.s.construct();
 
 		f5WordsFounded();
 	}
@@ -252,10 +251,10 @@ public class WController : MonoBehaviour {
 		float pos = 0;
 		int rand = 0;
 		string numberstoSort = ""; 
-		ConstructTable[] constTab = FindObjectsOfType(typeof(ConstructTable)) as ConstructTable[];
+
 		//Cases of even or odd number of tiles
 		if (word.Length % 2 == 0) 
-			pos = constTab[0].tiles_space/2;
+			pos = ConstructTable.s.tiles_space/2;
 		else 
 			pos = 0;
 		
@@ -302,7 +301,7 @@ public class WController : MonoBehaviour {
 			else 
 			{
 				pos *= -1;
-				pos += constTab[0].tiles_space;
+				pos += ConstructTable.s.tiles_space;
 				
 			}	
 		}
@@ -474,8 +473,7 @@ public class WController : MonoBehaviour {
 		{
 			GLOBALS.Singleton.GAME_RUNNING = false;
             Menus_Controller.acesss.destructQuitGame();
-            GameController[] gCtrlr =  FindObjectsOfType(typeof(GameController)) as GameController[];
-			gCtrlr[0].match_end();
+            GameController.s.match_end();
 		}
 		
 	}

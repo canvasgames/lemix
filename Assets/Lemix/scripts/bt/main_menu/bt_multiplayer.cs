@@ -5,7 +5,6 @@ public class bt_multiplayer : BtsGuiClick
 {
 	public GameObject lobbymaster, txt_conection_state, lang_bt, avatar_bt, bot_bt, statistics_txt, cancel_bt;
 	public Animator tchauBT;
-    Lobby_Master[] lb;
 
 	// Use this for initialization
 	void Start () {
@@ -35,10 +34,10 @@ public class bt_multiplayer : BtsGuiClick
             bot_bt.SetActive(false);
 			statistics_txt.SetActive(false);
 
-			//tchauBT.SetTrigger("clicked");
+            //tchauBT.SetTrigger("clicked");
 
-			lb = FindObjectsOfType(typeof(Lobby_Master)) as Lobby_Master[];
-			lb[0].Connect_to_photon();
+
+            Lobby_Master.s.Connect_to_photon();
 
 			gameObject.SetActive(false);
 		}
