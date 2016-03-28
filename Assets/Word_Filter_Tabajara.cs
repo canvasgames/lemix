@@ -15,7 +15,7 @@ public class Word_Filter_Tabajara : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        File.Delete("Word_" + actual_file_i);
+        search_word_files();
     }
 	
 	// Update is called once per frame
@@ -25,86 +25,96 @@ public class Word_Filter_Tabajara : MonoBehaviour {
 
     void search_word_files()
     {
-
+        Debug.Log("lendo arquivo " + actual_file_i+ " bamooooooooooooo");
         string line;
         string filename = "Word_" + actual_file_i;
         TextAsset anagrama = Resources.Load(filename) as TextAsset;
         //string texto = anagrama.text;
 
-        string[] palavras = anagrama.text.Split("\n"[0]);
-        int i = 0;
-
-        do
+        if(anagrama != null)
         {
-            line = palavras[i];
-            line = line.Replace("\r", "");
+            string[] palavras = anagrama.text.Split("\n"[0]);
+            int i = 0;
 
-            if (line != null && line != "" && line != " " && line != "\n")
+            do
             {
-                if (line.Length > 3 && line.Length < 8)
+                line = palavras[i];
+                line = line.Replace("\r", "");
+
+                if (line != null && line != "" && line != " " && line != "\n")
                 {
-                    words_this_file.Add(line);
+                    if (line.Length > 3 && line.Length < 8)
+                    {
+                        words_this_file.Add(line);
+                    }
+
+                    i++;
+
                 }
+                else { line = null; }
 
-                i++;
-
-            }
-            else { line = null; }
-
-        } while (i < palavras.Length && line != null);
+            } while (i < palavras.Length && line != null);
 
 
-        Debug.Log("a lista tem " + words_this_file.Count + " palavras, boa sorte");
+            
 
-        int word_lenght = words_this_file[words_this_file.Count - 1].Length;
+            int word_lenght = words_this_file[words_this_file.Count - 1].Length;
 
-        if (word_lenght == 4)
-        {
-            if(words_this_file.Count >= 8)
+            if (word_lenght == 4)
             {
-                write_words_txt_file(true);
+                if (words_this_file.Count >= 8)
+                {
+                    write_words_txt_file(true);
+                }
+                else
+                {
+                    write_words_txt_file(false);
+                }
             }
-            else
+            else if (word_lenght == 5)
             {
-                write_words_txt_file(false);
+                if (words_this_file.Count >= 12)
+                {
+                    write_words_txt_file(true);
+                }
+                else
+                {
+                    write_words_txt_file(false);
+                }
+            }
+            else if (word_lenght >= 6)
+            {
+                if (words_this_file.Count >= 15)
+                {
+                    write_words_txt_file(true);
+                }
+                else
+                {
+                    write_words_txt_file(false);
+                }
             }
         }
-        else if(word_lenght == 5)
+        else
         {
-            if (words_this_file.Count >= 12)
-            {
-                write_words_txt_file(true);
-            }
-            else
-            {
-                write_words_txt_file(false);
-            }
+            Debug.Log("ACABOU e TETRAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
         }
-        else if(word_lenght >= 6)
-        {
-            if (words_this_file.Count >= 15)
-            {
-                write_words_txt_file(true);
-            }
-            else
-            {
-                write_words_txt_file(false);
-            }
-        }
+        
 
     }
 
     void write_words_txt_file(bool in_the_rules)
     {
-        if(in_the_rules == true)
+        File.Delete("Assets/Resources/Word_" + actual_file_i + ".txt");
+
+        if (in_the_rules == true)
         {
-            outfile = new StreamWriter("Word_" + file_in_the_rules_i + ".txt");
-            File.Delete("Word_" + actual_file_i);
+            outfile = new StreamWriter("Assets/Resources/Word_" + file_in_the_rules_i + ".txt");
             file_in_the_rules_i++;
         }
         else
         {
-            outfile = new StreamWriter("outr_of_the_rules/Word_" + file_out_of_the_rules_i + ".txt");
+            outfile = new StreamWriter("Assets/Resources/out_of_the_rules/Word_" + file_out_of_the_rules_i + ".txt");
+            
             file_out_of_the_rules_i++;
         }
 
@@ -114,9 +124,12 @@ public class Word_Filter_Tabajara : MonoBehaviour {
              outfile.WriteLine(s);
         }
 
+        
+        actual_file_i++;
         outfile.Close();
         words_this_file.Clear();
 
-        
+        search_word_files();
+
     }
 }
