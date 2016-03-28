@@ -14,7 +14,7 @@ using Thinksquirrel.WordGameBuilder.ObjectModel;
 public class GameController : MonoBehaviour {
 
 	//Change this to change the world
-	float matchTotaltime = 4f;
+	float matchTotaltime = 90f;
     bool countdownCalled = false;
 
     //Syncronization

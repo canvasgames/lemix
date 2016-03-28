@@ -88,8 +88,16 @@ public class WController : MonoBehaviour {
 		int rand = GLOBALS.Singleton.ANAGRAM_ID;
 		// Sort the word file if doesnt have one sorted
 		if (rand == 0) {
-			Debug.Log("WORD ID Vazia, sorteando nova palavra");
-            rand = wSort[0].sortWordAndReturnAnagramID("");
+			
+            if(QA.s.can_choose_txt_file == true)
+            {
+                rand = QA.s.choose_txt_file_number;
+            }
+            else
+            {
+                Debug.Log("WORD ID Vazia, sorteando nova palavra");
+                rand = wSort[0].sortWordAndReturnAnagramID("");
+            }
 		}
 
 		Debug.Log("ANAGRAM ID: " + rand);
