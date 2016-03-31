@@ -581,7 +581,7 @@ namespace BE {
 
             //0-Demon Palace
             {
-                BuildingType bt = new BuildingType(0, "Demon Palace", "Your personal Palace", 12, 12, GLOBALS.s.BUILDING_MAX_LEVEL, 0, "1,1,1,1,1,1,1,1,1,1");
+                BuildingType bt = new BuildingType(0, "Demon Palace", "Your personal Palace", 16, 16, GLOBALS.s.BUILDING_MAX_LEVEL, 0, "1,1,1,1,1,1,1,1,1,1");
                 { BuildingDef bd = new BuildingDef(1500, 0, 0, 0, 0, 0, 1); bd.SetStorageCapacity(1000, 0); bt.Add(bd); }
                 { BuildingDef bd = new BuildingDef(1600, 100, 0, 0, 5, 1, 1); bd.SetStorageCapacity(4000, 0); bt.Add(bd); }
                 { BuildingDef bd = new BuildingDef(1850, 300, 0, 0, 10, 2, 2); bd.SetStorageCapacity(12000, 0); bt.Add(bd); }
