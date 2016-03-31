@@ -62,8 +62,8 @@ namespace BE {
 		*/
         private float zoomSpeed = 4;
 
-        private float zoomMax = 12;
-        private float zoomMin = 3;
+        private float zoomMax = 22;
+        private float zoomMin = 7;
         private float zoomCurrent = 8;
 
         private float perspectiveZoomSpeed = 0.3f;
