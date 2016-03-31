@@ -168,6 +168,7 @@
     <Compile Include="Assets\downArrow.cs" />
     <Compile Include="Assets\enterFromUp.cs" />
     <Compile Include="Assets\explosion_animation_end.cs" />
+    <Compile Include="Assets\gota_magica_sao_paulo.cs" />
     <Compile Include="Assets\levelUpHands.cs" />
     <Compile Include="Assets\light_glow_scale.cs" />
     <Compile Include="Assets\start_animation_random_frame.cs" />
