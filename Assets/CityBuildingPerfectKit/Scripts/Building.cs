@@ -972,7 +972,7 @@ namespace BE
             Building[] buildings;
             buildings = GameObject.FindObjectsOfType(typeof(Building)) as Building[];
             int lenght = buildings.Length;
-            Debug.Log(value);
+
             float discountEach = 1;
             int i = 0, cont=0;
             float temp;
@@ -1015,15 +1015,16 @@ namespace BE
             if (def != null && bt.ID >= 11 && bt.ID <= 15)
             {
                 int capacity = def.StorageCapacity[(int)PayType.Elixir];
-
+       
 
                 if (soulsQuant + quant <= capacity)
                 {
-                    if(portal_x !=666 || portal_y !=666)
+                    if((portal_x !=666 || portal_y !=666) && myParticles2.Count < 30)
                     {
                         myParticles2.Add((GameObject)Instantiate(Resources.Load("Prefabs/Elixir_rend")));
                         myParticles2[myParticles2.Count - 1].transform.localPosition = new Vector3(portal_x, portal_y, portal_z);
                         myParticles2[myParticles2.Count - 1].GetComponent<particle_soul>().vaiviado(transform.position.x, transform.position.y, transform.position.z);
+                        Invoke("clearMyParticles2", 2);
                     }
  
                     soulsQuant += quant;
@@ -1067,6 +1068,10 @@ namespace BE
 
         }
 
+        void clearMyParticles2()
+        {
+            myParticles2.Clear();
+        }
         public void scaleBuildingFullCase()
         {
             if (def != null && bt.ID >= 11 && bt.ID <= 15)
