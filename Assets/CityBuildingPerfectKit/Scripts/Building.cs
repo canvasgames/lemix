@@ -139,6 +139,7 @@ namespace BE
         public List<GenQueItem> queUnitGen = new List<GenQueItem>();
 
         List<GameObject> myParticles = new List<GameObject>();
+        List<GameObject> myParticles2 = new List<GameObject>();
 
         GameObject bigDaddy, finalPos;
         bool appearedCollectIcon = false;
@@ -979,10 +980,15 @@ namespace BE
             {
                 for (i = 0; i < lenght; i++)
                 {
-                    if(value >= 1)
-                        temp = buildings[i].storeSouls(discountEach);
+                    if (value >= 1)
+                    {
+                        temp = buildings[i].storeSouls(discountEach, transform.position.x, transform.position.y, transform.position.z);
+                    }
+
                     else
-                        temp = buildings[i].storeSouls(value);
+                    {
+                        temp = buildings[i].storeSouls(value, transform.position.x, transform.position.y, transform.position.z);
+                    }
 
                     value = value - temp;
                     if (value == 0f)
@@ -1002,7 +1008,7 @@ namespace BE
 
         }
 
-        public float storeSouls(float quant)
+        public float storeSouls(float quant, float portal_x, float portal_y, float portal_z)
         {
 
             BuildingType bt = TBDatabase.GetBuildingType(Type);
@@ -1013,6 +1019,13 @@ namespace BE
 
                 if (soulsQuant + quant <= capacity)
                 {
+                    if(portal_x !=666 || portal_y !=666)
+                    {
+                        myParticles2.Add((GameObject)Instantiate(Resources.Load("Prefabs/Elixir_rend")));
+                        myParticles2[myParticles2.Count - 1].transform.localPosition = new Vector3(portal_x, portal_y, portal_z);
+                        myParticles2[myParticles2.Count - 1].GetComponent<particle_soul>().vaiviado(transform.position.x, transform.position.y, transform.position.z);
+                    }
+ 
                     soulsQuant += quant;
                     if(scaleSoulsAlreadyCalled == false)
                     {

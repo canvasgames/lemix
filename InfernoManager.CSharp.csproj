@@ -171,6 +171,7 @@
     <Compile Include="Assets\gota_magica_sao_paulo.cs" />
     <Compile Include="Assets\levelUpHands.cs" />
     <Compile Include="Assets\light_glow_scale.cs" />
+    <Compile Include="Assets\particle_soul.cs" />
     <Compile Include="Assets\start_animation_random_frame.cs" />
     <Compile Include="Assets\textMaxSouls.cs" />
   </ItemGroup>

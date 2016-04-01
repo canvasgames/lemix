@@ -92,9 +92,9 @@ public class CollectSoulsBt : ButtonCap {
             for (i = 0; i < lenght; i++)
             {
                 if (value >= 1)
-                    temp = buildings[i].storeSouls(discountEach);
+                    temp = buildings[i].storeSouls(discountEach,666, 666, 666);
                 else
-                    temp = buildings[i].storeSouls(value);
+                    temp = buildings[i].storeSouls(value, 666, 666, 666);
 
                 value = value - temp;
                 if (value == 0f)
