@@ -32,6 +32,9 @@ namespace BE {
     public class SceneTown : MonoBehaviour {
 
 		public	static SceneTown instance;
+
+        public GameObject bg;
+
 		public  Text		textLevel;
         public float minDistSlide = 0.01f;
 
@@ -62,9 +65,9 @@ namespace BE {
 		*/
         private float zoomSpeed = 4;
 
-        private float zoomMax = 22;
-        private float zoomMin = 7;
-        private float zoomCurrent = 8;
+        private float zoomMax = 19;
+        private float zoomMin = 9;
+        private float zoomCurrent = 9;
 
         private float perspectiveZoomSpeed = 0.3f;
         //public	float 		perspectiveZoomSpeed = 0.0001f;	// The rate of change of the field of view in perspective mode.
@@ -132,7 +135,7 @@ namespace BE {
 			Shield.AddUIText(BEUtil.GetObject("PanelOverlay/LabelShield/Text").GetComponent<Text>());
 
             // For camera fade animation, set cameras initial positions
-            goCameraRoot.transform.position = new Vector3(-5.5f,0,-5);
+            goCameraRoot.transform.position = new Vector3(-5.5f,0, 1);
             goCamera.transform.localPosition = new Vector3(0,0,-128.0f);
             InFade = true;
 			FadeAge = 0.0f;
@@ -323,6 +326,16 @@ namespace BE {
                                 Vector3 vRight = goCameraRoot.transform.right; vRight.y = 0.0f; vRight.Normalize();
                                 Vector3 vMove = -vForward * vDelta.y + -vRight * vDelta.x;
                                 goCameraRoot.transform.position = vCamRootPosOld + vMove;
+
+                                if (goCameraRoot.transform.position.x < -10f)
+                                    goCameraRoot.transform.position = new Vector3(-10f, goCameraRoot.transform.position.y, goCameraRoot.transform.position.z);
+                                if (goCameraRoot.transform.position.x > 13f)
+                                    goCameraRoot.transform.position = new Vector3(13f, goCameraRoot.transform.position.y, goCameraRoot.transform.position.z);
+                                if (goCameraRoot.transform.position.z < 0)
+                                    goCameraRoot.transform.position = new Vector3(goCameraRoot.transform.position.x, goCameraRoot.transform.position.y, 0);
+                                if (goCameraRoot.transform.position.z > 17f)
+                                    goCameraRoot.transform.position = new Vector3(goCameraRoot.transform.position.x, goCameraRoot.transform.position.y, 17f);
+                                
 
                                 lastMoveTime = Time.time;
                                // Debug.Log(" DRAGGIN! lastMoveTime: " + lastMoveTime + " mousePosLast: " + mousePosLast + " AVGX: " + avgx + " AVGY: " + avgy + " | AVGDIST: " + avgDist);
