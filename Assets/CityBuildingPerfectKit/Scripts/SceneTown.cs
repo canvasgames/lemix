@@ -284,7 +284,8 @@ namespace BE {
                         //Mouse Button is in pressed 
                         //if mouse move certain diatance
                         float mDist = Vector3.Distance(Input.mousePosition, mousePosLast);
-                        if (((mDist > 0.01f && !Application.isMobilePlatform) || (mDist > 3.5f && Application.isMobilePlatform)) && mDist < 150f) {
+                        if (((mDist > 0.01f && !Application.isMobilePlatform) || (mDist > 3.5f && Application.isMobilePlatform)) && mDist < 150f
+                            ) {
                         //if ( mDist > minDistSlide && mDist < 100f) {
                                 // set drag flag on
                                 if (!Dragged) {
@@ -532,8 +533,8 @@ namespace BE {
                     BuildingSelect(null);
                         return;
                     }
-                    else if (hit.collider.gameObject.tag == "Building")
-                    {
+                else if (hit.collider.gameObject.tag == "Building")
+                {
                     Debug.Log("Picked a Building");
                     Building buildingNew = BuildingFromObject(hit.collider.gameObject);
                         if (buildingNew.HasCompletedWork())
@@ -542,8 +543,8 @@ namespace BE {
                         //Dont select building when in tutorial
                         if (GLOBALS.s.TUTORIAL_OCCURING == false && GLOBALS.s.DIALOG_ALREADY_OPENED == false)
                             BuildingSelect(buildingNew);
-                        return;
-                    }
+                            return;
+                        }
                     else
                     {
                     
