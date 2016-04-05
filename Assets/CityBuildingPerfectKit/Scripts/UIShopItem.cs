@@ -62,9 +62,10 @@ namespace BE {
 
 				// get next available townhall level
 				int NextTownLevel = bt.GetMoreBuildTownLevel(Count);
-				if(NextTownLevel == -1) DisabledInfo.text = "Reach Maximum Count";
-				else 					DisabledInfo.text = "Need Demon Palace Level " + NextTownLevel.ToString ();
-				goDisabled.SetActive(true);
+                if (NextTownLevel == -1) DisabledInfo.text = "Reach Maximum Count";
+                else DisabledInfo.text = "Need " + TBDatabase.GetLevelExpTotal(NextTownLevel).ToString() + " Souls";
+                //else 					DisabledInfo.text = "Need Souls" + NextTownLevel.ToString ();
+                goDisabled.SetActive(true);
 			}
 
             //Lock if dont have Town Hall Level enough

@@ -34,8 +34,9 @@ namespace BE {
 		public	static SceneTown instance;
 
         public GameObject bg;
+        public GameObject camPos;
 
-		public  Text		textLevel;
+        public  Text		textLevel;
         public float minDistSlide = 0.01f;
 
 		private bool 		bInTouch = false;
@@ -326,7 +327,24 @@ namespace BE {
                                 Vector3 vRight = goCameraRoot.transform.right; vRight.y = 0.0f; vRight.Normalize();
                                 Vector3 vMove = -vForward * vDelta.y + -vRight * vDelta.x;
                                 goCameraRoot.transform.position = vCamRootPosOld + vMove;
+                                //Debug.Log(" CAMERA LOCAL POSITION! X: " + goCameraRoot.transform.localPosition.x + " Y: " + goCameraRoot.transform.localPosition.y + " Z: " + goCameraRoot.transform.localPosition.z);
+                                // Debug.Log(" BG POS X: " + bg.transform.position.x + " XL: " + bg.transform.localPosition.x + " Y: " + bg.transform.localPosition.y + " Z: " + bg.transform.localPosition.z);
+                                //Debug.Log(" SCREEN POS X: "  + " XL: " + bg.transform.localPosition.x + " Y: " + bg.transform.localPosition.y + " Z: " + bg.transform.localPosition.z);
+                                Camera cam = GetComponent<Camera>();
+                                //Vector3 pos = goCamera.transform.position;  // get the game object position
+                                Vector3 pos = bg.transform.position;  // get the game object position
+                                Vector3 viewportPoint = Camera.main.WorldToScreenPoint(pos);  //convert game object position to VievportPoint
+                                Debug.Log("POS: " + viewportPoint.x + " Y: " + viewportPoint.y + " Z :" + viewportPoint.z );
 
+                                if (viewportPoint.x > 522f)
+                                    goCameraRoot.transform.position = new Vector3(-10f, goCameraRoot.transform.position.y, goCameraRoot.transform.position.z);
+                                if (goCameraRoot.transform.position.x > 13f)
+                                    goCameraRoot.transform.position = new Vector3(13f, goCameraRoot.transform.position.y, goCameraRoot.transform.position.z);
+                                if (goCameraRoot.transform.position.z < 0)
+                                    goCameraRoot.transform.position = new Vector3(goCameraRoot.transform.position.x, goCameraRoot.transform.position.y, 0);
+                                if (goCameraRoot.transform.position.z > 17f)
+                                    goCameraRoot.transform.position = new Vector3(goCameraRoot.transform.position.x, goCameraRoot.transform.position.y, 17f);
+                                /*
                                 if (goCameraRoot.transform.position.x < -10f)
                                     goCameraRoot.transform.position = new Vector3(-10f, goCameraRoot.transform.position.y, goCameraRoot.transform.position.z);
                                 if (goCameraRoot.transform.position.x > 13f)
@@ -335,8 +353,7 @@ namespace BE {
                                     goCameraRoot.transform.position = new Vector3(goCameraRoot.transform.position.x, goCameraRoot.transform.position.y, 0);
                                 if (goCameraRoot.transform.position.z > 17f)
                                     goCameraRoot.transform.position = new Vector3(goCameraRoot.transform.position.x, goCameraRoot.transform.position.y, 17f);
-                                
-
+                                    */
                                 lastMoveTime = Time.time;
                                // Debug.Log(" DRAGGIN! lastMoveTime: " + lastMoveTime + " mousePosLast: " + mousePosLast + " AVGX: " + avgx + " AVGY: " + avgy + " | AVGDIST: " + avgDist);
 
@@ -746,7 +763,10 @@ namespace BE {
 
         #endregion
 
+        public int CalculateTotalSoulsToNextLevel() {
 
+            return 1;
+        }
         // add exp
         public void GainExp(int exp) {
             Debug.Log("[GAIN EX] INIT: " + exp + " EXP TOTAL: " + ExpTotal);
@@ -946,7 +966,7 @@ namespace BE {
         public void createTownHownTutorial()
         {
             Building script = BEGround.instance.BuildingAdd(0, 1);
-            Vector3 pos = new Vector3(4f, 0f, 28f);
+            Vector3 pos = new Vector3(4f, 0f,34f);
             script.Move(pos);
             pos = new Vector3(4f, 0f, 18f);
 

@@ -152,7 +152,7 @@ namespace BE {
             else if (bdNext.RankRequired > 0 && GLOBALS.s.USER_RANK < bdNext.RankRequired)
             {
                 goNote.SetActive(true);
-                NoteInfo.text = "To upgrade this building, you first need\n Rank " + bdNext.RankRequired + "!";
+                NoteInfo.text = "To upgrade this building, you first need\n " + TBDatabase.GetLevelExpTotal(GLOBALS.s.USER_RANK+2).ToString() + " Souls!";
                 TownLevelOk = false;
                 goNormal.SetActive(false);
             }

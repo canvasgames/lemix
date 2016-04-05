@@ -253,7 +253,8 @@ namespace BE {
 		public int GetBuildingCountMax(int BuildingType) {
 			BuildingType 	bt = TBDatabase.GetBuildingType(BuildingType);
 			Building 		buildingTown = Buildings[0][0];
-			return bt.MaxCount[buildingTown.Level-1];
+			//return bt.MaxCount[buildingTown.Level-1];
+            return bt.MaxCount[GLOBALS.s.USER_RANK];
 		}
 
         public int GetTownHallLevel()
