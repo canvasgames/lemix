@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class CatastropheItem : MonoBehaviour {
     public GameObject cat;
     public GameObject locked;
-    public GameObject Intensity, Chance, Activate,title,description;
+    public GameObject Intensity, Chance,title,description;
     GameObject temp;
     // Use this for initialization
     void Start () {
@@ -31,7 +31,7 @@ public class CatastropheItem : MonoBehaviour {
             temp = (GameObject)Instantiate(locked, new Vector3(0, 0, 0), Quaternion.identity);
             Intensity.SetActive(false);
             Chance.SetActive(false);
-            Activate.SetActive(false);
+            //Activate.SetActive(false);
             if(line == 2)
             {
                 title.GetComponent<Text>().text = "Remove Pool's Stairs (Locked)";

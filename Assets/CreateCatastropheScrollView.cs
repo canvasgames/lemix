@@ -17,7 +17,7 @@ public class CreateCatastropheScrollView : MonoBehaviour
         //xMiddle = 140;
         //initialY = GetComponent<RectTransform>().rect.height / 2 - 1160; //150 spacing, 650 half of contect UI object
         //xSpace = placeholder.GetComponent<RectTransform>().rect.width ;
-        xSpace = 0;
+        xSpace = 20;
         initialY = 696 - 790;
         ySpace = placeholder.GetComponent<RectTransform>().rect.height;
 
@@ -39,7 +39,7 @@ public class CreateCatastropheScrollView : MonoBehaviour
     void createLine(float yPosition, float xSpacing, int line)
     {
 
-        createObject(line, 0, 0, yPosition);
+        createObject(line, 0, xSpacing, yPosition);
 
     }
 
