@@ -172,6 +172,7 @@
     <Compile Include="Assets\gota_magica_sao_paulo.cs" />
     <Compile Include="Assets\levelUpHands.cs" />
     <Compile Include="Assets\light_glow_scale.cs" />
+    <Compile Include="Assets\no_resource_wheel.cs" />
     <Compile Include="Assets\particle_soul.cs" />
     <Compile Include="Assets\pizza_char.cs" />
     <Compile Include="Assets\rotate_bt_roulette.cs" />
