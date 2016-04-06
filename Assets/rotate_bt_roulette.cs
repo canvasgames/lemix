@@ -8,22 +8,35 @@ public class rotate_bt_roulette : MonoBehaviour {
     bool running = false;
     bool re_spin = false;
     int re_spin_cost = 1;
+    int spinned = 0;
+
+    DateTime newDate, oldDate;
+    string stringDate;
     // Use this for initialization
     void Start () {
         gem_icon.SetActive(false);
+        spinned = PlayerPrefs.GetInt("Spinned", 0);
+        //Debug.Log(spinned + "     SPINNNENENNENEN");
     }
 	
 	// Update is called once per frame
-	void Update () {
-	
-	}
+	void Update ()
+    {
+        if(spinned == 1 && re_spin == false)
+        {
+            day_passed();
+        }
+    }
 
     public void click()
     {
-        if(running == false)
+        if(running == false && spinned == 0)
         {
             running = true;
-            if(re_spin == false)
+            PlayerPrefs.SetInt("Spinned", 1);
+            PlayerPrefs.SetString("SpinTime", System.DateTime.Now.ToString());
+
+            if (re_spin == false)
             {
                 if (BE.SceneTown.Gold.Target() >= 200)
                 {
@@ -63,37 +76,50 @@ public class rotate_bt_roulette : MonoBehaviour {
         gem_icon.SetActive(true);
         transform.GetComponentInChildren<Text>().text = "Re-Spin the Wheel \nCost: "+ re_spin_cost+"  ";
 
-
+        
     }
 
     bool day_passed()
     {
-        DateTime newDate = System.DateTime.Now;
-        string stringDate = PlayerPrefs.GetString("PlayDate");
-        DateTime oldDate;
+        newDate = System.DateTime.Now;
+        stringDate = PlayerPrefs.GetString("SpinTime");
 
         if (stringDate == "")
         {
             oldDate = newDate;
-            PlayerPrefs.SetString("PlayDate", newDate.ToString());
+            PlayerPrefs.SetString("SpinTime", newDate.ToString());
         }
         else
         {
             oldDate = Convert.ToDateTime(stringDate);
         }
 
-        // Debug.Log("LastDay: " + oldDate);
-        // Debug.Log("CurrDay: " + newDate);
+       // Debug.Log("LastDay: " + oldDate);
+       // Debug.Log("CurrDay: " + newDate);
 
         TimeSpan difference = newDate.Subtract(oldDate);
 
-        // Debug.Log("Dif Houras: " + difference);
-        if (difference.Minutes >= 10)
+       //  Debug.Log("Dif min: " + difference.Minutes);
+        if (difference.Minutes >= 1)
         {
-            // Debug.Log("Day passed");
-            PlayerPrefs.SetString("PlayDate", newDate.ToString());
+            PlayerPrefs.SetInt("Spinned", 0);
+            spinned = 0;
+
+            transform.GetComponentInChildren<Text>().text = "Spin the Wheel \nCost: 200  ";
+            fire_icon.SetActive(true);
+            gem_icon.SetActive(false);
+            transform.GetComponent<Image>().color = new Vector4(1f, 1f, 1f, 1);
             return true;
 
+        }
+        else
+        {
+            DateTime dif = oldDate.AddMinutes(1);
+            TimeSpan diff = newDate.Subtract(dif);
+            transform.GetComponentInChildren<Text>().text = "Can spin in " +"\n"+ (-diff.Minutes) +"m " + (-diff.Seconds) + "s ";
+            fire_icon.SetActive(false);
+            gem_icon.SetActive(false);
+            transform.GetComponent<Image>().color = new Vector4(0.8f, 0.8f, 0.8f, 1);
         }
 
         return false;

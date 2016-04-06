@@ -73,7 +73,7 @@ public class collectSouls : MonoBehaviour {
         BE.Building[] buildings;
         buildings = GameObject.FindObjectsOfType(typeof(BE.Building)) as BE.Building[];
         int lenght = buildings.Length;
-        Debug.Log(value);
+
         float discountEach = 1;
         int i = 0, cont = 0;
         float temp;
