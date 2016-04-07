@@ -43,7 +43,8 @@ namespace BE {
 		private float 		ClickAfter = 0.0f;
 		private bool 		bTemporarySelect = false;
 		private Vector3		vCamRootPosOld = Vector3.zero;
-		private Vector3		mousePosOld = Vector3.zero;
+		private Vector3		vCamPosOld = Vector3.zero;
+        private Vector3		mousePosOld = Vector3.zero;
 		private Vector3		mousePosLast = Vector3.zero;
 		public 	GameObject 	goCamera=null;
 		public 	GameObject 	goCameraRoot=null;
@@ -236,8 +237,6 @@ namespace BE {
             Shield.Update();
             HouseInfo.text = BEWorkerManager.instance.GetAvailableWorkerCount().ToString() + "/" + BEGround.instance.GetBuildingCount(1).ToString();
 
-
-
             if (UIDialogMessage.IsShow("scene town update") || isModalShow) return;
             //if(EventSystem.current.IsPointerOverGameObject()) return;
 
@@ -247,10 +246,7 @@ namespace BE {
                 if (Input.GetMouseButton(0)) {
                     
                     if (EventSystem.current.IsPointerOverGameObject() || GLOBALS.s.LOCK_CAMERA_TUTORIAL == true && GLOBALS.s.LOCK_CLICK_TUTORIAL == true || (GLOBALS.s.DIALOG_ALREADY_OPENED == true && GLOBALS.s.TUTORIAL_OCCURING == false)) {
-
-                        return;
-                        
-         
+                        return;        
                     }
 
                     //Click MouseButton
@@ -265,6 +261,7 @@ namespace BE {
                         avgy = 0;
                         avgDist = new Vector3(0, 0, 0);
                         vCamRootPosOld = goCameraRoot.transform.position;
+                        vCamPosOld = goCamera.transform.localPosition;
 
                         //when a building was selected and user drag mouse on the map
                         //check mouse drag start is over selected building or not
@@ -311,8 +308,8 @@ namespace BE {
 
 
                             // if selected building exist
-                            if ((buildingSelected != null) && (MouseClickedBuilding == buildingSelected) && buildingSelected.Type!=0 && buildingSelected.Type!=4) {
-                            
+                            if ((buildingSelected != null) && (MouseClickedBuilding == buildingSelected) && buildingSelected.Type != 0 && buildingSelected.Type != 4) {
+
                                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
                                 float enter;
                                 xzPlane.Raycast(ray, out enter);
@@ -322,7 +319,36 @@ namespace BE {
                             }
                             // else camera panning
                             else {
-                                Vector3 vDelta = (Input.mousePosition - mousePosOld) * cameraSpeed;
+                                Vector3 vDelta = (Input.mousePosition - mousePosOld) * cameraSpeed ;
+                                Debug.Log(" MOUSE POSITION: " + Input.mousePosition + "  OLD: " + mousePosOld + "  CCC CAM POS: " + goCamera.transform.localPosition);
+                                //Debug.Log(" BG " + goCamera.GetComponent<Camera>().WorldToScreenPoint(bg.transform.localPosition));
+
+                                //goCamera.transform.position = vCamPosOld - vDelta;
+                                goCamera.transform.localPosition = new Vector3(vCamPosOld.x - vDelta.x, vCamPosOld.y - vDelta.y, goCamera.transform.localPosition.z);
+                                if (QA.s.first_game == 1) {
+                                    Debug.Log("i am here!");
+                                    if (goCamera.transform.localPosition.x < -14.5f + 3.8f)
+                                        goCamera.transform.localPosition = new Vector3(-14.5f + 3.8f, goCamera.transform.localPosition.y, goCamera.transform.localPosition.z);
+                                    if (goCamera.transform.localPosition.x > 13.85f + 3.8)
+                                        goCamera.transform.localPosition = new Vector3(13.85f + 3.8f, goCamera.transform.localPosition.y, goCamera.transform.localPosition.z);
+                                    if (goCamera.transform.localPosition.y < -9.4f - 9)
+                                        goCamera.transform.localPosition = new Vector3(goCamera.transform.localPosition.x, -9.4f - 9f, goCamera.transform.localPosition.z);
+                                    if (goCamera.transform.localPosition.y > 15 - 9f)
+                                        goCamera.transform.localPosition = new Vector3(goCamera.transform.localPosition.x, 15f - 9f, goCamera.transform.localPosition.z);
+                                }
+                                else {
+                                    if (goCamera.transform.localPosition.x < -14.5f)
+                                        goCamera.transform.localPosition = new Vector3(-14.5f, goCamera.transform.localPosition.y, goCamera.transform.localPosition.z);
+                                    if (goCamera.transform.localPosition.x > 13.85f)
+                                        goCamera.transform.localPosition = new Vector3(13.85f, goCamera.transform.localPosition.y, goCamera.transform.localPosition.z);
+                                    if (goCamera.transform.localPosition.y < -9.4f)
+                                        goCamera.transform.localPosition = new Vector3(goCamera.transform.localPosition.x, -9.4f, goCamera.transform.localPosition.z);
+                                    if (goCamera.transform.localPosition.y > 15f)
+                                        goCamera.transform.localPosition = new Vector3(goCamera.transform.localPosition.x, 15f, goCamera.transform.localPosition.z);
+
+                                }
+
+                                /*
                                 Vector3 vForward = goCameraRoot.transform.forward; vForward.y = 0.0f; vForward.Normalize();
                                 Vector3 vRight = goCameraRoot.transform.right; vRight.y = 0.0f; vRight.Normalize();
                                 Vector3 vMove = -vForward * vDelta.y + -vRight * vDelta.x;
@@ -332,28 +358,8 @@ namespace BE {
                                 //Debug.Log(" SCREEN POS X: "  + " XL: " + bg.transform.localPosition.x + " Y: " + bg.transform.localPosition.y + " Z: " + bg.transform.localPosition.z);
                                 Camera cam = GetComponent<Camera>();
                                 //Vector3 pos = goCamera.transform.position;  // get the game object position
-                                Vector3 pos = bg.transform.position;  // get the game object position
-                                Vector3 viewportPoint = Camera.main.WorldToScreenPoint(pos);  //convert game object position to VievportPoint
-                                Debug.Log("POS: " + viewportPoint.x + " Y: " + viewportPoint.y + " Z :" + viewportPoint.z );
+                                */
 
-                                if (viewportPoint.x > 522f)
-                                    goCameraRoot.transform.position = new Vector3(-10f, goCameraRoot.transform.position.y, goCameraRoot.transform.position.z);
-                                if (goCameraRoot.transform.position.x > 13f)
-                                    goCameraRoot.transform.position = new Vector3(13f, goCameraRoot.transform.position.y, goCameraRoot.transform.position.z);
-                                if (goCameraRoot.transform.position.z < 0)
-                                    goCameraRoot.transform.position = new Vector3(goCameraRoot.transform.position.x, goCameraRoot.transform.position.y, 0);
-                                if (goCameraRoot.transform.position.z > 17f)
-                                    goCameraRoot.transform.position = new Vector3(goCameraRoot.transform.position.x, goCameraRoot.transform.position.y, 17f);
-                                /*
-                                if (goCameraRoot.transform.position.x < -10f)
-                                    goCameraRoot.transform.position = new Vector3(-10f, goCameraRoot.transform.position.y, goCameraRoot.transform.position.z);
-                                if (goCameraRoot.transform.position.x > 13f)
-                                    goCameraRoot.transform.position = new Vector3(13f, goCameraRoot.transform.position.y, goCameraRoot.transform.position.z);
-                                if (goCameraRoot.transform.position.z < 0)
-                                    goCameraRoot.transform.position = new Vector3(goCameraRoot.transform.position.x, goCameraRoot.transform.position.y, 0);
-                                if (goCameraRoot.transform.position.z > 17f)
-                                    goCameraRoot.transform.position = new Vector3(goCameraRoot.transform.position.x, goCameraRoot.transform.position.y, 17f);
-                                    */
                                 lastMoveTime = Time.time;
                                // Debug.Log(" DRAGGIN! lastMoveTime: " + lastMoveTime + " mousePosLast: " + mousePosLast + " AVGX: " + avgx + " AVGY: " + avgy + " | AVGDIST: " + avgDist);
 

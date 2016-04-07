@@ -14,11 +14,22 @@ public class QA : MonoBehaviour {
 
     public int ProductionMultiplier = 1;
 
+    public int first_game = 1;
+
 
     void Awake() {
         s = this;
         if (CrazyProduction) ProductionMultiplier = 20;
-        else                 ProductionMultiplier = 1;
+        else ProductionMultiplier = 1;
+
+        first_game = PlayerPrefs.GetInt("first_game", 0);
+        first_game = 0;
+        if (first_game == 0) {
+            PlayerPrefs.SetInt("first_game", 1);
+            first_game = 1;
+        }
+        else
+            first_game = 999;
     }
 }
 
