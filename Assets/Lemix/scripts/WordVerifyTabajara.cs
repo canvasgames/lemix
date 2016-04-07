@@ -19,7 +19,7 @@ public class WordVerifyTabajara : MonoBehaviour {
     int actual_word_i = 0;
     int array_word_size = 0;
     int threads_active = 0;
-    int output_files_count = 571;
+    int output_files_count = 3163;
 
     List<string> allwordsofgame = new List<string>();
     List<string> wordsletters = new List<string>();
@@ -64,8 +64,8 @@ public class WordVerifyTabajara : MonoBehaviour {
 
 
         Debug.Log("a lista tem " + allwordsofgame.Count + " palavras, boa sorte");
-        Debug.Log(allwordsofgame[0]);
-        verifyWords(allwordsofgame[0]);
+        Debug.Log(allwordsofgame[output_files_count]);
+        verifyWords(allwordsofgame[output_files_count]);
     }
 
 
