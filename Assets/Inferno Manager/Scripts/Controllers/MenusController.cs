@@ -501,7 +501,18 @@ public class MenusController : MonoBehaviour {
     {
         GLOBALS.s.DIALOG_ALREADY_OPENED = false;
         MenusController.s.destroyMenu("Catastrophe",null);
+
+        if(GLOBALS.s.TUTORIAL_PHASE == 103 && GLOBALS.s.TUTORIAL_OCCURING == true)
+        {
+            Debug.Log("acabooooooooooooooooooooooou");
+            GLOBALS.s.TUTORIAL_PHASE = 00;
+             GLOBALS.s.TUTORIAL_OCCURING = false;
+        }
+        GameObject tempObject;
+        tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/CatastropheList/CatastropheList"));
+        MenusController.s.moveMenu(MovementTypes.Right, tempObject, "CatastropheList", 0, 0);
     }
+
 
     public void createLevelUp()
     {

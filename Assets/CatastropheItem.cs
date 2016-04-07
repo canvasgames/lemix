@@ -10,12 +10,12 @@ public class CatastropheItem : MonoBehaviour {
     GameObject temp;
     // Use this for initialization
     void Start () {
-
+        transform.localPosition = new Vector3(252.75f, transform.localPosition.y, transform.localPosition.z);
     }
 	
 	// Update is called once per frame
 	void Update () {
-	
+   
 	}
 
     public void initCatastrophe(int line)

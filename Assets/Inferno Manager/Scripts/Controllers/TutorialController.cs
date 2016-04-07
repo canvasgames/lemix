@@ -731,8 +731,8 @@ public class TutorialController : MonoBehaviour
         MenusController.s.destroyMenu("SmallScroll", null);
         MenusController.s.destroyMenu("SatanHandCatBT", null);
 
-        GLOBALS.s.TUTORIAL_PHASE = 0;
-        GLOBALS.s.TUTORIAL_OCCURING = false;
+       GLOBALS.s.TUTORIAL_PHASE = 103;
+       // GLOBALS.s.TUTORIAL_OCCURING = false;
     }
     #endregion
 

@@ -28,7 +28,7 @@ public class CloseBT : MonoBehaviour {
 
     public void clicked()
     {
-        if(waitToClose == false)
+        if(waitToClose == false && GLOBALS.s.TUTORIAL_PHASE !=102 && GLOBALS.s.TUTORIAL_PHASE != 103)
         {
             if (GLOBALS.s.TUTORIAL_PHASE == 11)
             {

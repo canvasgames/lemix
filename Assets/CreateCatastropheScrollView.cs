@@ -6,7 +6,7 @@ using DG.Tweening;
 
 public class CreateCatastropheScrollView : MonoBehaviour
 {
-    float initialY, xSpace, ySpace, xMiddle;
+    float initialY, xSpace, ySpace, xMiddle, x_pos, y_pos;
 
     public GameObject placeholder;
     GameObject myPlaceholder;
@@ -45,7 +45,6 @@ public class CreateCatastropheScrollView : MonoBehaviour
 
     void createObject(int line, int collumn, float xPosition, float yPosition)
     {
-
 
             myPlaceholder = (GameObject)Instantiate(placeholder, new Vector3(0, 0, 0), Quaternion.identity);
             myPlaceholder.transform.SetParent(gameObject.transform, false);

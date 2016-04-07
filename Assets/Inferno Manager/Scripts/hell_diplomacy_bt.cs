@@ -18,11 +18,11 @@ public class hell_diplomacy_bt : MonoBehaviour {
 
     public void clicked()
     {
-        TutorialController.s.catExplanation();
+        //TutorialController.s.catExplanation();
         if (GLOBALS.s.DIALOG_ALREADY_OPENED == false)
         {
 
-           // MenusController.s.createHellDiplomacy();
+           MenusController.s.createHellDiplomacy();
         }
 
 
