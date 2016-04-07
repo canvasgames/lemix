@@ -46,7 +46,8 @@ public class CloseBT : MonoBehaviour {
         MenusController.s.destroyMenu("", myFather);
         if (levelUPBT == true && GLOBALS.s.USER_RANK == 3)
         {
-            MenusController.s.createCatastrophe(1.5f);
+            //MenusController.s.createCatastrophe(1.5f);
+            TutorialController.s.catExplanation();
         }
 
     }

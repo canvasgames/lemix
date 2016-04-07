@@ -146,6 +146,7 @@
     <Compile Include="Assets\Inferno Manager\Scripts\dialogs\buttons\btNextTutorial.cs" />
     <Compile Include="Assets\Inferno Manager\Scripts\dialogs\buttons\scrollOption.cs" />
     <Compile Include="Assets\Inferno Manager\Scripts\dialogs\demonCreateAvatar.cs" />
+    <Compile Include="Assets\Inferno Manager\Scripts\hell_diplomacy_bt.cs" />
     <Compile Include="Assets\Inferno Manager\Scripts\particlesLogic.cs" />
     <Compile Include="Assets\Inferno Manager\Scripts\pie chart\NewBehaviourScript.cs" />
     <Compile Include="Assets\MissionOption.cs" />
@@ -172,7 +173,6 @@
     <Compile Include="Assets\explosion_animation_end.cs" />
     <Compile Include="Assets\ferryman_path.cs" />
     <Compile Include="Assets\gota_magica_sao_paulo.cs" />
-    <Compile Include="Assets\hell_diplomacy_bt.cs" />
     <Compile Include="Assets\levelUpHands.cs" />
     <Compile Include="Assets\light_glow_scale.cs" />
     <Compile Include="Assets\no_resource_wheel.cs" />

@@ -71,7 +71,18 @@ public class pizza_char : MonoBehaviour {
 
     public void rotate()
     {
-        float angle = Random.Range(-8000, -5000);
+        float angle;
+        if (GLOBALS.s.TUT_CAT_ALREADY_OCURRED == false)
+        {
+            GLOBALS.s.TUT_CAT_ALREADY_OCURRED = true;
+            angle = -7300;
+            TutorialController.s.endCatBT();
+        }
+        else
+        {
+            angle = Random.Range(-8000, -5000);
+        }
+         
         transform.DORotate(new Vector3(0, 0, angle), 3, RotateMode.LocalAxisAdd).OnComplete(print_angle);
 
         

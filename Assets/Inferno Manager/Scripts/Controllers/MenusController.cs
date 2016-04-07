@@ -489,7 +489,6 @@ public class MenusController : MonoBehaviour {
     {
         GLOBALS.s.DIALOG_ALREADY_OPENED = true;
         Invoke("cat", time);
-
     }
     void cat()
     {

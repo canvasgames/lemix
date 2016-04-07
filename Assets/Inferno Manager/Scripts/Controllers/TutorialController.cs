@@ -712,6 +712,20 @@ public class TutorialController : MonoBehaviour
         MenusController.s.moveMenu(MovementTypes.Left, tempObject, "SatanHandCatBT", 0, 0);
     }
 
+    public void click_to_spin()
+    {
+        MenusController.s.destroyMenu("SmallScroll", null);
+        MenusController.s.destroyMenu("SatanHandCatBT", null);
+        GLOBALS.s.TUTORIAL_PHASE = 102;
+
+        tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/SmallScroll"));
+        MenusController.s.moveMenu(MovementTypes.Left, tempObject, "SmallScroll", 242, -58);
+
+        tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/SatanHandCatBT"));
+        MenusController.s.moveMenu(MovementTypes.Left, tempObject, "SatanHandCatBT", -65.27f, -175f);
+    }
+
+
     public void endCatBT()
     {
         MenusController.s.destroyMenu("SmallScroll", null);

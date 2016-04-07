@@ -183,7 +183,9 @@ public class DialogsTexts : MonoBehaviour
             else if (GLOBALS.s.TUTORIAL_PHASE == 25)
                 text_to_display = "Tap at your Rank to\ncheck the <color=red>Demons Rank</color> List";
             else if (GLOBALS.s.TUTORIAL_PHASE == 100)
-                text_to_display = "Tap here to check all catastrophes!";
+                text_to_display = "Tap here to check the new catastrophes wheel!";
+            else if (GLOBALS.s.TUTORIAL_PHASE == 102)
+                text_to_display = "Tap to spin the wheel! \n Good luck!";
             else if (GLOBALS.s.TUTORIAL_PHASE == 101)
             {
                 text_to_display = "Back to business then.\nI'm promoting you to \n<color=#fe2323>Demon Lord!</color>";
