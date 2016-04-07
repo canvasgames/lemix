@@ -86,7 +86,7 @@ public class rotate_bt_roulette : MonoBehaviour {
         re_spin_cost++;
         fire_icon.SetActive(false);
         gem_icon.SetActive(true);
-        transform.GetComponentInChildren<Text>().text = "Re-Spin the Wheel \nCost: "+ re_spin_cost+"  ";
+        transform.GetComponentInChildren<Text>().text = "Re-Spin! \n"+ re_spin_cost+" ";
 
         
     }
@@ -117,7 +117,7 @@ public class rotate_bt_roulette : MonoBehaviour {
             PlayerPrefs.SetInt("Spinned", 0);
             spinned = 0;
 
-            transform.GetComponentInChildren<Text>().text = "Spin the Wheel \nCost: 200  ";
+            transform.GetComponentInChildren<Text>().text = "Spin! \n200 ";
             fire_icon.SetActive(true);
             gem_icon.SetActive(false);
             transform.GetComponent<Image>().color = new Vector4(1f, 1f, 1f, 1);
