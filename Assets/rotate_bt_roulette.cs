@@ -62,6 +62,18 @@ public class rotate_bt_roulette : MonoBehaviour {
             }
 
         }
+        else
+        {
+            if (BE.SceneTown.Gem.Target() >= 4)
+            {
+                BE.SceneTown.Gem.ChangeDelta(-4);
+                pizza_chart.GetComponent<pizza_char>().rotate();
+            }
+            else
+            {
+                dialog_no_fire.SetActive(true);
+            }
+        }
  
         //
     }
@@ -116,10 +128,11 @@ public class rotate_bt_roulette : MonoBehaviour {
         {
             DateTime dif = oldDate.AddMinutes(1);
             TimeSpan diff = newDate.Subtract(dif);
-            transform.GetComponentInChildren<Text>().text = "Can spin in " +"\n"+ (-diff.Minutes) +"m " + (-diff.Seconds) + "s ";
+            transform.GetComponentInChildren<Text>().text = "Wait " + (-diff.Minutes) +"m " + (-diff.Seconds) + "s "
+               + "\n Or use 4" ;
             fire_icon.SetActive(false);
-            gem_icon.SetActive(false);
-            transform.GetComponent<Image>().color = new Vector4(0.8f, 0.8f, 0.8f, 1);
+            gem_icon.SetActive(true);
+            //transform.GetComponent<Image>().color = new Vector4(0.8f, 0.8f, 0.8f, 1);
         }
 
         return false;
