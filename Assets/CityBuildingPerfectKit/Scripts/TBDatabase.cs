@@ -769,8 +769,8 @@ namespace BE {
             }
             //16 - Fire Pool
             {
-                BuildingType bt = new BuildingType(16, "Fire Pool", "", 4, 3, GLOBALS.s.BUILDING_MAX_LEVEL, 0, GLOBALS.s.PUNISHER_COUNT_EVOLUTION);
-                { BuildingDef bd = new BuildingDef(250, 100, 0, 0, 5, 1, 5); bd.SetStorageCapacity(0, 100); bt.Add(bd); }
+                BuildingType bt = new BuildingType(16, "Call Center", "", 4, 3, GLOBALS.s.BUILDING_MAX_LEVEL, 0, GLOBALS.s.PUNISHER_COUNT_EVOLUTION);
+                { BuildingDef bd = new BuildingDef(250, 100, 0, 0, 5, 1, 1); bd.SetStorageCapacity(0, 100); bt.Add(bd); }
                 { BuildingDef bd = new BuildingDef(250, 300, 0, 0, 10, 1, 6); bd.SetStorageCapacity(0, 250); bt.Add(bd); } //20
                 { BuildingDef bd = new BuildingDef(250, 750, 0, 0, 30, 1, 7); bd.SetStorageCapacity(0, 500); bt.Add(bd); } //20
                 { BuildingDef bd = new BuildingDef(250, 1250, 0, 0, 60, 1, 8); bd.SetStorageCapacity(0, 750); bt.Add(bd); } //20
