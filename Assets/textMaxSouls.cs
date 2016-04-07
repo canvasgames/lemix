@@ -20,7 +20,7 @@ public class textMaxSouls : MonoBehaviour
     public void pulse()
     {
         if(pare == false)
-            transform.DOScale(new Vector3(2f, 2f, 2f), 0.7f).OnComplete(repulse);
+            transform.DOScale(new Vector3(1.4f, 1.4f, 1.4f), 0.7f).OnComplete(repulse);
     }
 
     void repulse()

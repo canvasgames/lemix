@@ -11,7 +11,7 @@ public class TutorialController : MonoBehaviour
 
     public GameObject curSatan;
 
-    public GameObject txtMaxSouls;
+    public GameObject txtMaxSouls, txtMaxSouls1, txtMaxSouls2;
 
     public GameObject catastrophesBt;
 
@@ -325,14 +325,16 @@ public class TutorialController : MonoBehaviour
         MenusController.s.moveMenu(MovementTypes.Left,tempObject, "SmallScroll", -292f, -113f);
 
         tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/GreenCircle"));
-        MenusController.s.moveMenu(MovementTypes.Left, tempObject, "GreenCircle", -429, 324);
+        MenusController.s.moveMenu(MovementTypes.Left, tempObject, "GreenCircle", -417, 289);
         tempObject.GetComponent<GreenCircle>().pulse();
 
         txtMaxSouls.GetComponent<textMaxSouls>().pulse();
+        txtMaxSouls1.GetComponent<textMaxSouls>().pulse();
+        txtMaxSouls2.GetComponent<textMaxSouls>().pulse();
+        // tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/3DArrow"));
+        //MenusController.s.moveMenu(MovementTypes.Left, tempObject, "3DArrow", -429, 207);
 
-        tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/3DArrow"));
-        MenusController.s.moveMenu(MovementTypes.Left, tempObject, "3DArrow", -429, 207);
-       // tempObject.GetComponent<Arrow3D>().googogogo();
+        // tempObject.GetComponent<Arrow3D>().googogogo();
 
         //fscreen = GameObject.FindObjectsOfType(typeof(DialogsTexts)) as DialogsTexts[];
         // fscreen[0].closeAndReopen();
@@ -352,6 +354,8 @@ public class TutorialController : MonoBehaviour
         GLOBALS.s.TUTORIAL_PHASE = 11;
         GLOBALS.s.LOCK_CLICK_TUTORIAL = false;
         txtMaxSouls.GetComponent<textMaxSouls>().stop();
+        txtMaxSouls1.GetComponent<textMaxSouls>().stop();
+        txtMaxSouls2.GetComponent<textMaxSouls>().stop();
         MenusController.s.destroyMenu("3DArrow", null);
         MenusController.s.destroyMenu("GreenCircle", null);
 
@@ -506,6 +510,9 @@ public class TutorialController : MonoBehaviour
     {
         GLOBALS.s.TUTORIAL_PHASE = -1;
         GLOBALS.s.LOCK_CAMERA_TUTORIAL = true;
+
+        MenusController.s.destroyMenu("SmallScroll", null);
+        MenusController.s.destroyMenu("CityOP", null);
         MenusController.s.destroyMenu("DemonList", null);
         MenusController.s.destroyMenu("SatanHand", null);
 

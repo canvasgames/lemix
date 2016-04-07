@@ -76,7 +76,7 @@ public class btNextTutorial : ButtonCap
 
         }
 
-        // INSERTING CHICKEN HERE 
+
         else if (GLOBALS.s.TUTORIAL_PHASE == 10)
         {
             MenusController.s.destroyMenu("ArowNext", null);
@@ -109,8 +109,8 @@ public class btNextTutorial : ButtonCap
         {
 
             MenusController.s.destroyMenu("ArowNext", null);
-            TutorialController.s.backPhase13();
-
+            //TutorialController.s.backPhase13();
+            TutorialController.s.start_chicken_tutorial();
 
         }
 

@@ -21,6 +21,6 @@ public class GreenCircle : MonoBehaviour {
 
     void repulse()
     {
-        transform.DOScale(new Vector3(1f, 1f, 1f), 0.7f).OnComplete(pulse);
+        transform.DOScale(new Vector3(1.4f, 1.4f, 1.4f), 0.7f).OnComplete(pulse);
     }
 }
