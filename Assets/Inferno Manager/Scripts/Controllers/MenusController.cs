@@ -46,6 +46,7 @@ public class MenusController : MonoBehaviour {
 
     public void moveMenu(MovementTypes type, GameObject menu, string name, float newX, float newY, string dialogTextName = "", bool writeText = false, bool dont_screw_canvas = false, float delay = 0f)
     {
+
         if (delay == 0) {
             if (type == MovementTypes.Down)
                 enterFromDown(menu, name, newX, newY, dont_screw_canvas);
@@ -57,6 +58,7 @@ public class MenusController : MonoBehaviour {
                 enterFromLeft(menu, name, newX, newY);
 
             if (dialogTextName != "") {
+                
                 menu.transform.GetComponentInChildren<DialogsTexts>().changeText(dialogTextName, writeText);
 
             }
@@ -513,6 +515,66 @@ public class MenusController : MonoBehaviour {
         tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/LevelUp"));
         MenusController.s.apearAlphaCanvasGroup(tempObject, "LevelUp");
         BE.BEAudioManager.SoundPlay(10);
+    }
+
+    public void createHellDiplomacy()
+    {
+        GLOBALS.s.DIALOG_ALREADY_OPENED = true;
+        GameObject tempObject;
+
+
+        tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/BigScroll"));
+        MenusController.s.moveMenu(MovementTypes.Right, tempObject, "HellDiplomacy", 0, 0, "HellDiplomacy");
+
+
+        tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/Satan/SatanOrderingg"));
+        MenusController.s.moveMenu(MovementTypes.Right, tempObject, "Satan", 0, 0);
+
+        tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/Buttons/YesBT"));
+        MenusController.s.moveMenu(MovementTypes.Right, tempObject, "YesBT", 0, 0);
+
+        tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/Buttons/NoBT"));
+        MenusController.s.moveMenu(MovementTypes.Right, tempObject, "NoBT", 0, 0);
+    }
+
+    public void createHellDiplomacyNoOption()
+    {
+        GLOBALS.s.DIALOG_ALREADY_OPENED = true;
+        GameObject tempObject;
+
+        MenusController.s.destroyMenu("HellDiplomacy", null);
+        MenusController.s.destroyMenu("Satan", null);
+        MenusController.s.destroyMenu("NoBT", null);
+        MenusController.s.destroyMenu("YesBT", null);
+
+        tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/BigScroll"));
+        MenusController.s.moveMenu(MovementTypes.Right, tempObject, "HellDiplomacy2", 0, 0, "HellDiplomacy2");
+
+
+        tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/Satan/SatanBoasting"));
+        MenusController.s.moveMenu(MovementTypes.Right, tempObject, "SatanB", 0, 0);
+
+        tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/Buttons/YesBT2"));
+        MenusController.s.moveMenu(MovementTypes.Right, tempObject, "YesBT2", 0, 0);
+    }
+
+    public void destroyHellDiplomacyYes()
+    {
+        GLOBALS.s.DIALOG_ALREADY_OPENED = false;
+
+        MenusController.s.destroyMenu("HellDiplomacy", null);
+        MenusController.s.destroyMenu("Satan", null);
+        MenusController.s.destroyMenu("NoBT", null);
+        MenusController.s.destroyMenu("YesBT", null);
+    }
+
+    public void destroyHellDiplomacyYes2()
+    {
+        GLOBALS.s.DIALOG_ALREADY_OPENED = false;
+
+        MenusController.s.destroyMenu("HellDiplomacy2", null);
+        MenusController.s.destroyMenu("SatanB", null);
+        MenusController.s.destroyMenu("YesBT2", null);
     }
     #endregion
 }

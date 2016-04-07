@@ -150,6 +150,7 @@
     <Compile Include="Assets\Inferno Manager\Scripts\pie chart\NewBehaviourScript.cs" />
     <Compile Include="Assets\MissionOption.cs" />
     <Compile Include="Assets\MissionsController.cs" />
+    <Compile Include="Assets\No_bt_hell_diplomacy.cs" />
     <Compile Include="Assets\QA.cs" />
     <Compile Include="Assets\RankBT.cs" />
     <Compile Include="Assets\SatanController.cs" />
@@ -171,6 +172,7 @@
     <Compile Include="Assets\explosion_animation_end.cs" />
     <Compile Include="Assets\ferryman_path.cs" />
     <Compile Include="Assets\gota_magica_sao_paulo.cs" />
+    <Compile Include="Assets\hell_diplomacy_bt.cs" />
     <Compile Include="Assets\levelUpHands.cs" />
     <Compile Include="Assets\light_glow_scale.cs" />
     <Compile Include="Assets\no_resource_wheel.cs" />
@@ -179,6 +181,8 @@
     <Compile Include="Assets\rotate_bt_roulette.cs" />
     <Compile Include="Assets\start_animation_random_frame.cs" />
     <Compile Include="Assets\textMaxSouls.cs" />
+    <Compile Include="Assets\yes_bt_hell_diplomacy.cs" />
+    <Compile Include="Assets\yes_bt_hell_diplomacy_2.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Cartoon FX\CartoonFX2 Readme.txt" />

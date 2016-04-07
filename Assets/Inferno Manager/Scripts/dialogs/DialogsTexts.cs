@@ -210,6 +210,10 @@ public class DialogsTexts : MonoBehaviour
                 text_to_display = "Seems you do have sense of humor on punishing people with exotic ways";
             else if (string.Equals(dialogName, "MissionCollect"))
                 text_to_display = "Remember that you need Souls if you want to be respected";
+            else if (string.Equals(dialogName, "HellDiplomacy"))
+                text_to_display = "Hey Demon, \n\n Give me 50% of all your Hellfire, I need it for my next Heaven's raid  \n\n Best regards, Satan";
+            else if (string.Equals(dialogName, "HellDiplomacy2"))
+                text_to_display = "MUAAHHAHAHAHAHHAHA.  \n\n I don't think you understand your position. Give me 60% instead and I will tolerate you this time";
         }
 
 

@@ -23,7 +23,7 @@ public class QA : MonoBehaviour {
         else ProductionMultiplier = 1;
 
         first_game = PlayerPrefs.GetInt("first_game", 0);
-        first_game = 0;
+        //first_game = 0;
         if (first_game == 0) {
             PlayerPrefs.SetInt("first_game", 1);
             first_game = 1;

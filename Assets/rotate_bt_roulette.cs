@@ -124,7 +124,7 @@ public class rotate_bt_roulette : MonoBehaviour {
             return true;
 
         }
-        else
+        else if(difference.Minutes >= 0)
         {
             DateTime dif = oldDate.AddMinutes(1);
             TimeSpan diff = newDate.Subtract(dif);
@@ -133,6 +133,15 @@ public class rotate_bt_roulette : MonoBehaviour {
             fire_icon.SetActive(false);
             gem_icon.SetActive(true);
             //transform.GetComponent<Image>().color = new Vector4(0.8f, 0.8f, 0.8f, 1);
+        }
+        else
+        {
+            PlayerPrefs.SetInt("Spinned", 0);
+            spinned = 0;
+
+            transform.GetComponentInChildren<Text>().text = "Spin the Wheel \nCost: 200  ";
+            fire_icon.SetActive(true);
+            gem_icon.SetActive(false);
         }
 
         return false;
