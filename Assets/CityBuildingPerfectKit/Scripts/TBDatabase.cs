@@ -737,9 +737,9 @@ namespace BE {
             //13 - Sisyphus Hill
             {
                 BuildingType bt = new BuildingType(13, "Sisyphus Hill", "", 4, 4, GLOBALS.s.BUILDING_MAX_LEVEL, 0, GLOBALS.s.PUNISHER_COUNT_EVOLUTION);
-                { BuildingDef bd = new BuildingDef(250, 100, 0, 0, 5, 0, 1); bd.SetStorageCapacity(0, 100); bt.Add(bd); } //20
-                { BuildingDef bd = new BuildingDef(250, 300, 0, 0, 10, 0, 2); bd.SetStorageCapacity(0, 250); bt.Add(bd); } //20
-                { BuildingDef bd = new BuildingDef(250, 750, 0, 0, 30, 0, 2); bd.SetStorageCapacity(0, 500); bt.Add(bd); } //20
+                { BuildingDef bd = new BuildingDef(250, 100, 0, 0, 5, 0, 3); bd.SetStorageCapacity(0, 100); bt.Add(bd); } //20
+                { BuildingDef bd = new BuildingDef(250, 300, 0, 0, 10, 0, 3); bd.SetStorageCapacity(0, 250); bt.Add(bd); } //20
+                { BuildingDef bd = new BuildingDef(250, 750, 0, 0, 30, 0, 3); bd.SetStorageCapacity(0, 500); bt.Add(bd); } //20
                 { BuildingDef bd = new BuildingDef(250, 1250, 0, 0, 60, 0, 3); bd.SetStorageCapacity(0, 750); bt.Add(bd); } //20
                 { BuildingDef bd = new BuildingDef(250, 3300, 0, 0, 2 * 60, 0, 4); bd.SetStorageCapacity(0, 1000); bt.Add(bd); } //20
                 { BuildingDef bd = new BuildingDef(250, 8900, 0, 0, 5 * 60, 0, 5); bd.SetStorageCapacity(0, 1250); bt.Add(bd); } //20
@@ -748,9 +748,9 @@ namespace BE {
             //14 - Toaster Oven
             {
                 BuildingType bt = new BuildingType(14, "Toaster Oven", "", 3, 2, GLOBALS.s.BUILDING_MAX_LEVEL, 0, GLOBALS.s.PUNISHER_COUNT_EVOLUTION);
-                { BuildingDef bd = new BuildingDef(250, 100, 0, 0, 5, 0, 1); bd.SetStorageCapacity(0, 100); bt.Add(bd); } //20
-                { BuildingDef bd = new BuildingDef(250, 300, 0, 0, 10, 0, 2); bd.SetStorageCapacity(0, 250); bt.Add(bd); } //20
-                { BuildingDef bd = new BuildingDef(250, 750, 0, 0, 30, 0, 2); bd.SetStorageCapacity(0, 500); bt.Add(bd); } //20
+                { BuildingDef bd = new BuildingDef(250, 100, 0, 0, 5, 0, 3); bd.SetStorageCapacity(0, 100); bt.Add(bd); } //20
+                { BuildingDef bd = new BuildingDef(250, 300, 0, 0, 10, 0, 3); bd.SetStorageCapacity(0, 250); bt.Add(bd); } //20
+                { BuildingDef bd = new BuildingDef(250, 750, 0, 0, 30, 0, 3); bd.SetStorageCapacity(0, 500); bt.Add(bd); } //20
                 { BuildingDef bd = new BuildingDef(250, 1250, 0, 0, 60, 0, 3); bd.SetStorageCapacity(0, 750); bt.Add(bd); } //20
                 { BuildingDef bd = new BuildingDef(250, 3300, 0, 0, 2 * 60, 0, 4); bd.SetStorageCapacity(0, 1000); bt.Add(bd); } //20
                 { BuildingDef bd = new BuildingDef(250, 8900, 0, 0, 5 * 60, 0, 5); bd.SetStorageCapacity(0, 1250); bt.Add(bd); } //20

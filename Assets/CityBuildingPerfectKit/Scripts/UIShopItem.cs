@@ -76,7 +76,9 @@ namespace BE {
                 CountAvailable = false;
                 locked = true;
                 int NextTownLevel = bt.GetMoreBuildTownLevel(Count);
-                DisabledInfo.text = "Need Demon Palace Level  " + THRankReq;
+                //DisabledInfo.text = "Need Demon Palace Level  " + THRankReq;
+                DisabledInfo.text = "Need " + TBDatabase.GetLevelExpTotal(NextTownLevel).ToString() + " Souls";
+
                 goDisabled.SetActive(true);
                 LockedInterrogation.SetActive(true);
             }
