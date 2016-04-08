@@ -24,7 +24,7 @@ public class catastropheBT : MonoBehaviour {
 
         if (GLOBALS.s.DIALOG_ALREADY_OPENED == false || GLOBALS.s.TUTORIAL_OCCURING == true && GLOBALS.s.TUTORIAL_PHASE == 100) { 
 
-            tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/CatastropheList/CatastropheList"));
+            tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/CatastropheList/CatastropheListv2"));
             MenusController.s.moveMenu(MovementTypes.Left, tempObject, "CatastropheList", 0, 0);
 
             if (!GLOBALS.s.TUT_CAT_ALREADY_OCURRED) {

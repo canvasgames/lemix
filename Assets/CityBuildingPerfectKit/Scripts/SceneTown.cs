@@ -126,7 +126,7 @@ namespace BE {
 			Elixir.AddUITextMax(BEUtil.GetObject("PanelOverlay/LabelElixir/TextMax").GetComponent<Text>());
 		    Elixir.AddUIImage(BEUtil.GetObject("PanelOverlay/LabelElixir/Fill").GetComponent<Image>());
 
-			Gem = new BENumber(BENumber.IncType.VALUE, 0, 100000000, 0);	// initial gem count is 100	0	
+			Gem = new BENumber(BENumber.IncType.VALUE, 0, 100000000, 50);	// initial gem count is 100	0	
 			Gem.AddUIText(BEUtil.GetObject("PanelOverlay/LabelGem/Text").GetComponent<Text>());
 
             //TBDCURRENCIES SET THEIR VALUE HERE

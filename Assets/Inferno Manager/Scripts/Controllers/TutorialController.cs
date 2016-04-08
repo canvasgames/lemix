@@ -69,6 +69,7 @@ public class TutorialController : MonoBehaviour
         }
         //
         #endregion
+        //clickRankHUD();
     }
     void OnDestroy() {
         Debug.Log("TUTORIAL CONTROLLER IS BEING DESTROYED!!!! ");
@@ -468,7 +469,7 @@ public class TutorialController : MonoBehaviour
         CreateDemonsScrollView[] list;
         list = GameObject.FindObjectsOfType(typeof(CreateDemonsScrollView)) as CreateDemonsScrollView[];
         list[0].moveList();
-        Invoke("clickDemonLordToOpenCity", 3);
+        Invoke("clickDemonLordToOpenCity", 5);
 
 
     }
@@ -481,7 +482,7 @@ public class TutorialController : MonoBehaviour
         MenusController.s.moveMenu(MovementTypes.Left, tempObject, "SmallScroll", -101f, 131);
 
         tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/SatanHandCatBT"));
-        MenusController.s.moveMenu(MovementTypes.Right, tempObject, "SatanHandCatBT", 214, 87.5f);
+        MenusController.s.moveMenu(MovementTypes.Right, tempObject, "SatanHandCatBT", 214-180, 87.5f);
     }
 
     public void niceCity()

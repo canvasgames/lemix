@@ -503,7 +503,7 @@ public class MenusController : MonoBehaviour {
         MenusController.s.destroyMenu("Catastrophe",null);
 
         GameObject tempObject;
-        tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/CatastropheList/CatastropheList"));
+        tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/CatastropheList/CatastropheListv2"));
         MenusController.s.moveMenu(MovementTypes.Right, tempObject, "CatastropheList", 0, 0);
 
         if (GLOBALS.s.TUTORIAL_PHASE == 103 && GLOBALS.s.TUTORIAL_OCCURING == true)

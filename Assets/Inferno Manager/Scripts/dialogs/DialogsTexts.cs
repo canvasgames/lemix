@@ -145,7 +145,7 @@ public class DialogsTexts : MonoBehaviour
             }
 
             else if (GLOBALS.s.TUTORIAL_PHASE == -2)
-                text_to_display = "MUAHAHA! It's always fun\nto kick a chicken. Although\nthat has nothing to\n do with the game";
+                text_to_display = "MUAHAHA! It's always fun\nto kick a chicken. Although\nthat has nothing to\ndo with the game";
 
             // text_to_display = "Great! Now your Hell Gate can Generate Souls! As higher your sadness meter, more souls will be sent to your Hell!";
             else if (GLOBALS.s.TUTORIAL_PHASE == 11)

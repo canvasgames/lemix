@@ -18,12 +18,13 @@ public class CreateDemonsScrollView : MonoBehaviour {
 
         ySpace = placeholder.GetComponent<RectTransform>().rect.height - 40;
 
+        //Invoke("moveList", 1f);
 
-        createLine(initialY, 1, xSpace,1);
-        createLine(initialY - ySpace , 3, xSpace,2);
-        createLine(initialY - ySpace*2, 3, xSpace,3);
-        createLine(initialY - ySpace*3, 3, xSpace,4);
-        createLine(initialY - ySpace * 4, 3, xSpace,5);
+        //createLine(initialY, 1, xSpace,1);
+        //createLine(initialY - ySpace , 3, xSpace,2);
+        //createLine(initialY - ySpace*2, 3, xSpace,3);
+        //createLine(initialY - ySpace*3, 3, xSpace,4);
+        //createLine(initialY - ySpace * 4, 3, xSpace,5);
 
         //transform.DOLocalMoveY(GetComponent<RectTransform>().rect.height, 3f);
     }
@@ -35,7 +36,11 @@ public class CreateDemonsScrollView : MonoBehaviour {
 
     public void moveList()
     {
-        transform.DOLocalMoveY(GetComponent<RectTransform>().rect.height - 410, 3f);
+        Debug.Log(" RECTTTTTTTTTTTTTTT " + GetComponent<RectTransform>().rect.height);
+        //transform.DOLocalMoveY(-GetComponent<RectTransform>().rect.height - 1010, 12f);
+        transform.DOLocalMoveY(transform.position.y -2600, 5f);
+       // transform.DOLocalMoveY(GetComponent<RectTransform>().rect.height - 410, 3f);
+        //transform.DOLocalMoveY(-3220 , 3f);
     }
 
     void createLine(float yPosition, int numberOfAvatarsInLine, float xSpacing, int line)

@@ -104,7 +104,7 @@ public class demonCreateAvatar : MonoBehaviour {
             MenusController.s.addToGUIAndRepositeObject(tempObject, "CityOP");
             MenusController.s.destroyMenu("SmallScroll", null);
 
-            Invoke("invokeTut", 0.5f);
+            Invoke("invokeTut", 1f);
         }
     }
 

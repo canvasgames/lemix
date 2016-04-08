@@ -166,7 +166,7 @@ public class CatastropheAnimationController : MonoBehaviour {
         Invoke("start_explosion2", 0.75f);
         Invoke("start_explosion3", 1.3f);
 
-        Invoke("close_everything", 4.5f);
+        Invoke("close_everything", 3.5f);
     }
 
     void start_explosion2()

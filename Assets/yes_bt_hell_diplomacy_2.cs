@@ -13,7 +13,7 @@ public class yes_bt_hell_diplomacy_2 : MonoBehaviour {
 	
 	}
 
-    public void click()
+    public void clickcc()
     {
         double CapacityTotal = BE.SceneTown.Elixir.ChangeDelta(0);
         BE.SceneTown.Elixir.ChangeDelta(-(CapacityTotal * 0.6f));

@@ -53,7 +53,7 @@ public class collectSouls : MonoBehaviour {
     void destroy()
     {
 
-        Invoke("realDestroy", 2f);
+        Invoke("realDestroy", 1f);
 
             
 

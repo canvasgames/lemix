@@ -140,7 +140,7 @@ public class rotate_bt_roulette : MonoBehaviour {
             DateTime dif = oldDate.AddMinutes(1);
             TimeSpan diff = newDate.Subtract(dif);
             transform.GetComponentInChildren<Text>().text = "Wait " + (-diff.Minutes) +"m " + (-diff.Seconds) + "s "
-               + "\n Or use 4" ;
+               + "\n Or pay 4      " ;
             fire_icon.SetActive(false);
             gem_icon.SetActive(true);
             //transform.GetComponent<Image>().color = new Vector4(0.8f, 0.8f, 0.8f, 1);
