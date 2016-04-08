@@ -734,6 +734,28 @@ public class TutorialController : MonoBehaviour
        GLOBALS.s.TUTORIAL_PHASE = 103;
        // GLOBALS.s.TUTORIAL_OCCURING = false;
     }
+
+    public void click_to_spin_again_gems()
+    {
+        GLOBALS.s.TUTORIAL_PHASE = 104;
+        tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/SmallScroll"));
+        MenusController.s.moveMenu(MovementTypes.Left, tempObject, "SmallScroll", 242, -58);
+
+        tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/SatanHandCatBT"));
+        MenusController.s.moveMenu(MovementTypes.Left, tempObject, "SatanHandCatBT", -65.27f, -175f);
+
+        
+        //GLOBALS.s.TUTORIAL_OCCURING = false;
+    }
+
+    public void end_tutorial_spin()
+    {
+        MenusController.s.destroyMenu("SmallScroll", null);
+        MenusController.s.destroyMenu("SatanHandCatBT", null);
+
+        GLOBALS.s.TUTORIAL_OCCURING = false;
+            GLOBALS.s.TUTORIAL_PHASE = 0;
+    }
     #endregion
 
     #region Create Next Bt for Tutorial

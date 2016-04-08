@@ -186,6 +186,8 @@ public class DialogsTexts : MonoBehaviour
                 text_to_display = "Tap here to check the new catastrophes wheel!";
             else if (GLOBALS.s.TUTORIAL_PHASE == 102)
                 text_to_display = "Tap to spin the wheel! \n Good luck!";
+            else if (GLOBALS.s.TUTORIAL_PHASE == 104)
+                text_to_display = "You can re-spin using gems or waiting. But this time is for free, spin again!";
             else if (GLOBALS.s.TUTORIAL_PHASE == 101)
             {
                 text_to_display = "Back to business then.\nI'm promoting you to \n<color=#fe2323>Demon Lord!</color>";

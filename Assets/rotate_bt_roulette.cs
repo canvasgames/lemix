@@ -30,52 +30,63 @@ public class rotate_bt_roulette : MonoBehaviour {
 
     public void click()
     {
-        if(running == false && spinned == 0)
+        if (GLOBALS.s.TUTORIAL_OCCURING == true && GLOBALS.s.TUTORIAL_PHASE == 104)
         {
-            running = true;
-            PlayerPrefs.SetInt("Spinned", 1);
-            PlayerPrefs.SetString("SpinTime", System.DateTime.Now.ToString());
-
-            if (re_spin == false)
+            if (running == false )
             {
-                if (BE.SceneTown.Gold.Target() >= 200)
-                {
-                    BE.SceneTown.Gold.ChangeDelta(-200);
-                    pizza_chart.GetComponent<pizza_char>().rotate();
-                }
-                else
-                {
-                    dialog_no_fire.SetActive(true);
-                }
+                running = true;
+                PlayerPrefs.SetInt("Spinned", 1);
+                pizza_chart.GetComponent<pizza_char>().rotate();
+                TutorialController.s.end_tutorial_spin();
             }
-            else
-            {
-                if (BE.SceneTown.Gem.Target() >= re_spin_cost)
-                {
-                    BE.SceneTown.Gem.ChangeDelta(-re_spin_cost);
-                    pizza_chart.GetComponent<pizza_char>().rotate();
-                }
-                else
-                {
-                    dialog_no_fire.SetActive(true);
-                }
-            }
-
         }
         else
         {
-            if (BE.SceneTown.Gem.Target() >= 4)
+            if (running == false && spinned == 0)
             {
-                BE.SceneTown.Gem.ChangeDelta(-4);
-                pizza_chart.GetComponent<pizza_char>().rotate();
+                running = true;
+                PlayerPrefs.SetInt("Spinned", 1);
+                PlayerPrefs.SetString("SpinTime", System.DateTime.Now.ToString());
+
+                if (re_spin == false)
+                {
+                    if (BE.SceneTown.Gold.Target() >= 200)
+                    {
+                        BE.SceneTown.Gold.ChangeDelta(-200);
+                        pizza_chart.GetComponent<pizza_char>().rotate();
+                    }
+                    else
+                    {
+                        dialog_no_fire.SetActive(true);
+                    }
+                }
+                else
+                {
+                    if (BE.SceneTown.Gem.Target() >= re_spin_cost)
+                    {
+                        BE.SceneTown.Gem.ChangeDelta(-re_spin_cost);
+                        pizza_chart.GetComponent<pizza_char>().rotate();
+                    }
+                    else
+                    {
+                        dialog_no_fire.SetActive(true);
+                    }
+                }
+
             }
             else
             {
-                dialog_no_fire.SetActive(true);
+                if (BE.SceneTown.Gem.Target() >= 4)
+                {
+                    BE.SceneTown.Gem.ChangeDelta(-4);
+                    pizza_chart.GetComponent<pizza_char>().rotate();
+                }
+                else
+                {
+                    dialog_no_fire.SetActive(true);
+                }
             }
         }
- 
-        //
     }
 
     public void running_state_false()
