@@ -3,10 +3,12 @@ using System.Collections;
 
 public class collider_tutorial_left : MonoBehaviour {
     public GameObject my_objs;
-	// Use this for initialization
-	void Start () {
-	
-	}
+    int cur_best;
+
+    // Use this for initialization
+    void Start () {
+         cur_best = PlayerPrefs.GetInt("best", 0);
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -15,7 +17,7 @@ public class collider_tutorial_left : MonoBehaviour {
 
     void OnTriggerEnter2D(Collider2D coll)
     {
-        if(coll.GetComponent<Rigidbody2D>().velocity.x < 0)
+        if(coll.GetComponent<Rigidbody2D>().velocity.x < 0 && cur_best <= 3)
         {
             Debug.Log("Ativaaaa");
             my_objs.SetActive(true);
