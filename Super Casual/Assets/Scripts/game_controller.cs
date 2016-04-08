@@ -156,14 +156,27 @@ public class game_controller : MonoBehaviour {
                         // create_floor(0,i);
                         //create_spike_wave(i, globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * i);
                         break;
-                    /*case 2:
-                        create_hole(i,true);
+                   case 2:
+                        //create_hole(i,true);
+                        create_floor(0, i);
+  
+                        create_spike(0, globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * i, i);
+                        wave_found = true;
+
                         break;
-                    case 3: create_wave_easy(i); break;
-                    case 4:
-                        create_hole(i,true);
+                     case 3:
+                        create_floor(0, i);
+                        create_spike(corner_left , globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * i, i);
+                        create_spike(corner_right, globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * i, i);
+                        wave_found = true;
                         break;
-                    */
+                     case 4:
+                        create_floor(0, i);
+
+                        create_spike(0, globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * i, i);
+                        wave_found = true;
+                        break;
+
                     default:
                         // Debug.Log(" DEFAULT FIRST WAVE:");
                         wave_found = create_wave_easy(i);
