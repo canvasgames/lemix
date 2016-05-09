@@ -197,7 +197,7 @@ public class game_controller : MonoBehaviour {
             // if (i > 0) { create_spike_wave(i, globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * i); }
         }
 
-        ball[0].Init_me();
+        ball[0].Init_first_ball();
         //wave_ctrl[0].create_new_wave(globals.s.BASE__Y + globals.s.FLOOR_HEIGHT * n_floor);
 
     }
@@ -1603,7 +1603,7 @@ public class game_controller : MonoBehaviour {
                     create_wave_name(0, actual_y, wave_name);
                 }
                 create_floor(0, n);
-                float pair_range = 1.3f;
+                float pair_range = 1.45f;
 
 
                 create_triple_spike(0 - pair_range, actual_y, n);

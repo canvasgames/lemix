@@ -6,7 +6,7 @@ public class AnalyticController : MonoBehaviour {
     public static AnalyticController s;
 
     public string siteName = "Kongregate";
-    public string clientVersion = "1.0.1";
+    string clientVersion = "1.0.3";
 
     void Awake() { s = this; }
 
@@ -87,7 +87,7 @@ public class AnalyticController : MonoBehaviour {
     }
 
     public void ReportVideoWatchedForPowerUps() {
-        Debug.Log("[ANAL] REPORTING VIDEO WATCHED");
+        Debug.Log("[ANAL] REPORTING ACTIVATE PWS");
         EventBuilder eventParams = new EventBuilder();
         eventParams.AddParam("clientVersion", clientVersion);
 
@@ -96,7 +96,7 @@ public class AnalyticController : MonoBehaviour {
         eventParams.AddParam("userTotalGames", USER.s.TOTAL_GAMES);
         eventParams.AddParam("userTotalVideosWatched", USER.s.TOTAL_VIDEOS_WATCHED);
 
-        DDNA.Instance.RecordEvent("activatePwsPressed", eventParams);
+        DDNA.Instance.RecordEvent("activatePWsPressed", eventParams);
     }
 
     public void ReportAdAction(string adName = "bomblast", string action = "closed") {

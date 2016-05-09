@@ -26,9 +26,13 @@ public class ball_hero : MonoBehaviour
     public GameObject symbols;
     bool sight_active = false;
     bool heart_active = false;
+    bool facing_right = false;
+
+    public GameObject my_skin;
 
     public GameObject my_light;
 
+    public float time_dif;
     //public GameObject
 
     // Use this for initialization
@@ -56,7 +60,9 @@ public class ball_hero : MonoBehaviour
     void Start()
     {
         my_id = globals.s.BALL_ID; globals.s.BALL_ID++;
-        
+        Debug.Log("BALL CREATED! TIME: " + Time.time);
+        time_dif = Time.time;
+
 
         //camerda = FindObjectOfType<Camera>;
         //Debug.Log(" SPEED X: " + globals.s.FLOOR_HEIGHT);
@@ -67,7 +73,7 @@ public class ball_hero : MonoBehaviour
         //Debug.Log ("INIT NEW BALL !!! MY X SPEED: " + rb.velocity.x);
     }
 
-    public void Init_me()
+    public void Init_first_ball()
     {
         if (first_ball == true)
         {
@@ -79,8 +85,21 @@ public class ball_hero : MonoBehaviour
             {
                 rb.velocity = new Vector2(-globals.s.BALL_SPEED_X, 0);
             }
+            init_me();
+        }
+    
+        
+    }
+    
+    public void init_me() {
+        if (transform.position.x < 0 ) {
+            my_skin.transform.localScale = new Vector2(-3, my_skin.transform.localScale.y);
+        }
+        else if (transform.position.x > 0) {
+            my_skin.transform.localScale = new Vector2(3, my_skin.transform.localScale.y);
         }
     }
+
 
     #endregion
 
@@ -166,6 +185,9 @@ public class ball_hero : MonoBehaviour
                 x_new_pos = globals.s.LIMIT_RIGHT + Mathf.Abs(globals.s.LIMIT_RIGHT - transform.position.x);
             }
 
+            Debug.Log("BALL DESTROYED TIME: " + Time.time + " .. TIME DIF: " + (Time.time - time_dif));
+
+
             //instantiating my son at the other side of the screen
             my_son = (GameObject)Instantiate(bola,
                                               new Vector3(x_new_pos,
@@ -181,8 +203,11 @@ public class ball_hero : MonoBehaviour
             my_son.GetComponent<ball_hero>().my_floor = my_floor + 1;
             my_son.GetComponent<ball_hero>().grounded = grounded;
 
+
             globals.s.BALL_Y = my_son.transform.position.y;
             globals.s.BALL_X = my_son.transform.position.x;
+
+            my_son.GetComponent<ball_hero>().init_me();
             //Debug.Log
 
             // CALL GAME CONTROLLER
@@ -227,6 +252,9 @@ public class ball_hero : MonoBehaviour
             grounded = false;
             //rb.AddForce (new Vector2 (0, y_jump));
             rb.velocity = new Vector2(rb.velocity.x, globals.s.BALL_SPEED_Y);
+
+            my_skin.GetComponent<Animator>().Play("Jumping");
+
         }
         //else Debug.Log("ÇÇÇÇÇÇÇÇÇÇÇÇÇÇÇ CANT JUMP! I AM NOT GROUNDED");
     }
@@ -244,6 +272,7 @@ public class ball_hero : MonoBehaviour
             if (coll.transform.position.y + coll.transform.GetComponent<SpriteRenderer>().bounds.size.y / 2 <= transform.position.y - globals.s.BALL_R + 1f) {
                 //rb.AddForce (new Vector2 (0, 0));
                 rb.velocity = new Vector2(rb.velocity.x, 0);
+                my_skin.GetComponent<Animator>().Play("Running");
                 //transform.position = new Vector2(transform.position.x, coll.transform.position.y + coll.transform.GetComponent<SpriteRenderer>().bounds.size.y / 2 + globals.s.BALL_R);
                 my_floor = coll.gameObject.GetComponent<floor>().my_floor;
                 //Debug.Log(my_id + " KKKKKKKKKKKKKKKKKK KOLLISION! MY NEW FLOOR: " + my_floor + " I AM GROUNDED ");
