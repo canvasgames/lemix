@@ -4,6 +4,7 @@ using System.Collections;
 public class globals : MonoBehaviour {
 	public static globals s;
 
+    public bool ALERT_BALL = false;
     public int GAME_OVER = 0;
     public bool CAN_RESTART = false;
     public bool GAME_STARTED = false;

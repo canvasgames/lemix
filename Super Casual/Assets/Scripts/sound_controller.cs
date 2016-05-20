@@ -9,7 +9,7 @@ public class sound_controller : MonoBehaviour
     public AudioSource efxSource, efxSource2, efxSource3;
     public AudioSource musicSource, musicSource2, musicSource3, musicSource4, musicSource5, curFadeIn, curFadeOut;
 
-    public AudioClip Jump, Explosion, Collect;
+    public AudioClip Jump, Explosion, Collect, Alert;
     public AudioClip[]  Jumps;
 
     public GameObject bt_sound;
@@ -62,6 +62,11 @@ public class sound_controller : MonoBehaviour
             }
         }
     }
+
+    public void play_alert() {
+        PlaySingle(Alert);
+    }
+
     public void special_event() {
         //PlaySingle(Collect);
         PlaySingle(Jumps[Random.Range(0, 7)]);

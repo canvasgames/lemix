@@ -5,6 +5,9 @@ using DG.Tweening;
 public class ball_hero : MonoBehaviour
 {
     #region Variables Declaration
+
+  
+
     float target_y = 0;
     bool target_y_reached;
 
@@ -21,6 +24,7 @@ public class ball_hero : MonoBehaviour
     private bool son_created = false;
     [HideInInspector]
     public GameObject my_son;
+    public GameObject my_alert;
     public GameObject bola;
     public GameObject heart, super, sight;
     public GameObject symbols;
@@ -54,6 +58,7 @@ public class ball_hero : MonoBehaviour
     void Awake()
     {
         rb = transform.GetComponent<Rigidbody2D>();
+        my_alert.SetActive(false);
     }
 
     // START THE DANCE
@@ -100,7 +105,6 @@ public class ball_hero : MonoBehaviour
         else if (transform.position.x > 0) {
             my_skin.transform.localScale = new Vector2(3, my_skin.transform.localScale.y);
         }
-        
     }
     
     #endregion
@@ -108,7 +112,13 @@ public class ball_hero : MonoBehaviour
     #region ================== UPDATE ======================
     void Update()
     {
-        if(globals.s.GAME_STARTED == true)
+        if (globals.s.ALERT_BALL == true && son_created == false) {
+            globals.s.ALERT_BALL = false;
+            Invoke("show_alert", 0.1f);
+            //show_alert();
+        }
+
+        if (globals.s.GAME_STARTED == true)
         {
             if ((Input.GetMouseButton(0) || Input.GetKey("space")) && globals.s.GAME_STARTED == true)
             {
@@ -133,6 +143,14 @@ public class ball_hero : MonoBehaviour
 
     }
 
+    void show_alert() {
+        Debug.Log("SHOWING ALERT!! MY FLOOR: " + my_floor);
+        my_alert.SetActive(true);
+        my_alert.transform.localScale = new Vector2(2.3f, 0);
+        my_alert.transform.DOScaleY(2.3f, 0.12f);
+        //sound_controller.s.play_alert();
+    }
+
     public void activate_pos_revive()
     {
         if (transform.position.x > 0)
@@ -146,7 +164,7 @@ public class ball_hero : MonoBehaviour
         //Debug.Log (" MY X SPEED: " + rb.velocity.x);
         //grounded = Physics2D.Linecast(transform.position, groundCheck.position, 1 << LayerMask.NameToLayer("Floor"));
 
-        //
+        
 
         if (globals.s.PW_SUPER_JUMP == true && target_y_reached == false && target_y > 0) {
             // main_camera.s.PW_super_jump(transform.position.y);

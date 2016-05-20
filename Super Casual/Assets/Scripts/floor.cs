@@ -205,8 +205,8 @@ public class floor : scenario_objects {
     {
         pw_super_collided = true;
         transform.GetComponent<SpriteRenderer>().enabled = false;
+        my_skin.transform.GetComponent<SpriteRenderer>().enabled = false;
     }
-
 
 
     public void clear_flags_reposite()

@@ -162,8 +162,8 @@ public class game_controller : MonoBehaviour {
                         //create_hole(i,true);
                         create_floor(0, i);
   
-                        create_spike(0, globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * i, i);
-                        //create_hidden_spike(0, globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * i, i);
+                        //create_spike(0, globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * i, i);
+                        create_hidden_spike(0, globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * i, i);
                         wave_found = true;
 
                         break;
@@ -185,7 +185,7 @@ public class game_controller : MonoBehaviour {
                         wave_found = create_wave_easy(i);
 
                         //create_spike(0, globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * i, i);
-                        wave_found = true;
+                        //wave_found = true;
                         break;
 
                     default:
@@ -446,8 +446,8 @@ public class game_controller : MonoBehaviour {
             count++;
 
             // ======== SORT INITIAL WAVES! ========
-            if (n_floor <= 7) {
-                if (USER.s.TOTAL_GAMES > 3) rand = Random.Range(1, 3);
+            if (n_floor <= 9) {
+                if (USER.s.TOTAL_GAMES > 4) rand = Random.Range(1, 3);
                 else rand = 1;
 
                 switch (rand) {
@@ -462,11 +462,13 @@ public class game_controller : MonoBehaviour {
             }
 
             // USER HAD SOME PROGRESS
-            else if (n_floor <= 13) {
-                rand = Random.Range(2, 4);
+            else if (n_floor <= 15) {
+                rand = Random.Range(1, 4);
 
                 switch (rand) {
-
+                    case 1:
+                        wave_found = create_wave_easy(n_floor);
+                        break;
                     case 2:
                         wave_found = create_wave_medium(n_floor);
                         break;
@@ -699,10 +701,10 @@ public class game_controller : MonoBehaviour {
                 }
                 float spk_pos;
                 if (last_hole_x < 0) {
-                    spk_pos = Random.Range(last_hole_x + min_spk_dist, corner_limit_right -1f);
+                    spk_pos = Random.Range(last_hole_x + min_spk_dist+0.2f, corner_limit_right -1f);
                 }
                 else {
-                    spk_pos = Random.Range(corner_limit_left + 1f, last_hole_x - min_spk_dist);
+                    spk_pos = Random.Range(corner_limit_left + 1f, last_hole_x - min_spk_dist-0.2f);
 
                 }
                 create_spike(spk_pos, actual_y, n);
@@ -1777,16 +1779,24 @@ public class game_controller : MonoBehaviour {
     }
 
     public void create_bg(int n) {
-        int rand = Random.Range(1,5);
-        while(rand == last_bg) rand = Random.Range(1, 5);
-        last_bg = rand;
+        int rand;
+        if (n <= 5) {
+            rand = Random.Range(1, 5);
+            while (rand == last_bg) rand = Random.Range(1, 5);
+            last_bg = rand;
 
-        GameObject instance = Instantiate(Resources.Load("Sprites/Backgrounds/floor_"+rand,
-            typeof(GameObject)), new Vector3(0, globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * n  + 2.45f), transform.rotation) as GameObject;
+            GameObject instance = Instantiate(Resources.Load("Prefabs/Bgs/Scenario1/floor_"+rand,
+                typeof(GameObject)), new Vector3(0, globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * n  + 2.45f), transform.rotation) as GameObject;
+        }
+        else if (n <= 1000) {
+            rand = Random.Range(1, 4);
+            while (rand == last_bg) rand = Random.Range(1, 4);
+            last_bg = rand;
 
-        
+            GameObject instance = Instantiate(Resources.Load("Prefabs/Bgs/Scenario2/bg_"+rand,
+                typeof(GameObject)), new Vector3(0, globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * n  + 2.45f), transform.rotation) as GameObject;
+        }   
         //(GameObject)Instantiate(, new Vector3(0, globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * n, 0), transform.rotation);
-
     }
 
     public GameObject create_floor(float x, int n)

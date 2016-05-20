@@ -7,6 +7,8 @@ public class hole_behaviour : MonoBehaviour
     public GameObject my_skin;
     public int my_floor;
     public GameObject colliderPW;
+    bool hidden = true;
+    bool already_alerted = false;
     // Use this for initialization
     void Start()
     {
@@ -22,6 +24,12 @@ public class hole_behaviour : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (hidden && !already_alerted && 
+            globals.s.BALL_Y - globals.s.BALL_R > transform.position.y - 1.5f) {
+            already_alerted = true;
+            globals.s.ALERT_BALL = true;
+        }
+
         if (transform.position.y < globals.s.BALL_Y - globals.s.FLOOR_HEIGHT * 4)
             Destroy(gameObject);
     }

@@ -44,6 +44,7 @@ public class hud_controller : MonoBehaviour {
 
         //PlayerPrefs.DeleteAll();
         PW_date = PlayerPrefs.GetString("PWDate2ChangeState");
+        Debug.Log("pw date: " + PW_date);
 
         //SETTING  FIRST_GAME GLOBAL
         int tmp_first = PlayerPrefs.GetInt("first_game", 1); ;

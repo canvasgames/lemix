@@ -8,6 +8,7 @@ public class spike : scenario_objects {
     public bool manual_trigger = false;
     public bool corner_repositionable = false;
     bool already_appeared = false;
+    bool already_alerted = false;
 
     float timer = 0;
     float target_y;
@@ -29,6 +30,13 @@ public class spike : scenario_objects {
     // Update is called once per frame
     void Update()
     {
+        //alert ball check
+        if (!manual_trigger && !already_alerted && hidden == true && already_appeared == false
+            && globals.s.BALL_Y - globals.s.BALL_R > transform.position.y - 1.5f && my_floor <= globals.s.BALL_FLOOR + 1) {
+            already_alerted = true;
+            globals.s.ALERT_BALL = true;
+        }
+
         //hidden spike distance check (no manual trigger)
         if (!manual_trigger && hidden == true && already_appeared == false
             && globals.s.BALL_Y - globals.s.BALL_R > transform.position.y - 1.5f

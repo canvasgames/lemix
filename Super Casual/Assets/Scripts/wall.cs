@@ -15,6 +15,7 @@ public class wall : MonoBehaviour
     public bool wall_triggered_by_wall = false;
     public bool wall_trigger = false;
     public bool trigger_back = false;
+    bool already_alerted = false;
 
     void Start()
     {
@@ -28,7 +29,13 @@ public class wall : MonoBehaviour
 
     void Update()
     {
-        // Destroy logic
+        //alert ball logic
+        if (!wall_triggered_by_wall && already_appeared == false && !already_alerted &&
+            globals.s.BALL_Y - globals.s.BALL_R > transform.position.y - 2f && my_floor <= globals.s.BALL_FLOOR + 1) {
+            already_alerted = true;
+            globals.s.ALERT_BALL = true;
+        }
+
         if (transform.position.y < globals.s.BALL_Y - globals.s.FLOOR_HEIGHT * 4)
         {
             Destroy(gameObject);
