@@ -13,10 +13,11 @@ public class PW_Collect : MonoBehaviour {
     int rand;
     // Use this for initialization
     void Start () {
-        if(pw_type == 0)
+        if (pw_type == 0)
         {
-            pw_type = 2;
+            pw_type = 2;  
         }
+        init_my_icon();
         //rand = Random.Range((int)PW_Types.Invencible, (int)PW_Types.Sight + 1);
 
         /*if (globals.s.PW_INVENCIBLE == false && globals.s.PW_SIGHT_BEYOND_SIGHT == false && globals.s.PW_SUPER_JUMP == false)
@@ -44,6 +45,18 @@ public class PW_Collect : MonoBehaviour {
         //pw_type = rand;
     }
 	
+  public void init_my_icon() {
+        
+        if(pw_type == 1) {
+            GetComponent<Animator>().Play("pw_collectable_life");
+        }
+        else if (pw_type == 2) {
+            GetComponent<Animator>().Play("pw_collectable_super");
+        }
+       else if (pw_type == 3) {
+            GetComponent<Animator>().Play("pw_collectable_sight");
+        }
+    }
 	// Update is called once per frame
 	void Update () {
         

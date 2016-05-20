@@ -4,8 +4,9 @@ using System.Collections;
 
 public class scenario_objects : MonoBehaviour {
     public int my_floor;
-    int count_blink = 16;
+    public int count_blink = 16;
     public bool already_blinked = false;
+    public bool i_am_floor = false;
 
     // Use this for initialization
     void Start () {

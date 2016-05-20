@@ -8,6 +8,8 @@ public class globals : MonoBehaviour {
     public bool CAN_RESTART = false;
     public bool GAME_STARTED = false;
 
+    public float SPK_SCALE = 0.7f;
+
     public int BALL_ID = 0;
     public float BALL_Y = -8f;
     public float BALL_X;

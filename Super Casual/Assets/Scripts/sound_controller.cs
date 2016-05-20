@@ -1,21 +1,26 @@
 ﻿using UnityEngine;
 using System.Collections;
+using DG.Tweening;
 
 public class sound_controller : MonoBehaviour
 {
     public static sound_controller s = null;
 
     public AudioSource efxSource, efxSource2, efxSource3;
-    public AudioSource musicSource;
+    public AudioSource musicSource, musicSource2, musicSource3, musicSource4, musicSource5, curFadeIn, curFadeOut;
 
-    public AudioClip Jump, Explosion;
+    public AudioClip Jump, Explosion, Collect;
+    public AudioClip[]  Jumps;
 
     public GameObject bt_sound;
 
     bool can_play_jump = true;
 
+    int music_playing = 1;
+
     void Awake()
     {
+        //muteMusic();
         //sController = this;
         if (s == null)
             s = this;
@@ -46,9 +51,72 @@ public class sound_controller : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (curFadeIn != null) {
+            if (curFadeIn.volume < 1) {
+                curFadeIn.volume += 0.5f * Time.deltaTime;
+                curFadeOut.volume -= 0.5f * Time.deltaTime;
+            }
+            else { 
+                curFadeIn = null;
+                curFadeOut = null;
+            }
+        }
+    }
+    public void special_event() {
+        //PlaySingle(Collect);
+        PlaySingle(Jumps[Random.Range(0, 7)]);
+    }
+    public void play_collect_pw() {
+        PlaySingle(Collect);
+        //PlaySingle(Jumps[Random.Range(0, 7)]);
+    }
+    public void update_music() {
+        if(USER.s.SOUND_MUTED == 0) update_music2();
+       /* music_playing++;
+        if (music_playing == 2) {
+            //musicSource.Stop();
+            //musicSource2.volume = 1;
+            curFadeIn = musicSource2;
+            curFadeOut = musicSource;
+        }
+        else if (music_playing == 3) {
+            musicSource2.Stop();
+            musicSource3.volume = 1;
+        }
 
+        else if (music_playing == 4) {
+            musicSource3.Stop();
+            musicSource4.volume = 1;
+        }
+        else if (music_playing == 5) {
+            musicSource4.Stop();
+            musicSource5.volume = 1;
+        }
+        */
     }
 
+    public void update_music2() {
+        music_playing++;
+        if (music_playing == 2) {
+            musicSource.Stop();
+            musicSource2.volume = 1;
+            //curFadeIn = musicSource2;
+           // curFadeOut = musicSource;
+        }
+        else if (music_playing == 3) {
+            curFadeIn = musicSource3;
+            curFadeOut = musicSource2;
+        }
+
+        else if (music_playing == 4) {
+            curFadeIn = musicSource4;
+            curFadeOut = musicSource3;
+        }
+        else if (music_playing == 5) {
+            curFadeIn = musicSource5;
+            curFadeOut = musicSource4;
+        }
+    }
 
     public void PlayJump()
     {
@@ -56,6 +124,7 @@ public class sound_controller : MonoBehaviour
         {
             can_play_jump = false;
             PlaySingle(Jump);
+            //PlaySingle(Jumps[Random.Range(0,7)]);
             Invoke("can_play_jump_again", 0.3f);
         }
             
@@ -128,10 +197,12 @@ public class sound_controller : MonoBehaviour
     public void muteMusic()
     {
         musicSource.volume = 0;
+        
     }
 
     public void unmuteMusic()
     {
+
         musicSource.volume = 1;
     }
 

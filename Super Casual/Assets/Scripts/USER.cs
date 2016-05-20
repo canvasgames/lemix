@@ -8,10 +8,18 @@ public class USER : MonoBehaviour {
     [HideInInspector]   public int BEST_SCORE, LAST_SCORE, DAY_SCORE;
     [HideInInspector]   public int TOTAL_GAMES, TOTAL_VIDEOS_WATCHED;
     [HideInInspector]   public int FIRST_PW_CREATED, FIRST_HOLE_CREATED, FIRST_WALL_CREATED;
+    [HideInInspector]   public int NOTES;
+    [HideInInspector]
+    public int SOUND_MUTED;
 
     void Awake() {
         //PlayerPrefs.SetInt("total_games", 2);
-       // PlayerPrefs.SetInt("best", 7);
+        // PlayerPrefs.SetInt("best", 2);
+        SOUND_MUTED = PlayerPrefs.GetInt("sound_muted", 0);
+
+
+        NOTES = PlayerPrefs.GetInt("notes", 0);
+
         BEST_SCORE = PlayerPrefs.GetInt("best", 0);
         LAST_SCORE = PlayerPrefs.GetInt("last_score", 0);
         DAY_SCORE = PlayerPrefs.GetInt("day_best", 0);
@@ -25,6 +33,7 @@ public class USER : MonoBehaviour {
 
         s = this;
     } 
+
 
 	// Use this for initialization
 	void Start () {

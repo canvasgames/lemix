@@ -24,9 +24,6 @@ public class spike : scenario_objects {
         //GetComponent<SpriteRenderer>().color = Color.green;
         //if(QA.s.INVENCIBLE == true)
             //my_collider.enabled = false;
-
-        
-
     }
 
     // Update is called once per frame
@@ -34,7 +31,7 @@ public class spike : scenario_objects {
     {
         //hidden spike distance check (no manual trigger)
         if (!manual_trigger && hidden == true && already_appeared == false
-            && globals.s.BALL_Y - globals.s.BALL_R > transform.position.y + 0.5f
+            && globals.s.BALL_Y - globals.s.BALL_R > transform.position.y - 1.5f
             && Mathf.Abs(globals.s.BALL_X - transform.position.x) < 4.5f)
             show_me();
 
@@ -57,9 +54,13 @@ public class spike : scenario_objects {
     // method for hidden spikess
     void show_me()
     {
-        transform.GetComponent<SpriteRenderer>().color = Color.white;
-        target_y = transform.position.y + transform.GetComponent<SpriteRenderer>().bounds.size.y;
+        Debug.Log("[SPK HIDDEN] show me called !!!! ");
+        //transform.GetComponent<SpriteRenderer>().color = Color.white;
+        transform.GetComponent<SpriteRenderer>().color = Color.black;
+        //target_y = transform.position.y + transform.GetComponent<SpriteRenderer>().bounds.size.y;
+        target_y = transform.position.y + 0.5f;
         transform.DOMoveY(target_y, 0.14f);
+        transform.DOScaleY(globals.s.SPK_SCALE, 0.14f);
         already_appeared = true;
         my_collider.enabled = true;
         hidden = false;
@@ -126,6 +127,7 @@ public class spike : scenario_objects {
 
         }
     }
+
     void destroy_me_baby()
     {
         //Destroy(gameObject);
@@ -133,15 +135,19 @@ public class spike : scenario_objects {
 
     public void show_me_pw_sight()
     {
-        if ( hidden == true)
+        if ( hidden == true) {
             transform.GetComponent<SpriteRenderer>().color = Color.magenta;
+        }
+            
+                //transform.GetComponent<SpriteRenderer>().color = Color.magenta;
         //transform.GetComponent<Animator>().Play("red");
     }
 
     public void back_original_color_pw_sight()
     {
         //transform.GetComponent<Animator>().Play("blue");
-        transform.GetComponent<SpriteRenderer>().color = Color.white;
+       // transform.GetComponent<SpriteRenderer>().color = Color.white;
+        transform.GetComponent<SpriteRenderer>().color = Color.black;
     }
 
     public void clear_flags_reposite()
@@ -152,7 +158,9 @@ public class spike : scenario_objects {
         already_appeared = false;
 
         timer = 0;
-
-        transform.DOScale(0.7f, 0.1f);
+        GetComponent<SpriteRenderer>().color = Color.black;
+        transform.localScale = new Vector3(globals.s.SPK_SCALE, globals.s.SPK_SCALE, globals.s.SPK_SCALE);
+        count_blink = 16;
+        //transform.DOScale(0.7f, 0.1f);
     }
 }

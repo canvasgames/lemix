@@ -15,6 +15,8 @@ public class hud_controller : MonoBehaviour {
     public GameObject game_over_text;
     public GameObject floor;
     public GameObject best;
+    public GameObject notes;
+
     public GameObject intro;
     public GameObject activate_pw_bt;
     public GameObject pw_info;
@@ -37,7 +39,8 @@ public class hud_controller : MonoBehaviour {
     }
 
     void Start () {
-        display_best(PlayerPrefs.GetInt("best", 0));
+        display_best(USER.s.BEST_SCORE);
+        display_notes(USER.s.NOTES);
 
         //PlayerPrefs.DeleteAll();
         PW_date = PlayerPrefs.GetString("PWDate2ChangeState");
@@ -128,6 +131,7 @@ public class hud_controller : MonoBehaviour {
         globals.s.FIRST_GAME = false;
         floor.SetActive(true);
         best.SetActive(true);
+        notes.SetActive(true);
         Destroy(intro);
 
         game_controller.s.game_running();
@@ -140,6 +144,12 @@ public class hud_controller : MonoBehaviour {
         //GetComponentInChildren<TextMesh>().text =  "Floor " + (n+1).ToString();
         floor.GetComponent<Text>().text = "Floor " + (n + 1).ToString();
     }
+
+    public void display_notes(int n) {
+        notes.GetComponent<Text>().text = (n).ToString();
+    }
+
+    #region ======================== GAME OVER ==============================
 
     public void show_game_over(int currentFloor, bool with_high_score)
     {
@@ -170,7 +180,7 @@ public class hud_controller : MonoBehaviour {
             if (game_over_text.GetComponent<Text>().IsActive()) print(" IS GAME OVER ACTIVE ");
             game_over_text.GetComponent<Text>().text = "GAME OVER\n\nSCORE: " + temp_cur_floor + "\n BEST: " + temp_best_floor;
         }
-        
+
     }
 
     public void hide_game_over()
@@ -179,11 +189,15 @@ public class hud_controller : MonoBehaviour {
         game_over_text.SetActive(false);
     }
 
+    #endregion
+
     public void display_best(int value)
     {
         best.GetComponent<Text>().text = "BEST " + value;
     }
 
+
+    #region ================== PLAYER PREFS ============================
     int get_and_set_best_score(int cur_floor)
     {
         int cur_best = PlayerPrefs.GetInt("best", 0);
@@ -196,6 +210,12 @@ public class hud_controller : MonoBehaviour {
 
         return cur_best;
     }
+
+    int get_and_set_notes(int n) {
+        int cur_notes = PlayerPrefs.GetInt("notes", 0);
+        return cur_notes;
+    }
+
 
     int get_and_set_day_score(int cur_floor)
     {
@@ -218,6 +238,8 @@ public class hud_controller : MonoBehaviour {
 
         return day_best;
     }
+
+    #endregion
 
     bool day_passed()
     {
@@ -252,7 +274,7 @@ public class hud_controller : MonoBehaviour {
         return false;
     }
 
-    #region LIFE SYSTEM
+    #region ============================ LIFE SYSTEM ================================
 
     void show_pw_time()
     {
@@ -323,6 +345,7 @@ public class hud_controller : MonoBehaviour {
     }
     #endregion
 
+    #region ============================= REVIVE ===============================
     public void show_revive_menu()
     {
         revive.SetActive(true);
@@ -352,11 +375,13 @@ public class hud_controller : MonoBehaviour {
 
         Invoke("partiu", 1);
     }
+
     void partiu()
     {
         ready.GetComponent<Text>().text = "GO!";
         Invoke("vaivaivai", 1);
     }
+
     void vaivaivai()
     {
         game_controller.s.anda_bolinha_fdd();
@@ -364,7 +389,6 @@ public class hud_controller : MonoBehaviour {
         ready.SetActive(false);
        
     }
-
 
     public void show_video_revive()
     {
@@ -392,6 +416,8 @@ public class hud_controller : MonoBehaviour {
         globals.s.MENU_OPEN = false;
         globals.s.CAN_RESTART = true;
     }
+
+    #endregion
 
     public void show_video_pw()
     {

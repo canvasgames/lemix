@@ -32,6 +32,8 @@ public class game_controller : MonoBehaviour {
 
     public Camera camerda;
 
+    int last_bg = 0;
+
 
     // WAVE CONTROLLER VARIABLES
     bool wave_found;
@@ -161,19 +163,28 @@ public class game_controller : MonoBehaviour {
                         create_floor(0, i);
   
                         create_spike(0, globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * i, i);
+                        //create_hidden_spike(0, globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * i, i);
                         wave_found = true;
 
                         break;
                      case 3:
-                        create_floor(0, i);
-                        create_spike(corner_left , globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * i, i);
-                        create_spike(corner_right, globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * i, i);
-                        wave_found = true;
+                        
+                        //create_wall_corner(i);
+                        if (USER.s.BEST_SCORE <= 3) {
+                            create_floor(0, i);
+                            create_spike(corner_left, globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * i, i);
+                            create_spike(corner_right, globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * i, i);
+                            wave_found = true;
+                        }
+                        else
+                            wave_found = create_wave_easy(i);
                         break;
                      case 4:
-                        create_floor(0, i);
+                        //create_floor(0, i);
+                        //create_hole(i);
+                        wave_found = create_wave_easy(i);
 
-                        create_spike(0, globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * i, i);
+                        //create_spike(0, globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * i, i);
                         wave_found = true;
                         break;
 
@@ -187,7 +198,7 @@ public class game_controller : MonoBehaviour {
             }
 
             if (globals.s.PW_ACTIVE == true && n_floor >= 2 && USER.s.TOTAL_GAMES >= 2) {
-                Debug.Log(" n floor: " + n_floor + " CREATE PW!! ");
+                //Debug.Log(" n floor: " + n_floor + " CREATE PW!! ");
                 create_power_up_logic();
             }
 
@@ -261,6 +272,7 @@ public class game_controller : MonoBehaviour {
 
         sound_controller.s.stop_music();
         hud_controller.si.show_game_over(cur_floor + 1, temp_flag_high_score_game_over);
+
         if (globals.s.SHOW_VIDEO_AFTER == false)
         {
             revive_logic();
@@ -287,7 +299,8 @@ public class game_controller : MonoBehaviour {
     public void game_over_for_real() {
         AnalyticController.s.ReportGameEnded(killer_wave_to_report, time_to_report);
         PlayerPrefs.SetInt("total_games", USER.s.TOTAL_GAMES + 1);
-        
+        PlayerPrefs.SetInt("notes", USER.s.NOTES);
+
     }
 
     
@@ -386,6 +399,7 @@ public class game_controller : MonoBehaviour {
             Debug.Log("PW type " + type);
             pw_icon.GetComponent<PW_Collect>().my_floor = n;
             pw_icon.GetComponent<PW_Collect>().pw_type = type;
+            pw_icon.GetComponent<PW_Collect>().init_my_icon();
 
         }
     }
@@ -403,6 +417,8 @@ public class game_controller : MonoBehaviour {
             globals.s.BALL_FLOOR = cur_floor;
 
             create_new_wave();
+            if (ball_floor >= 5 && ball_floor % 5 == 0)
+                sound_controller.s.update_music();
         }
         else if (ball_floor >= 1) {
             camerda.GetComponent<Rigidbody2D>().velocity = new Vector2(0, 0);
@@ -1663,8 +1679,6 @@ public class game_controller : MonoBehaviour {
     {
         GameObject obj = (GameObject)Instantiate(wall_type, new Vector3(x, globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * n +  globals.s.SLOT/2, 0), transform.rotation);
         obj.GetComponent<wall>().my_floor = n;
-
-       
     }
 
     wall create_wall_corner(int n, bool spk_trigger = false){
@@ -1691,13 +1705,26 @@ public class game_controller : MonoBehaviour {
             spk.corner_repositionable = corner_repositionable;
             spk.wave_name = wave_name;
         }
+
+        ///////////////////////// CREATE NOTES OR NOT
+
+        int rand = Random.Range(1,100);
+        if(rand <= 10) {
+            GameObject instance = Instantiate(Resources.Load("Prefabs/Note",
+            typeof(GameObject)), new Vector3(x, y + globals.s.SLOT / 2 + 1.85f), transform.rotation) as GameObject;
+
+        }
     }
 
     void create_hidden_spike(float x, float y, int n, bool manual_trigger = false, bool corner_repositionable = false)
     {
         //GameObject obj = (GameObject)Instantiate(spike_type, new Vector3(x, y + globals.s.SLOT/2 - spike_type.transform.GetComponent<SpriteRenderer>().bounds.size.y, 0), transform.rotation);
-        GameObject obj = objects_pool_controller.s.reposite_double_spikes(x, y + globals.s.SLOT / 2 - spike_type.transform.GetComponent<SpriteRenderer>().bounds.size.y);
+        //GameObject obj = objects_pool_controller.s.reposite_double_spikes(x, y + globals.s.SLOT / 2 - spike_type.transform.GetComponent<SpriteRenderer>().bounds.size.y);
+        GameObject obj = objects_pool_controller.s.reposite_double_spikes(x, y + globals.s.SLOT / 2 - 0.5f);
+        obj.transform.localScale = new Vector3(globals.s.SPK_SCALE, 0.5f, globals.s.SPK_SCALE);
+        
         spike spk = obj.GetComponent<spike>();
+       // spk.hidden_scale_0();
         if (spk != null)
         {
             spk.hidden = true;
@@ -1710,7 +1737,6 @@ public class game_controller : MonoBehaviour {
             {
                 spk.show_me_pw_sight();
             }
-
         }
     }
 
@@ -1719,6 +1745,7 @@ public class game_controller : MonoBehaviour {
 
        // GameObject obj = (GameObject)Instantiate(triple_spike_type, new Vector3(x, y + globals.s.SLOT / 2, 0), transform.rotation);
         GameObject obj = objects_pool_controller.s.reposite_triple_spikes(x, y + globals.s.SLOT / 2);
+
         if (obj.GetComponent<spike>() != null)
         {
             obj.GetComponent<spike>().my_floor = n;
@@ -1730,7 +1757,9 @@ public class game_controller : MonoBehaviour {
     void create_triple_hidden_spike(float x, float y, int n, bool manual_trigger = false)
     {
        // GameObject obj = (GameObject)Instantiate(triple_spike_type, new Vector3(x, y + globals.s.SLOT / 2 - triple_spike_type.transform.GetComponent<SpriteRenderer>().bounds.size.y, 0), transform.rotation);
-        GameObject obj = objects_pool_controller.s.reposite_triple_spikes(x, y + globals.s.SLOT / 2 - triple_spike_type.transform.GetComponent<SpriteRenderer>().bounds.size.y);
+        //GameObject obj = objects_pool_controller.s.reposite_triple_spikes(x, y + globals.s.SLOT / 2 - triple_spike_type.transform.GetComponent<SpriteRenderer>().bounds.size.y);
+        GameObject obj = objects_pool_controller.s.reposite_triple_spikes(x, y + globals.s.SLOT / 2 - 0.5f);
+        obj.transform.localScale = new Vector3(globals.s.SPK_SCALE, 0.5f, globals.s.SPK_SCALE);
         spike spk = obj.GetComponent<spike>();
 
         if (spk != null)
@@ -1747,6 +1776,18 @@ public class game_controller : MonoBehaviour {
         }
     }
 
+    public void create_bg(int n) {
+        int rand = Random.Range(1,5);
+        while(rand == last_bg) rand = Random.Range(1, 5);
+        last_bg = rand;
+
+        GameObject instance = Instantiate(Resources.Load("Sprites/Backgrounds/floor_"+rand,
+            typeof(GameObject)), new Vector3(0, globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * n  + 2.45f), transform.rotation) as GameObject;
+
+        
+        //(GameObject)Instantiate(, new Vector3(0, globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * n, 0), transform.rotation);
+
+    }
 
     public GameObject create_floor(float x, int n)
     {
@@ -1755,6 +1796,8 @@ public class game_controller : MonoBehaviour {
         obj.GetComponent<floor>().my_floor = n;
         obj.GetComponent<floor>().check_if_have_score();
         //obj.GetComponentInChildren<TextMesh>().text = n.ToString();
+
+        create_bg(n);
         return obj;
     }
 
@@ -1835,6 +1878,7 @@ public class game_controller : MonoBehaviour {
                 PlayerPrefs.SetInt("first_hole_created", 1);
             }
 
+            create_bg(n);
             return true;
         }
         else { if (QA.s.TRACE_PROFUNDITY >= 2) Debug.Log(" FffffffffffffAILED TO CREATE HOLE..."); return false;  }
@@ -1851,6 +1895,7 @@ public class game_controller : MonoBehaviour {
         obj = objects_pool_controller.s.reposite_floor(x + hole_size / 2 + floor_type.transform.GetComponent<SpriteRenderer>().bounds.size.x / 2, globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * n);
         obj.GetComponent<floor>().my_floor = n;
 
+        create_bg(n);
         return true;
     }
 #endregion

@@ -140,8 +140,11 @@ public class wall : MonoBehaviour
 
     public void show_me_pw_sight()
     {
-       //transform.GetComponent<SpriteRenderer>().color.a = 100;
-      transform.GetComponent<SpriteRenderer>().color = Color.magenta;
+        //transform.GetComponent<SpriteRenderer>().color.a = 100;
+        transform.GetComponent<SpriteRenderer>().color = Color.magenta;
+        //GameObject instance = Instantiate(Resources.Load("Prefabs/Warning",
+            //typeof(GameObject)), new Vector3(transform.position.x, transform.position.y +2f), transform.rotation) as GameObject;
+
     }
 
     public void back_original_color_pw_sight()

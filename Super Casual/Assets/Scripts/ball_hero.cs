@@ -60,7 +60,7 @@ public class ball_hero : MonoBehaviour
     void Start()
     {
         my_id = globals.s.BALL_ID; globals.s.BALL_ID++;
-        Debug.Log("BALL CREATED! TIME: " + Time.time);
+        //Debug.Log("BALL CREATED! TIME: " + Time.time);
         time_dif = Time.time;
 
 
@@ -71,6 +71,10 @@ public class ball_hero : MonoBehaviour
         //if(first_ball == true) grounded = true;
         son_created = false;
         //Debug.Log ("INIT NEW BALL !!! MY X SPEED: " + rb.velocity.x);
+        
+        // INITIALIZE SKIN AND MUSIC HERE!!!
+
+        my_skin.GetComponent<Animator>().runtimeAnimatorController = Resources.Load("Sprites/Animations/HeroSimpleAnimator") as RuntimeAnimatorController;
     }
 
     public void Init_first_ball()
@@ -85,24 +89,23 @@ public class ball_hero : MonoBehaviour
             {
                 rb.velocity = new Vector2(-globals.s.BALL_SPEED_X, 0);
             }
-            init_me();
-        }
-    
-        
+            init_my_skin();
+        } 
     }
     
-    public void init_me() {
+    public void init_my_skin() {
         if (transform.position.x < 0 ) {
             my_skin.transform.localScale = new Vector2(-3, my_skin.transform.localScale.y);
         }
         else if (transform.position.x > 0) {
             my_skin.transform.localScale = new Vector2(3, my_skin.transform.localScale.y);
         }
+        
     }
-
-
+    
     #endregion
 
+    #region ================== UPDATE ======================
     void Update()
     {
         if(globals.s.GAME_STARTED == true)
@@ -166,26 +169,23 @@ public class ball_hero : MonoBehaviour
         #region ================ Ball Up ====================
 
         if (son_created == false && ((transform.position.x <= globals.s.LIMIT_LEFT + globals.s.BALL_R + 0.3f && rb.velocity.x < 0) ||
-                                     (transform.position.x >= globals.s.LIMIT_RIGHT - globals.s.BALL_R - 0.3f && rb.velocity.x > 0)))
-        {
+                                     (transform.position.x >= globals.s.LIMIT_RIGHT - globals.s.BALL_R - 0.3f && rb.velocity.x > 0))) {
             // my_light.SetActive(false);
-           // Destroy(my_light);
+            // Destroy(my_light);
             //Debug.Log ("END REACHED!!!!!!! MY POS: " + transform.position.x + " LEFT: " + globals.s.LIMIT_LEFT + " RIGHT: "  + globals.s.LIMIT_RIGHT);
             son_created = true;
             float x_new_pos = 0f;
 
             // define the relative new pos
-            if (transform.position.x < 0)
-            {
+            if (transform.position.x < 0) {
                 x_new_pos = globals.s.LIMIT_LEFT - Mathf.Abs(globals.s.LIMIT_LEFT - transform.position.x);
                 //x_new_pos = 0;
             }
-            else
-            {
+            else {
                 x_new_pos = globals.s.LIMIT_RIGHT + Mathf.Abs(globals.s.LIMIT_RIGHT - transform.position.x);
             }
 
-            Debug.Log("BALL DESTROYED TIME: " + Time.time + " .. TIME DIF: " + (Time.time - time_dif));
+            //Debug.Log("BALL DESTROYED TIME: " + Time.time + " .. TIME DIF: " + (Time.time - time_dif));
 
 
             //instantiating my son at the other side of the screen
@@ -207,8 +207,13 @@ public class ball_hero : MonoBehaviour
             globals.s.BALL_Y = my_son.transform.position.y;
             globals.s.BALL_X = my_son.transform.position.x;
 
-            my_son.GetComponent<ball_hero>().init_me();
-            //Debug.Log
+            my_son.GetComponent<ball_hero>().init_my_skin();
+            if (grounded == false) { 
+                my_son.GetComponent<ball_hero>().my_skin.GetComponent<Animator>().Play("Jumping", 0,
+                my_skin.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).normalizedTime);
+                //Debug.Log("aaaaaaanimator: " + my_skin.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).normalizedTime);
+        }
+ 
 
             // CALL GAME CONTROLLER
             game_controller.s.ball_up(my_floor);
@@ -240,6 +245,9 @@ public class ball_hero : MonoBehaviour
             
         }
     }
+
+
+    #endregion ==================
 
     void jump()
     {
@@ -327,16 +335,27 @@ public class ball_hero : MonoBehaviour
             }
             
             Physics2D.IgnoreCollision(coll.collider, GetComponent<Collider2D>());
+            
         }
 
         else if (coll.gameObject.CompareTag("Hole")) {
             Physics2D.IgnoreCollision(coll.collider, GetComponent<Collider2D>());
+            my_skin.GetComponent<Animator>().Play("Jumping");
         }
 
+        else if (coll.gameObject.CompareTag("Note")) {
+            USER.s.NOTES += 1;
+            hud_controller.si.display_notes(USER.s.NOTES);
+            Destroy(coll.gameObject);
+            //Debug.Log("COLLECTING NOTE !!!!!!! ");
+            sound_controller.s.special_event();
+        }
 
         else if (coll.gameObject.CompareTag("Wall"))
         {
             rb.velocity = new Vector2(-rb.velocity.x, rb.velocity.y);
+            my_skin.transform.localScale = new Vector2(-my_skin.transform.localScale.x, my_skin.transform.localScale.y);
+
             if (transform.position.y < main_camera.s.transform.position.y - 10f) {
                 hitted_wall = true;
                 main_camera.s.hitted_on_wall = true;
@@ -347,6 +366,7 @@ public class ball_hero : MonoBehaviour
         {
             PW_Collect temp = coll.gameObject.GetComponent<PW_Collect>();
             pw_do_something(temp);
+            sound_controller.s.play_collect_pw();
         }
         else if (coll.gameObject.CompareTag("Revive"))
         {
@@ -454,6 +474,7 @@ public class ball_hero : MonoBehaviour
         symbols.transform.GetComponent<SpriteRenderer>().DOFade(0, 0);
         super.SetActive(true);
         rb.velocity = new Vector2(0, 0);
+        my_skin.GetComponent<Animator>().Play("Jumping");
 
         rb.gameObject.GetComponent<Rigidbody2D>().gravityScale = 0;
         rb.gameObject.GetComponent<Rigidbody2D>().isKinematic = true;
@@ -480,6 +501,7 @@ public class ball_hero : MonoBehaviour
         
         //globals.s.PW_SUPER_JUMP = true;
         desactivate_pws_super();
+
         int ball_speed = 20;
         target_y = (globals.s.BASE_Y + ((my_floor) * globals.s.FLOOR_HEIGHT) +  (5* globals.s.FLOOR_HEIGHT) + globals.s.FLOOR_HEIGHT / 2 - 0.6f );
         target_y_reached = false;

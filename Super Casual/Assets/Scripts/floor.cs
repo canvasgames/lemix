@@ -10,11 +10,12 @@ public class floor : scenario_objects {
     public GameObject colliderPW;
     GameObject my_text;
     public bool pw_super_collided = false;
+    public GameObject my_skin;
+    float my_txt_y_dif = 0.2f;
 
     // Use this for initialization
     void Start () {
-
-        
+        i_am_floor = true;
     }
 
     public void check_if_have_score()
@@ -25,7 +26,7 @@ public class floor : scenario_objects {
             {
 
                 //GameObject obj = (GameObject)Instantiate(scoreInfo, new Vector3(0, transform.position.y - 0.6f, transform.position.z), transform.rotation);
-                GameObject obj = objects_pool_controller.s.reposite_score(0, transform.position.y - 0.6f);
+                GameObject obj = objects_pool_controller.s.reposite_score(0, transform.position.y - my_txt_y_dif);
                 obj.GetComponentInChildren<TextMesh>().text = "YOUR BEST";
                 obj.GetComponentInChildren<Score_floor_txt>().my_floor = my_floor;
                 obj.GetComponentInChildren<Score_floor_txt>().my_type = 1;
@@ -34,7 +35,7 @@ public class floor : scenario_objects {
             {
 
                 // GameObject obj = (GameObject)Instantiate(scoreInfo, new Vector3(0, transform.position.y - 0.6f, transform.position.z), transform.rotation);
-                GameObject obj = objects_pool_controller.s.reposite_score(0, transform.position.y - 0.6f);
+                GameObject obj = objects_pool_controller.s.reposite_score(0, transform.position.y - my_txt_y_dif);
                 obj.GetComponentInChildren<TextMesh>().text = "DAILY BEST";
                 obj.GetComponentInChildren<Score_floor_txt>().my_floor = my_floor;
                 obj.GetComponentInChildren<Score_floor_txt>().my_type = 2;
@@ -43,7 +44,7 @@ public class floor : scenario_objects {
             {
 
                 // GameObject obj = (GameObject)Instantiate(scoreInfo, new Vector3(0, transform.position.y - 0.6f, transform.position.z), transform.rotation);
-                GameObject obj = objects_pool_controller.s.reposite_score(0, transform.position.y - 0.6f);
+                GameObject obj = objects_pool_controller.s.reposite_score(0, transform.position.y - my_txt_y_dif);
                 obj.GetComponentInChildren<TextMesh>().text = "LAST GAME";
                 obj.GetComponentInChildren<Score_floor_txt>().my_floor = my_floor;
                 obj.GetComponentInChildren<Score_floor_txt>().my_type = 3;
@@ -69,13 +70,16 @@ public class floor : scenario_objects {
             if (USER.s.DAY_SCORE + 1 == my_floor  || USER.s.BEST_SCORE + 1 == my_floor)
             {
 
-                    int i;
-                    scenario_objects[] allScenario = GameObject.FindObjectsOfType(typeof(scenario_objects)) as scenario_objects[];
-
-                    for (i = 0; i < allScenario.Length; i++)
-                    {
+                int i;
+                scenario_objects[] allScenario = GameObject.FindObjectsOfType(typeof(scenario_objects)) as scenario_objects[];
+                count_blink = 16;
+                for (i = 0; i < allScenario.Length; i++)
+                {
+                    if (allScenario[i].i_am_floor == false)
                         allScenario[i].try_blink(my_floor);
-                    }
+                    else
+                       blink_color_mine();
+                }
 
 
                 if (USER.s.BEST_SCORE + 1 == my_floor)
@@ -95,6 +99,18 @@ public class floor : scenario_objects {
         }
     }
 
+    void blink_color_mine() {
+        my_skin.GetComponent<SpriteRenderer>().color = Color.yellow;
+        Invoke("blink_back_mine", 0.1f);
+    }
+    void blink_back_mine() {
+        count_blink -= 1;
+        my_skin.GetComponent<SpriteRenderer>().color = Color.white;
+
+        if (count_blink > 0)
+            Invoke("blink_color_mine", 0.1f);
+    }
+
     //Under floor score destroy
     void destroy_previous_score_create_new(int score_type)
     {
@@ -112,7 +128,6 @@ public class floor : scenario_objects {
     }
 
 
-
     public void create_score_text(int score_type)
     {
 
@@ -126,7 +141,7 @@ public class floor : scenario_objects {
 
 
        // my_text = (GameObject)Instantiate(scoreInfo, new Vector3(0, transform.position.y - 0.6f, transform.position.z), transform.rotation);
-        my_text = objects_pool_controller.s.reposite_score(0, transform.position.y - 0.6f);
+        my_text = objects_pool_controller.s.reposite_score(0, transform.position.y - my_txt_y_dif);
         if (score_type == 1)
         {
             my_text.GetComponentInChildren<TextMesh>().text = "NEW RECORD";
@@ -161,7 +176,10 @@ public class floor : scenario_objects {
 
             for (i = 0; i < allScenario.Length; i++)
             {
-                allScenario[i].try_blink(my_floor);
+                if (allScenario[i].i_am_floor == false)
+                    allScenario[i].try_blink(my_floor);
+                else
+                    blink_color_mine();
             }
         }
 
@@ -199,9 +217,10 @@ public class floor : scenario_objects {
             Destroy(my_text);   
         }
 
-
-            pw_super_collided = false;
-            transform.GetComponent<SpriteRenderer>().enabled = true;
+        count_blink = 16;
+        pw_super_collided = false;
+        my_skin.transform.GetComponent<SpriteRenderer>().enabled = true;
+        my_skin.GetComponent<SpriteRenderer>().color = Color.black;
     }
 
     public void reaper_post_PW_super(int floor)
