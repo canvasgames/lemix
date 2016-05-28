@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using DG.Tweening;
 
 public class objects_pool_controller : MonoBehaviour {
 
@@ -31,6 +32,7 @@ public class objects_pool_controller : MonoBehaviour {
 
     void Awake()
     {
+        s = this;
         floor_pool = new GameObject[floor_pool_size];
         double_spikes_pool = new GameObject[double_spikes_pool_size];
         triple_spikes_pool = new GameObject[triple_spikes_pool_size];
@@ -40,7 +42,8 @@ public class objects_pool_controller : MonoBehaviour {
     }
 	// Use this for initialization
 	void Start () {
-        s = this;
+        
+        //floor_skin_bg_glow();
 	}
 	
 
@@ -49,6 +52,26 @@ public class objects_pool_controller : MonoBehaviour {
 	void Update () {
 	
 	}
+
+    void floor_skin_bg_glow() {
+
+        float r = Random.Range(0f, 0.8f);
+        float g = Random.Range(0f, 0.8f);
+        float b = Random.Range(0f, 0.8f);
+        float time = 1f;
+
+        int i;
+        for (i = 0; i < floor_pool_size; i++) {
+            floor_pool[i].GetComponent<floor>().my_skin_bg.GetComponent<floor_skin_bg>().new_color(r, g, b, time/2);
+        }
+
+        Invoke("floor_skin_bg_glow", time);
+
+        for (i = 0; i < double_spikes_pool_size; i++) {
+            double_spikes_pool[i].GetComponent<scenario_objects>().new_color(r, g, b, time/2);
+        }
+
+    }
 
     void create_initial_tudo()
     {

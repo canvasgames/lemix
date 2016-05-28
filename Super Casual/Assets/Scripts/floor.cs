@@ -11,6 +11,8 @@ public class floor : scenario_objects {
     GameObject my_text;
     public bool pw_super_collided = false;
     public GameObject my_skin;
+    public GameObject my_skin_bg;
+    public floor_note [] my_notes_fg;
     float my_txt_y_dif = 0.2f;
 
     // Use this for initialization
@@ -24,7 +26,6 @@ public class floor : scenario_objects {
         {
             if (USER.s.BEST_SCORE == my_floor)
             {
-
                 //GameObject obj = (GameObject)Instantiate(scoreInfo, new Vector3(0, transform.position.y - 0.6f, transform.position.z), transform.rotation);
                 GameObject obj = objects_pool_controller.s.reposite_score(0, transform.position.y - my_txt_y_dif);
                 obj.GetComponentInChildren<TextMesh>().text = "YOUR BEST";
@@ -221,6 +222,11 @@ public class floor : scenario_objects {
         pw_super_collided = false;
         my_skin.transform.GetComponent<SpriteRenderer>().enabled = true;
         my_skin.GetComponent<SpriteRenderer>().color = Color.black;
+        foreach( floor_note a in my_notes_fg) {
+            a.GetComponent<SpriteRenderer>().enabled = false;
+            a.already_appeared = false;
+        }
+        
     }
 
     public void reaper_post_PW_super(int floor)

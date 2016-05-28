@@ -161,16 +161,20 @@ public class game_controller : MonoBehaviour {
                    case 2:
                         //create_hole(i,true);
                         create_floor(0, i);
-  
-                        //create_spike(0, globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * i, i);
-                        create_hidden_spike(0, globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * i, i);
-                        wave_found = true;
+
+                        if (USER.s.BEST_SCORE <= 3) 
+                            create_spike(0, globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * i, i);
+                        else
+                            create_spike(Random.Range(-mid_area, mid_area), globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * i, i);
+
+                            //create_hidden_spike(0, globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * i, i);
+                            wave_found = true;
 
                         break;
                      case 3:
                         
                         //create_wall_corner(i);
-                        if (USER.s.BEST_SCORE <= 3) {
+                        if (1==2 && USER.s.BEST_SCORE <= 3) {
                             create_floor(0, i);
                             create_spike(corner_left, globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * i, i);
                             create_spike(corner_right, globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * i, i);
@@ -545,7 +549,11 @@ public class game_controller : MonoBehaviour {
         // HOLE + SPIKE -> 
         if (!last_wall && !last_hole && rand > 0 && rand <= hole_chance)
         {
-            bool success = create_hole(n, false, screen_w / 4 - screen_w / 8);
+            rand = Random.Range(1, 100);
+            bool not_hidden;
+            if (rand < 60) not_hidden = true;
+            else not_hidden = false;
+            bool success = create_hole(n, not_hidden, screen_w / 4 - screen_w / 8);
 
             if (success)
             {
@@ -568,7 +576,7 @@ public class game_controller : MonoBehaviour {
             if (QA.s.TRACE_PROFUNDITY >= 2) Debug.Log("\n " + n + " ======= CREATE WAVE EASY! ========== | rand: " + rand);
 
             // WALL EXCEPTION
-            if (!last_wall &&  ((USER.s.FIRST_WALL_CREATED == 0 && first_wall_already_created == false && USER.s.TOTAL_GAMES >= 1 && n_floor > 4 && rand < 95))) {
+            if (1==2 && !last_wall &&  ((USER.s.FIRST_WALL_CREATED == 0 && first_wall_already_created == false && USER.s.TOTAL_GAMES >= 1 && n_floor > 4 && rand < 95))) {
                 wave_name = "medium_wall_corner_1_spk";
                 if (QA.s.SHOW_WAVE_TYPE == true)
                 {

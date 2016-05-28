@@ -3,16 +3,26 @@ using System.Collections;
 using DG.Tweening;
 
 public class note_behaviour : MonoBehaviour {
-
+    public bool the_first_note = false;
     float init_y;
 	// Use this for initialization
+    void Awake() {
+        
+    }
+       
 	void Start () {
         init_y = transform.position.y;
        // Debug.Log(" MY COLOR : " + transform.GetComponent<SpriteRenderer>().color);
        // new_color();
         floating_animation_up();
+
+        if (the_first_note && USER.s.BEST_SCORE > 3) {
+            int i = Random.Range(1,100);
+            if (i < 90) Destroy(gameObject);
+                
+        }
     }
-	
+
 	// Update is called once per frame
 	void Update () {
        // transform.GetComponent<SpriteRenderer>().color = Color.black;

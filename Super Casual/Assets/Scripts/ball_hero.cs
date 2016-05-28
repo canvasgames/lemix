@@ -6,8 +6,7 @@ public class ball_hero : MonoBehaviour
 {
     #region Variables Declaration
 
-  
-
+    public GameObject my_trail;
     float target_y = 0;
     bool target_y_reached;
 
@@ -140,6 +139,12 @@ public class ball_hero : MonoBehaviour
             else if (rb.velocity.x < 0)
                 rb.velocity = new Vector2(-globals.s.BALL_SPEED_X, rb.velocity.y);
         }
+        //Vector3 abc = new Vector3(0, 0, 90);
+        //if (rb.velocity.y != 0)
+         //  my_trail.transform.rotation = new Quaternion(0, 0, 110, 0);
+        //else
+        //   my_trail.transform.rotation = new Quaternion(0, 0, 0, 0);
+
 
     }
 
@@ -164,11 +169,9 @@ public class ball_hero : MonoBehaviour
         //Debug.Log (" MY X SPEED: " + rb.velocity.x);
         //grounded = Physics2D.Linecast(transform.position, groundCheck.position, 1 << LayerMask.NameToLayer("Floor"));
 
-        
-
         if (globals.s.PW_SUPER_JUMP == true && target_y_reached == false && target_y > 0) {
             // main_camera.s.PW_super_jump(transform.position.y);
-            if (transform.position.y >= target_y) { 
+            if (transform.position.y >= target_y) {
                 stop_go_up_PW();
             }
         }
@@ -176,14 +179,7 @@ public class ball_hero : MonoBehaviour
         // falling case
         if (rb.velocity.y < -0.02f) grounded = false; //else grounded = true;
 
-        if (my_id == globals.s.BALL_ID - 1)
-        {
-            globals.s.BALL_Y = transform.position.y;
-            globals.s.BALL_X = transform.position.x;
-            globals.s.BALL_GROUNDED = grounded;
-            //Debug.Log("XY UPDATED | MY ID: " + my_id  + " time: " + Time.time);
-            //globals.s.BALL_FLOOR = my_floor;
-        }
+       
         #region ================ Ball Up ====================
 
         if (son_created == false && ((transform.position.x <= globals.s.LIMIT_LEFT + globals.s.BALL_R + 0.3f && rb.velocity.x < 0) ||
@@ -224,6 +220,7 @@ public class ball_hero : MonoBehaviour
 
             globals.s.BALL_Y = my_son.transform.position.y;
             globals.s.BALL_X = my_son.transform.position.x;
+            globals.s.CUR_BALL_SPEED = my_son.GetComponent<Rigidbody2D>().velocity.x;
 
             my_son.GetComponent<ball_hero>().init_my_skin();
             if (grounded == false) { 
@@ -262,6 +259,15 @@ public class ball_hero : MonoBehaviour
             //my_light.SetActive(false);
             
         }
+
+        if (my_id == globals.s.BALL_ID - 1) {
+            globals.s.BALL_Y = transform.position.y;
+            globals.s.BALL_X = transform.position.x;
+            globals.s.CUR_BALL_SPEED = rb.velocity.x;
+            globals.s.BALL_GROUNDED = grounded;
+            //Debug.Log("XY UPDATED | MY ID: " + my_id + " time: " + Time.time + " MY FLOOR " + my_floor + " CUR BALL SPEED: " + globals.s.CUR_BALL_SPEED);
+            //globals.s.BALL_FLOOR = my_floor;
+        }
     }
 
 
@@ -274,6 +280,8 @@ public class ball_hero : MonoBehaviour
         //GetComponent<EdgeCollider2D>().enabled = false;
         if (grounded == true)
         {
+            // my_trail.transform.localRotation = new Quaternion(0, 0, 110, 0);
+            my_trail.transform.DOLocalRotate(new Vector3(0, 0, 90), 0.01f, RotateMode.Fast);
             sound_controller.s.PlayJump();
             grounded = false;
             //rb.AddForce (new Vector2 (0, y_jump));
@@ -283,6 +291,10 @@ public class ball_hero : MonoBehaviour
 
         }
         //else Debug.Log("ÇÇÇÇÇÇÇÇÇÇÇÇÇÇÇ CANT JUMP! I AM NOT GROUNDED");
+    }
+
+    void Land() {
+        my_trail.transform.DOLocalRotate(new Vector3(0, 0, 0), 0.01f, RotateMode.Fast);
     }
 
 
@@ -308,6 +320,7 @@ public class ball_hero : MonoBehaviour
                 }
 
                 grounded = true;
+                Land();
 
                 coll.gameObject.GetComponent<floor>().try_to_display_best_score();
             }
@@ -491,6 +504,7 @@ public class ball_hero : MonoBehaviour
     {
         symbols.transform.GetComponent<SpriteRenderer>().DOFade(0, 0);
         super.SetActive(true);
+        my_alert.SetActive(false);
         rb.velocity = new Vector2(0, 0);
         my_skin.GetComponent<Animator>().Play("Jumping");
 

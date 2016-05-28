@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using DG.Tweening;
 
 
 public class scenario_objects : MonoBehaviour {
@@ -44,5 +45,17 @@ public class scenario_objects : MonoBehaviour {
     {
         if(transform.GetComponent<Collider2D>() != null)
             transform.GetComponent<Collider2D>().isTrigger = true;
+    }
+
+    public void new_color(float r, float g, float b, float time) {
+        // float r = Random.Range(0f, 0.8f);
+        //float g = Random.Range(0f, 0.8f);
+        //float b = Random.Range(0f, 0.8f);
+
+        //transform.GetComponent<SpriteRenderer>().color = new Color(r, g, b);
+
+        //Invoke("new_color", 0.2f);
+        transform.GetComponent<SpriteRenderer>().DOColor(new Color(r, g, b), time);
+        //Debug.Log(" MY COLOR : " + transform.GetComponent<SpriteRenderer>().color);
     }
 }

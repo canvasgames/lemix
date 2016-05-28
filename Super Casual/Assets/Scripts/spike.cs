@@ -166,7 +166,7 @@ public class spike : scenario_objects {
         already_appeared = false;
 
         timer = 0;
-        GetComponent<SpriteRenderer>().color = Color.black;
+        //GetComponent<SpriteRenderer>().color = Color.black;
         transform.localScale = new Vector3(globals.s.SPK_SCALE, globals.s.SPK_SCALE, globals.s.SPK_SCALE);
         count_blink = 16;
         //transform.DOScale(0.7f, 0.1f);
