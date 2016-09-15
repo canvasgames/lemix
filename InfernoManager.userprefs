@@ -1,8 +1,9 @@
-﻿<Properties>
-  <MonoDevelop.Ide.Workspace />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\CityBuildingPerfectKit\Scripts\TBDatabase.cs">
+﻿<Properties StartupItem="Assembly-CSharp.csproj" VersionControlDisabled="True">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\BuildReport\Scripts\Editor\Utility\BRT_Util.cs">
     <Files>
-      <File FileName="Assets\CityBuildingPerfectKit\Scripts\TBDatabase.cs" Line="32" Column="3" />
+      <File FileName="Assets\BuildReport\Scripts\Editor\Options\BRT_FiltersUsed.cs" Line="182" Column="28" />
+      <File FileName="Assets\BuildReport\Scripts\Editor\Utility\BRT_Util.cs" Line="1542" Column="3" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

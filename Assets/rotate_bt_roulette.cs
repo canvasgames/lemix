@@ -50,10 +50,12 @@ public class rotate_bt_roulette : MonoBehaviour {
 
                 if (re_spin == false)
                 {
-                    if (BE.SceneTown.Gold.Target() >= 200)
+                    if (BE.SceneTown.Gold.Target() >= 200 || GLOBALS.s.already_spinned == false)
                     {
-                        BE.SceneTown.Gold.ChangeDelta(-200);
+                        if(GLOBALS.s.already_spinned == true) BE.SceneTown.Gold.ChangeDelta(-200);
                         pizza_chart.GetComponent<pizza_char>().rotate();
+                        GLOBALS.s.already_spinned = true;
+
                     }
                     else
                     {

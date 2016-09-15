@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>10.0.20506</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <RootNamespace></RootNamespace>
+    <ProjectGuid>{C2EF2EEF-9451-D4B3-967B-39812C1A947D}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <AssemblyName>Assembly-CSharp</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <BaseDirectory>Assets</BaseDirectory>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>Temp\bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;UNITY_5_3_OR_NEWER;UNITY_5_3_5;UNITY_5_3;UNITY_5;ENABLE_NEW_BUGREPORTER;ENABLE_AUDIO;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_FRAME_DEBUGGER;ENABLE_GENERICS;ENABLE_HOME_SCREEN;ENABLE_IMAGEEFFECTS;ENABLE_LIGHT_PROBES_LEGACY;ENABLE_MULTIPLE_DISPLAYS;ENABLE_PHYSICS;ENABLE_PLUGIN_INSPECTOR;ENABLE_SHADOWS;ENABLE_SINGLE_INSTANCE_BUILD_SETTING;ENABLE_SPRITERENDERER_FLIPPING;ENABLE_SPRITES;ENABLE_SPRITE_POLYGON;ENABLE_TERRAIN;ENABLE_UNET;ENABLE_UNITYEVENTS;ENABLE_VR;ENABLE_WEBCAM;ENABLE_WWW;ENABLE_CLOUD_SERVICES;ENABLE_CLOUD_SERVICES_ADS;ENABLE_CLOUD_HUB;ENABLE_CLOUD_PROJECT_ID;ENABLE_CLOUD_SERVICES_PURCHASING;ENABLE_CLOUD_SERVICES_ANALYTICS;ENABLE_CLOUD_SERVICES_UNET;ENABLE_CLOUD_SERVICES_BUILD;ENABLE_CLOUD_LICENSE;ENABLE_EDITOR_METRICS;ENABLE_EDITOR_METRICS_CACHING;INCLUDE_DYNAMIC_GI;INCLUDE_GI;INCLUDE_IL2CPP;INCLUDE_DIRECTX12;RENDER_SOFTWARE_CURSOR;ENABLE_LOCALIZATION;ENABLE_ANDROID_ATLAS_ETC1_COMPRESSION;ENABLE_EDITOR_TESTS_RUNNER;UNITY_WEBGL;UNITY_WEBGL_API;UNITY_DISABLE_WEB_VERIFICATION;ENABLE_TEXTUREID_MAP;ENABLE_CRUNCH_TEXTURE_COMPRESSION;ENABLE_UNITYWEBREQUEST;ENABLE_LOG_MIXED_STACKTRACE;ENABLE_IL2CPP;ENABLE_PROFILER;UNITY_ASSERTIONS;UNITY_EDITOR;UNITY_EDITOR_64;UNITY_EDITOR_WIN</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <NoWarn>0169</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>Temp\bin\Release\</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <NoWarn>0169</NoWarn>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.XML" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="UnityEngine">
+      <HintPath>C:/Program Files/Unity/Editor/Data/Managed/UnityEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor">
+      <HintPath>C:/Program Files/Unity/Editor/Data/Managed/UnityEditor.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+     <Compile Include="Assets\Arrow3D.cs" />
+     <Compile Include="Assets\ArrowsShop.cs" />
+     <Compile Include="Assets\CameraTest.cs" />
+     <Compile Include="Assets\CameraTest2.cs" />
+     <Compile Include="Assets\Cartoon FX\Demo\Assets\CFX2_Demo.cs" />
+     <Compile Include="Assets\Cartoon FX\Demo\Assets\CFX_Demo_RandomDir.cs" />
+     <Compile Include="Assets\Cartoon FX\Demo\Assets\CFX_Demo_RotateCamera.cs" />
+     <Compile Include="Assets\Cartoon FX\Scripts\CFX2_AutoRotate.cs" />
+     <Compile Include="Assets\Cartoon FX\Scripts\CFX_AutoDestructShuriken.cs" />
+     <Compile Include="Assets\Cartoon FX\Scripts\CFX_AutodestructWhenNoChildren.cs" />
+     <Compile Include="Assets\Cartoon FX\Scripts\CFX_LightIntensityFade.cs" />
+     <Compile Include="Assets\Cartoon FX\Scripts\CFX_ShurikenThreadFix.cs" />
+     <Compile Include="Assets\Cartoon FX\Spawn System\CFX_SpawnSystem.cs" />
+     <Compile Include="Assets\CatastropheAnimationController.cs" />
+     <Compile Include="Assets\CatastropheItem.cs" />
+     <Compile Include="Assets\ChickenController.cs" />
+     <Compile Include="Assets\CityBuildingPerfectKit\Scripts\BEAStar.cs" />
+     <Compile Include="Assets\CityBuildingPerfectKit\Scripts\BEAudioManager.cs" />
+     <Compile Include="Assets\CityBuildingPerfectKit\Scripts\BEBillboard3D.cs" />
+     <Compile Include="Assets\CityBuildingPerfectKit\Scripts\BEGround.cs" />
+     <Compile Include="Assets\CityBuildingPerfectKit\Scripts\BENumber.cs" />
+     <Compile Include="Assets\CityBuildingPerfectKit\Scripts\BEObjectPool.cs" />
+     <Compile Include="Assets\CityBuildingPerfectKit\Scripts\BESetting.cs" />
+     <Compile Include="Assets\CityBuildingPerfectKit\Scripts\BETime.cs" />
+     <Compile Include="Assets\CityBuildingPerfectKit\Scripts\BETween.cs" />
+     <Compile Include="Assets\CityBuildingPerfectKit\Scripts\BEUtil.cs" />
+     <Compile Include="Assets\CityBuildingPerfectKit\Scripts\BEWorker.cs" />
+     <Compile Include="Assets\CityBuildingPerfectKit\Scripts\BEWorkerManager.cs" />
+     <Compile Include="Assets\CityBuildingPerfectKit\Scripts\Building.cs" />
+     <Compile Include="Assets\CityBuildingPerfectKit\Scripts\SceneTown.cs" />
+     <Compile Include="Assets\CityBuildingPerfectKit\Scripts\TBDatabase.cs" />
+     <Compile Include="Assets\CityBuildingPerfectKit\Scripts\UICollect.cs" />
+     <Compile Include="Assets\CityBuildingPerfectKit\Scripts\UICommand.cs" />
+     <Compile Include="Assets\CityBuildingPerfectKit\Scripts\UIDialogBase.cs" />
+     <Compile Include="Assets\CityBuildingPerfectKit\Scripts\UIDialogInfo.cs" />
+     <Compile Include="Assets\CityBuildingPerfectKit\Scripts\UIDialogMessage.cs" />
+     <Compile Include="Assets\CityBuildingPerfectKit\Scripts\UIDialogTraining.cs" />
+     <Compile Include="Assets\CityBuildingPerfectKit\Scripts\UIDialogUnitInfo.cs" />
+     <Compile Include="Assets\CityBuildingPerfectKit\Scripts\UIDialogUpgradeAsk.cs" />
+     <Compile Include="Assets\CityBuildingPerfectKit\Scripts\UIHealthBar.cs" />
+     <Compile Include="Assets\CityBuildingPerfectKit\Scripts\UIInGame.cs" />
+     <Compile Include="Assets\CityBuildingPerfectKit\Scripts\UIInfo.cs" />
+     <Compile Include="Assets\CityBuildingPerfectKit\Scripts\UIOption.cs" />
+     <Compile Include="Assets\CityBuildingPerfectKit\Scripts\UIShop.cs" />
+     <Compile Include="Assets\CityBuildingPerfectKit\Scripts\UIShopItem.cs" />
+     <Compile Include="Assets\CityBuildingPerfectKit\Scripts\UIUnitItem.cs" />
+     <Compile Include="Assets\CityBuildingPerfectKit\Scripts\UIUnitQueItem.cs" />
+     <Compile Include="Assets\CloseBT.cs" />
+     <Compile Include="Assets\CollectSoulsBt.cs" />
+     <Compile Include="Assets\CreateCatastropheScrollView.cs" />
+     <Compile Include="Assets\Demigiant\DOTween\Examples\Basics.cs" />
+     <Compile Include="Assets\Demigiant\DOTween\Examples\Sequences.cs" />
+     <Compile Include="Assets\DemonListScrollbar.cs" />
+     <Compile Include="Assets\DialogMission.cs" />
+     <Compile Include="Assets\EnterFromDown.cs" />
+     <Compile Include="Assets\ExclamationAnimation.cs" />
+     <Compile Include="Assets\GreenCircle.cs" />
+     <Compile Include="Assets\HellHierarchyMenu.cs" />
+     <Compile Include="Assets\Inferno Manager\Scripts\BuildBt.cs" />
+     <Compile Include="Assets\Inferno Manager\Scripts\Controllers\ButtonCap.cs" />
+     <Compile Include="Assets\Inferno Manager\Scripts\Controllers\GLOBALS.cs" />
+     <Compile Include="Assets\Inferno Manager\Scripts\Controllers\GameController.cs" />
+     <Compile Include="Assets\Inferno Manager\Scripts\Controllers\MenusController.cs" />
+     <Compile Include="Assets\Inferno Manager\Scripts\Controllers\NavigationController.cs" />
+     <Compile Include="Assets\Inferno Manager\Scripts\Controllers\SoundController.cs" />
+     <Compile Include="Assets\Inferno Manager\Scripts\Controllers\TutorialController.cs" />
+     <Compile Include="Assets\Inferno Manager\Scripts\dialogs\CreateDemonsScrollView.cs" />
+     <Compile Include="Assets\Inferno Manager\Scripts\dialogs\DialogsTexts.cs" />
+     <Compile Include="Assets\Inferno Manager\Scripts\dialogs\Full_Screen_Dialog.cs" />
+     <Compile Include="Assets\Inferno Manager\Scripts\dialogs\SatanHand.cs" />
+     <Compile Include="Assets\Inferno Manager\Scripts\dialogs\Satan_HUD.cs" />
+     <Compile Include="Assets\Inferno Manager\Scripts\dialogs\buttons\btNextTutorial.cs" />
+     <Compile Include="Assets\Inferno Manager\Scripts\dialogs\buttons\scrollOption.cs" />
+     <Compile Include="Assets\Inferno Manager\Scripts\dialogs\demonCreateAvatar.cs" />
+     <Compile Include="Assets\Inferno Manager\Scripts\hell_diplomacy_bt.cs" />
+     <Compile Include="Assets\Inferno Manager\Scripts\particlesLogic.cs" />
+     <Compile Include="Assets\Inferno Manager\Scripts\pie chart\NewBehaviourScript.cs" />
+     <Compile Include="Assets\MainCamera.cs" />
+     <Compile Include="Assets\MissionOption.cs" />
+     <Compile Include="Assets\MissionsController.cs" />
+     <Compile Include="Assets\No_bt_hell_diplomacy.cs" />
+     <Compile Include="Assets\QA.cs" />
+     <Compile Include="Assets\RankBT.cs" />
+     <Compile Include="Assets\RestaurantBehaviour.cs" />
+     <Compile Include="Assets\SatanController.cs" />
+     <Compile Include="Assets\SatanEnteringEnded.cs" />
+     <Compile Include="Assets\SatanEnteringStoppedStarted.cs" />
+     <Compile Include="Assets\SatanStartedTalking.cs" />
+     <Compile Include="Assets\SoulsGroupAlha.cs" />
+     <Compile Include="Assets\SoulsGroupBehaviour.cs" />
+     <Compile Include="Assets\SpankController.cs" />
+     <Compile Include="Assets\TextWriter.cs" />
+     <Compile Include="Assets\WarningText.cs" />
+     <Compile Include="Assets\callCatastrophe.cs" />
+     <Compile Include="Assets\cat_animation_script.cs" />
+     <Compile Include="Assets\catastropheBT.cs" />
+     <Compile Include="Assets\cityOP.cs" />
+     <Compile Include="Assets\collectSouls.cs" />
+     <Compile Include="Assets\demonMoving.cs" />
+     <Compile Include="Assets\demonsCreator.cs" />
+     <Compile Include="Assets\downArrow.cs" />
+     <Compile Include="Assets\enterFromUp.cs" />
+     <Compile Include="Assets\explosion_animation_end.cs" />
+     <Compile Include="Assets\ferryman_path.cs" />
+     <Compile Include="Assets\gota_magica_sao_paulo.cs" />
+     <Compile Include="Assets\levelUpHands.cs" />
+     <Compile Include="Assets\light_glow_scale.cs" />
+     <Compile Include="Assets\no_resource_wheel.cs" />
+     <Compile Include="Assets\particle_soul.cs" />
+     <Compile Include="Assets\pizza_char.cs" />
+     <Compile Include="Assets\rotate_bt_roulette.cs" />
+     <Compile Include="Assets\start_animation_random_frame.cs" />
+     <Compile Include="Assets\tap_animation.cs" />
+     <Compile Include="Assets\textMaxSouls.cs" />
+     <Compile Include="Assets\yes_bt_hell_diplomacy.cs" />
+     <Compile Include="Assets\yes_bt_hell_diplomacy_2.cs" />
+     <None Include="Assets\Demigiant\DOTween\readme.txt" />
+     <None Include="Assets\Demigiant\DOTween\DOTween43.xml" />
+     <None Include="Assets\Demigiant\DOTween\DOTween50.xml" />
+     <None Include="Assets\Cartoon FX\Shaders\CFX2 Particle Alpha Blend Add.shader" />
+     <None Include="Assets\CityBuildingPerfectKit\Resources\Database.xml" />
+     <None Include="Assets\BuildReport\VERSION.txt" />
+     <None Include="Assets\BuildReport\README.txt" />
+     <None Include="Assets\Demigiant\DOTween\DOTween46.xml" />
+ <Reference Include="UnityEngine.UI">
+ <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEngine.Networking">
+ <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll</HintPath>
+ </Reference>
+ <Reference Include="DOTween">
+ <HintPath>E:/Desktop/Lemix SVN5/branches/InfernoManager/Assets/Demigiant/DOTween/DOTween.dll</HintPath>
+ </Reference>
+ <Reference Include="DOTween43">
+ <HintPath>E:/Desktop/Lemix SVN5/branches/InfernoManager/Assets/Demigiant/DOTween/DOTween43.dll</HintPath>
+ </Reference>
+ <Reference Include="DOTween46">
+ <HintPath>E:/Desktop/Lemix SVN5/branches/InfernoManager/Assets/Demigiant/DOTween/DOTween46.dll</HintPath>
+ </Reference>
+ <Reference Include="DOTween50">
+ <HintPath>E:/Desktop/Lemix SVN5/branches/InfernoManager/Assets/Demigiant/DOTween/DOTween50.dll</HintPath>
+ </Reference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  
+</Project>

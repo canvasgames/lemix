@@ -4,12 +4,7 @@ using DG.Tweening;
 using UnityEngine.SceneManagement;
 
 
-public enum CollectSoulsType {
-    MissionSpank = 0,
-    MissionBuild = 1,
-    Catastrophe = 2,
-    MissionCollect = 3
-}
+
 
 
 public class CollectSoulsBt : ButtonCap {

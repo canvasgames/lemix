@@ -124,8 +124,10 @@ public class ChickenController : MonoBehaviour {
         pow.transform.DOScale(new Vector3(1.5f, 1.5f, 1), 0.5f);
         pow.GetComponent<CanvasGroup>().DOFade(0, 1f).OnComplete(() => pow.SetActive(false));
 
-        chicken.GetComponent<Animator>().SetTrigger("kick");
-        chicken.transform.DOLocalMoveX(chicken.transform.position.x + 300, 0.65f).OnComplete(() => chicken_kicked_success());
+        //chicken.GetComponent<Animator>().SetTrigger("kick");
+        chicken.transform.DOLocalMoveX(chicken.transform.position.x + 300, 0.55f).OnComplete(() => chicken_kicked_success());
+        Vector3 abc = new Vector3(0, 0, 310);
+        chicken.transform.DOLocalRotate(abc, 0.55f);
 
         BE.BEAudioManager.SoundPlay(11);
     }
@@ -134,10 +136,12 @@ public class ChickenController : MonoBehaviour {
 
     void chicken_kicked_success()
     {
+        //Invoke("chicken_kicked_sucess_timer", 0.55f);
         boot.SetActive(false);
         chicken.SetActive(false);
 
         Invoke("call", 1.1f);
+
 
         // call tutorial back
     }

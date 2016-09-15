@@ -15,11 +15,18 @@ public class TutorialController : MonoBehaviour
 
     public GameObject catastrophesBt;
 
+    public GameObject intro;
+
+    public DemonListScrollbar[] DemonListScroll;
+
     GameObject tempObject;
     public GameObject HUD;
 
     BE.Building[] buildings;
     DialogsTexts[] fscreen;
+
+    int firstGame;
+    bool atIntro = true;
 
     float tutorial1Timer;
 
@@ -32,7 +39,7 @@ public class TutorialController : MonoBehaviour
     void Start()
     {
 
-        int firstGame = PlayerPrefs.GetInt("firstGame");
+         firstGame = PlayerPrefs.GetInt("firstGame");
 		
         if (QA.s.NoTutorial == true) firstGame = 2;
 
@@ -47,7 +54,9 @@ public class TutorialController : MonoBehaviour
 
             if(QA.s.NoSatanEntering == false)
             {
-                SatanController.s.start_entering(1.4f);
+                //SatanController.s.start_entering(1.4f);
+
+                GLOBALS.s.TUTORIAL_PHASE =  -999;
             }
             else
             {
@@ -65,7 +74,7 @@ public class TutorialController : MonoBehaviour
             BE.SceneTown.instance.createTownHownTutorial();
             createGate();
             BE.SceneTown.instance.CapacityCheck();
-            BE.SceneTown.Gold.ChangeDelta((double)200);
+            BE.SceneTown.Gold.ChangeDelta((double)300);
         }
         //
         #endregion
@@ -77,8 +86,19 @@ public class TutorialController : MonoBehaviour
 
     #region Update and Timers
     // Update is called once per frame
-    void Update()
-    {
+    void Update() {
+       // if(atIntro == true)
+           // intro.SetActive(false);
+
+        if ( atIntro == true && Input.GetMouseButtonDown(0) ){
+            atIntro = false;
+            if (QA.s.NoSatanEntering == false && QA.s.NoTutorial == false) 
+                SatanController.s.start_entering(1.4f);
+            intro.SetActive(false);
+
+
+            
+        }
     }
     #endregion
 
@@ -151,7 +171,7 @@ public class TutorialController : MonoBehaviour
     }
     #endregion
 
-    #region Tutorial Phase 3 Create Town Hall
+    #region Tutorial Phase 3 Create Hell's Gate
     //Create Hells Gate
     public void tutorial1Phase2Clicked()
     {
@@ -159,7 +179,7 @@ public class TutorialController : MonoBehaviour
         curSatan.GetComponent<Animator>().Rebind();
 
         BE.SceneTown.instance.CapacityCheck();
-        BE.SceneTown.Gold.ChangeDelta((double)200);
+        BE.SceneTown.Gold.ChangeDelta((double)300);
         fscreen = GameObject.FindObjectsOfType(typeof(DialogsTexts)) as DialogsTexts[];
         fscreen[0].closeAndReopen();
 
@@ -190,7 +210,7 @@ public class TutorialController : MonoBehaviour
         buildings = GameObject.FindObjectsOfType(typeof(BE.Building)) as BE.Building[];
         foreach (BE.Building element in buildings)
         {
-            element.activateHandTutorialUI(4);
+            element.activateHandTutorialUI(4, true);
         }
     }
     #endregion
@@ -281,7 +301,7 @@ public class TutorialController : MonoBehaviour
     public void clickedBuildBt()
     {
         Debug.Log("[TUT] 8 SELECT A BUILDING");
-        BE.SceneTown.instance.move_camera_to_building(new Vector3(-11, 0, 8));
+        BE.SceneTown.instance.move_camera_to_building(new Vector3(13, 0, 1));
    
         GLOBALS.s.LOCK_CLICK_TUTORIAL = false;
         GLOBALS.s.LOCK_CAMERA_TUTORIAL = false;
@@ -329,9 +349,9 @@ public class TutorialController : MonoBehaviour
         MenusController.s.moveMenu(MovementTypes.Left, tempObject, "GreenCircle", -417, 289);
         tempObject.GetComponent<GreenCircle>().pulse();
 
-        txtMaxSouls.GetComponent<textMaxSouls>().pulse();
-        txtMaxSouls1.GetComponent<textMaxSouls>().pulse();
-        txtMaxSouls2.GetComponent<textMaxSouls>().pulse();
+        //txtMaxSouls.GetComponent<textMaxSouls>().pulse();
+        //txtMaxSouls1.GetComponent<textMaxSouls>().pulse();
+        //txtMaxSouls2.GetComponent<textMaxSouls>().pulse();
         // tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/3DArrow"));
         //MenusController.s.moveMenu(MovementTypes.Left, tempObject, "3DArrow", -429, 207);
 
@@ -371,7 +391,7 @@ public class TutorialController : MonoBehaviour
         buildings = GameObject.FindObjectsOfType(typeof(BE.Building)) as BE.Building[];
         foreach (BE.Building element in buildings)
         {
-            element.activateHandTutorialUI(4);
+            element.activateHandTutorialUI(4, true);
 
         }
     }
@@ -469,20 +489,28 @@ public class TutorialController : MonoBehaviour
         CreateDemonsScrollView[] list;
         list = GameObject.FindObjectsOfType(typeof(CreateDemonsScrollView)) as CreateDemonsScrollView[];
         list[0].moveList();
-        Invoke("clickDemonLordToOpenCity", 5);
+		Invoke("MovePlayerAvatar", 5);
 
+
+       // DemonListScroll = GameObject.FindObjectsOfType(typeof(DemonListScrollbar)) as DemonListScrollbar[];
+       // DemonListScroll[0].gameObject.SetActive(false);
 
     }
+
     #endregion
 
-    void clickDemonLordToOpenCity()
+	void MovePlayerAvatar(){
+		HellHierarchyMenu.s.advance_player ();
+	}
+
+    public void clickDemonLordToOpenCity()
     {
         GLOBALS.s.TUTORIAL_PHASE = -13;
         tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/SmallScroll"));
-        MenusController.s.moveMenu(MovementTypes.Left, tempObject, "SmallScroll", -101f, 131);
+        MenusController.s.moveMenu(MovementTypes.Left, tempObject, "SmallScroll", -22f, 38);
 
         tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/SatanHandCatBT"));
-        MenusController.s.moveMenu(MovementTypes.Right, tempObject, "SatanHandCatBT", 214-180, 87.5f);
+        MenusController.s.moveMenu(MovementTypes.Right, tempObject, "SatanHandCatBT", 389, 77.5f);
     }
 
     public void niceCity()
@@ -732,8 +760,8 @@ public class TutorialController : MonoBehaviour
         MenusController.s.destroyMenu("SmallScroll", null);
         MenusController.s.destroyMenu("SatanHandCatBT", null);
 
-       GLOBALS.s.TUTORIAL_PHASE = 103;
-       // GLOBALS.s.TUTORIAL_OCCURING = false;
+       GLOBALS.s.TUTORIAL_PHASE = 0;
+       GLOBALS.s.TUTORIAL_OCCURING = false;
     }
 
     public void click_to_spin_again_gems()

@@ -6,7 +6,7 @@ using DG.Tweening;
 public class CreateDemonsScrollView : MonoBehaviour {
     float initialY, xSpace, ySpace, xMiddle;
 
-    public GameObject placeholder, rankText, closeBT;
+    public GameObject placeholder, rankText, closeBT, clickAreaDemon;
     GameObject myPlaceholder;
     // Use this for initialization
     void Start () {
@@ -38,7 +38,8 @@ public class CreateDemonsScrollView : MonoBehaviour {
     {
         Debug.Log(" RECTTTTTTTTTTTTTTT " + GetComponent<RectTransform>().rect.height);
         //transform.DOLocalMoveY(-GetComponent<RectTransform>().rect.height - 1010, 12f);
-        transform.DOLocalMoveY(transform.position.y -2600, 5f);
+        transform.DOLocalMoveY(50, 5f);
+        //transform.DOLocalMoveY(transform.position.y - GetComponent<RectTransform>().rect.height , 5f);
        // transform.DOLocalMoveY(GetComponent<RectTransform>().rect.height - 410, 3f);
         //transform.DOLocalMoveY(-3220 , 3f);
     }

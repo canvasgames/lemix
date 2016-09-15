@@ -19,14 +19,14 @@ public class DialogMission : MonoBehaviour {
     public void CreateMissionsList(List<Mission> allMissions) {
         //MissionOption item;
         GameObject item;
-        foreach(Mission missionItem in allMissions) {
+        foreach(Mission missionItem in MissionsController.s.allMissions) {
             //item = (MissionOption)Instantiate(Resources.Load("Prefabs/OptionMission"));
             item = (GameObject)Instantiate(Resources.Load("Prefabs/OptionMission"));
 
             item.transform.SetParent(MenusController.s.bigDaddy, false);
             item.transform.SetParent(content.transform,false);
 
-
+            Debug.Log("[MCD] Init item! type: " + missionItem.type + " IS COMPLETE: " + missionItem.isComplete);
 
             item.GetComponent<MissionOption>().Init(missionItem);
 

@@ -32,11 +32,12 @@ public class MissionOption : ButtonCap
             targetQuantity.GetComponent<Text>().text = "0/1";
         }
         else if (missionType == MissionType.Build) {
-            text.GetComponent<Text>().text = "Build 2 Punisher Buildings";
+            text.GetComponent<Text>().text = "Build 2 Punisher Buildings Type";
             targetQuantity.GetComponent<Text>().text = "0/2";
         }
 
         else if (missionType == MissionType.CollectSouls) {
+            
             text.GetComponent<Text>().text = "Collect "+mission.targetQuantity +" Souls from Hell's Gate";
             int a;
             if (mission.curQuantity >= mission.targetQuantity) a = mission.targetQuantity;
@@ -44,7 +45,9 @@ public class MissionOption : ButtonCap
             targetQuantity.GetComponent<Text>().text = a+"/"+mission.targetQuantity;
         }
 
+        Debug.Log("[MCO] tYPE: " + missionType + " is complete: " + mission.isComplete);
         if (mission.isComplete) {
+            
             targetQuantity.SetActive(false);
             check.SetActive(true);
         }

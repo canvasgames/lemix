@@ -10,6 +10,13 @@ public enum MissionType {
     CollectSouls = 4
 }
 
+public enum CollectSoulsType {
+    MissionSpank = 0,
+    MissionBuild = 1,
+    Catastrophe = 2,
+    MissionCollect = 3
+}
+
 public class Mission {
     public int targetQuantity = 0;
     public int curQuantity = 0;
@@ -37,7 +44,7 @@ public class MissionsController : MonoBehaviour {
 
         // ADDING MISSIONS TEMPORALY
         allMissions.Add(new Mission(MissionType.Spank, 1));
-        allMissions.Add(new Mission(MissionType.Build, 2));
+        allMissions.Add(new Mission(MissionType.Build, 1));
         allMissions.Add(new Mission(MissionType.CollectSouls, 1000));
     }
     
@@ -61,7 +68,7 @@ public class MissionsController : MonoBehaviour {
     #region Open and Close
     public void OpenMissionDialog()
     {
-        if(GLOBALS.s.TUTORIAL_OCCURING == false && GLOBALS.s.DIALOG_ALREADY_OPENED == false)
+        if(GLOBALS.s.DIALOG_ALREADY_OPENED == false)
         {
             Debug.Log(" OPENING MISSION DIALOG");
             GameObject tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/DialogMissions"));
@@ -102,6 +109,8 @@ public class MissionsController : MonoBehaviour {
 
     //Reward Mission Dialog
     public void RewardMisison(MissionType type) {
+        Debug.Log("[MC] REWARD MISSION! TYPE: " + type);
+
         GameObject tempObject = (GameObject)Instantiate(Resources.Load("Prefabs/SmallScroll"));
         MenusController.s.moveMenu(MovementTypes.Right, tempObject, "SmallScroll", 0, 0, "MissionCollect");
 
@@ -122,6 +131,7 @@ public class MissionsController : MonoBehaviour {
 
         if (type == MissionType.Build) {
             temp.GetComponent<CollectSoulsBt>().myBtType = CollectSoulsType.MissionBuild;
+            Debug.Log("reward type build!");
         }
 
         if (type == MissionType.CollectSouls) {
@@ -137,19 +147,21 @@ public class MissionsController : MonoBehaviour {
         MenusController.s.destroyMenu("SmallScroll", null);
         MenusController.s.destroyMenu("Bt", null);
 
+        Debug.Log("[MC] on souls collect, BtType: " + btType);
+
         if (btType == CollectSoulsType.MissionSpank)
             allMissions[0].isComplete = true;
         else if (btType == CollectSoulsType.MissionBuild)
             allMissions[1].isComplete = true;
-        else if (btType == CollectSoulsType.MissionCollect)
-        {
-            allMissions[2].isComplete = true;
-            Debug.Log("Compelted");
+        else if (btType == CollectSoulsType.MissionCollect) {
+            allMissions[2].isComplete = true;      
         }
+
         checkIfAllMissionsAreCompleted();
     }
 
     public void OnBuildingComplete(int buildingType) {
+        Debug.Log("[MC] On Building Complete! Tutorial ocurring: " + GLOBALS.s.TUTORIAL_OCCURING);
         if (!GLOBALS.s.TUTORIAL_OCCURING && buildingType >= 11 && buildingType <= 15) { // if the building is a punisher type
             PunisherBuildingsCont++;
             if(PunisherBuildingsCont == 2 && allMissions[1].isComplete == false) {
@@ -167,7 +179,7 @@ public class MissionsController : MonoBehaviour {
 
     void checkIfAllMissionsAreCompleted()
     {
-        Debug.Log("Missions collect compelted " + allMissions[2].isComplete);
+        Debug.Log("[MC] Missions collect compelted " + allMissions[1].isComplete);
         if(allMissions[0].isComplete == true && allMissions[1].isComplete == true && allMissions[2].isComplete == true)
         {
             exclamationMissions = GameObject.Find("MissionExcl");

@@ -508,7 +508,7 @@ public class MenusController : MonoBehaviour {
 
         if (GLOBALS.s.TUTORIAL_PHASE == 103 && GLOBALS.s.TUTORIAL_OCCURING == true)
         {
-            TutorialController.s.click_to_spin_again_gems();
+           // TutorialController.s.click_to_spin_again_gems();
         }
     }
 

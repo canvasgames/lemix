@@ -187,7 +187,8 @@ namespace BE
             // if building can produce resources
             if (Landed && !InUpgrade && (def != null) && (def.eProductionType != PayType.None))
             {
-
+                //if(def.eProductionType == PayType.Elixir)
+                   // Production = 100;
                 if (GLOBALS.s != null && (GLOBALS.s.TUTORIAL_PHASE == 4 || GLOBALS.s.TUTORIAL_PHASE == 17))
                 {
                     //Automatically generate souls or fire for tutorial
@@ -288,13 +289,14 @@ namespace BE
 
         }
 
-        public void activateHandTutorialUI(int type)
+		public void activateHandTutorialUI(int type, bool hell_gate = false)
         {
             if (type == Type)
             {
                 uiInfo.SatanHand.gameObject.SetActive(true);
                 Vector3 pos = new Vector3(goCenter.transform.position.x + 1.5f, 0f, goCenter.transform.position.z + 1.5f);
-                SceneTown.instance.move_camera_to_building(pos, 0.5f, 11);
+				if (!hell_gate) SceneTown.instance.move_camera_to_building(pos, 0.5f, 11);
+				else SceneTown.instance.move_camera_to_building(pos, 0.5f, 11, -6f, -6f);
             }
 
         }
@@ -776,22 +778,44 @@ namespace BE
         public void Collect()
         {
 
-            Debug.Log("Collet!!!!");
+            Debug.Log("[Collect] BEGIN!");
             if ((GLOBALS.s.TUTORIAL_OCCURING == false || GLOBALS.s.TUTORIAL_PHASE == 4 || GLOBALS.s.TUTORIAL_PHASE == 11 || (GLOBALS.s.TUTORIAL_PHASE == 17 && def.eProductionType == PayType.Gold)))
             {
                 defineCapacityTotalAndAllProduction();
                 if (AllProduction < CapacityTotal)
                 {
+                    if (GLOBALS.s.nTimesCollectedSouls == 0) {
+                        Production = 100;
+                        GLOBALS.s.nTimesCollectedSouls++;
+                    }
 
-                    initializeTxtAndParticle(Production);
+                        initializeTxtAndParticle(Production);
 
-                    //Verify if the production exceeded the capacity
+
+                        //Verify if the production exceeded the capacity
                     if (AllProduction + Production <= CapacityTotal)
                     {
+                        Debug.Log("[COLLECT] Production is less than capacity total! " + Production);
                         createParticleUIandCollect(Production, false, 0);
+                        /*if (GLOBALS.s.nTimesCollectedSouls == 0) {
+                            createParticleUIandCollect(100, false, 0);
+                            GLOBALS.s.nTimesCollectedSouls++;
+                            Debug.Log("COLLECT FIRST TIME!! ");
+                        }
+                        else if (GLOBALS.s.TUTORIAL_OCCURING && GLOBALS.s.nTimesCollectedSouls == 1) {
+                            createParticleUIandCollect(Production, false, 0);
+                            GLOBALS.s.nTimesCollectedSouls++;
+                        }
+                        else
+                            createParticleUIandCollect(Production, false, 0);
+                            */
+
+
+
                     }
                     else
                     {
+                        Debug.Log("[COLLECT] Production is GREATER than capacity total! " + Production);
                         createParticleUIandCollect(CapacityTotal - (float)AllProduction, true, 1);
                     }
 
@@ -883,8 +907,10 @@ namespace BE
             {
                 if (def.eProductionType == PayType.Elixir)
                 {
-                    SceneTown.instance.GainExp((int)Production);
-                    MissionsController.s.OnSoulsCollected(Production);
+                    //SceneTown.instance.GainExp((int)Production);
+                    //MissionsController.s.OnSoulsCollected(Production);
+                    SceneTown.instance.GainExp((int)discountValue);
+                    MissionsController.s.OnSoulsCollected(discountValue);
                 }
             }
             else
@@ -906,6 +932,8 @@ namespace BE
             // reset values related to production
 
             Production = Production - discountValue;
+            // debug purposes
+            if (Production < 0) Production = 0;
 
             if (def.eProductionType == PayType.Elixir)
             {

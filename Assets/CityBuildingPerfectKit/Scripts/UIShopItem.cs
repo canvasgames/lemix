@@ -63,7 +63,7 @@ namespace BE {
 				// get next available townhall level
 				int NextTownLevel = bt.GetMoreBuildTownLevel(Count);
                 if (NextTownLevel == -1) DisabledInfo.text = "Reach Maximum Count";
-                else DisabledInfo.text = "Need " + TBDatabase.GetLevelExpTotal(NextTownLevel).ToString() + " Souls";
+                else DisabledInfo.text = "Need " + TBDatabase.GetLevelExpTotal(NextTownLevel).ToString() + " Soul Population";
                 //else 					DisabledInfo.text = "Need Souls" + NextTownLevel.ToString ();
                 goDisabled.SetActive(true);
 			}
@@ -71,7 +71,9 @@ namespace BE {
             //Lock if dont have Town Hall Level enough
             bool locked = false;
             int THRankReq = TBDatabase.TownHallLevelRequired(bt.ID, 0);
-            if (THRankReq > BEGround.instance.GetTownHallLevel())
+            //if (THRankReq > BEGround.instance.GetTownHallLevel())
+            Debug.Log(" sssssssssssssssss USER RANK: " + GLOBALS.s.USER_RANK);
+            if (THRankReq > GLOBALS.s.USER_RANK)
             {
                 CountAvailable = false;
                 locked = true;
@@ -80,7 +82,7 @@ namespace BE {
                // Debug.Log("nxsyyyyyyyyyyyyyyyyyyyyyyyyy " + TBDatabase.GetLevelExpTotal(2));
                 
                 //DisabledInfo.text = "Need Demon Palace Level  " + THRankReq;
-                DisabledInfo.text = "Need " + TBDatabase.GetLevelExpTotal(THRankReq).ToString() + " Souls";
+                DisabledInfo.text = "Need " + TBDatabase.GetLevelExpTotal(THRankReq).ToString() + " Soul Population";
 
                 goDisabled.SetActive(true);
                 LockedInterrogation.SetActive(true);

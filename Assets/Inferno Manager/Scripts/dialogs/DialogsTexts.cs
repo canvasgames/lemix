@@ -155,7 +155,7 @@ public class DialogsTexts : MonoBehaviour
             }
 
             else if (GLOBALS.s.TUTORIAL_PHASE == 12)
-                text_to_display = "Why the <color=blue>heaven</color> are you \ncelebrating?\nYou barely started!\nThere is still a long path\nto get to be someone other\nthan this <color=blue>bag of holiness</color> you are!";
+                text_to_display = "Why the <color=blue>heaven</color> are you \ncelebrating?\nYou barely started!\nThere is still a long path\nto get to be someone other\nthan this <color=blue>bag of holiness</color>\nyou are!";
             //text_to_display = "Aquire more souls to Level Up and be respected.";
             else if (GLOBALS.s.TUTORIAL_PHASE == 14)
                 text_to_display = "To build Punisher Buildings\nyou need <color=#fe2323>Hellfire!</color> Tap\nto build a Fire Mine.";
@@ -171,7 +171,7 @@ public class DialogsTexts : MonoBehaviour
             else if (GLOBALS.s.TUTORIAL_PHASE == 18)
             {
                 //myText.GetComponentInChildren<Text>().alignment = TextAnchor.UpperCenter;
-                text_to_display = "Acceptable work, <color=blue>Mr Holiness</color>!\n\nKeep building and upgrading\nyour buildings!\nAcquire souls to Level Up\n and be respected.\n";
+                text_to_display = "Acceptable work, <color=blue>Mr Holiness</color>!\n\nKeep building and upgrading\nyour buildings!\nAcquire souls to Level Up\nand be respected.\n";
             }
             else if (GLOBALS.s.TUTORIAL_PHASE == 19)
                 text_to_display = "If you want any missions, tap me.\nAdios! ";
@@ -195,7 +195,7 @@ public class DialogsTexts : MonoBehaviour
                 //myText.GetComponentInChildren<Text>().alignment = TextAnchor.UpperCenter;
             }
             else if (GLOBALS.s.TUTORIAL_PHASE == -13)
-                text_to_display = "Tap in the Demon Lord to se his Town";
+                text_to_display = "Tap the Demon Lord\nto check his Town";
             else if (GLOBALS.s.TUTORIAL_PHASE == -14)
                 text_to_display = "Nice City, hm?";
         }

@@ -126,6 +126,7 @@
     <Compile Include="Assets\CreateCatastropheScrollView.cs" />
     <Compile Include="Assets\Demigiant\DOTween\Examples\Basics.cs" />
     <Compile Include="Assets\Demigiant\DOTween\Examples\Sequences.cs" />
+    <Compile Include="Assets\DemonListScrollbar.cs" />
     <Compile Include="Assets\DialogMission.cs" />
     <Compile Include="Assets\EnterFromDown.cs" />
     <Compile Include="Assets\ExclamationAnimation.cs" />
@@ -149,6 +150,7 @@
     <Compile Include="Assets\Inferno Manager\Scripts\hell_diplomacy_bt.cs" />
     <Compile Include="Assets\Inferno Manager\Scripts\particlesLogic.cs" />
     <Compile Include="Assets\Inferno Manager\Scripts\pie chart\NewBehaviourScript.cs" />
+    <Compile Include="Assets\MainCamera.cs" />
     <Compile Include="Assets\MissionOption.cs" />
     <Compile Include="Assets\MissionsController.cs" />
     <Compile Include="Assets\No_bt_hell_diplomacy.cs" />
@@ -180,6 +182,7 @@
     <Compile Include="Assets\pizza_char.cs" />
     <Compile Include="Assets\rotate_bt_roulette.cs" />
     <Compile Include="Assets\start_animation_random_frame.cs" />
+    <Compile Include="Assets\tap_animation.cs" />
     <Compile Include="Assets\textMaxSouls.cs" />
     <Compile Include="Assets\yes_bt_hell_diplomacy.cs" />
     <Compile Include="Assets\yes_bt_hell_diplomacy_2.cs" />

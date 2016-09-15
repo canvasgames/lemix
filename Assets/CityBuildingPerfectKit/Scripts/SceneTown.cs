@@ -112,8 +112,8 @@ namespace BE {
 
 			// initialize BENumber class and set ui element 
 			Exp = new BENumber(BENumber.IncType.VALUE, 0, 100000000, 0);
-			Exp.AddUIImage(BEUtil.GetObject("PanelOverlay/LabelExp/Fill").GetComponent<Image>());
-			Exp.AddUIImageMax(BEUtil.GetObject("PanelOverlay/LabelExp/FillLimit").GetComponent<Image>());
+			Exp.AddUIImage(BEUtil.GetObject("PanelOverlay/LabelElixir/LabelExp/Fill").GetComponent<Image>());
+			Exp.AddUIImageMax(BEUtil.GetObject("PanelOverlay/LabelElixir/LabelExp/FillLimit").GetComponent<Image>());
 
 			Gold = new BENumber(BENumber.IncType.VALUE, 0, 200000, 555); // initial gold count is 1000
 			Gold.AddUIText(BEUtil.GetObject("PanelOverlay/LabelGold/Text").GetComponent<Text>());
@@ -326,7 +326,7 @@ namespace BE {
                                 //goCamera.transform.position = vCamPosOld - vDelta;
                                 goCamera.transform.localPosition = new Vector3(vCamPosOld.x - vDelta.x, vCamPosOld.y - vDelta.y, goCamera.transform.localPosition.z);
                                 if (QA.s.first_game == 1) {
-                                    Debug.Log("i am here!");
+                                   // Debug.Log("i am here!");
                                     if (goCamera.transform.localPosition.x < -14.5f + 3.8f)
                                         goCamera.transform.localPosition = new Vector3(-14.5f + 3.8f, goCamera.transform.localPosition.y, goCamera.transform.localPosition.z);
                                     if (goCamera.transform.localPosition.x > 13.85f + 3.8)
@@ -539,10 +539,12 @@ namespace BE {
         #endregion
 
         #region Exp and Capacity
-        public void move_camera_to_building(Vector3 pos, float duration = 0.5f, float customZoom = 6f)
+		public void move_camera_to_building(Vector3 pos, float duration = 0.5f, float customZoom = 6f, float custom_x = 0, float custom_z = 0)
         {
+			Debug.Log ("MMMMMMMMMMMMM MOVING CAMERA TO BUILDING !!!! ");
             //pos = new Vector3(pos.x, pos.y, pos.z);
-            Vector3 newPos = new Vector3(pos.x - 1.5f, pos.y, pos.z - 1.5f);
+			//Vector3 newPos = new Vector3(pos.x - 1.5f, pos.y, pos.z - 1.5f);
+            Vector3 newPos = new Vector3(pos.x - 1.5f + custom_x, pos.y, pos.z - 1.5f + custom_z);
             Camera cam = goCamera.GetComponent<Camera>();
             if (Math.Abs (cam.orthographicSize - customZoom) > 0.1f)
                 cam.DOOrthoSize(customZoom, duration).OnComplete(()=> zoomCurrent = customZoom);
@@ -972,11 +974,11 @@ namespace BE {
         public void createTownHownTutorial()
         {
             Building script = BEGround.instance.BuildingAdd(0, 1);
-            Vector3 pos = new Vector3(4f, 0f,34f);
+            Vector3 pos = new Vector3(7.1f, 0f, 16.8f);
             script.Move(pos);
-            pos = new Vector3(4f, 0f, 18f);
+            pos = new Vector3(0f, 0f, 13f);
 
-            if (GLOBALS.s.TUTORIAL_OCCURING) move_camera_to_building(pos, 0.5f, 14);
+            if (GLOBALS.s.TUTORIAL_OCCURING) move_camera_to_building(pos, 0.5f, 14, 3f, 3f);
 
             script.createExplosion();
             BuildingSelect(script);
@@ -987,9 +989,9 @@ namespace BE {
         {
             Building script = BEGround.instance.BuildingAdd(4, 1);
 
-            Vector3 pos = new Vector3(-10f, 0f, 13f);
+            Vector3 pos = new Vector3(30f, 0f, 6f);
             script.Move(pos);
-            if (GLOBALS.s.TUTORIAL_OCCURING) move_camera_to_building(pos,0.5f, 11);
+            if (GLOBALS.s.TUTORIAL_OCCURING) move_camera_to_building(pos,0.5f, 11, -6f, -6f);
 
 
             script.createExplosion();

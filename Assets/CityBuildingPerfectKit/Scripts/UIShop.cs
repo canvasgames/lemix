@@ -102,7 +102,9 @@ namespace BE {
 			}
 
 			gameObject.transform.localPosition = Vector3.zero;
-			gameObject.SetActive(true);
+            //Vector3 abc = new Vector3 (-600f, 0, 0);
+            //gameObject.transform.localPosition = gameObject.transform.localPosition - abc;
+            gameObject.SetActive(true);
 			gameObject.GetComponent<Image>().color = new Color32(0,0,0,0);
 			SceneTown.isModalShow = true;
 			eType = type;
