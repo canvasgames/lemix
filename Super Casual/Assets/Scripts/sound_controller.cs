@@ -53,10 +53,17 @@ public class sound_controller : MonoBehaviour
     {
         if (curFadeIn != null) {
             if (curFadeIn.volume < 1) {
-                curFadeIn.volume += 0.5f * Time.deltaTime;
-                curFadeOut.volume -= 0.5f * Time.deltaTime;
+				if (music_playing > 1) {
+					curFadeIn.volume += 0.7f * Time.deltaTime;
+					curFadeOut.volume -= 0.7f * Time.deltaTime;
+				}/* else {
+					curFadeIn.volume += 0.25f * Time.deltaTime;
+					curFadeOut.volume -= 0.25f * Time.deltaTime;
+				}*/
             }
             else { 
+				curFadeIn.volume = 1;
+				curFadeOut.volume = 0;
                 curFadeIn = null;
                 curFadeOut = null;
             }
@@ -103,10 +110,10 @@ public class sound_controller : MonoBehaviour
     public void update_music2() {
         music_playing++;
         if (music_playing == 2) {
-            musicSource.Stop();
-            musicSource2.volume = 1;
-            //curFadeIn = musicSource2;
-           // curFadeOut = musicSource;
+            //musicSource.Stop();
+            //musicSource2.volume = 1;
+            curFadeIn = musicSource2;
+            curFadeOut = musicSource;
         }
         else if (music_playing == 3) {
             curFadeIn = musicSource3;
@@ -146,7 +153,13 @@ public class sound_controller : MonoBehaviour
     }
     public void play_music()
     {
-        musicSource.Play();
+		musicSource.Play();
+		musicSource2.Play();
+		musicSource3.Play();
+		musicSource4.Play();
+        musicSource5.Play();
+		musicSource.volume = 1;
+		music_playing = 1;
     }
     public void stop_music()
     {

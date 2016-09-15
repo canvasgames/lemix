@@ -10,10 +10,14 @@ public class spike : scenario_objects {
     bool already_appeared = false;
     bool already_alerted = false;
 
+    public GameObject my_glow;
+
     float timer = 0;
     float target_y;
-    public PolygonCollider2D my_collider;
+    [HideInInspector] public PolygonCollider2D my_collider;
   
+
+
 
 	// Use this for initialization
     void Awake()
@@ -24,7 +28,20 @@ public class spike : scenario_objects {
 
         //GetComponent<SpriteRenderer>().color = Color.green;
         //if(QA.s.INVENCIBLE == true)
-            //my_collider.enabled = false;
+        //my_collider.enabled = false;
+        glow_animation_wait();
+    }
+
+    public void glow_animation_start() {
+		if(my_glow != null) my_glow.GetComponent<SpriteRenderer>().DOFade(1f, GD.s.GlowInTime).OnComplete(glow_animation_wait);
+    }
+	public void glow_animation_wait(){
+		Invoke ("glow_animation_end", GD.s.GlowStaticTime);
+		//glow_animation_end ();
+
+	}
+    public void glow_animation_end() {
+		if (my_glow != null) my_glow.GetComponent<SpriteRenderer>().DOFade(0, GD.s.GlowOutTime).OnComplete(glow_animation_start);
     }
 
     // Update is called once per frame
@@ -154,8 +171,8 @@ public class spike : scenario_objects {
     public void back_original_color_pw_sight()
     {
         //transform.GetComponent<Animator>().Play("blue");
-       // transform.GetComponent<SpriteRenderer>().color = Color.white;
-        transform.GetComponent<SpriteRenderer>().color = Color.black;
+        //transform.GetComponent<SpriteRenderer>().color = Color.white;
+       transform.GetComponent<SpriteRenderer>().color = Color.black;
     }
 
     public void clear_flags_reposite()
@@ -166,7 +183,7 @@ public class spike : scenario_objects {
         already_appeared = false;
 
         timer = 0;
-        //GetComponent<SpriteRenderer>().color = Color.black;
+        GetComponent<SpriteRenderer>().color = Color.black;
         transform.localScale = new Vector3(globals.s.SPK_SCALE, globals.s.SPK_SCALE, globals.s.SPK_SCALE);
         count_blink = 16;
         //transform.DOScale(0.7f, 0.1f);

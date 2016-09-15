@@ -18,9 +18,10 @@ public class floor_note : MonoBehaviour {
             ((globals.s.CUR_BALL_SPEED < 0 && globals.s.BALL_X < transform.position.x)))
             ) {
             already_appeared = true;
-            GetComponent<SpriteRenderer>().enabled = true;
-            GetComponent<SpriteRenderer>().color = new Color(0, 0, 0, 0);
-            GetComponent<SpriteRenderer>().DOFade(1, 0.3f);
+            SpriteRenderer mySR = GetComponent<SpriteRenderer>();
+            mySR.enabled = true;
+            mySR.color = new Color(mySR.color.r, mySR.color.g, mySR.color.b, 0);
+            mySR.DOFade(1, 0.3f);
             //Debug.Log("LET ME APPEAR! MY: " + transform.position.x + " BALL X: " + globals.s.BALL_X + "ball speed: " + globals.s.CUR_BALL_SPEED);
         }
 	

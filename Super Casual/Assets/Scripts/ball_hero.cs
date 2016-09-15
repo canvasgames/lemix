@@ -6,6 +6,8 @@ public class ball_hero : MonoBehaviour
 {
     #region Variables Declaration
 
+    public bool is_destroyed = false;
+
     public GameObject my_trail;
     float target_y = 0;
     bool target_y_reached;
@@ -27,6 +29,7 @@ public class ball_hero : MonoBehaviour
     public GameObject bola;
     public GameObject heart, super, sight;
     public GameObject symbols;
+    public note_trail_behavior my_note_trail;
     bool sight_active = false;
     bool heart_active = false;
     bool facing_right = false;
@@ -75,8 +78,9 @@ public class ball_hero : MonoBehaviour
         //if(first_ball == true) grounded = true;
         son_created = false;
         //Debug.Log ("INIT NEW BALL !!! MY X SPEED: " + rb.velocity.x);
-        
+
         // INITIALIZE SKIN AND MUSIC HERE!!!
+        create_note_trail();
 
         my_skin.GetComponent<Animator>().runtimeAnimatorController = Resources.Load("Sprites/Animations/HeroSimpleAnimator") as RuntimeAnimatorController;
     }
@@ -107,6 +111,16 @@ public class ball_hero : MonoBehaviour
     }
     
     #endregion
+
+    void create_note_trail() {
+        //note_trail_behavior obj = (note_trail_behavior)Instantiate(my_note_trail, 
+            //new Vector3(transform.position.x, transform.position.y + Random.Range(-0.2f, 0.2f)), transform.rotation);
+
+		objects_pool_controller.s.reposite_note_trail (transform.position.x, transform.position.y + Random.Range (-0.2f, 0.2f));
+			
+
+        if(!is_destroyed) Invoke("create_note_trail",0.1f);
+    }
 
     #region ================== UPDATE ======================
     void Update()
@@ -300,7 +314,47 @@ public class ball_hero : MonoBehaviour
 
 #region ========= COLLISIONS ================
 
-    void OnCollisionEnter2D(Collision2D coll)
+
+	void OnTriggerEnter2D(Collider2D coll){
+		Debug.Log ("kkkkkkkkkkkkkkkkkCOLLISION IS HAPPENING!! ");
+		if (coll.gameObject.CompareTag("PW"))
+		{
+			
+			PW_Collect temp = coll.gameObject.GetComponent<PW_Collect>();
+			pw_do_something(temp);
+			sound_controller.s.play_collect_pw();
+		}
+		else if (coll.gameObject.CompareTag("Note")) {
+			USER.s.NOTES += 1;
+			hud_controller.si.display_notes(USER.s.NOTES);
+			coll.transform.position = new Vector2 (-9909,-9999);
+			coll.GetComponent <note_behaviour> ().active = false;
+			coll.GetComponent <note_behaviour> ().state = 0;
+			//Destroy(coll.gameObject);
+			//Debug.Log("COLLECTING NOTE !!!!!!! ");
+			sound_controller.s.special_event();
+		}
+
+		else if (coll.gameObject.CompareTag("HoleFalling")) {
+			//if (QA.s.TRACE_PROFUNDITY >= 3) Debug.Log(" ~~~~~~~~~~~~~~~~~~~~~~~~~COLLIDING WITH HOLE FALLING TAG!!!");
+			if (QA.s.TRACE_PROFUNDITY >= 2) Debug.Log(" ~~~~~~~~~~~~~~~~~~~~~~~~~COLLIDING WITH HOLE FALLING TAG!!!");
+			//coll.transform.gameObject.GetComponent<SpriteRenderer>().enabled = true;
+			//coll.transform.gameObject.GetComponent<SpriteRenderer>().color = Color.green;
+			//grounded = false;
+			//coll.gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2(0, -100f);
+			if (transform.position.y < main_camera.s.transform.position.y + cam_fall_dist) { 
+				main_camera.s.OnBallFalling();
+				//coll.transform.gameObject.GetComponent<SpriteRenderer>().color = Color.red;
+
+			}
+
+		}
+
+
+		
+	}
+
+	void OnCollisionEnter2D(Collision2D coll)
     {
         //Debug.Log("xxxxxxxxxxxxxxxxxxxxx COLLIDING WITH SOMETHING!");
 
@@ -352,36 +406,13 @@ public class ball_hero : MonoBehaviour
             }
         }
 
-        else if (coll.gameObject.CompareTag("HoleFalling")) {
-            //if (QA.s.TRACE_PROFUNDITY >= 3) Debug.Log(" ~~~~~~~~~~~~~~~~~~~~~~~~~COLLIDING WITH HOLE FALLING TAG!!!");
-            if (QA.s.TRACE_PROFUNDITY >= 2) Debug.Log(" ~~~~~~~~~~~~~~~~~~~~~~~~~COLLIDING WITH HOLE FALLING TAG!!!");
-            //coll.transform.gameObject.GetComponent<SpriteRenderer>().enabled = true;
-            //coll.transform.gameObject.GetComponent<SpriteRenderer>().color = Color.green;
-            //grounded = false;
-            //coll.gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2(0, -100f);
-            if (transform.position.y < main_camera.s.transform.position.y + cam_fall_dist) { 
-                main_camera.s.OnBallFalling();
-                //coll.transform.gameObject.GetComponent<SpriteRenderer>().color = Color.red;
 
-            }
-            
-            Physics2D.IgnoreCollision(coll.collider, GetComponent<Collider2D>());
-            
-        }
-
-        else if (coll.gameObject.CompareTag("Hole")) {
+        /*else if (coll.gameObject.CompareTag("Hole")) {
             Physics2D.IgnoreCollision(coll.collider, GetComponent<Collider2D>());
             my_skin.GetComponent<Animator>().Play("Jumping");
-        }
+        }*/
 
-        else if (coll.gameObject.CompareTag("Note")) {
-            USER.s.NOTES += 1;
-            hud_controller.si.display_notes(USER.s.NOTES);
-            Destroy(coll.gameObject);
-            //Debug.Log("COLLECTING NOTE !!!!!!! ");
-            sound_controller.s.special_event();
-        }
-
+        
         else if (coll.gameObject.CompareTag("Wall"))
         {
             rb.velocity = new Vector2(-rb.velocity.x, rb.velocity.y);
@@ -393,12 +424,13 @@ public class ball_hero : MonoBehaviour
             }   
         }
 		
-        else if (coll.gameObject.CompareTag("PW"))
+       /* else if (coll.gameObject.CompareTag("PW"))
         {
             PW_Collect temp = coll.gameObject.GetComponent<PW_Collect>();
             pw_do_something(temp);
             sound_controller.s.play_collect_pw();
-        }
+			Physics2D.IgnoreCollision(coll.collider, GetComponent<Collider2D>());
+        }*/
         else if (coll.gameObject.CompareTag("Revive"))
         {
             globals.s.CAN_REVIVE = true;
@@ -424,6 +456,7 @@ public class ball_hero : MonoBehaviour
         foreach (ball_hero b in bolas) {
             //Destroy(b.gameObject);
             b.gameObject.SetActive(false);
+            b.is_destroyed = true;
 
         }
 

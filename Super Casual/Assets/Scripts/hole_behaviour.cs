@@ -9,16 +9,28 @@ public class hole_behaviour : MonoBehaviour
     public GameObject colliderPW;
     bool hidden = true;
     bool already_alerted = false;
+    public GameObject my_glow;
     // Use this for initialization
     void Start()
     {
         my_skin.GetComponent<hole_skin_behaviour>().my_floor = my_floor;
+        //glow_animation_start();
 
         if (globals.s.PW_SIGHT_BEYOND_SIGHT == true)
         {
             show_me_pw_sight();
         }
 
+    }
+    
+    public void glow_animation_start() {
+		my_glow.GetComponent<SpriteRenderer>().DOFade(1f, GD.s.GlowInTime).OnComplete(glow_animation_wait);
+    }
+	public void glow_animation_wait(){
+		Invoke("glow_animation_end", GD.s.GlowStaticTime);
+	}
+    public void glow_animation_end() {
+		my_glow.GetComponent<SpriteRenderer>().DOFade(0, GD.s.GlowOutTime).OnComplete(glow_animation_start);
     }
 
     // Update is called once per frame
@@ -34,7 +46,7 @@ public class hole_behaviour : MonoBehaviour
             Destroy(gameObject);
     }
 
-    void OnCollisionEnter2D(Collision2D coll)
+	void OnTriggerEnter2D(Collider2D coll)
     {
         if (coll.gameObject.CompareTag("Ball"))
         {
@@ -47,7 +59,7 @@ public class hole_behaviour : MonoBehaviour
     }
 
     void start_falling() {
-        my_skin.transform.DOMoveY(my_skin.transform.position.y - 8f, 0.6f).OnComplete(() => Destroy(my_skin));
+        my_skin.transform.DOMoveY(my_skin.transform.position.y - 8f, 0.8f).OnComplete(() => Destroy(my_skin));
         GetComponent<BoxCollider2D>().enabled = false;
     }
 

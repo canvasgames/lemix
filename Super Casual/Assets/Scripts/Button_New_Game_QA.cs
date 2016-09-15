@@ -27,6 +27,7 @@ public class Button_New_Game_QA : MonoBehaviour {
         if (cont_click >= 1)
         {
 
+			USER.s.FIRST_HOLE_CREATED = 0;
             cont_click = 0;
             USER.s.TOTAL_GAMES = 0;
 

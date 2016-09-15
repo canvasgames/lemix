@@ -6,6 +6,7 @@ using DG.Tweening;
 public class floor : scenario_objects {
 
    // public int my_floor;
+	public hole_behaviour my_hole;
     public GameObject QA_wave_name;
     public GameObject colliderPW;
     GameObject my_text;
@@ -14,10 +15,31 @@ public class floor : scenario_objects {
     public GameObject my_skin_bg;
     public floor_note [] my_notes_fg;
     float my_txt_y_dif = 0.2f;
+    public GameObject my_glow, my_lines_glow;
 
     // Use this for initialization
     void Start () {
         i_am_floor = true;
+        glow_animation_wait();
+
+        
+    }
+
+    public void glow_animation_start() {
+		my_glow.GetComponent<SpriteRenderer>().DOFade(1f, GD.s.GlowInTime).OnComplete(glow_animation_wait);
+		my_lines_glow.GetComponent<SpriteRenderer> ().DOFade (0.4f, GD.s.GlowInTime);
+
+		if (my_hole != null)
+			my_hole.glow_animation_start ();
+    }
+	void glow_animation_wait(){
+		Invoke ("glow_animation_end", GD.s.GlowStaticTime);
+		//glow_animation_end ();
+	}
+
+    public void glow_animation_end() {
+		my_glow.GetComponent<SpriteRenderer>().DOFade(0, GD.s.GlowOutTime).OnComplete(glow_animation_start);
+		my_lines_glow.GetComponent<SpriteRenderer>().DOFade(0,GD.s.GlowOutTime);
     }
 
     public void check_if_have_score()

@@ -4,6 +4,8 @@ using System.Collections;
 public class globals : MonoBehaviour {
 	public static globals s;
 
+	public bool AT_STORE = false;
+
     public bool ALERT_BALL = false;
     public int GAME_OVER = 0;
     public bool CAN_RESTART = false;
@@ -56,19 +58,23 @@ public class globals : MonoBehaviour {
     public int ad_type = 0;
 
     void Awake () {
+
 		s = this;
+        Debug.Log("Globals Awake!ball y: " + globals.s.BALL_Y);
 
         BALL_Y = -8f;
+        BALL_X = 0;
 
         HOLE_SPK_DIST = 2.6f;
 
-        DontDestroyOnLoad (transform.gameObject);
-		Debug.Log ("Globals initialized !!");
+       // DontDestroyOnLoad (transform.gameObject);
+		
 	}
 	void Start () {
+        Debug.Log("Globals Start! ball y: " + globals.s.BALL_Y);
 
-	
-	}
+
+    }
 	
 	// Update is called once per frame
 	void Update () {

@@ -2,29 +2,48 @@
 using UnityEngine.SceneManagement;
 using System.Collections;
 using UnityEngine.UI;
+using DG.Tweening;
 using System;
 
 
 public class hud_controller : MonoBehaviour {
+	#region ======== Variables Declaration ========
 
     public static hud_controller si;
 
     [HideInInspector]
     public bool HUD_BUTTON_CLICKED = false;
 
+	public GameObject store_label;
+
     public GameObject game_over_text;
+	public GameObject game_over_score;
+	public GameObject game_over_best;
+
+	public GameObject gameplah_hud_label;
     public GameObject floor;
     public GameObject best;
     public GameObject notes;
 
-    public GameObject intro;
+    public GameObject intro_label;
+
+	public GameObject header;
+	public GameObject game_title;
+	public GameObject pw_info;
+
     public GameObject activate_pw_bt;
-    public GameObject pw_info;
+
     public GameObject revive;
     public GameObject video;
     public GameObject ready;
     public GameObject v_pw_on;
+	public GameObject pw_time_bar;
+	public GameObject pw_time_left_title_on;
+	public GameObject pw_time_left_title_off;
     public Text PW_time_text;
+
+
+	public GameObject start_game_bt;
 
     string PW_date;
     DateTime tempDate;
@@ -36,7 +55,12 @@ public class hud_controller : MonoBehaviour {
     void Awake()
     {
         si = this;
+		start_game_bt.SetActive (true);
     }
+
+	#endregion
+
+	#region ======= INIT ==========
 
     void Start () {
         display_best(USER.s.BEST_SCORE);
@@ -60,14 +84,19 @@ public class hud_controller : MonoBehaviour {
 
         //SETTING PW STATE
         int temp_state = PlayerPrefs.GetInt("PWState", 1);
-        if(temp_state == 1)
+		if(temp_state == 1)
         {
             globals.s.PW_ACTIVE = true;
+			pw_info.SetActive (true);
         }
         else
         {
             globals.s.PW_ACTIVE = false;
-            v_pw_on.SetActive(false);
+			pw_info.SetActive (false);
+			Debug.Log(" SETTING PW ACTIVE TO FALSE");
+           // v_pw_on.SetActive(false);
+			//pw_time_left_title_on.SetActive (true);
+			//pw_time_left_title_off.SetActive (false);
         }
 
 
@@ -82,12 +111,15 @@ public class hud_controller : MonoBehaviour {
         {
             activate_pw_bt.SetActive(false);
             pw_info.SetActive(false);
+			Debug.Log ("------ FIRST GAME.. " );
         }
         else
         {
             if (globals.s.PW_ACTIVE == false)
             {
                 activate_pw_bt.SetActive(true);
+				pw_time_left_title_on.SetActive (false);
+				pw_time_left_title_off.SetActive (true);
             }
         }
     }
@@ -127,28 +159,120 @@ public class hud_controller : MonoBehaviour {
         }
     }
 
-    public void start_game()
+	public void start_game_coroutine(){
+		StartCoroutine (start_game ());
+	}
+
+	public IEnumerator start_game()
     {
         globals.s.FIRST_GAME = false;
-        floor.SetActive(true);
-        best.SetActive(true);
-        notes.SetActive(true);
-        Destroy(intro);
+        //floor.SetActive(true);
+        //best.SetActive(true);
+        //notes.SetActive(true);
+		if (globals.s.AT_STORE == false) {
+			pw_info.transform.DOLocalMoveY (pw_info.transform.localPosition.y + 700
+				, 0.5f).SetEase (Ease.OutQuart);
+
+			yield return new WaitForSeconds (0.15f);
+
+			game_title.transform.DOLocalMoveY (game_title.transform.localPosition.y + 700
+					, 0.5f).SetEase (Ease.OutQuart);
+			yield return new WaitForSeconds (0.15f);
+
+			header.transform.DOLocalMoveY (game_title.transform.localPosition.y + 200
+				, 0.5f).SetEase (Ease.OutQuart);
+			yield return new WaitForSeconds (0.2f);
+			hud_entrance ();
+
+		} else {
+			
+			store_label.transform.DOLocalMoveY(store_label.GetComponent <RectTransform> ().rect.height
+				, 0.5f).SetEase (Ease.OutQuart);
+			yield return new WaitForSeconds (0.14f);
+
+			header.transform.DOLocalMoveY (game_title.transform.localPosition.y + 500
+				, 0.5f).SetEase (Ease.OutQuart);
+			yield return new WaitForSeconds (0.2f);
+			hud_entrance ();
+		}
+
+        //Destroy(intro_label);
+		//store_label.SetActive (false);
 
         game_controller.s.game_running();
+		//return true;
     }
 
+	void hud_entrance(){
+		intro_label.SetActive (false);
+		store_label.SetActive (false);
+		gameplah_hud_label.SetActive (true);
+		float y_start = gameplah_hud_label.transform.localPosition.y;
+		gameplah_hud_label.transform.localPosition = new Vector2 (gameplah_hud_label.transform.localPosition.x, 
+			gameplah_hud_label.transform.localPosition.y + 250);
+		gameplah_hud_label.transform.DOLocalMoveY (y_start, 0.3f).SetEase (Ease.OutQuad).OnComplete (show_floor_intro);
+	}
 
-    public void update_floor(int n)
+	void show_floor_intro(){
+		stage_intro.s.StartEntering (1);
+	}
+		
+	public void display_best(int value)
+	{
+		best.GetComponent<Text>().text = "BEST " + value;
+	}
+
+	public void display_notes(int n) {
+		notes.GetComponent<Text>().text = (n).ToString();
+	}
+
+	#endregion
+    
+	#region ========== Store ==========
+	public void store_bt_act(){
+		//pw_info.transform.DOLocalMoveY(pw_info.transform.localPosition.y + pw_info.GetComponent <RectTransform>().rect.height
+		if (globals.s.AT_STORE == false) {
+			Debug.Log (" MENU HEIGHT: " + game_title.GetComponent <RectTransform>().rect.height + " POS: " + game_title.transform.position.y + " LOCAL Y: " + game_title.transform.localPosition.y);
+			globals.s.AT_STORE = true;
+			pw_info.transform.DOLocalMoveY (GetComponent <RectTransform>().rect.height/2 + pw_info.GetComponent <RectTransform>().rect.height/2
+				, 0.5f).SetEase (Ease.OutQuad).OnComplete (store_entrance);
+			game_title.transform.DOLocalMoveY (GetComponent <RectTransform>().rect.height/2 + game_title.GetComponent <RectTransform>().rect.height/2
+			//game_title.transform.DOLocalMoveY (GetComponent <Rect>().height - game_title.transform.localPosition.y + 500
+				, 0.5f).SetEase (Ease.OutQuad);
+			
+		} else { // close store
+			globals.s.AT_STORE = false;
+			store_label.transform.DOLocalMoveY(store_label.GetComponent <RectTransform> ().rect.height
+				, 0.5f).SetEase (Ease.OutQuad).OnComplete (store_closing);
+		}
+	}
+
+	void store_entrance(){
+		store_label.SetActive (true);
+		store_label.transform.localPosition = new Vector3 (0, store_label.transform.localPosition.y + store_label.GetComponent <RectTransform> ().rect.height, store_label.transform.localPosition.z);
+		store_label.transform.DOLocalMoveY(0
+			, 0.5f).SetEase (Ease.OutQuad);
+	
+	}
+
+	void store_closing(){
+		pw_info.transform.DOLocalMoveY (0, 0.5f).SetEase (Ease.OutQuad);
+		game_title.transform.DOLocalMoveY (0, 0.5f).SetEase (Ease.OutQuad);
+		store_label.SetActive (false);
+
+	}
+
+
+	#endregion
+
+	public void update_floor(int n)
     {
         if (QA.s.TRACE_PROFUNDITY >= 3) Debug.Log(" NEW FLOOR!!!!!! ");
         //GetComponentInChildren<TextMesh>().text =  "Floor " + (n+1).ToString();
         floor.GetComponent<Text>().text = "Floor " + (n + 1).ToString();
     }
 
-    public void display_notes(int n) {
-        notes.GetComponent<Text>().text = (n).ToString();
-    }
+    
 
     #region ======================== GAME OVER ==============================
 
@@ -178,8 +302,10 @@ public class hud_controller : MonoBehaviour {
         {
             game_over_text.SetActive(true);
 
-            if (game_over_text.GetComponent<Text>().IsActive()) print(" IS GAME OVER ACTIVE ");
-            game_over_text.GetComponent<Text>().text = "GAME OVER\n\nSCORE: " + temp_cur_floor + "\n BEST: " + temp_best_floor;
+            //if (game_over_text.GetComponent<Text>().IsActive()) print(" IS GAME OVER ACTIVE ");
+			//game_over_text.GetComponent<Text>().text = "GAME OVER\n\nSCORE: " + temp_cur_floor + "\n BEST: " + temp_best_floor;
+			game_over_score.GetComponent<Text>().text =  temp_cur_floor.ToString () ;
+			game_over_best.GetComponent<Text>().text =  temp_best_floor.ToString ();
         }
 
     }
@@ -190,13 +316,10 @@ public class hud_controller : MonoBehaviour {
         game_over_text.SetActive(false);
     }
 
+
+
+
     #endregion
-
-    public void display_best(int value)
-    {
-        best.GetComponent<Text>().text = "BEST " + value;
-    }
-
 
     #region ================== PLAYER PREFS ============================
     int get_and_set_best_score(int cur_floor)
@@ -275,7 +398,7 @@ public class hud_controller : MonoBehaviour {
         return false;
     }
 
-    #region ============================ LIFE SYSTEM ================================
+    #region ========= LIFE SYSTEM ============
 
     void show_pw_time()
     {
@@ -303,14 +426,21 @@ public class hud_controller : MonoBehaviour {
 
         }
 
+
+
         TimeSpan difference = tempDate.Subtract(tempcurDate);
+
         if(globals.s.PW_ACTIVE == true)
         {
-            PW_time_text.text = "    POWER UPS \nTIME LEFT: " + difference.Minutes + "m " + difference.Seconds + "s ";
+			float fill =  ((float) difference.Minutes + (float) difference.Seconds/60) / 5;
+			pw_time_bar.GetComponent<Image> ().fillAmount =  fill;
+            PW_time_text.text =  difference.Minutes + "m " + difference.Seconds + "s ";
         }
         else
         {
-            PW_time_text.text = "    POWER UPS \nTIME LEFT: " + difference.Minutes + "m " + difference.Seconds + "s ";
+			float fill =  ((float) difference.Minutes + (float) difference.Seconds/60) / 30;
+			pw_time_bar.GetComponent<Image> ().fillAmount =  1f - fill;
+            PW_time_text.text = difference.Minutes + "m " + difference.Seconds + "s ";
         }  
     }
 
@@ -319,6 +449,9 @@ public class hud_controller : MonoBehaviour {
         if(PW_active_state == true)
         {
             v_pw_on.SetActive(true);
+			pw_time_left_title_on.SetActive (true);
+			pw_time_left_title_off.SetActive (false);
+			//pw_text.SetActive (true);
             globals.s.PW_ACTIVE = true;
             tempDate = tempcurDate;
             tempDate = tempDate.AddMinutes(GD.s.GD_WITH_PW_TIME);
@@ -332,6 +465,8 @@ public class hud_controller : MonoBehaviour {
         else
         {
             v_pw_on.SetActive(false);
+			pw_time_left_title_on.SetActive (false);
+			pw_time_left_title_off.SetActive (true);
             globals.s.PW_ACTIVE = false;
             tempDate = tempcurDate;
             tempDate = tempDate.AddMinutes(GD.s.GD_WITHOUT_PW_TIME);
@@ -346,7 +481,7 @@ public class hud_controller : MonoBehaviour {
     }
     #endregion
 
-    #region ============================= REVIVE ===============================
+    #region =========== REVIVE ================
     public void show_revive_menu()
     {
         revive.SetActive(true);
@@ -420,6 +555,7 @@ public class hud_controller : MonoBehaviour {
 
     #endregion
 
+	#region ======== Video =========
     public void show_video_pw()
     {
         globals.s.MENU_OPEN = true;
@@ -435,6 +571,8 @@ public class hud_controller : MonoBehaviour {
         video.SetActive(false);
         Invoke("change_menu_open_state", 1f);
     }
+
+	#endregion
 
     void change_menu_open_state()
     {
