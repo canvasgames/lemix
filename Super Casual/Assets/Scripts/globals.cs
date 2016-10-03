@@ -22,7 +22,7 @@ public class globals : MonoBehaviour {
     public float BALL_SPEED_X = 4f;
     public float BALL_SPEED_Y;
 	public float CAMERA_SPEED = 0;
-    [HideInInspector] public float HOLE_SPK_DIST = 1.29f;
+	public float HOLE_SPK_DIST = 1.35f;
 	[HideInInspector] public float LIMIT_LEFT = -4.8f;
     [HideInInspector] public float LIMIT_RIGHT = 4.8f;
 	[HideInInspector] public float SCREEN_MID =  0;
@@ -66,6 +66,7 @@ public class globals : MonoBehaviour {
         BALL_X = 0;
 
         HOLE_SPK_DIST = 2.6f;
+		ALERT_BALL = false;
 
        // DontDestroyOnLoad (transform.gameObject);
 		

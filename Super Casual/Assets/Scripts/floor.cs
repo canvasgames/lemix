@@ -16,6 +16,8 @@ public class floor : scenario_objects {
     public floor_note [] my_notes_fg;
     float my_txt_y_dif = 0.2f;
     public GameObject my_glow, my_lines_glow;
+	public bool repositionable = false;
+	public bool already_placed = false;
 
     // Use this for initialization
     void Start () {
@@ -241,6 +243,7 @@ public class floor : scenario_objects {
         }
 
         count_blink = 16;
+		repositionable = false;
         pw_super_collided = false;
         my_skin.transform.GetComponent<SpriteRenderer>().enabled = true;
         my_skin.GetComponent<SpriteRenderer>().color = Color.black;
@@ -250,6 +253,20 @@ public class floor : scenario_objects {
         }
         
     }
+
+	public void reposite_me_at_the_other_corner(float ball_position, int floor)
+	{
+		if (repositionable && floor == my_floor)
+		{
+			Debug.Log (" FLOOR REPOSITIONING.. ");
+			if (ball_position < 0)
+				transform.position = new Vector2(0 - Mathf.Abs(0 - transform.position.x), transform.position.y);
+			else 
+				transform.position = new Vector2(0 + Mathf.Abs(0 - transform.position.x), transform.position.y);
+		}
+		//if (my_hole != null)
+			//my_hole.transform.position = transform.position;
+	}
 
     public void reaper_post_PW_super(int floor)
     {

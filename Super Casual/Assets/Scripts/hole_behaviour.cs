@@ -10,6 +10,9 @@ public class hole_behaviour : MonoBehaviour
     bool hidden = true;
     bool already_alerted = false;
     public GameObject my_glow;
+	public bool repositionable = false;
+	public bool already_placed = false;
+	public GameObject floor_left, floor_right;
     // Use this for initialization
     void Start()
     {
@@ -30,7 +33,7 @@ public class hole_behaviour : MonoBehaviour
 		Invoke("glow_animation_end", GD.s.GlowStaticTime);
 	}
     public void glow_animation_end() {
-		my_glow.GetComponent<SpriteRenderer>().DOFade(0, GD.s.GlowOutTime).OnComplete(glow_animation_start);
+		if (my_glow != null) my_glow.GetComponent<SpriteRenderer>().DOFade(0, GD.s.GlowOutTime).OnComplete(glow_animation_start);
     }
 
     // Update is called once per frame
@@ -102,4 +105,26 @@ public class hole_behaviour : MonoBehaviour
     {
         my_skin.transform.GetComponent<SpriteRenderer>().enabled = false;
     }
+
+	public void reposite_me_at_the_other_corner(float ball_position, int floor)
+	{
+		if (repositionable && floor == my_floor)
+		{
+			if (ball_position > 0) {
+				transform.position = new Vector2 (0 - Mathf.Abs (0 - transform.position.x), transform.position.y);
+			}
+			else
+				transform.position = new Vector2(0 + Mathf.Abs(0 - transform.position.x), transform.position.y);
+//			if (floor_left != null) Debug.Log("REPOSITIONING FLOOR LEFT.." + floor_left.transform.position.x );
+//			else Debug.Log("FLOOR LEFT IS NUL!! ");
+			floor_left.transform.position = new Vector2 (transform.position.x - game_controller.s.hole_size/2 - + floor_left.transform.GetComponent<SpriteRenderer>().bounds.size.x / 2, floor_left.transform.position.y);
+			floor_right.transform.position = new Vector2 (transform.position.x + game_controller.s.hole_size/2 + floor_left.transform.GetComponent<SpriteRenderer>().bounds.size.x / 2, floor_left.transform.position.y);
+//			if (floor_left != null)
+//				Debug.Log ("REPOSITIONED.." + floor_left.transform.position.x);
+
+		}
+		//if (my_hole != null)
+		//my_hole.transform.position = transform.position;
+	}
 }
+

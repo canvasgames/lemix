@@ -6,9 +6,11 @@ public class spike : scenario_objects {
     public string wave_name;
     public bool hidden = false;
     public bool manual_trigger = false;
-    public bool corner_repositionable = false;
+	public bool corner_repositionable = false;
+    public bool repositionable = false;
     bool already_appeared = false;
     bool already_alerted = false;
+	public bool triple_spk = false;
 
     public GameObject my_glow;
 
@@ -104,7 +106,8 @@ public class spike : scenario_objects {
     {
         if (floor_n == my_floor)
         {
-            if (Mathf.Abs(x - transform.position.x) < globals.s.HOLE_SPK_DIST) return false;
+			if ((!triple_spk && Mathf.Abs(x - transform.position.x) < globals.s.HOLE_SPK_DIST) ||
+				(triple_spk && Mathf.Abs(x - transform.position.x) < globals.s.HOLE_SPK_DIST + 0.15f)) return false;
             else return true;
         }
         else
@@ -121,6 +124,16 @@ public class spike : scenario_objects {
         }
     }
 
+	public void reposite_me_for_FTU(float wall_position, int floor)
+	{
+		if (repositionable && floor == my_floor)
+		{
+			if (wall_position > 0)
+				transform.position = new Vector2(0 - Mathf.Abs(0 - transform.position.x), transform.position.y);
+			else
+				transform.position = new Vector2(0 + Mathf.Abs(0 - transform.position.x), transform.position.y);
+		}
+	}
 
     public void reposite_me_at_the_other_corner(float wall_position, int floor)
     {
@@ -179,7 +192,8 @@ public class spike : scenario_objects {
     {
         hidden = false;
         manual_trigger = false;
-        corner_repositionable = false;
+		corner_repositionable = false;
+        repositionable = false;
         already_appeared = false;
 
         timer = 0;

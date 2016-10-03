@@ -39,7 +39,7 @@ public class game_controller : MonoBehaviour {
     bool wave_found;
 
   
-    float hole_size;
+    public float hole_size;
     float hole_dist = 1.35f;
     float screen_w = 9.4f;
     float corner_left = -4.35f;
@@ -131,8 +131,9 @@ public class game_controller : MonoBehaviour {
 
         int count = 0;
         n_floor = 0;
+		float ftu_spk_pos = 0;
         // create initial platforms
-        for (int i = 0; i < 5; i++)
+        for (int i = 0; i < 6; i++)
         {
             //Debug.Log (" base y is... : " + globals.s.BASE_Y);
             wave_found = false;
@@ -140,76 +141,91 @@ public class game_controller : MonoBehaviour {
                 count++;
                 switch (i)
                 {
-                    case 0:
-                        GameObject b = create_floor(0, i);
-                        if (b == null) Debug.Log("ERROR CREATING THE FIRST FLOOR!!!");
-                        wave_found = true;
-                        //create_spike_wave(i, globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * i);
-                        break;
-                    case 1:
-                        //create_floor(0, i);
-                       // create_corner_wall(i);
-                        wave_found = true;
-						wave_found = create_just_hole(i, 0);
-						//wave_found = create_hole(i);
-                        last_hole = true;
-                        //Debug.Log(" CREATING 1ST EASY:");
-                        //create_wave_easy(i);
-                        //create_hole(i);
-                        // create_floor(0,i);
-                        //create_spike_wave(i, globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * i);
-                        break;
-                   case 2:
-                        //create_hole(i,true);
-                        create_floor(0, i);
+                case 0:
+					Debug.Log("asdasdasd");
+                    GameObject b = create_floor(0, i);
+                    if (b == null) Debug.Log("ERROR CREATING THE FIRST FLOOR!!!");
+                    wave_found = true;
+                    //create_spike_wave(i, globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * i);
+                    break;
+                case 1:
+                    //create_floor(0, i);
+                   // create_corner_wall(i);
+                    wave_found = true;
+					wave_found = create_just_hole(i, 0);
+					//wave_found = create_hole(i);
+                    last_hole = true;
+                    //Debug.Log(" CREATING 1ST EASY:");
+                    //create_wave_easy(i);
+                    //create_hole(i);
+                    // create_floor(0,i);
+                    //create_spike_wave(i, globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * i);
+                    break;
+               case 2:
+                    //create_hole(i,true);
+                    create_floor(0, i);
 
-                        if (USER.s.BEST_SCORE <= 3) 
-                            create_spike(0, globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * i, i);
-                        else
-                            create_spike(Random.Range(-mid_area, mid_area), globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * i, i);
+                	if (USER.s.BEST_SCORE <= 5) // FTU
+						create_spike(Random.Range (-0.5f, + 0.5f), globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * i, i);
+                    else
+                        create_spike(Random.Range(-mid_area, mid_area), globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * i, i);
 
-                            //create_hidden_spike(0, globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * i, i);
-                            wave_found = true;
+                        //create_hidden_spike(0, globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * i, i);
+                    wave_found = true;
 
-                        break;
-                     case 3:
-                        
+                    break;
+
+				case 3:
                         //create_wall_corner(i);
-                        if (1==2 && USER.s.BEST_SCORE <= 3) {
-                            create_floor(0, i);
-                            create_spike(corner_left, globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * i, i);
-                            create_spike(corner_right, globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * i, i);
-                            wave_found = true;
-                        }
-                        else
-						if (USER.s.FIRST_HOLE_CREATED == 0)
-							wave_found = create_wave_easy(i,1);
-						else
-							wave_found = create_wave_easy(i);
-                        break;
-                     case 4:
-                        //create_floor(0, i);
-                        //create_hole(i);
-                        //wave_found = create_wave_easy(i);
-								if (USER.s.FIRST_HOLE_CREATED == 0)
-									wave_found = create_wave_easy(i,2);
-								else
-									wave_found = create_wave_easy(i);
-								break;
-                        //create_spike(0, globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * i, i);
-                        //wave_found = true;
-                        break;
+//                        if (1==2 && USER.s.BEST_SCORE <= 3) {
+//                            create_floor(0, i);
+//                            create_spike(corner_left, globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * i, i);
+//                            create_spike(corner_right, globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * i, i);
+//                            wave_found = true;
+//                        }
+						
+					if (USER.s.BEST_SCORE <= 5) {
+						create_floor(0, i);
+						//create_triple_spike (Random.Range (-0.3f, + 0.3f), globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * i, i);
+						create_spike(Random.Range (-1.7f, -1.5f), globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * i, i);
+						create_spike(Random.Range (1.5f, 1.7f), globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * i, i);
 
-                    default:
+						wave_found = true;
+					}
+					else
+						wave_found = create_wave_easy(i);
+                    break;
+				case 4:
+					if (USER.s.BEST_SCORE <= 5) {
+						create_floor (0, i);
+						ftu_spk_pos = Random.Range (-1.2f, -1f);
+						create_spike (ftu_spk_pos, globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * i, i, false, true);
+						wave_found = true;
+
+					} else {
+						//wave_found = create_wave_easy (i);
+						wave_found = create_wave_easy (i);
+					}
+					break;
+				case 5:
+					
+					if (USER.s.BEST_SCORE <= 5) {
+						wave_found = create_hole (i, false, 0, true, ftu_spk_pos + globals.s.HOLE_SPK_DIST+ 0.3f);
+						//create_spike (ftu_spk_pos, globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * i, i, false, true);
+					} else
+						wave_found = create_wave_easy(i);
+					break;
+
+                default:
                         // Debug.Log(" DEFAULT FIRST WAVE:");
-                        wave_found = create_wave_easy(i);
+                    wave_found = create_wave_easy(i);
                        // wave_found = create_wave_very_hard(i);
                         //create_corner_wall(i);
-                        break;
+                    break;
                 }
             }
 
-            if ( n_floor >= 2 && USER.s.TOTAL_GAMES >= 2) {
+			if ( n_floor >= 2 && USER.s.TOTAL_GAMES >= 2 && USER.s.BEST_SCORE > 5) {
                 //Debug.Log(" n floor: " + n_floor + " CREATE PW!! ");
                 create_power_up_logic();
             }
@@ -1780,7 +1796,7 @@ public class game_controller : MonoBehaviour {
         return obj.GetComponent<wall>();
     }
 
-    void create_spike(float x, float y, int n, bool corner_repositionable = false)
+	void create_spike(float x, float y, int n, bool corner_repositionable = false, bool repositionable = false)
     {
 
         //GameObject obj = (GameObject)Instantiate(spike_type, new Vector3(x, y + globals.s.SLOT/2, 0), transform.rotation);
@@ -1790,7 +1806,8 @@ public class game_controller : MonoBehaviour {
         if(spk != null)
         {
             spk.my_floor = n;
-            spk.corner_repositionable = corner_repositionable;
+			spk.corner_repositionable = corner_repositionable;
+			spk.repositionable = repositionable;
             spk.wave_name = wave_name;
         }
 
@@ -1911,12 +1928,15 @@ GameObject instance = Instantiate(Resources.Load("Prefabs/Bgs/Scenario2/bg_"+ran
         return obj;
     }
 
-    bool create_hole(int n, bool not_hidden = false, float custom_rand = 0)
+	bool create_hole(int n, bool not_hidden = false, float custom_rand = 0, bool repositionable = false, float custom_position = -999)
     {
         // Debug.Log("tttttttttttttttttttttt TRYING TO CREATE HOLE AT FLOOR: " + n);
         float rand;
         if (custom_rand == 0) rand = Random.Range(-screen_w / 4, screen_w / 4);
         else rand = Random.Range(-custom_rand, custom_rand);
+
+		if (custom_position != -999)
+			rand = custom_position;
         int i, j = 0, count = 0;
         bool can_create = false;
         spike[] spks = FindObjectsOfType(typeof(spike)) as spike[];
@@ -1937,7 +1957,12 @@ GameObject instance = Instantiate(Resources.Load("Prefabs/Bgs/Scenario2/bg_"+ran
                 while (count < 50 && can_create == false)
                 {
                     can_create = true;
-                    rand = Random.Range(-screen_w / 4, screen_w / 4);
+					if (custom_position == -999) {
+						if (custom_rand == 0)
+							rand = Random.Range (-screen_w / 4, screen_w / 4);
+						else
+							rand = Random.Range (-custom_rand, custom_rand);
+					}
                     foreach (spike spk in spks_below)
                     {
                         can_create = spk.check_range_for_hole(n-1, rand);
@@ -1967,19 +1992,24 @@ GameObject instance = Instantiate(Resources.Load("Prefabs/Bgs/Scenario2/bg_"+ran
         if (can_create) {
             if (QA.s.TRACE_PROFUNDITY >= 2) Debug.Log("SUCCESSFULLY CREATING HOLE!!");
             // GameObject obj = (GameObject)Instantiate(floor_type, new Vector3(rand - hole_size / 2 - floor_type.transform.GetComponent<SpriteRenderer>().bounds.size.x / 2, globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * n, 0), transform.rotation);
-            GameObject obj = objects_pool_controller.s.reposite_floor(rand - hole_size / 2 - floor_type.transform.GetComponent<SpriteRenderer>().bounds.size.x / 2, globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * n);
-            obj.GetComponent<floor>().my_floor = n;
-            obj.GetComponent<floor>().check_if_have_score();
+            GameObject floor_left = objects_pool_controller.s.reposite_floor(rand - hole_size / 2 - floor_type.transform.GetComponent<SpriteRenderer>().bounds.size.x / 2, globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * n);
+            floor_left.GetComponent<floor>().my_floor = n;
+            floor_left.GetComponent<floor>().check_if_have_score();
+			floor_left.GetComponent<floor>().repositionable = repositionable;
 
             //obj = (GameObject)Instantiate(floor_type, new Vector3(rand + hole_size / 2 + floor_type.transform.GetComponent<SpriteRenderer>().bounds.size.x / 2, globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * n, 0), transform.rotation);
-            obj = objects_pool_controller.s.reposite_floor(rand + hole_size / 2 + floor_type.transform.GetComponent<SpriteRenderer>().bounds.size.x / 2, globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * n);
-            obj.GetComponent<floor>().my_floor = n;
+			GameObject floor_right = objects_pool_controller.s.reposite_floor(rand + hole_size / 2 + floor_type.transform.GetComponent<SpriteRenderer>().bounds.size.x / 2, globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * n);
+			floor_right.GetComponent<floor>().my_floor = n;
+			floor_right.GetComponent<floor>().repositionable = repositionable;
 
 			GameObject hole;
             if (not_hidden == false) {
 				hole = (GameObject)Instantiate(hole_type, new Vector3(rand, globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * n, 0), transform.rotation);
-                hole.GetComponent<hole_behaviour>().my_floor = n;
-				obj.GetComponent<floor> ().my_hole = hole.GetComponent<hole_behaviour> ();
+				hole.GetComponent<hole_behaviour>().my_floor = n;
+				hole.GetComponent<hole_behaviour> ().repositionable = repositionable;
+				hole.GetComponent<hole_behaviour> ().floor_left = floor_left;
+				hole.GetComponent<hole_behaviour> ().floor_right = floor_right;
+				floor_left.GetComponent<floor> ().my_hole = hole.GetComponent<hole_behaviour> ();
             }
 
 

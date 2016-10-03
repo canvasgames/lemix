@@ -4,7 +4,7 @@ using DG.Tweening;
 
 public class ball_hero : MonoBehaviour
 {
-    #region Variables Declaration
+    #region ==== Variables Declaration =====
 
     public bool is_destroyed = false;
 
@@ -55,7 +55,7 @@ public class ball_hero : MonoBehaviour
 
     #endregion
 
-    #region Init
+    #region ====== Init ========
 
     void Awake()
     {
@@ -122,7 +122,7 @@ public class ball_hero : MonoBehaviour
         if(!is_destroyed) Invoke("create_note_trail",0.1f);
     }
 
-    #region ================== UPDATE ======================
+    #region ======= UPDATE ==========
     void Update()
     {
         if (globals.s.ALERT_BALL == true && son_created == false) {
@@ -259,6 +259,29 @@ public class ball_hero : MonoBehaviour
                 p.place_me_at_the_other_corner(-my_son.transform.position.x, my_floor + 2);
             }
 
+			if(USER.s.BEST_SCORE <= 5){
+//				floor[] floors = GameObject.FindObjectsOfType(typeof(floor)) as floor[];
+//				foreach(floor p in floors){
+//					p.reposite_me_at_the_other_corner(-my_son.transform.position.x, my_floor + 2);
+//				}
+
+				hole_behaviour[] holes = GameObject.FindObjectsOfType(typeof(hole_behaviour)) as hole_behaviour[];
+				foreach(hole_behaviour p in holes){
+					p.reposite_me_at_the_other_corner(-my_son.transform.position.x, my_floor + 3);
+				}
+
+				spike[] spks = GameObject.FindObjectsOfType(typeof(spike)) as spike[];
+				foreach(spike p in spks){
+					p.reposite_me_for_FTU(-my_son.transform.position.x, my_floor + 3);
+				}
+			}
+
+			/*
+			hole_behaviour[] holes = GameObject.FindObjectsOfType(typeof(hole_behaviour)) as hole_behaviour[];
+			foreach(hole_behaviour p in holes){
+				p.place_me_at_the_other_corner(-my_son.transform.position.x, my_floor + 2);
+			}*/
+
             //my_son = (GameObject)Instantiate (ball_hero, new Vector3 (0, 0, 0), transform.rotation);
             //Debug.Log("------------ NEW BALL CREATED! MY ID: " +my_id +" time: " + Time.time + " | pos y: " +my_son.transform.position.y + " CAMERA Y: " + main_camera.s.transform.position.y);
 
@@ -285,7 +308,7 @@ public class ball_hero : MonoBehaviour
     }
 
 
-    #endregion ==================
+    #endregion
 
     void jump()
     {
@@ -316,14 +339,27 @@ public class ball_hero : MonoBehaviour
 
 
 	void OnTriggerEnter2D(Collider2D coll){
-		Debug.Log ("kkkkkkkkkkkkkkkkkCOLLISION IS HAPPENING!! ");
-		if (coll.gameObject.CompareTag("PW"))
-		{
+		//Debug.Log ("kkkkkkkkkkkkkkkkkCOLLISION IS HAPPENING!! ");
+		if (coll.gameObject.CompareTag ("PW")) {
 			
-			PW_Collect temp = coll.gameObject.GetComponent<PW_Collect>();
-			pw_do_something(temp);
-			sound_controller.s.play_collect_pw();
+			PW_Collect temp = coll.gameObject.GetComponent<PW_Collect> ();
+			pw_do_something (temp);
+			sound_controller.s.play_collect_pw ();
+		} 
+		else if (coll.gameObject.CompareTag ("Spike")) {
+			if (globals.s.PW_SUPER_JUMP == false && !QA.s.INVENCIBLE) {
+				if (globals.s.PW_INVENCIBLE == false) {
+					destroy_me (coll.gameObject.GetComponent<spike> ().wave_name);
+					//coll.gameObject.transform.position = new Vector3(coll.gameObject.transform.position.x + 50, coll.gameObject.transform.position.y, coll.gameObject.transform.position.z);
+				} else {
+					// Destroy(coll.gameObject);
+					Instantiate (spike_explosion, new Vector3 (coll.transform.position.x, coll.transform.position.y, coll.transform.position.z), transform.rotation);
+					PW_controller.s.invencible_end ();
+					coll.gameObject.transform.position = new Vector3 (coll.gameObject.transform.position.x + 50, coll.gameObject.transform.position.y, coll.gameObject.transform.position.z);
+				}
+			}
 		}
+
 		else if (coll.gameObject.CompareTag("Note")) {
 			USER.s.NOTES += 1;
 			hud_controller.si.display_notes(USER.s.NOTES);
