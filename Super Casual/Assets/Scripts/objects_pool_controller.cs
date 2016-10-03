@@ -14,7 +14,7 @@ public class objects_pool_controller : MonoBehaviour {
 	int note_pool_actual_i = 0;
 
 	[HideInInspector] public GameObject[] note_trail_pool;
-	int note_trail_pool_size = 15;
+	int note_trail_pool_size = 30;
 	int note_trail_pool_actual_i = 0;
 
     [HideInInspector] public GameObject[] floor_pool;

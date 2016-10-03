@@ -14,7 +14,7 @@ public class floor : scenario_objects {
     public GameObject my_skin;
     public GameObject my_skin_bg;
     public floor_note [] my_notes_fg;
-    float my_txt_y_dif = 0.2f;
+    float my_txt_y_dif = 0.32f;
     public GameObject my_glow, my_lines_glow;
 	public bool repositionable = false;
 	public bool already_placed = false;

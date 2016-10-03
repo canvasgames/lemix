@@ -4,6 +4,7 @@ using DG.Tweening;
 
 public class wall : MonoBehaviour
 {
+	public GameObject my_vision_effect;
     bool already_appeared = false;
     public bool spike_trigger = false;
     public int my_floor;
@@ -25,6 +26,8 @@ public class wall : MonoBehaviour
         {
             show_me_pw_sight();
         }
+		else
+			my_vision_effect.SetActive (false);
     }
 
     void Update()
@@ -75,15 +78,18 @@ public class wall : MonoBehaviour
     }
 
     public void place_me_at_the_other_corner(float ball_x, int floor) {
-        if (corner_wall && floor == my_floor) {
+        if (floor == my_floor) {
 
             if(!wall_triggered_by_wall) GetComponent<BoxCollider2D>().enabled = true;
 
             Debug.Log("WALL OF FLOOR " + floor + " REPOSITIONING!! BALL X: " + ball_x);
             if ((ball_x > 0 && !wall_triggered_by_wall) || (ball_x < 0 && wall_triggered_by_wall))
-                transform.position = new Vector2(globals.s.LIMIT_LEFT + globals.s.SLOT / 2, transform.position.y);
+              //  transform.position = new Vector2(globals.s.LIMIT_LEFT + globals.s.SLOT / 2, transform.position.y);
+				transform.position = new Vector2(0 - Mathf.Abs(0 - transform.position.x), transform.position.y);
             else
-                transform.position = new Vector2(globals.s.LIMIT_RIGHT - globals.s.SLOT / 2, transform.position.y);
+               // transform.position = new Vector2(globals.s.LIMIT_RIGHT - globals.s.SLOT / 2, transform.position.y);
+				transform.position = new Vector2(0 + Mathf.Abs(0 - transform.position.x), transform.position.y);
+
             already_placed = true;
 
             if (!wall_triggered_by_wall) { 
@@ -105,6 +111,9 @@ public class wall : MonoBehaviour
             USER.s.FIRST_WALL_CREATED = 1;
             PlayerPrefs.SetInt("first_wall_created", 1);
         }
+
+//		if (globals.s.PW_SIGHT_BEYOND_SIGHT)
+//			my_vision_effect.SetActive (false);
 
         //Debug.Log("\n NNNNNNNNNNNNNNNNNNNNNNNNNNNNNN SCALE ME UP! DIST: " + Mathf.Abs(transform.position.x - globals.s.BALL_X) );
         transform.GetComponent<SpriteRenderer>().color = new Color32(0, 0, 0, 0);
@@ -148,16 +157,23 @@ public class wall : MonoBehaviour
     public void show_me_pw_sight()
     {
         //transform.GetComponent<SpriteRenderer>().color.a = 100;
-        transform.GetComponent<SpriteRenderer>().color = Color.magenta;
+       // transform.GetComponent<SpriteRenderer>().color = Color.magenta;
         //GameObject instance = Instantiate(Resources.Load("Prefabs/Warning",
             //typeof(GameObject)), new Vector3(transform.position.x, transform.position.y +2f), transform.rotation) as GameObject;
+		if (!already_appeared) {
+			my_vision_effect.SetActive (true);
+			my_vision_effect.GetComponent<SpriteRenderer> ().color = new Color (1, 1, 1, 0);
+			my_vision_effect.GetComponent<SpriteRenderer> ().DOFade (1, 0.25f);
+		}
 
     }
 
     public void back_original_color_pw_sight()
     {
 
-        transform.GetComponent<SpriteRenderer>().color = new Color (0,0,0,0);
+        //transform.GetComponent<SpriteRenderer>().color = new Color (0,0,0,0);
+		my_vision_effect.SetActive (false);
+
     }
 
     public void destroy_me_PW_super()

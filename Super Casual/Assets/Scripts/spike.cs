@@ -3,6 +3,8 @@ using System.Collections;
 using DG.Tweening;
 
 public class spike : scenario_objects {
+
+	public GameObject my_vision_effect;
     public string wave_name;
     public bool hidden = false;
     public bool manual_trigger = false;
@@ -12,7 +14,8 @@ public class spike : scenario_objects {
     bool already_alerted = false;
 	public bool triple_spk = false;
 
-    public GameObject my_glow;
+	public GameObject my_glow;
+    public GameObject my_skin;
 
     float timer = 0;
     float target_y;
@@ -25,6 +28,7 @@ public class spike : scenario_objects {
     void Awake()
     {
         my_collider = GetComponent<PolygonCollider2D>();
+		my_vision_effect.SetActive (false);
     }
 	void Start () {
 
@@ -85,12 +89,14 @@ public class spike : scenario_objects {
         //transform.GetComponent<SpriteRenderer>().color = Color.white;
         transform.GetComponent<SpriteRenderer>().color = Color.black;
         //target_y = transform.position.y + transform.GetComponent<SpriteRenderer>().bounds.size.y;
-        target_y = transform.position.y + 0.5f;
-        transform.DOMoveY(target_y, 0.14f);
-        transform.DOScaleY(globals.s.SPK_SCALE, 0.14f);
+       // target_y = transform.position.y + 0.5f;
+		//my_skin.transform.DOLocalMoveY(0, 0.14f);
+        my_skin.transform.DOScaleY(1, 0.14f);
         already_appeared = true;
         my_collider.enabled = true;
         hidden = false;
+
+		//if(globals.s.PW_SIGHT_BEYOND_SIGHT) my_vision_effect.SetActive (false);
 
         //if(QA.s.INVENCIBLE == false)
         //my_collider.enabled = true;
@@ -174,7 +180,10 @@ public class spike : scenario_objects {
     public void show_me_pw_sight()
     {
         if ( hidden == true) {
-            transform.GetComponent<SpriteRenderer>().color = Color.magenta;
+            //transform.GetComponent<SpriteRenderer>().color = Color.magenta;
+			my_vision_effect.SetActive (true);
+			my_vision_effect.GetComponent<SpriteRenderer> ().color = new Color (1, 1, 1, 0);
+			my_vision_effect.GetComponent<SpriteRenderer> ().DOFade (1, 0.25f);
         }
             
                 //transform.GetComponent<SpriteRenderer>().color = Color.magenta;
@@ -185,7 +194,9 @@ public class spike : scenario_objects {
     {
         //transform.GetComponent<Animator>().Play("blue");
         //transform.GetComponent<SpriteRenderer>().color = Color.white;
-       transform.GetComponent<SpriteRenderer>().color = Color.black;
+       	//transform.GetComponent<SpriteRenderer>().color = Color.black;
+		my_vision_effect.SetActive (false);
+
     }
 
     public void clear_flags_reposite()

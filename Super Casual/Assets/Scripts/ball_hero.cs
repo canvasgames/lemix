@@ -6,6 +6,7 @@ public class ball_hero : MonoBehaviour
 {
     #region ==== Variables Declaration =====
 
+	public GameObject jetpack;
     public bool is_destroyed = false;
 
     public GameObject my_trail;
@@ -130,7 +131,7 @@ public class ball_hero : MonoBehaviour
 		objects_pool_controller.s.reposite_note_trail (transform.position.x, transform.position.y + Random.Range (-0.2f, 0.2f));
 			
 
-        if(!is_destroyed) Invoke("create_note_trail",0.1f);
+        if(!is_destroyed) Invoke("create_note_trail",0.07f);
     }
 
     #region ======= UPDATE ==========
@@ -370,6 +371,16 @@ public class ball_hero : MonoBehaviour
 				}
 			}
 		}
+		else if (coll.gameObject.CompareTag("Wall"))
+		{
+			rb.velocity = new Vector2(-rb.velocity.x, rb.velocity.y);
+			my_skin.transform.localScale = new Vector2(-my_skin.transform.localScale.x, my_skin.transform.localScale.y);
+
+			if (transform.position.y < main_camera.s.transform.position.y - 10f) {
+				hitted_wall = true;
+				main_camera.s.hitted_on_wall = true;
+			}   
+		}
 
 		else if (coll.gameObject.CompareTag("Note")) {
 			USER.s.NOTES += 1;
@@ -428,31 +439,31 @@ public class ball_hero : MonoBehaviour
             else { Debug.Log("\n\n" + my_id + " ***************ERROR! THIS SHOULD NEVER HAPPEN ***************\n\n"); }
         }
 
-        else if (coll.gameObject.CompareTag("Spike")) {
-            if (globals.s.PW_SUPER_JUMP == false && !QA.s.INVENCIBLE)
-            {
-                if (globals.s.PW_INVENCIBLE == false)
-                {
-                    destroy_me(coll.gameObject.GetComponent<spike>().wave_name);
-                    //coll.gameObject.transform.position = new Vector3(coll.gameObject.transform.position.x + 50, coll.gameObject.transform.position.y, coll.gameObject.transform.position.z);
-                }
-                else
-                {
-                    // Destroy(coll.gameObject);
-                    Instantiate(spike_explosion, new Vector3(coll.transform.position.x, coll.transform.position.y, coll.transform.position.z), transform.rotation);
-                    PW_controller.s.invencible_end();
-                    coll.gameObject.transform.position = new Vector3(coll.gameObject.transform.position.x + 50, coll.gameObject.transform.position.y, coll.gameObject.transform.position.z);
-                }
-            }
-            else
-            {
-                Physics2D.IgnoreCollision(coll.collider, GetComponent<Collider2D>());
-                GetComponent<SpriteRenderer>().color = Color.blue;
-                Invoke("back_to_normal_color", 0.2f);
-
-            }
-        }
-
+//        else if (coll.gameObject.CompareTag("Spike")) {
+//            if (globals.s.PW_SUPER_JUMP == false && !QA.s.INVENCIBLE)
+//            {
+//                if (globals.s.PW_INVENCIBLE == false)
+//                {
+//                    destroy_me(coll.gameObject.GetComponent<spike>().wave_name);
+//                    //coll.gameObject.transform.position = new Vector3(coll.gameObject.transform.position.x + 50, coll.gameObject.transform.position.y, coll.gameObject.transform.position.z);
+//                }
+//                else
+//                {
+//                    // Destroy(coll.gameObject);
+//                    Instantiate(spike_explosion, new Vector3(coll.transform.position.x, coll.transform.position.y, coll.transform.position.z), transform.rotation);
+//                    PW_controller.s.invencible_end();
+//                    coll.gameObject.transform.position = new Vector3(coll.gameObject.transform.position.x + 50, coll.gameObject.transform.position.y, coll.gameObject.transform.position.z);
+//                }
+//            }
+//            else
+//            {
+//                Physics2D.IgnoreCollision(coll.collider, GetComponent<Collider2D>());
+//                GetComponent<SpriteRenderer>().color = Color.blue;
+//                Invoke("back_to_normal_color", 0.2f);
+//
+//            }
+//        }
+//
 
         /*else if (coll.gameObject.CompareTag("Hole")) {
             Physics2D.IgnoreCollision(coll.collider, GetComponent<Collider2D>());
@@ -460,16 +471,16 @@ public class ball_hero : MonoBehaviour
         }*/
 
         
-        else if (coll.gameObject.CompareTag("Wall"))
-        {
-            rb.velocity = new Vector2(-rb.velocity.x, rb.velocity.y);
-            my_skin.transform.localScale = new Vector2(-my_skin.transform.localScale.x, my_skin.transform.localScale.y);
-
-            if (transform.position.y < main_camera.s.transform.position.y - 10f) {
-                hitted_wall = true;
-                main_camera.s.hitted_on_wall = true;
-            }   
-        }
+//        else if (coll.gameObject.CompareTag("Wall"))
+//        {
+//            rb.velocity = new Vector2(-rb.velocity.x, rb.velocity.y);
+//            my_skin.transform.localScale = new Vector2(-my_skin.transform.localScale.x, my_skin.transform.localScale.y);
+//
+//            if (transform.position.y < main_camera.s.transform.position.y - 10f) {
+//                hitted_wall = true;
+//                main_camera.s.hitted_on_wall = true;
+//            }   
+//        }
 		
        /* else if (coll.gameObject.CompareTag("PW"))
         {
@@ -583,7 +594,8 @@ public class ball_hero : MonoBehaviour
     void go_up_pw_start()
     {
         symbols.transform.GetComponent<SpriteRenderer>().DOFade(0, 0);
-        super.SetActive(true);
+		super.SetActive(true);
+		jetpack.SetActive(true);
         my_alert.SetActive(false);
         rb.velocity = new Vector2(0, 0);
         my_skin.GetComponent<Animator>().Play("Jumping");
@@ -606,7 +618,7 @@ public class ball_hero : MonoBehaviour
         float pos = ((globals.s.BASE_Y + ((my_floor+1) * globals.s.FLOOR_HEIGHT) +  (5* globals.s.FLOOR_HEIGHT) + globals.s.FLOOR_HEIGHT / 2 ));
         main_camera.s.init_PW_super_jump( pos,  (pos-transform.position.y)/20  + 0.5f);
 
-        Invoke("go_up_PW", 0.1f);
+        Invoke("go_up_PW", 0.2f);
     }
 
     void go_up_PW() {
@@ -647,6 +659,7 @@ public class ball_hero : MonoBehaviour
 
     void create_floor()
     {
+		jetpack.SetActive(false);
         my_floor += 5;
         appear_floors();
         GameObject floor = game_controller.s.create_floor(12, my_floor);
@@ -668,6 +681,7 @@ public class ball_hero : MonoBehaviour
         super.SetActive(false);
 
         Invoke("unactivate_squares", 0.3f);
+
 
     }
 
@@ -805,6 +819,7 @@ public class ball_hero : MonoBehaviour
     {
         sight_active = false;
         sight.SetActive(false);
+
         
     }
     #endregion

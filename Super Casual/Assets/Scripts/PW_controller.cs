@@ -70,6 +70,7 @@ public class PW_controller : MonoBehaviour
 
     }
     #endregion
+
     #region SIGHT
     public void PW_sight_start()
     {
@@ -78,6 +79,10 @@ public class PW_controller : MonoBehaviour
 
         Invoke("sight_end", GD.s.GD_PW_SIGHT_TIME);
         Invoke("pw_ending", GD.s.GD_PW_SIGHT_TIME - PW_symbol_ending_duration);
+
+		game_controller.s.visionMask.SetActive (true);
+		game_controller.s.visionMask.GetComponent<SpriteRenderer> ().color = new Color (0, 0, 0, 0);
+		game_controller.s.visionMask.GetComponent<SpriteRenderer>().DOFade(0.38f,0.25f);
 
     }
 
@@ -89,6 +94,8 @@ public class PW_controller : MonoBehaviour
         globals.s.PW_ENDING = false;
         globals.s.PW_SIGHT_BEYOND_SIGHT = false;
         back_color_sight_pw();
+
+		game_controller.s.visionMask.SetActive (false);
 
 
         //change_balls_symbol_mask_active(true);

@@ -7,6 +7,7 @@ public class game_controller : MonoBehaviour {
     #region ==== Variables Declaration =======
     public static game_controller s;
     
+	public GameObject visionMask;
     float starting_time, match_time;
 
     // TYPES
@@ -163,20 +164,25 @@ public class game_controller : MonoBehaviour {
                     break;
                case 2:
                     //create_hole(i,true);
-                    create_floor(0, i);
+					//wave_found = create_hole(i);
+					create_floor(0, i);
 
-                	if (USER.s.BEST_SCORE <= 5) // FTU
-						create_spike(Random.Range (-0.5f, + 0.5f), globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * i, i);
-                    else
-                        create_spike(Random.Range(-mid_area, mid_area), globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * i, i);
+					create_triple_hidden_spike(Random.Range (-1.7f, -1.5f), globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * i, i);
 
-                        //create_hidden_spike(0, globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * i, i);
+//                    create_floor(0, i);
+//
+//                	if (USER.s.BEST_SCORE <= 5) // FTU
+//						create_spike(Random.Range (-0.5f, + 0.5f), globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * i, i);
+//                    else
+//                        create_spike(Random.Range(-mid_area, mid_area), globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * i, i);
+//
+//                        //create_hidden_spike(0, globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * i, i);
                     wave_found = true;
 
                     break;
 
 				case 3:
-                        //create_wall_corner(i);
+                        create_wall_corner(i);
 //                        if (1==2 && USER.s.BEST_SCORE <= 3) {
 //                            create_floor(0, i);
 //                            create_spike(corner_left, globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * i, i);
@@ -187,13 +193,14 @@ public class game_controller : MonoBehaviour {
 					if (USER.s.BEST_SCORE <= 5) {
 						create_floor(0, i);
 						//create_triple_spike (Random.Range (-0.3f, + 0.3f), globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * i, i);
-						create_spike(Random.Range (-1.7f, -1.5f), globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * i, i);
+						create_hidden_spike(Random.Range (-1.7f, -1.5f), globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * i, i);
 						create_spike(Random.Range (1.5f, 1.7f), globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * i, i);
 
 						wave_found = true;
 					}
 					else
 						wave_found = create_wave_easy(i);
+						//wave_found = create_wave_hard(i, 46);
                     break;
 				case 4:
 					if (USER.s.BEST_SCORE <= 5) {
@@ -479,51 +486,47 @@ public class game_controller : MonoBehaviour {
             count++;
 
             // ======== SORT INITIAL WAVES! ========
-            if (n_floor <= 8) {
-                if (USER.s.TOTAL_GAMES > 4) rand = Random.Range(1, 3);
-                else rand = 1;
-
-                switch (rand) {
-                    case 1:
-                        wave_found = create_wave_easy(n_floor);
-                        //wave_found = create_wave_super_hard(n_floor);
-                        break;
-                    case 2:
-                        wave_found = create_wave_medium(n_floor);
-                        break;
-                }
+            if (n_floor <= 7) {
+				wave_found = create_wave_easy(n_floor);
+//                if (USER.s.TOTAL_GAMES > 4) rand = Random.Range(1, 3);
+//                else rand = 1;
+//				rand = 1; // PRESTA ATENÇÃO! É SEMPRE 1!! 
+//                switch (rand) {
+//                    case 1:
+//                        wave_found = create_wave_easy(n_floor);
+//                        //wave_found = create_wave_super_hard(n_floor);
+//                        break;
+//                    case 2:
+//                        wave_found = create_wave_medium(n_floor);
+//                        break;
+//                }
             }
 
             // USER HAD SOME PROGRESS
-            else if (n_floor <= 15) {
-                rand = Random.Range(1, 4);
+            else if (n_floor <= 13) {
+				rand = Random.Range(1, 100);
 
-                switch (rand) {
-                    case 1:
-                        wave_found = create_wave_easy(n_floor);
-                        break;
-                    case 2:
-                        wave_found = create_wave_medium(n_floor);
-                        break;
-                    case 3:
-                        wave_found = create_wave_hard(n_floor);
-                        break;
-                }
+				if (rand <= 35)
+					wave_found = create_wave_easy(n_floor);
+				else if (rand <= 65)
+					wave_found = create_wave_medium(n_floor);
+//                    case 3:
+//                        wave_found = create_wave_hard(n_floor);
+//                        break;
+                
             }
 
-            // LETS GET SERIOUS!
-            else if (n_floor <= 24) {
-                rand = Random.Range(1, 100);
+			else if (n_floor <= 20) {
+				rand = Random.Range(1, 100);
 
-                if (rand <= 10)
-                    wave_found = create_wave_easy(n_floor);
-                else if (rand <= 25)
-                     wave_found = create_wave_medium(n_floor);
-                else if (rand <= 65)
-                    wave_found = create_wave_hard(n_floor);
-                else
-                    wave_found = create_wave_very_hard(n_floor);
-            }
+				if (rand <= 10)
+					wave_found = create_wave_easy(n_floor);
+				else if (rand <= 25)
+					wave_found = create_wave_medium(n_floor);
+				else if (rand <= 65)
+					wave_found = create_wave_hard(n_floor);
+	
+			}
             
 
             // LETS GET SERIOUS!
@@ -556,7 +559,7 @@ public class game_controller : MonoBehaviour {
 
     int define_hole_chance() {
         int hole_chance;
-        if(USER.s.FIRST_HOLE_CREATED == 0 && first_hole_already_created == false && USER.s.TOTAL_GAMES >=1 && n_floor >=4 ) {
+        if(USER.s.FIRST_HOLE_CREATED == 0 && first_hole_already_created == false && USER.s.TOTAL_GAMES >=1 && n_floor >= 4 ) {
             hole_chance = 90;
         }
         else {
@@ -642,7 +645,7 @@ public class game_controller : MonoBehaviour {
             if (QA.s.TRACE_PROFUNDITY >= 2) Debug.Log("\n " + n + " ======= CREATE WAVE EASY! ========== | rand: " + rand);
 
             // WALL EXCEPTION
-            if (USER.s.BEST_SCORE > 10 && !last_wall &&  ((USER.s.FIRST_WALL_CREATED == 0 && first_wall_already_created == false && USER.s.TOTAL_GAMES >= 1 && n_floor > 4 && rand < 95))) {
+            if (1==2 && USER.s.BEST_SCORE > 10 && !last_wall &&  ((USER.s.FIRST_WALL_CREATED == 0 && first_wall_already_created == false && USER.s.TOTAL_GAMES >= 1 && n_floor > 4 && rand < 95))) {
                 wave_name = "medium_wall_corner_1_spk";
                 if (QA.s.SHOW_WAVE_TYPE == true)
                 {
@@ -830,7 +833,7 @@ public class game_controller : MonoBehaviour {
             //rand = 50;
 
             // WALL CORNER + 1 SPK ||___^__|
-            if (!last_wall && ((rand > 0 && rand <= 25) || (USER.s.FIRST_WALL_CREATED == 0 && first_wall_already_created == false && USER.s.TOTAL_GAMES >= 1 && n_floor > 4 && rand < 95 ) )) {
+			if (!last_wall && n > 10 && ((rand > 0 && rand <= 25) || (USER.s.FIRST_WALL_CREATED == 0 && first_wall_already_created == false && USER.s.TOTAL_GAMES >= 1 && n_floor > 4 && rand < 95 ) )) {
                 wave_name = "medium_wall_corner_1_spk";
                 if (QA.s.SHOW_WAVE_TYPE == true)
                 {
@@ -975,13 +978,13 @@ public class game_controller : MonoBehaviour {
     }
 
     // 3 SPIKES, HOLE + SPK, 2 HIDDEN, ...
-    bool create_wave_hard(int n)
+    bool create_wave_hard(int n, int custom_rand = 0)
     {
         float actual_y = globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * n;
         int rand = Random.Range(1, 100);
         int hole_chance = define_hole_chance();
         if (QA.s.TRACE_PROFUNDITY >= 2) Debug.Log("\n " + n + " ^^^^^^^^^^^^^^^^^^ TRY CREATE HARD HOLE! ^^^^^^^^^^^^^^^^^^ | rand " + rand + " HOLE CHANCE: " + hole_chance + " N FAILED: " + hole_creation_failed);
-
+		if (custom_rand != 0) rand = custom_rand;
 
         // HOLE + 2 SPIKES 
         if (!last_wall && !last_hole && rand > 0 && rand <= hole_chance)
@@ -1040,6 +1043,8 @@ public class game_controller : MonoBehaviour {
         else {
             hole_creation_failed++;
             rand = Random.Range(1, 100);
+			if (custom_rand != 0) rand = custom_rand;
+
             if (QA.s.TRACE_PROFUNDITY >= 2) Debug.Log("\n " + n + " ========= CREATE WAVE HARD! ========== | rand " + rand);
 
             // CORNERS AND 1 SPK MIDDLE |^__^__^|
@@ -1827,13 +1832,19 @@ public class game_controller : MonoBehaviour {
     {
         //GameObject obj = (GameObject)Instantiate(spike_type, new Vector3(x, y + globals.s.SLOT/2 - spike_type.transform.GetComponent<SpriteRenderer>().bounds.size.y, 0), transform.rotation);
         //GameObject obj = objects_pool_controller.s.reposite_double_spikes(x, y + globals.s.SLOT / 2 - spike_type.transform.GetComponent<SpriteRenderer>().bounds.size.y);
-        GameObject obj = objects_pool_controller.s.reposite_double_spikes(x, y + globals.s.SLOT / 2 - 0.5f);
-        obj.transform.localScale = new Vector3(globals.s.SPK_SCALE, 0.5f, globals.s.SPK_SCALE);
+		//GameObject obj = objects_pool_controller.s.reposite_double_spikes(x, y + globals.s.SLOT / 2 - 0.5f);
+        GameObject obj = objects_pool_controller.s.reposite_double_spikes(x, y + globals.s.SLOT / 2 );
+        //obj.transform.localScale = new Vector3(globals.s.SPK_SCALE, 0.5f, globals.s.SPK_SCALE);
         
         spike spk = obj.GetComponent<spike>();
        // spk.hidden_scale_0();
         if (spk != null)
         {
+			//spk.my
+			//spk.my_skin.transform.localScale = new Vector3(globals.s.SPK_SCALE, 0.5f, globals.s.SPK_SCALE);
+			//spk.my_skin.transform.localPosition = new Vector2 (spk.my_skin.transform.localPosition.x, obj.transform.localPosition.y - 2f);
+			spk.my_skin.transform.localScale = new Vector2 (1, 0);
+
             spk.hidden = true;
             spk.my_floor = n;
             spk.manual_trigger = manual_trigger;
@@ -1865,12 +1876,16 @@ public class game_controller : MonoBehaviour {
     {
        // GameObject obj = (GameObject)Instantiate(triple_spike_type, new Vector3(x, y + globals.s.SLOT / 2 - triple_spike_type.transform.GetComponent<SpriteRenderer>().bounds.size.y, 0), transform.rotation);
         //GameObject obj = objects_pool_controller.s.reposite_triple_spikes(x, y + globals.s.SLOT / 2 - triple_spike_type.transform.GetComponent<SpriteRenderer>().bounds.size.y);
-        GameObject obj = objects_pool_controller.s.reposite_triple_spikes(x, y + globals.s.SLOT / 2 - 0.5f);
-        obj.transform.localScale = new Vector3(globals.s.SPK_SCALE, 0.5f, globals.s.SPK_SCALE);
+        GameObject obj = objects_pool_controller.s.reposite_triple_spikes(x, y + globals.s.SLOT / 2 );
+       // obj.transform.localScale = new Vector3(globals.s.SPK_SCALE, 0.5f, globals.s.SPK_SCALE);
+
+
         spike spk = obj.GetComponent<spike>();
 
         if (spk != null)
         {
+			spk.my_skin.transform.localScale = new Vector2 (1, 0);
+
             spk.hidden = true;
             spk.my_floor = n;
             spk.manual_trigger = manual_trigger;
