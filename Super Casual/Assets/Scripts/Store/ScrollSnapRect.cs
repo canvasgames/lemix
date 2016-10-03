@@ -58,7 +58,7 @@ public class ScrollSnapRect : MonoBehaviour, IBeginDragHandler, IEndDragHandler,
     private int _previousPageSelectionIndex;
     // container with Image components - one Image for each page
     private List<Image> _pageSelectionImages;
-
+    public Text charPrice;
     //------------------------------------------------------------------------
     void Start() {
         _scrollRectComponent = GetComponent<ScrollRect>();
@@ -225,12 +225,31 @@ public class ScrollSnapRect : MonoBehaviour, IBeginDragHandler, IEndDragHandler,
 
     //------------------------------------------------------------------------
     private void NextScreen() {
-        LerpToPage(_currentPage + 1);
+        if(_currentPage == 2)
+        {
+            store_controller.s.setPrice(0);
+
+            LerpToPage(0);
+        }
+        else
+        {
+            store_controller.s.setPrice(_currentPage + 1);
+            LerpToPage(_currentPage + 1);
+        }
     }
 
     //------------------------------------------------------------------------
     private void PreviousScreen() {
-        LerpToPage(_currentPage - 1);
+        if (_currentPage == 0)
+        {
+            LerpToPage(2);
+            store_controller.s.setPrice(2);
+        }
+        else
+        {
+            store_controller.s.setPrice(_currentPage - 1);
+            LerpToPage(_currentPage - 1);
+        }
     }
 
     //------------------------------------------------------------------------

@@ -87,12 +87,12 @@ public class hud_controller : MonoBehaviour {
 		if(temp_state == 1)
         {
             globals.s.PW_ACTIVE = true;
-			pw_info.SetActive (true);
+			//pw_info.SetActive (true);
         }
         else
         {
             globals.s.PW_ACTIVE = false;
-			pw_info.SetActive (false);
+			//pw_info.SetActive (false);
 			Debug.Log(" SETTING PW ACTIVE TO FALSE");
            // v_pw_on.SetActive(false);
 			//pw_time_left_title_on.SetActive (true);
@@ -248,9 +248,10 @@ public class hud_controller : MonoBehaviour {
 	}
 
 	void store_entrance(){
+        Debug.Log("aaa");
 		store_label.SetActive (true);
-		store_label.transform.localPosition = new Vector3 (0, store_label.transform.localPosition.y + store_label.GetComponent <RectTransform> ().rect.height, store_label.transform.localPosition.z);
-		store_label.transform.DOLocalMoveY(0
+		store_label.transform.localPosition = new Vector3 (0, store_label.transform.localPosition.y + store_label.GetComponent <RectTransform> ().rect.height , store_label.transform.localPosition.z);
+		store_label.transform.DOLocalMoveY(-70
 			, 0.5f).SetEase (Ease.OutQuad);
 	
 	}

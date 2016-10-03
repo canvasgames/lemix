@@ -82,7 +82,18 @@ public class ball_hero : MonoBehaviour
         // INITIALIZE SKIN AND MUSIC HERE!!!
         create_note_trail();
 
-        my_skin.GetComponent<Animator>().runtimeAnimatorController = Resources.Load("Sprites/Animations/HeroSimpleAnimator") as RuntimeAnimatorController;
+        if (globals.s.ACTUAL_CHAR == "pop")
+        {
+            my_skin.GetComponent<Animator>().runtimeAnimatorController = Resources.Load("Sprites/Animations/PopAnimator") as RuntimeAnimatorController;
+        }
+        else if(globals.s.ACTUAL_CHAR == "rock")
+        {
+            my_skin.GetComponent<Animator>().runtimeAnimatorController = Resources.Load("Sprites/Animations/RockAnimator") as RuntimeAnimatorController;
+        }
+        else if (globals.s.ACTUAL_CHAR == "eletronic")
+        {
+            my_skin.GetComponent<Animator>().runtimeAnimatorController = Resources.Load("Sprites/Animations/EletronicHero") as RuntimeAnimatorController;
+        }
     }
 
     public void Init_first_ball()

@@ -55,11 +55,16 @@ public class globals : MonoBehaviour {
     public bool MENU_OPEN = false;
     // Use this for initialization
 
+    [HideInInspector]
+    public string ACTUAL_CHAR;
+
     public int ad_type = 0;
 
     void Awake () {
+        
+        ACTUAL_CHAR = PlayerPrefs.GetString("ACTUAL_CHAR", "pop");
 
-		s = this;
+        s = this;
         Debug.Log("Globals Awake!ball y: " + globals.s.BALL_Y);
 
         BALL_Y = -8f;
