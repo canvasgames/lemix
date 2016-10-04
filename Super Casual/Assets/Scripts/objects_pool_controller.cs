@@ -50,6 +50,9 @@ public class objects_pool_controller : MonoBehaviour {
 	public GameObject[] bgs3_pool;
 	int bgs3_actual_i = 0;
 
+	public GameObject[] bgs_special_pool;
+	int bgs_special_actual_i = 0;
+
 
 	#endregion
 
@@ -139,7 +142,7 @@ public class objects_pool_controller : MonoBehaviour {
 
 	#endregion
 
-	public GameObject create_and_reposite_bg(int stage, float x_pos, float y_pos){
+	public GameObject create_and_reposite_bg(int stage, float x_pos, float y_pos, bool special_wave = false){
 		GameObject to_return = null;
 		if (stage == 1) {
 			bgs1_pool [bgs1_actual_i].transform.position = new Vector2 (x_pos, y_pos);
@@ -162,6 +165,15 @@ public class objects_pool_controller : MonoBehaviour {
 			bgs3_actual_i++;
 			if (bgs3_actual_i >= bgs3_pool.Length)
 				bgs3_actual_i = 0;
+
+		} 
+
+		if (special_wave) {
+			bgs_special_pool [bgs_special_actual_i].transform.position = new Vector2 (x_pos, y_pos - 0.5f);
+			to_return = bgs_special_pool [bgs_special_actual_i];
+			bgs_special_actual_i++;
+			if (bgs_special_actual_i >= bgs3_pool.Length)
+				bgs_special_actual_i= 0;
 
 		} 
 

@@ -170,10 +170,13 @@ public class hud_controller : MonoBehaviour {
         //best.SetActive(true);
         //notes.SetActive(true);
 		if (globals.s.AT_STORE == false) {
-			pw_info.transform.DOLocalMoveY (pw_info.transform.localPosition.y + 700
-				, 0.5f).SetEase (Ease.OutQuart);
+//			pw_info.transform.DOLocalMoveY (pw_info.transform.localPosition.y + 700
+//				, 0.5f).SetEase (Ease.OutQuart);
 
-			yield return new WaitForSeconds (0.15f);
+			
+			//yield return new WaitForSeconds (0.15f);
+			pw_info.transform.DOLocalMoveY (-GetComponent <RectTransform>().rect.height/2 - pw_info.GetComponent <RectTransform>().rect.height/2
+				, 0.5f).SetEase (Ease.OutQuad).OnComplete (store_entrance);
 
 			game_title.transform.DOLocalMoveY (game_title.transform.localPosition.y + 700
 					, 0.5f).SetEase (Ease.OutQuart);
@@ -182,6 +185,10 @@ public class hud_controller : MonoBehaviour {
 			header.transform.DOLocalMoveY (game_title.transform.localPosition.y + 200
 				, 0.5f).SetEase (Ease.OutQuart);
 			yield return new WaitForSeconds (0.2f);
+
+
+
+
 			hud_entrance ();
 
 		} else {
@@ -229,13 +236,18 @@ public class hud_controller : MonoBehaviour {
 	#endregion
     
 	#region ========== Store ==========
+	float pw_info_y, game_title_y;
 	public void store_bt_act(){
 		//pw_info.transform.DOLocalMoveY(pw_info.transform.localPosition.y + pw_info.GetComponent <RectTransform>().rect.height
 		if (globals.s.AT_STORE == false) {
 			Debug.Log (" MENU HEIGHT: " + game_title.GetComponent <RectTransform>().rect.height + " POS: " + game_title.transform.position.y + " LOCAL Y: " + game_title.transform.localPosition.y);
 			globals.s.AT_STORE = true;
-			pw_info.transform.DOLocalMoveY (GetComponent <RectTransform>().rect.height/2 + pw_info.GetComponent <RectTransform>().rect.height/2
-				, 0.5f).SetEase (Ease.OutQuad).OnComplete (store_entrance);
+			pw_info_y = pw_info.transform.position.y;
+			pw_info.transform.DOLocalMoveY (-GetComponent <RectTransform>().rect.height/2 - pw_info.GetComponent <RectTransform>().rect.height/2
+				, 0.5f).SetEase (Ease.OutQuad);
+			Invoke ("store_entrance", 0.2f);
+
+			game_title_y = game_title.transform.position.y;
 			game_title.transform.DOLocalMoveY (GetComponent <RectTransform>().rect.height/2 + game_title.GetComponent <RectTransform>().rect.height/2
 			//game_title.transform.DOLocalMoveY (GetComponent <Rect>().height - game_title.transform.localPosition.y + 500
 				, 0.5f).SetEase (Ease.OutQuad);
@@ -243,7 +255,8 @@ public class hud_controller : MonoBehaviour {
 		} else { // close store
 			globals.s.AT_STORE = false;
 			store_label.transform.DOLocalMoveY(store_label.GetComponent <RectTransform> ().rect.height
-				, 0.5f).SetEase (Ease.OutQuad).OnComplete (store_closing);
+				, 0.5f).SetEase (Ease.OutQuad);
+			Invoke ("store_closing", 0.35f);
 		}
 	}
 
@@ -257,8 +270,8 @@ public class hud_controller : MonoBehaviour {
 	}
 
 	void store_closing(){
-		pw_info.transform.DOLocalMoveY (0, 0.5f).SetEase (Ease.OutQuad);
-		game_title.transform.DOLocalMoveY (0, 0.5f).SetEase (Ease.OutQuad);
+		pw_info.transform.DOMoveY (pw_info_y, 0.5f).SetEase (Ease.OutQuad);
+		game_title.transform.DOMoveY (game_title_y, 0.5f).SetEase (Ease.OutQuad);
 		store_label.SetActive (false);
 
 	}

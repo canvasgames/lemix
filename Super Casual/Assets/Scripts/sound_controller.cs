@@ -135,6 +135,7 @@ public class sound_controller : MonoBehaviour
         if (efxSource.volume > 0 && can_play_jump == true)
         {
             can_play_jump = false;
+
             PlaySingle(Jump);
             //PlaySingle(Jumps[Random.Range(0,7)]);
             Invoke("can_play_jump_again", 0.3f);

@@ -13,10 +13,13 @@ public class USER : MonoBehaviour {
     public int SOUND_MUTED;
 
     void Awake() {
+		PlayerPrefs.SetInt ("notes", 666);
+
         //PlayerPrefs.SetInt("total_games", 0);
 		//PlayerPrefs.SetInt("best", 0);
 		//PlayerPrefs.SetInt ("first_game", 0);
         SOUND_MUTED = PlayerPrefs.GetInt("sound_muted", 0);
+
 
 
         NOTES = PlayerPrefs.GetInt("notes", 0);

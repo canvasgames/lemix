@@ -67,6 +67,10 @@ public class hole_behaviour : MonoBehaviour
         my_skin.transform.DOMoveY(my_skin.transform.position.y - 8f, 0.8f).OnComplete(() => Destroy(my_skin));
         GetComponent<BoxCollider2D>().enabled = false;
 		already_fallen = true;
+
+		my_vision_effect.GetComponent<SpriteRenderer> ().DOFade (0, 0.35f).OnComplete(() => my_vision_effect.SetActive (false));
+		//my_vision_effect
+
 //		my_vision_effect.SetActive (false);
     }
 
@@ -107,9 +111,9 @@ public class hole_behaviour : MonoBehaviour
     {
 		my_vision_effect.SetActive (false);
 
-//        if(my_skin != null)
-//            //my_skin.transform.GetComponent<SpriteRenderer>().color = Color.white;
-//            my_skin.transform.GetComponent<SpriteRenderer>().color = Color.black;
+        if(my_skin != null)
+            //my_skin.transform.GetComponent<SpriteRenderer>().color = Color.white;
+            my_skin.transform.GetComponent<SpriteRenderer>().color = Color.black;
     }
 
     public void colidded_super_pw()

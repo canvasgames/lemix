@@ -165,42 +165,42 @@ public class game_controller : MonoBehaviour {
                case 2:
                     //create_hole(i,true);
 					//wave_found = create_hole(i);
-					create_floor(0, i);
 
-					create_triple_hidden_spike(Random.Range (-1.7f, -1.5f), globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * i, i);
 
-//                    create_floor(0, i);
-//
-//                	if (USER.s.BEST_SCORE <= 5) // FTU
-//						create_spike(Random.Range (-0.5f, + 0.5f), globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * i, i);
-//                    else
-//                        create_spike(Random.Range(-mid_area, mid_area), globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * i, i);
-//
-//                        //create_hidden_spike(0, globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * i, i);
+					//create_triple_hidden_spike(Random.Range (-1.7f, -1.5f), globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * i, i);
+
+                    create_floor(0, i);
+
+                	if (USER.s.BEST_SCORE <= 5) // FTU
+						create_spike(Random.Range (-0.5f, + 0.5f), globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * i, i);
+                    else
+                        create_spike(Random.Range(-mid_area, mid_area), globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * i, i);
+
+                        //create_hidden_spike(0, globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * i, i);
                     wave_found = true;
 
                     break;
 
 				case 3:
-                        create_wall_corner(i);
+                       // create_wall_corner(i);
 //                        if (1==2 && USER.s.BEST_SCORE <= 3) {
 //                            create_floor(0, i);
 //                            create_spike(corner_left, globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * i, i);
 //                            create_spike(corner_right, globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * i, i);
 //                            wave_found = true;
 //                        }
-						
+					//wave_found = create_wave_special(i);
 					if (USER.s.BEST_SCORE <= 5) {
 						create_floor(0, i);
 						//create_triple_spike (Random.Range (-0.3f, + 0.3f), globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * i, i);
-						create_hidden_spike(Random.Range (-1.7f, -1.5f), globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * i, i);
+						create_spike(Random.Range (-1.7f, -1.5f), globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * i, i);
 						create_spike(Random.Range (1.5f, 1.7f), globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * i, i);
 
 						wave_found = true;
 					}
 					else
 						wave_found = create_wave_easy(i);
-						//wave_found = create_wave_hard(i, 46);
+						wave_found = create_wave_hard(i, 46);
                     break;
 				case 4:
 					if (USER.s.BEST_SCORE <= 5) {
@@ -568,6 +568,21 @@ public class game_controller : MonoBehaviour {
         }
         return hole_chance;
     }
+
+	bool create_wave_special(int n, int custom_wave = -1){
+		float actual_y = globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * n;
+
+		create_floor(0, n, true);
+
+		for(float i = Random.Range (0.2f, 0.8f); i + corner_limit_left < corner_limit_right ; )  {
+			
+
+			GameObject objj = objects_pool_controller.s.reposite_note(corner_limit_left + i , actual_y + globals.s.SLOT / 2 + Random.Range(1.3f, 1.85f));
+
+			i += Random.Range (0.75f, 1.3f);
+		}
+		return true;
+	}
 
     //SINGLE SPIKE SOMEWHERE
 	bool create_wave_easy(int n, int custom_wave = -1)
@@ -1898,14 +1913,14 @@ public class game_controller : MonoBehaviour {
         }
     }
 
-    public void create_bg(int n) {
+	public void create_bg(int n, bool special_wave = false) {
 
 		if (n <= 5)
-			objects_pool_controller.s.create_and_reposite_bg (1, 0, globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * n  + 2.45f);
+			objects_pool_controller.s.create_and_reposite_bg (1, 0, globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * n  + 2.45f, special_wave);
 		else if (n <= 10)
-			objects_pool_controller.s.create_and_reposite_bg (2, 0, globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * n  + 2.45f);
+			objects_pool_controller.s.create_and_reposite_bg (2, 0, globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * n  + 2.45f, special_wave);
 		else 
-			objects_pool_controller.s.create_and_reposite_bg (3, 0, globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * n  + 2.45f);
+			objects_pool_controller.s.create_and_reposite_bg (3, 0, globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * n  + 2.45f, special_wave);
 
 		/*
         int rand;
@@ -1931,7 +1946,7 @@ GameObject instance = Instantiate(Resources.Load("Prefabs/Bgs/Scenario2/bg_"+ran
 
     }
 
-    public GameObject create_floor(float x, int n)
+	public GameObject create_floor(float x, int n, bool special_floor = false)
     {
        // GameObject obj = (GameObject)Instantiate(floor_type, new Vector3(x, globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * n, 0), transform.rotation);
         GameObject obj = objects_pool_controller.s.reposite_floor(x, globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * n);
@@ -1939,8 +1954,10 @@ GameObject instance = Instantiate(Resources.Load("Prefabs/Bgs/Scenario2/bg_"+ran
         obj.GetComponent<floor>().check_if_have_score();
         //obj.GetComponentInChildren<TextMesh>().text = n.ToString();
 
-        create_bg(n);
+		create_bg (n, special_floor);
+
         return obj;
+
     }
 
 	bool create_hole(int n, bool not_hidden = false, float custom_rand = 0, bool repositionable = false, float custom_position = -999)
