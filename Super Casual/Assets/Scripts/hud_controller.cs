@@ -586,7 +586,23 @@ public class hud_controller : MonoBehaviour {
         Invoke("change_menu_open_state", 1f);
     }
 
-	#endregion
+    public void show_video_coins()
+    {
+        globals.s.MENU_OPEN = true;
+        video.SetActive(true);
+        //video.GetComponentInChildren<Play_Video>().solta_a_vinheta_sombra(false, true);
+        video.GetComponent<new_external_link_bt>().set_variables(false, true);
+    }
+
+    public void watched_the_video_coins()
+    {
+        hud_controller.si.PW_time_set_new_date_and_state(!globals.s.PW_ACTIVE);
+        game_controller.s.activate_logic();
+        video.SetActive(false);
+        Invoke("change_menu_open_state", 1f);
+    }
+
+    #endregion
 
     void change_menu_open_state()
     {

@@ -31,6 +31,8 @@ public class store_controller : MonoBehaviour {
         popAlreadyBuyed = PlayerPrefs.GetInt("popAlreadyBuyed", 0);
         rockAlreadyBuyed = PlayerPrefs.GetInt("rockAlreadyBuyed", 0);
 
+        changeAnimationEquipButton("eletronic");
+
         setPrice(0);
 
         buyPrice.text = eletronicPrice.ToString();
@@ -44,49 +46,76 @@ public class store_controller : MonoBehaviour {
 	
 	}
 
+    #region CHAR
     public void tryBuyCharacter()
     {
+        
         if(actualCharInScreen == 0)
         {
-            USER.s.NOTES -= eletronicPrice;
-            PlayerPrefs.SetInt("eletronicAlreadyBuyed", 1);
-            
+            if (USER.s.NOTES >= eletronicPrice)
+            {
+                USER.s.NOTES -= eletronicPrice;
+                PlayerPrefs.SetInt("eletronicAlreadyBuyed", 1);
+                eletronicAlreadyBuyed = 1;
+                buyed();
+            }
         }
         else if (actualCharInScreen == 1)
         {
-            USER.s.NOTES -= rockPrice;
-            PlayerPrefs.SetInt("rockAlreadyBuyed", 1);
+            if (USER.s.NOTES >= rockPrice)
+            {
+                USER.s.NOTES -= rockPrice;
+                PlayerPrefs.SetInt("rockAlreadyBuyed", 1);
+                rockAlreadyBuyed = 1;
+                buyed();
+            }
         }
         else if (actualCharInScreen == 2)
         {
-            USER.s.NOTES -= popPrice;
-            PlayerPrefs.SetInt("popAlreadyBuyed", 1);
+            if (USER.s.NOTES >= popPrice)
+            {
+                USER.s.NOTES -= popPrice;
+                PlayerPrefs.SetInt("popAlreadyBuyed", 1);
+                popAlreadyBuyed = 1;
+                buyed();
+            }
         }
-
-        buyButton.SetActive(false);
-        equipButton.SetActive(true);
-        equipCharacter();
-
         actualCoins.text = USER.s.NOTES.ToString();
 
     }
+    void buyed()
+    {
+        buyButton.SetActive(false);
+        equipButton.SetActive(true);
+        equipCharacter();
+    }
+    
 
     public void equipCharacter()
     {
         if (actualCharInScreen == 0)
         {
-            globals.s.ACTUAL_CHAR = PlayerPrefs.GetString("ACTUAL_CHAR", "eletronic"); 
             PlayerPrefs.SetString("ACTUAL_CHAR", "eletronic");
+            globals.s.ACTUAL_CHAR = PlayerPrefs.GetString("ACTUAL_CHAR", "eletronic");
+            changeActualChar();
+
+            changeAnimationEquipButton("eletronic");
         }
-        else if (actualCharInScreen == 0)
+        else if (actualCharInScreen == 1)
         {
-            globals.s.ACTUAL_CHAR = PlayerPrefs.GetString("ACTUAL_CHAR", "rock");
             PlayerPrefs.SetString("ACTUAL_CHAR", "rock");
+            globals.s.ACTUAL_CHAR = PlayerPrefs.GetString("ACTUAL_CHAR", "rock");
+            changeActualChar();
+
+            changeAnimationEquipButton("rock");
         }
-        else if (actualCharInScreen == 0)
+        else if (actualCharInScreen == 2)
         {
-            globals.s.ACTUAL_CHAR = PlayerPrefs.GetString("ACTUAL_CHAR", "pop");
             PlayerPrefs.SetString("ACTUAL_CHAR", "pop");
+            globals.s.ACTUAL_CHAR = PlayerPrefs.GetString("ACTUAL_CHAR", "pop");
+            changeActualChar();
+
+            changeAnimationEquipButton("pop");
         }
     }
 
@@ -105,6 +134,7 @@ public class store_controller : MonoBehaviour {
             {
                 buyButton.SetActive(false);
                 equipButton.SetActive(true);
+                changeAnimationEquipButton("eletronic");
             }
         }
         else if (type == 1)
@@ -119,6 +149,7 @@ public class store_controller : MonoBehaviour {
             {
                 buyButton.SetActive(false);
                 equipButton.SetActive(true);
+                changeAnimationEquipButton("rock");
             }
         }
         else if (type == 2)
@@ -133,7 +164,42 @@ public class store_controller : MonoBehaviour {
             {
                 buyButton.SetActive(false);
                 equipButton.SetActive(true);
+                changeAnimationEquipButton("pop");
             }
+
+
         }
     }
+
+    void changeAnimationEquipButton(string inShopType)
+    {
+        if (globals.s.ACTUAL_CHAR == inShopType)
+        {
+            equipButton.GetComponent<Animator>().Play("selected");
+        }
+        else
+        {
+            equipButton.GetComponent<Animator>().Play("select");
+        }
+    }
+
+    void changeActualChar()
+    {
+        ball_hero[] balls = FindObjectsOfType(typeof(ball_hero)) as ball_hero[];
+        for(int i=0;i<balls.Length;i++)
+        {
+            balls[i].changeSkinChar();
+        }
+    }
+    #endregion
+
+    #region COINS
+
+    public void watchedVideo()
+    {
+        USER.s.NOTES += 10;
+        PlayerPrefs.SetInt("notes", USER.s.NOTES);
+        actualCoins.text = USER.s.NOTES.ToString();
+    }
+    #endregion
 }

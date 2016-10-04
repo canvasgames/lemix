@@ -103,6 +103,7 @@
     <Compile Include="Assets\DeltaDNA\TransactionBuilder.cs" />
     <Compile Include="Assets\Demigiant\DOTween\Examples\Basics.cs" />
     <Compile Include="Assets\Demigiant\DOTween\Examples\Sequences.cs" />
+    <Compile Include="Assets\Demigiant\DOTween\MenuItems.cs" />
     <Compile Include="Assets\Platforms\Android\GcmClient.cs" />
     <Compile Include="Assets\Platforms\Android\GcmListener.cs" />
     <Compile Include="Assets\Platforms\Android\Utils.cs" />

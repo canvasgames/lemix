@@ -62,7 +62,7 @@ public class globals : MonoBehaviour {
 
     void Awake () {
         
-        ACTUAL_CHAR = PlayerPrefs.GetString("ACTUAL_CHAR", "pop");
+        ACTUAL_CHAR = PlayerPrefs.GetString("ACTUAL_CHAR", "eletronic");
 
         s = this;
         Debug.Log("Globals Awake!ball y: " + globals.s.BALL_Y);
