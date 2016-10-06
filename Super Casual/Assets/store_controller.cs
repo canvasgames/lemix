@@ -101,6 +101,9 @@ public class store_controller : MonoBehaviour {
             changeActualChar();
 
             changeAnimationEquipButton("eletronic");
+
+            sound_controller.s.change_music(MusicStyle.Eletro);
+
         }
         else if (actualCharInScreen == 1)
         {
@@ -109,6 +112,9 @@ public class store_controller : MonoBehaviour {
             changeActualChar();
 
             changeAnimationEquipButton("rock");
+
+            sound_controller.s.change_music(MusicStyle.Rock);
+
         }
         else if (actualCharInScreen == 2)
         {
@@ -117,6 +123,9 @@ public class store_controller : MonoBehaviour {
             changeActualChar();
 
             changeAnimationEquipButton("pop");
+
+            sound_controller.s.change_music(MusicStyle.Pop);
+
         }
     }
 
