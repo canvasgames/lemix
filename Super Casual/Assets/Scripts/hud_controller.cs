@@ -136,7 +136,7 @@ public class hud_controller : MonoBehaviour {
             //Application.LoadLevel("Gameplay");
             //Application.LoadLevel()
             
-            SceneManager.LoadScene("Gameplay");
+            SceneManager.LoadScene("Gameplay 1");
         }
 
         if(globals.s.GAME_STARTED == false && globals.s.MENU_OPEN == false)

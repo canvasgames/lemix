@@ -200,7 +200,7 @@ public class game_controller : MonoBehaviour {
 					}
 					else
 						wave_found = create_wave_easy(i);
-						wave_found = create_wave_hard(i, 46);
+						//wave_found = create_wave_hard(i, 46);
                     break;
 				case 4:
 					if (USER.s.BEST_SCORE <= 5) {
@@ -407,7 +407,7 @@ public class game_controller : MonoBehaviour {
         // create chance check
         Debug.Log(" CREATE POWER UPS CHANCE: " + rand + " .. CONDITION: " + ((pw_floors_not_created - pw_dont_create_for_n_floors) * 7));
         // if (!QA.s.NO_PWS && pw_floors_not_created > pw_dont_create_for_n_floors && rand <= 15 && globals.s.PW_ACTIVE == true) {
-        if (!QA.s.NO_PWS && USER.s.TOTAL_GAMES >= 2 && ((pw_floors_not_created > pw_dont_create_for_n_floors &&
+		if (!QA.s.NO_PWS && USER.s.TOTAL_GAMES >= 2 && USER.s.BEST_SCORE >= 5 && ((pw_floors_not_created > pw_dont_create_for_n_floors &&
             rand <= (pw_floors_not_created - pw_dont_create_for_n_floors) * 7) || (USER.s.FIRST_PW_CREATED == 0 && !first_pw_created))) {
 
             int my_type = 0;
