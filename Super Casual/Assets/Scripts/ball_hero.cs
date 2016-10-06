@@ -254,11 +254,13 @@ public class ball_hero : MonoBehaviour
 
             my_son.GetComponent<ball_hero>().init_my_skin();
             if (grounded == false) { 
-                my_son.GetComponent<ball_hero>().my_skin.GetComponent<Animator>().Play("Jumping", 0,
-                my_skin.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).normalizedTime);
+                //my_son.GetComponent<ball_hero>().my_skin.GetComponent<Animator>().Play("Jumping", 0,
+                //my_skin.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).normalizedTime);
+                my_skin.GetComponent<Animator>().SetBool("Jumping", true);
+                my_son.GetComponent<ball_hero>().my_skin.GetComponent<Animator>().SetBool("Jumping", true);
                 //Debug.Log("aaaaaaanimator: " + my_skin.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).normalizedTime);
-        }
- 
+            }
+
 
             // CALL GAME CONTROLLER
             game_controller.s.ball_up(my_floor);
@@ -340,8 +342,8 @@ public class ball_hero : MonoBehaviour
             //rb.AddForce (new Vector2 (0, y_jump));
             rb.velocity = new Vector2(rb.velocity.x, globals.s.BALL_SPEED_Y);
 
-            my_skin.GetComponent<Animator>().Play("Jumping");
-
+           // my_skin.GetComponent<Animator>().Play("Jumping");
+            my_skin.GetComponent<Animator>().SetBool("Jumping", true);
         }
         //else Debug.Log("ÇÇÇÇÇÇÇÇÇÇÇÇÇÇÇ CANT JUMP! I AM NOT GROUNDED");
     }
@@ -426,7 +428,8 @@ public class ball_hero : MonoBehaviour
             if (coll.transform.position.y + coll.transform.GetComponent<SpriteRenderer>().bounds.size.y / 2 <= transform.position.y - globals.s.BALL_R + 1f) {
                 //rb.AddForce (new Vector2 (0, 0));
                 rb.velocity = new Vector2(rb.velocity.x, 0);
-                my_skin.GetComponent<Animator>().Play("Running");
+                //my_skin.GetComponent<Animator>().Play("Running");
+                my_skin.GetComponent<Animator>().SetBool("Jumping", false);
                 //transform.position = new Vector2(transform.position.x, coll.transform.position.y + coll.transform.GetComponent<SpriteRenderer>().bounds.size.y / 2 + globals.s.BALL_R);
                 my_floor = coll.gameObject.GetComponent<floor>().my_floor;
                 //Debug.Log(my_id + " KKKKKKKKKKKKKKKKKK KOLLISION! MY NEW FLOOR: " + my_floor + " I AM GROUNDED ");
@@ -602,7 +605,8 @@ public class ball_hero : MonoBehaviour
 		jetpack.SetActive(true);
         my_alert.SetActive(false);
         rb.velocity = new Vector2(0, 0);
-        my_skin.GetComponent<Animator>().Play("Jumping");
+       // my_skin.GetComponent<Animator>().Play("Jumping");
+        my_skin.GetComponent<Animator>().SetBool("Jumping", true);
 
         rb.gameObject.GetComponent<Rigidbody2D>().gravityScale = 0;
         rb.gameObject.GetComponent<Rigidbody2D>().isKinematic = true;
