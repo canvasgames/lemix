@@ -2,6 +2,14 @@
 using System.Collections;
 using DG.Tweening;
 
+public enum MusicStyle{
+	Eletro,
+	Rock,
+	Pop,
+	Reggae,
+	Classic,
+}
+
 public class sound_controller : MonoBehaviour
 {
     public static sound_controller s = null;
@@ -13,11 +21,14 @@ public class sound_controller : MonoBehaviour
     public AudioClip[]  Jumps;
 
     public GameObject bt_sound;
+	public MusicLayers[] musics;
 
     bool can_play_jump = true;
+	MusicStyle curMusic;
 
     int music_playing = 1;
 
+	#region ===== Init =======
     void Awake()
     {
         //muteMusic();
@@ -41,11 +52,15 @@ public class sound_controller : MonoBehaviour
             }
             
         }
+
+
     }
     // Use this for initialization
     void Start()
     {
         can_play_jump = true;
+		change_music (MusicStyle.Rock);
+
     }
 
     // Update is called once per frame
@@ -55,7 +70,7 @@ public class sound_controller : MonoBehaviour
             if (curFadeIn.volume < 1) {
 				if (music_playing > 1) {
 					curFadeIn.volume += 0.7f * Time.deltaTime;
-					curFadeOut.volume -= 0.7f * Time.deltaTime;
+					if(curFadeOut != null) curFadeOut.volume -= 0.7f * Time.deltaTime;
 				}/* else {
 					curFadeIn.volume += 0.25f * Time.deltaTime;
 					curFadeOut.volume -= 0.25f * Time.deltaTime;
@@ -63,12 +78,41 @@ public class sound_controller : MonoBehaviour
             }
             else { 
 				curFadeIn.volume = 1;
-				curFadeOut.volume = 0;
+				if(curFadeOut != null)
+					curFadeOut.volume = 0;
                 curFadeIn = null;
                 curFadeOut = null;
             }
         }
     }
+
+	#endregion
+
+	#region ===== Music Change =====
+	public void change_music(MusicStyle style){
+		foreach (MusicLayers mus in musics) {
+			if (mus.myStyle == style) {
+				curMusic = style;
+
+				musicSource.Stop ();
+				musicSource2.Stop ();
+				musicSource3.Stop ();
+				musicSource4.Stop ();
+				musicSource5.Stop ();
+
+				musicSource = mus.layer1;
+				musicSource2 = mus.layer2;
+				musicSource3 = mus.layer3;
+				musicSource4 = mus.layer4;
+				musicSource5 = mus.layer5;
+
+				play_music ();
+
+			}
+		}
+	}
+
+	#endregion
 
     public void play_alert() {
         PlaySingle(Alert);
@@ -121,12 +165,23 @@ public class sound_controller : MonoBehaviour
         }
 
         else if (music_playing == 4) {
-            curFadeIn = musicSource4;
-            curFadeOut = musicSource3;
+			if (curMusic != MusicStyle.Rock) {
+				curFadeIn = musicSource4;
+				curFadeOut = musicSource3;
+			} else {
+				curFadeIn = musicSource4;
+			}
         }
         else if (music_playing == 5) {
-            curFadeIn = musicSource5;
-            curFadeOut = musicSource4;
+
+			if (curMusic != MusicStyle.Rock) {
+				curFadeIn = musicSource5;
+				curFadeOut = musicSource4;
+			} else {
+				curFadeIn = musicSource5;
+				curFadeOut = musicSource3;
+			}
+           
         }
     }
 

@@ -143,7 +143,7 @@ public class game_controller : MonoBehaviour {
                 switch (i)
                 {
                 case 0:
-					Debug.Log("asdasdasd");
+					Debug.Log("asdasdasd I : " + i );
                     GameObject b = create_floor(0, i);
                     if (b == null) Debug.Log("ERROR CREATING THE FIRST FLOOR!!!");
                     wave_found = true;
@@ -1915,7 +1915,9 @@ public class game_controller : MonoBehaviour {
 
 	public void create_bg(int n, bool special_wave = false) {
 
+		Debug.Log ("creating floor  n:  " +n + "  POS : " + ( globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * n  + 2.45f) );
 		if (n <= 5)
+			//objects_pool_controller.s.create_and_reposite_bg (1, 0, globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * n  + 2.45f, special_wave);
 			objects_pool_controller.s.create_and_reposite_bg (1, 0, globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * n  + 2.45f, special_wave);
 		else if (n <= 10)
 			objects_pool_controller.s.create_and_reposite_bg (2, 0, globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * n  + 2.45f, special_wave);
@@ -1948,6 +1950,9 @@ GameObject instance = Instantiate(Resources.Load("Prefabs/Bgs/Scenario2/bg_"+ran
 
 	public GameObject create_floor(float x, int n, bool special_floor = false)
     {
+		Debug.Log ("creating floor n:  " +n + "  POS : " + ( globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * n  + 2.45f) );
+
+
        // GameObject obj = (GameObject)Instantiate(floor_type, new Vector3(x, globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * n, 0), transform.rotation);
         GameObject obj = objects_pool_controller.s.reposite_floor(x, globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * n);
         obj.GetComponent<floor>().my_floor = n;

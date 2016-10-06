@@ -27,9 +27,9 @@ public class store_controller : MonoBehaviour {
     void Start () {
         s = this;
 
-        eletronicAlreadyBuyed = PlayerPrefs.GetInt("eletronicAlreadyBuyed", 1);
         popAlreadyBuyed = PlayerPrefs.GetInt("popAlreadyBuyed", 0);
         rockAlreadyBuyed = PlayerPrefs.GetInt("rockAlreadyBuyed", 0);
+		eletronicAlreadyBuyed = PlayerPrefs.GetInt("eletronicAlreadyBuyed", 1);
 
         changeAnimationEquipButton("eletronic");
 
@@ -39,6 +39,7 @@ public class store_controller : MonoBehaviour {
 
         actualCoins.text = USER.s.NOTES.ToString();
 
+		equipCharacter ();
     }
 	
 	// Update is called once per frame

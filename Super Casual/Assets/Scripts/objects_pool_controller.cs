@@ -172,7 +172,7 @@ public class objects_pool_controller : MonoBehaviour {
 			bgs_special_pool [bgs_special_actual_i].transform.position = new Vector2 (x_pos, y_pos - 0.5f);
 			to_return = bgs_special_pool [bgs_special_actual_i];
 			bgs_special_actual_i++;
-			if (bgs_special_actual_i >= bgs3_pool.Length)
+			if (bgs_special_actual_i >= bgs_special_pool.Length)
 				bgs_special_actual_i= 0;
 
 		} 
