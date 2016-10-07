@@ -36,10 +36,10 @@ public class hud_controller : MonoBehaviour {
     public GameObject revive;
     public GameObject video;
     public GameObject ready;
-    public GameObject v_pw_on;
+    //public GameObject v_pw_on;
 	public GameObject pw_time_bar;
 	public GameObject pw_time_left_title_on;
-	public GameObject pw_time_left_title_off;
+	public Text pw_Text_Header;
     public Text PW_time_text;
 
 
@@ -119,7 +119,8 @@ public class hud_controller : MonoBehaviour {
             {
                 activate_pw_bt.SetActive(true);
 				pw_time_left_title_on.SetActive (false);
-				pw_time_left_title_off.SetActive (true);
+                pw_time_bar.GetComponent<Animator>().Play("PowerUpsChargingBarAnimation");
+                pw_Text_Header.text = "Power Up Status";
             }
         }
     }
@@ -426,7 +427,8 @@ public class hud_controller : MonoBehaviour {
         else
         {
             TimeSpan diff = tempDate.Subtract(tempcurDate);
-            if(diff.Minutes > 30)
+            //Debug.Log(diff + "  TimeDif " + globals.s.PW_ACTIVE);
+            if(diff.Minutes > GD.s.GD_WITHOUT_PW_TIME)
             {
                 PW_time_set_new_date_and_state(true);
             }
@@ -446,14 +448,22 @@ public class hud_controller : MonoBehaviour {
 
         if(globals.s.PW_ACTIVE == true)
         {
-			float fill =  ((float) difference.Minutes + (float) difference.Seconds/60) / 5;
-			pw_time_bar.GetComponent<Image> ().fillAmount =  fill;
-            PW_time_text.text =  difference.Minutes + "m " + difference.Seconds + "s ";
+			float fill =  ((float) difference.Minutes + (float) difference.Seconds/60) / GD.s.GD_WITH_PW_TIME;
+            pw_Text_Header.text = "Power Ups On";
+            pw_time_left_title_on.SetActive(true);
+            activate_pw_bt.SetActive(false);
+            pw_time_bar.GetComponent<Animator>().Play("PowerUpsCharginBarGreen");
+            pw_time_bar.GetComponent<Image> ().fillAmount =  fill;
+            pw_time_left_title_on.GetComponent<Text>().text =  difference.Minutes + "m " + difference.Seconds + "s ";
         }
         else
         {
-			float fill =  ((float) difference.Minutes + (float) difference.Seconds/60) / 30;
-			pw_time_bar.GetComponent<Image> ().fillAmount =  1f - fill;
+			float fill =  ((float) difference.Minutes + (float) difference.Seconds/60) / GD.s.GD_WITHOUT_PW_TIME;
+            pw_Text_Header.text = "Power Up Status";
+            pw_time_left_title_on.SetActive(false);
+            activate_pw_bt.SetActive(true);
+            pw_time_bar.GetComponent<Animator>().Play("PowerUpsChargingBarAnimation");
+            pw_time_bar.GetComponent<Image> ().fillAmount =  1f - fill;
             PW_time_text.text = difference.Minutes + "m " + difference.Seconds + "s ";
         }  
     }
@@ -462,10 +472,12 @@ public class hud_controller : MonoBehaviour {
     {
         if(PW_active_state == true)
         {
-            v_pw_on.SetActive(true);
+            //v_pw_on.SetActive(true);
 			pw_time_left_title_on.SetActive (true);
-			pw_time_left_title_off.SetActive (false);
-			//pw_text.SetActive (true);
+            pw_time_bar.GetComponent<Animator>().Play("PowerUpsCharginBarGreen");
+
+            pw_Text_Header.text = "Power Ups On";
+            //pw_text.SetActive (true);
             globals.s.PW_ACTIVE = true;
             tempDate = tempcurDate;
             tempDate = tempDate.AddMinutes(GD.s.GD_WITH_PW_TIME);
@@ -478,9 +490,11 @@ public class hud_controller : MonoBehaviour {
         }
         else
         {
-            v_pw_on.SetActive(false);
+            //v_pw_on.SetActive(false);
 			pw_time_left_title_on.SetActive (false);
-			pw_time_left_title_off.SetActive (true);
+
+            pw_Text_Header.text = "Power Up Status";
+            pw_time_bar.GetComponent<Animator>().Play("PowerUpsChargingBarAnimation");
             globals.s.PW_ACTIVE = false;
             tempDate = tempcurDate;
             tempDate = tempDate.AddMinutes(GD.s.GD_WITHOUT_PW_TIME);
