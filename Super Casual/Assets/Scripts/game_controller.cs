@@ -401,7 +401,7 @@ public class game_controller : MonoBehaviour {
     #endregion
 
     #region ======= POWER UPS ==========
-    void create_power_up_logic() {
+	void create_power_up_logic(int floor = 0) {
         int rand = Random.Range(0, 100);
         //rand = Random.Range(0, 10);
         // create chance check
@@ -413,8 +413,9 @@ public class game_controller : MonoBehaviour {
             int my_type = 0;
             rand = Random.Range(0, 100);
             if (rand < 20 || (USER.s.TOTAL_GAMES >= 2 && USER.s.FIRST_PW_CREATED == 0 && !first_pw_created)) my_type = (int)PW_Types.Super;
-            else if (rand < 60) my_type = (int)PW_Types.Invencible;
-            else if (rand < 100) my_type = (int)PW_Types.Sight;
+			else if (rand < 60 && floor > 5) my_type = (int)PW_Types.Sight;
+			else my_type = (int)PW_Types.Invencible;
+				
 
             first_pw_created = true;
             // int my_type = Random.Range((int)PW_Types.Invencible, (int)PW_Types.Sight + 1);

@@ -24,8 +24,9 @@ public class hole_behaviour : MonoBehaviour
         if (globals.s.PW_SIGHT_BEYOND_SIGHT == true)
         {
             show_me_pw_sight();
-        }
+		}
 
+		my_skin.GetComponent<SpriteRenderer> ().color = Color.black;
     }
     
     public void glow_animation_start() {

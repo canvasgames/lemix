@@ -22,7 +22,7 @@ public class stage_intro : MonoBehaviour {
 
 	public void StartEntering(int stage){
 		title_i = stage - 1;
-		Debug.Log ("TITLE I: " + title_i);
+		//Debug.Log ("TITLE I: " + title_i);
 		if (title_i < title.Length) {
 
 			foreach (GameObject t in title)

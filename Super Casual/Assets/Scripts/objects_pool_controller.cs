@@ -50,6 +50,12 @@ public class objects_pool_controller : MonoBehaviour {
 	public GameObject[] bgs3_pool;
 	int bgs3_actual_i = 0;
 
+	public GameObject[] bgs4_pool;
+	int bgs4_actual_i = 0;
+
+	public GameObject[] bgs5_pool;
+	int bgs5_actual_i = 0;
+
 	public GameObject[] bgs_special_pool;
 	int bgs_special_actual_i = 0;
 

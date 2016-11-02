@@ -44,7 +44,7 @@ public class Button_New_Game_QA : MonoBehaviour {
             Invoke("back_to_white", 2);
 
             //Destroy(gameObject);
-            SceneManager.LoadScene("Gameplay");
+            SceneManager.LoadScene("Gameplay 1");
         }
     }
 

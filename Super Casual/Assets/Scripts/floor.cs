@@ -125,15 +125,18 @@ public class floor : scenario_objects {
     }
 
     void blink_color_mine() {
-        my_skin.GetComponent<SpriteRenderer>().color = Color.yellow;
-        Invoke("blink_back_mine", 0.1f);
+		my_skin.GetComponent<SpriteRenderer>().color = Color.yellow;
+		if(my_hole != null) my_hole.my_skin.GetComponent<SpriteRenderer>().color = Color.yellow;
+        Invoke("blink_back_mine", 0.2f);
     }
     void blink_back_mine() {
         count_blink -= 1;
         my_skin.GetComponent<SpriteRenderer>().color = Color.white;
+		if(my_hole != null) my_hole.my_skin.GetComponent<SpriteRenderer>().color = Color.white;
+
 
         if (count_blink > 0)
-            Invoke("blink_color_mine", 0.1f);
+            Invoke("blink_color_mine", 0.2f);
     }
 
     //Under floor score destroy
