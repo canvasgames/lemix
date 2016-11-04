@@ -87,7 +87,7 @@ public class spike : scenario_objects {
     {
         Debug.Log("[SPK HIDDEN] show me called !!!! ");
         //transform.GetComponent<SpriteRenderer>().color = Color.white;
-        transform.GetComponent<SpriteRenderer>().color = Color.black;
+        //transform.GetComponent<SpriteRenderer>().color = Color.black;
         //target_y = transform.position.y + transform.GetComponent<SpriteRenderer>().bounds.size.y;
        // target_y = transform.position.y + 0.5f;
 		//my_skin.transform.DOLocalMoveY(0, 0.14f);
@@ -208,7 +208,7 @@ public class spike : scenario_objects {
         already_appeared = false;
 
         timer = 0;
-        GetComponent<SpriteRenderer>().color = Color.black;
+//        GetComponent<SpriteRenderer>().color = Color.black;
         transform.localScale = new Vector3(globals.s.SPK_SCALE, globals.s.SPK_SCALE, globals.s.SPK_SCALE);
         count_blink = 16;
         //transform.DOScale(0.7f, 0.1f);

@@ -1919,11 +1919,15 @@ public class game_controller : MonoBehaviour {
 		Debug.Log ("creating floor  n:  " +n + "  POS : " + ( globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * n  + 2.45f) );
 		if (n <= 5)
 			//objects_pool_controller.s.create_and_reposite_bg (1, 0, globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * n  + 2.45f, special_wave);
-			objects_pool_controller.s.create_and_reposite_bg (1, 0, globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * n  + 2.45f, special_wave);
+			objects_pool_controller.s.create_and_reposite_bg (5, 0, globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * n  + 2.45f, special_wave);
 		else if (n <= 10)
 			objects_pool_controller.s.create_and_reposite_bg (2, 0, globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * n  + 2.45f, special_wave);
-		else 
+		else if ( n <=15)
 			objects_pool_controller.s.create_and_reposite_bg (3, 0, globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * n  + 2.45f, special_wave);
+		else if ( n <=20)
+			objects_pool_controller.s.create_and_reposite_bg (4, 0, globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * n  + 2.45f, special_wave);
+		else
+			objects_pool_controller.s.create_and_reposite_bg (5, 0, globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * n  + 2.45f, special_wave);
 
 		/*
         int rand;

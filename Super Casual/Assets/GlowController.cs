@@ -1,0 +1,36 @@
+﻿using UnityEngine;
+using System.Collections;
+public enum GlowState{
+	FadeIn,
+	Static,
+	FadeOut,
+}
+
+
+public class GlowController : MonoBehaviour {
+	public static GlowController s;
+	public 
+
+	// Use this for initialization
+	void Awake () {
+		s = this;
+	}
+	
+	// Update is called once per frame
+	void FixedUpdate () {
+	
+	}
+
+	public void glow_animation_start() {
+		
+	}
+
+	public void glow_animation_wait(){
+		
+	}
+
+	public void glow_animation_end() {
+		
+	}
+
+}

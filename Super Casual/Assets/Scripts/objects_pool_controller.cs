@@ -172,7 +172,20 @@ public class objects_pool_controller : MonoBehaviour {
 			if (bgs3_actual_i >= bgs3_pool.Length)
 				bgs3_actual_i = 0;
 
-		} 
+		} else if (stage == 4) {
+			bgs4_pool [bgs4_actual_i].transform.position = new Vector2 (x_pos, y_pos);
+			to_return = bgs4_pool [bgs4_actual_i];
+			bgs4_actual_i++;
+			if (bgs4_actual_i >= bgs4_pool.Length)
+				bgs4_actual_i = 0;
+		
+		} else if (stage == 5) {
+			bgs5_pool [bgs5_actual_i].transform.position = new Vector2 (x_pos, y_pos);
+			to_return = bgs5_pool [bgs5_actual_i];
+			bgs5_actual_i++;
+			if (bgs5_actual_i >= bgs5_pool.Length)
+				bgs5_actual_i = 0;
+		}
 
 		if (special_wave) {
 			bgs_special_pool [bgs_special_actual_i].transform.position = new Vector2 (x_pos, y_pos - 0.5f);
