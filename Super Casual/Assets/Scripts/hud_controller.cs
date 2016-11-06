@@ -452,7 +452,7 @@ public class hud_controller : MonoBehaviour {
             pw_Text_Header.text = "Power Ups On";
             pw_time_left_title_on.SetActive(true);
             activate_pw_bt.SetActive(false);
-            pw_time_bar.GetComponent<Animator>().Play("PowerUpsCharginBarGreen");
+			if(pw_time_bar.GetComponent<Animator>()) pw_time_bar.GetComponent<Animator>().Play("PowerUpsCharginBarGreen");
             pw_time_bar.GetComponent<Image> ().fillAmount =  fill;
             pw_time_left_title_on.GetComponent<Text>().text =  difference.Minutes + "m " + difference.Seconds + "s ";
         }

@@ -22,7 +22,7 @@ public class floor : scenario_objects {
     // Use this for initialization
     void Start () {
         i_am_floor = true;
-        glow_animation_wait();
+        //glow_animation_wait();
 
         
     }
@@ -31,8 +31,8 @@ public class floor : scenario_objects {
 		my_glow.GetComponent<SpriteRenderer>().DOFade(1f, GD.s.GlowInTime).OnComplete(glow_animation_wait);
 		my_lines_glow.GetComponent<SpriteRenderer> ().DOFade (0.4f, GD.s.GlowInTime);
 
-		if (my_hole != null)
-			my_hole.glow_animation_start ();
+		//if (my_hole != null)
+			//my_hole.glow_animation_start ();
     }
 	void glow_animation_wait(){
 		Invoke ("glow_animation_end", GD.s.GlowStaticTime);

@@ -1,10 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
-public enum GlowState{
-	FadeIn,
-	Static,
-	FadeOut,
-}
+
 
 
 public class GlowController : MonoBehaviour {

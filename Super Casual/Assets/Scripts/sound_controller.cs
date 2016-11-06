@@ -107,7 +107,6 @@ public class sound_controller : MonoBehaviour
 				musicSource5 = mus.layer5;
 
 				play_music ();
-
 			}
 		}
 	}
@@ -122,6 +121,7 @@ public class sound_controller : MonoBehaviour
         //PlaySingle(Collect);
         PlaySingle(Jumps[Random.Range(0, 7)]);
     }
+
     public void play_collect_pw() {
         PlaySingle(Collect);
         //PlaySingle(Jumps[Random.Range(0, 7)]);
@@ -216,6 +216,8 @@ public class sound_controller : MonoBehaviour
         musicSource5.Play();
 		musicSource.volume = 1;
 		music_playing = 1;
+
+		RythmController.s.OnMusicStarted ();
     }
     public void stop_music()
     {

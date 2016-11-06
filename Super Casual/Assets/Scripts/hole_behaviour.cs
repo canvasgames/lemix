@@ -28,16 +28,6 @@ public class hole_behaviour : MonoBehaviour
 
 		my_skin.GetComponent<SpriteRenderer> ().color = Color.black;
     }
-    
-    public void glow_animation_start() {
-		my_glow.GetComponent<SpriteRenderer>().DOFade(1f, GD.s.GlowInTime).OnComplete(glow_animation_wait);
-    }
-	public void glow_animation_wait(){
-		Invoke("glow_animation_end", GD.s.GlowStaticTime);
-	}
-    public void glow_animation_end() {
-		if (my_glow != null) my_glow.GetComponent<SpriteRenderer>().DOFade(0, GD.s.GlowOutTime).OnComplete(glow_animation_start);
-    }
 
     // Update is called once per frame
     void Update()
