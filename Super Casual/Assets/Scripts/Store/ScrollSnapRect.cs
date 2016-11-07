@@ -321,4 +321,9 @@ public class ScrollSnapRect : MonoBehaviour, IBeginDragHandler, IEndDragHandler,
             }
         }
     }
+
+    void OnDisable()
+    {
+        LerpToPage(0);
+    }
 }

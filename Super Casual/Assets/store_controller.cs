@@ -39,7 +39,8 @@ public class store_controller : MonoBehaviour {
 
         actualCoins.text = USER.s.NOTES.ToString();
 
-		equipCharacter ();
+        if(globals.s.FIRST_GAME)
+		    equipCharacter ();
     }
 	
 	// Update is called once per frame
@@ -96,6 +97,7 @@ public class store_controller : MonoBehaviour {
     {
         if (actualCharInScreen == 0)
         {
+            Debug.Log(" igona flee gonna be gonna flow");
             PlayerPrefs.SetString("ACTUAL_CHAR", "eletronic");
             globals.s.ACTUAL_CHAR = PlayerPrefs.GetString("ACTUAL_CHAR", "eletronic");
             changeActualChar();
@@ -181,10 +183,13 @@ public class store_controller : MonoBehaviour {
         }
     }
 
-    void changeAnimationEquipButton(string inShopType)
+    public void changeAnimationEquipButton(string inShopType)
     {
+        Debug.Log(inShopType + "  " + globals.s.ACTUAL_CHAR);
+
         if (globals.s.ACTUAL_CHAR == inShopType)
         {
+
             equipButton.GetComponent<Animator>().Play("selected");
         }
         else

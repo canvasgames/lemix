@@ -262,13 +262,13 @@ public class hud_controller : MonoBehaviour {
 	}
 
 	void store_entrance(){
-        Debug.Log("aaa");
 		store_label.SetActive (true);
 		store_label.transform.localPosition = new Vector3 (0, store_label.transform.localPosition.y + store_label.GetComponent <RectTransform> ().rect.height , store_label.transform.localPosition.z);
 		store_label.transform.DOLocalMoveY(-70
 			, 0.5f).SetEase (Ease.OutQuad);
-	
-	}
+        store_controller.s.changeAnimationEquipButton("eletronic");
+
+    }
 
 	void store_closing(){
 		pw_info.transform.DOMoveY (pw_info_y, 0.5f).SetEase (Ease.OutQuad);
