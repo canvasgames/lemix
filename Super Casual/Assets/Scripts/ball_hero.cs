@@ -6,6 +6,7 @@ public class ball_hero : MonoBehaviour
 {
     #region ==== Variables Declaration =====
 
+	public GameObject superJumpEffect;
 	public GameObject jetpack;
     public bool is_destroyed = false;
 
@@ -633,6 +634,7 @@ public class ball_hero : MonoBehaviour
         
         //globals.s.PW_SUPER_JUMP = true;
         desactivate_pws_super();
+		superJumpEffect.SetActive (true);
 
         int ball_speed = 20;
         target_y = (globals.s.BASE_Y + ((my_floor) * globals.s.FLOOR_HEIGHT) +  (5* globals.s.FLOOR_HEIGHT) + globals.s.FLOOR_HEIGHT / 2 - 0.6f );
@@ -673,6 +675,9 @@ public class ball_hero : MonoBehaviour
         GameObject floor = game_controller.s.create_floor(12, my_floor);
         destroy_spikes();
         floor.transform.DOMoveX(0, 0.3f);//.OnComplete(pw_super_end);
+
+		superJumpEffect.SetActive (false);
+
     }
 
    void pw_super_end_for_real() {

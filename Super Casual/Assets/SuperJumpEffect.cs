@@ -9,7 +9,9 @@ public class SuperJumpEffect : MonoBehaviour {
 		//GetComponent<Animator> ().Stop();
 		//Invoke ("InitMe", Random.Range(0f, 0.5f));
 		//GetComponent<Animator> ().Play ("SuperJumpEffectAnimation", 0, Random.Range(0f, 1f));
-		Invoke("restart", Random.Range(0, 0.5f));
+		float random = Random.Range(0f, 1f);
+		Debug.Log ("random: " + random);
+		Invoke("restart", random);
 	}
 
 	public void restart(){

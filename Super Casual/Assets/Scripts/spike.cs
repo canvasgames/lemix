@@ -16,6 +16,7 @@ public class spike : scenario_objects {
 
 	public GameObject my_glow;
     public GameObject my_skin;
+	float my_skin_scale;
 
     float timer = 0;
     float target_y;
@@ -26,6 +27,7 @@ public class spike : scenario_objects {
     {
         my_collider = GetComponent<PolygonCollider2D>();
 		my_vision_effect.SetActive (false);
+		my_skin_scale = my_skin.transform.localScale.y;
     }
 	void Start () {
 
@@ -76,7 +78,7 @@ public class spike : scenario_objects {
         //target_y = transform.position.y + transform.GetComponent<SpriteRenderer>().bounds.size.y;
        // target_y = transform.position.y + 0.5f;
 		//my_skin.transform.DOLocalMoveY(0, 0.14f);
-        my_skin.transform.DOScaleY(1, 0.14f);
+		my_skin.transform.DOScaleY(my_skin_scale, 0.14f);
         already_appeared = true;
         my_collider.enabled = true;
         hidden = false;

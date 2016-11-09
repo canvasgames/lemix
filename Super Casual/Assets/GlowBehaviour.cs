@@ -16,20 +16,20 @@ public class GlowBehaviour : MonoBehaviour {
 			GetComponent<SpriteRenderer> ().color = new Color (1, 1, 1, 0.25f);
 			GetComponent<SpriteRenderer> ().DOFade (1f, GD.s.GlowInTime);
 			my_state = GlowState.FadeIn;
-			Debug.Log("(( FLOOR GLOW IN! " + Time.time);
+			//Debug.Log("(( FLOOR GLOW IN! " + Time.time);
 
 		} 
 		else if (RythmController.s.current_step == RythmController.s.step_glow_static && my_state != GlowState.Static) {
 			my_state = GlowState.Static;
 
-			Debug.Log("(( FLOOR GLOW STATIC! " + Time.time);
+			//Debug.Log("(( FLOOR GLOW STATIC! " + Time.time);
 
 		}
 		else if (RythmController.s.current_step == RythmController.s.step_glow_out && my_state != GlowState.FadeOut) {
 			GetComponent<SpriteRenderer> ().color = new Color (1, 1, 1, 1f);
 			GetComponent<SpriteRenderer>().DOFade(0.25f, GD.s.GlowOutTime);
 			my_state = GlowState.FadeOut;
-			Debug.Log("(( FLOOR GLOW OUT " + Time.time);
+			//Debug.Log("(( FLOOR GLOW OUT " + Time.time);
 		}
 	}
 

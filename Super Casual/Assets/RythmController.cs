@@ -10,9 +10,9 @@ public enum GlowState{
 public class RythmController : MonoBehaviour {
 	public static RythmController s;
 	public int total_steps = 24, current_step = 0;
-	float current_step_time;
+	public float current_step_time;
 	public int step_glow_in = 0, step_glow_static = 3, step_glow_out = 6;
-	public float step_time = 0.984f;
+	public float step_time = 0.96f;
 	[HideInInspector] public bool music_started = false;
 	private bool already_started = false;
 	private float next_step_time = 0;
@@ -32,6 +32,13 @@ public class RythmController : MonoBehaviour {
 		current_step = 0;
 		next_step_time = 0;
 		current_step_time = step_time / total_steps;
+
+		RythmScenarioBehaviour[] stages= GameObject.FindObjectsOfType(typeof(RythmScenarioBehaviour)) as RythmScenarioBehaviour[];
+		for (int i = 0; i < stages.Length; i++)
+		{
+			stages[i].RestartMusic();
+		}
+
 	}
 
 	// Update is called once per frame

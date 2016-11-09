@@ -170,11 +170,12 @@ public class game_controller : MonoBehaviour {
 					//create_triple_hidden_spike(Random.Range (-1.7f, -1.5f), globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * i, i);
 
                     create_floor(0, i);
+					create_hidden_spike(Random.Range (-0.5f, + 0.5f), globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * i, i);
 
-                	if (USER.s.BEST_SCORE <= 5) // FTU
-						create_spike(Random.Range (-0.5f, + 0.5f), globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * i, i);
-                    else
-                        create_spike(Random.Range(-mid_area, mid_area), globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * i, i);
+//                	if (USER.s.BEST_SCORE <= 5) // FTU
+//						create_spike(Random.Range (-0.5f, + 0.5f), globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * i, i);
+//                    else
+//                        create_spike(Random.Range(-mid_area, mid_area), globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * i, i);
 
                         //create_hidden_spike(0, globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * i, i);
                     wave_found = true;
@@ -1859,7 +1860,7 @@ public class game_controller : MonoBehaviour {
 			//spk.my
 			//spk.my_skin.transform.localScale = new Vector3(globals.s.SPK_SCALE, 0.5f, globals.s.SPK_SCALE);
 			//spk.my_skin.transform.localPosition = new Vector2 (spk.my_skin.transform.localPosition.x, obj.transform.localPosition.y - 2f);
-			spk.my_skin.transform.localScale = new Vector2 (1, 0);
+			spk.my_skin.transform.localScale = new Vector2 (spk.my_skin.transform.localScale.x, 0);
 
             spk.hidden = true;
             spk.my_floor = n;
