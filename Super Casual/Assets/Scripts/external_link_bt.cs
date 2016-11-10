@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+
 public class external_link_bt : MonoBehaviour {
     bool video_revive = false;
     bool video_activate_pw = false;
@@ -25,14 +26,15 @@ public class external_link_bt : MonoBehaviour {
 
     public void click()
     {
-        if(video_played == 0)
+        Debug.Log("click");
+        /*if(video_played == 0)
         {
             Application.OpenURL("https://www.facebook.com/battlepegsmultiplayer/");
         }
         else
         {
             Application.OpenURL("https://play.google.com/store/apps/details?id=mominis.Generic_Android.Bomblast");
-        }
+        }*/
         
         if (video_revive == true)
         {
@@ -40,8 +42,10 @@ public class external_link_bt : MonoBehaviour {
         }
         else
         {
-            hud_controller.si.watched_the_video_pw();
+            //hud_controller.si.watched_the_video_pw();
         }
         transform.gameObject.SetActive(false);
     }
+
+
 }

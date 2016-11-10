@@ -4,7 +4,7 @@ using System.Collections;
 using UnityEngine.UI;
 using DG.Tweening;
 using System;
-
+using UnityEngine.Advertisements;
 
 public class hud_controller : MonoBehaviour {
 	#region ======== Variables Declaration ========
@@ -39,6 +39,8 @@ public class hud_controller : MonoBehaviour {
     //public GameObject v_pw_on;
 	public GameObject pw_time_bar;
 	public GameObject pw_time_left_title_on;
+    public GameObject roda_a_roda;
+
 	public Text pw_Text_Header;
     public Text PW_time_text;
 
@@ -51,9 +53,14 @@ public class hud_controller : MonoBehaviour {
 
     int temp_cur_floor;
     int temp_best_floor;
+
+    public bool runningRoullete;
+
+    bool flagVideoPower = false, flagVideoRevive = false, flagVideoCoins = false;
     // Use this for initialization
     void Awake()
     {
+        flagVideoPower = false; flagVideoRevive = false; flagVideoCoins = false;
         si = this;
 		start_game_bt.SetActive (true);
     }
@@ -139,13 +146,13 @@ public class hud_controller : MonoBehaviour {
             
             SceneManager.LoadScene("Gameplay 1");
         }
-
-        if(globals.s.GAME_STARTED == false && globals.s.MENU_OPEN == false)
+        if (globals.s.FIRST_GAME == false && globals.s.GAME_STARTED == false)
         {
-            if (globals.s.FIRST_GAME == false)
-            {
-                show_pw_time();
-            }
+            show_pw_time();
+        }
+        if (globals.s.GAME_STARTED == false && globals.s.MENU_OPEN == false)
+        {
+
 
             if (Input.GetMouseButtonUp(0) && HUD_BUTTON_CLICKED == false)
             {
@@ -240,7 +247,7 @@ public class hud_controller : MonoBehaviour {
 	float pw_info_y, game_title_y;
 	public void store_bt_act(){
 		//pw_info.transform.DOLocalMoveY(pw_info.transform.localPosition.y + pw_info.GetComponent <RectTransform>().rect.height
-		if (globals.s.AT_STORE == false) {
+		if (globals.s.AT_STORE == false && globals.s.MENU_OPEN == false) {
 			Debug.Log (" MENU HEIGHT: " + game_title.GetComponent <RectTransform>().rect.height + " POS: " + game_title.transform.position.y + " LOCAL Y: " + game_title.transform.localPosition.y);
 			globals.s.AT_STORE = true;
 			pw_info_y = pw_info.transform.position.y;
@@ -271,6 +278,7 @@ public class hud_controller : MonoBehaviour {
     }
 
 	void store_closing(){
+        Debug.Log("close");
 		pw_info.transform.DOMoveY (pw_info_y, 0.5f).SetEase (Ease.OutQuad);
 		game_title.transform.DOMoveY (game_title_y, 0.5f).SetEase (Ease.OutQuad);
 		store_label.SetActive (false);
@@ -422,20 +430,25 @@ public class hud_controller : MonoBehaviour {
         //NO DATE CASE, TRIGGER 5 MINUTES
         if (PW_date == "")
         {
+            Debug.Log("no date");
             PW_time_set_new_date_and_state(true);
         }
         else
         {
             TimeSpan diff = tempDate.Subtract(tempcurDate);
             //Debug.Log(diff + "  TimeDif " + globals.s.PW_ACTIVE);
-            if(diff.Minutes > GD.s.GD_WITHOUT_PW_TIME)
+            if (diff.Minutes > GD.s.GD_WITHOUT_PW_TIME && globals.s.PW_ACTIVE == false)
             {
+                Debug.Log("new date");
+
                 PW_time_set_new_date_and_state(true);
             }
             else
             {
                 if (tempDate < tempcurDate)
                 {
+                    Debug.Log("new date");
+
                     PW_time_set_new_date_and_state(!globals.s.PW_ACTIVE);
                 }
             }
@@ -445,7 +458,7 @@ public class hud_controller : MonoBehaviour {
 
 
         TimeSpan difference = tempDate.Subtract(tempcurDate);
-
+        //Debug.Log(tempDate + " sadsad " + tempcurDate);
         if(globals.s.PW_ACTIVE == true)
         {
 			float fill =  ((float) difference.Minutes + (float) difference.Seconds/60) / GD.s.GD_WITH_PW_TIME;
@@ -458,7 +471,7 @@ public class hud_controller : MonoBehaviour {
         }
         else
         {
-			float fill =  ((float) difference.Minutes + (float) difference.Seconds/60) / GD.s.GD_WITHOUT_PW_TIME;
+            float fill =  ((float) difference.Minutes + (float) difference.Seconds/60) / GD.s.GD_WITHOUT_PW_TIME;
             pw_Text_Header.text = "Power Up Status";
             pw_time_left_title_on.SetActive(false);
             activate_pw_bt.SetActive(true);
@@ -506,6 +519,22 @@ public class hud_controller : MonoBehaviour {
             PlayerPrefs.SetString("PWDate2ChangeState", PW_date);
             PlayerPrefs.SetInt("PWState", 0);
         }
+    }
+
+    public void add_pw_time(float time)
+    {
+        globals.s.PW_ACTIVE = true;
+        tempDate = tempcurDate;
+        Debug.Log(tempDate);
+        tempDate = tempDate.AddMinutes(time);
+        Debug.Log(tempDate);
+        //tempDate = tempDate.AddSeconds(6);
+        PW_date = tempDate.ToString();
+        activate_pw_bt.SetActive(false);
+
+        PlayerPrefs.SetString("PWDate2ChangeState", PW_date);
+        PlayerPrefs.SetInt("PWState", 1);
+
     }
     #endregion
 
@@ -562,14 +591,18 @@ public class hud_controller : MonoBehaviour {
 
     void appear_video()
     {
-        video.SetActive(true);
+        //video.SetActive(true);
         //video.GetComponentInChildren<Play_Video>().solta_a_vinheta_sombra(true,false);
-        video.GetComponent<new_external_link_bt>().set_variables(true, false);
+        //video.GetComponent<new_external_link_bt>().set_variables(true, false);
+        flagVideoPower = false;
+        flagVideoCoins = false;
+        flagVideoRevive = true;
+        ShowAd();
     }
 
     public void watched_the_video_revive()
     {
-        video.SetActive(false);
+        //video.SetActive(false);
        
         globals.s.SHOW_VIDEO_AFTER = false;
         Invoke("change_menu_open_state_revive", 1f);
@@ -587,14 +620,19 @@ public class hud_controller : MonoBehaviour {
     public void show_video_pw()
     {
         globals.s.MENU_OPEN = true;
-        video.SetActive(true);
+        //video.SetActive(true);
         //video.GetComponentInChildren<Play_Video>().solta_a_vinheta_sombra(false, true);
-        video.GetComponent<new_external_link_bt>().set_variables(false, true);
+        //video.GetComponent<new_external_link_bt>().set_variables(false, true);
+        flagVideoRevive = false;
+        flagVideoCoins = false;
+        flagVideoPower = true;
+        ShowAd();
     }
 
     public void watched_the_video_pw()
     {
         hud_controller.si.PW_time_set_new_date_and_state(!globals.s.PW_ACTIVE);
+                Debug.Log("new date");
         game_controller.s.activate_logic();
         video.SetActive(false);
         Invoke("change_menu_open_state", 1f);
@@ -603,9 +641,14 @@ public class hud_controller : MonoBehaviour {
     public void show_video_coins()
     {
         globals.s.MENU_OPEN = true;
-        video.SetActive(true);
+        //video.SetActive(true);
         //video.GetComponentInChildren<Play_Video>().solta_a_vinheta_sombra(false, true);
-        video.GetComponent<new_external_link_bt>().set_variables(false, true);
+        //video.GetComponent<new_external_link_bt>().set_variables(false, true);
+        flagVideoRevive = false;
+        flagVideoCoins = true;
+        flagVideoPower = false;
+        ShowAd();
+
     }
 
     public void watched_the_video_coins()
@@ -613,6 +656,8 @@ public class hud_controller : MonoBehaviour {
         hud_controller.si.PW_time_set_new_date_and_state(!globals.s.PW_ACTIVE);
         game_controller.s.activate_logic();
         video.SetActive(false);
+        Debug.Log("new date");
+
         Invoke("change_menu_open_state", 1f);
     }
 
@@ -623,4 +668,51 @@ public class hud_controller : MonoBehaviour {
         globals.s.MENU_OPEN = false;
     }
 
+    public void ShowAd()
+    {
+        Debug.Log("ue " + Advertisement.IsReady());
+        if (Advertisement.IsReady("rewardedVideo"))
+        {
+            var options = new ShowOptions {resultCallback = HandleShowResult };
+            Advertisement.Show("rewardedVideo", options);
+        }
+    }
+
+    private void HandleShowResult(ShowResult result)
+    {
+        switch (result)
+        {
+            case ShowResult.Finished:
+                Debug.Log("The ad was successfully shown.");
+                //
+                // YOUR CODE TO REWARD THE GAMER
+                if(flagVideoPower == true)
+                {
+                    Invoke("activeRodaaRoda", 1);
+                    flagVideoPower = false;
+                }
+                else if(flagVideoRevive == true)
+                {
+                    watched_the_video_revive();
+                }
+                else if(flagVideoCoins == true)
+                {
+                    store_controller.s.watchedVideo();
+                }
+                // Give coins etc.
+                break;
+            case ShowResult.Skipped:
+                Debug.Log("The ad was skipped before reaching the end.");
+                break;
+            case ShowResult.Failed:
+                Debug.LogError("The ad failed to be shown.");
+                break;
+        }
+    }
+
+    void activeRodaaRoda()
+    {
+        roda_a_roda.SetActive(true);
+
+    }
 }
