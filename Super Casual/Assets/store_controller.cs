@@ -187,7 +187,6 @@ public class store_controller : MonoBehaviour {
 
     public void changeAnimationEquipButton(string inShopType)
     {
-        Debug.Log(inShopType + "  " + globals.s.ACTUAL_CHAR);
 
         if (globals.s.ACTUAL_CHAR == inShopType)
         {

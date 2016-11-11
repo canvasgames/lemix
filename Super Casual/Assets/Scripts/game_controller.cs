@@ -416,8 +416,8 @@ public class game_controller : MonoBehaviour {
             if (rand < 20 || (USER.s.TOTAL_GAMES >= 2 && USER.s.FIRST_PW_CREATED == 0 && !first_pw_created)) my_type = (int)PW_Types.Super;
 			else if (rand < 60 && floor > 5) my_type = (int)PW_Types.Sight;
 			else my_type = (int)PW_Types.Invencible;
-				
 
+            Debug.Log(globals.s.PW_ACTIVE + "  MURILHIOOOO");
             first_pw_created = true;
             // int my_type = Random.Range((int)PW_Types.Invencible, (int)PW_Types.Sight + 1);
 			Debug.Log ("---------- cREATE PW !! TYPE: " + my_type + " FIRST PW CREATED " + USER.s.FIRST_PW_CREATED);

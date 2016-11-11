@@ -203,6 +203,7 @@ public class ball_hero : MonoBehaviour
         if (globals.s.PW_SUPER_JUMP == true && target_y_reached == false && target_y > 0) {
             // main_camera.s.PW_super_jump(transform.position.y);
             if (transform.position.y >= target_y) {
+                hud_controller.si.update_floor(my_floor+4);
                 stop_go_up_PW();
             }
         }
@@ -425,7 +426,7 @@ public class ball_hero : MonoBehaviour
 
 
         if (coll.gameObject.CompareTag("Floor")) {
-
+            
             if (coll.transform.position.y + coll.transform.GetComponent<SpriteRenderer>().bounds.size.y / 2 <= transform.position.y - globals.s.BALL_R + 1f) {
                 //rb.AddForce (new Vector2 (0, 0));
                 rb.velocity = new Vector2(rb.velocity.x, 0);

@@ -75,7 +75,7 @@ public class hud_controller : MonoBehaviour {
 
         //PlayerPrefs.DeleteAll();
         PW_date = PlayerPrefs.GetString("PWDate2ChangeState");
-        Debug.Log("pw date: " + PW_date);
+
 
         //SETTING  FIRST_GAME GLOBAL
         int tmp_first = PlayerPrefs.GetInt("first_game", 1); ;
@@ -137,8 +137,8 @@ public class hud_controller : MonoBehaviour {
 
         //GAME OVER GAME CASE
         //if(Input.GetMouseButtonDown(0))
-         //   Debug.Log("ueeeeeeeeeeeeeeeeee epaaaaaaaaaaaaaaaaaaa epa, veja la como fala sua " + globals.s.CAN_RESTART);
-
+        //   Debug.Log("ueeeeeeeeeeeeeeeeee epaaaaaaaaaaaaaaaaaaa epa, veja la como fala sua " + globals.s.CAN_RESTART);
+        Debug.Log(globals.s.PW_ACTIVE);
         if (globals.s.CAN_RESTART && Input.GetMouseButtonDown(0))
         {
             //Application.LoadLevel("Gameplay");
@@ -260,7 +260,7 @@ public class hud_controller : MonoBehaviour {
 			//game_title.transform.DOLocalMoveY (GetComponent <Rect>().height - game_title.transform.localPosition.y + 500
 				, 0.5f).SetEase (Ease.OutQuad);
 			
-		} else { // close store
+		} else if(globals.s.AT_STORE == true && globals.s.MENU_OPEN == false) { // close store
 			globals.s.AT_STORE = false;
 			store_label.transform.DOLocalMoveY(store_label.GetComponent <RectTransform> ().rect.height
 				, 0.5f).SetEase (Ease.OutQuad);
@@ -278,7 +278,7 @@ public class hud_controller : MonoBehaviour {
     }
 
 	void store_closing(){
-        Debug.Log("close");
+
 		pw_info.transform.DOMoveY (pw_info_y, 0.5f).SetEase (Ease.OutQuad);
 		game_title.transform.DOMoveY (game_title_y, 0.5f).SetEase (Ease.OutQuad);
 		store_label.SetActive (false);
