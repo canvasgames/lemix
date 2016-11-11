@@ -14,7 +14,7 @@ public class game_controller : MonoBehaviour {
     [HideInInspector] public GameObject floor;
     public GameObject floor_type;
     public GameObject spike_type;
-    public GameObject hole_type;
+    public GameObject hole_type, hole_skin;
     public GameObject triple_spike_type;
     public GameObject wall_type;
     public GameObject pw_icon;
@@ -82,7 +82,7 @@ public class game_controller : MonoBehaviour {
     void Awake (){
         
         s = this;
-        hole_size = hole_type.transform.GetComponent<SpriteRenderer>().bounds.size.x;
+        hole_size = hole_skin.transform.GetComponent<SpriteRenderer>().bounds.size.x;
 
         // Initialize Globals singleton
         globals[] single2 = FindObjectsOfType(typeof(globals)) as globals[];
@@ -170,12 +170,12 @@ public class game_controller : MonoBehaviour {
 					//create_triple_hidden_spike(Random.Range (-1.7f, -1.5f), globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * i, i);
 
                     create_floor(0, i);
-					create_hidden_spike(Random.Range (-0.5f, + 0.5f), globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * i, i);
+					//create_hidden_spike(Random.Range (-0.5f, + 0.5f), globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * i, i);
 
-//                	if (USER.s.BEST_SCORE <= 5) // FTU
-//						create_spike(Random.Range (-0.5f, + 0.5f), globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * i, i);
-//                    else
-//                        create_spike(Random.Range(-mid_area, mid_area), globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * i, i);
+                	if (USER.s.BEST_SCORE <= 5) // FTU
+						create_spike(Random.Range (-0.5f, + 0.5f), globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * i, i);
+                    else
+                        create_spike(Random.Range(-mid_area, mid_area), globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * i, i);
 
                         //create_hidden_spike(0, globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * i, i);
                     wave_found = true;

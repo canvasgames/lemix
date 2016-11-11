@@ -39,8 +39,10 @@ public class store_controller : MonoBehaviour {
 
         actualCoins.text = USER.s.NOTES.ToString();
 
-        if(globals.s.FIRST_GAME)
-		    equipCharacter ();
+		if (globals.s.FIRST_GAME) {
+			actualCharInScreen = 0;
+			equipCharacter ();
+		}
     }
 	
 	// Update is called once per frame

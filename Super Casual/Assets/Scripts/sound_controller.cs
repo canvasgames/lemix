@@ -59,7 +59,10 @@ public class sound_controller : MonoBehaviour
     void Start()
     {
         can_play_jump = true;
-		change_music (MusicStyle.Rock);
+
+		if( globals.s.ACTUAL_CHAR == "rock")  change_music (MusicStyle.Rock);
+		if( globals.s.ACTUAL_CHAR == "eletronic")  change_music (MusicStyle.Eletro);
+		if( globals.s.ACTUAL_CHAR == "pop")  change_music (MusicStyle.Pop);
 
     }
 
