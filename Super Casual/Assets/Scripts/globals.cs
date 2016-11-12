@@ -61,7 +61,7 @@ public class globals : MonoBehaviour {
     public int ad_type = 0;
 
     void Awake () {
-
+		ALERT_BALL = false;
         ACTUAL_CHAR = PlayerPrefs.GetString("ACTUAL_CHAR");
 
         s = this;
@@ -71,7 +71,7 @@ public class globals : MonoBehaviour {
         BALL_X = 0;
 
         HOLE_SPK_DIST = 2.6f;
-		ALERT_BALL = false;
+
 
        // DontDestroyOnLoad (transform.gameObject);
 		

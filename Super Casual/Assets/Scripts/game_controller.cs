@@ -109,10 +109,13 @@ public class game_controller : MonoBehaviour {
     #endregion
 
     #region ====== SCENE START =======
-
+	public bool alertDebug = false;
+	void Alert_unbug(){
+		globals.s.ALERT_BALL = false;
+		alertDebug = true;
+	}
     void Start () {
-
-        
+		Invoke ("Alert_unbug", 3f);
         globals.s.GAME_OVER = 0;
         globals.s.CAN_RESTART = false;
         globals.s.GAME_STARTED = false;
@@ -191,7 +194,7 @@ public class game_controller : MonoBehaviour {
 //                            wave_found = true;
 //                        }
 					//wave_found = create_wave_special(i);
-					if (USER.s.BEST_SCORE <= 5) {
+					if (USER.s.BEST_SCORE < 5) {
 						create_floor(0, i);
 						//create_triple_spike (Random.Range (-0.3f, + 0.3f), globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * i, i);
 						create_spike(Random.Range (-1.7f, -1.5f), globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * i, i);
@@ -204,7 +207,7 @@ public class game_controller : MonoBehaviour {
 						//wave_found = create_wave_hard(i, 46);
                     break;
 				case 4:
-					if (USER.s.BEST_SCORE <= 5) {
+					if (USER.s.BEST_SCORE < 5) {
 						create_floor (0, i);
 						ftu_spk_pos = Random.Range (-1.2f, -1f);
 						create_spike (ftu_spk_pos, globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * i, i, false, true);
@@ -217,7 +220,7 @@ public class game_controller : MonoBehaviour {
 					break;
 				case 5:
 					
-					if (USER.s.BEST_SCORE <= 5) {
+					if (USER.s.BEST_SCORE < 5) {
 						wave_found = create_hole (i, false, 0, true, ftu_spk_pos + globals.s.HOLE_SPK_DIST+ 0.3f);
 						//create_spike (ftu_spk_pos, globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * i, i, false, true);
 					} else
@@ -233,7 +236,7 @@ public class game_controller : MonoBehaviour {
                 }
             }
 
-			if ( n_floor >= 2 && USER.s.TOTAL_GAMES >= 2 && USER.s.BEST_SCORE > 5) {
+			if ( n_floor >= 2 && USER.s.TOTAL_GAMES >= 2 && USER.s.BEST_SCORE >= 5) {
                 //Debug.Log(" n floor: " + n_floor + " CREATE PW!! ");
                 create_power_up_logic();
             }

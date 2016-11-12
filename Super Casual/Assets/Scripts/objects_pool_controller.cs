@@ -150,7 +150,7 @@ public class objects_pool_controller : MonoBehaviour {
 
 	public GameObject create_and_reposite_bg(int stage, float x_pos, float y_pos, bool special_wave = false){
 		GameObject to_return = null;
-		if (stage == 4) {
+		if (stage == 1) {
 			bgs1_pool [bgs1_actual_i].transform.position = new Vector2 (x_pos, y_pos);
 			to_return = bgs1_pool [bgs1_actual_i];
 
@@ -172,7 +172,7 @@ public class objects_pool_controller : MonoBehaviour {
 			if (bgs3_actual_i >= bgs3_pool.Length)
 				bgs3_actual_i = 0;
 
-		} else if (stage == 1) {
+		} else if (stage == 4) {
 			bgs4_pool [bgs4_actual_i].transform.position = new Vector2 (x_pos, y_pos);
 			to_return = bgs4_pool [bgs4_actual_i];
 			bgs4_actual_i++;

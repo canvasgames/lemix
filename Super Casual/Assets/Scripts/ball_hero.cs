@@ -142,9 +142,10 @@ public class ball_hero : MonoBehaviour
     #region ======= UPDATE ==========
     void Update()
     {
-        if (globals.s.ALERT_BALL == true && son_created == false) {
+		if (globals.s.ALERT_BALL == true && son_created == false && game_controller.s.alertDebug == true) {
             globals.s.ALERT_BALL = false;
-            Invoke("show_alert", 0.1f);
+			Debug.Log ("!!!!!!!!!!!!!!!!!!! SHOW ALERT NOW !! ");
+			Invoke("show_alert", 0.1f);
             //show_alert();
         }
 
