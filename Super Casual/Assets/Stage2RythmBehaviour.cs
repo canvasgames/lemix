@@ -18,7 +18,6 @@ public class Stage2RythmBehaviour : RythmScenarioBehaviour {
 			r.GetComponent<Animator> ().Play ("normal", 0, 0);
 		}
 
-
 		myBg.GetComponent<Animator> ().Play ("normal", 0, 0);
 	}
 		

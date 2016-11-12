@@ -7,14 +7,18 @@ public class Stage3RythmBehaviour : RythmScenarioBehaviour {
 	int my_state = 0;
 
 	public GameObject myBoard1, myBoard2, myBoard3;
+	public GameObject[] RythmElements;
 	public GameObject myBg;
 	public GameObject[] myLights;
 	public int lightStep = 4;
 
 	public override void RestartMusic(){
-		myBoard1.GetComponent<Animator> ().Play ("normal");
-		myBoard2.GetComponent<Animator> ().Play ("normal");
-		myBoard3.GetComponent<Animator> ().Play ("normal");
+//		myBoard1.GetComponent<Animator> ().Play ("normal");
+//		myBoard2.GetComponent<Animator> ().Play ("normal");
+//		myBoard3.GetComponent<Animator> ().Play ("normal");
+		foreach (GameObject r in RythmElements) {
+			if (r!= null) r.GetComponent<Animator> ().Play ("normal", 0, 0);
+		}
 
 		myBg.GetComponent<Animator> ().Play ("normal");
 	}
@@ -33,9 +37,13 @@ public class Stage3RythmBehaviour : RythmScenarioBehaviour {
 //				light.GetComponent<SpriteRenderer> ().DOFade (1f, (float)lightStep * RythmController.s.current_step_time);
 //			}
 			my_state = 0;
-			myBoard1.GetComponent<Animator> ().Play ("normal", 0, 0);
-			myBoard2.GetComponent<Animator> ().Play ("normal", 0, 0);
-			myBoard3.GetComponent<Animator> ().Play ("normal", 0, 0);
+//			myBoard1.GetComponent<Animator> ().Play ("normal", 0, 0);
+//			myBoard2.GetComponent<Animator> ().Play ("normal", 0, 0);
+//			myBoard3.GetComponent<Animator> ().Play ("normal", 0, 0);
+
+			foreach (GameObject r in RythmElements) {
+				if (r!= null) r.GetComponent<Animator> ().Play ("normal", 0, 0);
+			}
 
 			myBg.GetComponent<Animator> ().Play ("normal", 0, 0);
 			//Debug.Log("(( FLOOR GLOW IN! " + Time.time);
