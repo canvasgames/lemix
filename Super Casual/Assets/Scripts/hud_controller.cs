@@ -708,12 +708,20 @@ public class hud_controller : MonoBehaviour {
         }
     }
 
+	#region ======== Menu Power Ups ============
+
+
+
 	public void RodaMenu(){
 		Debug.Log("RODA CLICKED");
 		//StartCoroutine(activeRodaaRoda());
 		roda_a_roda.gameObject.SetActive(true);
 
 		roda_a_roda.Entrance ();
+	}
+
+	public void PowerUpsMenuClose(){
+		roda_a_roda.gameObject.SetActive (false);
 	}
 
 	IEnumerator activeRodaaRoda()
@@ -723,4 +731,6 @@ public class hud_controller : MonoBehaviour {
 		roda_a_roda.Entrance ();
 
     }
+
+	#endregion
 }
