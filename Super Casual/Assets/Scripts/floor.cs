@@ -23,8 +23,6 @@ public class floor : scenario_objects {
     void Start () {
         i_am_floor = true;
         //glow_animation_wait();
-
-        
     }
 
     public void glow_animation_start() {
@@ -126,13 +124,17 @@ public class floor : scenario_objects {
 
     void blink_color_mine() {
 		my_skin.GetComponent<SpriteRenderer>().color = Color.yellow;
-		if(my_hole != null) my_hole.my_skin.GetComponent<SpriteRenderer>().color = Color.yellow;
+		if (my_hole != null) {
+			if (my_hole.my_skin !=null) my_hole.my_skin.GetComponent<SpriteRenderer> ().color = Color.yellow;
+		}
         Invoke("blink_back_mine", 0.2f);
     }
     void blink_back_mine() {
         count_blink -= 1;
         my_skin.GetComponent<SpriteRenderer>().color = Color.white;
-		if(my_hole != null) my_hole.my_skin.GetComponent<SpriteRenderer>().color = Color.white;
+		if (my_hole != null) {
+			if (my_hole.my_skin !=null)  my_hole.my_skin.GetComponent<SpriteRenderer> ().color = Color.white;
+		}
 
 
         if (count_blink > 0)

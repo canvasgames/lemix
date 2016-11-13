@@ -169,8 +169,7 @@ public class game_controller : MonoBehaviour {
                     //create_hole(i,true);
 					//wave_found = create_hole(i);
 
-
-					create_triple_hidden_spike(Random.Range (-1.7f, -1.5f), globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * i, i);
+					//create_triple_hidden_spike(Random.Range (-1.7f, -1.5f), globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * i, i);
 
                     create_floor(0, i);
 					//create_hidden_spike(Random.Range (-0.5f, + 0.5f), globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * i, i);
@@ -1920,7 +1919,7 @@ public class game_controller : MonoBehaviour {
 
 	public void create_bg(int n, bool special_wave = false) {
 
-		Debug.Log ("creating floor  n:  " +n + "  POS : " + ( globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * n  + 2.45f) );
+		//Debug.Log ("creating BG  n:  " +n + "  POS : " + ( globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * n  + 2.45f) );
 		if (n <= 5)
 			//objects_pool_controller.s.create_and_reposite_bg (1, 0, globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * n  + 2.45f, special_wave);
 			objects_pool_controller.s.create_and_reposite_bg (1, 0, globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * n  + 2.45f, special_wave);
