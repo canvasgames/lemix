@@ -23,11 +23,10 @@ public class activate_pw_button : MonoBehaviour {
             break;
         }
 
-        hud_controller.si.HUD_BUTTON_CLICKED = true;
-        hud_controller.si.show_video_pw();
-        USER.s.TOTAL_VIDEOS_WATCHED++;
-        PlayerPrefs.SetInt("total_videos_watched", USER.s.TOTAL_VIDEOS_WATCHED);
+       // hud_controller.si.HUD_BUTTON_CLICKED = true;
 
-        AnalyticController.s.ReportVideoWatchedForPowerUps();
+		hud_controller.si.RodaMenu ();
+//
+
     }
 }

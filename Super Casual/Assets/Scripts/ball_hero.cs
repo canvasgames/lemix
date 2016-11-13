@@ -101,6 +101,14 @@ public class ball_hero : MonoBehaviour
         {
             my_skin.GetComponent<Animator>().runtimeAnimatorController = Resources.Load("Sprites/Animations/EletronicHero") as RuntimeAnimatorController;
         }
+		else if (globals.s.ACTUAL_CHAR == "popGaga")
+		{
+			my_skin.GetComponent<Animator>().runtimeAnimatorController = Resources.Load("Sprites/Animations/PopGagaAnimator") as RuntimeAnimatorController;
+		}
+		else if (globals.s.ACTUAL_CHAR == "reggae")
+		{
+			my_skin.GetComponent<Animator>().runtimeAnimatorController = Resources.Load("Sprites/Animations/ReggaeAnimator") as RuntimeAnimatorController;
+		}
     }
     public void Init_first_ball()
     {

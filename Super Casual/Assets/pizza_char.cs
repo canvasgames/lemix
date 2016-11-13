@@ -5,7 +5,7 @@ using DG.Tweening;
 
 public class pizza_char : MonoBehaviour
 {
-
+	#region ===== Variables Declaration =====
     [HideInInspector]
     public int number_of_catastrophes;
 
@@ -13,7 +13,7 @@ public class pizza_char : MonoBehaviour
     public GameObject arrow, button_spin;
     float part1_pct, part2_pct, part3_pct, part4_pct, part5_pct, part6_pct, part7_pct, part8_pct;
     float part1_reward, part2_reward, part3_reward, part4_reward, part5_reward, part6_reward, part7_reward, part8_reward;
-
+	#endregion
     // Use this for initialization
     void Start()
     {
@@ -109,7 +109,6 @@ public class pizza_char : MonoBehaviour
         float angle;
         angle = Random.Range(-9000, -4000);
         transform.DORotate(new Vector3(0, 0, angle), 3, RotateMode.LocalAxisAdd).OnComplete(give_reward);
-
 
     }
 

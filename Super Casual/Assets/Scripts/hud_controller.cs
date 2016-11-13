@@ -39,7 +39,7 @@ public class hud_controller : MonoBehaviour {
     //public GameObject v_pw_on;
 	public GameObject pw_time_bar;
 	public GameObject pw_time_left_title_on;
-    public GameObject roda_a_roda;
+	public PwWheelMaster roda_a_roda;
 
 	public Text pw_Text_Header;
     public Text PW_time_text;
@@ -138,7 +138,7 @@ public class hud_controller : MonoBehaviour {
         //GAME OVER GAME CASE
         //if(Input.GetMouseButtonDown(0))
         //   Debug.Log("ueeeeeeeeeeeeeeeeee epaaaaaaaaaaaaaaaaaaa epa, veja la como fala sua " + globals.s.CAN_RESTART);
-        Debug.Log(globals.s.PW_ACTIVE);
+       // Debug.Log(globals.s.PW_ACTIVE);
         if (globals.s.CAN_RESTART && Input.GetMouseButtonDown(0))
         {
             //Application.LoadLevel("Gameplay");
@@ -452,10 +452,7 @@ public class hud_controller : MonoBehaviour {
                     PW_time_set_new_date_and_state(!globals.s.PW_ACTIVE);
                 }
             }
-
         }
-
-
 
         TimeSpan difference = tempDate.Subtract(tempcurDate);
         //Debug.Log(tempDate + " sadsad " + tempcurDate);
@@ -688,7 +685,8 @@ public class hud_controller : MonoBehaviour {
                 // YOUR CODE TO REWARD THE GAMER
                 if(flagVideoPower == true)
                 {
-                    Invoke("activeRodaaRoda", 1);
+					StartCoroutine (activeRodaaRoda());
+					//Invoke("activeRodaaRoda", 1);
                     flagVideoPower = false;
                 }
                 else if(flagVideoRevive == true)
@@ -710,9 +708,19 @@ public class hud_controller : MonoBehaviour {
         }
     }
 
-    void activeRodaaRoda()
+	public void RodaMenu(){
+		Debug.Log("RODA CLICKED");
+		//StartCoroutine(activeRodaaRoda());
+		roda_a_roda.gameObject.SetActive(true);
+
+		roda_a_roda.Entrance ();
+	}
+
+	IEnumerator activeRodaaRoda()
     {
-        roda_a_roda.SetActive(true);
+		yield return new WaitForSeconds(1f);
+		roda_a_roda.gameObject.SetActive(true);
+		roda_a_roda.Entrance ();
 
     }
 }

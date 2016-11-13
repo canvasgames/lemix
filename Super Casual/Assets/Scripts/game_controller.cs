@@ -170,7 +170,7 @@ public class game_controller : MonoBehaviour {
 					//wave_found = create_hole(i);
 
 
-					//create_triple_hidden_spike(Random.Range (-1.7f, -1.5f), globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * i, i);
+					create_triple_hidden_spike(Random.Range (-1.7f, -1.5f), globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * i, i);
 
                     create_floor(0, i);
 					//create_hidden_spike(Random.Range (-0.5f, + 0.5f), globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * i, i);
@@ -1904,7 +1904,7 @@ public class game_controller : MonoBehaviour {
 
         if (spk != null)
         {
-			spk.my_skin.transform.localScale = new Vector2 (1, 0);
+			spk.my_skin.transform.localScale = new Vector2 (spk.my_skin.transform.localScale.x, 0);
 
             spk.hidden = true;
             spk.my_floor = n;

@@ -7,7 +7,7 @@ public enum MusicStyle{
 	Rock,
 	Pop,
 	Reggae,
-	Classic,
+	PopGaga,
 }
 
 public class sound_controller : MonoBehaviour
@@ -63,6 +63,8 @@ public class sound_controller : MonoBehaviour
 		if( globals.s.ACTUAL_CHAR == "rock")  change_music (MusicStyle.Rock);
 		if( globals.s.ACTUAL_CHAR == "eletronic")  change_music (MusicStyle.Eletro);
 		if( globals.s.ACTUAL_CHAR == "pop")  change_music (MusicStyle.Pop);
+		if( globals.s.ACTUAL_CHAR == "popGaga")  change_music (MusicStyle.PopGaga);
+		if( globals.s.ACTUAL_CHAR == "reggae")  change_music (MusicStyle.Reggae);
 
     }
 

@@ -7,12 +7,14 @@ public class store_controller : MonoBehaviour {
 
     [HideInInspector]public int popAlreadyBuyed ;
     [HideInInspector]public int eletronicAlreadyBuyed;
-    [HideInInspector]public int rockAlreadyBuyed;
+	[HideInInspector]public int rockAlreadyBuyed;
+	[HideInInspector]public int popGagaAlreadyBuyed;
+    [HideInInspector]public int reggaeAlreadyBuyed;
 
-    [HideInInspector]
     public int popPrice = 70;
-    [HideInInspector]
     public int rockPrice = 50;
+	public int popGagaPrice = 70;
+	public int reggaePrice = 50;
     [HideInInspector]
     public int eletronicPrice = 30;
 
@@ -28,7 +30,9 @@ public class store_controller : MonoBehaviour {
         s = this;
 
         popAlreadyBuyed = PlayerPrefs.GetInt("popAlreadyBuyed", 0);
-        rockAlreadyBuyed = PlayerPrefs.GetInt("rockAlreadyBuyed", 0);
+		rockAlreadyBuyed = PlayerPrefs.GetInt("rockAlreadyBuyed", 0);
+		popGagaAlreadyBuyed = PlayerPrefs.GetInt("popGagaAlreadyBuyed", 0);
+		reggaeAlreadyBuyed = PlayerPrefs.GetInt("reggaeAlreadyBuyed", 0);
 		eletronicAlreadyBuyed = PlayerPrefs.GetInt("eletronicAlreadyBuyed", 1);
 
         changeAnimationEquipButton("eletronic");
@@ -84,6 +88,26 @@ public class store_controller : MonoBehaviour {
                 buyed();
             }
         }
+		else if (actualCharInScreen == 3)
+		{
+			if (USER.s.NOTES >= popGagaPrice)
+			{
+				USER.s.NOTES -= popGagaPrice;
+				PlayerPrefs.SetInt("popGagaAlreadyBuyed", 1);
+				popGagaAlreadyBuyed = 1;
+				buyed();
+			}
+		}
+		else if (actualCharInScreen == 4)
+		{
+			if (USER.s.NOTES >= reggaePrice)
+			{
+				USER.s.NOTES -= reggaePrice;
+				PlayerPrefs.SetInt("reggaeAlreadyBuyed", 1);
+				reggaeAlreadyBuyed = 1;
+				buyed();
+			}
+		}
         actualCoins.text = USER.s.NOTES.ToString();
 
     }
@@ -129,8 +153,17 @@ public class store_controller : MonoBehaviour {
             changeAnimationEquipButton("pop");
 
             sound_controller.s.change_music(MusicStyle.Pop);
-
         }
+		else if (actualCharInScreen == 3)
+		{
+			PlayerPrefs.SetString("ACTUAL_CHAR", "popGaga");
+			globals.s.ACTUAL_CHAR = PlayerPrefs.GetString("ACTUAL_CHAR", "popGaga");
+			changeActualChar();
+
+			changeAnimationEquipButton("pop");
+
+			sound_controller.s.change_music(MusicStyle.Pop);
+		}
     }
 
     public void setPrice(int type)
