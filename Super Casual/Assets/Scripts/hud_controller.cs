@@ -38,7 +38,7 @@ public class hud_controller : MonoBehaviour {
     public GameObject ready;
     //public GameObject v_pw_on;
 	public GameObject pw_time_bar;
-	public GameObject pw_time_left_title_on;
+	public GameObject pw_time_left_title_on, roullete_time_left;
 	public PwWheelMaster roda_a_roda;
 
 	public Text pw_Text_Header;
@@ -47,8 +47,10 @@ public class hud_controller : MonoBehaviour {
 
 	public GameObject start_game_bt;
 
-    string PW_date;
+    string PW_date, roullete_date;
     DateTime tempDate;
+    DateTime tempDateRoulette;
+    public bool CAN_ROTATE_ROULETTE = true;
     DateTime tempcurDate;
 
     int temp_cur_floor;
@@ -75,7 +77,7 @@ public class hud_controller : MonoBehaviour {
 
         //PlayerPrefs.DeleteAll();
         PW_date = PlayerPrefs.GetString("PWDate2ChangeState");
-
+        roullete_date = PlayerPrefs.GetString("RouletteDate2ChangeState");
 
         //SETTING  FIRST_GAME GLOBAL
         int tmp_first = PlayerPrefs.GetInt("first_game", 1); ;
@@ -113,8 +115,29 @@ public class hud_controller : MonoBehaviour {
            
             tempDate = Convert.ToDateTime(PW_date);
         }
-        
-        if(globals.s.FIRST_GAME == true)
+
+        if(roullete_date != "")
+        {
+            tempDateRoulette = Convert.ToDateTime(roullete_date);
+            PlayerPrefs.SetString("RouletteDate2ChangeState", tempDateRoulette.ToString());
+            int canRotate = PlayerPrefs.GetInt("CanRotate", 1);
+            if (canRotate == 1)
+            {
+                CAN_ROTATE_ROULETTE = true;
+            }
+            else
+            {
+                CAN_ROTATE_ROULETTE = false;
+            }
+        }
+        else
+        {
+            CAN_ROTATE_ROULETTE = true;
+
+
+        }
+
+            if (globals.s.FIRST_GAME == true)
         {
             activate_pw_bt.SetActive(false);
             pw_info.SetActive(false);
@@ -149,6 +172,7 @@ public class hud_controller : MonoBehaviour {
         if (globals.s.FIRST_GAME == false && globals.s.GAME_STARTED == false)
         {
             show_pw_time();
+            show_roullete_time();
         }
         if (globals.s.GAME_STARTED == false && globals.s.MENU_OPEN == false)
         {
@@ -522,15 +546,56 @@ public class hud_controller : MonoBehaviour {
     {
         globals.s.PW_ACTIVE = true;
         tempDate = tempcurDate;
-        Debug.Log(tempDate);
         tempDate = tempDate.AddMinutes(time);
-        Debug.Log(tempDate);
+
         //tempDate = tempDate.AddSeconds(6);
         PW_date = tempDate.ToString();
         activate_pw_bt.SetActive(false);
 
         PlayerPrefs.SetString("PWDate2ChangeState", PW_date);
         PlayerPrefs.SetInt("PWState", 1);
+
+    }
+
+    void show_roullete_time()
+    {
+        tempcurDate = System.DateTime.Now;
+
+        //NO DATE CASE=
+        if (roullete_date == "")
+        {
+            CAN_ROTATE_ROULETTE = true;
+            PlayerPrefs.SetInt("CanRotate", 1);
+        }
+        else
+        {
+            TimeSpan diff = tempDateRoulette.Subtract(tempcurDate);
+            Debug.Log(diff + "  TimeDif " + CAN_ROTATE_ROULETTE);
+            if (CAN_ROTATE_ROULETTE == false)
+            {
+                if (diff.Minutes < GD.s.GD_ROULLETE_WAIT_MINUTES)
+                {
+                    Debug.Log("o tempo passou e eu sofri calado");
+                    CAN_ROTATE_ROULETTE = true;
+                    PlayerPrefs.SetInt("CanRotate", 1);
+                }
+            }
+            roullete_time_left.GetComponent<Text>().text = diff.Minutes + "m " + diff.Seconds + "s ";
+        }
+
+        //TimeSpan difference = tempDate.Subtract(tempcurDate);
+        //Debug.Log(tempDate + " sadsad " + tempcurDate);
+
+    }
+    public void addRoulleteTime()
+    {
+        PlayerPrefs.SetInt("CanRotate", 0);
+        Debug.Log("rodou efalsificou");
+        CAN_ROTATE_ROULETTE = false;
+        roullete_date = tempDateRoulette.ToString();
+        tempDateRoulette = System.DateTime.Now;
+        tempDateRoulette = tempDateRoulette.AddMinutes(GD.s.GD_ROULLETE_WAIT_MINUTES);
+        PlayerPrefs.SetString("RouletteDate2ChangeState", tempDateRoulette.ToString());
 
     }
     #endregion

@@ -13,6 +13,9 @@ public class pizza_char : MonoBehaviour
     public GameObject arrow, button_spin;
     float part1_pct, part2_pct, part3_pct, part4_pct, part5_pct, part6_pct, part7_pct, part8_pct;
     float part1_reward, part2_reward, part3_reward, part4_reward, part5_reward, part6_reward, part7_reward, part8_reward;
+    float previousYInput, initialTime;
+
+    [HideInInspector]public  bool openingTampaDoTeuCu = true;
 	#endregion
     // Use this for initialization
     void Start()
@@ -24,8 +27,14 @@ public class pizza_char : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        
     }
+
+
+
+
+
+
 
     public void define_percentages(float part1pct, float part2pct, float part3pct, float part4pct, float part5pct, float part6pct, float part7pct, float part8pct)
     {
@@ -104,17 +113,54 @@ public class pizza_char : MonoBehaviour
         part5_reward = part5; part6_reward = part6; part7_reward = part7; part8_reward = part8;
     }
 
-    public void rotate()
+    public void initClick()
+    {
+        initialTime = Time.time;
+        previousYInput = Input.mousePosition.y;
+    }
+    public void endClick()
+    {
+        if (openingTampaDoTeuCu == false)
+        {
+            rotate(Time.time - initialTime, Vector2.Distance(new Vector2(Input.mousePosition.y, 0), new Vector2(previousYInput, 0)), Input.mousePosition.x, Input.mousePosition.y, previousYInput);
+
+        }
+    }
+
+    public void rotate(float time, float distance, float inputX, float inputY, float lastY)
     {
         float angle;
-        angle = Random.Range(-9000, -4000);
-        transform.DORotate(new Vector3(0, 0, angle), 3, RotateMode.LocalAxisAdd).OnComplete(give_reward);
+        Debug.Log(inputX);
+        //Debug.Log(time + " Tempooooo");
+        //Debug.Log(distance + " Distancia");
+        if(distance > 35 && time < 0.7f && time > 0.1f)
+        {
+            if(inputX < 110 && inputY > lastY || inputX >= 110 && inputY < lastY)
+            {
+                //Debug.Log("gira horario");
+                angle = Random.Range(-1, -360);
+
+            }
+            else
+            {
+                angle = Random.Range(1, 360);
+                //Debug.Log("gira anti-horario");
+            }
+            float clampdistance = Mathf.Clamp(distance, 35, 300);
+            float clampTime = Mathf.Clamp(distance, 0.1f, 0.6f);
+            float force = clampdistance / clampTime;
+            angle = angle * (force);
+
+            Debug.Log(force + " " + angle);
+            transform.DORotate(new Vector3(0, 0, angle), Random.Range(2,3.5f),RotateMode.WorldAxisAdd).SetEase(Ease.OutQuart).OnComplete(give_reward);
+            hud_controller.si.addRoulleteTime();
+        }
 
     }
 
     void give_reward()
     {
-        Debug.Log("angle " + transform.rotation.eulerAngles.z);
+        //Debug.Log("angle " + transform.rotation.eulerAngles.z);
 
         float angle_temp = transform.GetComponent<RectTransform>().eulerAngles.z;
         if (angle_temp >= 0 && angle_temp <= (360 * part1_pct * 0.01f))

@@ -4,6 +4,7 @@ using DG.Tweening;
 
 public class PwWheelMaster : MonoBehaviour {
 	public GameObject title, top, bottom, tampa;
+    public pizza_char pitissa;
 	// Use this for initialization
 	void Start () {
 	
@@ -14,6 +15,33 @@ public class PwWheelMaster : MonoBehaviour {
 	
 	}
 
+    void OnEnable()
+    {
+
+        if (hud_controller.si.CAN_ROTATE_ROULETTE == true)
+        {
+        openTampa();
+        }
+    }
+    void OnDisable()
+    {
+        tampa.transform.DOLocalMoveY(6, 0.1f);
+    }
+    public void openTampa()
+    {
+        pitissa.openingTampaDoTeuCu = true;
+        tampa.transform.DOLocalMoveY(tampa.transform.localPosition.y, 1).OnComplete(realOpen);
+    }
+
+    void realOpen()
+    {
+        tampa.transform.DOLocalMoveY(-436, 2).OnComplete(canRotate);
+
+    }
+    void canRotate()
+    {
+        pitissa.openingTampaDoTeuCu = false;
+    }
 	public IEnumerator Entrance(){
 		Debug.Log ("EEEEEENTRANCE ");
 		float y_pos = title.transform.localPosition.y;

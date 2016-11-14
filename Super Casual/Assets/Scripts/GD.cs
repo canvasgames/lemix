@@ -13,7 +13,9 @@ public class GD : MonoBehaviour {
 
     public int GD_JUMPS_PW_BAR_FULL;
 
-	public float GlowInTime = 0.15f;
+    public int GD_ROULLETE_WAIT_MINUTES;
+
+    public float GlowInTime = 0.15f;
 	public float GlowStaticTime = 0f;
 	public float GlowOutTime = 0.83f;
 
