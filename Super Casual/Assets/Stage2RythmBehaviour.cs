@@ -15,13 +15,20 @@ public class Stage2RythmBehaviour : RythmScenarioBehaviour {
 
 	public override void RestartMusic(){
 		foreach (GameObject r in RythmElements) {
-			r.GetComponent<Animator> ().Play ("normal", 0, 0);
+			if (r!= null) r.GetComponent<Animator> ().Play ("normal", 0, 0);
 		}
 
-		myBg.GetComponent<Animator> ().Play ("normal", 0, 0);
+		if(myBg != null) myBg.GetComponent<Animator> ().Play ("normal", 0, 0);
 	}
 		
-	void FixedUpdate () {
+	public override void RestartAnimations(){
+		foreach (GameObject r in RythmElements) {
+			if (r!= null) r.GetComponent<Animator> ().Play ("normal", 0, 0);
+		}
+		if(myBg != null) myBg.GetComponent<Animator> ().Play ("normal", 0, 0);
+	}
+
+	void asFixedUpdate () {
 		if (RythmController.s.current_step == RythmController.s.step_glow_in && my_state != 0) {
 			//			foreach (GameObject light in myLights) {
 			//				light.GetComponent<SpriteRenderer> ().color = new Color (1, 1, 1, 0.25f);
@@ -56,12 +63,5 @@ public class Stage2RythmBehaviour : RythmScenarioBehaviour {
 		}
 	}
 	// Use this for initialization
-	void Start () {
 
-	}
-
-	// Update is called once per frame
-	void Update () {
-
-	}
 }

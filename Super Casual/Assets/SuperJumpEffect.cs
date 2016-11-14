@@ -10,7 +10,7 @@ public class SuperJumpEffect : MonoBehaviour {
 		//Invoke ("InitMe", Random.Range(0f, 0.5f));
 		//GetComponent<Animator> ().Play ("SuperJumpEffectAnimation", 0, Random.Range(0f, 1f));
 		float random = Random.Range(0f, 1f);
-		Debug.Log ("random: " + random);
+		//Debug.Log ("random: " + random);
 		Invoke("restart", random);
 	}
 
@@ -21,7 +21,7 @@ public class SuperJumpEffect : MonoBehaviour {
 	}
 
 	public void InitMe(){
-		Debug.Log ("start engine");
+		//Debug.Log ("start engine");
 		//GetComponent<Animator> ().SetTrigger ("play");
 		GetComponent<Animator> ().SetBool("AndaCavalo", true);
 

@@ -408,18 +408,22 @@ public class game_controller : MonoBehaviour {
         int rand = Random.Range(0, 100);
         //rand = Random.Range(0, 10);
         // create chance check
-        Debug.Log(" CREATE POWER UPS CHANCE: " + rand + " .. CONDITION: " + ((pw_floors_not_created - pw_dont_create_for_n_floors) * 7));
+//        Debug.Log(" CREATE POWER UPS CHANCE: " + rand + " .. CONDITION: " + ((pw_floors_not_created - pw_dont_create_for_n_floors) * 7));
         // if (!QA.s.NO_PWS && pw_floors_not_created > pw_dont_create_for_n_floors && rand <= 15 && globals.s.PW_ACTIVE == true) {
 		if (!QA.s.NO_PWS && USER.s.TOTAL_GAMES >= 2 && USER.s.BEST_SCORE >= 5 && ((pw_floors_not_created > pw_dont_create_for_n_floors &&
             rand <= (pw_floors_not_created - pw_dont_create_for_n_floors) * 7) || (USER.s.FIRST_PW_CREATED == 0 && !first_pw_created))) {
 
             int my_type = 0;
             rand = Random.Range(0, 100);
-            if (rand < 20 || (USER.s.TOTAL_GAMES >= 2 && USER.s.FIRST_PW_CREATED == 0 && !first_pw_created)) my_type = (int)PW_Types.Super;
-			else if (rand < 60 && floor > 5) my_type = (int)PW_Types.Sight;
-			else my_type = (int)PW_Types.Invencible;
+			if (rand < 20 || (USER.s.TOTAL_GAMES >= 2 && USER.s.FIRST_PW_CREATED == 0 && !first_pw_created)) {
+				my_type = (int)PW_Types.Super;
+			} else if (rand < 60 && n_floor > 5) {
+				my_type = (int)PW_Types.Sight;
+			} else {
+				my_type = (int)PW_Types.Invencible;
+			}
 
-            Debug.Log(globals.s.PW_ACTIVE + "  MURILHIOOOO");
+			Debug.Log(globals.s.PW_ACTIVE + "  pw created RAND " + rand + " type: " + my_type);
             first_pw_created = true;
             // int my_type = Random.Range((int)PW_Types.Invencible, (int)PW_Types.Sight + 1);
 			Debug.Log ("---------- cREATE PW !! TYPE: " + my_type + " FIRST PW CREATED " + USER.s.FIRST_PW_CREATED);
@@ -435,8 +439,9 @@ public class game_controller : MonoBehaviour {
     void create_pw_icon(float x, int n, int type) {
         if (globals.s.PW_INVENCIBLE == false || globals.s.PW_SIGHT_BEYOND_SIGHT == false || globals.s.PW_SUPER_JUMP == false) {
              Debug.Log("[GM] CREATING POWER UP!");
-			GameObject obj  = (GameObject) Instantiate(pw_icon, new Vector3(x, 2 + globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * n, 0), transform.rotation);
-            Debug.Log("PW type " + type);
+			//GameObject obj  = (GameObject) Instantiate(pw_icon, new Vector3(x, 2 + globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * n, 0), transform.rotation);
+			GameObject obj = objects_pool_controller.s.reposite_power_up(x, 2 + globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * n);
+			//Debug.Log("PW type " + type);
             obj.GetComponent<PW_Collect>().my_floor = n;
             obj.GetComponent<PW_Collect>().pw_type = type;
             obj.GetComponent<PW_Collect>().init_my_icon();
@@ -457,7 +462,7 @@ public class game_controller : MonoBehaviour {
             globals.s.BALL_FLOOR = cur_floor;
 
 			// NEW STAGE WARNING
-			if(cur_floor % 5 == 0 && cur_floor > 1) stage_intro.s.StartEntering ((int)(cur_floor/5)+1);
+			if(globals.s.PW_SUPER_JUMP == false && cur_floor % 5 == 0 && cur_floor > 1) stage_intro.s.StartEntering ((int)(cur_floor/5)+1);
 			//Debug.Log ("NEW CUR FLOOR!! " + cur_floor);
 
             create_new_wave();
@@ -1371,7 +1376,7 @@ public class game_controller : MonoBehaviour {
             }
 
             // 3 SPIKES MID (LEFT priority) |__^_^_^__|
-            else if (!last_spike_left && rand > 0 && rand <= 15)
+			else if (!last_spike_left && !last_spike_right && rand > 0 && rand <= 15)
             {
                 wave_name = "vhard_3_spks";
                 if (QA.s.SHOW_WAVE_TYPE == true)
@@ -1405,7 +1410,7 @@ public class game_controller : MonoBehaviour {
                 return true;
             }
             // 3 SPIKES MID (RIGHT priority |__^_^_^__|)
-            else if (!last_spike_right && rand>15 && rand <= 30)
+			else if (!last_spike_left && !last_spike_right && rand>15 && rand <= 30)
             {
                 wave_name = "vhard_3_spks";
                 if (QA.s.SHOW_WAVE_TYPE == true)
@@ -1956,7 +1961,7 @@ GameObject instance = Instantiate(Resources.Load("Prefabs/Bgs/Scenario2/bg_"+ran
 
     }
 
-	public GameObject create_floor(float x, int n, bool special_floor = false)
+	public GameObject create_floor(float x, int n, bool special_floor = false, bool no_bg = false)
     {
 		Debug.Log ("creating floor n:  " +n + "  POS : " + ( globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * n  + 2.45f) );
 
@@ -1967,7 +1972,7 @@ GameObject instance = Instantiate(Resources.Load("Prefabs/Bgs/Scenario2/bg_"+ran
         obj.GetComponent<floor>().check_if_have_score();
         //obj.GetComponentInChildren<TextMesh>().text = n.ToString();
 
-		create_bg (n, special_floor);
+		if (no_bg == false) create_bg (n, special_floor);
 
         return obj;
 

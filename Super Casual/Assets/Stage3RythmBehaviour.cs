@@ -23,14 +23,28 @@ public class Stage3RythmBehaviour : RythmScenarioBehaviour {
 		myBg.GetComponent<Animator> ().Play ("normal");
 	}
 
-	void FixedUpdateas(){
-		if (RythmController.s.current_step == 4) {
-			foreach(GameObject light in myLights)
-				light.GetComponent<SpriteRenderer> ().DOFade (1, GD.s.GlowInTime);
+	public override void RestartAnimations(){
+		foreach (GameObject r in RythmElements) {
+			if (r!= null) r.GetComponent<Animator> ().Play ("normal", 0, 0);
 		}
 	}
 
-	void FixedUpdate () {
+	public override void RestartGlowFadeInAnimation(){
+		foreach (GameObject light in myLights) {
+			light.GetComponent<SpriteRenderer> ().color = new Color (1, 1, 1, 0.25f);
+			light.GetComponent<SpriteRenderer> ().DOFade (1f, GD.s.GlowInTime);
+		}
+	}
+
+	public override void RestartGlowFadeOutAnimation(){
+		foreach (GameObject light in myLights) {
+			light.GetComponent<SpriteRenderer> ().color = new Color (1, 1, 1, 1f);
+			light.GetComponent<SpriteRenderer> ().DOFade (0.25f, GD.s.GlowOutTime);
+		}
+	}
+		
+
+	void FixedUpdateas () {
 		if (RythmController.s.current_step == RythmController.s.step_glow_in && my_state != 0) {
 //			foreach (GameObject light in myLights) {
 //				light.GetComponent<SpriteRenderer> ().color = new Color (1, 1, 1, 0.25f);
@@ -73,11 +87,6 @@ public class Stage3RythmBehaviour : RythmScenarioBehaviour {
 	}
 	// Use this for initialization
 	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
 	
 	}
 }

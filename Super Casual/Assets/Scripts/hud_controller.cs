@@ -100,7 +100,7 @@ public class hud_controller : MonoBehaviour {
         {
             globals.s.PW_ACTIVE = false;
 			//pw_info.SetActive (false);
-			Debug.Log(" SETTING PW ACTIVE TO FALSE");
+		//	Debug.Log(" SETTING PW ACTIVE TO FALSE");
            // v_pw_on.SetActive(false);
 			//pw_time_left_title_on.SetActive (true);
 			//pw_time_left_title_off.SetActive (false);

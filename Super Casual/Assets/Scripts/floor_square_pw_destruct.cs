@@ -14,7 +14,7 @@ public class floor_square_pw_destruct : MonoBehaviour {
     }
 	
 	// Update is called once per frame
-	void FixedUpdate () {
+	void aFixedUpdate () {
         if (can_disappear == false)
         {
             if (transform.GetComponent<Rigidbody2D>().velocity != new Vector2(0, 0))
@@ -24,7 +24,20 @@ public class floor_square_pw_destruct : MonoBehaviour {
         }
     }
 
+	public void DisappearSoon(){
+		Invoke ("DisappearNow", 0.5f);
+	}
 
+	public void DisappearNow(){
+		if (transform.GetComponent<Rigidbody2D> ().velocity != new Vector2 (0, 0)) {
+			can_disappear = true;
+			scale_down_to_dessapear ();
+		}
+		else{
+			Invoke ("DisappearNow", 0.4f);
+		}
+
+	}
 
     public void scale_down_to_dessapear()
     {

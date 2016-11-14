@@ -17,17 +17,45 @@ public class Stage5RythmBehaviour : RythmScenarioBehaviour {
 		foreach (GameObject r in RythmElements) {
 			if (r!= null) r.GetComponent<Animator> ().Play ("normal", 0, 0);
 		}
-
 	}
 
-	void FixedUpdateas(){
-		if (RythmController.s.current_step == 4) {
-			foreach(GameObject light in myGlowElements)
-				light.GetComponent<SpriteRenderer> ().DOFade (1, GD.s.GlowInTime);
+	public override void RestartAnimations(){
+		foreach (GameObject r in RythmElements) {
+			if (r!= null) r.GetComponent<Animator> ().Play ("normal", 0, 0);
 		}
 	}
 
-	void FixedUpdate () {
+	public override void RestartGlowFadeInAnimation(){
+		foreach (GameObject light in myGlowElements) {
+			light.GetComponent<SpriteRenderer> ().color = new Color (1, 1, 1, 0.25f);
+			light.GetComponent<SpriteRenderer> ().DOFade (1f, GD.s.GlowInTime);
+		}
+	}
+
+	public override void RestartGlowFadeOutAnimation(){
+		foreach (GameObject light in myGlowElements) {
+			light.GetComponent<SpriteRenderer> ().color = new Color (1, 1, 1, 1f);
+			light.GetComponent<SpriteRenderer> ().DOFade (0.25f, GD.s.GlowOutTime);
+		}
+	}
+
+	public override void RestartGlowFadeInAnimation2(){
+		//Debug.Log ("fade in start for glow 2 !!! ");
+		foreach (GameObject light in myGlowElements2) {
+			light.GetComponent<SpriteRenderer> ().color = new Color (1, 1, 1, 0.25f);
+			light.GetComponent<SpriteRenderer> ().DOFade (1f, GD.s.GlowInTime);
+		}
+	}
+
+	public override void RestartGlowFadeOutAnimation2(){
+		foreach (GameObject light in myGlowElements2) {
+			light.GetComponent<SpriteRenderer> ().color = new Color (1, 1, 1, 1f);
+			light.GetComponent<SpriteRenderer> ().DOFade (0.25f, GD.s.GlowOutTime);
+		}
+	}
+
+
+	void asFixedUpdate () {
 		if (RythmController.s.current_step == RythmController.s.step_glow_in && my_state != 0) {
 
 			my_state = 0;
@@ -75,13 +103,5 @@ public class Stage5RythmBehaviour : RythmScenarioBehaviour {
 		}
 		//Debug.Log("(( FLOOR GLOW STATIC! " + Time.time);
 	}
-	// Use this for initialization
-	void Start () {
 
-	}
-
-	// Update is called once per frame
-	void Update () {
-
-	}
 }

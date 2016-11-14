@@ -1,10 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public enum PW_Types
-{
-    Invencible = 1, Super = 2, Sight = 3
-}
 
 public class PW_Collect : MonoBehaviour {
 
@@ -49,13 +45,15 @@ public class PW_Collect : MonoBehaviour {
   public void init_my_icon() {
         
         if(pw_type == 1) {
-			Debug.Log ("INIT LIFE ANIMATION");
+			//Debug.Log ("INIT LIFE ANIMATION");
             GetComponent<Animator>().Play("pw_collectable_life");
         }
         else if (pw_type == 2) {
+			//Debug.Log ("INIT SUPER ANIMATION");
             GetComponent<Animator>().Play("pw_collectable_super");
         }
        else if (pw_type == 3) {
+			//Debug.Log ("INIT sight ANIMATION");
             GetComponent<Animator>().Play("pw_collectable_sight");
         }
     }
@@ -69,7 +67,7 @@ public class PW_Collect : MonoBehaviour {
         USER.s.FIRST_PW_CREATED = 1;
         PlayerPrefs.SetInt("first_pw_created", 1);
 
-        Destroy(transform.gameObject);
+       // Destroy(transform.gameObject);
     }
 
 

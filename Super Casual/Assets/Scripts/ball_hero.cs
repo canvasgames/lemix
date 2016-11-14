@@ -54,6 +54,7 @@ public class ball_hero : MonoBehaviour
     bool hitted_wall = false;
 
     public float cam_fall_dist = 0;
+	int my_floor_after_super_jump= 0;
 
     #endregion
 
@@ -212,7 +213,7 @@ public class ball_hero : MonoBehaviour
         if (globals.s.PW_SUPER_JUMP == true && target_y_reached == false && target_y > 0) {
             // main_camera.s.PW_super_jump(transform.position.y);
             if (transform.position.y >= target_y) {
-                hud_controller.si.update_floor(my_floor+4);
+               // hud_controller.si.update_floor(my_floor+4);
                 stop_go_up_PW();
             }
         }
@@ -372,6 +373,7 @@ public class ball_hero : MonoBehaviour
 		if (coll.gameObject.CompareTag ("PW")) {
 			
 			PW_Collect temp = coll.gameObject.GetComponent<PW_Collect> ();
+			coll.transform.position = new Vector2 (-9909,-9999);
 			pw_do_something (temp);
 			sound_controller.s.play_collect_pw ();
 		} 
@@ -424,9 +426,6 @@ public class ball_hero : MonoBehaviour
 			}
 
 		}
-
-
-		
 	}
 
 	void OnCollisionEnter2D(Collision2D coll)
@@ -454,7 +453,7 @@ public class ball_hero : MonoBehaviour
 
                 coll.gameObject.GetComponent<floor>().try_to_display_best_score();
             }
-            else { Debug.Log("\n\n" + my_id + " ***************ERROR! THIS SHOULD NEVER HAPPEN ***************\n\n"); }
+            else { Debug.Log("" + my_id + " ***************ERROR! THIS SHOULD NEVER HAPPEN ***************\n\n"); }
         }
 
 //        else if (coll.gameObject.CompareTag("Spike")) {
@@ -514,10 +513,14 @@ public class ball_hero : MonoBehaviour
         }
         if (globals.s.PW_SUPER_JUMP == true)
         {
-            if (coll.gameObject.CompareTag("PW_Trigger"))
+			if (coll.gameObject.CompareTag("PW_Trigger") && my_floor < my_floor_after_super_jump)
             {
-                if (coll.gameObject.GetComponent<floor_pw_collider>() != null)
-                    coll.gameObject.GetComponent<floor_pw_collider>().unactive_sprite_daddy();
+				if (coll.gameObject.GetComponent<floor_pw_collider> () != null) {
+					coll.gameObject.GetComponent<floor_pw_collider> ().unactive_sprite_daddy ();
+					Debug.Log ("PW TRIGGER!! MY FLOOR: " + my_floor);
+					game_controller.s.ball_up (my_floor);
+					my_floor++;
+				}
             }
         }
 
@@ -582,8 +585,10 @@ public class ball_hero : MonoBehaviour
 
     void pw_do_something(PW_Collect temp)
     {
-        
-        temp.collect();
+		USER.s.FIRST_PW_CREATED = 1;
+		PlayerPrefs.SetInt("first_pw_created", 1);
+
+       // temp.collect();
         if(globals.s.PW_INVENCIBLE == true)
         {
             PW_controller.s.invencible_end();
@@ -593,7 +598,7 @@ public class ball_hero : MonoBehaviour
             PW_controller.s.sight_end();
         }
 
-        Debug.Log("Tipodo PW q peguei " + temp.pw_type);
+      //  Debug.Log("Tipodo PW q peguei " + temp.pw_type);
         if (temp.pw_type == (int) PW_Types.Invencible)
         {
             PW_controller.s.invencible_start();
@@ -608,9 +613,11 @@ public class ball_hero : MonoBehaviour
         }
     }
 
-    #region POWER UP -> GO UP
+    #region ==== POWER UP -> GO UP ====
     void go_up_pw_start()
     {
+		Debug.Log ("PW GO UP START!! MY FLOOR: " + my_floor);
+		my_floor_after_super_jump = my_floor + 5;
         symbols.transform.GetComponent<SpriteRenderer>().DOFade(0, 0);
 		super.SetActive(true);
 		jetpack.SetActive(true);
@@ -622,42 +629,46 @@ public class ball_hero : MonoBehaviour
         rb.gameObject.GetComponent<Rigidbody2D>().gravityScale = 0;
         rb.gameObject.GetComponent<Rigidbody2D>().isKinematic = true;
 
+		float pos = ((globals.s.BASE_Y + ((my_floor+1) * globals.s.FLOOR_HEIGHT) +  (5* globals.s.FLOOR_HEIGHT) + globals.s.FLOOR_HEIGHT / 2 ));
+		main_camera.s.init_PW_super_jump( pos,  (pos-transform.position.y)/20  + 0.5f);
+		target_y = (globals.s.BASE_Y + ((my_floor) * globals.s.FLOOR_HEIGHT) +  (5* globals.s.FLOOR_HEIGHT) + globals.s.FLOOR_HEIGHT / 2 - 0.6f );
+
         //construct floors
         int i;
         int temp = my_floor;
         globals.s.PW_SUPER_JUMP = true;
 
-        for (i = my_floor + 1; i <= temp + 5; i++) {
-           game_controller.s.create_new_wave();
-        }
+//        for (i = my_floor + 1; i <= temp + 5; i++) {
+//           game_controller.s.create_new_wave();
+//        }
 
         //activate squares of collisions
         activate_particles_floor();
         //main_camera.s.init_PW_super_jump(transform.position.y + 5 * globals.s.FLOOR_HEIGHT + 2f, 5 * (globals.s.FLOOR_HEIGHT / 20) + 0.5f);
-        float pos = ((globals.s.BASE_Y + ((my_floor+1) * globals.s.FLOOR_HEIGHT) +  (5* globals.s.FLOOR_HEIGHT) + globals.s.FLOOR_HEIGHT / 2 ));
-        main_camera.s.init_PW_super_jump( pos,  (pos-transform.position.y)/20  + 0.5f);
+        
+		Debug.Log ("PW GO UP start end, MY FLOOR:  " + my_floor);
 
         Invoke("go_up_PW", 0.2f);
     }
 
     void go_up_PW() {
-        
+		Debug.Log ("PW GO UP START STEP 2!! MY FLOOR START:  " + my_floor);
         //globals.s.PW_SUPER_JUMP = true;
         desactivate_pws_super();
 		superJumpEffect.SetActive (true);
 
         int ball_speed = 20;
-        target_y = (globals.s.BASE_Y + ((my_floor) * globals.s.FLOOR_HEIGHT) +  (5* globals.s.FLOOR_HEIGHT) + globals.s.FLOOR_HEIGHT / 2 - 0.6f );
         target_y_reached = false;
 
         rb.velocity = new Vector2(0, ball_speed);
         float dist = (target_y - transform.position.y);
-        Debug.Log("[GO UP PW] Dist: " + dist + " OLD Dist: " + (5*globals.s.FLOOR_HEIGHT) + " dist/speed: " + (dist / ball_speed) + " | OLD dist/speed: " + ((5 *globals.s.FLOOR_HEIGHT) / ball_speed));
-        Debug.Log("[GO UP PW] MY POS: " + transform.position.y + " BASE Y+FLOOR "+ (globals.s.BASE_Y + my_floor * globals.s.FLOOR_HEIGHT) + " BASE Y: " + globals.s.BASE_Y + " MY FLOOR: " + my_floor);
+      //  Debug.Log("[GO UP PW] Dist: " + dist + " OLD Dist: " + (5*globals.s.FLOOR_HEIGHT) + " dist/speed: " + (dist / ball_speed) + " | OLD dist/speed: " + ((5 *globals.s.FLOOR_HEIGHT) / ball_speed));
+      //  Debug.Log("[GO UP PW] MY POS: " + transform.position.y + " BASE Y+FLOOR "+ (globals.s.BASE_Y + my_floor * globals.s.FLOOR_HEIGHT) + " BASE Y: " + globals.s.BASE_Y + " MY FLOOR: " + my_floor);
         //Invoke("stop_go_up_PW", ( dist / ball_speed));
         //Invoke("stop_go_up_PW", ((globals.s.BASE_Y + (my_floor * globals.s.FLOOR_HEIGHT) + 5* globals.s.FLOOR_HEIGHT + (globals.s.FLOOR_HEIGHT/2) ) - transform.position.y) / ball_speed);
 
         //transform.DOMoveY(target_y, 1.1f).SetEase(Ease.Linear).OnComplete(()=> stop_go_up_PW());
+		Debug.Log ("PW GO UP START STEP 2!! MY FLOOR end:  " + my_floor);
 
     }
 
@@ -680,10 +691,12 @@ public class ball_hero : MonoBehaviour
     void create_floor()
     {
 		jetpack.SetActive(false);
-        my_floor += 5;
+        //my_floor += 5;
         appear_floors();
-        GameObject floor = game_controller.s.create_floor(12, my_floor);
+		Debug.Log ("TIME TO CREATE FLOOR FOR LANDING! !! ");
+		GameObject floor = game_controller.s.create_floor(12, my_floor, false, true);
         destroy_spikes();
+		floor.GetComponent<floor> ().pauta.SetActive (false);
         floor.transform.DOMoveX(0, 0.3f);//.OnComplete(pw_super_end);
 
 		superJumpEffect.SetActive (false);
@@ -701,6 +714,7 @@ public class ball_hero : MonoBehaviour
         else
             rb.velocity = new Vector2(globals.s.BALL_SPEED_X, rb.velocity.y);
 
+		init_my_skin ();
         super.SetActive(false);
 
         Invoke("unactivate_squares", 0.3f);
@@ -712,14 +726,28 @@ public class ball_hero : MonoBehaviour
     {
         
         int i=0;
-        floor[] floors = null;
-       floors = GameObject.FindObjectsOfType(typeof(floor)) as floor[];
+    	floor[] floors = null;
+       	//floors = GameObject.FindObjectsOfType(typeof(floor)) as floor[];
+		floors = objects_pool_controller.s.floor_scripts;
         for (i = 0; i < floors.Length; i++)
           {
-            floors[i].activate_colider_super_pw(my_floor);
+			if (floors[i] != null && floors[i].isActiveAndEnabled)
+				floors[i].activate_colider_super_pw(my_floor);
+				//Debug.Log ("game object is active: " + floors [i].isActiveAndEnabled);
           }
 
-        hole_behaviour[] holes = GameObject.FindObjectsOfType(typeof(hole_behaviour)) as hole_behaviour[];
+		floor_square_pw_destruct[] squares = null;
+		//floors = GameObject.FindObjectsOfType(typeof(floor)) as floor[];
+		squares = objects_pool_controller.s.squares_floor_scripts;
+		for (i = 0; i < squares.Length; i++)
+		{
+			if (squares [i] != null && squares [i].isActiveAndEnabled)
+				squares [i].DisappearSoon ();
+			//Debug.Log ("game object is active: " + floors [i].isActiveAndEnabled);
+		}
+
+		hole_behaviour[] holes = GameObject.FindObjectsOfType(typeof(hole_behaviour)) as hole_behaviour[];
+       // hole_behaviour[] holes = GameObject.FindObjectsOfType(typeof(hole_behaviour)) as hole_behaviour[];
 
         for (i = 0; i < holes.Length; i++)
         {
@@ -737,23 +765,26 @@ public class ball_hero : MonoBehaviour
 
     void appear_floors()
     {
-        floor[] floors = null;
+		floor[] floors = null;
         int i;
-        floors = GameObject.FindObjectsOfType(typeof(floor)) as floor[];
-        for (i = 0; i < floors.Length; i++)
-        {
-            floors[i].reaper_post_PW_super(my_floor);
-        }
+		floors = objects_pool_controller.s.floor_scripts;
+		for (i = 0; i < floors.Length; i++) {
+			if (floors[i] != null && floors [i].isActiveAndEnabled) {
+				floors [i].reaper_post_PW_super (my_floor);
+				//floors [i].activate_colider_super_pw (my_floor);
+			}
+		}
     }
 
     void unactivate_particles_floor()
     {
          //destroy_spikes();
          int i;
-         floor[] floors = GameObject.FindObjectsOfType(typeof(floor)) as floor[];
+		floor[] floors = objects_pool_controller.s.floor_scripts;
           for (i = 0; i < floors.Length; i++)
           {
-              floors[i].unactivate_colider_super_pw();
+			if (floors[i] != null && floors[i].isActiveAndEnabled)
+				floors[i].unactivate_colider_super_pw();
              }
 
           hole_behaviour[] holes = GameObject.FindObjectsOfType(typeof(hole_behaviour)) as hole_behaviour[];
@@ -774,7 +805,8 @@ public class ball_hero : MonoBehaviour
     {
         int i;
 
-        floor_square_pw_destruct[] squares = GameObject.FindObjectsOfType(typeof(floor_square_pw_destruct)) as floor_square_pw_destruct[];
+		floor_square_pw_destruct[] squares = objects_pool_controller.s.squares_floor_scripts;
+       // floor_square_pw_destruct[] squares = GameObject.FindObjectsOfType(typeof(floor_square_pw_destruct)) as floor_square_pw_destruct[];
         for (i = 0; i < squares.Length; i++)
         {
             squares[i].scale_down_to_dessapear();
@@ -787,10 +819,10 @@ public class ball_hero : MonoBehaviour
     void destroy_spikes()
     {
         int i;
-        spike[] spikes = GameObject.FindObjectsOfType(typeof(spike)) as spike[];
+		spike[] spikes = objects_pool_controller.s.spikes_scripts;
         for (i = 0; i < spikes.Length; i++)
         {
-            spikes[i].destroy_throwed_spikes(transform.position.y);
+			if(spikes[i] !=null)  spikes[i].destroy_throwed_spikes(transform.position.y);
         }
     }
 
@@ -798,10 +830,10 @@ public class ball_hero : MonoBehaviour
     void desactivate_pws_super()
     {
         int i;
-        PW_Collect[] pws = GameObject.FindObjectsOfType(typeof(PW_Collect)) as PW_Collect[];
+		PW_Collect[] pws = objects_pool_controller.s.pw_scripts;
         for (i = 0; i < pws.Length; i++)
         {
-            pws[i].destroy_by_floor_PW_Super(my_floor + 6);
+			if(pws[i] !=null) pws[i].destroy_by_floor_PW_Super(my_floor + 6);
         }
     }
     #endregion

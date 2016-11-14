@@ -18,6 +18,7 @@ public class floor : scenario_objects {
     public GameObject my_glow, my_lines_glow;
 	public bool repositionable = false;
 	public bool already_placed = false;
+	public GameObject pauta;
 
     // Use this for initialization
     void Start () {
@@ -77,11 +78,11 @@ public class floor : scenario_objects {
     }
 	
 	// Update is called once per frame
-	void Update () {
-		if(transform.position.y < globals.s.BALL_Y - globals.s.FLOOR_HEIGHT*4){
-			//Destroy(gameObject);
-		}
-    }
+//	void Update () {
+//		if(transform.position.y < globals.s.BALL_Y - globals.s.FLOOR_HEIGHT*4){
+//			//Destroy(gameObject);
+//		}
+//    }
 
     public void try_to_display_best_score()
     {
@@ -217,6 +218,7 @@ public class floor : scenario_objects {
 
     public void activate_colider_super_pw(int floor_actual)
     {
+		//if (gameObject.
         colliderPW.SetActive(true);
         colliderPW.GetComponent<Rigidbody2D>().isKinematic = false;
 
@@ -251,6 +253,7 @@ public class floor : scenario_objects {
 		repositionable = false;
         pw_super_collided = false;
         my_skin.transform.GetComponent<SpriteRenderer>().enabled = true;
+		if(!pauta.activeInHierarchy) pauta.SetActive (true);
         my_skin.GetComponent<SpriteRenderer>().color = Color.black;
         foreach( floor_note a in my_notes_fg) {
             a.GetComponent<SpriteRenderer>().enabled = false;

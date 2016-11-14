@@ -16,6 +16,9 @@ public class RythmController : MonoBehaviour {
 	[HideInInspector] public bool music_started = false;
 	private bool already_started = false;
 	private float next_step_time = 0;
+	int my_state = 0, lightStep = 3, lightStep2 = 15;
+
+	private RythmScenarioBehaviour[] stages;
 
 
 	void Awake(){
@@ -23,7 +26,10 @@ public class RythmController : MonoBehaviour {
 	}
 	// Use this for initialization
 	void Start () {
-	
+		 stages = GameObject.FindObjectsOfType(typeof(RythmScenarioBehaviour)) as RythmScenarioBehaviour[];
+		foreach(RythmScenarioBehaviour s in stages){
+			s.RestartAnimations();
+		}
 	}
 
 	public void OnMusicStarted(){
@@ -57,6 +63,45 @@ public class RythmController : MonoBehaviour {
 					current_step = 0;
 			}
 		}
+
+		if (current_step == step_glow_in && my_state != 0) {
+			my_state = 0;
+			foreach (RythmScenarioBehaviour s in stages) {
+				if (s != null)
+					s.RestartAnimations ();
+			}
+		} else if (current_step == lightStep && my_state != 1) {
+			my_state = 1;
+			foreach (RythmScenarioBehaviour s in stages) {
+				if (s != null)
+					s.RestartGlowFadeInAnimation ();
+			}
+		
+
+		} else if (current_step == lightStep + 6 && my_state != 2) {
+			my_state = 2;
+			foreach (RythmScenarioBehaviour s in stages) {
+				if (s != null)
+					s.RestartGlowFadeOutAnimation ();
+			}
+		
+		} else if (current_step == lightStep2 && my_state != 3) {
+			my_state = 3;
+			foreach (RythmScenarioBehaviour s in stages) {
+				if (s != null)
+					s.RestartGlowFadeInAnimation2 ();
+			}
+
+
+		} else if (current_step == lightStep2 + 6 && my_state != 3) {
+			my_state = 3;
+			foreach (RythmScenarioBehaviour s in stages) {
+				if (s != null)
+					s.RestartGlowFadeOutAnimation2 ();
+			}
+		}
+
+
 //		Debug.Log("STEP: " + current_step);
 //		if( current_step == step_glow_in)
 //			Debug.Log("(( STEP GLOW IN! " + step_glow_in + " ./.  Time: " + Time.time);

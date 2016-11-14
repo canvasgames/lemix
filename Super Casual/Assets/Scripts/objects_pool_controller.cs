@@ -1,13 +1,23 @@
 ﻿using UnityEngine;
 using System.Collections;
 using DG.Tweening;
+public enum PW_Types
+{
+	Invencible = 1, Super = 2, Sight = 3
+}
+
 
 public class objects_pool_controller : MonoBehaviour {
 
 	#region ======= Variables Declaration ========
     public static objects_pool_controller s;
 
-    public GameObject note_trail_prefab, note_prefab, floor_prefab, double_spike_prefab, triple_spike_prefab, squares_floor_prefab, scores_floor_prefab;
+    public GameObject power_ups_prefab, note_trail_prefab, note_prefab, floor_prefab, double_spike_prefab, triple_spike_prefab, squares_floor_prefab, scores_floor_prefab;
+
+	[HideInInspector] public GameObject[] power_ups_pool;
+	[HideInInspector] public PW_Collect[] pw_scripts;
+	int power_ups_pool_size = 4;
+	int power_ups_actual_i = 0;
 
 	[HideInInspector] public GameObject[] note_pool;
 	int note_pool_size = 10;
@@ -18,10 +28,13 @@ public class objects_pool_controller : MonoBehaviour {
 	int note_trail_pool_actual_i = 0;
 
     [HideInInspector] public GameObject[] floor_pool;
+	[HideInInspector] public floor[] floor_scripts;
+
     int floor_pool_size = 15;
     int floor_pool_actual_i = 0;
 
-    [HideInInspector]public GameObject[] double_spikes_pool;
+	[HideInInspector]public GameObject[] double_spikes_pool;
+	[HideInInspector]public spike[] spikes_scripts;
     int double_spikes_pool_size = 20;
     int double_spikes_pool_actual_i = 0;
 
@@ -30,7 +43,8 @@ public class objects_pool_controller : MonoBehaviour {
     int triple_spikes_pool_actual_i = 0;
 
     [HideInInspector]
-    public GameObject[] squares_floor_pool;
+	public GameObject[] squares_floor_pool;
+	public floor_square_pw_destruct[] squares_floor_scripts;
     int squares_floor_pool_size = 9;
     int squares_floor_pool_actual_i = 0;
 
@@ -74,14 +88,42 @@ public class objects_pool_controller : MonoBehaviour {
         triple_spikes_pool = new GameObject[triple_spikes_pool_size];
         squares_floor_pool = new GameObject[squares_floor_pool_size];
         scores_floor_pool = new GameObject[scores_floor_pool_size];
+		power_ups_pool = new GameObject[power_ups_pool_size];
         create_initial_tudo();
     }
 
 	void Start () {
         
         //floor_skin_bg_glow();
+		floor_scripts = GameObject.FindObjectsOfType(typeof(floor)) as floor[];
+		squares_floor_scripts = GameObject.FindObjectsOfType (typeof(floor_square_pw_destruct)) as floor_square_pw_destruct[];
+		spikes_scripts=  GameObject.FindObjectsOfType(typeof(spike)) as spike[];
+		pw_scripts = GameObject.FindObjectsOfType(typeof(PW_Collect)) as PW_Collect[];
+		Debug.Log ("floorSripts size: " + floor_scripts.Length);
+
+		//DestroyUnnusedObjects ();
+		Invoke ("DestroyUnnusedObjects", 5f);
 	}
 
+	void DestroyUnnusedObjects(){
+		if (!globals.s.PW_SUPER_JUMP) {
+			foreach(GameObject bg in bgs1_pool){
+				if (bg !=null && bg.transform.position.x == 0 && bg.transform.position.y < main_camera.s.transform.position.y - 14f) {
+					Destroy(bg);
+					Debug.Log ("DESTROYING BG 1 =) ... My pos: "+ bg.transform.position.y + "  CAMERA POS: " +main_camera.s.transform.position.y );
+				}
+			}
+
+			foreach(GameObject bg in bgs2_pool){
+				if (bg !=null && bg.transform.position.x == 0 && bg.transform.position.y < main_camera.s.transform.position.y - 14f) {
+					Destroy(bg);
+					Debug.Log ("DESTROYING BG 2 =) ... My pos: "+ bg.transform.position.y + "  CAMERA POS: " +main_camera.s.transform.position.y );
+				}
+			}
+		}
+
+		Invoke ("DestroyUnnusedObjects", 3f);
+	}
 
 	void create_initial_tudo()
 	{
@@ -118,10 +160,13 @@ public class objects_pool_controller : MonoBehaviour {
 			squares_floor_pool[i] = (GameObject)Instantiate(squares_floor_prefab, new Vector3(105, 10*i, 0), transform.rotation);
 		}
 
-
 		for (i = 0; i < scores_floor_pool_size; i++)
 		{
 			scores_floor_pool[i] = (GameObject)Instantiate(scores_floor_prefab, new Vector3(105, 10 * i, 0), transform.rotation);
+		}
+		for (i = 0; i < power_ups_pool_size; i++)
+		{
+			power_ups_pool[i] = (GameObject)Instantiate(power_ups_prefab, new Vector3(105, 10 * i, 0), transform.rotation);
 		}
 	}
 
@@ -278,6 +323,21 @@ public class objects_pool_controller : MonoBehaviour {
     #endregion
 
 	#region ====== NOTES =======
+	public GameObject reposite_power_up(float x_pos, float y_pos)
+	{
+		//clear_flags_notes();
+
+		power_ups_pool[power_ups_actual_i].transform.position = new Vector3(x_pos, y_pos, 0);
+		GameObject repos_power_up = power_ups_pool[power_ups_actual_i];
+		//repos_note.GetComponent <note_behaviour>().Init ();
+
+		power_ups_actual_i++;
+		if (power_ups_actual_i == power_ups_pool_size)
+			power_ups_actual_i  = 0;
+
+		return repos_power_up;
+	}
+
 	public GameObject reposite_note(float x_pos, float y_pos)
 	{
 		//clear_flags_notes();
