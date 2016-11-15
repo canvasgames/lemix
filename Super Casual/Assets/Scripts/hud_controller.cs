@@ -38,7 +38,7 @@ public class hud_controller : MonoBehaviour {
     public GameObject ready;
     //public GameObject v_pw_on;
 	public GameObject pw_time_bar;
-	public GameObject pw_time_left_title_on, roullete_time_left;
+	public GameObject pw_time_left_title_on, roullete_time_left, gift_time_left;
 	public PwWheelMaster roda_a_roda;
 
 	public Text pw_Text_Header;
@@ -47,10 +47,12 @@ public class hud_controller : MonoBehaviour {
 
 	public GameObject start_game_bt;
 
-    string PW_date, roullete_date;
+    string PW_date, roullete_date, gift_date;
     DateTime tempDate;
     DateTime tempDateRoulette;
+    DateTime tempDateGift;
     public bool CAN_ROTATE_ROULETTE = true;
+    public bool CAN_GET_GIFT = true;
     DateTime tempcurDate;
 
     int temp_cur_floor;
@@ -78,6 +80,7 @@ public class hud_controller : MonoBehaviour {
         //PlayerPrefs.DeleteAll();
         PW_date = PlayerPrefs.GetString("PWDate2ChangeState");
         roullete_date = PlayerPrefs.GetString("RouletteDate2ChangeState");
+        gift_date = PlayerPrefs.GetString("GiftDate2ChangeState");
 
         //SETTING  FIRST_GAME GLOBAL
         int tmp_first = PlayerPrefs.GetInt("first_game", 1); ;
@@ -124,20 +127,42 @@ public class hud_controller : MonoBehaviour {
             if (canRotate == 1)
             {
                 CAN_ROTATE_ROULETTE = true;
+                Debug.Log("can rotate init");
             }
             else
             {
                 CAN_ROTATE_ROULETTE = false;
+                Debug.Log("sem rotate init");
+
             }
         }
         else
         {
             CAN_ROTATE_ROULETTE = true;
+            Debug.Log("vazio can rotate init");
 
 
         }
+        if(gift_date != "")
+        {
+            tempDateGift = Convert.ToDateTime(gift_date);
+            PlayerPrefs.SetString("GiftDate2ChangeState", tempDateGift.ToString());
+            int canGet = PlayerPrefs.GetInt("CanGetGift", 1);
+            if (canGet == 1)
+            {
+                CAN_GET_GIFT = true;
+            }
+            else
+            {
+                CAN_GET_GIFT = false;
+            }
+        }
+        else
+        {
+            CAN_GET_GIFT = true;
+        }
 
-            if (globals.s.FIRST_GAME == true)
+        if (globals.s.FIRST_GAME == true)
         {
             activate_pw_bt.SetActive(false);
             pw_info.SetActive(false);
@@ -173,6 +198,7 @@ public class hud_controller : MonoBehaviour {
         {
             show_pw_time();
             show_roullete_time();
+            show_gift_time();
         }
         if (globals.s.GAME_STARTED == false && globals.s.MENU_OPEN == false)
         {
@@ -570,19 +596,26 @@ public class hud_controller : MonoBehaviour {
         else
         {
             TimeSpan diff = tempDateRoulette.Subtract(tempcurDate);
-            Debug.Log(diff + "  TimeDif " + CAN_ROTATE_ROULETTE);
             if (CAN_ROTATE_ROULETTE == false)
             {
-                if (diff.Minutes < GD.s.GD_ROULLETE_WAIT_MINUTES)
+                if (diff.Minutes < 0)
                 {
                     Debug.Log("o tempo passou e eu sofri calado");
                     CAN_ROTATE_ROULETTE = true;
                     PlayerPrefs.SetInt("CanRotate", 1);
                 }
             }
-            roullete_time_left.GetComponent<Text>().text = diff.Minutes + "m " + diff.Seconds + "s ";
-        }
+            if(diff.Minutes >= 0 && CAN_ROTATE_ROULETTE == false)
+            {
+                roullete_time_left.GetComponent<Text>().text = diff.Minutes + "m " + diff.Seconds + "s ";
+            }
 
+        }
+        if(CAN_ROTATE_ROULETTE == true)
+        {
+            roullete_time_left.GetComponent<Text>().text = " ROTATE NOW ";
+
+        }
         //TimeSpan difference = tempDate.Subtract(tempcurDate);
         //Debug.Log(tempDate + " sadsad " + tempcurDate);
 
@@ -590,12 +623,13 @@ public class hud_controller : MonoBehaviour {
     public void addRoulleteTime()
     {
         PlayerPrefs.SetInt("CanRotate", 0);
-        Debug.Log("rodou efalsificou");
+        //Debug.Log("rodou efalsificou");
         CAN_ROTATE_ROULETTE = false;
-        roullete_date = tempDateRoulette.ToString();
         tempDateRoulette = System.DateTime.Now;
         tempDateRoulette = tempDateRoulette.AddMinutes(GD.s.GD_ROULLETE_WAIT_MINUTES);
-        PlayerPrefs.SetString("RouletteDate2ChangeState", tempDateRoulette.ToString());
+        roullete_date = tempDateRoulette.ToString();
+
+        PlayerPrefs.SetString("RouletteDate2ChangeState", roullete_date);
 
     }
     #endregion
@@ -681,14 +715,19 @@ public class hud_controller : MonoBehaviour {
 	#region ======== Video =========
     public void show_video_pw()
     {
-        globals.s.MENU_OPEN = true;
+        //globals.s.MENU_OPEN = true;
         //video.SetActive(true);
         //video.GetComponentInChildren<Play_Video>().solta_a_vinheta_sombra(false, true);
         //video.GetComponent<new_external_link_bt>().set_variables(false, true);
-        flagVideoRevive = false;
-        flagVideoCoins = false;
-        flagVideoPower = true;
-        ShowAd();
+        if(CAN_ROTATE_ROULETTE == false)
+        {
+            flagVideoRevive = false;
+            flagVideoCoins = false;
+            flagVideoPower = true;
+
+            ShowAd();
+        }
+
     }
 
     public void watched_the_video_pw()
@@ -732,7 +771,6 @@ public class hud_controller : MonoBehaviour {
 
     public void ShowAd()
     {
-        Debug.Log("ue " + Advertisement.IsReady());
         if (Advertisement.IsReady("rewardedVideo"))
         {
             var options = new ShowOptions {resultCallback = HandleShowResult };
@@ -750,7 +788,9 @@ public class hud_controller : MonoBehaviour {
                 // YOUR CODE TO REWARD THE GAMER
                 if(flagVideoPower == true)
                 {
-					StartCoroutine (activeRodaaRoda());
+                    CAN_ROTATE_ROULETTE = true;
+                    PlayerPrefs.SetInt("CanRotate", 1);
+                    StartCoroutine (openTampa());
 					//Invoke("activeRodaaRoda", 1);
                     flagVideoPower = false;
                 }
@@ -774,11 +814,7 @@ public class hud_controller : MonoBehaviour {
     }
 
 	#region ======== Menu Power Ups ============
-
-
-
 	public void RodaMenu(){
-		Debug.Log("RODA CLICKED");
 		//StartCoroutine(activeRodaaRoda());
 		roda_a_roda.gameObject.SetActive(true);
 
@@ -789,13 +825,71 @@ public class hud_controller : MonoBehaviour {
 		roda_a_roda.gameObject.SetActive (false);
 	}
 
-	IEnumerator activeRodaaRoda()
+	IEnumerator openTampa()
     {
-		yield return new WaitForSeconds(1f);
-		roda_a_roda.gameObject.SetActive(true);
-		roda_a_roda.Entrance ();
-
+        yield return new WaitForSeconds(0.3f);
+        //roda_a_roda.gameObject.SetActive(true);
+        //roda_a_roda.Entrance ();
+        roda_a_roda.openTampa();
     }
 
-	#endregion
+    IEnumerator closeTampa()
+    {
+        yield return new WaitForSeconds(0.3f);
+        //roda_a_roda.gameObject.SetActive(true);
+        //roda_a_roda.Entrance ();
+        roda_a_roda.openTampa();
+    }
+    #endregion
+
+    #region ======== Presente ============
+    void show_gift_time()
+    {
+        tempcurDate = System.DateTime.Now;
+
+        //NO DATE CASE
+        if (gift_date == "")
+        {
+            CAN_GET_GIFT = true;
+            PlayerPrefs.SetInt("CanGetGift", 1);
+        }
+        else
+        {
+            TimeSpan diff = tempDateGift.Subtract(tempcurDate);
+            if (CAN_GET_GIFT == false)
+            {
+                if (diff.Minutes < 0)
+                {
+                    Debug.Log("o tempo passou e eu sofri calado");
+                    CAN_GET_GIFT = true;
+                    PlayerPrefs.SetInt("CanGetGift", 1);
+                }
+            }
+            if (diff.Minutes >= 0 && CAN_GET_GIFT == false)
+            {
+                gift_time_left.GetComponent<Text>().text = diff.Days + "d " + diff.Hours + "h " + diff.Minutes + "m " + diff.Seconds + "s ";
+            }
+
+        }
+        if(CAN_GET_GIFT == true)
+        {
+            gift_time_left.GetComponent<Text>().text = " GET NOW";
+        }
+
+        //TimeSpan difference = tempDate.Subtract(tempcurDate);
+        //Debug.Log(tempDate + " sadsad " + tempcurDate);
+
+
+    }
+    public void getGift()
+    {
+        PlayerPrefs.SetInt("CanGetGift", 0);
+        CAN_GET_GIFT = false;
+        tempDateGift = System.DateTime.Now;
+        tempDateGift = tempDateGift.AddMinutes(GD.s.GD_GIFT_WAIT_MINUTES);
+        gift_date = tempDateGift.ToString();
+
+        PlayerPrefs.SetString("GiftDate2ChangeState", gift_date);
+    }
+    #endregion
 }
