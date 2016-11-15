@@ -595,7 +595,7 @@ public class hud_controller : MonoBehaviour {
         }
         else
         {
-            Debug.Log("nanananana");
+
 
             TimeSpan diff = tempDateRoulette.Subtract(tempcurDate);
             if (CAN_ROTATE_ROULETTE == false)
