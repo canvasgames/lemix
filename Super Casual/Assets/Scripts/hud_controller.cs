@@ -595,17 +595,20 @@ public class hud_controller : MonoBehaviour {
         }
         else
         {
+            Debug.Log("nanananana");
+
             TimeSpan diff = tempDateRoulette.Subtract(tempcurDate);
             if (CAN_ROTATE_ROULETTE == false)
             {
-                if (diff.Minutes < 0)
+                
+                if (diff.TotalSeconds <= 0)
                 {
                     Debug.Log("o tempo passou e eu sofri calado");
                     CAN_ROTATE_ROULETTE = true;
                     PlayerPrefs.SetInt("CanRotate", 1);
                 }
             }
-            if(diff.Minutes >= 0 && CAN_ROTATE_ROULETTE == false)
+            if(diff.TotalSeconds > 0 && CAN_ROTATE_ROULETTE == false)
             {
                 roullete_time_left.GetComponent<Text>().text = diff.Minutes + "m " + diff.Seconds + "s ";
             }
@@ -858,14 +861,14 @@ public class hud_controller : MonoBehaviour {
             TimeSpan diff = tempDateGift.Subtract(tempcurDate);
             if (CAN_GET_GIFT == false)
             {
-                if (diff.Minutes < 0)
+                if (diff.TotalSeconds <= 0)
                 {
                     Debug.Log("o tempo passou e eu sofri calado");
                     CAN_GET_GIFT = true;
                     PlayerPrefs.SetInt("CanGetGift", 1);
                 }
             }
-            if (diff.Minutes >= 0 && CAN_GET_GIFT == false)
+            if (diff.TotalSeconds > 0 && CAN_GET_GIFT == false)
             {
                 gift_time_left.GetComponent<Text>().text = diff.Days + "d " + diff.Hours + "h " + diff.Minutes + "m " + diff.Seconds + "s ";
             }
