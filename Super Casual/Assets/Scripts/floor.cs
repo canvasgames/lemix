@@ -236,7 +236,7 @@ public class floor : scenario_objects {
     public void colidded_super_pw()
     {
         pw_super_collided = true;
-        transform.GetComponent<SpriteRenderer>().enabled = false;
+       // transform.GetComponent<SpriteRenderer>().enabled = false;
         my_skin.transform.GetComponent<SpriteRenderer>().enabled = false;
     }
 

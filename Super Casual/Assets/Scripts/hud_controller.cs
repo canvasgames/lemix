@@ -781,6 +781,7 @@ public class hud_controller : MonoBehaviour {
         }
     }
 
+	#if UNITY_ANDROID || UNITY_EDITOR
     private void HandleShowResult(ShowResult result)
     {
         switch (result)
@@ -815,6 +816,7 @@ public class hud_controller : MonoBehaviour {
                 break;
         }
     }
+	#endif
 
 	#region ======== Menu Power Ups ============
 	public void RodaMenu(){
@@ -895,4 +897,13 @@ public class hud_controller : MonoBehaviour {
         PlayerPrefs.SetString("GiftDate2ChangeState", gift_date);
     }
     #endregion
+
+	#region  ====== GIFT ==========
+	public void GiftButtonClicked(){
+		if (1 == 1) { //codigo que testa se pode dar o presente
+
+		}
+	}	
+
+	#endregion
 }

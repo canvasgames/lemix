@@ -1,21 +1,19 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj" VersionControlDisabled="True">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Stage3Base2Behaviour.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\hud_controller.cs">
     <Files>
+      <File FileName="Assets\Scripts\PW_Collect.cs" Line="56" Column="6" />
+      <File FileName="Assets\Scripts\ball_hero.cs" Line="699" Column="3" />
+      <File FileName="Assets\Scripts\floor.cs" Line="256" Column="7" />
+      <File FileName="Assets\Scripts\floor_square_pw_destruct.cs" Line="37" Column="31" />
+      <File FileName="Assets\Scripts\game_controller.cs" Line="456" Column="5" />
+      <File FileName="Assets\Scripts\objects_pool_controller.cs" Line="330" Column="1" />
       <File FileName="Assets\RythmController.cs" Line="11" Column="34" />
-      <File FileName="Assets\GlowBehaviour.cs" Line="30" Column="4" />
-      <File FileName="Assets\Scripts\floor.cs" Line="35" Column="6" />
-      <File FileName="Assets\Scripts\game_controller.cs" Line="1922" Column="55" />
-      <File FileName="Assets\Scripts\ball_hero.cs" Line="1" Column="1" />
-      <File FileName="Assets\SuperJumpEffect.cs" Line="7" Column="17" />
-      <File FileName="Assets\Scripts\sound_controller.cs" Line="220" Column="39" />
-      <File FileName="Assets\GlowController.cs" Line="3" Column="1" />
-      <File FileName="Assets\Scripts\objects_pool_controller.cs" Line="151" Column="30" />
-      <File FileName="Assets\Scripts\hud_controller.cs" Line="455" Column="1" />
-      <File FileName="Assets\Scripts\hole_behaviour.cs" Line="21" Column="8" />
-      <File FileName="Assets\Scripts\spike.cs" Line="38" Column="1" />
-      <File FileName="Assets\Stage3BaseBehaviour.cs" Line="8" Column="36" />
-      <File FileName="Assets\Stage3Base2Behaviour.cs" Line="8" Column="53" />
+      <File FileName="Assets\GlowBehaviour.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\sound_controller.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\hud_controller.cs" Line="805" Column="4" />
+      <File FileName="Assets\stage_intro.cs" Line="57" Column="1" />
+      <File FileName="Assets\SuperJumpEffect.cs" Line="24" Column="5" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

@@ -477,7 +477,9 @@ public class game_controller : MonoBehaviour {
     }
 
     public void create_new_wave (){
+		#if DEBUGMODE
 		Debug.Log(" \n::::::::::::::::::::::: CREATING NEW FLOOR: " +n_floor);
+		#endif
 
         int rand;
         int count = 0;
@@ -1963,7 +1965,9 @@ GameObject instance = Instantiate(Resources.Load("Prefabs/Bgs/Scenario2/bg_"+ran
 
 	public GameObject create_floor(float x, int n, bool special_floor = false, bool no_bg = false)
     {
+		#if DEBUGMODE
 		Debug.Log ("creating floor n:  " +n + "  POS : " + ( globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * n  + 2.45f) );
+		#endif
 
 
        // GameObject obj = (GameObject)Instantiate(floor_type, new Vector3(x, globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * n, 0), transform.rotation);
@@ -2083,12 +2087,12 @@ GameObject instance = Instantiate(Resources.Load("Prefabs/Bgs/Scenario2/bg_"+ran
     bool create_just_hole(int n, float x)
     {
         //GameObject obj = (GameObject)Instantiate(floor_type, new Vector3(x - hole_size / 2 - floor_type.transform.GetComponent<SpriteRenderer>().bounds.size.x / 2, globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * n, 0), transform.rotation);
-        GameObject obj = objects_pool_controller.s.reposite_floor(x - hole_size / 2 - floor_type.transform.GetComponent<SpriteRenderer>().bounds.size.x / 2, globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * n);
+		GameObject obj = objects_pool_controller.s.reposite_floor(x - hole_size / 2 - floor_type.GetComponent<floor>().my_skin.GetComponent<SpriteRenderer>().bounds.size.x / 2, globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * n);
         obj.GetComponent<floor>().my_floor = n;
         obj.GetComponent<floor>().check_if_have_score();
 
         // obj = (GameObject)Instantiate(floor_type, new Vector3(x + hole_size / 2 + floor_type.transform.GetComponent<SpriteRenderer>().bounds.size.x / 2, globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * n, 0), transform.rotation);
-        obj = objects_pool_controller.s.reposite_floor(x + hole_size / 2 + floor_type.transform.GetComponent<SpriteRenderer>().bounds.size.x / 2, globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * n);
+		obj = objects_pool_controller.s.reposite_floor(x + hole_size / 2 + floor_type.GetComponent<floor>().my_skin.GetComponent<SpriteRenderer>().bounds.size.x / 2, globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * n);
         obj.GetComponent<floor>().my_floor = n;
 
         create_bg(n);

@@ -5,6 +5,8 @@ Project("{5FEDF4E7-D410-A696-01E2-01F116A16918}") = "Super Casual", "Assembly-CS
 EndProject
 Project("{5FEDF4E7-D410-A696-01E2-01F116A16918}") = "Super Casual", "Assembly-CSharp.csproj", "{2F3CCD7E-0BC4-C54E-75D5-E49E003A4347}"
 EndProject
+Project("{5FEDF4E7-D410-A696-01E2-01F116A16918}") = "Super Casual", "Assembly-CSharp-Editor.csproj", "{F7692768-B5A4-7CD1-CC5E-7993FE358529}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -19,6 +21,10 @@ Global
 		{2F3CCD7E-0BC4-C54E-75D5-E49E003A4347}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2F3CCD7E-0BC4-C54E-75D5-E49E003A4347}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2F3CCD7E-0BC4-C54E-75D5-E49E003A4347}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F7692768-B5A4-7CD1-CC5E-7993FE358529}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F7692768-B5A4-7CD1-CC5E-7993FE358529}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F7692768-B5A4-7CD1-CC5E-7993FE358529}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F7692768-B5A4-7CD1-CC5E-7993FE358529}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

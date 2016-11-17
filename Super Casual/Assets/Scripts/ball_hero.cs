@@ -435,7 +435,7 @@ public class ball_hero : MonoBehaviour
 
         if (coll.gameObject.CompareTag("Floor")) {
             
-            if (coll.transform.position.y + coll.transform.GetComponent<SpriteRenderer>().bounds.size.y / 2 <= transform.position.y - globals.s.BALL_R + 1f) {
+			if (coll.transform.position.y + coll.transform.GetComponent<floor>().my_skin.GetComponent<SpriteRenderer>().bounds.size.y / 2 <= transform.position.y - globals.s.BALL_R + 1f) {
                 //rb.AddForce (new Vector2 (0, 0));
                 rb.velocity = new Vector2(rb.velocity.x, 0);
                 //my_skin.GetComponent<Animator>().Play("Running");
@@ -616,7 +616,7 @@ public class ball_hero : MonoBehaviour
     #region ==== POWER UP -> GO UP ====
     void go_up_pw_start()
     {
-		Debug.Log ("PW GO UP START!! MY FLOOR: " + my_floor);
+		if(QA.s.TRACE_PROFUNDITY >=2) Debug.Log ("PW GO UP START!! MY FLOOR: " + my_floor);
 		my_floor_after_super_jump = my_floor + 5;
         symbols.transform.GetComponent<SpriteRenderer>().DOFade(0, 0);
 		super.SetActive(true);
@@ -646,13 +646,13 @@ public class ball_hero : MonoBehaviour
         activate_particles_floor();
         //main_camera.s.init_PW_super_jump(transform.position.y + 5 * globals.s.FLOOR_HEIGHT + 2f, 5 * (globals.s.FLOOR_HEIGHT / 20) + 0.5f);
         
-		Debug.Log ("PW GO UP start end, MY FLOOR:  " + my_floor);
+		if(QA.s.TRACE_PROFUNDITY >=2) Debug.Log ("PW GO UP start end, MY FLOOR:  " + my_floor);
 
         Invoke("go_up_PW", 0.2f);
     }
 
     void go_up_PW() {
-		Debug.Log ("PW GO UP START STEP 2!! MY FLOOR START:  " + my_floor);
+		if(QA.s.TRACE_PROFUNDITY >=2) Debug.Log ("PW GO UP START STEP 2!! MY FLOOR START:  " + my_floor);
         //globals.s.PW_SUPER_JUMP = true;
         desactivate_pws_super();
 		superJumpEffect.SetActive (true);
@@ -668,13 +668,13 @@ public class ball_hero : MonoBehaviour
         //Invoke("stop_go_up_PW", ((globals.s.BASE_Y + (my_floor * globals.s.FLOOR_HEIGHT) + 5* globals.s.FLOOR_HEIGHT + (globals.s.FLOOR_HEIGHT/2) ) - transform.position.y) / ball_speed);
 
         //transform.DOMoveY(target_y, 1.1f).SetEase(Ease.Linear).OnComplete(()=> stop_go_up_PW());
-		Debug.Log ("PW GO UP START STEP 2!! MY FLOOR end:  " + my_floor);
+		if(QA.s.TRACE_PROFUNDITY >=2) Debug.Log ("PW GO UP START STEP 2!! MY FLOOR end:  " + my_floor);
 
     }
 
     void stop_go_up_PW()
     {
-        Debug.Log("[GOUPPW] FINISHED GOING UP ! MY Y: " + transform.position.y);
+		if(QA.s.TRACE_PROFUNDITY >=2)  Debug.Log("[GOUPPW] FINISHED GOING UP ! MY Y: " + transform.position.y);
         rb.velocity = new Vector2(0.3f, globals.s.BALL_SPEED_Y/2);
         rb.gameObject.GetComponent<Rigidbody2D>().gravityScale = 0.5f;
         rb.gameObject.GetComponent<Rigidbody2D>().isKinematic = false;
@@ -693,7 +693,7 @@ public class ball_hero : MonoBehaviour
 		jetpack.SetActive(false);
         //my_floor += 5;
         appear_floors();
-		Debug.Log ("TIME TO CREATE FLOOR FOR LANDING! !! ");
+		if(QA.s.TRACE_PROFUNDITY >=2) Debug.Log ("TIME TO CREATE FLOOR FOR LANDING! !! ");
 		GameObject floor = game_controller.s.create_floor(12, my_floor, false, true);
         destroy_spikes();
 		floor.GetComponent<floor> ().pauta.SetActive (false);
