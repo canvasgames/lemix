@@ -1,10 +1,12 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 
 public class QA : MonoBehaviour {
 
     public static QA s;
 
+	bool sqMode = true;
     public bool INVENCIBLE ;
     public float TIMESCALE = 1;
     public float TRACE_PROFUNDITY = 1;
@@ -14,16 +16,30 @@ public class QA : MonoBehaviour {
     // 3 = More detailed info of creation floor process and physics
     public bool NO_PWS = false;
     public bool SHOW_WAVE_TYPE = false;
+	public GameObject SqBt;
 	// Use this for initialization
 	void Awake() {
+		if (sqMode == false) {
+			SqBt.GetComponent<Image> ().color = Color.white;
+		} else {
+			SqBt.GetComponent<Image> ().color = Color.green;
+		}
         s = this;
     }
 	
 	// Update is called once per frame
 	void Update () {
-
-            Time.timeScale = TIMESCALE;
-
-        
+		if(Time.timeScale != TIMESCALE) Time.timeScale = TIMESCALE;
     }
+
+	public void SwitchSquaresMode(){
+		if (sqMode == true) {
+			sqMode = false;
+			SqBt.GetComponent<Image> ().color = Color.white;
+		} else {
+			sqMode = true;
+			SqBt.GetComponent<Image> ().color = Color.green;
+		}
+
+	}
 }

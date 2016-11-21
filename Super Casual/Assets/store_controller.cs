@@ -121,6 +121,7 @@ public class store_controller : MonoBehaviour {
 
     public void equipCharacter()
     {
+		Debug.Log ("ACTUAL CHAR IN THE SCREEN: " + actualCharInScreen);
         if (actualCharInScreen == 0)
         {
             Debug.Log(" igona flee gonna be gonna flow");
@@ -160,9 +161,9 @@ public class store_controller : MonoBehaviour {
 			globals.s.ACTUAL_CHAR = PlayerPrefs.GetString("ACTUAL_CHAR", "popGaga");
 			changeActualChar();
 
-			changeAnimationEquipButton("pop");
+			changeAnimationEquipButton("popGaga");
 
-			sound_controller.s.change_music(MusicStyle.Pop);
+			sound_controller.s.change_music(MusicStyle.PopGaga);
 		}
     }
 
@@ -213,9 +214,22 @@ public class store_controller : MonoBehaviour {
                 equipButton.SetActive(true);
                 changeAnimationEquipButton("pop");
             }
-
-
         }
+		else if (type == 3)
+		{
+			if (popAlreadyBuyed == 0)
+			{
+				buyButton.SetActive(true);
+				equipButton.SetActive(false);
+				buyPrice.text = popPrice.ToString();
+			}
+			else
+			{
+				buyButton.SetActive(false);
+				equipButton.SetActive(true);
+				changeAnimationEquipButton("popGaga");
+			}
+		}
     }
 
     public void changeAnimationEquipButton(string inShopType)

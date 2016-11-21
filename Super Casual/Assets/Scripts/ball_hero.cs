@@ -85,7 +85,6 @@ public class ball_hero : MonoBehaviour
         // INITIALIZE SKIN AND MUSIC HERE!!!
         create_note_trail();
         changeSkinChar();
-
     }
 
     public void changeSkinChar()
@@ -111,7 +110,8 @@ public class ball_hero : MonoBehaviour
 			my_skin.GetComponent<Animator>().runtimeAnimatorController = Resources.Load("Sprites/Animations/ReggaeAnimator") as RuntimeAnimatorController;
 		}
     }
-    public void Init_first_ball()
+    
+	public void Init_first_ball()
     {
         if (first_ball == true)
         {
