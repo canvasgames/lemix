@@ -51,6 +51,8 @@ public class globals : MonoBehaviour {
     [HideInInspector]
     public bool REVIVING = false;
 
+	public bool GIFT_ANIMATION = false;
+
     [HideInInspector]
     public bool MENU_OPEN = false;
     // Use this for initialization

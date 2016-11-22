@@ -3,11 +3,11 @@ using System.Collections;
 using DG.Tweening;
 
 public enum MusicStyle{
-	Eletro,
-	Rock,
-	Pop,
-	Reggae,
-	PopGaga,
+	Eletro = 0,
+	Rock = 1,
+	Pop= 2,
+	PopGaga = 3,
+	Reggae= 4,
 }
 
 public class sound_controller : MonoBehaviour

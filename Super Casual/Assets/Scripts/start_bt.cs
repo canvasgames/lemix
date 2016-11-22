@@ -33,7 +33,7 @@ public class start_bt : MonoBehaviour {
     public void click()
     {
 
-        if (globals.s.GAME_STARTED == false && globals.s.MENU_OPEN == false)
+		if (globals.s.GAME_STARTED == false && globals.s.MENU_OPEN == false && globals.s.GIFT_ANIMATION == false)
         {
             globals.s.GAME_STARTED = true;
 			hud_controller.si.start_game_coroutine ();

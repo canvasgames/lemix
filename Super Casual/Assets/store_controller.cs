@@ -54,11 +54,76 @@ public class store_controller : MonoBehaviour {
 	
 	}
 
-    #region CHAR
-    public void tryBuyCharacter()
+    #region === CHAR ===
+	public bool CheckIfCharacterIsAlreadyPurchased(int musicStyle){
+		if (musicStyle == 0) {
+			if (eletronicAlreadyBuyed == 1)
+				return true;
+			else
+				return false;
+		} else if (musicStyle == 1) {
+			if (rockAlreadyBuyed == 1)
+				return true;
+			else
+				return false;
+		} else if (musicStyle == 2) {
+			if (popAlreadyBuyed == 1)
+				return true;
+			else
+				return false;
+		} else if (musicStyle == 3) {
+			if (popGagaAlreadyBuyed == 1)
+				return true;
+			else
+				return false;
+		} else if (musicStyle == 4) {
+			if (reggaeAlreadyBuyed == 1)
+				return true;
+			else
+				return false;
+		} else
+			return true;
+	}
+
+	public void GiveCharacterForFree(int musicStyle = -1)
+	{
+		actualCharInScreen = musicStyle;
+		equipCharacter();
+
+		if(musicStyle == 0)
+		{
+			PlayerPrefs.SetInt("eletronicAlreadyBuyed", 1);
+			eletronicAlreadyBuyed = 1;
+		}
+		else if (musicStyle == 1)
+		{
+			PlayerPrefs.SetInt("rockAlreadyBuyed", 1);
+			rockAlreadyBuyed = 1;
+		}
+		else if (musicStyle == 2)
+		{
+			PlayerPrefs.SetInt("popAlreadyBuyed", 1);
+			popAlreadyBuyed = 1;
+		}
+
+		else if (musicStyle == 3)
+		{
+			PlayerPrefs.SetInt("popGagaAlreadyBuyed", 1);
+			popGagaAlreadyBuyed = 1;
+		}
+		else if (musicStyle == 4)
+		{
+			PlayerPrefs.SetInt("reggaeAlreadyBuyed", 1);
+			reggaeAlreadyBuyed = 1;
+		}
+	}
+
+
+	public void tryBuyCharacter(int musicStyle = -1)
     {
-        
-        if(actualCharInScreen == 0)
+		if (musicStyle == -1)
+			musicStyle = actualCharInScreen;
+		if(musicStyle == 0)
         {
             if (USER.s.NOTES >= eletronicPrice)
             {
@@ -68,7 +133,7 @@ public class store_controller : MonoBehaviour {
                 buyed();
             }
         }
-        else if (actualCharInScreen == 1)
+		else if (musicStyle == 1)
         {
             if (USER.s.NOTES >= rockPrice)
             {
@@ -78,7 +143,7 @@ public class store_controller : MonoBehaviour {
                 buyed();
             }
         }
-        else if (actualCharInScreen == 2)
+		else if (musicStyle == 2)
         {
             if (USER.s.NOTES >= popPrice)
             {
@@ -88,7 +153,7 @@ public class store_controller : MonoBehaviour {
                 buyed();
             }
         }
-		else if (actualCharInScreen == 3)
+		else if (musicStyle == 3)
 		{
 			if (USER.s.NOTES >= popGagaPrice)
 			{
@@ -98,7 +163,7 @@ public class store_controller : MonoBehaviour {
 				buyed();
 			}
 		}
-		else if (actualCharInScreen == 4)
+		else if (musicStyle == 4)
 		{
 			if (USER.s.NOTES >= reggaePrice)
 			{
@@ -109,8 +174,8 @@ public class store_controller : MonoBehaviour {
 			}
 		}
         actualCoins.text = USER.s.NOTES.ToString();
-
     }
+
     void buyed()
     {
         buyButton.SetActive(false);

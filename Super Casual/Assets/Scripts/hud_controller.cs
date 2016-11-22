@@ -9,6 +9,9 @@ using UnityEngine.Advertisements;
 public class hud_controller : MonoBehaviour {
 	#region ======== Variables Declaration ========
 
+
+	public GameObject giftAnimation;
+	public GameObject giftChar;
     public static hud_controller si;
 
     [HideInInspector]
@@ -44,6 +47,8 @@ public class hud_controller : MonoBehaviour {
 	public Text pw_Text_Header;
     public Text PW_time_text;
 
+	public bool giftAnimationEnded = false;
+
 
 	public GameObject start_game_bt;
 
@@ -71,9 +76,11 @@ public class hud_controller : MonoBehaviour {
 
 	#endregion
 
-	#region ======= INIT ==========
+	#region ======= INIT ========
 
     void Start () {
+		//Invoke ("GiftButtonClicked", 1f);
+
         display_best(USER.s.BEST_SCORE);
         display_notes(USER.s.NOTES);
 
@@ -215,6 +222,11 @@ public class hud_controller : MonoBehaviour {
                 HUD_BUTTON_CLICKED = false;
             }
         }
+		if (globals.s.GIFT_ANIMATION == true && giftAnimationEnded == true && Input.GetMouseButtonDown (0)) {
+			giftChar.SetActive (false);
+			giftAnimation.SetActive (false);
+			globals.s.GIFT_ANIMATION = false;
+		}
     }
 
 	public void start_game_coroutine(){
@@ -347,7 +359,7 @@ public class hud_controller : MonoBehaviour {
 
     
 
-    #region ======================== GAME OVER ==============================
+    #region ============== GAME OVER ================
 
     public void show_game_over(int currentFloor, bool with_high_score)
     {
@@ -900,10 +912,42 @@ public class hud_controller : MonoBehaviour {
 
 	#region  ====== GIFT ==========
 	public void GiftButtonClicked(){
-		if (1 == 1) { //codigo que testa se pode dar o presente
+		if (1 == 1) { //codigo que testa se pode dar o presente,
+			
+
+
+			bool rand_found;
+			int rand, count = 0;
+
+			do {
+				rand = UnityEngine.Random.Range (1, 5);
+				rand_found = store_controller.s.CheckIfCharacterIsAlreadyPurchased (rand);
+				count++;
+			} while (rand_found == true && count < 50);
+				
+			if (count < 50) {
+				giftAnimationEnded = false;
+				globals.s.GIFT_ANIMATION = true;
+				giftAnimation.SetActive (true);
+				
+				StartCoroutine (GiveChar (rand));
+			}
+			else {
+				Debug.Log ("ERROR!!");
+			}
+			
+		} else {//fazer alguma coisa ?
 
 		}
 	}	
+
+	IEnumerator GiveChar(int musicType){
+		yield return new WaitForSeconds (1f);
+
+		giftChar.SetActive (true);
+		giftChar.GetComponent<CharGift> ().InitAnimation ((MusicStyle)musicType);
+		store_controller.s.GiveCharacterForFree (musicType);
+	}
 
 	#endregion
 }
