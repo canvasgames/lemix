@@ -68,6 +68,22 @@ public class AnalyticController : MonoBehaviour {
         eventParams.AddParam("killerWaveName", killer_wave_name);
         eventParams.AddParam("gameDuration", duration);
 
+		//new
+		eventParams.AddParam("userTotalSessionGames", 0);
+
+		eventParams.AddParam("userCurrentChar", "0");
+		eventParams.AddParam("userTotalChars", 0);
+
+		eventParams.AddParam("userCurrentCurrency", 0);
+		eventParams.AddParam("userTotalCurrency", 0);
+		eventParams.AddParam("currencyCollected", 0);
+
+		eventParams.AddParam("pwShieldCollected", 0);
+		eventParams.AddParam("pwVisionCollected", 0);
+		eventParams.AddParam("pwSuperJumpCollected", 0);
+		eventParams.AddParam("withPowerUps", globals.s.PW_ACTIVE);
+
+
         DDNA.Instance.RecordEvent("missionCompleted", eventParams);
     }
 
@@ -83,7 +99,8 @@ public class AnalyticController : MonoBehaviour {
         eventParams.AddParam("userTotalVideosWatched", USER.s.TOTAL_VIDEOS_WATCHED);
         eventParams.AddParam("userScore", globals.s.BALL_FLOOR);
 
-        DDNA.Instance.RecordEvent("revive", eventParams);
+		DDNA.Instance.RecordEvent("revive", eventParams);
+        DDNA.Instance.RecordEvent("menuRevive", eventParams);
     }
 
     public void ReportVideoWatchedForPowerUps() {

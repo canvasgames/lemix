@@ -18,6 +18,9 @@ public class RythmController : MonoBehaviour {
 	private float next_step_time = 0;
 	int my_state = 0, lightStep = 3, lightStep2 = 15;
 
+	public GameObject[] glowAnimationsObjs;
+	Animator[] glowAnimators;
+	
 	private RythmScenarioBehaviour[] stages;
 
 
@@ -30,6 +33,14 @@ public class RythmController : MonoBehaviour {
 		foreach(RythmScenarioBehaviour s in stages){
 			s.RestartAnimations();
 		}
+
+//		glowAnimators = new Animator[glowAnimationsObjs.Length];
+//		int i = 0;
+//		foreach (GameObject anims in glowAnimationsObjs) {
+//			glowAnimators [i] = anims.GetComponent<Animator> ();
+//			Debug.Log ("HEY LISTEN LINK, YOUR RAP DOESN'T STINK " + i + " LENGT: " + glowAnimators [i]);
+//			i++;
+//		}
 	}
 
 	public void OnMusicStarted(){
@@ -43,6 +54,19 @@ public class RythmController : MonoBehaviour {
 		for (int i = 0; i < stages.Length; i++)
 		{
 			stages[i].RestartMusic();
+		}
+
+//		foreach (Animator anims in glowAnimators) {
+//			Debug.Log ("zzzHEY LISTEN LINK, YOUR RAP DOESN'T STINK LENGT: " + anims);
+//			anims.Play ("normal");
+//
+//		}
+
+		int a = 0;
+		foreach (GameObject anims in glowAnimationsObjs) {
+			anims.GetComponent<Animator> ().Play("normal");
+			//Debug.Log ("HEY LISTEN LINK, YOUR RAP DOESN'T STINK " + a + " LENGT: " + glowAnimators [a]);
+			a++;
 		}
 
 	}
@@ -66,6 +90,11 @@ public class RythmController : MonoBehaviour {
 
 		if (current_step == step_glow_in && my_state != 0) {
 			my_state = 0;
+			foreach (GameObject anims in glowAnimationsObjs) {
+				anims.GetComponent<Animator> ().Play ("normal",0,0);
+				Debug.Log (" PLAY THE ANIMATION!!");
+			}
+
 			foreach (RythmScenarioBehaviour s in stages) {
 				if (s != null)
 					s.RestartAnimations ();

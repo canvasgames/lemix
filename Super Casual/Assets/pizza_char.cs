@@ -21,7 +21,7 @@ public class pizza_char : MonoBehaviour
     void Start()
     {
         define_percentages(12.5f, 12.5f, 12.5f, 12.5f, 12.5f, 12.5f, 12.5f, 12.5f);
-        define_rewards(20, 20, 20, 20, 20, 20, 20, 20);
+        define_rewards(3, 5, 1, 7, 3, 5, 1, 10); // sentido horario, partindo do meio-topo
     }
 
     // Update is called once per frame

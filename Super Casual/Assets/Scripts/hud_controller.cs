@@ -9,7 +9,7 @@ using UnityEngine.Advertisements;
 public class hud_controller : MonoBehaviour {
 	#region ======== Variables Declaration ========
 
-
+	public GameObject giftBt;
 	public GameObject giftAnimation;
 	public GameObject giftChar;
     public static hud_controller si;
@@ -106,11 +106,16 @@ public class hud_controller : MonoBehaviour {
 		if(temp_state == 1)
         {
             globals.s.PW_ACTIVE = true;
+			activate_pw_bt.GetComponent<activate_pw_button> ().SetCountownState ();
+
 			//pw_info.SetActive (true);
         }
         else
         {
             globals.s.PW_ACTIVE = false;
+			activate_pw_bt.GetComponent<activate_pw_button> ().SetSPinNowState ();
+
+
 			//pw_info.SetActive (false);
 		//	Debug.Log(" SETTING PW ACTIVE TO FALSE");
            // v_pw_on.SetActive(false);
@@ -134,11 +139,14 @@ public class hud_controller : MonoBehaviour {
             if (canRotate == 1)
             {
                 CAN_ROTATE_ROULETTE = true;
+
                 Debug.Log("can rotate init");
             }
             else
             {
+
                 CAN_ROTATE_ROULETTE = false;
+
                 Debug.Log("sem rotate init");
 
             }
@@ -150,6 +158,7 @@ public class hud_controller : MonoBehaviour {
 
 
         }
+
         if(gift_date != "")
         {
             tempDateGift = Convert.ToDateTime(gift_date);
@@ -158,33 +167,40 @@ public class hud_controller : MonoBehaviour {
             if (canGet == 1)
             {
                 CAN_GET_GIFT = true;
+				giftBt.GetComponent<GiftButton> ().SetGetNowState ();
             }
             else
             {
                 CAN_GET_GIFT = false;
+				giftBt.GetComponent<GiftButton> ().SetCountownState ();
             }
         }
         else
         {
             CAN_GET_GIFT = true;
+			giftBt.GetComponent<GiftButton> ().SetGetNowState ();
         }
 
+
+		// FIRST GAME LOGIC FOR THE POWER UPS BUTTON AND GIFT BUTTON
         if (globals.s.FIRST_GAME == true)
         {
-            activate_pw_bt.SetActive(false);
-            pw_info.SetActive(false);
+            //activate_pw_bt.SetActive(false);
+         //   pw_info.SetActive(false);
+			activate_pw_bt.SetActive(false);
+			//giftBt.SetActive(false);
 			Debug.Log ("------ FIRST GAME.. " );
         }
-        else
-        {
-            if (globals.s.PW_ACTIVE == false)
-            {
-                activate_pw_bt.SetActive(true);
-				pw_time_left_title_on.SetActive (false);
-                pw_time_bar.GetComponent<Animator>().Play("PowerUpsChargingBarAnimation");
-                pw_Text_Header.text = "Power Up Status";
-            }
-        }
+//        else
+//        {
+//            if (globals.s.PW_ACTIVE == false)
+//            {
+//                activate_pw_bt.SetActive(true);
+//				//pw_time_left_title_on.SetActive (false);
+////                pw_time_bar.GetComponent<Animator>().Play("PowerUpsChargingBarAnimation");
+////                pw_Text_Header.text = "Power Up Status";
+//            }
+//        }
     }
 	
 	// Update is called once per frame
@@ -377,8 +393,6 @@ public class hud_controller : MonoBehaviour {
             Invoke("appear_game_over", 0.7f);
         else
             Invoke("appear_game_over", 1.6f);
-
-
     }
 
     void appear_game_over()
@@ -485,7 +499,7 @@ public class hud_controller : MonoBehaviour {
 
     #region ========= LIFE SYSTEM ============
 
-    void show_pw_time()
+	void show_pw_time() // atualiza o tempo do power ups
     {
         tempcurDate = System.DateTime.Now;
         
@@ -520,53 +534,65 @@ public class hud_controller : MonoBehaviour {
         //Debug.Log(tempDate + " sadsad " + tempcurDate);
         if(globals.s.PW_ACTIVE == true)
         {
+
 			float fill =  ((float) difference.Minutes + (float) difference.Seconds/60) / GD.s.GD_WITH_PW_TIME;
-            pw_Text_Header.text = "Power Ups On";
-            pw_time_left_title_on.SetActive(true);
-            activate_pw_bt.SetActive(false);
-			if(pw_time_bar.GetComponent<Animator>()) pw_time_bar.GetComponent<Animator>().Play("PowerUpsCharginBarGreen");
-            pw_time_bar.GetComponent<Image> ().fillAmount =  fill;
-            pw_time_left_title_on.GetComponent<Text>().text =  difference.Minutes + "m " + difference.Seconds + "s ";
+//            pw_Text_Header.text = "Power Ups On";
+            //pw_time_left_title_on.SetActive(true);
+            //activate_pw_bt.SetActive(false);
+//			if(pw_time_bar.GetComponent<Animator>()) pw_time_bar.GetComponent<Animator>().Play("PowerUpsCharginBarGreen");
+//            pw_time_bar.GetComponent<Image> ().fillAmount =  fill;
+            pw_time_left_title_on.GetComponent<Text>().text =  difference.Minutes + "m" + difference.Seconds + "s ";
+
+			//activate_pw_bt.GetComponent<activate_pw_button> ().SetCountownState ();
         }
         else
         {
             float fill =  ((float) difference.Minutes + (float) difference.Seconds/60) / GD.s.GD_WITHOUT_PW_TIME;
-            pw_Text_Header.text = "Power Up Status";
-            pw_time_left_title_on.SetActive(false);
-            activate_pw_bt.SetActive(true);
-            pw_time_bar.GetComponent<Animator>().Play("PowerUpsChargingBarAnimation");
-            pw_time_bar.GetComponent<Image> ().fillAmount =  1f - fill;
-            PW_time_text.text = difference.Minutes + "m " + difference.Seconds + "s ";
+//            pw_Text_Header.text = "Power Up Status";
+//            pw_time_left_title_on.SetActive(false);
+           // pw_time_bar.GetComponent<Animator>().Play("PowerUpsChargingBarAnimation");
+           // pw_time_bar.GetComponent<Image> ().fillAmount =  1f - fill;
+
+//			activate_pw_bt.SetActive(true);
+//			activate_pw_bt.GetComponent<activate_pw_button> ().SetSPinNowState();
+			PW_time_text.text = difference.Minutes + "m" + difference.Seconds + "s ";
+
         }  
     }
 
+	// mostra o tempo pros power ups
     public void PW_time_set_new_date_and_state(bool PW_active_state)
     {
-        if(PW_active_state == true)
+        if(PW_active_state == true) // 
         {
+			Debug.Log ("!!!!!!! PW ACTIVE STATE = TRUE! COUNTOWN");
             //v_pw_on.SetActive(true);
-			pw_time_left_title_on.SetActive (true);
-            pw_time_bar.GetComponent<Animator>().Play("PowerUpsCharginBarGreen");
-
-            pw_Text_Header.text = "Power Ups On";
+//			pw_time_left_title_on.SetActive (true);
+//            pw_time_bar.GetComponent<Animator>().Play("PowerUpsCharginBarGreen");
+//
+//            pw_Text_Header.text = "Power Ups On";
             //pw_text.SetActive (true);
             globals.s.PW_ACTIVE = true;
             tempDate = tempcurDate;
             tempDate = tempDate.AddMinutes(GD.s.GD_WITH_PW_TIME);
             //tempDate = tempDate.AddSeconds(6);
             PW_date = tempDate.ToString();
-            activate_pw_bt.SetActive(false);
+            //activate_pw_bt.SetActive(false);
 
             PlayerPrefs.SetString("PWDate2ChangeState", PW_date);
             PlayerPrefs.SetInt("PWState", 1);
+
+			activate_pw_bt.GetComponent<activate_pw_button> ().SetCountownState ();
         }
         else
         {
-            //v_pw_on.SetActive(false);
-			pw_time_left_title_on.SetActive (false);
+			Debug.Log ("!!!!!!! PW ACTIVE STATE = FALSE! SPIN NOW!");
 
-            pw_Text_Header.text = "Power Up Status";
-            pw_time_bar.GetComponent<Animator>().Play("PowerUpsChargingBarAnimation");
+            //v_pw_on.SetActive(false);
+//			pw_time_left_title_on.SetActive (false);
+
+//            pw_Text_Header.text = "Power Up Status";
+//            pw_time_bar.GetComponent<Animator>().Play("PowerUpsChargingBarAnimation");
             globals.s.PW_ACTIVE = false;
             tempDate = tempcurDate;
             tempDate = tempDate.AddMinutes(GD.s.GD_WITHOUT_PW_TIME);
@@ -574,9 +600,12 @@ public class hud_controller : MonoBehaviour {
 
             PW_date = tempDate.ToString();
 
-            activate_pw_bt.SetActive(true);
             PlayerPrefs.SetString("PWDate2ChangeState", PW_date);
             PlayerPrefs.SetInt("PWState", 0);
+
+			activate_pw_bt.SetActive(true);
+			activate_pw_bt.GetComponent<activate_pw_button> ().SetSPinNowState ();
+
         }
     }
 
@@ -588,7 +617,7 @@ public class hud_controller : MonoBehaviour {
 
         //tempDate = tempDate.AddSeconds(6);
         PW_date = tempDate.ToString();
-        activate_pw_bt.SetActive(false);
+        //activate_pw_bt.SetActive(false);
 
         PlayerPrefs.SetString("PWDate2ChangeState", PW_date);
         PlayerPrefs.SetInt("PWState", 1);
@@ -844,7 +873,7 @@ public class hud_controller : MonoBehaviour {
 
 	IEnumerator openTampa()
     {
-        yield return new WaitForSeconds(0.3f);
+        yield return new WaitForSeconds(0.15f);
         //roda_a_roda.gameObject.SetActive(true);
         //roda_a_roda.Entrance ();
         roda_a_roda.openTampa();
@@ -852,14 +881,14 @@ public class hud_controller : MonoBehaviour {
 
     IEnumerator closeTampa()
     {
-        yield return new WaitForSeconds(0.3f);
+        yield return new WaitForSeconds(0.15f);
         //roda_a_roda.gameObject.SetActive(true);
         //roda_a_roda.Entrance ();
         roda_a_roda.openTampa();
     }
     #endregion
 
-    #region ======== Presente ============
+    #region ======== Gift ============
     void show_gift_time()
     {
         tempcurDate = System.DateTime.Now;
@@ -869,7 +898,9 @@ public class hud_controller : MonoBehaviour {
         {
             CAN_GET_GIFT = true;
             PlayerPrefs.SetInt("CanGetGift", 1);
+			giftBt.GetComponent<GiftButton> ().SetGetNowState ();
         }
+
         else
         {
             TimeSpan diff = tempDateGift.Subtract(tempcurDate);
@@ -880,18 +911,24 @@ public class hud_controller : MonoBehaviour {
                     Debug.Log("o tempo passou e eu sofri calado");
                     CAN_GET_GIFT = true;
                     PlayerPrefs.SetInt("CanGetGift", 1);
+					giftBt.GetComponent<GiftButton> ().SetGetNowState ();
+
                 }
             }
+
             if (diff.TotalSeconds > 0 && CAN_GET_GIFT == false)
             {
-                gift_time_left.GetComponent<Text>().text = diff.Days + "d " + diff.Hours + "h " + diff.Minutes + "m " + diff.Seconds + "s ";
+				gift_time_left.GetComponent<Text>().text = diff.Days + "d " + diff.Hours + "h " + diff.Minutes + "m " + diff.Seconds + "s ";
             }
 
         }
-        if(CAN_GET_GIFT == true)
-        {
-            gift_time_left.GetComponent<Text>().text = " GET NOW";
-        }
+
+//        if(CAN_GET_GIFT == true)
+//        {
+//            gift_time_left.GetComponent<Text>().text = " GET NOW";
+//			giftBt.GetComponent<GiftButton> ().SetGetNowState ();
+//
+//        }
 
         //TimeSpan difference = tempDate.Subtract(tempcurDate);
         //Debug.Log(tempDate + " sadsad " + tempcurDate);
@@ -908,11 +945,9 @@ public class hud_controller : MonoBehaviour {
 
         PlayerPrefs.SetString("GiftDate2ChangeState", gift_date);
     }
-    #endregion
-
-	#region  ====== GIFT ==========
+  
 	public void GiftButtonClicked(){
-		if (1 == 1) { //codigo que testa se pode dar o presente,
+		if (CAN_GET_GIFT || 1==1) { //codigo que testa se pode dar o presente,
 			
 
 
@@ -947,6 +982,9 @@ public class hud_controller : MonoBehaviour {
 		giftChar.SetActive (true);
 		giftChar.GetComponent<CharGift> ().InitAnimation ((MusicStyle)musicType);
 		store_controller.s.GiveCharacterForFree (musicType);
+
+		giftBt.GetComponent<GiftButton> ().SetCountownState ();
+		getGift ();
 	}
 
 	#endregion
