@@ -174,7 +174,7 @@ public class game_controller : MonoBehaviour {
                     create_floor(0, i);
 					//create_hidden_spike(Random.Range (-0.5f, + 0.5f), globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * i, i);
 
-                	if (USER.s.BEST_SCORE <= 5) // FTU
+					if (USER.s.NEWBIE_PLAYER == 1) // FTU
 						create_spike(Random.Range (-0.5f, + 0.5f), globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * i, i);
                     else
                         create_spike(Random.Range(-mid_area, mid_area), globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * i, i);
@@ -193,11 +193,11 @@ public class game_controller : MonoBehaviour {
 //                            wave_found = true;
 //                        }
 					//wave_found = create_wave_special(i);
-					if (USER.s.BEST_SCORE < 5) {
+					if (USER.s.NEWBIE_PLAYER == 1) {
 						create_floor(0, i);
-						//create_triple_spike (Random.Range (-0.3f, + 0.3f), globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * i, i);
-						create_spike(Random.Range (-1.7f, -1.5f), globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * i, i);
-						create_spike(Random.Range (1.5f, 1.7f), globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * i, i);
+						create_triple_spike (Random.Range (-0.5f, + 0.5f), globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * i, i);
+						//create_spike(Random.Range (-1.7f, -1.5f), globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * i, i);
+						//create_spike(Random.Range (1.5f, 1.7f), globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * i, i);
 
 						wave_found = true;
 					}
@@ -206,7 +206,7 @@ public class game_controller : MonoBehaviour {
 						//wave_found = create_wave_hard(i, 46);
                     break;
 				case 4:
-					if (USER.s.BEST_SCORE < 5) {
+					if (USER.s.NEWBIE_PLAYER == 1) {
 						create_floor (0, i);
 						ftu_spk_pos = Random.Range (-1.2f, -1f);
 						create_spike (ftu_spk_pos, globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * i, i, false, true);
@@ -219,7 +219,7 @@ public class game_controller : MonoBehaviour {
 					break;
 				case 5:
 					
-					if (USER.s.BEST_SCORE < 5) {
+					if (USER.s.NEWBIE_PLAYER == 1) {
 						wave_found = create_hole (i, false, 0, true, ftu_spk_pos + globals.s.HOLE_SPK_DIST+ 0.3f);
 						//create_spike (ftu_spk_pos, globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * i, i, false, true);
 					} else
@@ -235,7 +235,7 @@ public class game_controller : MonoBehaviour {
                 }
             }
 
-			if ( n_floor >= 2 && USER.s.TOTAL_GAMES >= 2 && USER.s.BEST_SCORE >= 5) {
+			if ( n_floor >= 2 && globals.s.PW_ACTIVE && USER.s.TOTAL_GAMES >= 2  && USER.s.NEWBIE_PLAYER == 0) {
                 //Debug.Log(" n floor: " + n_floor + " CREATE PW!! ");
                 create_power_up_logic();
             }
@@ -410,12 +410,12 @@ public class game_controller : MonoBehaviour {
         // create chance check
 //        Debug.Log(" CREATE POWER UPS CHANCE: " + rand + " .. CONDITION: " + ((pw_floors_not_created - pw_dont_create_for_n_floors) * 7));
         // if (!QA.s.NO_PWS && pw_floors_not_created > pw_dont_create_for_n_floors && rand <= 15 && globals.s.PW_ACTIVE == true) {
-		if (!QA.s.NO_PWS && USER.s.TOTAL_GAMES >= 2 && USER.s.BEST_SCORE >= 5 && ((pw_floors_not_created > pw_dont_create_for_n_floors &&
+		if (!QA.s.NO_PWS && USER.s.TOTAL_GAMES >= 2 && USER.s.NEWBIE_PLAYER == 0 && ((pw_floors_not_created > pw_dont_create_for_n_floors &&
             rand <= (pw_floors_not_created - pw_dont_create_for_n_floors) * 7) || (USER.s.FIRST_PW_CREATED == 0 && !first_pw_created))) {
 
             int my_type = 0;
             rand = Random.Range(0, 100);
-			if (rand < 20 || (USER.s.TOTAL_GAMES >= 2 && USER.s.FIRST_PW_CREATED == 0 && !first_pw_created)) {
+			if (rand < 20 || (USER.s.FIRST_PW_CREATED == 0 && !first_pw_created)) {
 				my_type = (int)PW_Types.Super;
 			} else if (rand < 60 && n_floor > 5) {
 				my_type = (int)PW_Types.Sight;
@@ -460,6 +460,9 @@ public class game_controller : MonoBehaviour {
             cur_floor = ball_floor;
             hud_controller.si.update_floor(cur_floor);
             globals.s.BALL_FLOOR = cur_floor;
+
+			if (USER.s.NEWBIE_PLAYER == 1 && cur_floor >= GD.s.FTU_NEWBIE_SCORE)
+				PlayerPrefs.SetInt ("newbie_player", 0);
 
 			// NEW STAGE WARNING
 			if(globals.s.PW_SUPER_JUMP == false && cur_floor % 5 == 0 && cur_floor > 1) stage_intro.s.StartEntering ((int)(cur_floor/5)+1);

@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using DeltaDNA;
+//using DeltaDNA;
 
 public class AnalyticController : MonoBehaviour {
 
@@ -15,122 +15,134 @@ public class AnalyticController : MonoBehaviour {
         
         // Launch the SDK
         if (GD.s.AnalyticsLive == false) {
-            DDNA.Instance.Settings.DebugMode = true;
-            DDNA.Instance.Settings.OnInitSendGameStartedEvent = true;
-            DDNA.Instance.ClientVersion = clientVersion;
-            DDNA.Instance.StartSDK(
-                "87199148446217602329834496314561",
-                "http://collect7976sprcs.deltadna.net/collect/api",
-                "http://engage7976sprcs.deltadna.net",
-                "00"
-            );
+//            DDNA.Instance.Settings.DebugMode = true;
+//            DDNA.Instance.Settings.OnInitSendGameStartedEvent = true;
+//            DDNA.Instance.ClientVersion = clientVersion;
+//            DDNA.Instance.StartSDK(
+//                "87199148446217602329834496314561",
+//                "http://collect7976sprcs.deltadna.net/collect/api",
+//                "http://engage7976sprcs.deltadna.net",
+//                "00"
+//            );
         }
 
         else {
             //DDNA.Instance.Settings.DebugMode = true;
-            DDNA.Instance.ClientVersion = clientVersion;
-            DDNA.Instance.StartSDK(
-                "87199152274143954720021478014561",
-                "http://collect7976sprcs.deltadna.net/collect/api",
-                "http://engage7976sprcs.deltadna.net",
-                DDNA.AUTO_GENERATED_USER_ID
-                );
+//            DDNA.Instance.ClientVersion = clientVersion;
+//            DDNA.Instance.StartSDK(
+//                "87199152274143954720021478014561",
+//                "http://collect7976sprcs.deltadna.net/collect/api",
+//                "http://engage7976sprcs.deltadna.net",
+//                DDNA.AUTO_GENERATED_USER_ID
+//                );
         }    
     }
 
     public void ReportGameStarted() {
         Debug.Log("[ANAL] REPORTING GAME STARTED");
-        EventBuilder eventParams = new EventBuilder();
-        eventParams.AddParam("clientVersion", clientVersion);
-        eventParams.AddParam("isTutorial", false);
-        eventParams.AddParam("missionName", "game started");
-        //eventParams.AddParam("platform", DDNA.Instance.Platform);
-        eventParams.AddParam("userHighScore",USER.s.BEST_SCORE);
-        eventParams.AddParam("userTotalGames", USER.s.TOTAL_GAMES);
-        eventParams.AddParam("userTotalVideosWatched", USER.s.TOTAL_VIDEOS_WATCHED);
-        eventParams.AddParam("siteName", siteName);
-
-        DDNA.Instance.RecordEvent("missionStarted", eventParams);
+       
+//		EventBuilder eventParams = new EventBuilder();
+//        eventParams.AddParam("clientVersion", clientVersion);
+//        eventParams.AddParam("isTutorial", false);
+//        eventParams.AddParam("missionName", "game started");
+//        //eventParams.AddParam("platform", DDNA.Instance.Platform);
+//        eventParams.AddParam("userHighScore",USER.s.BEST_SCORE);
+//        eventParams.AddParam("userTotalGames", USER.s.TOTAL_GAMES);
+//        eventParams.AddParam("userTotalVideosWatched", USER.s.TOTAL_VIDEOS_WATCHED);
+//        eventParams.AddParam("siteName", siteName);
+//
+//		eventParams.AddParam("withPowerUps", globals.s.PW_ACTIVE);
+//
+//		eventParams.AddParam("userCurrentCurrency", 0);
+//		eventParams.AddParam("userTotalCurrency", 0);
+//
+//		//new
+//		eventParams.AddParam("userTotalSessionGames", 0);
+//
+//		eventParams.AddParam("userCurrentChar", "0");
+//		eventParams.AddParam("userTotalChars", 0);
+//
+//        DDNA.Instance.RecordEvent("missionStarted", eventParams);
     }
 
     public void ReportGameEnded(string killer_wave_name, int duration) {
         Debug.Log("[ANAL] REPORTING GAME ENDED");
-        EventBuilder eventParams = new EventBuilder();
-        eventParams.AddParam("clientVersion", clientVersion);
-
-        eventParams.AddParam("isTutorial", false);
-        eventParams.AddParam("missionName", "game ended");
-       // eventParams.AddParam("platform", DDNA.Instance.Platform);
-        eventParams.AddParam("userHighScore", USER.s.BEST_SCORE);
-        eventParams.AddParam("userTotalGames", USER.s.TOTAL_GAMES);
-        eventParams.AddParam("userTotalVideosWatched", USER.s.TOTAL_VIDEOS_WATCHED);
-        eventParams.AddParam("userScore", globals.s.BALL_FLOOR);
-        eventParams.AddParam("killerWaveName", killer_wave_name);
-        eventParams.AddParam("gameDuration", duration);
-
-		//new
-		eventParams.AddParam("userTotalSessionGames", 0);
-
-		eventParams.AddParam("userCurrentChar", "0");
-		eventParams.AddParam("userTotalChars", 0);
-
-		eventParams.AddParam("userCurrentCurrency", 0);
-		eventParams.AddParam("userTotalCurrency", 0);
-		eventParams.AddParam("currencyCollected", 0);
-
-		eventParams.AddParam("pwShieldCollected", 0);
-		eventParams.AddParam("pwVisionCollected", 0);
-		eventParams.AddParam("pwSuperJumpCollected", 0);
-		eventParams.AddParam("withPowerUps", globals.s.PW_ACTIVE);
-
-
-        DDNA.Instance.RecordEvent("missionCompleted", eventParams);
+//        EventBuilder eventParams = new EventBuilder();
+//        eventParams.AddParam("clientVersion", clientVersion);
+//
+//        eventParams.AddParam("isTutorial", false);
+//        eventParams.AddParam("missionName", "game ended");
+//       // eventParams.AddParam("platform", DDNA.Instance.Platform);
+//        eventParams.AddParam("userHighScore", USER.s.BEST_SCORE);
+//        eventParams.AddParam("userTotalGames", USER.s.TOTAL_GAMES);
+//        eventParams.AddParam("userTotalVideosWatched", USER.s.TOTAL_VIDEOS_WATCHED);
+//        eventParams.AddParam("userScore", globals.s.BALL_FLOOR);
+//        eventParams.AddParam("killerWaveName", killer_wave_name);
+//        eventParams.AddParam("gameDuration", duration);
+//
+//		//new
+//		eventParams.AddParam("userTotalSessionGames", 0);
+//
+//		eventParams.AddParam("userCurrentChar", "0");
+//		eventParams.AddParam("userTotalChars", 0);
+//
+//		eventParams.AddParam("userCurrentCurrency", 0);
+//		eventParams.AddParam("userTotalCurrency", 0);
+//		eventParams.AddParam("currencyCollected", 0);
+//
+//		eventParams.AddParam("pwShieldCollected", 0);
+//		eventParams.AddParam("pwVisionCollected", 0);
+//		eventParams.AddParam("pwSuperJumpCollected", 0);
+//		eventParams.AddParam("withPowerUps", globals.s.PW_ACTIVE);
+//
+//
+//        DDNA.Instance.RecordEvent("missionCompleted", eventParams);
     }
 
     public void ReportRevive(bool success) {
         Debug.Log("[ANAL] REPORTING REVIVE " + success);
-        EventBuilder eventParams = new EventBuilder();
-        eventParams.AddParam("clientVersion", clientVersion);
-
-        eventParams.AddParam("success", success);
-        // eventParams.AddParam("platform", DDNA.Instance.Platform);
-        eventParams.AddParam("userHighScore", USER.s.BEST_SCORE);
-        eventParams.AddParam("userTotalGames", USER.s.TOTAL_GAMES);
-        eventParams.AddParam("userTotalVideosWatched", USER.s.TOTAL_VIDEOS_WATCHED);
-        eventParams.AddParam("userScore", globals.s.BALL_FLOOR);
-
-		DDNA.Instance.RecordEvent("revive", eventParams);
-        DDNA.Instance.RecordEvent("menuRevive", eventParams);
+//        EventBuilder eventParams = new EventBuilder();
+//        eventParams.AddParam("clientVersion", clientVersion);
+//
+//        eventParams.AddParam("success", success);
+//        // eventParams.AddParam("platform", DDNA.Instance.Platform);
+//        eventParams.AddParam("userHighScore", USER.s.BEST_SCORE);
+//        eventParams.AddParam("userTotalGames", USER.s.TOTAL_GAMES);
+//        eventParams.AddParam("userTotalVideosWatched", USER.s.TOTAL_VIDEOS_WATCHED);
+//        eventParams.AddParam("userScore", globals.s.BALL_FLOOR);
+//
+//		DDNA.Instance.RecordEvent("revive", eventParams);
+//        DDNA.Instance.RecordEvent("menuRevive", eventParams);
     }
 
     public void ReportVideoWatchedForPowerUps() {
         Debug.Log("[ANAL] REPORTING ACTIVATE PWS");
-        EventBuilder eventParams = new EventBuilder();
-        eventParams.AddParam("clientVersion", clientVersion);
-
-        //eventParams.AddParam("platform", DDNA.Instance.Platform);
-        eventParams.AddParam("userHighScore", USER.s.BEST_SCORE);
-        eventParams.AddParam("userTotalGames", USER.s.TOTAL_GAMES);
-        eventParams.AddParam("userTotalVideosWatched", USER.s.TOTAL_VIDEOS_WATCHED);
-
-        DDNA.Instance.RecordEvent("activatePWsPressed", eventParams);
+//        EventBuilder eventParams = new EventBuilder();
+//        eventParams.AddParam("clientVersion", clientVersion);
+//
+//        //eventParams.AddParam("platform", DDNA.Instance.Platform);
+//        eventParams.AddParam("userHighScore", USER.s.BEST_SCORE);
+//        eventParams.AddParam("userTotalGames", USER.s.TOTAL_GAMES);
+//        eventParams.AddParam("userTotalVideosWatched", USER.s.TOTAL_VIDEOS_WATCHED);
+//
+//        DDNA.Instance.RecordEvent("activatePWsPressed", eventParams);
     }
 
     public void ReportAdAction(string adName = "bomblast", string action = "closed") {
         Debug.Log("[ANAL] REPORTING AD ACTION");
 
-        EventBuilder eventParams = new EventBuilder();
-        eventParams.AddParam("action", action); // "clicked" or "closed"
-        eventParams.AddParam("adName", adName); // "bomblast or battlepegs 
-        eventParams.AddParam("clientVersion", clientVersion);
-
-
-        eventParams.AddParam("userHighScore", USER.s.BEST_SCORE);
-        eventParams.AddParam("userTotalGames", USER.s.TOTAL_GAMES);
-        eventParams.AddParam("userTotalVideosWatched", USER.s.TOTAL_VIDEOS_WATCHED);
-        eventParams.AddParam("userScore", globals.s.BALL_FLOOR);
-
-        DDNA.Instance.RecordEvent("adAction", eventParams);
+//        EventBuilder eventParams = new EventBuilder();
+//        eventParams.AddParam("action", action); // "clicked" or "closed"
+//        eventParams.AddParam("adName", adName); // "bomblast or battlepegs 
+//        eventParams.AddParam("clientVersion", clientVersion);
+//
+//
+//        eventParams.AddParam("userHighScore", USER.s.BEST_SCORE);
+//        eventParams.AddParam("userTotalGames", USER.s.TOTAL_GAMES);
+//        eventParams.AddParam("userTotalVideosWatched", USER.s.TOTAL_VIDEOS_WATCHED);
+//        eventParams.AddParam("userScore", globals.s.BALL_FLOOR);
+//
+//        DDNA.Instance.RecordEvent("adAction", eventParams);
 
     }
 
@@ -144,31 +156,31 @@ public class AnalyticController : MonoBehaviour {
 
     void ReportTest() {
         Debug.Log("REPORTING EVENT!! ");
-        EventBuilder eventParams = new EventBuilder();
-        eventParams.AddParam("option", "sword");
-        eventParams.AddParam("action", "sell");
-
-        DDNA.Instance.RecordEvent("options", eventParams);
-
-        /////////
-
-        EventBuilder achievementParams = new EventBuilder()
-                .AddParam("achievementName", "Sunday Showdown Tournament Win")
-                .AddParam("achievementID", "SS-2014-03-02-01")
-                .AddParam("reward", new EventBuilder()
-                    .AddParam("rewardProducts", new ProductBuilder()
-                         .AddRealCurrency("USD", 5000)
-                        .AddVirtualCurrency("VIP Points", "GRIND", 20)
-                        .AddItem("Sunday Showdown Medal", "Victory Badge", 1))
-                        .AddParam("rewardName", "Medal"));
-
-        DDNA.Instance.RecordEvent("achievement", achievementParams);
-
-
-        eventParams = new EventBuilder();
-        eventParams.AddParam("aaa", "lime");
-        eventParams.AddParam("aaction", "be a dark Lord");
-        DDNA.Instance.RecordEvent("zeptile", eventParams);
+//        EventBuilder eventParams = new EventBuilder();
+//        eventParams.AddParam("option", "sword");
+//        eventParams.AddParam("action", "sell");
+//
+//        DDNA.Instance.RecordEvent("options", eventParams);
+//
+//        /////////
+//
+//        EventBuilder achievementParams = new EventBuilder()
+//                .AddParam("achievementName", "Sunday Showdown Tournament Win")
+//                .AddParam("achievementID", "SS-2014-03-02-01")
+//                .AddParam("reward", new EventBuilder()
+//                    .AddParam("rewardProducts", new ProductBuilder()
+//                         .AddRealCurrency("USD", 5000)
+//                        .AddVirtualCurrency("VIP Points", "GRIND", 20)
+//                        .AddItem("Sunday Showdown Medal", "Victory Badge", 1))
+//                        .AddParam("rewardName", "Medal"));
+//
+//        DDNA.Instance.RecordEvent("achievement", achievementParams);
+//
+//
+//        eventParams = new EventBuilder();
+//        eventParams.AddParam("aaa", "lime");
+//        eventParams.AddParam("aaction", "be a dark Lord");
+//        DDNA.Instance.RecordEvent("zeptile", eventParams);
     }
 
 

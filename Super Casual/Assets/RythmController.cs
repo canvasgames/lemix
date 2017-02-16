@@ -92,7 +92,7 @@ public class RythmController : MonoBehaviour {
 			my_state = 0;
 			foreach (GameObject anims in glowAnimationsObjs) {
 				anims.GetComponent<Animator> ().Play ("normal",0,0);
-				Debug.Log (" PLAY THE ANIMATION!!");
+				//Debug.Log (" PLAY THE ANIMATION!!");
 			}
 
 			foreach (RythmScenarioBehaviour s in stages) {

@@ -585,8 +585,8 @@ public class ball_hero : MonoBehaviour
 
     void pw_do_something(PW_Collect temp)
     {
-		USER.s.FIRST_PW_CREATED = 1;
-		PlayerPrefs.SetInt("first_pw_created", 1);
+		//USER.s.FIRST_PW_CREATED = 1;
+		//PlayerPrefs.SetInt("first_pw_created", 1);
 
        // temp.collect();
         if(globals.s.PW_INVENCIBLE == true)

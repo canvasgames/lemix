@@ -7,6 +7,7 @@ public class PwWheelMaster : MonoBehaviour {
 	public GameObject title, top, bottom, tampa, youNowHaveMenu;
     public Text youNowHaveText;
     public pizza_char pitissa;
+	public GameObject haste;
 	// Use this for initialization
 	void Start () {
 	

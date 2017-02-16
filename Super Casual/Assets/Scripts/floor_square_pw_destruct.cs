@@ -29,7 +29,7 @@ public class floor_square_pw_destruct : MonoBehaviour {
 	}
 
 	public void DisappearNow(){
-		if (transform.GetComponent<Rigidbody2D> ().velocity != new Vector2 (0, 0)) {
+		if (transform.GetComponent<Rigidbody2D> ().velocity != Vector2.zero) {
 			can_disappear = true;
 			scale_down_to_dessapear ();
 		}
@@ -41,13 +41,13 @@ public class floor_square_pw_destruct : MonoBehaviour {
 
     public void scale_down_to_dessapear()
     {
-     if (can_disappear == true)
-        transform.DOScale(0, 0.3f) ;
+     //if (can_disappear == true)
+        //transform.DOScale(0, 0.3f) ;
     }
 
     public void reposite_squares_tururu()
     {
-        transform.DOScale(1, 0.1f);
+		transform.localScale = Vector3.one;
         transform.localPosition = new Vector3(initial_x, initial_y, 0);
         transform.localRotation = new Quaternion(0, 0, 0, 0);
     }

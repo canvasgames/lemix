@@ -225,7 +225,7 @@ public class ScrollSnapRect : MonoBehaviour, IBeginDragHandler, IEndDragHandler,
 
     //------------------------------------------------------------------------
     private void NextScreen() {
-        if(_currentPage == 3)
+        if(_currentPage == 4)
         {
             store_controller.s.setPrice(0);
 
@@ -242,8 +242,8 @@ public class ScrollSnapRect : MonoBehaviour, IBeginDragHandler, IEndDragHandler,
     private void PreviousScreen() {
         if (_currentPage == 0)
         {
-            LerpToPage(3);
-            store_controller.s.setPrice(3);
+            LerpToPage(4);
+            store_controller.s.setPrice(4);
         }
         else
         {

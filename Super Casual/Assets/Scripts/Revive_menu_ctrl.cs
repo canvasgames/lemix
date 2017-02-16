@@ -21,8 +21,8 @@ public class Revive_menu_ctrl : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-             actual_duration = end_time - Time.time;
-             my_text.text = Mathf.CeilToInt(actual_duration)+ " seconds left";
+        actual_duration = end_time - Time.time;
+		my_text.text = Mathf.CeilToInt (actual_duration).ToString ();
         if(actual_duration <= 0)
         {
             hud_controller.si.close_revive_menu();

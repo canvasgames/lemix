@@ -18,10 +18,12 @@ public class pizza_char : MonoBehaviour
     [HideInInspector]public  bool openingTampaDoTeuCu = true;
 	#endregion
     // Use this for initialization
+
+	public GameObject haste;
     void Start()
     {
         define_percentages(12.5f, 12.5f, 12.5f, 12.5f, 12.5f, 12.5f, 12.5f, 12.5f);
-        define_rewards(3, 5, 1, 7, 3, 5, 1, 10); // sentido horario, partindo do meio-topo
+        define_rewards(2, 7, 3, 5, 2, 10, 3, 5); // sentido horario, partindo do meio-topo
     }
 
     // Update is called once per frame
@@ -124,6 +126,7 @@ public class pizza_char : MonoBehaviour
 
     public void rotate(float time, float distance, float inputX, float inputY, float lastY)
     {
+		
         hand.SetActive(false);
         float angle;
         Debug.Log(inputX);
@@ -148,14 +151,22 @@ public class pizza_char : MonoBehaviour
             angle = angle * (force);
 
             //Debug.Log(force + " " + angle);
-            transform.DORotate(new Vector3(0, 0, angle), Random.Range(2,3.5f),RotateMode.WorldAxisAdd).SetEase(Ease.OutQuart).OnComplete(give_reward);
+			float tempo = Random.Range(2f, 3.5f);
+            transform.DORotate(new Vector3(0, 0, angle), tempo, RotateMode.WorldAxisAdd).SetEase(Ease.OutQuart).OnComplete(give_reward);
             hud_controller.si.addRoulleteTime();
+			haste.transform.DOShakePosition (tempo, 1, 10, 90, false);
         }
 
     }
 
+	void haste_animation(){
+		
+	}
+
     void give_reward()
     {
+		hud_controller.si.PW_time_set_new_date_and_state (true);
+		hud_controller.si.ActivateFirstPw ();
         //Debug.Log("angle " + transform.rotation.eulerAngles.z);
         float reward = 1;
         float angle_temp = transform.GetComponent<RectTransform>().eulerAngles.z;

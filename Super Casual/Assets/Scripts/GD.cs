@@ -5,6 +5,11 @@ public class GD : MonoBehaviour {
 
     public static GD s;
 
+	public int FTU_NEWBIE_SCORE = 5;
+	public int FTU_MATCHES_TO_UNLOCK_PW = 2;
+	public int FTU_MATCHES_TO_UNLOCK_GIFT = 4;
+	public int CUR_MATCHES_TO_UNLOCK_STUFF = 0;
+
     public int GD_PW_SIGHT_TIME;
     public int GD_PW_HEARTH_TIME;
 

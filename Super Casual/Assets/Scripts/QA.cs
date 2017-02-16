@@ -6,6 +6,8 @@ public class QA : MonoBehaviour {
 
     public static QA s;
 
+	public bool OLD_PLAYER;
+
 	bool sqMode = true;
     public bool INVENCIBLE ;
     public float TIMESCALE = 1;

@@ -37,7 +37,12 @@ public class Button_New_Game_QA : MonoBehaviour {
             PlayerPrefs.SetInt("last_score", 0);
             PlayerPrefs.SetInt("first_pw_created", 0);
             PlayerPrefs.SetInt("first_wall_created", 0);
-            PlayerPrefs.SetInt("first_hole_created", 0);
+			PlayerPrefs.SetInt("first_hole_created", 0);
+			PlayerPrefs.SetInt("pw_introduced", 0);
+			PlayerPrefs.SetInt("gift_introduced", 0);
+			PlayerPrefs.SetInt("newbie_player", 1);
+			PlayerPrefs.SetInt ("PwHandTutShowed", 0);
+			PlayerPrefs.SetInt ("GiftHandTutShowed", 0);
             transform.GetComponent<Image>().color = Color.blue;
             PlayerPrefs.DeleteAll();
             hud_controller.si.display_best(0);

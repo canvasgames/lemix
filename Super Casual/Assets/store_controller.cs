@@ -121,8 +121,12 @@ public class store_controller : MonoBehaviour {
 
 	public void tryBuyCharacter(int musicStyle = -1)
     {
+
 		if (musicStyle == -1)
 			musicStyle = actualCharInScreen;
+		
+		Debug.Log (" TRYING TO BUY CHAR: " + musicStyle);
+
 		if(musicStyle == 0)
         {
             if (USER.s.NOTES >= eletronicPrice)
@@ -230,6 +234,17 @@ public class store_controller : MonoBehaviour {
 
 			sound_controller.s.change_music(MusicStyle.PopGaga);
 		}
+		else if (actualCharInScreen == 4)
+		{
+			PlayerPrefs.SetString("ACTUAL_CHAR", "reggae");
+			globals.s.ACTUAL_CHAR = PlayerPrefs.GetString("ACTUAL_CHAR", "reggae");
+			changeActualChar();
+
+			changeAnimationEquipButton("reggae");
+
+			sound_controller.s.change_music(MusicStyle.Reggae);
+		}
+
     }
 
     public void setPrice(int type)

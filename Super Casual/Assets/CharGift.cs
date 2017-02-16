@@ -42,7 +42,7 @@ public class CharGift : MonoBehaviour {
 		rect.localScale = new Vector2 (0.5f, 0.5f);
 		rect.localPosition = new Vector2 (0, 0);
 
-		rect.DOLocalMoveY (rect.transform.localPosition.y + 500, 1f).SetEase(Ease.OutQuad);
+		rect.DOLocalMoveY (rect.transform.localPosition.y + 290, 1f).SetEase(Ease.OutQuad);
 		rect.transform.DOScale (new Vector3 (1.6f, 1.6f, 1f), 1f).SetEase(Ease.OutQuad).OnComplete(() => onPosition());
 	}
 

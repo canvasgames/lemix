@@ -5,6 +5,7 @@ public class USER : MonoBehaviour {
 
     public static USER s;
 
+	[HideInInspector] 	public int PW_INTRODUCED, GIFT_INTRODUCED, NEWBIE_PLAYER;
     [HideInInspector]   public int BEST_SCORE, LAST_SCORE, DAY_SCORE;
     [HideInInspector]   public int TOTAL_GAMES, TOTAL_VIDEOS_WATCHED;
     [HideInInspector]   public int FIRST_PW_CREATED, FIRST_HOLE_CREATED, FIRST_WALL_CREATED;
@@ -35,7 +36,17 @@ public class USER : MonoBehaviour {
         FIRST_HOLE_CREATED =  PlayerPrefs.GetInt("first_hole_created", 0);
         FIRST_WALL_CREATED =  PlayerPrefs.GetInt("first_wall_created", 0);
 
+
+		PW_INTRODUCED =  PlayerPrefs.GetInt("pw_introduced", 0);
+		GIFT_INTRODUCED = PlayerPrefs.GetInt("gift_introduced", 0);
+		NEWBIE_PLAYER = PlayerPrefs.GetInt("newbie_player", 1);
+
         s = this;
+
+		if (TOTAL_GAMES > 4 && FIRST_PW_CREATED == 1) {
+			GIFT_INTRODUCED = 1;
+			PlayerPrefs.SetInt("gift_introduced", 1);
+		}
     } 
 
 

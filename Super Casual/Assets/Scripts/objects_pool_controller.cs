@@ -117,7 +117,7 @@ public class objects_pool_controller : MonoBehaviour {
 			foreach(GameObject bg in bgs2_pool){
 				if (bg !=null && bg.transform.position.x == 0 && bg.transform.position.y < main_camera.s.transform.position.y - 14f) {
 					Destroy(bg);
-					Debug.Log ("DESTROYING BG 2 =) ... My pos: "+ bg.transform.position.y + "  CAMERA POS: " +main_camera.s.transform.position.y );
+					//Debug.Log ("DESTROYING BG 2 =) ... My pos: "+ bg.transform.position.y + "  CAMERA POS: " +main_camera.s.transform.position.y );
 				}
 			}
 		}
