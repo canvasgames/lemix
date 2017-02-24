@@ -6,6 +6,8 @@ public class ball_hero : MonoBehaviour
 {
     #region ==== Variables Declaration =====
 
+
+
 	public GameObject superJumpEffect;
 	public GameObject jetpack;
     public bool is_destroyed = false;
@@ -43,9 +45,8 @@ public class ball_hero : MonoBehaviour
     public float time_dif;
     //public GameObject
 
-    // Use this for initialization
-    [HideInInspector]
-    public Rigidbody2D rb;
+    Rigidbody2D rb;
+	SpriteRenderer mySprite;
     [HideInInspector]
     public Vector2 vetor;
 
@@ -149,6 +150,23 @@ public class ball_hero : MonoBehaviour
     }
 
     #region ======= UPDATE ==========
+
+	void show_alert() {
+		Debug.Log("SHOWING ALERT!! MY FLOOR: " + my_floor);
+		my_alert.SetActive(true);
+		my_alert.transform.localScale = new Vector2(2.3f, 0);
+		my_alert.transform.DOScaleY(2.3f, 0.12f);
+		//sound_controller.s.play_alert();
+	}
+
+	public void activate_pos_revive()
+	{
+		if (transform.position.x > 0)
+			rb.velocity = new Vector2(-globals.s.BALL_SPEED_X, rb.velocity.y);
+		else 
+			rb.velocity = new Vector2(globals.s.BALL_SPEED_X, rb.velocity.y);
+	}
+
     void Update()
     {
 		if (globals.s.ALERT_BALL == true && son_created == false && game_controller.s.alertDebug == true) {
@@ -186,27 +204,11 @@ public class ball_hero : MonoBehaviour
         //else
         //   my_trail.transform.rotation = new Quaternion(0, 0, 0, 0);
 
-
-    }
-
-    void show_alert() {
-        Debug.Log("SHOWING ALERT!! MY FLOOR: " + my_floor);
-        my_alert.SetActive(true);
-        my_alert.transform.localScale = new Vector2(2.3f, 0);
-        my_alert.transform.DOScaleY(2.3f, 0.12f);
-        //sound_controller.s.play_alert();
-    }
-
-    public void activate_pos_revive()
-    {
-        if (transform.position.x > 0)
-            rb.velocity = new Vector2(-globals.s.BALL_SPEED_X, rb.velocity.y);
-        else 
-            rb.velocity = new Vector2(globals.s.BALL_SPEED_X, rb.velocity.y);
-    }
-   
-    void FixedUpdate()
-    {
+//
+//    }
+//
+//    void Update()
+//    {
         //Debug.Log (" MY X SPEED: " + rb.velocity.x);
         //grounded = Physics2D.Linecast(transform.position, groundCheck.position, 1 << LayerMask.NameToLayer("Floor"));
 
@@ -517,7 +519,7 @@ public class ball_hero : MonoBehaviour
             {
 				if (coll.gameObject.GetComponent<floor_pw_collider> () != null) {
 					coll.gameObject.GetComponent<floor_pw_collider> ().unactive_sprite_daddy ();
-					Debug.Log ("PW TRIGGER!! MY FLOOR: " + my_floor);
+					//Debug.Log ("PW TRIGGER!! MY FLOOR: " + my_floor);
 					game_controller.s.ball_up (my_floor);
 					my_floor++;
 				}
@@ -626,8 +628,8 @@ public class ball_hero : MonoBehaviour
        // my_skin.GetComponent<Animator>().Play("Jumping");
         my_skin.GetComponent<Animator>().SetBool("Jumping", true);
 
-        rb.gameObject.GetComponent<Rigidbody2D>().gravityScale = 0;
-        rb.gameObject.GetComponent<Rigidbody2D>().isKinematic = true;
+        rb.gravityScale = 0;
+        rb.isKinematic = true;
 
 		float pos = ((globals.s.BASE_Y + ((my_floor+1) * globals.s.FLOOR_HEIGHT) +  (5* globals.s.FLOOR_HEIGHT) + globals.s.FLOOR_HEIGHT / 2 ));
 		main_camera.s.init_PW_super_jump( pos,  (pos-transform.position.y)/20  + 0.5f);
@@ -676,8 +678,8 @@ public class ball_hero : MonoBehaviour
     {
 		if(QA.s.TRACE_PROFUNDITY >=2)  Debug.Log("[GOUPPW] FINISHED GOING UP ! MY Y: " + transform.position.y);
         rb.velocity = new Vector2(0.3f, globals.s.BALL_SPEED_Y/2);
-        rb.gameObject.GetComponent<Rigidbody2D>().gravityScale = 0.5f;
-        rb.gameObject.GetComponent<Rigidbody2D>().isKinematic = false;
+        rb.gravityScale = 0.5f;
+        rb.isKinematic = false;
         target_y = 0;
 
         target_y_reached = true; // bla
@@ -706,7 +708,7 @@ public class ball_hero : MonoBehaviour
    void pw_super_end_for_real() {
         globals.s.PW_SUPER_JUMP = false;
         squares_desappear();
-        rb.gameObject.GetComponent<Rigidbody2D>().gravityScale = 1;
+        rb.gravityScale = 1;
         main_camera.s.pw_super_jump_end();
 
         if (transform.position.x > 0)

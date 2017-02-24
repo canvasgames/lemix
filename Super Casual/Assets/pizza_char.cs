@@ -120,7 +120,6 @@ public class pizza_char : MonoBehaviour
         if (openingTampaDoTeuCu == false && hud_controller.si.CAN_ROTATE_ROULETTE == true)
         {
             rotate(Time.time - initialTime, Vector2.Distance(new Vector2(Input.mousePosition.y, 0), new Vector2(previousYInput, 0)), Input.mousePosition.x, Input.mousePosition.y, previousYInput);
-
         }
     }
 

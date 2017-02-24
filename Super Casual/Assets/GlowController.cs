@@ -11,11 +11,7 @@ public class GlowController : MonoBehaviour {
 	void Awake () {
 		s = this;
 	}
-	
-	// Update is called once per frame
-	void FixedUpdate () {
-	
-	}
+
 
 	public void glow_animation_start() {
 		

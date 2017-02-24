@@ -92,6 +92,7 @@ public class hud_controller : MonoBehaviour {
 	}
 
     void Start () {
+
 		//Invoke ("GiftButtonClicked", 1f);
 
         display_best(USER.s.BEST_SCORE);
@@ -384,7 +385,7 @@ public class hud_controller : MonoBehaviour {
 
     #region ============== GAME OVER ================
 
-    public void show_game_over(int currentFloor, bool with_high_score)
+	public void show_game_over(int currentFloor, bool with_high_score = false)
     {
 
         int last_score = PlayerPrefs.GetInt("last_score", currentFloor);
@@ -823,11 +824,13 @@ public class hud_controller : MonoBehaviour {
 
     public void ShowAd()
     {
-        if (Advertisement.IsReady("rewardedVideo"))
-        {
-            var options = new ShowOptions {resultCallback = HandleShowResult };
-            Advertisement.Show("rewardedVideo", options);
-        }
+		if (Advertisement.IsReady ("rewardedVideo")) {
+			var options = new ShowOptions { resultCallback = HandleShowResult };
+			Advertisement.Show ("rewardedVideo", options);
+		} else {
+			Advertisement.Initialize ("1194074");
+		}
+
     }
 
 	#if UNITY_ANDROID || UNITY_EDITOR

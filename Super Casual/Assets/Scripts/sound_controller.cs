@@ -15,7 +15,8 @@ public class sound_controller : MonoBehaviour
     public static sound_controller s = null;
 
     public AudioSource efxSource, efxSource2, efxSource3;
-    public AudioSource musicSource, musicSource2, musicSource3, musicSource4, musicSource5, curFadeIn, curFadeOut;
+	public AudioSource musicSource, musicSource2, musicSource3, musicSource4, musicSource5, curFadeIn, curFadeOut;
+    public AudioSource Jumptest;
 
     public AudioClip Jump, Explosion, Collect, Alert;
     public AudioClip[]  Jumps;
@@ -196,7 +197,8 @@ public class sound_controller : MonoBehaviour
         {
             can_play_jump = false;
 
-            PlaySingle(Jump);
+
+			PlaySingle(Jump);
             //PlaySingle(Jumps[Random.Range(0,7)]);
             Invoke("can_play_jump_again", 0.3f);
         }
@@ -230,12 +232,12 @@ public class sound_controller : MonoBehaviour
     }
     //#####################################################
     void PlaySingle(AudioClip clip)
-    {
+	{
         if (efxSource.isPlaying == false)
         {
             //Set the clip of our efxSource audio source to the clip passed in as a parameter.
             efxSource.clip = clip;
-
+			efxSource.volume = 3;
             //Play the clip.
             efxSource.PlayOneShot(clip);
         }
@@ -243,7 +245,7 @@ public class sound_controller : MonoBehaviour
         {
             //Set the clip of our efxSource audio source to the clip passed in as a parameter.
             efxSource2.clip = clip;
-
+			efxSource.volume = 3f;
             //Play the clip.
             efxSource2.PlayOneShot(clip);
         }
@@ -251,7 +253,7 @@ public class sound_controller : MonoBehaviour
         {
             //Set the clip of our efxSource audio source to the clip passed in as a parameter.
             efxSource3.clip = clip;
-
+			efxSource.volume = 3f;
             //Play the clip.
             efxSource3.PlayOneShot(clip);
         }

@@ -110,7 +110,7 @@ public class objects_pool_controller : MonoBehaviour {
 			foreach(GameObject bg in bgs1_pool){
 				if (bg !=null && bg.transform.position.x == 0 && bg.transform.position.y < main_camera.s.transform.position.y - 14f) {
 					Destroy(bg);
-					Debug.Log ("DESTROYING BG 1 =) ... My pos: "+ bg.transform.position.y + "  CAMERA POS: " +main_camera.s.transform.position.y );
+					//Debug.Log ("DESTROYING BG 1 =) ... My pos: "+ bg.transform.position.y + "  CAMERA POS: " +main_camera.s.transform.position.y );
 				}
 			}
 
@@ -478,7 +478,6 @@ public class objects_pool_controller : MonoBehaviour {
         int i;
         for (i = 0; i < squares_floor_pool_size; i++)
         {
-
             Rigidbody2D[] rigids = squares_floor_pool[i].GetComponentsInChildren<Rigidbody2D>();
             if (rigids != null)
             {
@@ -495,7 +494,7 @@ public class objects_pool_controller : MonoBehaviour {
             {
                 foreach (floor_square_pw_destruct square in squares)
                 {
-                    square.reposite_squares_tururu();
+                    square.reposite_myself_back();
                 }
                 squares_floor_pool[i].transform.position = new Vector3(105, 10 * i, 0);
             }

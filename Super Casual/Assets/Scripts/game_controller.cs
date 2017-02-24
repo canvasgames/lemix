@@ -146,7 +146,7 @@ public class game_controller : MonoBehaviour {
                 switch (i)
                 {
                 case 0:
-					Debug.Log("asdasdasd I : " + i );
+
                     GameObject b = create_floor(0, i);
                     if (b == null) Debug.Log("ERROR CREATING THE FIRST FLOOR!!!");
                     wave_found = true;
@@ -308,13 +308,12 @@ public class game_controller : MonoBehaviour {
 
     void show_game_over() {
 
-        sound_controller.s.stop_music();
-        hud_controller.si.show_game_over(cur_floor + 1, temp_flag_high_score_game_over);
+        //sound_controller.s.stop_music();
 
         if (globals.s.SHOW_VIDEO_AFTER == false)
         {
             revive_logic();
-            
+			globals.s.CAN_REVIVE = true;
             if (globals.s.CAN_REVIVE == true)
             {
                 hud_controller.si.show_revive_menu();
@@ -322,11 +321,14 @@ public class game_controller : MonoBehaviour {
             }
             else {
                 globals.s.CAN_RESTART = true;
+				hud_controller.si.show_game_over(cur_floor + 1, temp_flag_high_score_game_over);
+
                 game_over_for_real();
             }
         }
         else
         {
+			hud_controller.si.show_game_over(cur_floor + 1, temp_flag_high_score_game_over);
             hud_controller.si.show_video_revive();
             AnalyticController.s.ReportGameEnded(killer_wave_to_report, time_to_report);
             //globals.s.SHOW_VIDEO_AFTER = false;
@@ -438,7 +440,7 @@ public class game_controller : MonoBehaviour {
 
     void create_pw_icon(float x, int n, int type) {
         if (globals.s.PW_INVENCIBLE == false || globals.s.PW_SIGHT_BEYOND_SIGHT == false || globals.s.PW_SUPER_JUMP == false) {
-             Debug.Log("[GM] CREATING POWER UP!");
+            //Debug.Log("[GM] CREATING POWER UP!");
 			//GameObject obj  = (GameObject) Instantiate(pw_icon, new Vector3(x, 2 + globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * n, 0), transform.rotation);
 			GameObject obj = objects_pool_controller.s.reposite_power_up(x, 2 + globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * n);
 			//Debug.Log("PW type " + type);

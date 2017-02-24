@@ -103,7 +103,7 @@ public class main_camera : MonoBehaviour {
 
     public void pw_super_jump_end()
     {
-        Debug.Log("[CAMERA] SUPER JUMP END !! ");
+        //Debug.Log("[CAMERA] SUPER JUMP END !! ");
         pw_super_jump = false;
     }
 

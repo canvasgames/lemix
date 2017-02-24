@@ -72,7 +72,7 @@ public class PwWheelMaster : MonoBehaviour {
 
     }
     public IEnumerator Entrance(){
-		Debug.Log ("EEEEEENTRANCE ");
+		//Debug.Log ("EEEEEENTRANCE ");
 		float y_pos = title.transform.localPosition.y;
 		title.transform.localPosition = new Vector2 (title.transform.localPosition.x, title.transform.localPosition.y + title.GetComponent <RectTransform> ().rect.height);
 		title.transform.DOLocalMoveY(y_pos
