@@ -38,7 +38,7 @@ public class PwWheelMaster : MonoBehaviour {
     }
     public void openTampa()
     {
-        pitissa.openingTampaDoTeuCu = true;
+        pitissa.openingTampa = true;
         tampa.transform.DOLocalMoveY(tampa.transform.localPosition.y, 1).OnComplete(realOpen);
     }
 
@@ -67,7 +67,7 @@ public class PwWheelMaster : MonoBehaviour {
     
     void canRotate()
     {
-        pitissa.openingTampaDoTeuCu = false;
+        pitissa.openingTampa = false;
         pitissa.hand.SetActive(true);
 
     }

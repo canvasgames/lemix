@@ -6,8 +6,6 @@ public class ball_hero : MonoBehaviour
 {
     #region ==== Variables Declaration =====
 
-
-
 	public GameObject superJumpEffect;
 	public GameObject jetpack;
     public bool is_destroyed = false;
@@ -18,7 +16,7 @@ public class ball_hero : MonoBehaviour
 
     [HideInInspector]
     public int my_id;
-    private bool grounded = false;
+    public bool grounded = false;
     [HideInInspector]
     public int my_floor = 0;
     public bool first_ball = false;
@@ -74,17 +72,15 @@ public class ball_hero : MonoBehaviour
         //Debug.Log("BALL CREATED! TIME: " + Time.time);
         time_dif = Time.time;
 
-
         //camerda = FindObjectOfType<Camera>;
         //Debug.Log(" SPEED X: " + globals.s.FLOOR_HEIGHT);
-
 
         //if(first_ball == true) grounded = true;
         son_created = false;
         //Debug.Log ("INIT NEW BALL !!! MY X SPEED: " + rb.velocity.x);
 
         // INITIALIZE SKIN AND MUSIC HERE!!!
-        create_note_trail();
+		if(QA.s.CREATE_NOTE_TRAIL == true) create_note_trail();
         changeSkinChar();
     }
 
@@ -156,7 +152,7 @@ public class ball_hero : MonoBehaviour
 		my_alert.SetActive(true);
 		my_alert.transform.localScale = new Vector2(2.3f, 0);
 		my_alert.transform.DOScaleY(2.3f, 0.12f);
-		//sound_controller.s.play_alert();
+		if(sound_controller.s != null) sound_controller.s.play_alert();
 	}
 
 	public void activate_pos_revive()
@@ -169,22 +165,24 @@ public class ball_hero : MonoBehaviour
 
     void Update()
     {
+		// SHOW ALERT
 		if (globals.s.ALERT_BALL == true && son_created == false && game_controller.s.alertDebug == true) {
             globals.s.ALERT_BALL = false;
 			//Debug.Log ("!!!!!!!!!!!!!!!!!!! SHOW ALERT NOW !! ");
-			Invoke("show_alert", 0.1f);
+			Invoke("show_alert", 0.05f);
             //show_alert();
         }
 
+		// JUMP
         if (globals.s.GAME_STARTED == true)
         {
             if ((Input.GetMouseButton(0) || Input.GetKey("space")) && globals.s.GAME_STARTED == true)
             {
-                jump();
+				StartCoroutine(Jump());
             }
             else if (Input.GetMouseButtonUp(0) && hud_controller.si.HUD_BUTTON_CLICKED == false)
             {
-                jump();
+				StartCoroutine(Jump());
             }
         }
 
@@ -254,7 +252,10 @@ public class ball_hero : MonoBehaviour
                                                               0),
                                               transform.rotation);
 
-            PW_controller.s.add_ball(my_son.GetComponent<ball_hero>());
+            
+
+			PW_controller.s.add_ball(my_son.GetComponent<ball_hero>());
+			BallMaster.s.AddNewBall(my_son.GetComponent<ball_hero>());
 
             my_son.GetComponent<Rigidbody2D>().velocity = new Vector2(-rb.velocity.x, rb.velocity.y);
             //Debug.Log("MMMMMM MY SON VY " + my_son.GetComponent<Rigidbody2D>().velocity.y + " | MY VY: " + rb.velocity.y);
@@ -324,7 +325,9 @@ public class ball_hero : MonoBehaviour
                                      transform.position.x > globals.s.LIMIT_RIGHT + globals.s.BALL_D))
         {
            // Debug.Log("Destroy me !!!! my pos:" + transform.position.x);
+			BallMaster.s.RemoveBall (this);
             Destroy(gameObject);
+
             //my_light.SetActive(false);
             
         }
@@ -342,16 +345,20 @@ public class ball_hero : MonoBehaviour
 
     #endregion
 
-    void jump()
+	IEnumerator Jump()
     {
         //Instantiate(explosion, new Vector3(transform.position.x, transform.position.y, transform.position.z), transform.rotation);
+
+		if (grounded == false) { // wait a short delay if the player miss press jump in the air
+			yield return new WaitForSeconds(0.15f);
+		}
 
         //GetComponent<EdgeCollider2D>().enabled = false;
         if (grounded == true)
         {
             // my_trail.transform.localRotation = new Quaternion(0, 0, 110, 0);
-            my_trail.transform.DOLocalRotate(new Vector3(0, 0, 90), 0.01f, RotateMode.Fast);
-            sound_controller.s.PlayJump();
+			if (my_trail != null) my_trail.transform.DOLocalRotate(new Vector3(0, 0, 90), 0.01f, RotateMode.Fast);
+			sound_controller.s.PlayJump();
             grounded = false;
             //rb.AddForce (new Vector2 (0, y_jump));
             rb.velocity = new Vector2(rb.velocity.x, globals.s.BALL_SPEED_Y);
@@ -363,7 +370,7 @@ public class ball_hero : MonoBehaviour
     }
 
     void Land() {
-        my_trail.transform.DOLocalRotate(new Vector3(0, 0, 0), 0.01f, RotateMode.Fast);
+		if (my_trail != null) my_trail.transform.DOLocalRotate(new Vector3(0, 0, 0), 0.01f, RotateMode.Fast);
     }
 
 
@@ -377,7 +384,7 @@ public class ball_hero : MonoBehaviour
 			PW_Collect temp = coll.gameObject.GetComponent<PW_Collect> ();
 			coll.transform.position = new Vector2 (-9909,-9999);
 			pw_do_something (temp);
-			sound_controller.s.play_collect_pw ();
+			if(sound_controller.s != null) sound_controller.s.play_collect_pw ();
 		} 
 		else if (coll.gameObject.CompareTag ("Spike")) {
 			if (globals.s.PW_SUPER_JUMP == false && !QA.s.INVENCIBLE) {
@@ -411,7 +418,7 @@ public class ball_hero : MonoBehaviour
 			coll.GetComponent <note_behaviour> ().state = 0;
 			//Destroy(coll.gameObject);
 			//Debug.Log("COLLECTING NOTE !!!!!!! ");
-			sound_controller.s.special_event();
+			if(sound_controller.s != null) sound_controller.s.special_event();
 		}
 
 		else if (coll.gameObject.CompareTag("HoleFalling")) {
@@ -453,7 +460,7 @@ public class ball_hero : MonoBehaviour
                 grounded = true;
                 Land();
 
-                coll.gameObject.GetComponent<floor>().try_to_display_best_score();
+//                coll.gameObject.GetComponent<floor>().try_to_display_best_score();
             }
             else { Debug.Log("" + my_id + " ***************ERROR! THIS SHOULD NEVER HAPPEN ***************\n\n"); }
         }
@@ -565,9 +572,10 @@ public class ball_hero : MonoBehaviour
 
         }
 
-        sound_controller.s.PlayExplosion();
+		if(sound_controller.s != null) sound_controller.s.PlayExplosion();
         Instantiate(explosion, new Vector3(transform.position.x, transform.position.y, transform.position.z), transform.rotation);
-        game_controller.s.game_over(killer_wave_name, bolas, with_high_score);
+       
+		game_controller.s.game_over(killer_wave_name, bolas, with_high_score);
 
 
     }

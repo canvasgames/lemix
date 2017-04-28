@@ -5,6 +5,7 @@ using DG.Tweening;
 public class hole_behaviour : MonoBehaviour
 {
     public GameObject my_skin;
+	public SpriteRenderer my_skin_sprite;
     public int my_floor;
     public GameObject colliderPW;
     bool hidden = true;
@@ -18,7 +19,8 @@ public class hole_behaviour : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        my_skin.GetComponent<hole_skin_behaviour>().my_floor = my_floor;
+		my_skin.GetComponent<hole_skin_behaviour>().my_floor = my_floor;
+		my_skin_sprite = my_skin.GetComponent<SpriteRenderer> ();
         //glow_animation_start();
 
         if (globals.s.PW_SIGHT_BEYOND_SIGHT == true)

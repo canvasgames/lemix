@@ -96,14 +96,15 @@ public class floor : scenario_objects {
 
                 int i;
                 scenario_objects[] allScenario = GameObject.FindObjectsOfType(typeof(scenario_objects)) as scenario_objects[];
-                count_blink = 16;
-                for (i = 0; i < allScenario.Length; i++)
-                {
-                    if (allScenario[i].i_am_floor == false)
-                        allScenario[i].try_blink(my_floor);
-                    else
-                       blink_color_mine();
-                }
+				count_blink = 35;
+//                for (i = 0; i < allScenario.Length; i++)
+//                {
+//                    if (allScenario[i].i_am_floor == false)
+//                        allScenario[i].try_blink(my_floor);
+//                    else
+//                       blink_color_mine();
+//                }
+				blink_color_mine();
 
 
                 if (USER.s.BEST_SCORE + 1 == my_floor)
@@ -126,20 +127,20 @@ public class floor : scenario_objects {
     void blink_color_mine() {
 		my_skin.GetComponent<SpriteRenderer>().color = Color.yellow;
 		if (my_hole != null) {
-			if (my_hole.my_skin !=null) my_hole.my_skin.GetComponent<SpriteRenderer> ().color = Color.yellow;
+			if (my_hole.my_skin !=null) my_hole.my_skin_sprite.color = Color.yellow;
 		}
-        Invoke("blink_back_mine", 0.2f);
+        Invoke("blink_back_mine", 0.15f);
     }
     void blink_back_mine() {
         count_blink -= 1;
         my_skin.GetComponent<SpriteRenderer>().color = Color.white;
 		if (my_hole != null) {
-			if (my_hole.my_skin !=null)  my_hole.my_skin.GetComponent<SpriteRenderer> ().color = Color.white;
+			if (my_hole.my_skin !=null)  my_hole.my_skin_sprite.color = Color.white;
 		}
 
 
         if (count_blink > 0)
-            Invoke("blink_color_mine", 0.2f);
+            Invoke("blink_color_mine", 0.15f);
     }
 
     //Under floor score destroy
@@ -202,16 +203,17 @@ public class floor : scenario_objects {
 
             //create new
             create_score_text(type);
+			blink_color_mine();
             
-            scenario_objects[] allScenario = GameObject.FindObjectsOfType(typeof(scenario_objects)) as scenario_objects[];
-
-            for (i = 0; i < allScenario.Length; i++)
-            {
-                if (allScenario[i].i_am_floor == false)
-                    allScenario[i].try_blink(my_floor);
-                else
-                    blink_color_mine();
-            }
+//            scenario_objects[] allScenario = GameObject.FindObjectsOfType(typeof(scenario_objects)) as scenario_objects[];
+//
+//            for (i = 0; i < allScenario.Length; i++)
+//            {
+//                if (allScenario[i].i_am_floor == false)
+//                    allScenario[i].try_blink(my_floor);
+//                else
+//                    blink_color_mine();
+//            }
         }
 
     }
@@ -248,7 +250,7 @@ public class floor : scenario_objects {
         {
             Destroy(my_text);   
         }
-
+		my_hole = null;
         count_blink = 16;
 		repositionable = false;
         pw_super_collided = false;

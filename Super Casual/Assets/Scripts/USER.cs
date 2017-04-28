@@ -50,6 +50,15 @@ public class USER : MonoBehaviour {
     } 
 
 
+	public void AddNotes(int value){
+		USER.s.NOTES += value;
+		hud_controller.si.display_notes(USER.s.NOTES);
+		store_controller.s.UpdateUserNotes ();
+
+		PlayerPrefs.SetInt("notes", USER.s.NOTES);
+	}
+
+
 	// Use this for initialization
 	void Start () {
        

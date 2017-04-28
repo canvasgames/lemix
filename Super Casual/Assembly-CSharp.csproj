@@ -85,6 +85,7 @@
      <Compile Include="Assets\RythmScenarioBehaviour.cs" />
      <Compile Include="Assets\Scripts\AnalyticController.cs" />
      <Compile Include="Assets\Scripts\BallLight.cs" />
+     <Compile Include="Assets\Scripts\BallMaster.cs" />
      <Compile Include="Assets\Scripts\Button_New_Game_QA.cs" />
      <Compile Include="Assets\Scripts\GD.cs" />
      <Compile Include="Assets\Scripts\PW_Collect.cs" />

@@ -11,11 +11,10 @@ public class pizza_char : MonoBehaviour
     public GameObject hand, button_spin;
     float part1_pct, part2_pct, part3_pct, part4_pct, part5_pct, part6_pct, part7_pct, part8_pct;
     float part1_reward, part2_reward, part3_reward, part4_reward, part5_reward, part6_reward, part7_reward, part8_reward;
-    float previousYInput, initialTime;
-
+    float previousYInput, previousXInput, initialTime;
     public PwWheelMaster rodaMenuScript;
 
-    [HideInInspector]public  bool openingTampaDoTeuCu = true;
+    [HideInInspector]public bool openingTampa = true;
 	#endregion
     // Use this for initialization
 
@@ -23,13 +22,26 @@ public class pizza_char : MonoBehaviour
     void Start()
     {
         define_percentages(12.5f, 12.5f, 12.5f, 12.5f, 12.5f, 12.5f, 12.5f, 12.5f);
-        define_rewards(2, 7, 3, 5, 2, 10, 3, 5); // sentido horario, partindo do meio-topo
+		//define_rewards(2, 7, 3, 5, 2, 10, 3, 5); // sentido horario, partindo do meio-topo
+        define_rewards(5, 15, 10, 20, 5, 15, 10, 20); // sentido horario, partindo do meio-topo
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+		if (Input.GetMouseButtonDown(0))
+		{
+			initialTime = Time.time;
+			previousYInput = Input.mousePosition.y;
+			previousXInput = Input.mousePosition.x;
+		}
+		else if (Input.GetMouseButtonUp(0))
+		{
+			if ( openingTampa == false && hud_controller.si.CAN_ROTATE_ROULETTE == true)
+			{
+				rotate(Time.time - initialTime, Vector2.Distance(new Vector2(Input.mousePosition.x, Input.mousePosition.y), new Vector2(Input.mousePosition.x, previousYInput)), Input.mousePosition.x, Input.mousePosition.y, previousYInput);
+			}
+		}
     }
 
 
@@ -86,7 +98,6 @@ public class pizza_char : MonoBehaviour
         part4_obj.GetComponent<RectTransform>().rotation.y, (-360 * 0.01f * (part1_pct + part2_pct + part3_pct))), 0);
 
 
-
         part5_obj.GetComponent<Image>().fillAmount = part5_pct * 0.01f;
         part5_obj.transform.DORotate(new Vector3(part5_obj.GetComponent<RectTransform>().rotation.x,
         part5_obj.GetComponent<RectTransform>().rotation.y, (-360 * 0.01f * (part1_pct + part2_pct + part3_pct + part4_pct))), 0);
@@ -112,12 +123,14 @@ public class pizza_char : MonoBehaviour
 
     public void initClick()
     {
+//		Debug.Log ("INIT CLICK");
         initialTime = Time.time;
         previousYInput = Input.mousePosition.y;
     }
+
     public void endClick()
     {
-        if (openingTampaDoTeuCu == false && hud_controller.si.CAN_ROTATE_ROULETTE == true)
+        if (openingTampa == false && hud_controller.si.CAN_ROTATE_ROULETTE == true)
         {
             rotate(Time.time - initialTime, Vector2.Distance(new Vector2(Input.mousePosition.y, 0), new Vector2(previousYInput, 0)), Input.mousePosition.x, Input.mousePosition.y, previousYInput);
         }
@@ -125,37 +138,38 @@ public class pizza_char : MonoBehaviour
 
     public void rotate(float time, float distance, float inputX, float inputY, float lastY)
     {
-		
-        hand.SetActive(false);
         float angle;
-        Debug.Log(inputX);
+//        Debug.Log(" init rotate: " + inputX);
         //Debug.Log(time + " Tempooooo");
         //Debug.Log(distance + " Distancia");
-        if(distance > 35 && time < 0.7f && time > 0.1f)
-        {
-            if(inputX < 110 && inputY > lastY || inputX >= 110 && inputY < lastY)
-            {
-                //Debug.Log("gira horario");
-                angle = Random.Range(-1, -360);
+		if (distance > 25 && time < 0.7f && time > 0.05f) {
+			hand.SetActive (false);
+			if (inputX < 110 && inputY > lastY || inputX >= 110 && inputY < lastY) {
+				//Debug.Log("gira horario");
+				angle = Random.Range (-1, -360);
 
-            }
-            else
-            {
-                angle = Random.Range(1, 360);
-                //Debug.Log("gira anti-horario");
-            }
-            float clampdistance = Mathf.Clamp(distance, 35, 300);
-            float clampTime = Mathf.Clamp(distance, 0.1f, 0.6f);
-            float force = clampdistance / clampTime;
-            angle = angle * (force);
+			} else {
+				angle = Random.Range (1, 360);
+				//Debug.Log("gira anti-horario");
+			}
+//
+//			float clampdistance = Mathf.Clamp (distance, 35, 300);
+//			float clampTime = Mathf.Clamp (distance, 0.1f, 0.6f);
+//			float force = clampdistance / clampTime;
+			float force = Random.Range(200,250);
+//			Debug.Log ("force: " + force);
+			angle = angle * (force);
 
-            //Debug.Log(force + " " + angle);
-			float tempo = Random.Range(2f, 3.5f);
-            transform.DORotate(new Vector3(0, 0, angle), tempo, RotateMode.WorldAxisAdd).SetEase(Ease.OutQuart).OnComplete(give_reward);
-            hud_controller.si.addRoulleteTime();
+			//Debug.Log(force + " " + angle);
+			float tempo = Random.Range (2f, 2.6f);
+			transform.DORotate (new Vector3 (0, 0, angle), tempo, RotateMode.WorldAxisAdd).SetEase (Ease.OutQuart).OnComplete (give_reward);
+			hud_controller.si.addRoulleteTime ();
 			haste.transform.DOShakePosition (tempo, 1, 10, 90, false);
-        }
+		} 
 
+		else {
+			Debug.Log (" failed to spin.. Dist: " + distance + " TIME: "+ time );
+		}
     }
 
 	void haste_animation(){
@@ -171,45 +185,48 @@ public class pizza_char : MonoBehaviour
         float angle_temp = transform.GetComponent<RectTransform>().eulerAngles.z;
         if (angle_temp >= 0 && angle_temp <= (360 * part1_pct * 0.01f))
         {
-             Debug.Log("Caiu no 1");
-            hud_controller.si.add_pw_time(part1_reward);
+            Debug.Log("Caiu no 1");
+//            hud_controller.si.add_pw_time(part1_reward);
             reward = part1_reward;
-
         }
         else if (angle_temp <= ((360 * (part1_pct + part2_pct) * 0.01f)))
         {
             reward = part2_reward;
-            hud_controller.si.add_pw_time(part2_reward);
+//            hud_controller.si.add_pw_time(part2_reward);
             Debug.Log("Caiu no 2");
         }
         else if (angle_temp <= ((360 * (part1_pct + part2_pct + part3_pct) * 0.01f)))
         {
             reward = part3_reward;
-            hud_controller.si.add_pw_time(part3_reward);
+//            hud_controller.si.add_pw_time(part3_reward);
             Debug.Log("Caiu no 3");
         }
         else if (angle_temp <= ((360 * (part1_pct + part2_pct + part3_pct + part4_pct) * 0.01f)))
         {
             reward = part4_reward;
-            hud_controller.si.add_pw_time(part4_reward);
+			USER.s.AddNotes((int)reward);
+
+//            hud_controller.si.add_pw_time(part4_reward);
             Debug.Log("Caiu no 4");
         }
         else if (angle_temp <= ((360 * (part1_pct + part2_pct + part3_pct + part4_pct + part5_pct) * 0.01f)))
         {
             reward = part5_reward;
-            hud_controller.si.add_pw_time(part5_reward);
+			USER.s.AddNotes((int)reward);
+
+//            hud_controller.si.add_pw_time(part5_reward);
             Debug.Log("Caiu no 5");
         }
         else if (angle_temp <= ((360 * (part1_pct + part2_pct + part3_pct + part4_pct + part5_pct + part6_pct) * 0.01f)))
         {
             reward = part6_reward;
-            hud_controller.si.add_pw_time(part6_reward);
+//            hud_controller.si.add_pw_time(part6_reward);
             Debug.Log("Caiu no 6");
         }
         else if (angle_temp <= ((360 * (part1_pct + part2_pct + part3_pct + part4_pct + part5_pct + part6_pct + part7_pct) * 0.01f)))
         {
             reward = part7_reward;
-            hud_controller.si.add_pw_time(part7_reward);
+//            hud_controller.si.add_pw_time(part7_reward);
             Debug.Log("Caiu no 7");
         }
         else if (angle_temp <= ((360 * (part1_pct + part2_pct + part3_pct + part4_pct + part5_pct + part6_pct + part7_pct + part8_pct) * 0.01f)))
@@ -218,6 +235,8 @@ public class pizza_char : MonoBehaviour
             hud_controller.si.add_pw_time(part8_reward);
             Debug.Log("Caiu no 8");
         }
+
+		USER.s.AddNotes((int)reward);
         rodaMenuScript.openRewardMenu(reward);
     }
 

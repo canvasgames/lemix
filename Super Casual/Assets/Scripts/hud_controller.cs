@@ -92,6 +92,7 @@ public class hud_controller : MonoBehaviour {
 	}
 
     void Start () {
+		Advertisement.Initialize ("1194074");
 
 		//Invoke ("GiftButtonClicked", 1f);
 
@@ -231,6 +232,7 @@ public class hud_controller : MonoBehaviour {
 			if ( USER.s.GIFT_INTRODUCED == 1)
             	show_gift_time();
         }
+
         if (globals.s.GAME_STARTED == false && globals.s.MENU_OPEN == false)
         {
 
@@ -385,7 +387,7 @@ public class hud_controller : MonoBehaviour {
 
     #region ============== GAME OVER ================
 
-	public void show_game_over(int currentFloor, bool with_high_score = false)
+	public void show_game_over(int currentFloor, bool fromRevive = false)
     {
 
         int last_score = PlayerPrefs.GetInt("last_score", currentFloor);
@@ -397,10 +399,10 @@ public class hud_controller : MonoBehaviour {
         temp_cur_floor = currentFloor;
         temp_best_floor = bestFloor;
 
-        if(with_high_score == false)
-            Invoke("appear_game_over", 0.7f);
-        else
-            Invoke("appear_game_over", 1.6f);
+		if (fromRevive == false)
+			Invoke ("appear_game_over", 0.6f);
+		else
+			appear_game_over ();
     }
 
     void appear_game_over()
@@ -698,7 +700,8 @@ public class hud_controller : MonoBehaviour {
     {
         revive.SetActive(false);
         AnalyticController.s.ReportRevive(false);
-        game_controller.s.game_over_for_real();
+
+        game_controller.s.game_over_for_real(true);
     }
 
     public void revive_menu_start()
@@ -713,7 +716,7 @@ public class hud_controller : MonoBehaviour {
 
         game_controller.s.activate_logic();
         game_controller.s.destroy_spikes_2_floors();
-        sound_controller.s.play_music();
+		if(sound_controller.s != null) sound_controller.s.play_music();
         AnalyticController.s.ReportRevive(true);
 
         Invoke("partiu", 1);

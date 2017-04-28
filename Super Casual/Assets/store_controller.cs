@@ -48,6 +48,10 @@ public class store_controller : MonoBehaviour {
 			equipCharacter ();
 		}
     }
+
+	public void UpdateUserNotes(){
+		actualCoins.text = USER.s.NOTES.ToString();
+	}
 	
 	// Update is called once per frame
 	void Update () {

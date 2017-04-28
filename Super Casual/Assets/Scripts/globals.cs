@@ -4,6 +4,8 @@ using System.Collections;
 public class globals : MonoBehaviour {
 	public static globals s;
 
+	public float TIME_TO_ALLOW_TAP = 0.4f;
+
 	public bool AT_STORE = false;
 
     public bool ALERT_BALL = false;

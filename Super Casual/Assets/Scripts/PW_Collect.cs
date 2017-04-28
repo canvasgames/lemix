@@ -73,7 +73,7 @@ public class PW_Collect : MonoBehaviour {
 
     public void destroy_by_floor_PW_Super(int floor_plus_n)
     {
-        if(my_floor <= floor_plus_n)
-            Destroy(transform.gameObject);
+//        if(my_floor <= floor_plus_n)
+//            Destroy(transform.gameObject);
     }
 }

@@ -4,21 +4,28 @@ using System.Collections;
 
 public class start_bt : MonoBehaviour {
 
+	bool canTap = false;
+
 	// Use this for initialization
 	void Start () {
-	
+		Invoke ("AllowTapToStartGame", globals.s.TIME_TO_ALLOW_TAP);
+	}
+
+	void AllowTapToStartGame(){
+		canTap = true;
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		#if UNITY_EDITOR
 			GetComponent<Button>().interactable = false;
-		if (1==2 && Input.GetMouseButtonDown(0) && globals.s.GAME_STARTED == false && globals.s.MENU_OPEN == false)
+		if (1==2 && canTap == true && Input.GetMouseButtonDown(0) && globals.s.GAME_STARTED == false && globals.s.MENU_OPEN == false)
 			{
 				globals.s.GAME_STARTED = true;
 				hud_controller.si.start_game();
-			}
+				
 
+			}
 		#endif
 
 		#if UNITY_WEBPLAYER || UNITY_IPHONE || UNITY_ANDROID
@@ -33,10 +40,12 @@ public class start_bt : MonoBehaviour {
     public void click()
     {
 
-		if (globals.s.GAME_STARTED == false && globals.s.MENU_OPEN == false && globals.s.GIFT_ANIMATION == false)
+		if (canTap == true && globals.s.GAME_STARTED == false && globals.s.MENU_OPEN == false && globals.s.GIFT_ANIMATION == false)
         {
-            globals.s.GAME_STARTED = true;
-			hud_controller.si.start_game_coroutine ();
+			if (BallMaster.s.CheckIfBallAreGrounded ()) {
+				globals.s.GAME_STARTED = true;
+				hud_controller.si.start_game_coroutine ();
+			}
         }
 
     }

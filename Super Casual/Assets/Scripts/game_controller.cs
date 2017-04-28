@@ -6,7 +6,7 @@ public class game_controller : MonoBehaviour {
 
     #region ==== Variables Declaration =======
     public static game_controller s;
-    
+
 	public GameObject visionMask;
     float starting_time, match_time;
 
@@ -119,7 +119,7 @@ public class game_controller : MonoBehaviour {
         globals.s.GAME_OVER = 0;
         globals.s.CAN_RESTART = false;
         globals.s.GAME_STARTED = false;
-        sound_controller.s.play_music();
+		if(sound_controller.s != null) sound_controller.s.play_music();
        // print("AHHHHHHHHH CORNER LIMIT RIGHT: " + corner_limit_right);
         //Time.timeScale = 0.3f;
         last_hole = false;
@@ -167,19 +167,21 @@ public class game_controller : MonoBehaviour {
                     break;
                case 2:
                     //create_hole(i,true);
-					//wave_found = create_hole(i);
+//					wave_found = create_hole(i);
+//					create_spike(Random.Range (-0.5f, + 0.5f), globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * i, i);
 
 					//create_triple_hidden_spike(Random.Range (-1.7f, -1.5f), globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * i, i);
-
+//
                     create_floor(0, i);
 					//create_hidden_spike(Random.Range (-0.5f, + 0.5f), globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * i, i);
+//					create_spike(Random.Range(-mid_area, mid_area), globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * i, i);
 
 					if (USER.s.NEWBIE_PLAYER == 1) // FTU
 						create_spike(Random.Range (-0.5f, + 0.5f), globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * i, i);
                     else
                         create_spike(Random.Range(-mid_area, mid_area), globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * i, i);
 
-                        //create_hidden_spike(0, globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * i, i);
+					//create_hidden_spike(0, globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * i, i);
                     wave_found = true;
 
                     break;
@@ -193,6 +195,9 @@ public class game_controller : MonoBehaviour {
 //                            wave_found = true;
 //                        }
 					//wave_found = create_wave_special(i);
+//					wave_found = create_hole(i);
+//					create_spike(Random.Range (-0.5f, + 0.5f), globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * i, i);
+
 					if (USER.s.NEWBIE_PLAYER == 1) {
 						create_floor(0, i);
 						create_triple_spike (Random.Range (-0.5f, + 0.5f), globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * i, i);
@@ -203,7 +208,7 @@ public class game_controller : MonoBehaviour {
 					}
 					else
 						wave_found = create_wave_easy(i);
-						//wave_found = create_wave_hard(i, 46);
+//						wave_found = create_wave_hard(i, 46);
                     break;
 				case 4:
 					if (USER.s.NEWBIE_PLAYER == 1) {
@@ -235,7 +240,7 @@ public class game_controller : MonoBehaviour {
                 }
             }
 
-			if ( n_floor >= 2 && globals.s.PW_ACTIVE && USER.s.TOTAL_GAMES >= 2  && USER.s.NEWBIE_PLAYER == 0) {
+			if ( n_floor >= 2  && USER.s.TOTAL_GAMES >= 2  && USER.s.NEWBIE_PLAYER == 0 /* && globals.s.PW_ACTIVE*/) {
                 //Debug.Log(" n floor: " + n_floor + " CREATE PW!! ");
                 create_power_up_logic();
             }
@@ -313,7 +318,7 @@ public class game_controller : MonoBehaviour {
         if (globals.s.SHOW_VIDEO_AFTER == false)
         {
             revive_logic();
-			globals.s.CAN_REVIVE = true;
+//			globals.s.CAN_REVIVE = true;
             if (globals.s.CAN_REVIVE == true)
             {
                 hud_controller.si.show_revive_menu();
@@ -328,18 +333,22 @@ public class game_controller : MonoBehaviour {
         }
         else
         {
+			hud_controller.si.show_video_revive();
 			hud_controller.si.show_game_over(cur_floor + 1, temp_flag_high_score_game_over);
-            hud_controller.si.show_video_revive();
             AnalyticController.s.ReportGameEnded(killer_wave_to_report, time_to_report);
             //globals.s.SHOW_VIDEO_AFTER = false;
             //globals.s.CAN_RESTART = true;
         }
     }
 
-    public void game_over_for_real() {
+	public void game_over_for_real( bool showGameOverMenu = false) {
         AnalyticController.s.ReportGameEnded(killer_wave_to_report, time_to_report);
         PlayerPrefs.SetInt("total_games", USER.s.TOTAL_GAMES + 1);
         PlayerPrefs.SetInt("notes", USER.s.NOTES);
+
+		if (showGameOverMenu)
+			hud_controller.si.show_game_over(cur_floor + 1, true);
+
 
     }
 
@@ -425,7 +434,7 @@ public class game_controller : MonoBehaviour {
 				my_type = (int)PW_Types.Invencible;
 			}
 
-			Debug.Log(globals.s.PW_ACTIVE + "  pw created RAND " + rand + " type: " + my_type);
+			//Debug.Log(globals.s.PW_ACTIVE + "  pw created RAND " + rand + " type: " + my_type);
             first_pw_created = true;
             // int my_type = Random.Range((int)PW_Types.Invencible, (int)PW_Types.Sight + 1);
 			Debug.Log ("---------- cREATE PW !! TYPE: " + my_type + " FIRST PW CREATED " + USER.s.FIRST_PW_CREATED);
@@ -467,12 +476,18 @@ public class game_controller : MonoBehaviour {
 				PlayerPrefs.SetInt ("newbie_player", 0);
 
 			// NEW STAGE WARNING
-			if(globals.s.PW_SUPER_JUMP == false && cur_floor % 5 == 0 && cur_floor > 1) stage_intro.s.StartEntering ((int)(cur_floor/5)+1);
+			if(globals.s.PW_SUPER_JUMP == false && cur_floor % 5 == 0 && cur_floor > 1) 
+				stage_intro.s.StartEntering ((int)(cur_floor/5)+1);
 			//Debug.Log ("NEW CUR FLOOR!! " + cur_floor);
 
             create_new_wave();
-            if (ball_floor >= 5 && ball_floor % 5 == 0)
-                sound_controller.s.update_music();
+
+			NewHighscoreAnimation (ball_floor);
+
+			if (ball_floor >= 5 && ball_floor % 5 == 0) {
+				if (sound_controller.s != null)
+					sound_controller.s.update_music ();
+			}
         }
         else if (ball_floor >= 1) {
             camerda.GetComponent<Rigidbody2D>().velocity = new Vector2(0, 0);
@@ -481,9 +496,20 @@ public class game_controller : MonoBehaviour {
 
     }
 
+	public void NewHighscoreAnimation(int floor){
+		if (USER.s.DAY_SCORE >= 4  || 1==1){
+			for (int i = 0; i < objects_pool_controller.s.floor_pool.Length; i++) {
+				if (objects_pool_controller.s.floor_pool [i].GetComponent<floor>().my_floor == floor && 
+					objects_pool_controller.s.floor_pool [i].GetComponent<floor>().already_blinked) {
+					objects_pool_controller.s.floor_pool [i].GetComponent<floor>().try_to_display_best_score ();
+				}
+			}
+		}
+	}
+
     public void create_new_wave (){
-		#if DEBUGMODE
 		Debug.Log(" \n::::::::::::::::::::::: CREATING NEW FLOOR: " +n_floor);
+		#if DEBUGMODE
 		#endif
 
         int rand;
@@ -492,7 +518,7 @@ public class game_controller : MonoBehaviour {
         wave_found = false;
 
         //PW Creation
-        if(globals.s.PW_ACTIVE == true && globals.s.PW_SUPER_JUMP == false){
+        if(/*globals.s.PW_ACTIVE == true &&*/ globals.s.PW_SUPER_JUMP == false){
             create_power_up_logic();
         }
        
@@ -502,7 +528,13 @@ public class game_controller : MonoBehaviour {
             count++;
 
             // ======== SORT INITIAL WAVES! ========
-            if (n_floor <= 7) {
+
+			if(n_floor > 4 && (n_floor - 1) % 5 == 0){
+				wave_found = true;
+				create_floor(0, n_floor);
+			}
+
+           else if (n_floor <= 7) {
 				wave_found = create_wave_easy(n_floor);
 //                if (USER.s.TOTAL_GAMES > 4) rand = Random.Range(1, 3);
 //                else rand = 1;
@@ -562,7 +594,10 @@ public class game_controller : MonoBehaviour {
             }
         }
 
-        if (wave_found == false) Debug.Log("\n******* ERROR! WAVE NOT FOUND!! ********");
+		if (wave_found == false) {
+			Debug.Log ("\n******* ERROR! WAVE NOT FOUND!! ********");
+			create_floor (0, n_floor);
+		}
         else if (QA.s.TRACE_PROFUNDITY >= 1) Debug.Log("\n " + n_floor + " - " + wave_name);
 
         n_floor++;
@@ -575,6 +610,10 @@ public class game_controller : MonoBehaviour {
 
     int define_hole_chance() {
         int hole_chance;
+
+		if ((n_floor - 1) % 5 == 0 && n_floor < 25 )
+			return 0;
+
         if(USER.s.FIRST_HOLE_CREATED == 0 && first_hole_already_created == false && USER.s.TOTAL_GAMES >=1 && n_floor >= 4 ) {
             hole_chance = 90;
         }

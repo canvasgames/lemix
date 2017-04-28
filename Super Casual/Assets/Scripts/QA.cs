@@ -18,6 +18,8 @@ public class QA : MonoBehaviour {
     // 3 = More detailed info of creation floor process and physics
     public bool NO_PWS = false;
     public bool SHOW_WAVE_TYPE = false;
+	public bool CREATE_NOTE_TRAIL = true;
+
 	public GameObject SqBt;
 	// Use this for initialization
 	void Awake() {
