@@ -31,6 +31,10 @@ public class Button_New_Game_QA : MonoBehaviour {
             cont_click = 0;
             USER.s.TOTAL_GAMES = 0;
 
+			PlayerPrefs.SetInt ("diskIntroduced", 0);
+			PlayerPrefs.SetInt ("firstSongPurchased", 0);
+
+
             PlayerPrefs.SetInt("total_games", 0);
             PlayerPrefs.SetInt("day_best", 0);
             PlayerPrefs.SetInt("best", 0);

@@ -227,13 +227,14 @@ public class ScrollSnapRect : MonoBehaviour, IBeginDragHandler, IEndDragHandler,
     private void NextScreen() {
         if(_currentPage == 4)
         {
-            store_controller.s.setPrice(0);
+			Debug.Log ("NEXT SCREEN BT PRESSED");
+            store_controller.s.OnCharacterChanged(0);
 
             LerpToPage(0);
         }
         else
         {
-            store_controller.s.setPrice(_currentPage + 1);
+            store_controller.s.OnCharacterChanged(_currentPage + 1);
             LerpToPage(_currentPage + 1);
         }
     }
@@ -243,11 +244,11 @@ public class ScrollSnapRect : MonoBehaviour, IBeginDragHandler, IEndDragHandler,
         if (_currentPage == 0)
         {
             LerpToPage(4);
-            store_controller.s.setPrice(4);
+            store_controller.s.OnCharacterChanged(4);
         }
         else
         {
-            store_controller.s.setPrice(_currentPage - 1);
+            store_controller.s.OnCharacterChanged(_currentPage - 1);
             LerpToPage(_currentPage - 1);
         }
     }

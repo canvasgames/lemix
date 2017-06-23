@@ -7,7 +7,7 @@ using System;
 using UnityEngine.Advertisements;
 
 public class hud_controller : MonoBehaviour {
-	#region ======== Variables Declaration ========
+	#region === Variables Declaration ===
 
 	public PW_Collect firstPw;
 	public GameObject giftBt;
@@ -104,17 +104,6 @@ public class hud_controller : MonoBehaviour {
         roullete_date = PlayerPrefs.GetString("RouletteDate2ChangeState");
         gift_date = PlayerPrefs.GetString("GiftDate2ChangeState");
 
-        //SETTING  FIRST_GAME GLOBAL
-        int tmp_first = PlayerPrefs.GetInt("first_game", 1); ;
-        if(tmp_first == 1)
-        {
-            globals.s.FIRST_GAME = true;
-            PlayerPrefs.SetInt("first_game", 0); ;
-        }
-        else
-        {
-            globals.s.FIRST_GAME = false;
-        }
 
 		if (USER.s.NEWBIE_PLAYER == 0 || QA.s.OLD_PLAYER) {
 			activate_pw_bt.SetActive (true);
@@ -208,7 +197,11 @@ public class hud_controller : MonoBehaviour {
 //            }
 //        }
     }
-	
+
+
+	public void Restart(){
+		SceneManager.LoadScene("Gameplay 1");
+	}
 	// Update is called once per frame
 	void Update () {
 
@@ -216,13 +209,13 @@ public class hud_controller : MonoBehaviour {
         //if(Input.GetMouseButtonDown(0))
         //   Debug.Log("ueeeeeeeeeeeeeeeeee epaaaaaaaaaaaaaaaaaaa epa, veja la como fala sua " + globals.s.CAN_RESTART);
        // Debug.Log(globals.s.PW_ACTIVE);
-        if (globals.s.CAN_RESTART && Input.GetMouseButtonDown(0))
-        {
-            //Application.LoadLevel("Gameplay");
-            //Application.LoadLevel()
-            
-            SceneManager.LoadScene("Gameplay 1");
-        }
+//        if (globals.s.CAN_RESTART && Input.GetMouseButtonDown(0))
+//        {
+//            //Application.LoadLevel("Gameplay");
+//            //Application.LoadLevel()
+//            
+//            SceneManager.LoadScene("Gameplay 1");
+//        }
 		if (USER.s.NEWBIE_PLAYER == 0 && globals.s.FIRST_GAME == false && globals.s.GAME_STARTED == false)
         {
 			if (USER.s.NEWBIE_PLAYER == 0) {
@@ -233,9 +226,15 @@ public class hud_controller : MonoBehaviour {
             	show_gift_time();
         }
 
+
+		if (Input.GetKey ("space") && globals.s.curGameScreen == GameScreen.LevelEnd) {
+			Restart ();
+		}
+
+
         if (globals.s.GAME_STARTED == false && globals.s.MENU_OPEN == false)
         {
-
+			
 
             if (Input.GetMouseButtonUp(0) && HUD_BUTTON_CLICKED == false)
             {
@@ -271,8 +270,8 @@ public class hud_controller : MonoBehaviour {
 
 			
 			//yield return new WaitForSeconds (0.15f);
-			pw_info.transform.DOLocalMoveY (-GetComponent <RectTransform>().rect.height/2 - pw_info.GetComponent <RectTransform>().rect.height/2
-				, 0.5f).SetEase (Ease.OutQuad).OnComplete (store_entrance);
+//			pw_info.transform.DOLocalMoveY (-GetComponent <RectTransform>().rect.height/2 - pw_info.GetComponent <RectTransform>().rect.height/2
+//				, 0.5f).SetEase (Ease.OutQuad).OnComplete (store_entrance);
 
 			game_title.transform.DOLocalMoveY (game_title.transform.localPosition.y + 700
 					, 0.5f).SetEase (Ease.OutQuart);
@@ -333,14 +332,15 @@ public class hud_controller : MonoBehaviour {
     
 	#region ========== Store ==========
 	float pw_info_y, game_title_y;
+
 	public void store_bt_act(){
 		//pw_info.transform.DOLocalMoveY(pw_info.transform.localPosition.y + pw_info.GetComponent <RectTransform>().rect.height
 		if (globals.s.AT_STORE == false && globals.s.MENU_OPEN == false) {
 			Debug.Log (" MENU HEIGHT: " + game_title.GetComponent <RectTransform>().rect.height + " POS: " + game_title.transform.position.y + " LOCAL Y: " + game_title.transform.localPosition.y);
 			globals.s.AT_STORE = true;
-			pw_info_y = pw_info.transform.position.y;
-			pw_info.transform.DOLocalMoveY (-GetComponent <RectTransform>().rect.height/2 - pw_info.GetComponent <RectTransform>().rect.height/2
-				, 0.5f).SetEase (Ease.OutQuad);
+//			pw_info_y = pw_info.transform.position.y;
+//			pw_info.transform.DOLocalMoveY (-GetComponent <RectTransform>().rect.height/2 - pw_info.GetComponent <RectTransform>().rect.height/2
+//				, 0.5f).SetEase (Ease.OutQuad);
 			Invoke ("store_entrance", 0.2f);
 
 			game_title_y = game_title.transform.position.y;
@@ -356,20 +356,35 @@ public class hud_controller : MonoBehaviour {
 		}
 	}
 
+	float storeY = 99999;
+
 	void store_entrance(){
+		globals.s.previousGameScreen = globals.s.curGameScreen;
+		globals.s.curGameScreen = GameScreen.Store;
+
 		store_label.SetActive (true);
-		store_label.transform.localPosition = new Vector3 (0, store_label.transform.localPosition.y + store_label.GetComponent <RectTransform> ().rect.height , store_label.transform.localPosition.z);
-		store_label.transform.DOLocalMoveY(-70
+		if(storeY == 99999) storeY = store_label.transform.localPosition.y;
+		store_controller.s.OpenStore ();
+		store_label.transform.localPosition = new Vector3 (0, storeY + store_label.GetComponent <RectTransform> ().rect.height , store_label.transform.localPosition.z);
+		store_label.transform.DOLocalMoveY(storeY
 			, 0.5f).SetEase (Ease.OutQuad);
         store_controller.s.changeAnimationEquipButton("eletronic");
 
     }
 
 	void store_closing(){
+		globals.s.curGameScreen = globals.s.previousGameScreen;
 
-		pw_info.transform.DOMoveY (pw_info_y, 0.5f).SetEase (Ease.OutQuad);
-		game_title.transform.DOMoveY (game_title_y, 0.5f).SetEase (Ease.OutQuad);
+		store_controller.s.equipCharacter ();
+//		pw_info.transform.DOMoveY (pw_info_y, 0.5f).SetEase (Ease.OutQuad);
+		if(globals.s.curGameScreen == GameScreen.MainMenu) 
+			game_title.transform.DOMoveY (game_title_y, 0.5f).SetEase (Ease.OutQuad);
 		store_label.SetActive (false);
+
+		if(globals.s.curGameScreen == GameScreen.LevelEnd)
+		{
+			GameOverController.s.UpdateJukeboxInformation ();
+		}
 
 	}
 
@@ -415,6 +430,8 @@ public class hud_controller : MonoBehaviour {
 			//game_over_text.GetComponent<Text>().text = "GAME OVER\n\nSCORE: " + temp_cur_floor + "\n BEST: " + temp_best_floor;
 			game_over_score.GetComponent<Text>().text =  temp_cur_floor.ToString () ;
 			game_over_best.GetComponent<Text>().text =  temp_best_floor.ToString ();
+
+			GameOverController.s.Init ();
         }
 
     }
@@ -509,7 +526,7 @@ public class hud_controller : MonoBehaviour {
 
     #region ========= LIFE SYSTEM ============
 
-	void show_pw_time() // atualiza o tempo do power ups
+	public void show_pw_time() // atualiza o tempo do power ups
     {
         tempcurDate = System.DateTime.Now;
         
@@ -540,18 +557,19 @@ public class hud_controller : MonoBehaviour {
             }
         }
 
+
         TimeSpan difference = tempDate.Subtract(tempcurDate);
         //Debug.Log(tempDate + " sadsad " + tempcurDate);
-        if(globals.s.PW_ACTIVE == true)
+        if( globals.s.PW_ACTIVE == true)
         {
 
 			float fill =  ((float) difference.Minutes + (float) difference.Seconds/60) / GD.s.GD_WITH_PW_TIME;
 //            pw_Text_Header.text = "Power Ups On";
-            //pw_time_left_title_on.SetActive(true);
+            pw_time_left_title_on.SetActive(true);
+			pw_time_left_title_on.GetComponent<Text>().text =  difference.Minutes + ":" + difference.Seconds + "";
             //activate_pw_bt.SetActive(false);
 //			if(pw_time_bar.GetComponent<Animator>()) pw_time_bar.GetComponent<Animator>().Play("PowerUpsCharginBarGreen");
 //            pw_time_bar.GetComponent<Image> ().fillAmount =  fill;
-            pw_time_left_title_on.GetComponent<Text>().text =  difference.Minutes + ":" + difference.Seconds + "";
 
 			//activate_pw_bt.GetComponent<activate_pw_button> ().SetCountownState ();
         }
@@ -565,7 +583,7 @@ public class hud_controller : MonoBehaviour {
 
 //			activate_pw_bt.SetActive(true);
 //			activate_pw_bt.GetComponent<activate_pw_button> ().SetSPinNowState();
-			PW_time_text.text = difference.Minutes + ":" + difference.Seconds + "";
+//			PW_time_text.text = difference.Minutes + ":" + difference.Seconds + "";
 
         }  
     }
@@ -647,8 +665,6 @@ public class hud_controller : MonoBehaviour {
         }
         else
         {
-
-
             TimeSpan diff = tempDateRoulette.Subtract(tempcurDate);
             if (CAN_ROTATE_ROULETTE == false)
             {
@@ -675,6 +691,47 @@ public class hud_controller : MonoBehaviour {
         //Debug.Log(tempDate + " sadsad " + tempcurDate);
 
     }
+
+
+	public void show_roullete_time_level_end()
+	{
+		tempcurDate = System.DateTime.Now;
+
+		//NO DATE CASE=
+		if (roullete_date == "")
+		{
+			CAN_ROTATE_ROULETTE = true;
+			PlayerPrefs.SetInt("CanRotate", 1);
+		}
+		else
+		{
+			TimeSpan diff = tempDateRoulette.Subtract(tempcurDate);
+			if (CAN_ROTATE_ROULETTE == false)
+			{
+
+				if (diff.TotalSeconds <= 0)
+				{
+					Debug.Log("o tempo passou e eu sofri calado");
+					CAN_ROTATE_ROULETTE = true;
+					PlayerPrefs.SetInt("CanRotate", 1);
+				}
+			}
+			if(diff.TotalSeconds > 0 && CAN_ROTATE_ROULETTE == false)
+			{
+				pw_time_left_title_on.GetComponent<Text>().text = diff.Minutes + ":" + diff.Seconds + "";
+			}
+
+		}
+		if(CAN_ROTATE_ROULETTE == true)
+		{
+			pw_time_left_title_on.GetComponent<Text>().text = " ROTATE NOW ";
+
+		}
+		//TimeSpan difference = tempDate.Subtract(tempcurDate);
+		//Debug.Log(tempDate + " sadsad " + tempcurDate);
+
+	}
+
     
 	public void addRoulleteTime()
     {
@@ -876,12 +933,17 @@ public class hud_controller : MonoBehaviour {
 	#region ======== Menu Power Ups ============
 	public void RodaMenu(){
 		//StartCoroutine(activeRodaaRoda());
+		globals.s.previousGameScreen = globals.s.curGameScreen;
+		globals.s.curGameScreen = GameScreen.SpinDisk;
+
 		roda_a_roda.gameObject.SetActive(true);
 
 		roda_a_roda.Entrance ();
 	}
 
 	public void PowerUpsMenuClose(){
+		globals.s.curGameScreen = globals.s.previousGameScreen;
+
 		roda_a_roda.gameObject.SetActive (false);
 	}
 
@@ -969,8 +1031,6 @@ public class hud_controller : MonoBehaviour {
 	public void GiftButtonClicked(){
 		if (CAN_GET_GIFT || 1==1) { //codigo que testa se pode dar o presente,
 			
-
-
 			bool rand_found;
 			int rand, count = 0;
 

@@ -5,6 +5,10 @@ public class GD : MonoBehaviour {
 
     public static GD s;
 
+	public int JUKEBOX_PRICE = 50, JUKEBOX_FTU_PRICE = 5;
+
+	public int[] SCENERY_FLOOR_VALUES;
+
 	public int FTU_NEWBIE_SCORE = 5;
 	public int FTU_MATCHES_TO_UNLOCK_PW = 2;
 	public int FTU_MATCHES_TO_UNLOCK_GIFT = 4;

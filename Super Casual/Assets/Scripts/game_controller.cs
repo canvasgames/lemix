@@ -2,6 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 
+
+
 public class game_controller : MonoBehaviour {
 
     #region ==== Variables Declaration =======
@@ -259,8 +261,9 @@ public class game_controller : MonoBehaviour {
     #endregion
 
     #region ====== GAME START RUNNING =======
-
     public void game_running() {
+		globals.s.curGameScreen = GameScreen.Gameplay;
+
         AnalyticController.s.ReportGameStarted();
         starting_time = Time.time;
     }
@@ -299,6 +302,8 @@ public class game_controller : MonoBehaviour {
 
     public void game_over(string killer_wave_name, ball_hero[] ball_hero, bool with_high_score)
     {
+		globals.s.curGameScreen = GameScreen.LevelEnd;
+
         temp_flag_high_score_game_over = with_high_score;
         //Time.timeScale = 0;
         Debug.Log("[GM] GAME OVER");
@@ -346,8 +351,9 @@ public class game_controller : MonoBehaviour {
         PlayerPrefs.SetInt("total_games", USER.s.TOTAL_GAMES + 1);
         PlayerPrefs.SetInt("notes", USER.s.NOTES);
 
-		if (showGameOverMenu)
-			hud_controller.si.show_game_over(cur_floor + 1, true);
+		if (showGameOverMenu) {
+			hud_controller.si.show_game_over (cur_floor + 1, true);
+		}
 
 
     }
@@ -476,8 +482,15 @@ public class game_controller : MonoBehaviour {
 				PlayerPrefs.SetInt ("newbie_player", 0);
 
 			// NEW STAGE WARNING
-			if(globals.s.PW_SUPER_JUMP == false && cur_floor % 5 == 0 && cur_floor > 1) 
-				stage_intro.s.StartEntering ((int)(cur_floor/5)+1);
+			if (globals.s.PW_SUPER_JUMP == false) {
+				for (int k = 0; k < GD.s.SCENERY_FLOOR_VALUES.Length ; k++) {
+					if(cur_floor == GD.s.SCENERY_FLOOR_VALUES[k]) 
+						stage_intro.s.StartEntering (k+2);
+//						stage_intro.s.StartEntering ((int)(cur_floor/5)+1);
+
+				}
+			}
+
 			//Debug.Log ("NEW CUR FLOOR!! " + cur_floor);
 
             create_new_wave();
@@ -529,7 +542,10 @@ public class game_controller : MonoBehaviour {
 
             // ======== SORT INITIAL WAVES! ========
 
-			if(n_floor > 4 && (n_floor - 1) % 5 == 0){
+			if(n_floor-1 == GD.s.SCENERY_FLOOR_VALUES[0] 
+				|| n_floor-1 == GD.s.SCENERY_FLOOR_VALUES[1] 
+				|| n_floor-1 == GD.s.SCENERY_FLOOR_VALUES[2] 
+				|| n_floor-1 == GD.s.SCENERY_FLOOR_VALUES[3]){
 				wave_found = true;
 				create_floor(0, n_floor);
 			}
@@ -1893,7 +1909,7 @@ public class game_controller : MonoBehaviour {
             //GameObject instance = Instantiate(Resources.Load("Prefabs/Note",
             //typeof(GameObject)), new Vector3(x, y + globals.s.SLOT / 2 + 1.85f), transform.rotation) as GameObject;
 
-			GameObject objj = objects_pool_controller.s.reposite_note(x + Random.Range (-0.15f,0.15f), y + globals.s.SLOT / 2 + 1.85f);
+			GameObject objj = objects_pool_controller.s.reposite_note(x + Random.Range (-0.05f,0.05f), y + globals.s.SLOT / 2 + 1.85f);
 
         }
     }
@@ -1971,14 +1987,14 @@ public class game_controller : MonoBehaviour {
 	public void create_bg(int n, bool special_wave = false) {
 
 		//Debug.Log ("creating BG  n:  " +n + "  POS : " + ( globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * n  + 2.45f) );
-		if (n <= 5)
+		if (n <= GD.s.SCENERY_FLOOR_VALUES[0])
 			//objects_pool_controller.s.create_and_reposite_bg (1, 0, globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * n  + 2.45f, special_wave);
 			objects_pool_controller.s.create_and_reposite_bg (1, 0, globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * n  + 2.45f, special_wave);
-		else if (n <= 10)
+		else if (n <= GD.s.SCENERY_FLOOR_VALUES[1])
 			objects_pool_controller.s.create_and_reposite_bg (2, 0, globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * n  + 2.45f, special_wave);
-		else if ( n <=15)
+		else if (n <= GD.s.SCENERY_FLOOR_VALUES[2])
 			objects_pool_controller.s.create_and_reposite_bg (3, 0, globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * n  + 2.45f, special_wave);
-		else if ( n <=20)
+		else if (n <= GD.s.SCENERY_FLOOR_VALUES[3])
 			objects_pool_controller.s.create_and_reposite_bg (4, 0, globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * n  + 2.45f, special_wave);
 		else
 			objects_pool_controller.s.create_and_reposite_bg (5, 0, globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * n  + 2.45f, special_wave);

@@ -21,9 +21,7 @@ public class USER : MonoBehaviour {
 		//PlayerPrefs.SetInt ("first_game", 0);
         SOUND_MUTED = PlayerPrefs.GetInt("sound_muted", 0);
 
-
-
-        NOTES = PlayerPrefs.GetInt("notes", 180);
+        NOTES = PlayerPrefs.GetInt("notes", 0);
 
         BEST_SCORE = PlayerPrefs.GetInt("best", 0);
         LAST_SCORE = PlayerPrefs.GetInt("last_score", 0);
@@ -39,7 +37,7 @@ public class USER : MonoBehaviour {
 
 		PW_INTRODUCED =  PlayerPrefs.GetInt("pw_introduced", 0);
 		GIFT_INTRODUCED = PlayerPrefs.GetInt("gift_introduced", 0);
-		NEWBIE_PLAYER = PlayerPrefs.GetInt("newbie_player", 1);
+		NEWBIE_PLAYER = PlayerPrefs.GetInt("newbie_player", 1); // player already passed through 'hole' tutorial
 
         s = this;
 
@@ -56,6 +54,9 @@ public class USER : MonoBehaviour {
 		store_controller.s.UpdateUserNotes ();
 
 		PlayerPrefs.SetInt("notes", USER.s.NOTES);
+
+		if (GameOverController.s != null && globals.s.GAME_OVER == 1)
+			GameOverController.s.Init ();
 	}
 
 

@@ -1,9 +1,22 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+
+public enum GameScreen{
+	MainMenu,
+	Gameplay,
+	Store,
+	LevelEnd,
+	SpinDisk
+}
+
 public class globals : MonoBehaviour {
 	public static globals s;
 
+	public GameScreen curGameScreen;
+	public GameScreen previousGameScreen;
+
+	public int NOTES_COLLECTED = 0 ;
 	public float TIME_TO_ALLOW_TAP = 0.4f;
 
 	public bool AT_STORE = false;
@@ -36,6 +49,10 @@ public class globals : MonoBehaviour {
 	public int SCREEN_WIDTH = 980;
 
    
+	[HideInInspector] public int JUKEBOX_CURRENT_PRICE;
+
+	[HideInInspector] public float CANVAS_X_LEFT, CANVAS_X_RIGHT, CANVAS_Y_TOP, CANVAS_Y_BOTTOM;
+
 
     [HideInInspector] public bool PW_ACTIVE;
     [HideInInspector] public bool PW_INVENCIBLE = false;
@@ -53,7 +70,7 @@ public class globals : MonoBehaviour {
     [HideInInspector]
     public bool REVIVING = false;
 
-	public bool GIFT_ANIMATION = false;
+	[HideInInspector] public bool GIFT_ANIMATION = false;
 
     [HideInInspector]
     public bool MENU_OPEN = false;
@@ -65,6 +82,10 @@ public class globals : MonoBehaviour {
     public int ad_type = 0;
 
     void Awake () {
+
+		CANVAS_X_LEFT = -240; CANVAS_X_RIGHT = 240;
+		CANVAS_Y_TOP = -480; CANVAS_Y_BOTTOM = 480;
+
 		ALERT_BALL = false;
         ACTUAL_CHAR = PlayerPrefs.GetString("ACTUAL_CHAR");
 
@@ -75,6 +96,9 @@ public class globals : MonoBehaviour {
         BALL_X = 0;
 
         HOLE_SPK_DIST = 2.6f;
+
+		curGameScreen = GameScreen.MainMenu;
+		previousGameScreen = GameScreen.MainMenu;
 
 
        // DontDestroyOnLoad (transform.gameObject);

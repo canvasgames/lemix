@@ -174,17 +174,26 @@ public class ball_hero : MonoBehaviour
         }
 
 		// JUMP
-        if (globals.s.GAME_STARTED == true)
-        {
-            if ((Input.GetMouseButton(0) || Input.GetKey("space")) && globals.s.GAME_STARTED == true)
-            {
-				StartCoroutine(Jump());
-            }
-            else if (Input.GetMouseButtonUp(0) && hud_controller.si.HUD_BUTTON_CLICKED == false)
-            {
-				StartCoroutine(Jump());
-            }
-        }
+		if (globals.s.GAME_STARTED == true) {
+			if ((Input.GetMouseButtonDown (0) || Input.GetKey ("space")) && globals.s.GAME_STARTED == true) {
+				StartCoroutine (Jump ());
+//				Debug.Log ("1JJJJJJJUMP! " + Input.mousePosition.y );
+
+			} else if (Input.GetMouseButtonUp (0) && hud_controller.si.HUD_BUTTON_CLICKED == false) {
+				StartCoroutine (Jump ());
+			}
+		} else {
+			if ( globals.s.MENU_OPEN == false && globals.s.curGameScreen == GameScreen.MainMenu && globals.s.GIFT_ANIMATION == false && 
+				(Input.GetMouseButtonDown (0) || Input.GetKey ("space")) && Input.mousePosition.y > 90 && Input.mousePosition.y < 430) {
+//				&& Input.mousePosition.y > -7.3f && Input.mousePosition.y < 1.3f
+//				Debug.Log ("GAME NOT STARTED YET! MENU: " + globals.s.GIFT_ANIMATION);
+//				Debug.Log ("0JJJJJJJUMP! " + Input.mousePosition.y );
+				globals.s.GAME_STARTED = true;
+				hud_controller.si.start_game_coroutine ();
+
+				StartCoroutine (Jump ());
+			}
+		}
 
         symbols_PW_activate();
             
@@ -412,6 +421,7 @@ public class ball_hero : MonoBehaviour
 
 		else if (coll.gameObject.CompareTag("Note")) {
 			USER.s.NOTES += 1;
+			globals.s.NOTES_COLLECTED += 1;
 			hud_controller.si.display_notes(USER.s.NOTES);
 			coll.transform.position = new Vector2 (-9909,-9999);
 			coll.GetComponent <note_behaviour> ().active = false;

@@ -120,7 +120,7 @@ public class sound_controller : MonoBehaviour
 	#endregion
 
     public void play_alert() {
-        PlaySingle(Alert);
+//        PlaySingle(Alert);
     }
 
     public void special_event() {
