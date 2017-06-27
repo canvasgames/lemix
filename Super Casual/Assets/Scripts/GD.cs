@@ -30,6 +30,8 @@ public class GD : MonoBehaviour {
 	public float GlowOutTime = 0.83f;
 
     public bool AnalyticsLive = false;
+
+	public int N_MUSIC = 6;
     // Use this for initialization
     void Awake()
     {

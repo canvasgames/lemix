@@ -225,7 +225,7 @@ public class ScrollSnapRect : MonoBehaviour, IBeginDragHandler, IEndDragHandler,
 
     //------------------------------------------------------------------------
     private void NextScreen() {
-        if(_currentPage == 4)
+		if(_currentPage == GD.s.N_MUSIC-1)
         {
 			Debug.Log ("NEXT SCREEN BT PRESSED");
             store_controller.s.OnCharacterChanged(0);
@@ -243,8 +243,8 @@ public class ScrollSnapRect : MonoBehaviour, IBeginDragHandler, IEndDragHandler,
     private void PreviousScreen() {
         if (_currentPage == 0)
         {
-            LerpToPage(4);
-            store_controller.s.OnCharacterChanged(4);
+			LerpToPage(GD.s.N_MUSIC - 1);
+			store_controller.s.OnCharacterChanged(GD.s.N_MUSIC - 1);
         }
         else
         {

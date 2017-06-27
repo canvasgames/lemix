@@ -106,6 +106,10 @@ public class ball_hero : MonoBehaviour
 		{
 			my_skin.GetComponent<Animator>().runtimeAnimatorController = Resources.Load("Sprites/Animations/ReggaeAnimator") as RuntimeAnimatorController;
 		}
+		else if (globals.s.ACTUAL_CHAR == "rap")
+		{
+			my_skin.GetComponent<Animator>().runtimeAnimatorController = Resources.Load("Sprites/Animations/RapAnimator") as RuntimeAnimatorController;
+		}
     }
     
 	public void Init_first_ball()
@@ -135,16 +139,6 @@ public class ball_hero : MonoBehaviour
     
     #endregion
 
-    void create_note_trail() {
-        //note_trail_behavior obj = (note_trail_behavior)Instantiate(my_note_trail, 
-            //new Vector3(transform.position.x, transform.position.y + Random.Range(-0.2f, 0.2f)), transform.rotation);
-
-		objects_pool_controller.s.reposite_note_trail (transform.position.x, transform.position.y + Random.Range (-0.2f, 0.2f));
-			
-
-        if(!is_destroyed) Invoke("create_note_trail",0.07f);
-    }
-
     #region ======= UPDATE ==========
 
 	void show_alert() {
@@ -161,6 +155,8 @@ public class ball_hero : MonoBehaviour
 			rb.velocity = new Vector2(-globals.s.BALL_SPEED_X, rb.velocity.y);
 		else 
 			rb.velocity = new Vector2(globals.s.BALL_SPEED_X, rb.velocity.y);
+
+		init_my_skin ();
 	}
 
     void Update()
@@ -183,7 +179,7 @@ public class ball_hero : MonoBehaviour
 				StartCoroutine (Jump ());
 			}
 		} else {
-			if ( globals.s.MENU_OPEN == false && globals.s.curGameScreen == GameScreen.MainMenu && globals.s.GIFT_ANIMATION == false && 
+			if (QA.s.DONT_START_THE_GAME == false && globals.s.MENU_OPEN == false && globals.s.curGameScreen == GameScreen.MainMenu && globals.s.GIFT_ANIMATION == false && 
 				(Input.GetMouseButtonDown (0) || Input.GetKey ("space")) && Input.mousePosition.y > 90 && Input.mousePosition.y < 430) {
 //				&& Input.mousePosition.y > -7.3f && Input.mousePosition.y < 1.3f
 //				Debug.Log ("GAME NOT STARTED YET! MENU: " + globals.s.GIFT_ANIMATION);
@@ -233,7 +229,7 @@ public class ball_hero : MonoBehaviour
        
         #region ================ Ball Up ====================
 
-        if (son_created == false && ((transform.position.x <= globals.s.LIMIT_LEFT + globals.s.BALL_R + 0.3f && rb.velocity.x < 0) ||
+		if (globals.s.PW_SUPER_JUMP == false && son_created == false && ((transform.position.x <= globals.s.LIMIT_LEFT + globals.s.BALL_R + 0.3f && rb.velocity.x < 0) ||
                                      (transform.position.x >= globals.s.LIMIT_RIGHT - globals.s.BALL_R - 0.3f && rb.velocity.x > 0))) {
             // my_light.SetActive(false);
             // Destroy(my_light);
@@ -351,7 +347,15 @@ public class ball_hero : MonoBehaviour
         }
     }
 
+	void create_note_trail() {
+		//note_trail_behavior obj = (note_trail_behavior)Instantiate(my_note_trail, 
+		//new Vector3(transform.position.x, transform.position.y + Random.Range(-0.2f, 0.2f)), transform.rotation);
 
+		objects_pool_controller.s.reposite_note_trail (transform.position.x, transform.position.y + Random.Range (-0.2f, 0.2f));
+
+
+		if(!is_destroyed) Invoke("create_note_trail",0.07f);
+	}
     #endregion
 
 	IEnumerator Jump()

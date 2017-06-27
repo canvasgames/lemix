@@ -398,8 +398,6 @@ public class hud_controller : MonoBehaviour {
         floor.GetComponent<Text>().text = "Floor " + (n + 1).ToString();
     }
 
-    
-
     #region ============== GAME OVER ================
 
 	public void show_game_over(int currentFloor, bool fromRevive = false)
@@ -773,7 +771,7 @@ public class hud_controller : MonoBehaviour {
 
         game_controller.s.activate_logic();
         game_controller.s.destroy_spikes_2_floors();
-		if(sound_controller.s != null) sound_controller.s.play_music();
+//		if(sound_controller.s != null) sound_controller.s.play_music();
         AnalyticController.s.ReportRevive(true);
 
         Invoke("partiu", 1);

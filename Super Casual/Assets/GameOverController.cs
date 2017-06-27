@@ -8,16 +8,19 @@ public class GameOverController : MonoBehaviour {
 	#region === Variables ===
 	public static GameOverController s;
 
+	public GameObject jukeboxGroup;
 	public GameObject jukeboxBt, jukeboxNote, jukeboxIcon, jukeboxGetNow, jukeboxPauta;
 	public GameObject jukeboxBtGlow, jukeboxBtText;
 	public Text jukeboxBarNotesText;
-//	[namespace] (10)
 	public GameObject jukeboxGreenBar;
+	[Space(10)] 
 
 //	public Text ;
+	public GameObject diskGroup;
 	public GameObject diskGroupBg, storeGroupBg;
 	public GameObject diskFreeSpinText, diskTimeLeft, diskFreeSpinNowText;
 	public GameObject diskBt, diskBarGreen;
+	[Space(10)] 
 	public GameObject replayBt;
 
 	bool DiskSpinNowAnimationStarted = false;
@@ -34,7 +37,7 @@ public class GameOverController : MonoBehaviour {
 
 	#endregion
 
-	#region init
+	#region === Init ===
 	void Awake () {
 		s = this;
 //		noteBarXPos = jukeboxNote.transform.localPosition.x;
@@ -46,13 +49,30 @@ public class GameOverController : MonoBehaviour {
 //		globals.s.NOTES_COLLECTED = 15;
 //
 //		Invoke ("Init", 0.3f);
+//		EnteringAnimations();
+//		Invoke ("EnteringAnimations", 0.5f);
 	}
 
 	public void Init(){
 		Debug.Log (" USER NOTES:" + USER.s.NOTES + "  jukebox price : " + globals.s.JUKEBOX_CURRENT_PRICE);
+
+		if (USER.s.NEWBIE_PLAYER == 0) {
+			replayBt.transform.localPosition = new Vector2 (0, -157); 
+		}
+
+		// Disk button logic
+		if (FTUController.s.diskIntroduced == 0) {
+			diskBt.SetActive (false);
+			jukeboxBt.SetActive (false);
+			diskGroupBg.SetActive (false);
+			storeGroupBg.SetActive (false);
+
+		}
+
+		//Jukebox Logic
 		if (USER.s.NOTES - globals.s.NOTES_COLLECTED < globals.s.JUKEBOX_CURRENT_PRICE) {
 			//			jukeboxIcon.GetComponent<Image> ().color = Color.gray;
-			SetJukeboxProgressState();
+			SetJukeboxProgressState ();
 
 			//			noteXStart = jukeboxNote.transform.localPosition.x;
 			//			float xDif = noteXEnd - noteXStart;
@@ -68,12 +88,10 @@ public class GameOverController : MonoBehaviour {
 
 			jukeboxGreenBar.GetComponent<Image> ().fillAmount = fillCurrent + jukeboxBarInitialFill;
 			fillTarget = (USER.s.NOTES) * fillDif / globals.s.JUKEBOX_CURRENT_PRICE;
-
-			StartCoroutine (NoteAnimation());
-			//			jukeboxNote.transform.localPosition = new Vector2 (xCurrent, 0);
 		} else {
-
 			StartCoroutine (JukeboxGetNow (0));
+			//			jukeboxNote.transform.localPosition = new Vector2 (xCurrent, 0);
+
 			//			jukeboxGetNow.SetActive (true);
 			//			jukeboxPauta.SetActive(false);
 			//
@@ -84,19 +102,40 @@ public class GameOverController : MonoBehaviour {
 			//			jukeboxGreenBar.GetComponent<Image> ().fillAmount = 1;
 			//
 			//			jukeboxIcon.GetComponent<Animator>().Play("jukebox icon animation");
-
 		}
 
-		// spin disk
+		StartCoroutine (EnteringAnimations ());
 
-		if (FTUController.s.diskIntroduced == 0) {
-			diskBt.SetActive (false);
-			jukeboxBt.SetActive (false);
-			diskGroupBg.SetActive (false);
-			storeGroupBg.SetActive (false);
+	}
 
-			replayBt.transform.localPosition = new Vector2 (0, -157); 
+	void InitJukeboxGroupInfo(){
+		if (USER.s.NOTES - globals.s.NOTES_COLLECTED < globals.s.JUKEBOX_CURRENT_PRICE) 
+			StartCoroutine (NoteAnimation());
+	}
+
+	public void Enterer(){
+		StartCoroutine (EnteringAnimations ());
+	}
+	public IEnumerator EnteringAnimations(){
+//		Debug.Log ("x pos : "+  jukeboxGroup.transform.position +  " width "+ jukeboxGroup.GetComponent<RectTransform> ().rect.width);
+		jukeboxGroup.GetComponent<RectTransform> ().position = new Vector2 (0 - jukeboxGroup.GetComponent<RectTransform> ().rect.width/100 , jukeboxGroup.GetComponent<RectTransform> ().position.y);
+		float localY = replayBt.transform.localPosition.y;
+		replayBt.transform.position = new Vector2 (replayBt.transform.position.x,  globals.s.CANVAS_Y_BOTTOM/100 - replayBt.GetComponent<RectTransform> ().rect.height/100); 
+		diskGroup.GetComponent<RectTransform> ().position = new Vector2 (0 - diskGroup.GetComponent<RectTransform> ().rect.width / 100, diskGroup.GetComponent<RectTransform> ().position.y);
+
+		if (USER.s.NEWBIE_PLAYER == 0) {
+			jukeboxGroup.GetComponent<RectTransform> ().DOLocalMoveX (0, 0.5f).SetEase (Ease.OutCubic).OnComplete(InitJukeboxGroupInfo);
+			yield return new WaitForSeconds (0.45f);
+//		Debug.Log ("22 x pos : "+  jukeboxGroup.transform.position +  " width "+ jukeboxGroup.GetComponent<RectTransform> ().rect.width);
 		}
+
+		if (FTUController.s.diskIntroduced == 1) {
+			diskGroup.GetComponent<RectTransform> ().DOLocalMoveX (0, 0.5f).SetEase (Ease.OutCubic);
+			yield return new WaitForSeconds (0.25f);
+		}
+//		Debug.Log ("y bottom " + (globals.s.CANVAS_Y_BOTTOM) + " Y REPLAY POS: " + replayBt.transform.position.y);
+//		Debug.Log ("2222y bottom " + (globals.s.CANVAS_Y_BOTTOM) + " Y REPLAY POS: " + replayBt.transform.position.y + " FINAL: " + ((globals.s.CANVAS_Y_BOTTOM/100) - replayBt.GetComponent<RectTransform> ().rect.height/100) );
+		replayBt.transform.DOLocalMoveY(localY, 0.5f);
 	}
 
 	#endregion
@@ -115,7 +154,6 @@ public class GameOverController : MonoBehaviour {
 			//			GetComponent<Text>().text =  difference.Minutes + ":" + difference.Seconds + "";
 		}
 	}
-
 
 	#region === Jukebox ===
 

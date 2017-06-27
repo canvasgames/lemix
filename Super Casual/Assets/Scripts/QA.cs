@@ -1,10 +1,13 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using DG.Tweening;
 
 public class QA : MonoBehaviour {
 
     public static QA s;
+
+	public bool DONT_START_THE_GAME = false;
 
 	public bool OLD_PLAYER;
 
@@ -19,6 +22,8 @@ public class QA : MonoBehaviour {
     public bool NO_PWS = false;
     public bool SHOW_WAVE_TYPE = false;
 	public bool CREATE_NOTE_TRAIL = true;
+
+	public Ease ease1;
 
 	public GameObject SqBt;
 	// Use this for initialization

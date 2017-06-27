@@ -7,11 +7,13 @@ public enum MusicStyle{
 	Rock = 1,
 	Pop= 2,
 	PopGaga = 3,
-	Reggae= 4
+	Reggae= 4,
+	Rap = 5,
 }
 
 public class sound_controller : MonoBehaviour
 {
+	#region === VArs ===
     public static sound_controller s = null;
 
     public AudioSource efxSource, efxSource2, efxSource3;
@@ -28,6 +30,8 @@ public class sound_controller : MonoBehaviour
 	MusicStyle curMusic;
 
     int music_playing = 1;
+
+	#endregion
 
 	#region ===== Init =======
     void Awake()
@@ -66,6 +70,7 @@ public class sound_controller : MonoBehaviour
 		if( globals.s.ACTUAL_CHAR == "pop")  change_music (MusicStyle.Pop);
 		if( globals.s.ACTUAL_CHAR == "popGaga")  change_music (MusicStyle.PopGaga);
 		if( globals.s.ACTUAL_CHAR == "reggae")  change_music (MusicStyle.Reggae);
+		if( globals.s.ACTUAL_CHAR == "rap")  change_music (MusicStyle.Rap);
 
     }
 

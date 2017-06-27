@@ -82,9 +82,9 @@ public class globals : MonoBehaviour {
     public int ad_type = 0;
 
     void Awake () {
-
+		MusicStyle mystele;
 		CANVAS_X_LEFT = -240; CANVAS_X_RIGHT = 240;
-		CANVAS_Y_TOP = -480; CANVAS_Y_BOTTOM = 480;
+		CANVAS_Y_TOP = -480; CANVAS_Y_BOTTOM = -Screen.height;
 
 		ALERT_BALL = false;
         ACTUAL_CHAR = PlayerPrefs.GetString("ACTUAL_CHAR");

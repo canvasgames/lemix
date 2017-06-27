@@ -9,6 +9,8 @@ public class game_controller : MonoBehaviour {
     #region ==== Variables Declaration =======
     public static game_controller s;
 
+	public int musicLayerN = 0;
+
 	public GameObject visionMask;
     float starting_time, match_time;
 
@@ -323,7 +325,7 @@ public class game_controller : MonoBehaviour {
         if (globals.s.SHOW_VIDEO_AFTER == false)
         {
             revive_logic();
-//			globals.s.CAN_REVIVE = true;
+			globals.s.CAN_REVIVE = true;
             if (globals.s.CAN_REVIVE == true)
             {
                 hud_controller.si.show_revive_menu();
@@ -497,7 +499,9 @@ public class game_controller : MonoBehaviour {
 
 			NewHighscoreAnimation (ball_floor);
 
-			if (ball_floor >= 5 && ball_floor % 5 == 0) {
+//			if (ball_floor >= 5 && ball_floor % 5 == 0) {
+			if (ball_floor >= 5 && musicLayerN < GD.s.SCENERY_FLOOR_VALUES.Length && ball_floor > GD.s.SCENERY_FLOOR_VALUES[musicLayerN] -1 ) {
+				musicLayerN++;
 				if (sound_controller.s != null)
 					sound_controller.s.update_music ();
 			}
