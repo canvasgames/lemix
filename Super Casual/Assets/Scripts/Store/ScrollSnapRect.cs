@@ -61,6 +61,8 @@ public class ScrollSnapRect : MonoBehaviour, IBeginDragHandler, IEndDragHandler,
     public Text charPrice;
     //------------------------------------------------------------------------
     void Start() {
+		Debug.Log("staaaaaaaaaaaaaaaart scrpççsasdl");
+
         _scrollRectComponent = GetComponent<ScrollRect>();
         _scrollRectRect = GetComponent<RectTransform>();
         _container = _scrollRectComponent.content;
@@ -223,18 +225,26 @@ public class ScrollSnapRect : MonoBehaviour, IBeginDragHandler, IEndDragHandler,
         _previousPageSelectionIndex = aPageIndex;
     }
 
+	public void SetCurrentPage(MusicStyle style){
+//		Debug.Log("lerp to page : " + (int)style);
+		LerpToPage((int)style);
+//		LerpToPage(2);
+//		NextScreen();
+	}
     //------------------------------------------------------------------------
     private void NextScreen() {
 		if(_currentPage == GD.s.N_MUSIC-1)
         {
 			Debug.Log ("NEXT SCREEN BT PRESSED");
-            store_controller.s.OnCharacterChanged(0);
+//			store_controller.s.OnCharacterChanged(0);
+			store_controller.s.OnCharacterChangedNew(MusicStyle.Eletro);
 
             LerpToPage(0);
         }
         else
         {
-            store_controller.s.OnCharacterChanged(_currentPage + 1);
+//			store_controller.s.OnCharacterChanged(_currentPage + 1);
+			store_controller.s.OnCharacterChangedNew((MusicStyle)(_currentPage + 1));
             LerpToPage(_currentPage + 1);
         }
     }
@@ -244,11 +254,11 @@ public class ScrollSnapRect : MonoBehaviour, IBeginDragHandler, IEndDragHandler,
         if (_currentPage == 0)
         {
 			LerpToPage(GD.s.N_MUSIC - 1);
-			store_controller.s.OnCharacterChanged(GD.s.N_MUSIC - 1);
+			store_controller.s.OnCharacterChangedNew((MusicStyle)(GD.s.N_MUSIC - 1));
         }
         else
         {
-            store_controller.s.OnCharacterChanged(_currentPage - 1);
+			store_controller.s.OnCharacterChangedNew((MusicStyle)(_currentPage - 1));
             LerpToPage(_currentPage - 1);
         }
     }

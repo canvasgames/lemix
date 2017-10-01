@@ -19,7 +19,7 @@ public class GiftButton : MonoBehaviour {
 		Debug.Log ("SET COUNTDOWN STATE");
 		my_time.SetActive (true);
 		my_open_now_text.SetActive (false);
-		my_glow.SetActive (false);
+//		my_glow.SetActive (false);
 
 		GetComponent<Button> ().interactable = false;
 
@@ -31,7 +31,7 @@ public class GiftButton : MonoBehaviour {
 
 		my_time.SetActive (false);
 		my_open_now_text.SetActive (true);
-		my_glow.SetActive (true);
+//		my_glow.SetActive (true);
 
 		GetComponent<Button> ().interactable = true;
 

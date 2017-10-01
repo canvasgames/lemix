@@ -2,14 +2,7 @@
 using System.Collections;
 using DG.Tweening;
 
-public enum MusicStyle{
-	Eletro = 0,
-	Rock = 1,
-	Pop= 2,
-	PopGaga = 3,
-	Reggae= 4,
-	Rap = 5,
-}
+
 
 public class sound_controller : MonoBehaviour
 {
@@ -57,6 +50,9 @@ public class sound_controller : MonoBehaviour
             }
             
         }
+
+		if (QA.s.NO_MUSIC == true)
+			muteMusic ();
 
 
     }

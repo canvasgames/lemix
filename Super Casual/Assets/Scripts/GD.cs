@@ -1,6 +1,21 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+public enum MusicStyle{
+	Eletro = 0,
+	Rock = 1,
+	Pop= 2,
+	PopGaga = 3,
+	Reggae= 4,
+	Rap = 5,
+	Samba = 6,
+	Latina = 7,
+	Classic = 8,
+	DingoBells = 9,
+	Lenght = 10
+}
+
+
 public class GD : MonoBehaviour {
 
     public static GD s;
@@ -41,6 +56,30 @@ public class GD : MonoBehaviour {
     // Update is called once per frame
     void Update () {
 	
+	}
+
+	public string GetStyleName(MusicStyle style){
+		if (style == MusicStyle.Classic)
+			return "Classic";
+		else if (style == MusicStyle.Eletro)
+			return "Eletronic";
+		else if (style == MusicStyle.Latina)
+			return "Latina";
+		else if (style == MusicStyle.Reggae)
+			return "Reggae";
+		else if (style == MusicStyle.Pop)
+			return "Pop Classic";
+		else if (style == MusicStyle.Rap)
+			return "Rap";
+		else if (style == MusicStyle.PopGaga)
+			return "Modern Pop";
+		else if (style == MusicStyle.Rock)
+			return "Rock";
+		else if (style == MusicStyle.Samba)
+			return "Samba";
+		else if (style == MusicStyle.DingoBells)
+			return "Dingo Bells";
+		else return "";
 	}
 
 }

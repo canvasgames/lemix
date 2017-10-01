@@ -81,8 +81,18 @@ public class ball_hero : MonoBehaviour
 
         // INITIALIZE SKIN AND MUSIC HERE!!!
 		if(QA.s.CREATE_NOTE_TRAIL == true) create_note_trail();
-        changeSkinChar();
+//		changeSkinChar();
+        UpdateMySkin();
     }
+
+	public void UpdateMySkin(){
+		Debug.Log ("UPDATE MY SKIN: " + globals.s.ACTUAL_STYLE.ToString ());
+//		if(globals.s.ACTUAL_STYLE != MusicStyle.Eletro)
+		my_skin.GetComponent<Animator>().runtimeAnimatorController = 
+			Resources.Load("Sprites/Animations/" + globals.s.ACTUAL_STYLE.ToString()+"Animator") as RuntimeAnimatorController;
+//		else
+//			my_skin.GetComponent<Animator>().runtimeAnimatorController = Resources.Load("Sprites/Animations/EletronicHero") as RuntimeAnimatorController;
+	}
 
     public void changeSkinChar()
     {
@@ -174,9 +184,13 @@ public class ball_hero : MonoBehaviour
 			if ((Input.GetMouseButtonDown (0) || Input.GetKey ("space")) && globals.s.GAME_STARTED == true) {
 				StartCoroutine (Jump ());
 //				Debug.Log ("1JJJJJJJUMP! " + Input.mousePosition.y );
+				Debug.Log ("GAME ALREADY STARTED, JUST JUMP!!!");
+
 
 			} else if (Input.GetMouseButtonUp (0) && hud_controller.si.HUD_BUTTON_CLICKED == false) {
 				StartCoroutine (Jump ());
+				Debug.Log ("GAME ALREADY STARTED, JUST JUMP!!!2");
+
 			}
 		} else {
 			if (QA.s.DONT_START_THE_GAME == false && globals.s.MENU_OPEN == false && globals.s.curGameScreen == GameScreen.MainMenu && globals.s.GIFT_ANIMATION == false && 
@@ -186,7 +200,7 @@ public class ball_hero : MonoBehaviour
 //				Debug.Log ("0JJJJJJJUMP! " + Input.mousePosition.y );
 				globals.s.GAME_STARTED = true;
 				hud_controller.si.start_game_coroutine ();
-
+				Debug.Log ("START GAME: FIRST JUMP!!!");
 				StartCoroutine (Jump ());
 			}
 		}

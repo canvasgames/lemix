@@ -64,8 +64,8 @@ public class GameOverController : MonoBehaviour {
 		if (FTUController.s.diskIntroduced == 0) {
 			diskBt.SetActive (false);
 			jukeboxBt.SetActive (false);
-			diskGroupBg.SetActive (false);
-			storeGroupBg.SetActive (false);
+//			diskGroupBg.SetActive (false);
+//			storeGroupBg.SetActive (false);
 
 		}
 
@@ -120,7 +120,8 @@ public class GameOverController : MonoBehaviour {
 //		Debug.Log ("x pos : "+  jukeboxGroup.transform.position +  " width "+ jukeboxGroup.GetComponent<RectTransform> ().rect.width);
 		jukeboxGroup.GetComponent<RectTransform> ().position = new Vector2 (0 - jukeboxGroup.GetComponent<RectTransform> ().rect.width/100 , jukeboxGroup.GetComponent<RectTransform> ().position.y);
 		float localY = replayBt.transform.localPosition.y;
-		replayBt.transform.position = new Vector2 (replayBt.transform.position.x,  globals.s.CANVAS_Y_BOTTOM/100 - replayBt.GetComponent<RectTransform> ().rect.height/100); 
+//		replayBt.transform.position = new Vector2 (replayBt.transform.position.x,  globals.s.CANVAS_Y_BOTTOM/100 - replayBt.GetComponent<RectTransform> ().rect.height/100); 
+		replayBt.transform.position = new Vector2 (replayBt.transform.position.x,  replayBt.transform.position.y + -3f); 
 		diskGroup.GetComponent<RectTransform> ().position = new Vector2 (0 - diskGroup.GetComponent<RectTransform> ().rect.width / 100, diskGroup.GetComponent<RectTransform> ().position.y);
 
 		if (USER.s.NEWBIE_PLAYER == 0) {
@@ -180,6 +181,7 @@ public class GameOverController : MonoBehaviour {
 		jukeboxPauta.SetActive(false);
 		jukeboxNote.SetActive(false);
 		jukeboxBarNotesText.gameObject.SetActive(false);
+		jukeboxBt.GetComponent<Animator> ().Play ("bt_store_new_style");
 	}
 
 	void SetJukeboxProgressState(){
@@ -187,6 +189,7 @@ public class GameOverController : MonoBehaviour {
 		jukeboxPauta.SetActive(true);
 		jukeboxNote.SetActive(true);
 		jukeboxBarNotesText.gameObject.SetActive(true);
+		jukeboxBt.GetComponent<Animator> ().Play ("bt_store_anim");
 	}
 
 
@@ -272,6 +275,7 @@ public class GameOverController : MonoBehaviour {
 		diskFreeSpinNowText.SetActive (false);
 		diskTimeLeft.SetActive (true);
 		diskFreeSpinText.SetActive (true);
+		diskBt.GetComponent<Button> ().interactable = false;
 	}
 
 	void SetDiskSpinNowState(){
@@ -279,6 +283,8 @@ public class GameOverController : MonoBehaviour {
 		diskFreeSpinNowText.SetActive (true);
 		diskTimeLeft.SetActive (false);
 		diskFreeSpinText.SetActive (false);
+
+		diskBt.GetComponent<Button> ().interactable = true;
 	}
 
 	void DeactivateSpinTimerTexts(){

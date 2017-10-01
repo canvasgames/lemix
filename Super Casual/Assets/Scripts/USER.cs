@@ -16,6 +16,8 @@ public class USER : MonoBehaviour {
     void Awake() {
 		//PlayerPrefs.SetInt ("notes", 666);
 
+		globals.s.ACTUAL_STYLE = (MusicStyle) PlayerPrefs.GetInt ("curStyle", 0);
+
         //PlayerPrefs.SetInt("total_games", 0);
 		//PlayerPrefs.SetInt("best", 0);
 		//PlayerPrefs.SetInt ("first_game", 0);
@@ -59,6 +61,11 @@ public class USER : MonoBehaviour {
 			GameOverController.s.Init ();
 	}
 
+
+	public void SetCurrentSelectedMusic(MusicStyle style){
+		PlayerPrefs.SetInt ("curStyle", (int)style);
+		globals.s.ACTUAL_STYLE = style;
+	}
 
 	// Use this for initialization
 	void Start () {

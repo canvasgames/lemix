@@ -78,6 +78,7 @@ public class globals : MonoBehaviour {
 
     [HideInInspector]
     public string ACTUAL_CHAR;
+	public MusicStyle ACTUAL_STYLE;
 
     public int ad_type = 0;
 

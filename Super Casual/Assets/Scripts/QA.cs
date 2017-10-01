@@ -22,6 +22,7 @@ public class QA : MonoBehaviour {
     public bool NO_PWS = false;
     public bool SHOW_WAVE_TYPE = false;
 	public bool CREATE_NOTE_TRAIL = true;
+	public bool NO_MUSIC = false;
 
 	public Ease ease1;
 

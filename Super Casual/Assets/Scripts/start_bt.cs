@@ -23,8 +23,6 @@ public class start_bt : MonoBehaviour {
 			{
 				globals.s.GAME_STARTED = true;
 				hud_controller.si.start_game();
-				
-
 			}
 		#endif
 
@@ -32,17 +30,15 @@ public class start_bt : MonoBehaviour {
 
 			GetComponent<Button>().interactable = true;
 		#endif
-
-
-
 	}
 
     public void click()
     {
 
-		if (canTap == true && globals.s.GAME_STARTED == false && globals.s.MENU_OPEN == false && globals.s.GIFT_ANIMATION == false)
+		if (canTap == true && globals.s.curGameScreen == GameScreen.MainMenu && globals.s.GAME_STARTED == false && globals.s.MENU_OPEN == false && globals.s.GIFT_ANIMATION == false)
         {
 			if (BallMaster.s.CheckIfBallAreGrounded ()) {
+				Debug.Log ("START BT CLICK: START THE GAME!!!");
 				globals.s.GAME_STARTED = true;
 				hud_controller.si.start_game_coroutine ();
 			}

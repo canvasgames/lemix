@@ -368,14 +368,15 @@ public class hud_controller : MonoBehaviour {
 		store_label.transform.localPosition = new Vector3 (0, storeY + store_label.GetComponent <RectTransform> ().rect.height , store_label.transform.localPosition.z);
 		store_label.transform.DOLocalMoveY(storeY
 			, 0.5f).SetEase (Ease.OutQuad);
-        store_controller.s.changeAnimationEquipButton("eletronic");
+//		store_controller.s.changeAnimationEquipButton("eletronic");
+//        store_controller.s.changeAnimationEquipButtonNew((;
 
     }
 
 	void store_closing(){
 		globals.s.curGameScreen = globals.s.previousGameScreen;
 
-		store_controller.s.equipCharacter ();
+		store_controller.s.equipCharacterNew ();
 //		pw_info.transform.DOMoveY (pw_info_y, 0.5f).SetEase (Ease.OutQuad);
 		if(globals.s.curGameScreen == GameScreen.MainMenu) 
 			game_title.transform.DOMoveY (game_title_y, 0.5f).SetEase (Ease.OutQuad);
@@ -1033,8 +1034,9 @@ public class hud_controller : MonoBehaviour {
 			int rand, count = 0;
 
 			do {
-				rand = UnityEngine.Random.Range (1, 5);
-				rand_found = store_controller.s.CheckIfCharacterIsAlreadyPurchased (rand);
+				rand = UnityEngine.Random.Range (1, GD.s.N_MUSIC+1);
+//				rand_found = store_controller.s.CheckIfCharacterIsAlreadyPurchased (rand);
+				rand_found = store_controller.s.CheckIfCharacterIsAlreadyPurchasedNew ((MusicStyle) rand);
 				count++;
 			} while (rand_found == true && count < 50);
 				
@@ -1043,12 +1045,13 @@ public class hud_controller : MonoBehaviour {
 				globals.s.GIFT_ANIMATION = true;
 				giftAnimation.SetActive (true);
 				
-				StartCoroutine (GiveChar (rand));
+				StartCoroutine (GiveCharNew ((MusicStyle)rand));
 
 				giftAnimation.GetComponent<GiftAnimationLogic> ().Init ();
 			}
 			else {
 				Debug.Log ("ERROR!!");
+				// TBD
 			}
 			
 		} else {//fazer alguma coisa ?
@@ -1056,18 +1059,32 @@ public class hud_controller : MonoBehaviour {
 		}
 	}	
 
-	IEnumerator GiveChar(int musicType){
+	IEnumerator GiveCharNew(MusicStyle style){
 		yield return new WaitForSeconds (1f);
 
 		giftChar.SetActive (true);
-		giftChar.GetComponent<CharGift> ().InitAnimation ((MusicStyle)musicType);
-		store_controller.s.GiveCharacterForFree (musicType);
+		giftChar.GetComponent<CharGift> ().InitAnimation (style);
+		store_controller.s.GiveCharacterForFreeNew (style);
 
 		giftBt.GetComponent<GiftButton> ().SetCountownState ();
 		getGift ();
 
-		giftAnimation.GetComponent<GiftAnimationLogic> ().EnterTitle ((MusicStyle)musicType);
+		giftAnimation.GetComponent<GiftAnimationLogic> ().EnterTitle (style);
 	}
+
+//
+//	IEnumerator GiveChar(int musicType){
+//		yield return new WaitForSeconds (1f);
+//
+//		giftChar.SetActive (true);
+//		giftChar.GetComponent<CharGift> ().InitAnimation ((MusicStyle)musicType);
+//		store_controller.s.GiveCharacterForFree (musicType);
+//
+//		giftBt.GetComponent<GiftButton> ().SetCountownState ();
+//		getGift ();
+//
+//		giftAnimation.GetComponent<GiftAnimationLogic> ().EnterTitle ((MusicStyle)musicType);
+//	}
 
 	#endregion
 }
