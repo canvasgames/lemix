@@ -56,9 +56,9 @@ public class GameOverController : MonoBehaviour {
 	public void Init(){
 		Debug.Log (" USER NOTES:" + USER.s.NOTES + "  jukebox price : " + globals.s.JUKEBOX_CURRENT_PRICE);
 
-		if (USER.s.NEWBIE_PLAYER == 0) {
-			replayBt.transform.localPosition = new Vector2 (0, -157); 
-		}
+//		if (USER.s.NEWBIE_PLAYER == 0) {
+//			replayBt.transform.localPosition = new Vector2 (0, -157); 
+//		}
 
 		// Disk button logic
 		if (FTUController.s.diskIntroduced == 0) {
@@ -66,7 +66,14 @@ public class GameOverController : MonoBehaviour {
 			jukeboxBt.SetActive (false);
 //			diskGroupBg.SetActive (false);
 //			storeGroupBg.SetActive (false);
+		} else {
+			SetDiskCountDownState();
 
+//			hud_controller.si.show_roullete_time_level_end ();
+//			if (hud_controller.si.CAN_ROTATE_ROULETTE == false) {
+//			} else {
+//				SpinDiskTryToStartAnimation ();
+//			}
 		}
 
 		//Jukebox Logic
@@ -116,6 +123,7 @@ public class GameOverController : MonoBehaviour {
 	public void Enterer(){
 		StartCoroutine (EnteringAnimations ());
 	}
+
 	public IEnumerator EnteringAnimations(){
 //		Debug.Log ("x pos : "+  jukeboxGroup.transform.position +  " width "+ jukeboxGroup.GetComponent<RectTransform> ().rect.width);
 		jukeboxGroup.GetComponent<RectTransform> ().position = new Vector2 (0 - jukeboxGroup.GetComponent<RectTransform> ().rect.width/100 , jukeboxGroup.GetComponent<RectTransform> ().position.y);
@@ -131,8 +139,11 @@ public class GameOverController : MonoBehaviour {
 		}
 
 		if (FTUController.s.diskIntroduced == 1) {
-			diskGroup.GetComponent<RectTransform> ().DOLocalMoveX (0, 0.5f).SetEase (Ease.OutCubic);
+			diskGroup.GetComponent<RectTransform> ().DOLocalMoveX (0, 0.5f).SetEase (Ease.OutCubic).OnComplete(SpinDiskTryToStartAnimation);
 			yield return new WaitForSeconds (0.25f);
+
+//			if (hud_controller.si.CAN_ROTATE_ROULETTE == false) {
+//			if(upda
 		}
 //		Debug.Log ("y bottom " + (globals.s.CANVAS_Y_BOTTOM) + " Y REPLAY POS: " + replayBt.transform.position.y);
 //		Debug.Log ("2222y bottom " + (globals.s.CANVAS_Y_BOTTOM) + " Y REPLAY POS: " + replayBt.transform.position.y + " FINAL: " + ((globals.s.CANVAS_Y_BOTTOM/100) - replayBt.GetComponent<RectTransform> ().rect.height/100) );
@@ -145,12 +156,16 @@ public class GameOverController : MonoBehaviour {
 	void Update () {
 		if(globals.s.curGameScreen == GameScreen.LevelEnd){
 			if (hud_controller.si.CAN_ROTATE_ROULETTE == false) {
+				Debug.Log ("LEVEL END SCREEEN GAME OVER");
+
 				DiskSpinNowAnimationStarted = true;
 
 				hud_controller.si.show_roullete_time_level_end ();
+
+//				SetDiskCountDownState ();
 			}
 			else {
-				DeactivateSpinTimerTexts ();
+//				SpinDiskStartAnimation ();
 			}
 			//			GetComponent<Text>().text =  difference.Minutes + ":" + difference.Seconds + "";
 		}
@@ -175,13 +190,16 @@ public class GameOverController : MonoBehaviour {
 
 	}
 
-
 	void SetJukeboxNewMusicState(){
 		jukeboxGetNow.SetActive (true);
 		jukeboxPauta.SetActive(false);
 		jukeboxNote.SetActive(false);
 		jukeboxBarNotesText.gameObject.SetActive(false);
-		jukeboxBt.GetComponent<Animator> ().Play ("bt_store_new_style");
+//		jukeboxBt.GetComponent<Animator> ().Play ("bt_store_new_style");
+
+		jukeboxBt.GetComponent<BtJukebox>().SetNewStyleState(true);
+
+		jukeboxGreenBar.GetComponent<Animator> ().Play ("BlueBarReadyAnim");
 	}
 
 	void SetJukeboxProgressState(){
@@ -189,7 +207,12 @@ public class GameOverController : MonoBehaviour {
 		jukeboxPauta.SetActive(true);
 		jukeboxNote.SetActive(true);
 		jukeboxBarNotesText.gameObject.SetActive(true);
-		jukeboxBt.GetComponent<Animator> ().Play ("bt_store_anim");
+
+		jukeboxBt.GetComponent<BtJukebox>().SetChangeStyleState();
+
+		jukeboxGreenBar.GetComponent<Animator> ().Play ("BlueBarStaticAnim");
+
+//		jukeboxBt.GetComponent<Animator> ().Play ("bt_store_anim");
 	}
 
 
@@ -218,7 +241,7 @@ public class GameOverController : MonoBehaviour {
 
 		jukeboxGreenBar.GetComponent<Image> ().fillAmount = 1;
 
-		BlinkJukeboxGroup();
+//		BlinkJukeboxGroup();
 //		jukeboxIcon.GetComponent<Animator>().Play("jukebox icon animation");
 	}
 
@@ -271,11 +294,13 @@ public class GameOverController : MonoBehaviour {
 	#region === SpinDisk === 
 
 	void SetDiskCountDownState(){
-		diskBarGreen.SetActive (false);
-		diskFreeSpinNowText.SetActive (false);
-		diskTimeLeft.SetActive (true);
-		diskFreeSpinText.SetActive (true);
-		diskBt.GetComponent<Button> ().interactable = false;
+//		diskBarGreen.SetActive (false);
+//		diskFreeSpinNowText.SetActive (false);
+//		diskTimeLeft.SetActive (true);
+//		diskFreeSpinText.SetActive (true);
+//		diskBt.GetComponent<Button> ().interactable = false;
+
+		diskBt.GetComponent<activate_pw_button> ().SetCountownState();
 	}
 
 	void SetDiskSpinNowState(){
@@ -287,16 +312,19 @@ public class GameOverController : MonoBehaviour {
 		diskBt.GetComponent<Button> ().interactable = true;
 	}
 
-	void DeactivateSpinTimerTexts(){
-		diskFreeSpinText.SetActive (false);
-		diskTimeLeft.SetActive (false);
-		diskFreeSpinNowText.SetActive (true);
-		diskBarGreen.SetActive (true);
+	void SpinDiskTryToStartAnimation(){
+		if (hud_controller.si.CAN_ROTATE_ROULETTE == true) 
+			diskBt.GetComponent<activate_pw_button> ().SetSPinNowState ();
 
-		if (DiskSpinNowAnimationStarted == false) {
-			DiskSpinNowAnimationStarted = true;
-			BlinkSpinNow ();
-		}
+//		diskFreeSpinText.SetActive (false);
+//		diskTimeLeft.SetActive (false);
+//		diskFreeSpinNowText.SetActive (true);
+//		diskBarGreen.SetActive (true);
+
+//		if (DiskSpinNowAnimationStarted == false) {
+//			DiskSpinNowAnimationStarted = true;
+//			BlinkSpinNow ();
+//		}
 	}
 
 	void BlinkSpinNow(){

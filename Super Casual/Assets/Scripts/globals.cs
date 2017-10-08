@@ -7,7 +7,9 @@ public enum GameScreen{
 	Gameplay,
 	Store,
 	LevelEnd,
-	SpinDisk
+	SpinDisk,
+	RewardNotes,
+	RewardCharacter
 }
 
 public class globals : MonoBehaviour {
@@ -47,7 +49,7 @@ public class globals : MonoBehaviour {
 	public float BALL_R = 0.5f;
 	public float BALL_D = 1f;
 	public int SCREEN_WIDTH = 980;
-
+	public bool JUKEBOX_SORT_ANIMATION = false;
    
 	[HideInInspector] public int JUKEBOX_CURRENT_PRICE;
 

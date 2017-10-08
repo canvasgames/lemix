@@ -8,6 +8,7 @@ public class store_controller : MonoBehaviour {
 
 	public int jukeboxCurrentPrice;
 
+	[SerializeField] ScrollSnapRect myScrolSnap;
 
 	public GameObject[] lightLeftLines, lighttRightLines;
 	public ScrollSnapRect ScrollSnap;
@@ -147,7 +148,6 @@ public class store_controller : MonoBehaviour {
 				}
 
 
-
 			} else
 				break;
 
@@ -177,9 +177,7 @@ public class store_controller : MonoBehaviour {
 
 	#region === GiveChar===
 
-	public IEnumerator StartRoulleteAnimation(){
-		yield return new WaitForSeconds (0.1f);
-	}
+
 
 	#endregion
 
@@ -390,108 +388,108 @@ public class store_controller : MonoBehaviour {
 		}
 	}
 
-	public void OnCharacterChanged(int type)
-	{
-		actualCharInScreen = type;
-		if (type == 0)
-		{
-			title.text = "Electro";
-			sound_controller.s.change_music(MusicStyle.Eletro);
-			if(eletronicAlreadyBuyed == 0)
-			{
-				equipButton.GetComponent<Animator>().Play("select off");
-				equipButton.GetComponent<Button> ().interactable = false;
-			}
-			else
-			{
-				equipButton.GetComponent<Button> ().interactable = true;
-				changeAnimationEquipButton("eletronic");
-			}
-		}
-		else if (type == 1)
-		{
-			title.text = "Rock";
-			sound_controller.s.change_music(MusicStyle.Rock);
-
-			if (rockAlreadyBuyed == 0)
-			{
-				equipButton.GetComponent<Animator>().Play("select off");
-				equipButton.GetComponent<Button> ().interactable = false;
-			}
-			else
-			{
-				equipButton.GetComponent<Button> ().interactable = true;
-				changeAnimationEquipButton("rock");
-			}
-		}
-		else if (type == 2)
-		{
-			title.text = "Classic Pop";
-			sound_controller.s.change_music(MusicStyle.Pop);
-
-			if (popAlreadyBuyed == 0)
-			{
-				equipButton.GetComponent<Animator>().Play("select off");
-				equipButton.GetComponent<Button> ().interactable = false;
-			}
-			else
-			{
-				equipButton.GetComponent<Button> ().interactable = true;
-				changeAnimationEquipButton("pop");
-			}
-		}
-		else if (type == 3)
-		{
-			title.text = "Modern Pop";
-			sound_controller.s.change_music(MusicStyle.PopGaga);
-
-			if (popAlreadyBuyed == 0)
-			{
-				equipButton.GetComponent<Animator>().Play("select off");
-				equipButton.GetComponent<Button> ().interactable = false;
-			}
-			else
-			{
-				equipButton.GetComponent<Button> ().interactable = true;
-				changeAnimationEquipButton("popGaga");
-			}
-		}
-
-		else if (type == 4)
-		{
-			title.text = "Reggae";
-			sound_controller.s.change_music(MusicStyle.Reggae);
-
-			if (reggaeAlreadyBuyed == 0)
-			{
-				equipButton.GetComponent<Animator>().Play("select off");
-				equipButton.GetComponent<Button> ().interactable = false;
-			}
-			else
-			{
-				equipButton.GetComponent<Button> ().interactable = true;
-				changeAnimationEquipButton("reggae");
-			}
-		}
-
-
-		else if (type == (int)MusicStyle.Rap)
-		{
-			title.text = "Rap";
-			sound_controller.s.change_music(MusicStyle.Rap);
-
-			if (reggaeAlreadyBuyed == 0)
-			{
-				equipButton.GetComponent<Animator>().Play("select off");
-				equipButton.GetComponent<Button> ().interactable = false;
-			}
-			else
-			{
-				equipButton.GetComponent<Button> ().interactable = true;
-				changeAnimationEquipButton("rap");
-			}
-		}
-	}
+//	public void OnCharacterChanged(int type)
+//	{
+//		actualCharInScreen = type;
+//		if (type == 0)
+//		{
+//			title.text = "Electro";
+//			sound_controller.s.change_music(MusicStyle.Eletro);
+//			if(eletronicAlreadyBuyed == 0)
+//			{
+//				equipButton.GetComponent<Animator>().Play("select off");
+//				equipButton.GetComponent<Button> ().interactable = false;
+//			}
+//			else
+//			{
+//				equipButton.GetComponent<Button> ().interactable = true;
+//				changeAnimationEquipButton("eletronic");
+//			}
+//		}
+//		else if (type == 1)
+//		{
+//			title.text = "Rock";
+//			sound_controller.s.change_music(MusicStyle.Rock);
+//
+//			if (rockAlreadyBuyed == 0)
+//			{
+//				equipButton.GetComponent<Animator>().Play("select off");
+//				equipButton.GetComponent<Button> ().interactable = false;
+//			}
+//			else
+//			{
+//				equipButton.GetComponent<Button> ().interactable = true;
+//				changeAnimationEquipButton("rock");
+//			}
+//		}
+//		else if (type == 2)
+//		{
+//			title.text = "Classic Pop";
+//			sound_controller.s.change_music(MusicStyle.Pop);
+//
+//			if (popAlreadyBuyed == 0)
+//			{
+//				equipButton.GetComponent<Animator>().Play("select off");
+//				equipButton.GetComponent<Button> ().interactable = false;
+//			}
+//			else
+//			{
+//				equipButton.GetComponent<Button> ().interactable = true;
+//				changeAnimationEquipButton("pop");
+//			}
+//		}
+//		else if (type == 3)
+//		{
+//			title.text = "Modern Pop";
+//			sound_controller.s.change_music(MusicStyle.PopGaga);
+//
+//			if (popAlreadyBuyed == 0)
+//			{
+//				equipButton.GetComponent<Animator>().Play("select off");
+//				equipButton.GetComponent<Button> ().interactable = false;
+//			}
+//			else
+//			{
+//				equipButton.GetComponent<Button> ().interactable = true;
+//				changeAnimationEquipButton("popGaga");
+//			}
+//		}
+//
+//		else if (type == 4)
+//		{
+//			title.text = "Reggae";
+//			sound_controller.s.change_music(MusicStyle.Reggae);
+//
+//			if (reggaeAlreadyBuyed == 0)
+//			{
+//				equipButton.GetComponent<Animator>().Play("select off");
+//				equipButton.GetComponent<Button> ().interactable = false;
+//			}
+//			else
+//			{
+//				equipButton.GetComponent<Button> ().interactable = true;
+//				changeAnimationEquipButton("reggae");
+//			}
+//		}
+//
+//
+//		else if (type == (int)MusicStyle.Rap)
+//		{
+//			title.text = "Rap";
+//			sound_controller.s.change_music(MusicStyle.Rap);
+//
+//			if (reggaeAlreadyBuyed == 0)
+//			{
+//				equipButton.GetComponent<Animator>().Play("select off");
+//				equipButton.GetComponent<Button> ().interactable = false;
+//			}
+//			else
+//			{
+//				equipButton.GetComponent<Button> ().interactable = true;
+//				changeAnimationEquipButton("rap");
+//			}
+//		}
+//	}
 
 	public void changeAnimationEquipButtonNew(MusicStyle style){
 		if (globals.s.ACTUAL_STYLE == style) {
@@ -503,20 +501,20 @@ public class store_controller : MonoBehaviour {
 
 	}
 
-
-    public void changeAnimationEquipButton(string inShopType)
-    {
-
-        if (globals.s.ACTUAL_CHAR == inShopType)
-        {
-			equipButton.GetComponent<Button> ().interactable = false;
-            equipButton.GetComponent<Animator>().Play("selected");
-        }
-        else
-        {
-            equipButton.GetComponent<Animator>().Play("select");
-        }
-    }
+//
+//    public void changeAnimationEquipButton(string inShopType)
+//    {
+//
+//        if (globals.s.ACTUAL_CHAR == inShopType)
+//        {
+//			equipButton.GetComponent<Button> ().interactable = false;
+//            equipButton.GetComponent<Animator>().Play("selected");
+//        }
+//        else
+//        {
+//            equipButton.GetComponent<Animator>().Play("select");
+//        }
+//    }
 
     void changeActualCharSkin()
     {
@@ -552,111 +550,119 @@ public class store_controller : MonoBehaviour {
 	#region ==== Jukebox Animation ====
 
 
-	public void OnCharacterChangedOLD(int type)
-	{
-		actualCharInScreen = type;
-		if (type == 0)
-		{
-			title.text = "Electro";
-			if(eletronicAlreadyBuyed == 0)
-			{
-				buyButton.SetActive(true);
-				equipButton.SetActive(false);
-//				buyPrice.text = eletronicPrice.ToString();
-			}
-			else
-			{
-				buyButton.SetActive(false);
-				equipButton.SetActive(true);
-				changeAnimationEquipButton("eletronic");
-			}
-		}
-		else if (type == 1)
-		{
-			title.text = "Rock";
-
-			if (rockAlreadyBuyed == 0)
-			{
-				buyButton.SetActive(true);
-				equipButton.SetActive(false);
-//				buyPrice.text = rockPrice.ToString();
-			}
-			else
-			{
-				buyButton.SetActive(false);
-				equipButton.SetActive(true);
-				changeAnimationEquipButton("rock");
-			}
-		}
-		else if (type == 2)
-		{
-			title.text = "Classic Pop";
-
-			if (popAlreadyBuyed == 0)
-			{
-				buyButton.SetActive(true);
-				equipButton.SetActive(false);
-//				buyPrice.text = popPrice.ToString();
-			}
-			else
-			{
-				buyButton.SetActive(false);
-				equipButton.SetActive(true);
-				changeAnimationEquipButton("pop");
-			}
-		}
-		else if (type == 3)
-		{
-			title.text = "Modern Pop";
-
-			if (popAlreadyBuyed == 0)
-			{
-				buyButton.SetActive(true);
-				equipButton.SetActive(false);
-//				buyPrice.text = popPrice.ToString();
-			}
-			else
-			{
-				buyButton.SetActive(false);
-				equipButton.SetActive(true);
-				changeAnimationEquipButton("popGaga");
-			}
-		}
-
-		else if (type == 4)
-		{
-			title.text = "Reggae";
-
-			if (reggaeAlreadyBuyed == 0)
-			{
-				buyButton.SetActive(true);
-				equipButton.SetActive(false);
-//				buyPrice.text = popPrice.ToString();
-			}
-			else
-			{
-				buyButton.SetActive(false);
-				equipButton.SetActive(true);
-				changeAnimationEquipButton("reggae");
-			}
-		}
-	}
+//	public void OnCharacterChangedOLD(int type)
+//	{
+//		actualCharInScreen = type;
+//		if (type == 0)
+//		{
+//			title.text = "Electro";
+//			if(eletronicAlreadyBuyed == 0)
+//			{
+//				buyButton.SetActive(true);
+//				equipButton.SetActive(false);
+////				buyPrice.text = eletronicPrice.ToString();
+//			}
+//			else
+//			{
+//				buyButton.SetActive(false);
+//				equipButton.SetActive(true);
+//				changeAnimationEquipButton("eletronic");
+//			}
+//		}
+//		else if (type == 1)
+//		{
+//			title.text = "Rock";
+//
+//			if (rockAlreadyBuyed == 0)
+//			{
+//				buyButton.SetActive(true);
+//				equipButton.SetActive(false);
+////				buyPrice.text = rockPrice.ToString();
+//			}
+//			else
+//			{
+//				buyButton.SetActive(false);
+//				equipButton.SetActive(true);
+//				changeAnimationEquipButton("rock");
+//			}
+//		}
+//		else if (type == 2)
+//		{
+//			title.text = "Classic Pop";
+//
+//			if (popAlreadyBuyed == 0)
+//			{
+//				buyButton.SetActive(true);
+//				equipButton.SetActive(false);
+////				buyPrice.text = popPrice.ToString();
+//			}
+//			else
+//			{
+//				buyButton.SetActive(false);
+//				equipButton.SetActive(true);
+//				changeAnimationEquipButton("pop");
+//			}
+//		}
+//		else if (type == 3)
+//		{
+//			title.text = "Modern Pop";
+//
+//			if (popAlreadyBuyed == 0)
+//			{
+//				buyButton.SetActive(true);
+//				equipButton.SetActive(false);
+////				buyPrice.text = popPrice.ToString();
+//			}
+//			else
+//			{
+//				buyButton.SetActive(false);
+//				equipButton.SetActive(true);
+//				changeAnimationEquipButton("popGaga");
+//			}
+//		}
+//
+//		else if (type == 4)
+//		{
+//			title.text = "Reggae";
+//
+//			if (reggaeAlreadyBuyed == 0)
+//			{
+//				buyButton.SetActive(true);
+//				equipButton.SetActive(false);
+////				buyPrice.text = popPrice.ToString();
+//			}
+//			else
+//			{
+//				buyButton.SetActive(false);
+//				equipButton.SetActive(true);
+//				changeAnimationEquipButton("reggae");
+//			}
+//		}
+//	}
 
 	public void BuyRandomCharacter(){
-
-		if (USER.s.NOTES >= globals.s.JUKEBOX_CURRENT_PRICE) {
-
-			USER.s.NOTES -= globals.s.JUKEBOX_CURRENT_PRICE; 
-			PlayerPrefs.SetInt("notes", USER.s.NOTES);
-
-			hud_controller.si.GiftButtonClicked ();
-
-			FTUController.s.SetFirstSongPurchased ();
-
-			DisplayNotes ();
-		}
+		StartCoroutine (StartRoulleteAnimation ());
+//		if (USER.s.NOTES >= globals.s.JUKEBOX_CURRENT_PRICE) {
+//
+//			USER.s.NOTES -= globals.s.JUKEBOX_CURRENT_PRICE; 
+//			PlayerPrefs.SetInt("notes", USER.s.NOTES);
+//
+//			hud_controller.si.GiftButtonClicked ();
+//
+//			FTUController.s.SetFirstSongPurchased ();
+//
+//			DisplayNotes ();
+//		}
 	}
 
+	public IEnumerator StartRoulleteAnimation(){
+		int rand = Random.Range (10, 20);
+		for(int i=0;i<rand;i++){
+			myScrolSnap.NextScreen ();
+			yield return new WaitForSeconds (0.1f);
+//		scrol
+		}
+	}
 
 	#endregion
 

@@ -5,14 +5,18 @@ using DG.Tweening;
 
 public class activate_pw_button : MonoBehaviour {
 
-	public GameObject my_time, my_spin_now,my_glow, my_icon_countdown, my_icon_spinnow;
+	public GameObject my_time, my_spin_now, myReadyInText; //, my_glow, my_icon_countdown, my_icon_spinnow;
 	public GameObject HandTut;
+	[SerializeField] GameObject myBar, myReadyEffect;
 	Button myBt;
 	bool interactable = false;
 
 	// Use this for initialization
-	void Start () {
+	void Awake () {
 		myBt = GetComponent<Button> ();
+
+//		SetCountownState ();
+//		Invoke ("SetSPinNowState", 0.5f);
 	}
 	
 	// Update is called once per frame
@@ -21,47 +25,84 @@ public class activate_pw_button : MonoBehaviour {
 	}
 
 	public void SetCountownState(){
-		Debug.Log ("SET COUNTDOWN STATE");
-		my_time.SetActive (true);
-	
-		HandTut.SetActive (false);
-		//myBt.interactable = false;
-	}
+		interactable = false;
+		GetComponent<Button> ().interactable = false;
 
-	public void HandTutLogic(){
-		if(PlayerPrefs.GetInt("PwHandTutShowed", 0) == 0){
-			HandTut.SetActive (true);
-			PlayerPrefs.SetInt ("PwHandTutShowed", 1);
+		Debug.Log ("SET COUNTDOWN STATEWEEE");
+
+		// deactivate light effect
+		if(myReadyEffect) myReadyEffect.SetActive (false);
+
+		//deactivate bar text
+		if(my_spin_now) my_spin_now.SetActive(false);
+
+		// activate bar texts
+		if(myReadyInText) myReadyInText.SetActive (true);
+		if(my_time) my_time.SetActive (true);
+	
+//		HandTut.SetActive (false);
+		//myBt.interactable = false;
+
+		if (myBar != null) {
+			myBar.GetComponent<Animator> ().Play ("GreenBarStaticAnim");
 		}
-		else
-			HandTut.SetActive (false);
 	}
 
 	public void SetSPinNowState(){
-		
+
+		if (myBar) myBar.GetComponent<Animator> ().Play ("GreenBarReadyAnim");
+
+		if(myReadyInText) myReadyInText.SetActive(false);
+		if(my_time) my_time.SetActive(false);
+
+		if(my_spin_now) my_spin_now.SetActive(true);
+
 		Debug.Log ("SET SPIIIIIIIIN NOW STATE");
 
-		my_time.SetActive (false);
-		my_spin_now.SetActive (true);
-		my_glow.SetActive (true);
+		StartCoroutine (ReadyAnimation ());
 
-		my_icon_countdown.SetActive (false);
-		my_icon_spinnow.SetActive (true);
+//		my_time.SetActive (false);
+//		my_spin_now.SetActive (true);
+//		my_glow.SetActive (true);
 
-		GetComponent<Button> ().interactable = true;
+//		my_icon_countdown.SetActive (false);
+//		my_icon_spinnow.SetActive (true);
 
-		interactable = true;
 
 		//blinkText ();
 		//myBt.interactable = true;
 
 	}
 
+	IEnumerator ReadyAnimation(){
+		if (myReadyEffect) {
+			myReadyEffect.SetActive (true);
+			myReadyEffect.GetComponent<Animator> ().Play ("GlowReadyAnim");
+		}
+
+		yield return new WaitForSeconds (0.57f);
+
+		if(myReadyEffect) myReadyEffect.GetComponent<Image> ().DOFade (0, 0.2f);
+
+		GetComponent<Button> ().interactable = true;
+		interactable = true;
+
+	}
+
+	public void HandTutLogic(){
+		if(PlayerPrefs.GetInt("PwHandTutShowed", 0) == 0){
+//			HandTut.SetActive (true);
+			PlayerPrefs.SetInt ("PwHandTutShowed", 1); 
+		}
+//		else
+//			HandTut.SetActive (false);
+	}
+
 	void blinkText(){
 		if(interactable)
 		{
-			Color rand_color = new Color(Random.Range(0f,1f), Random.Range(0.9f,1f),Random.Range(0f,1f));
-			my_spin_now.GetComponent<Text> ().DOColor (rand_color, 0.5f).OnComplete (blinkText);
+//			Color rand_color = new Color(Random.Range(0f,1f), Random.Range(0.9f,1f),Random.Range(0f,1f));
+//			my_spin_now.GetComponent<Text> ().DOColor (rand_color, 0.5f).OnComplete (blinkText);
 		}
 	}
 		
@@ -79,7 +120,6 @@ public class activate_pw_button : MonoBehaviour {
 
 		hud_controller.si.RodaMenu ();
 //
-
     }
 
 //	public void SetCountownState(){

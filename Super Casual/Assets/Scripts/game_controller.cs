@@ -325,7 +325,7 @@ public class game_controller : MonoBehaviour {
         if (globals.s.SHOW_VIDEO_AFTER == false)
         {
             revive_logic();
-			globals.s.CAN_REVIVE = true;
+//			globals.s.CAN_REVIVE = true;
             if (globals.s.CAN_REVIVE == true)
             {
                 hud_controller.si.show_revive_menu();
@@ -493,7 +493,7 @@ public class game_controller : MonoBehaviour {
 				}
 			}
 
-			//Debug.Log ("NEW CUR FLOOR!! " + cur_floor);
+			Debug.Log ("NEW CUR FLOOR!! " + cur_floor);
 
             create_new_wave();
 
@@ -501,6 +501,7 @@ public class game_controller : MonoBehaviour {
 
 //			if (ball_floor >= 5 && ball_floor % 5 == 0) {
 			if (ball_floor >= 5 && musicLayerN < GD.s.SCENERY_FLOOR_VALUES.Length && ball_floor > GD.s.SCENERY_FLOOR_VALUES[musicLayerN] -1 ) {
+				Debug.Log (" NNNNNNNEEEEEEW LAYER! " + cur_floor);
 				musicLayerN++;
 				if (sound_controller.s != null)
 					sound_controller.s.update_music ();

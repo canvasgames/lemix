@@ -24,9 +24,11 @@ public class QA : MonoBehaviour {
 	public bool CREATE_NOTE_TRAIL = true;
 	public bool NO_MUSIC = false;
 
+	public float jokerf = 0;
+
 	public Ease ease1;
 
-	public GameObject SqBt;
+	public GameObject SqBt, invButton;
 	// Use this for initialization
 	void Awake() {
 		if (sqMode == false) {
@@ -34,6 +36,13 @@ public class QA : MonoBehaviour {
 		} else {
 			SqBt.GetComponent<Image> ().color = Color.green;
 		}
+
+		if (INVENCIBLE == false) {
+			if(invButton != null) invButton.GetComponent<Image> ().color = Color.white;
+		} else {
+			if(invButton != null) invButton.GetComponent<Image> ().color = Color.green;
+		}
+
         s = this;
     }
 	
@@ -50,6 +59,15 @@ public class QA : MonoBehaviour {
 			sqMode = true;
 			SqBt.GetComponent<Image> ().color = Color.green;
 		}
+	}
 
+	public void SwitchInvencible(){
+		if (INVENCIBLE == true) {
+			INVENCIBLE = false;
+			invButton.GetComponent<Image> ().color = Color.white;
+		} else {
+			INVENCIBLE = true;
+			invButton.GetComponent<Image> ().color = Color.green;
+		}
 	}
 }

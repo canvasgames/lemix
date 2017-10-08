@@ -23,9 +23,15 @@ public class pizza_char : MonoBehaviour
     {
         define_percentages(12.5f, 12.5f, 12.5f, 12.5f, 12.5f, 12.5f, 12.5f, 12.5f);
 		//define_rewards(2, 7, 3, 5, 2, 10, 3, 5); // sentido horario, partindo do meio-topo
-        define_rewards(5, 15, 10, 20, 5, 15, 10, 20); // sentido horario, partindo do meio-topo
+        define_rewards(5, 10, 5, 20, 10, 5, 10, 30); // sentido horario, partindo do meio-topo
+
+//		transform.DORotate (new Vector3 (0, 0, transform.localRotation.z -40), 0.8f, RotateMode.WorldAxisAdd).SetEase (Ease.OutQuart).OnComplete (rotate2);
+		hud_controller.si.CAN_ROTATE_ROULETTE = true;
     }
 
+	void rotate2(){
+//		transform.DORotate (new Vector3 (0, 0, transform.localRotation.z +60), 0.8f, RotateMode.WorldAxisAdd).SetEase (Ease.OutQuart).OnComplete (rotate2);
+	}
     // Update is called once per frame
     void Update()
     {
@@ -37,9 +43,9 @@ public class pizza_char : MonoBehaviour
 		}
 		else if (Input.GetMouseButtonUp(0))
 		{
-			if ( openingTampa == false && hud_controller.si.CAN_ROTATE_ROULETTE == true)
+			if (  hud_controller.si.CAN_ROTATE_ROULETTE == true)
 			{
-				rotate(Time.time - initialTime, Vector2.Distance(new Vector2(Input.mousePosition.x, Input.mousePosition.y), new Vector2(Input.mousePosition.x, previousYInput)), Input.mousePosition.x, Input.mousePosition.y, previousYInput);
+				rotate(Time.time - initialTime, Vector2.Distance(new Vector2(Input.mousePosition.x, Input.mousePosition.y), new Vector2(previousXInput, previousYInput)), Input.mousePosition.x, Input.mousePosition.y, previousYInput, previousXInput);
 			}
 		}
     }
@@ -132,25 +138,28 @@ public class pizza_char : MonoBehaviour
     {
         if (openingTampa == false && hud_controller.si.CAN_ROTATE_ROULETTE == true)
         {
-            rotate(Time.time - initialTime, Vector2.Distance(new Vector2(Input.mousePosition.y, 0), new Vector2(previousYInput, 0)), Input.mousePosition.x, Input.mousePosition.y, previousYInput);
+//            rotate(Time.time - initialTime, Vector2.Distance(new Vector2(Input.mousePosition.y, 0), new Vector2(previousYInput, 0)), Input.mousePosition.x, Input.mousePosition.y, previousYInput);
         }
     }
 
-    public void rotate(float time, float distance, float inputX, float inputY, float lastY)
+	public void rotate(float time, float distance, float inputX, float inputY, float lastY, float lastX)
     {
         float angle;
-//        Debug.Log(" init rotate: " + inputX);
+		int min = 10;
         //Debug.Log(time + " Tempooooo");
         //Debug.Log(distance + " Distancia");
 		if (distance > 25 && time < 0.7f && time > 0.05f) {
+			Debug.Log(" init rotate! x " + inputX + " Y " + inputY + " lastx " + lastX + " lasty "+ lastY + " ... difx: "+ (inputX - lastX) + " DIF Y: "+ (inputY - lastY));
+
 			hand.SetActive (false);
-			if (inputX < 110 && inputY > lastY || inputX >= 110 && inputY < lastY) {
-				//Debug.Log("gira horario");
+//			if (inputX < 110 && inputY > lastY || inputX >= 110 && inputY < lastY) {
+			if (((inputX - lastX) > min  && inputY > 0) || ((inputY - lastY) > min && inputX < 0) || ((inputX - lastX) < -min && inputY < 0) || ((inputY - lastY) < -min && inputX > 0)) {
+				Debug.Log("gira horario");
 				angle = Random.Range (-1, -360);
 
 			} else {
 				angle = Random.Range (1, 360);
-				//Debug.Log("gira anti-horario");
+				Debug.Log("gira anti-horario");
 			}
 //
 //			float clampdistance = Mathf.Clamp (distance, 35, 300);

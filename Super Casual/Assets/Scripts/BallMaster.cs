@@ -10,7 +10,7 @@ public class BallMaster : MonoBehaviour {
 	void Awake(){
 		s = this;
 //		balls = new ArrayList();
-		balls = new List<ball_hero>();
+//		balls = new List<ball_hero>();
 	}
 
 	public void AddNewBall(ball_hero b){

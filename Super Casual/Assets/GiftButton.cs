@@ -16,7 +16,7 @@ public class GiftButton : MonoBehaviour {
 	}
 
 	public void SetCountownState(){
-		Debug.Log ("SET COUNTDOWN STATE");
+//		Debug.Log ("gift button: SET COUNTDOWN STATE");
 		my_time.SetActive (true);
 		my_open_now_text.SetActive (false);
 //		my_glow.SetActive (false);
@@ -27,7 +27,7 @@ public class GiftButton : MonoBehaviour {
 	}
 
 	public void SetGetNowState(){
-		Debug.Log ("SET GET NOW STATE");
+//		Debug.Log ("gift button: SET GET NOW STATE");
 
 		my_time.SetActive (false);
 		my_open_now_text.SetActive (true);

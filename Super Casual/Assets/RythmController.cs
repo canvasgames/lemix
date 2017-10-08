@@ -20,6 +20,7 @@ public class RythmController : MonoBehaviour {
 
 	public GameObject[] glowAnimationsObjs;
 	Animator[] glowAnimators;
+	public GameObject[] sliderHorizontalObjs;
 	
 	private RythmScenarioBehaviour[] stages;
 
@@ -64,13 +65,28 @@ public class RythmController : MonoBehaviour {
 
 		int a = 0;
 		foreach (GameObject anims in glowAnimationsObjs) {
+			if (a % 2 == 0) {
+				anims.GetComponent<Animator> ().Play ("normal");
+//				Debug.Log ("REST 0000000000");
+			} else {
+				anims.GetComponent<Animator> ().Play ("normal", 1, 0.7f);
+//				Debug.Log ("REST NO 0");
+			}
+
+			//Debug.Log ("HEY LISTEN LINK, YOUR RAP DOESN'T STINK " + a + " LENGT: " + glowAnimators [a]);
+			a++;
+		}
+
+		a = 0;
+		foreach (GameObject anims in sliderHorizontalObjs) {
+//			if(a % 2 == 0)
 			anims.GetComponent<Animator> ().Play("normal");
 			//Debug.Log ("HEY LISTEN LINK, YOUR RAP DOESN'T STINK " + a + " LENGT: " + glowAnimators [a]);
 			a++;
 		}
 
 	}
-
+		
 	// Update is called once per frame
 	void FixedUpdate () {
 		if (music_started == true) {

@@ -48,7 +48,6 @@ public class sound_controller : MonoBehaviour
             {
                 bt_sound.GetComponent<Animator>().Play("bt_sound_off");
             }
-            
         }
 
 		if (QA.s.NO_MUSIC == true)
@@ -61,13 +60,14 @@ public class sound_controller : MonoBehaviour
     {
         can_play_jump = true;
 
-		if( globals.s.ACTUAL_CHAR == "rock")  change_music (MusicStyle.Rock);
-		if( globals.s.ACTUAL_CHAR == "eletronic")  change_music (MusicStyle.Eletro);
-		if( globals.s.ACTUAL_CHAR == "pop")  change_music (MusicStyle.Pop);
-		if( globals.s.ACTUAL_CHAR == "popGaga")  change_music (MusicStyle.PopGaga);
-		if( globals.s.ACTUAL_CHAR == "reggae")  change_music (MusicStyle.Reggae);
-		if( globals.s.ACTUAL_CHAR == "rap")  change_music (MusicStyle.Rap);
-
+		change_music (globals.s.ACTUAL_STYLE);
+//
+//		if( globals.s.ACTUAL_CHAR == "rock")  change_music (MusicStyle.Rock);
+//		if( globals.s.ACTUAL_CHAR == "eletronic")  change_music (MusicStyle.Eletro);
+//		if( globals.s.ACTUAL_CHAR == "pop")  change_music (MusicStyle.Pop);
+//		if( globals.s.ACTUAL_CHAR == "popGaga")  change_music (MusicStyle.PopGaga);
+//		if( globals.s.ACTUAL_CHAR == "reggae")  change_music (MusicStyle.Reggae);
+//		if( globals.s.ACTUAL_CHAR == "rap")  change_music (MusicStyle.Rap);
     }
 
     // Update is called once per frame
@@ -97,6 +97,35 @@ public class sound_controller : MonoBehaviour
 
 	#region ===== Music Change =====
 	public void change_music(MusicStyle style){
+//		return;
+
+		GameObject instance = Instantiate(Resources.Load("Prefabs/Musics/"+style.ToString(),
+			typeof(GameObject)), Vector3.zero, transform.rotation) as GameObject;
+		instance.transform.parent = this.transform;
+
+		MusicLayers music = instance.GetComponent<MusicLayers> ();
+
+		if (music.myStyle == style) {
+			curMusic = style;
+
+			musicSource.Stop ();
+			musicSource2.Stop ();
+			musicSource3.Stop ();
+			musicSource4.Stop ();
+			musicSource5.Stop ();
+
+			musicSource = music.layer1;
+			musicSource2 = music.layer2;
+			musicSource3 = music.layer3;
+			musicSource4 = music.layer4;
+			musicSource5 = music.layer5;
+//			music.layer1.time = 5f;
+
+			play_music ();
+		}
+	}
+
+	public void change_music2(MusicStyle style){
 		foreach (MusicLayers mus in musics) {
 			if (mus.myStyle == style) {
 				curMusic = style;
@@ -159,6 +188,7 @@ public class sound_controller : MonoBehaviour
     }
 
     public void update_music2() {
+		Debug.Log ("UPDATE MUSIC2!!!!! MUSIC PLAYING: " + music_playing);
         music_playing++;
         if (music_playing == 2) {
             //musicSource.Stop();
@@ -218,10 +248,10 @@ public class sound_controller : MonoBehaviour
     public void play_music()
     {
 		musicSource.Play();
-		musicSource2.Play();
-		musicSource3.Play();
-		musicSource4.Play();
-        musicSource5.Play();
+//		musicSource2.Play();
+//		musicSource3.Play();
+//		musicSource4.Play();
+//        musicSource5.Play();
 		musicSource.volume = 1;
 		music_playing = 1;
 

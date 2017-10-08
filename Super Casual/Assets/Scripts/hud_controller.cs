@@ -112,10 +112,11 @@ public class hud_controller : MonoBehaviour {
 			int temp_state = PlayerPrefs.GetInt ("PWState", 0);
 			if (temp_state == 1) {
 				globals.s.PW_ACTIVE = true;
-				activate_pw_bt.GetComponent<activate_pw_button> ().SetCountownState ();
+//				activate_pw_bt.GetComponent<activate_pw_button> ().SetCountownState ();
 			} else {
 				globals.s.PW_ACTIVE = false;
-				activate_pw_bt.GetComponent<activate_pw_button> ().SetSPinNowState ();
+				Debug.Log ("HWWE");
+//				activate_pw_bt.GetComponent<activate_pw_button> ().SetSPinNowState ();
 			}
 		} else {
 			activate_pw_bt.SetActive (false);
@@ -137,21 +138,21 @@ public class hud_controller : MonoBehaviour {
             {
                 CAN_ROTATE_ROULETTE = true;
 
-                Debug.Log("can rotate init");
+                Debug.Log("HUD: CAN ROTATE");
             }
             else
             {
 
                 CAN_ROTATE_ROULETTE = false;
 
-                Debug.Log("sem rotate init");
+                Debug.Log("HUD: NO ROTATE");
 
             }
         }
         else
         {
             CAN_ROTATE_ROULETTE = true;
-            Debug.Log("vazio can rotate init");
+            Debug.Log("HUD: vazio can rotate init");
         }
 
 
@@ -517,7 +518,6 @@ public class hud_controller : MonoBehaviour {
            // Debug.Log("Day passed");
             PlayerPrefs.SetString("PlayDate", newDate.ToString());
             return true;
-
         }
 
         return false;
@@ -695,7 +695,7 @@ public class hud_controller : MonoBehaviour {
 	public void show_roullete_time_level_end()
 	{
 		tempcurDate = System.DateTime.Now;
-
+		Debug.Log ("ETEEEEMPO");
 		//NO DATE CASE=
 		if (roullete_date == "")
 		{
@@ -832,20 +832,20 @@ public class hud_controller : MonoBehaviour {
         //video.SetActive(true);
         //video.GetComponentInChildren<Play_Video>().solta_a_vinheta_sombra(false, true);
         //video.GetComponent<new_external_link_bt>().set_variables(false, true);
-        if(CAN_ROTATE_ROULETTE == false)
-        {
-            flagVideoRevive = false;
-            flagVideoCoins = false;
-            flagVideoPower = true;
+//        if(CAN_ROTATE_ROULETTE == false)
+//        {
+        flagVideoRevive = false;
+        flagVideoCoins = false;
+        flagVideoPower = true;
 
-            ShowAd();
-        }
+        ShowAd();
+//        }
     }
 
     public void watched_the_video_pw()
     {
         hud_controller.si.PW_time_set_new_date_and_state(!globals.s.PW_ACTIVE);
-                Debug.Log("new date");
+        Debug.Log("DISK new date!!");
         game_controller.s.activate_logic();
         video.SetActive(false);
         Invoke("change_menu_open_state", 1f);
@@ -905,7 +905,8 @@ public class hud_controller : MonoBehaviour {
                 {
                     CAN_ROTATE_ROULETTE = true;
                     PlayerPrefs.SetInt("CanRotate", 1);
-                    StartCoroutine (openTampa());
+					roda_a_roda.ReSpinVideoWatched ();
+//                    StartCoroutine (openTampa());
 					//Invoke("activeRodaaRoda", 1);
                     flagVideoPower = false;
                 }

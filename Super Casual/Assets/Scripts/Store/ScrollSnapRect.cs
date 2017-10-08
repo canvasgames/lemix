@@ -232,7 +232,7 @@ public class ScrollSnapRect : MonoBehaviour, IBeginDragHandler, IEndDragHandler,
 //		NextScreen();
 	}
     //------------------------------------------------------------------------
-    private void NextScreen() {
+    public void NextScreen() {
 		if(_currentPage == GD.s.N_MUSIC-1)
         {
 			Debug.Log ("NEXT SCREEN BT PRESSED");

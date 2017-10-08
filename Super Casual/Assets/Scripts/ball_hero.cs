@@ -86,7 +86,7 @@ public class ball_hero : MonoBehaviour
     }
 
 	public void UpdateMySkin(){
-		Debug.Log ("UPDATE MY SKIN: " + globals.s.ACTUAL_STYLE.ToString ());
+//		Debug.Log ("UPDATE MY SKIN: " + globals.s.ACTUAL_STYLE.ToString ());
 //		if(globals.s.ACTUAL_STYLE != MusicStyle.Eletro)
 		my_skin.GetComponent<Animator>().runtimeAnimatorController = 
 			Resources.Load("Sprites/Animations/" + globals.s.ACTUAL_STYLE.ToString()+"Animator") as RuntimeAnimatorController;

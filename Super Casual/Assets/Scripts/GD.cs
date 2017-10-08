@@ -68,7 +68,7 @@ public class GD : MonoBehaviour {
 		else if (style == MusicStyle.Reggae)
 			return "Reggae";
 		else if (style == MusicStyle.Pop)
-			return "Pop Classic";
+			return "Classic Pop";
 		else if (style == MusicStyle.Rap)
 			return "Rap";
 		else if (style == MusicStyle.PopGaga)

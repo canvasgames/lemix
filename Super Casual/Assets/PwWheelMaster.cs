@@ -8,6 +8,7 @@ public class PwWheelMaster : MonoBehaviour {
     public Text youNowHaveText;
     public pizza_char pitissa;
 	public GameObject haste;
+	int rewardToGive = 0;
 	// Use this for initialization
 	void Start () {
 	
@@ -20,11 +21,11 @@ public class PwWheelMaster : MonoBehaviour {
 
     void OnEnable()
     {
-
         if (hud_controller.si.CAN_ROTATE_ROULETTE == true)
         {
             openTampa();
             pitissa.hand.SetActive(true);
+//			transform.DORotate(transform.eulerAngles(transform.localRotation) + 66)
         }
         else
         {
@@ -50,13 +51,21 @@ public class PwWheelMaster : MonoBehaviour {
     }
     public void openRewardMenu(float value)
     {
+		globals.s.curGameScreen = GameScreen.RewardNotes;
+		rewardToGive = (int)value;
+
         youNowHaveMenu.SetActive(true);
         youNowHaveText.text = value.ToString();
     }
     public void closeRewardMenu()
     {
         youNowHaveMenu.SetActive(false);
-        Invoke("closeTampa",0.3f);
+
+		USER.s.AddNotes (rewardToGive);
+
+		hud_controller.si.PowerUpsMenuClose ();
+
+//        Invoke("closeTampa",0.3f);
     }
 
     void closeTampa()
@@ -73,10 +82,10 @@ public class PwWheelMaster : MonoBehaviour {
     }
     public IEnumerator Entrance(){
 		//Debug.Log ("EEEEEENTRANCE ");
-		float y_pos = title.transform.localPosition.y;
-		title.transform.localPosition = new Vector2 (title.transform.localPosition.x, title.transform.localPosition.y + title.GetComponent <RectTransform> ().rect.height);
-		title.transform.DOLocalMoveY(y_pos
-			, 0.5f).SetEase (Ease.OutQuart);
+//		float y_pos = title.transform.localPosition.y;
+//		title.transform.localPosition = new Vector2 (title.transform.localPosition.x, title.transform.localPosition.y + title.GetComponent <RectTransform> ().rect.height);
+//		title.transform.DOLocalMoveY(y_pos
+//			, 0.5f).SetEase (Ease.OutQuart);
 		
 //		title.transform.DOLocalMoveY(title.GetComponent <RectTransform> ().rect.height
 //			, 0.5f).SetEase (Ease.OutQuart);
@@ -87,4 +96,10 @@ public class PwWheelMaster : MonoBehaviour {
 //		yield return new WaitForSeconds (0.2f);
 	}
 
+	public void ReSpinVideoWatched(){
+		globals.s.curGameScreen = GameScreen.SpinDisk;
+		youNowHaveMenu.SetActive (false);
+		canRotate ();
+//		closeRewardMenu ();
+	}
 }
