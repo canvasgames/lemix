@@ -9,12 +9,13 @@ public class USER : MonoBehaviour {
     [HideInInspector]   public int BEST_SCORE, LAST_SCORE, DAY_SCORE;
     [HideInInspector]   public int TOTAL_GAMES, TOTAL_VIDEOS_WATCHED;
     [HideInInspector]   public int FIRST_PW_CREATED, FIRST_HOLE_CREATED, FIRST_WALL_CREATED;
-    [HideInInspector]   public int NOTES;
+	[HideInInspector]   public int NOTES;
+//    [HideInInspector]   public int N_CHARS_PURCHASED;
     [HideInInspector]
     public int SOUND_MUTED;
 
     void Awake() {
-		//PlayerPrefs.SetInt ("notes", 666);
+//		PlayerPrefs.SetInt ("notes", 4);
 
 		globals.s.ACTUAL_STYLE = (MusicStyle) PlayerPrefs.GetInt ("curStyle", 0);
 
@@ -51,14 +52,19 @@ public class USER : MonoBehaviour {
 
 
 	public void AddNotes(int value){
+		Debug.Log ("::::::: USER ADD NOTES CALLED: " + value + " CURRENT NOTES BEFORE: "+ USER.s.NOTES);
 		USER.s.NOTES += value;
 		hud_controller.si.display_notes(USER.s.NOTES);
 		store_controller.s.UpdateUserNotes ();
 
 		PlayerPrefs.SetInt("notes", USER.s.NOTES);
 
-		if (GameOverController.s != null && globals.s.GAME_OVER == 1)
-			GameOverController.s.Init ();
+//		if (GameOverController.s != null && globals.s.GAME_OVER == 1)
+//			GameOverController.s.Init ();
+	}
+
+	public void SaveUserNotes(){
+		PlayerPrefs.SetInt("notes", USER.s.NOTES);
 	}
 
 

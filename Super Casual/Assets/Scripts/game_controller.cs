@@ -464,7 +464,6 @@ public class game_controller : MonoBehaviour {
             obj.GetComponent<PW_Collect>().my_floor = n;
             obj.GetComponent<PW_Collect>().pw_type = type;
             obj.GetComponent<PW_Collect>().init_my_icon();
-
         }
     }
 

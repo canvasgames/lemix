@@ -13,11 +13,9 @@ public class RewardSparkleBehaviour : MonoBehaviour {
 	
 	void OnEnable(){
 //		myAnimator.enabled = false;
-
-		Invoke("StartAnimation", Random.Range (0.1f, 0.8f));
+		Invoke("StartAnimation", Random.Range (0.31f, 0.8f));
 //		myImage = GetComponent<Image> ();
 //		StartCoroutine (ChangePosition ());
-
 	}
 
 	void StartAnimation(){

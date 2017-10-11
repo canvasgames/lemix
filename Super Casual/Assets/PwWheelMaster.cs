@@ -8,6 +8,7 @@ public class PwWheelMaster : MonoBehaviour {
     public Text youNowHaveText;
     public pizza_char pitissa;
 	public GameObject haste;
+	public Button myBack;
 	int rewardToGive = 0;
 	// Use this for initialization
 	void Start () {
@@ -21,31 +22,31 @@ public class PwWheelMaster : MonoBehaviour {
 
     void OnEnable()
     {
-        if (hud_controller.si.CAN_ROTATE_ROULETTE == true)
-        {
-            openTampa();
-            pitissa.hand.SetActive(true);
-//			transform.DORotate(transform.eulerAngles(transform.localRotation) + 66)
-        }
-        else
-        {
-            pitissa.hand.SetActive(false);
-        }
+		pitissa.hand.SetActive(true);
+//        if (hud_controller.si.CAN_ROTATE_ROULETTE == true)
+//        {
+//            openTampa();
+////			transform.DORotate(transform.eulerAngles(transform.localRotation) + 66)
+//        }
+//        else
+//        {
+////            pitissa.hand.SetActive(false);
+//        }
     }
     void OnDisable()
     {
-        tampa.transform.DOKill();
-        tampa.transform.localPosition = new Vector3(tampa.transform.localPosition.x,6,tampa.transform.localPosition.z);
+//        tampa.transform.DOKill();
+//        tampa.transform.localPosition = new Vector3(tampa.transform.localPosition.x,6,tampa.transform.localPosition.z);
     }
     public void openTampa()
     {
         pitissa.openingTampa = true;
-        tampa.transform.DOLocalMoveY(tampa.transform.localPosition.y, 1).OnComplete(realOpen);
+//        tampa.transform.DOLocalMoveY(tampa.transform.localPosition.y, 1).OnComplete(realOpen);
     }
 
     void realOpen()
     {
-        tampa.transform.DOLocalMoveY(-436, 2).OnComplete(canRotate);
+//        tampa.transform.DOLocalMoveY(-436, 2).OnComplete(canRotate);
 
 
     }
@@ -65,13 +66,19 @@ public class PwWheelMaster : MonoBehaviour {
 
 		hud_controller.si.PowerUpsMenuClose ();
 
+		if (globals.s.GAME_OVER == 1) {
+			globals.s.NOTES_COLLECTED += rewardToGive;
+			GameOverController.s.Init ();
+		}
+
+
 //        Invoke("closeTampa",0.3f);
     }
 
     void closeTampa()
     {
 
-        tampa.transform.DOLocalMoveY(6, 2);
+//        tampa.transform.DOLocalMoveY(6, 2);
     }
     
     void canRotate()
@@ -100,6 +107,7 @@ public class PwWheelMaster : MonoBehaviour {
 		globals.s.curGameScreen = GameScreen.SpinDisk;
 		youNowHaveMenu.SetActive (false);
 		canRotate ();
+		myBack.interactable = true;
 //		closeRewardMenu ();
 	}
 }

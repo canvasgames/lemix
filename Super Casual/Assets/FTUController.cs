@@ -8,7 +8,7 @@ public class FTUController : MonoBehaviour {
 	public int diskIntroduced = 0;
 	public int firstSongPurchased = 0;
 
-	public GameObject spinDiskBt, jukeboxBt;
+	public GameObject spinDiskBt, jukeboxBt, handTut;
 
 	void Awake(){
 		s = this;
@@ -43,9 +43,20 @@ public class FTUController : MonoBehaviour {
 			StartCoroutine (OpenDiskMenu ());
 		}
 
-		if (diskIntroduced == 0) {
+//		if (diskIntroduced == 0) {
+//			spinDiskBt.SetActive (false);
+//			jukeboxBt.SetActive (false);
+//		}
+//
+		if (USER.s.NEWBIE_PLAYER == 1 && QA.s.OLD_PLAYER == false ) {
 			spinDiskBt.SetActive (false);
 			jukeboxBt.SetActive (false);
+			handTut.SetActive (true);
+
+		} else {
+			spinDiskBt.SetActive (true);
+			jukeboxBt.SetActive (true);
+			handTut.SetActive (false);
 		}
 	}
 

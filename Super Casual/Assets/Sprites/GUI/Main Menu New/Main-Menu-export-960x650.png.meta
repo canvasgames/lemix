@@ -115,7 +115,7 @@ TextureImporter:
         - {x: 378, y: -256}
         - {x: 378, y: 256}
     outline: []
-  spritePackingTag: MainMenuBg
+  spritePackingTag: main_menu
   userData: 
   assetBundleName: 
   assetBundleVariant: 

@@ -9,6 +9,10 @@ using UnityEngine.Advertisements;
 public class hud_controller : MonoBehaviour {
 	#region === Variables Declaration ===
 
+	public GameObject handTapToPlay;
+
+	public GameObject jukeboxBtMainMenu;
+
 	public PW_Collect firstPw;
 	public GameObject giftBt;
 	public GameObject giftAnimation;
@@ -106,7 +110,10 @@ public class hud_controller : MonoBehaviour {
 
 
 		if (USER.s.NEWBIE_PLAYER == 0 || QA.s.OLD_PLAYER) {
-			activate_pw_bt.SetActive (true);
+//			activate_pw_bt.SetActive (true);
+//			jukeboxBtMainMenu.SetActive (true);
+//			handTapToPlay.SetActive (false);
+
 			activate_pw_bt.GetComponent<activate_pw_button> ().HandTutLogic ();
 			//SETTING PW STATE
 			int temp_state = PlayerPrefs.GetInt ("PWState", 0);
@@ -115,11 +122,13 @@ public class hud_controller : MonoBehaviour {
 //				activate_pw_bt.GetComponent<activate_pw_button> ().SetCountownState ();
 			} else {
 				globals.s.PW_ACTIVE = false;
-				Debug.Log ("HWWE");
 //				activate_pw_bt.GetComponent<activate_pw_button> ().SetSPinNowState ();
 			}
 		} else {
-			activate_pw_bt.SetActive (false);
+//			activate_pw_bt.SetActive (false);
+//			jukeboxBtMainMenu.SetActive (false);
+//			handTapToPlay.SetActive (true);
+
 		}
 
 
@@ -155,27 +164,27 @@ public class hud_controller : MonoBehaviour {
             Debug.Log("HUD: vazio can rotate init");
         }
 
-
-		if (USER.s.GIFT_INTRODUCED == 1 ||  QA.s.OLD_PLAYER) {
-			giftBt.SetActive (true);
-			if (gift_date != "") {
-				tempDateGift = Convert.ToDateTime (gift_date);
-				PlayerPrefs.SetString ("GiftDate2ChangeState", tempDateGift.ToString ());
-				int canGet = PlayerPrefs.GetInt ("CanGetGift", 1);
-				if (canGet == 1) {
-					CAN_GET_GIFT = true;
-					giftBt.GetComponent<GiftButton> ().SetGetNowState ();
-				} else {
-					CAN_GET_GIFT = false;
-					giftBt.GetComponent<GiftButton> ().SetCountownState ();
-				}
-			} else {
-				CAN_GET_GIFT = true;
-				giftBt.GetComponent<GiftButton> ().SetGetNowState ();
-			}
-		} else {
-			giftBt.SetActive (false);
-		}
+//
+//		if (USER.s.GIFT_INTRODUCED == 1 ||  QA.s.OLD_PLAYER) {
+////			giftBt.SetActive (true);
+//			if (gift_date != "") {
+//				tempDateGift = Convert.ToDateTime (gift_date);
+//				PlayerPrefs.SetString ("GiftDate2ChangeState", tempDateGift.ToString ());
+//				int canGet = PlayerPrefs.GetInt ("CanGetGift", 1);
+//				if (canGet == 1) {
+//					CAN_GET_GIFT = true;
+//					giftBt.GetComponent<GiftButton> ().SetGetNowState ();
+//				} else {
+//					CAN_GET_GIFT = false;
+//					giftBt.GetComponent<GiftButton> ().SetCountownState ();
+//				}
+//			} else {
+//				CAN_GET_GIFT = true;
+//				giftBt.GetComponent<GiftButton> ().SetGetNowState ();
+//			}
+//		} else {
+//			giftBt.SetActive (false);
+//		}
 
 
 		// FIRST GAME LOGIC FOR THE POWER UPS BUTTON AND GIFT BUTTON
@@ -677,13 +686,13 @@ public class hud_controller : MonoBehaviour {
             }
             if(diff.TotalSeconds > 0 && CAN_ROTATE_ROULETTE == false)
             {
-                roullete_time_left.GetComponent<Text>().text = diff.Minutes + "m " + diff.Seconds + "s ";
+//                roullete_time_left.GetComponent<Text>().text = diff.Minutes + "m " + diff.Seconds + "s ";
             }
 
         }
         if(CAN_ROTATE_ROULETTE == true)
         {
-            roullete_time_left.GetComponent<Text>().text = " ROTATE NOW ";
+//            roullete_time_left.GetComponent<Text>().text = " ROTATE NOW ";
 
         }
         //TimeSpan difference = tempDate.Subtract(tempcurDate);
@@ -695,7 +704,7 @@ public class hud_controller : MonoBehaviour {
 	public void show_roullete_time_level_end()
 	{
 		tempcurDate = System.DateTime.Now;
-		Debug.Log ("ETEEEEMPO");
+//		Debug.Log ("ETEEEEMPO");
 		//NO DATE CASE=
 		if (roullete_date == "")
 		{
@@ -874,6 +883,27 @@ public class hud_controller : MonoBehaviour {
         Invoke("change_menu_open_state", 1f);
     }
 
+	public void ShowVideoResortStyle() {
+		globals.s.MENU_OPEN = true;
+		//video.SetActive(true);
+		//video.GetComponentInChildren<Play_Video>().solta_a_vinheta_sombra(false, true);
+		//video.GetComponent<new_external_link_bt>().set_variables(false, true);
+		flagVideoRevive = false;
+		flagVideoCoins = true;
+		flagVideoPower = false;
+		ShowAd();
+
+	}
+		
+	public void WatchedVideoResortStyle() {
+		//hud_controller.si.PW_time_set_new_date_and_state(!globals.s.PW_ACTIVE);
+		game_controller.s.activate_logic();
+		video.SetActive(false);
+		Debug.Log("watched resort style!!!");
+
+		Invoke("change_menu_open_state", 1f);
+	}
+
     #endregion
 
     void change_menu_open_state()
@@ -916,7 +946,8 @@ public class hud_controller : MonoBehaviour {
                 }
                 else if(flagVideoCoins == true)
                 {
-                    store_controller.s.watchedVideo();
+//					store_controller.s.watchedVideo();
+					store_controller.s.WatchedVideoForResort();
                 }
                 // Give coins etc.
                 break;
@@ -988,7 +1019,7 @@ public class hud_controller : MonoBehaviour {
                     Debug.Log("o tempo passou e eu sofri calado");
                     CAN_GET_GIFT = true;
                     PlayerPrefs.SetInt("CanGetGift", 1);
-					giftBt.GetComponent<GiftButton> ().SetGetNowState ();
+//					giftBt.GetComponent<GiftButton> ().SetGetNowState ();
 
                 }
             }
@@ -1028,25 +1059,27 @@ public class hud_controller : MonoBehaviour {
         PlayerPrefs.SetString("GiftDate2ChangeState", gift_date);
     }
   
-	public void GiftButtonClicked(){
+	public void GiftButtonClicked(MusicStyle styleToGive){
 		if (CAN_GET_GIFT || 1==1) { //codigo que testa se pode dar o presente,
 			
 			bool rand_found;
-			int rand, count = 0;
+			int rand = 0; 
+			int count = 0;
 
-			do {
-				rand = UnityEngine.Random.Range (1, GD.s.N_MUSIC+1);
-//				rand_found = store_controller.s.CheckIfCharacterIsAlreadyPurchased (rand);
-				rand_found = store_controller.s.CheckIfCharacterIsAlreadyPurchasedNew ((MusicStyle) rand);
-				count++;
-			} while (rand_found == true && count < 50);
+//			do {
+//				rand = UnityEngine.Random.Range (1, GD.s.N_MUSIC+1);
+////				rand_found = store_controller.s.CheckIfCharacterIsAlreadyPurchased (rand);
+//				rand_found = store_controller.s.CheckIfCharacterIsAlreadyPurchasedNew ((MusicStyle) rand);
+//				count++;
+//			} while (rand_found == true && count < 50);
 				
 			if (count < 50) {
 				giftAnimationEnded = false;
 				globals.s.GIFT_ANIMATION = true;
 				giftAnimation.SetActive (true);
 				
-				StartCoroutine (GiveCharNew ((MusicStyle)rand));
+//				StartCoroutine (GiveCharNew ((MusicStyle)rand));
+				StartCoroutine (GiveCharNew (styleToGive));
 
 				giftAnimation.GetComponent<GiftAnimationLogic> ().Init ();
 			}
@@ -1067,7 +1100,7 @@ public class hud_controller : MonoBehaviour {
 		giftChar.GetComponent<CharGift> ().InitAnimation (style);
 		store_controller.s.GiveCharacterForFreeNew (style);
 
-		giftBt.GetComponent<GiftButton> ().SetCountownState ();
+//		giftBt.GetComponent<GiftButton> ().SetCountownState ();
 		getGift ();
 
 		giftAnimation.GetComponent<GiftAnimationLogic> ().EnterTitle (style);

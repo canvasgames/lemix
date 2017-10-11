@@ -31,6 +31,14 @@ public class BallMaster : MonoBehaviour {
 	}
 
 
+	public void BallFirstJump(){
+		foreach(ball_hero b in balls.ToArray()){
+			if (b.grounded == true)
+				StartCoroutine (b.Jump());
+		}
+	}
+
+
 	// Update is called once per frame
 	void Update () {
 	

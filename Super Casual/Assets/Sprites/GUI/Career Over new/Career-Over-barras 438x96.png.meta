@@ -371,7 +371,7 @@ TextureImporter:
         - {x: 219, y: -48}
         - {x: 219, y: 48}
     outline: []
-  spritePackingTag: BarGameOver
+  spritePackingTag: game_over
   userData: 
   assetBundleName: 
   assetBundleVariant: 

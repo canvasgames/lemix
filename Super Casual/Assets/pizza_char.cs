@@ -151,6 +151,8 @@ public class pizza_char : MonoBehaviour
 		if (distance > 25 && time < 0.7f && time > 0.05f) {
 			Debug.Log(" init rotate! x " + inputX + " Y " + inputY + " lastx " + lastX + " lasty "+ lastY + " ... difx: "+ (inputX - lastX) + " DIF Y: "+ (inputY - lastY));
 
+
+			rodaMenuScript.myBack.interactable = false;
 			hand.SetActive (false);
 //			if (inputX < 110 && inputY > lastY || inputX >= 110 && inputY < lastY) {
 			if (((inputX - lastX) > min  && inputY > 0) || ((inputY - lastY) > min && inputX < 0) || ((inputX - lastX) < -min && inputY < 0) || ((inputY - lastY) < -min && inputX > 0)) {
@@ -173,7 +175,7 @@ public class pizza_char : MonoBehaviour
 			float tempo = Random.Range (2f, 2.6f);
 			transform.DORotate (new Vector3 (0, 0, angle), tempo, RotateMode.WorldAxisAdd).SetEase (Ease.OutQuart).OnComplete (give_reward);
 			hud_controller.si.addRoulleteTime ();
-			haste.transform.DOShakePosition (tempo, 1, 10, 90, false);
+//			haste.transform.DOShakePosition (tempo, 1, 10, 90, false);
 		} 
 
 		else {
@@ -213,7 +215,7 @@ public class pizza_char : MonoBehaviour
         else if (angle_temp <= ((360 * (part1_pct + part2_pct + part3_pct + part4_pct) * 0.01f)))
         {
             reward = part4_reward;
-			USER.s.AddNotes((int)reward);
+//			USER.s.AddNotes((int)reward);
 
 //            hud_controller.si.add_pw_time(part4_reward);
             Debug.Log("Caiu no 4");
@@ -221,7 +223,7 @@ public class pizza_char : MonoBehaviour
         else if (angle_temp <= ((360 * (part1_pct + part2_pct + part3_pct + part4_pct + part5_pct) * 0.01f)))
         {
             reward = part5_reward;
-			USER.s.AddNotes((int)reward);
+//			USER.s.AddNotes((int)reward);
 
 //            hud_controller.si.add_pw_time(part5_reward);
             Debug.Log("Caiu no 5");
@@ -241,11 +243,11 @@ public class pizza_char : MonoBehaviour
         else if (angle_temp <= ((360 * (part1_pct + part2_pct + part3_pct + part4_pct + part5_pct + part6_pct + part7_pct + part8_pct) * 0.01f)))
         {
             reward = part8_reward;
-            hud_controller.si.add_pw_time(part8_reward);
+//            hud_controller.si.add_pw_time(part8_reward);
             Debug.Log("Caiu no 8");
         }
 
-		USER.s.AddNotes((int)reward);
+//		USER.s.AddNotes((int)reward);
         rodaMenuScript.openRewardMenu(reward);
     }
 

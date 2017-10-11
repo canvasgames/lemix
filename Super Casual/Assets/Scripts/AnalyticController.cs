@@ -6,7 +6,7 @@ public class AnalyticController : MonoBehaviour {
     public static AnalyticController s;
 
     public string siteName = "Kongregate";
-    string clientVersion = "1.0.3";
+    string clientVersion = "1.0.4";
 
     void Awake() { s = this; }
 

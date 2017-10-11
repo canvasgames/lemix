@@ -85,8 +85,9 @@ public class sound_controller : MonoBehaviour
             }
             else { 
 				curFadeIn.volume = 1;
-				if(curFadeOut != null)
-					curFadeOut.volume = 0;
+				if (curFadeOut != null)
+					curFadeOut.Stop ();
+//					curFadeOut.volume = 0;
                 curFadeIn = null;
                 curFadeOut = null;
             }
@@ -125,6 +126,35 @@ public class sound_controller : MonoBehaviour
 		}
 	}
 
+	public void ChangeMusicForStore(MusicStyle style){
+		//		return;
+
+		GameObject instance = Instantiate(Resources.Load("Prefabs/Musics/"+style.ToString()+"Layer1",
+			typeof(GameObject)), Vector3.zero, transform.rotation) as GameObject;
+		instance.transform.parent = this.transform;
+
+		MusicLayers music = instance.GetComponent<MusicLayers> ();
+
+		if (music.myStyle == style) {
+			curMusic = style;
+
+			musicSource.Stop ();
+			musicSource2.Stop ();
+			musicSource3.Stop ();
+			musicSource4.Stop ();
+			musicSource5.Stop ();
+
+			musicSource = music.layer1;
+//			musicSource2 = music.layer2;
+//			musicSource3 = music.layer3;
+//			musicSource4 = music.layer4;
+//			musicSource5 = music.layer5;
+			//			music.layer1.time = 5f;
+
+			play_music ();
+		}
+	}
+
 	public void change_music2(MusicStyle style){
 		foreach (MusicLayers mus in musics) {
 			if (mus.myStyle == style) {
@@ -149,22 +179,10 @@ public class sound_controller : MonoBehaviour
 
 	#endregion
 
-    public void play_alert() {
-//        PlaySingle(Alert);
-    }
-
-    public void special_event() {
-        //PlaySingle(Collect);
-        PlaySingle(Jumps[Random.Range(0, 7)]);
-    }
-
-    public void play_collect_pw() {
-        PlaySingle(Collect);
-        //PlaySingle(Jumps[Random.Range(0, 7)]);
-    }
-    public void update_music() {
-        if(USER.s.SOUND_MUTED == 0) update_music2();
-       /* music_playing++;
+	#region ====== Music Update ======
+	public void update_music() {
+		if(USER.s.SOUND_MUTED == 0) update_music2();
+		/* music_playing++;
         if (music_playing == 2) {
             //musicSource.Stop();
             //musicSource2.volume = 1;
@@ -185,82 +203,114 @@ public class sound_controller : MonoBehaviour
             musicSource5.volume = 1;
         }
         */
-    }
+	}
 
-    public void update_music2() {
+	public void update_music2() {
 		Debug.Log ("UPDATE MUSIC2!!!!! MUSIC PLAYING: " + music_playing);
-        music_playing++;
-        if (music_playing == 2) {
-            //musicSource.Stop();
-            //musicSource2.volume = 1;
-            curFadeIn = musicSource2;
-            curFadeOut = musicSource;
-        }
-        else if (music_playing == 3) {
-            curFadeIn = musicSource3;
-            curFadeOut = musicSource2;
-        }
+		music_playing++;
+		if (music_playing == 2) {
+			//musicSource.Stop();
+			//musicSource2.volume = 1;
+			curFadeIn = musicSource2;
+			curFadeOut = musicSource;
 
-        else if (music_playing == 4) {
+			curFadeIn.Play();
+			curFadeIn.time = curFadeOut.time;
+		}
+		else if (music_playing == 3) {
+			curFadeIn = musicSource3;
+			curFadeOut = musicSource2;
+			curFadeIn.Play();
+			curFadeIn.time = curFadeOut.time;
+		}
+
+		else if (music_playing == 4) {
 			if (curMusic != MusicStyle.Rock) {
 				curFadeIn = musicSource4;
 				curFadeOut = musicSource3;
+				curFadeIn.Play();
+				curFadeIn.time = curFadeOut.time;
 			} else {
 				curFadeIn = musicSource4;
+				curFadeIn.Play();
 			}
-        }
-        else if (music_playing == 5) {
+		}
+		else if (music_playing == 5) {
 
 			if (curMusic != MusicStyle.Rock) {
 				curFadeIn = musicSource5;
 				curFadeOut = musicSource4;
+				curFadeIn.Play();
+				curFadeIn.time = curFadeOut.time;
 			} else {
 				curFadeIn = musicSource5;
 				curFadeOut = musicSource3;
+				curFadeIn.Play();
+				curFadeIn.time = curFadeOut.time;
 			}
-           
-        }
-    }
-
-    public void PlayJump()
-    {
-        if (efxSource.volume > 0 && can_play_jump == true)
-        {
-            can_play_jump = false;
-			Debug.Log ("PLAY JUMP");
-
-			PlaySingle(Jump);
-            //PlaySingle(Jumps[Random.Range(0,7)]);
-            Invoke("can_play_jump_again", 0.3f);
-        }
-            
-    }
-
-    void can_play_jump_again()
-    {
-        can_play_jump = true;
-    }
-    public void PlayExplosion()
-    {
-        if (efxSource.volume > 0)
-            PlaySingle(Explosion);
-    }
-    public void play_music()
-    {
+		}
+	}
+		
+	public void play_music()
+	{
 		musicSource.Play();
-//		musicSource2.Play();
-//		musicSource3.Play();
-//		musicSource4.Play();
-//        musicSource5.Play();
+		//		musicSource2.Play();
+		//		musicSource3.Play();
+		//		musicSource4.Play();
+		//        musicSource5.Play();
 		musicSource.volume = 1;
 		music_playing = 1;
 
 		RythmController.s.OnMusicStarted ();
-    }
-    public void stop_music()
-    {
-        musicSource.Stop();
-    }
+	}
+	public void stop_music()
+	{
+		musicSource.Stop();
+	}
+
+	#endregion
+
+	#region ====== SFX ======
+	public void play_alert() {
+		//        PlaySingle(Alert);
+	}
+
+	public void special_event() {
+		//PlaySingle(Collect);
+		PlaySingle(Jumps[Random.Range(0, 7)]);
+	}
+
+	public void play_collect_pw() {
+		PlaySingle(Collect);
+		//PlaySingle(Jumps[Random.Range(0, 7)]);
+	}
+
+	public void PlayJump()
+	{
+		if (efxSource.volume > 0 && can_play_jump == true)
+		{
+			can_play_jump = false;
+			Debug.Log ("PLAY JUMP");
+
+			PlaySingle(Jump);
+			//PlaySingle(Jumps[Random.Range(0,7)]);
+			Invoke("can_play_jump_again", 0.3f);
+		}
+	}
+
+	void can_play_jump_again()
+	{
+		can_play_jump = true;
+	}
+	public void PlayExplosion()
+	{
+		if (efxSource.volume > 0)
+			PlaySingle(Explosion);
+	}
+	#endregion
+
+  
+	#region ==== Technical Stuff =====
     //#####################################################
     void PlaySingle(AudioClip clip)
 	{
@@ -320,4 +370,5 @@ public class sound_controller : MonoBehaviour
         musicSource.volume = 1;
     }
 
+	#endregion
 }

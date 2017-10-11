@@ -211,7 +211,7 @@ TextureImporter:
         - {x: -230, y: -69}
         - {x: -210, y: -75}
     outline: []
-  spritePackingTag: JukeboxTitle
+  spritePackingTag: jukebox
   userData: 
   assetBundleName: 
   assetBundleVariant: 

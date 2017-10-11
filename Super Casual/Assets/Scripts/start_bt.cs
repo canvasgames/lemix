@@ -41,6 +41,7 @@ public class start_bt : MonoBehaviour {
 				Debug.Log ("START BT CLICK: START THE GAME!!!");
 				globals.s.GAME_STARTED = true;
 				hud_controller.si.start_game_coroutine ();
+				BallMaster.s.BallFirstJump ();
 			}
         }
 

@@ -6,16 +6,23 @@ public class store_controller : MonoBehaviour {
 	#region === Vars ===
     public static store_controller s;
 
+	[SerializeField]Button myBackBt;
+
+	[SerializeField]GameObject myU, mYTitle, myBgLights;
+	[Space (10)] 
+
+	public RewardScreen myRewardScreen;
+
 	public int jukeboxCurrentPrice;
 
-	[SerializeField] ScrollSnapRect myScrolSnap;
+	[SerializeField] GameObject[] myChars;
 
 	public GameObject[] lightLeftLines, lighttRightLines;
 	public ScrollSnapRect ScrollSnap;
 
 	public Text title;
 	public Button jukeboxBt;
-	public Text jukeboxBtNotes;
+	public Text jukeboxBtNotesLow, jukeboxBtNotesHigh;
 
 	public GameObject[] chars;
 
@@ -27,6 +34,7 @@ public class store_controller : MonoBehaviour {
 	[HideInInspector]public int rapAlreadyBuyed;
 
 	int[] alreadyBuyed;
+	int nCharsBuyed = 0;
 
     public int popPrice = 70;
     public int rockPrice = 50;
@@ -42,7 +50,7 @@ public class store_controller : MonoBehaviour {
     public GameObject equipButton;
 
     int actualCharInScreen;
-	MusicStyle actualStyle;
+	MusicStyle actualStyle, lastSortedStyle = MusicStyle.Eletro;
 
 	#endregion
     // Use this for initialization
@@ -50,6 +58,8 @@ public class store_controller : MonoBehaviour {
 	#region === Init ===
     void Start () {
         s = this;
+
+		PlayerPrefs.SetInt(MusicStyle.Eletro.ToString()+"AlreadyBuyed", 1);
 
         popAlreadyBuyed = PlayerPrefs.GetInt("popAlreadyBuyed", 0);
 		rockAlreadyBuyed = PlayerPrefs.GetInt("rockAlreadyBuyed", 0);
@@ -60,16 +70,25 @@ public class store_controller : MonoBehaviour {
 
 		alreadyBuyed = new int[(int)MusicStyle.Lenght];
 
-		alreadyBuyed[(int)MusicStyle.Pop] = PlayerPrefs.GetInt("popAlreadyBuyed", 0);
-		alreadyBuyed[(int)MusicStyle.Rock] = PlayerPrefs.GetInt("rockAlreadyBuyed", 0);
-		alreadyBuyed[(int)MusicStyle.PopGaga] = PlayerPrefs.GetInt("popGagaAlreadyBuyed", 0);
-		alreadyBuyed[(int)MusicStyle.Reggae] = PlayerPrefs.GetInt("reggaeAlreadyBuyed", 0);
-		alreadyBuyed[(int)MusicStyle.Eletro] = PlayerPrefs.GetInt("eletronicAlreadyBuyed", 1);
-		alreadyBuyed[(int)MusicStyle.Rap] = PlayerPrefs.GetInt("rapAlreadyBuyed", 1);
-		alreadyBuyed[(int)MusicStyle.Classic] = PlayerPrefs.GetInt("classicAlreadyBuyed", 0);
-		alreadyBuyed[(int)MusicStyle.Latina] = PlayerPrefs.GetInt("latinacAlreadyBuyed", 0);
-		alreadyBuyed[(int)MusicStyle.Samba] = PlayerPrefs.GetInt("sambacAlreadyBuyed", 0);
-		alreadyBuyed[(int)MusicStyle.DingoBells] = PlayerPrefs.GetInt("dingoBellscAlreadyBuyed", 0);
+//		alreadyBuyed[(int)MusicStyle.Pop] = PlayerPrefs.GetInt("PopAlreadyBuyed", 0);
+//		alreadyBuyed[(int)MusicStyle.Rock] = PlayerPrefs.GetInt("RockAlreadyBuyed", 0);
+//		alreadyBuyed[(int)MusicStyle.PopGaga] = PlayerPrefs.GetInt("PopGagaAlreadyBuyed", 0);
+//		alreadyBuyed[(int)MusicStyle.Reggae] = PlayerPrefs.GetInt("ReggaeAlreadyBuyed", 0);
+//		alreadyBuyed[(int)MusicStyle.Eletro] = PlayerPrefs.GetInt("EletronicAlreadyBuyed", 1);
+//		alreadyBuyed[(int)MusicStyle.Rap] = PlayerPrefs.GetInt("rapAlreadyBuyed", 1);
+//		alreadyBuyed[(int)MusicStyle.Classic] = PlayerPrefs.GetInt("classicAlreadyBuyed", 0);
+//		alreadyBuyed[(int)MusicStyle.Latina] = PlayerPrefs.GetInt("latinacAlreadyBuyed", 0);
+//		alreadyBuyed[(int)MusicStyle.Samba] = PlayerPrefs.GetInt("sambaAlreadyBuyed", 0);
+//		alreadyBuyed[(int)MusicStyle.DingoBells] = PlayerPrefs.GetInt("dingoBellscAlreadyBuyed", 0);
+
+		for (int i = 0; i < alreadyBuyed.Length; i++) {
+//			PlayerPrefs.SetInt(((MusicStyle)i).ToString()+"AlreadyBuyed", 0);
+
+			alreadyBuyed[i] = PlayerPrefs.GetInt(((MusicStyle)i).ToString()+"AlreadyBuyed", 0);
+
+			if (alreadyBuyed [i] == 1)
+				nCharsBuyed++;
+		}
 
 //		changeAnimationEquipButton("eletronic");
 //		changeAnimationEquipButtonNew(MusicStyle.Eletro);
@@ -142,11 +161,9 @@ public class store_controller : MonoBehaviour {
 				lightLeftLines [i].SetActive (true);
 				lighttRightLines [i].SetActive (true);
 
-
 				if (i == lightLeftLines.Length-1) {
 					i = -1;
 				}
-
 
 			} else
 				break;
@@ -155,9 +172,7 @@ public class store_controller : MonoBehaviour {
 			if (max > 100)
 				break;
 		}
-
 	}
-
 
 	#endregion
 
@@ -175,12 +190,6 @@ public class store_controller : MonoBehaviour {
 
 	#endregion
 
-	#region === GiveChar===
-
-
-
-	#endregion
-
     #region === CHAR ===
 	public bool CheckIfCharacterIsAlreadyPurchasedNew(MusicStyle style){
 		if (alreadyBuyed [(int)style] == 1)
@@ -188,7 +197,6 @@ public class store_controller : MonoBehaviour {
 		else
 			return false;
 	}
-
 //
 //	public bool CheckIfCharacterIsAlreadyPurchased(int musicStyle){
 //		if (musicStyle == 0) {
@@ -235,7 +243,6 @@ public class store_controller : MonoBehaviour {
 
 		PlayerPrefs.SetInt (style.ToString () + "AlreadyBuyed", 1);
 		alreadyBuyed [(int)style] = 1;
-
 	}
 
 //	public void GiveCharacterForFree(int musicStyle = -1)
@@ -286,88 +293,17 @@ public class store_controller : MonoBehaviour {
         equipCharacterNew();
     }
     
-	public void equipCharacterNew(){
+	public void equipCharacterNew(bool dontChangeMusic = false){
 		USER.s.SetCurrentSelectedMusic ((MusicStyle)actualCharInScreen);
 		changeActualCharSkin ();
 
 //		changeAnimationEquipButton("eletronic");
 		changeAnimationEquipButtonNew((MusicStyle)actualCharInScreen);
-		sound_controller.s.change_music((MusicStyle)actualCharInScreen);
+		if(dontChangeMusic == false) sound_controller.s.change_music((MusicStyle)actualCharInScreen);
 	}
 
-//    public void equipCharacter()
-//    {
-//		Debug.Log ("ACTUAL CHAR IN THE SCREEN: " + actualCharInScreen);
-//        if (actualCharInScreen == 0)
-//        {
-////            Debug.Log(" igona flee gonna be gonna flow");
-//            PlayerPrefs.SetString("ACTUAL_CHAR", "eletronic");
-//            globals.s.ACTUAL_CHAR = PlayerPrefs.GetString("ACTUAL_CHAR", "eletronic");
-//            changeActualCharSkin();
-//
-//            changeAnimationEquipButton("eletronic");
-//
-//            sound_controller.s.change_music(MusicStyle.Eletro);
-//
-//        }
-//        else if (actualCharInScreen == 1)
-//        {
-//            PlayerPrefs.SetString("ACTUAL_CHAR", "rock");
-//            globals.s.ACTUAL_CHAR = PlayerPrefs.GetString("ACTUAL_CHAR", "rock");
-//            changeActualCharSkin();
-//
-//            changeAnimationEquipButton("rock");
-//
-//            sound_controller.s.change_music(MusicStyle.Rock);
-//
-//        }
-//        else if (actualCharInScreen == 2)
-//        {
-//            PlayerPrefs.SetString("ACTUAL_CHAR", "pop");
-//            globals.s.ACTUAL_CHAR = PlayerPrefs.GetString("ACTUAL_CHAR", "pop");
-//            changeActualCharSkin();
-//
-//            changeAnimationEquipButton("pop");
-//
-//            sound_controller.s.change_music(MusicStyle.Pop);
-//        }
-//		else if (actualCharInScreen == 3)
-//		{
-//			PlayerPrefs.SetString("ACTUAL_CHAR", "popGaga");
-//			globals.s.ACTUAL_CHAR = PlayerPrefs.GetString("ACTUAL_CHAR", "popGaga");
-//			changeActualCharSkin();
-//
-//			changeAnimationEquipButton("popGaga");
-//
-//			sound_controller.s.change_music(MusicStyle.PopGaga);
-//		}
-//		else if (actualCharInScreen == 4)
-//		{
-//			PlayerPrefs.SetString("ACTUAL_CHAR", "reggae");
-//			globals.s.ACTUAL_CHAR = PlayerPrefs.GetString("ACTUAL_CHAR", "reggae");
-//			changeActualCharSkin();
-//
-//			changeAnimationEquipButton("reggae");
-//
-//			sound_controller.s.change_music(MusicStyle.Reggae);
-//		}
-//
-//		else if (actualCharInScreen == (int)MusicStyle.Rap)
-//		{
-//			PlayerPrefs.SetString("ACTUAL_CHAR", "rap");
-//			globals.s.ACTUAL_CHAR = PlayerPrefs.GetString("ACTUAL_CHAR", "rap");
-//			changeActualCharSkin();
-//
-//			changeAnimationEquipButton("rap");
-//
-//			sound_controller.s.change_music(MusicStyle.Rap);
-//		}
-//    }
-//
-//
 
-
-	public void OnCharacterChangedNew(MusicStyle style) {
+	public void OnCharacterChangedNew(MusicStyle style, bool dontPlayMusic = false) {
 
 		Debug.Log ("Character changed new: " + style.ToString());
 		actualCharInScreen = (int)style;
@@ -375,7 +311,9 @@ public class store_controller : MonoBehaviour {
 
 		title.text = GD.s.GetStyleName (style);
 
-		sound_controller.s.change_music(style);
+		if(globals.s.JUKEBOX_SORT_ANIMATION == false && dontPlayMusic == false) 
+//			sound_controller.s.change_music(style);
+			sound_controller.s.ChangeMusicForStore(style);
 
 		if (alreadyBuyed [(int)style] == 0) {
 			equipButton.GetComponent<Animator> ().Play ("select off");
@@ -498,7 +436,6 @@ public class store_controller : MonoBehaviour {
 		}
 		else
 			equipButton.GetComponent<Animator>().Play("select");
-
 	}
 
 //
@@ -530,138 +467,149 @@ public class store_controller : MonoBehaviour {
     #region === COINS ===
 
 	public void DisplayNotes(){
+		
+		if (globals.s.JUKEBOX_CURRENT_PRICE == GD.s.JUKEBOX_FTU_PRICE) {
+			jukeboxBtNotesLow.gameObject.SetActive (true);
+			jukeboxBtNotesHigh.gameObject.SetActive (false);
+			jukeboxBtNotesLow.text = globals.s.JUKEBOX_CURRENT_PRICE.ToString ();
+		} else {
+			jukeboxBtNotesLow.gameObject.SetActive (false);
+			jukeboxBtNotesHigh.gameObject.SetActive (true);
+			jukeboxBtNotesHigh.text = globals.s.JUKEBOX_CURRENT_PRICE.ToString ();
+		}
+
 		if (USER.s.NOTES >= globals.s.JUKEBOX_CURRENT_PRICE) {
 			jukeboxBt.interactable = true;
-			jukeboxBtNotes.text = USER.s.NOTES.ToString () + "/" + globals.s.JUKEBOX_CURRENT_PRICE.ToString ();
+//			jukeboxBtNotes.text = USER.s.NOTES.ToString () + "/" + globals.s.JUKEBOX_CURRENT_PRICE.ToString ();
 		}
 		else {
 			jukeboxBt.interactable = false;
 			if (USER.s.NOTES < 10) {
-				jukeboxBtNotes.text = "0" + USER.s.NOTES.ToString () + "/" + globals.s.JUKEBOX_CURRENT_PRICE.ToString ();
+//				jukeboxBtNotes.text = "0" + USER.s.NOTES.ToString () + "/" + globals.s.JUKEBOX_CURRENT_PRICE.ToString ();
 			}
-			else
-				jukeboxBtNotes.text = USER.s.NOTES.ToString () + "/" + globals.s.JUKEBOX_CURRENT_PRICE.ToString ();
+			else{
+//				jukeboxBtNotes.text = USER.s.NOTES.ToString () + "/" + globals.s.JUKEBOX_CURRENT_PRICE.ToString ();
+			}
 		}
 	}
 
    
     #endregion
 
-	#region ==== Jukebox Animation ====
+	#region ==== Buying and Animation ====
 
-
-//	public void OnCharacterChangedOLD(int type)
-//	{
-//		actualCharInScreen = type;
-//		if (type == 0)
-//		{
-//			title.text = "Electro";
-//			if(eletronicAlreadyBuyed == 0)
-//			{
-//				buyButton.SetActive(true);
-//				equipButton.SetActive(false);
-////				buyPrice.text = eletronicPrice.ToString();
-//			}
-//			else
-//			{
-//				buyButton.SetActive(false);
-//				equipButton.SetActive(true);
-//				changeAnimationEquipButton("eletronic");
-//			}
-//		}
-//		else if (type == 1)
-//		{
-//			title.text = "Rock";
-//
-//			if (rockAlreadyBuyed == 0)
-//			{
-//				buyButton.SetActive(true);
-//				equipButton.SetActive(false);
-////				buyPrice.text = rockPrice.ToString();
-//			}
-//			else
-//			{
-//				buyButton.SetActive(false);
-//				equipButton.SetActive(true);
-//				changeAnimationEquipButton("rock");
-//			}
-//		}
-//		else if (type == 2)
-//		{
-//			title.text = "Classic Pop";
-//
-//			if (popAlreadyBuyed == 0)
-//			{
-//				buyButton.SetActive(true);
-//				equipButton.SetActive(false);
-////				buyPrice.text = popPrice.ToString();
-//			}
-//			else
-//			{
-//				buyButton.SetActive(false);
-//				equipButton.SetActive(true);
-//				changeAnimationEquipButton("pop");
-//			}
-//		}
-//		else if (type == 3)
-//		{
-//			title.text = "Modern Pop";
-//
-//			if (popAlreadyBuyed == 0)
-//			{
-//				buyButton.SetActive(true);
-//				equipButton.SetActive(false);
-////				buyPrice.text = popPrice.ToString();
-//			}
-//			else
-//			{
-//				buyButton.SetActive(false);
-//				equipButton.SetActive(true);
-//				changeAnimationEquipButton("popGaga");
-//			}
-//		}
-//
-//		else if (type == 4)
-//		{
-//			title.text = "Reggae";
-//
-//			if (reggaeAlreadyBuyed == 0)
-//			{
-//				buyButton.SetActive(true);
-//				equipButton.SetActive(false);
-////				buyPrice.text = popPrice.ToString();
-//			}
-//			else
-//			{
-//				buyButton.SetActive(false);
-//				equipButton.SetActive(true);
-//				changeAnimationEquipButton("reggae");
-//			}
-//		}
-//	}
-
-	public void BuyRandomCharacter(){
-		StartCoroutine (StartRoulleteAnimation ());
-//		if (USER.s.NOTES >= globals.s.JUKEBOX_CURRENT_PRICE) {
-//
-//			USER.s.NOTES -= globals.s.JUKEBOX_CURRENT_PRICE; 
-//			PlayerPrefs.SetInt("notes", USER.s.NOTES);
-//
-//			hud_controller.si.GiftButtonClicked ();
-//
-//			FTUController.s.SetFirstSongPurchased ();
-//
-//			DisplayNotes ();
-//		}
+	public void SetBuyButtonState(){
+		if (USER.s.NOTES >= globals.s.JUKEBOX_CURRENT_PRICE) {
+			jukeboxBt.interactable = true;
+		}
+		else
+			jukeboxBt.interactable = false;
 	}
 
-	public IEnumerator StartRoulleteAnimation(){
-		int rand = Random.Range (10, 20);
-		for(int i=0;i<rand;i++){
-			myScrolSnap.NextScreen ();
-			yield return new WaitForSeconds (0.1f);
-//		scrol
+
+	public void BuyRandomCharacter(){
+		if (nCharsBuyed < GD.s.N_MUSIC) {
+			StartCoroutine (StartRoulleteAnimation ());
+
+			USER.s.NOTES -= globals.s.JUKEBOX_CURRENT_PRICE; 
+			PlayerPrefs.SetInt("notes", USER.s.NOTES);
+
+			FTUController.s.SetFirstSongPurchased ();
+
+//			DisplayNotes ();
+			UpdateUserNotes();
+//			}
+		} else {
+			Debug.Log ("[JK] WOOOOOOOOOOOW! all chars purchaseD!!");
 		}
+	}
+
+	/// <summary>
+	/// Logic Of the sort animation
+	/// </summary>
+	/// <returns>The roullete animation.</returns>
+	public IEnumerator StartRoulleteAnimation(){
+		globals.s.JUKEBOX_SORT_ANIMATION = true;
+		int rand = Random.Range (10, 20);
+
+		myBackBt.interactable = false;
+		jukeboxBt.interactable = false;
+
+		//change animation speed
+		myU.GetComponent<Animator>().speed = 3f;
+		mYTitle.GetComponent<Animator>().speed = 3f;
+		myBgLights.GetComponent<Animator>().speed = 3f;
+
+		do {
+			for (int i = 0; i < rand; i++) {
+				//logica de não repetir
+				ScrollSnap.NextScreen ();
+				yield return new WaitForSeconds (0.1f);
+				//		scrol
+			}
+			rand = Random.Range (1, 3);
+//		} while (alreadyBuyed [(int)actualStyle] == 0);
+		} while (CheckIfCharacterIsAlreadyPurchasedNew(actualStyle) == true && actualStyle != lastSortedStyle);
+
+		globals.s.JUKEBOX_SORT_ANIMATION = false;
+//		OnCharacterChangedNew (actualStyle);
+
+		lastSortedStyle = actualStyle;
+
+		StartCoroutine (GiveReward ());
+
+//		hud_controller.si.GiftButtonClicked (actualStyle);
+
+	}
+
+	IEnumerator GiveReward(){
+
+		OnCharacterChangedNew (actualStyle);
+		globals.s.curGameScreen = GameScreen.RewardCharacter;
+
+		GameObject curChar = null;
+		foreach (GameObject character in myChars) {
+			if (character.name == actualStyle.ToString ()) {
+				curChar = character;
+				break;
+			}
+		}
+
+		myRewardScreen.SetMyRewardChar (curChar.GetComponent<Animator> ().runtimeAnimatorController, GD.s.GetStyleName(actualStyle));
+//		myRewardScreen.myReward = curChar;
+		yield return new WaitForSeconds(0.5f);
+
+		myRewardScreen.gameObject.SetActive (true);
+
+		//change animation speed back to normal
+		myU.GetComponent<Animator>().speed = 1f;
+		mYTitle.GetComponent<Animator>().speed = 1f;
+		myBgLights.GetComponent<Animator>().speed = 1f;
+	}
+
+
+	public void WatchedVideoForResort(){
+		globals.s.curGameScreen = GameScreen.Store;
+		myRewardScreen.gameObject.SetActive (false);
+
+		StartCoroutine (StartRoulleteAnimation ());
+	}
+
+	// Nice button pressed
+	public void OnButtonRewardPressed(){
+		jukeboxBt.interactable = true; //TBD: FAZER LOGICA QUE TESTA SE TODOS FORAM COMPRADOS E POR UM IF AQUI
+
+		globals.s.curGameScreen = GameScreen.Store;
+		myRewardScreen.gameObject.SetActive (false);
+
+		//give the reward for real
+		equipCharacterNew(true);
+
+		PlayerPrefs.SetInt (actualStyle.ToString () + "AlreadyBuyed", 1);
+		alreadyBuyed [(int)actualStyle] = 1;
+
+		myBackBt.interactable = true;
+
 	}
 
 	#endregion
@@ -675,68 +623,231 @@ public class store_controller : MonoBehaviour {
 		actualCoins.text = USER.s.NOTES.ToString();
 	}
 
-	public void tryBuyCharacter(int musicStyle = -1)
-	{
+	//    public void equipCharacter()
+	//    {
+	//		Debug.Log ("ACTUAL CHAR IN THE SCREEN: " + actualCharInScreen);
+	//        if (actualCharInScreen == 0)
+	//        {
+	////            Debug.Log(" igona flee gonna be gonna flow");
+	//            PlayerPrefs.SetString("ACTUAL_CHAR", "eletronic");
+	//            globals.s.ACTUAL_CHAR = PlayerPrefs.GetString("ACTUAL_CHAR", "eletronic");
+	//            changeActualCharSkin();
+	//
+	//            changeAnimationEquipButton("eletronic");
+	//
+	//            sound_controller.s.change_music(MusicStyle.Eletro);
+	//
+	//        }
+	//        else if (actualCharInScreen == 1)
+	//        {
+	//            PlayerPrefs.SetString("ACTUAL_CHAR", "rock");
+	//            globals.s.ACTUAL_CHAR = PlayerPrefs.GetString("ACTUAL_CHAR", "rock");
+	//            changeActualCharSkin();
+	//
+	//            changeAnimationEquipButton("rock");
+	//
+	//            sound_controller.s.change_music(MusicStyle.Rock);
+	//
+	//        }
+	//        else if (actualCharInScreen == 2)
+	//        {
+	//            PlayerPrefs.SetString("ACTUAL_CHAR", "pop");
+	//            globals.s.ACTUAL_CHAR = PlayerPrefs.GetString("ACTUAL_CHAR", "pop");
+	//            changeActualCharSkin();
+	//
+	//            changeAnimationEquipButton("pop");
+	//
+	//            sound_controller.s.change_music(MusicStyle.Pop);
+	//        }
+	//		else if (actualCharInScreen == 3)
+	//		{
+	//			PlayerPrefs.SetString("ACTUAL_CHAR", "popGaga");
+	//			globals.s.ACTUAL_CHAR = PlayerPrefs.GetString("ACTUAL_CHAR", "popGaga");
+	//			changeActualCharSkin();
+	//
+	//			changeAnimationEquipButton("popGaga");
+	//
+	//			sound_controller.s.change_music(MusicStyle.PopGaga);
+	//		}
+	//		else if (actualCharInScreen == 4)
+	//		{
+	//			PlayerPrefs.SetString("ACTUAL_CHAR", "reggae");
+	//			globals.s.ACTUAL_CHAR = PlayerPrefs.GetString("ACTUAL_CHAR", "reggae");
+	//			changeActualCharSkin();
+	//
+	//			changeAnimationEquipButton("reggae");
+	//
+	//			sound_controller.s.change_music(MusicStyle.Reggae);
+	//		}
+	//
+	//		else if (actualCharInScreen == (int)MusicStyle.Rap)
+	//		{
+	//			PlayerPrefs.SetString("ACTUAL_CHAR", "rap");
+	//			globals.s.ACTUAL_CHAR = PlayerPrefs.GetString("ACTUAL_CHAR", "rap");
+	//			changeActualCharSkin();
+	//
+	//			changeAnimationEquipButton("rap");
+	//
+	//			sound_controller.s.change_music(MusicStyle.Rap);
+	//		}
+	//    }
+	//
+	//
 
-		if (musicStyle == -1)
-			musicStyle = actualCharInScreen;
 
-		Debug.Log (" TRYING TO BUY CHAR: " + musicStyle);
+	//	public void OnCharacterChangedOLD(int type)
+	//	{
+	//		actualCharInScreen = type;
+	//		if (type == 0)
+	//		{
+	//			title.text = "Electro";
+	//			if(eletronicAlreadyBuyed == 0)
+	//			{
+	//				buyButton.SetActive(true);
+	//				equipButton.SetActive(false);
+	////				buyPrice.text = eletronicPrice.ToString();
+	//			}
+	//			else
+	//			{
+	//				buyButton.SetActive(false);
+	//				equipButton.SetActive(true);
+	//				changeAnimationEquipButton("eletronic");
+	//			}
+	//		}
+	//		else if (type == 1)
+	//		{
+	//			title.text = "Rock";
+	//
+	//			if (rockAlreadyBuyed == 0)
+	//			{
+	//				buyButton.SetActive(true);
+	//				equipButton.SetActive(false);
+	////				buyPrice.text = rockPrice.ToString();
+	//			}
+	//			else
+	//			{
+	//				buyButton.SetActive(false);
+	//				equipButton.SetActive(true);
+	//				changeAnimationEquipButton("rock");
+	//			}
+	//		}
+	//		else if (type == 2)
+	//		{
+	//			title.text = "Classic Pop";
+	//
+	//			if (popAlreadyBuyed == 0)
+	//			{
+	//				buyButton.SetActive(true);
+	//				equipButton.SetActive(false);
+	////				buyPrice.text = popPrice.ToString();
+	//			}
+	//			else
+	//			{
+	//				buyButton.SetActive(false);
+	//				equipButton.SetActive(true);
+	//				changeAnimationEquipButton("pop");
+	//			}
+	//		}
+	//		else if (type == 3)
+	//		{
+	//			title.text = "Modern Pop";
+	//
+	//			if (popAlreadyBuyed == 0)
+	//			{
+	//				buyButton.SetActive(true);
+	//				equipButton.SetActive(false);
+	////				buyPrice.text = popPrice.ToString();
+	//			}
+	//			else
+	//			{
+	//				buyButton.SetActive(false);
+	//				equipButton.SetActive(true);
+	//				changeAnimationEquipButton("popGaga");
+	//			}
+	//		}
+	//
+	//		else if (type == 4)
+	//		{
+	//			title.text = "Reggae";
+	//
+	//			if (reggaeAlreadyBuyed == 0)
+	//			{
+	//				buyButton.SetActive(true);
+	//				equipButton.SetActive(false);
+	////				buyPrice.text = popPrice.ToString();
+	//			}
+	//			else
+	//			{
+	//				buyButton.SetActive(false);
+	//				equipButton.SetActive(true);
+	//				changeAnimationEquipButton("reggae");
+	//			}
+	//		}
+	//	}
 
-		if(musicStyle == 0)
-		{
-			if (USER.s.NOTES >= eletronicPrice)
-			{
-				USER.s.NOTES -= eletronicPrice;
-				PlayerPrefs.SetInt("eletronicAlreadyBuyed", 1);
-				eletronicAlreadyBuyed = 1;
-				buyed();
-			}
-		}
-		else if (musicStyle == 1)
-		{
-			if (USER.s.NOTES >= rockPrice)
-			{
-				USER.s.NOTES -= rockPrice;
-				PlayerPrefs.SetInt("rockAlreadyBuyed", 1);
-				rockAlreadyBuyed = 1;
-				buyed();
-			}
-		}
-		else if (musicStyle == 2)
-		{
-			if (USER.s.NOTES >= popPrice)
-			{
-				USER.s.NOTES -= popPrice;
-				PlayerPrefs.SetInt("popAlreadyBuyed", 1);
-				popAlreadyBuyed = 1;
-				buyed();
-			}
-		}
-		else if (musicStyle == 3)
-		{
-			if (USER.s.NOTES >= popGagaPrice)
-			{
-				USER.s.NOTES -= popGagaPrice;
-				PlayerPrefs.SetInt("popGagaAlreadyBuyed", 1);
-				popGagaAlreadyBuyed = 1;
-				buyed();
-			}
-		}
-		else if (musicStyle == 4)
-		{
-			if (USER.s.NOTES >= reggaePrice)
-			{
-				USER.s.NOTES -= reggaePrice;
-				PlayerPrefs.SetInt("reggaeAlreadyBuyed", 1);
-				reggaeAlreadyBuyed = 1;
-				buyed();
-			}
-		}
-		actualCoins.text = USER.s.NOTES.ToString();
-		DisplayNotes ();
-
-	}
+//
+//	public void tryBuyCharacter(int musicStyle = -1)
+//	{
+//
+//		if (musicStyle == -1)
+//			musicStyle = actualCharInScreen;
+//
+//		Debug.Log (" TRYING TO BUY CHAR: " + musicStyle);
+//
+//		if(musicStyle == 0)
+//		{
+//			if (USER.s.NOTES >= eletronicPrice)
+//			{
+//				USER.s.NOTES -= eletronicPrice;
+//				PlayerPrefs.SetInt("eletronicAlreadyBuyed", 1);
+//				eletronicAlreadyBuyed = 1;
+//				buyed();
+//			}
+//		}
+//		else if (musicStyle == 1)
+//		{
+//			if (USER.s.NOTES >= rockPrice)
+//			{
+//				USER.s.NOTES -= rockPrice;
+//				PlayerPrefs.SetInt("rockAlreadyBuyed", 1);
+//				rockAlreadyBuyed = 1;
+//				buyed();
+//			}
+//		}
+//		else if (musicStyle == 2)
+//		{
+//			if (USER.s.NOTES >= popPrice)
+//			{
+//				USER.s.NOTES -= popPrice;
+//				PlayerPrefs.SetInt("popAlreadyBuyed", 1);
+//				popAlreadyBuyed = 1;
+//				buyed();
+//			}
+//		}
+//		else if (musicStyle == 3)
+//		{
+//			if (USER.s.NOTES >= popGagaPrice)
+//			{
+//				USER.s.NOTES -= popGagaPrice;
+//				PlayerPrefs.SetInt("popGagaAlreadyBuyed", 1);
+//				popGagaAlreadyBuyed = 1;
+//				buyed();
+//			}
+//		}
+//		else if (musicStyle == 4)
+//		{
+//			if (USER.s.NOTES >= reggaePrice)
+//			{
+//				USER.s.NOTES -= reggaePrice;
+//				PlayerPrefs.SetInt("reggaeAlreadyBuyed", 1);
+//				reggaeAlreadyBuyed = 1;
+//				buyed();
+//			}
+//		}
+//		actualCoins.text = USER.s.NOTES.ToString();
+//		DisplayNotes ();
+//
+//	}
 
 	#endregion
 }
