@@ -101,7 +101,8 @@ public class MissionsController : MonoBehaviour {
             BE.SceneTown.instance.OnButtonShop();
         }
         else if (type == MissionType.CollectSouls) {
-            Vector3 pos = new Vector3(-10f, 0f, 13f);
+            //Vector3 pos = new Vector3(-10f, 0f, 13f);
+			Vector3 pos = new Vector3(21f, 0f, 10f);
             BE.SceneTown.instance.move_camera_to_building(pos,0.5f,9);
         }
 

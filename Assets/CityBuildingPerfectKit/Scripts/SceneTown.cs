@@ -989,7 +989,7 @@ namespace BE {
         {
             Building script = BEGround.instance.BuildingAdd(4, 1);
 
-            Vector3 pos = new Vector3(30f, 0f, 6f);
+            Vector3 pos = new Vector3(21f, 0f, 10f);
             script.Move(pos);
             if (GLOBALS.s.TUTORIAL_OCCURING) move_camera_to_building(pos,0.5f, 11, -6f, -6f);
 
