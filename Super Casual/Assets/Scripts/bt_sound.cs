@@ -4,9 +4,10 @@ using System.Collections;
 public class bt_sound : MonoBehaviour
 {
 	AudioSource musicPlayer ;
+	int n=0;
 	// Use this for initialization
 	void Start () {
-
+		
 	}
 	
 	// Update is called once per frame
@@ -15,7 +16,7 @@ public class bt_sound : MonoBehaviour
 	}
     public void ActBT()
     {
-
+		
 		if(GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("bt_sound"))
 		{
 
@@ -34,7 +35,14 @@ public class bt_sound : MonoBehaviour
             USER.s.SOUND_MUTED = 0;
             PlayerPrefs.SetInt("sound_muted", 0);
         }
-		
+
+
+		n++;
+		if (n > 10 && PlayerPrefs.GetInt ("NOTAS_SECRETAS", 0) == 0) {
+			PlayerPrefs.SetInt ("NOTAS_SECRETAS", 1);
+			USER.s.AddNotes (30);
+		}
+
 	}
 
 }

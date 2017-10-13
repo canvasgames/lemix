@@ -58,15 +58,17 @@ public class store_controller : MonoBehaviour {
 	#region === Init ===
     void Start () {
         s = this;
+//				USER.s.AddNotes (150);
 
 		PlayerPrefs.SetInt(MusicStyle.Eletro.ToString()+"AlreadyBuyed", 1);
+//		PlayerPrefs.SetInt(MusicStyle.Rap.ToString()+"AlreadyBuyed", 1);
 
-        popAlreadyBuyed = PlayerPrefs.GetInt("popAlreadyBuyed", 0);
-		rockAlreadyBuyed = PlayerPrefs.GetInt("rockAlreadyBuyed", 0);
-		popGagaAlreadyBuyed = PlayerPrefs.GetInt("popGagaAlreadyBuyed", 0);
-		reggaeAlreadyBuyed = PlayerPrefs.GetInt("reggaeAlreadyBuyed", 0);
-		eletronicAlreadyBuyed = PlayerPrefs.GetInt("eletronicAlreadyBuyed", 1);
-		rapAlreadyBuyed = PlayerPrefs.GetInt("rapAlreadyBuyed", 1);
+//        popAlreadyBuyed = PlayerPrefs.GetInt("popAlreadyBuyed", 0);
+//		rockAlreadyBuyed = PlayerPrefs.GetInt("rockAlreadyBuyed", 0);
+//		popGagaAlreadyBuyed = PlayerPrefs.GetInt("popGagaAlreadyBuyed", 0);
+//		reggaeAlreadyBuyed = PlayerPrefs.GetInt("reggaeAlreadyBuyed", 0);
+//		eletronicAlreadyBuyed = PlayerPrefs.GetInt("eletronicAlreadyBuyed", 1);
+//		rapAlreadyBuyed = PlayerPrefs.GetInt("rapAlreadyBuyed", 1);
 
 		alreadyBuyed = new int[(int)MusicStyle.Lenght];
 
@@ -83,9 +85,11 @@ public class store_controller : MonoBehaviour {
 
 		for (int i = 0; i < alreadyBuyed.Length; i++) {
 //			PlayerPrefs.SetInt(((MusicStyle)i).ToString()+"AlreadyBuyed", 0);
-
-			alreadyBuyed[i] = PlayerPrefs.GetInt(((MusicStyle)i).ToString()+"AlreadyBuyed", 0);
-
+			int unlocked = 0;
+			if (QA.s.ALL_UNLOCKED)
+				unlocked = 1;
+			alreadyBuyed[i] = PlayerPrefs.GetInt(((MusicStyle)i).ToString()+"AlreadyBuyed", unlocked);
+//			Debug.Log("ALREADY BUYED I: "+ i + " TRUE: " + alreadyBuyed[i]);
 			if (alreadyBuyed [i] == 1)
 				nCharsBuyed++;
 		}
@@ -178,7 +182,7 @@ public class store_controller : MonoBehaviour {
 
 	#region === Update ===
 	public void UpdateUserNotes(){
-		actualCoins.text = USER.s.NOTES.ToString();
+		actualCoins.text = USER.s.NOTES.ToString("00");
 		DisplayNotes ();
 	}
 	
@@ -478,7 +482,15 @@ public class store_controller : MonoBehaviour {
 			jukeboxBtNotesHigh.text = globals.s.JUKEBOX_CURRENT_PRICE.ToString ();
 		}
 
-		if (USER.s.NOTES >= globals.s.JUKEBOX_CURRENT_PRICE) {
+
+		// CHECK IF IS FULL
+		if (nCharsBuyed >= GD.s.N_MUSIC) {
+			jukeboxBtNotesLow.gameObject.SetActive (false);
+			jukeboxBtNotesHigh.gameObject.SetActive (true);
+			jukeboxBt.interactable = false;
+			jukeboxBtNotesHigh.text = "full";
+		}
+		else if (USER.s.NOTES >= globals.s.JUKEBOX_CURRENT_PRICE) {
 			jukeboxBt.interactable = true;
 //			jukeboxBtNotes.text = USER.s.NOTES.ToString () + "/" + globals.s.JUKEBOX_CURRENT_PRICE.ToString ();
 		}
@@ -548,11 +560,17 @@ public class store_controller : MonoBehaviour {
 				//		scrol
 			}
 			rand = Random.Range (1, 3);
+			Debug.Log("STYLE FOUND: "+ (MusicStyle)actualStyle + " have " +CheckIfCharacterIsAlreadyPurchasedNew(actualStyle) );
 //		} while (alreadyBuyed [(int)actualStyle] == 0);
-		} while (CheckIfCharacterIsAlreadyPurchasedNew(actualStyle) == true && actualStyle != lastSortedStyle);
+		} while (CheckIfCharacterIsAlreadyPurchasedNew(actualStyle) == true || actualStyle == lastSortedStyle);
 
 		globals.s.JUKEBOX_SORT_ANIMATION = false;
 //		OnCharacterChangedNew (actualStyle);
+
+		yield return new WaitForSeconds(0.1f);
+
+		Debug.Log("STYLE FOUND 2222: "+ (MusicStyle)actualStyle + " have " +CheckIfCharacterIsAlreadyPurchasedNew(actualStyle));
+
 
 		lastSortedStyle = actualStyle;
 
@@ -597,7 +615,9 @@ public class store_controller : MonoBehaviour {
 
 	// Nice button pressed
 	public void OnButtonRewardPressed(){
-		jukeboxBt.interactable = true; //TBD: FAZER LOGICA QUE TESTA SE TODOS FORAM COMPRADOS E POR UM IF AQUI
+//		jukeboxBt.interactable = true; //TBD: FAZER LOGICA QUE TESTA SE TODOS FORAM COMPRADOS E POR UM IF AQUI
+		UpdateUserNotes(); //TBD: FAZER LOGICA QUE TESTA SE TODOS FORAM COMPRADOS E POR UM IF AQUI
+		globals.s.MENU_OPEN = false;
 
 		globals.s.curGameScreen = GameScreen.Store;
 		myRewardScreen.gameObject.SetActive (false);
@@ -607,6 +627,7 @@ public class store_controller : MonoBehaviour {
 
 		PlayerPrefs.SetInt (actualStyle.ToString () + "AlreadyBuyed", 1);
 		alreadyBuyed [(int)actualStyle] = 1;
+		nCharsBuyed++;
 
 		myBackBt.interactable = true;
 

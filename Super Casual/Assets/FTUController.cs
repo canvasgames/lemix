@@ -51,12 +51,12 @@ public class FTUController : MonoBehaviour {
 		if (USER.s.NEWBIE_PLAYER == 1 && QA.s.OLD_PLAYER == false ) {
 			spinDiskBt.SetActive (false);
 			jukeboxBt.SetActive (false);
-			handTut.SetActive (true);
+//			handTut.SetActive (true);
 
 		} else {
 			spinDiskBt.SetActive (true);
 			jukeboxBt.SetActive (true);
-			handTut.SetActive (false);
+//			handTut.SetActive (false);
 		}
 	}
 

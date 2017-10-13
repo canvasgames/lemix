@@ -225,16 +225,17 @@ public class GameOverController : MonoBehaviour {
 		if (GD.s.JUKEBOX_FTU_PRICE == globals.s.JUKEBOX_CURRENT_PRICE) {
 //			jukeboxNote.transform.localPosition = new Vector2 (noteBarXPos, jukeboxNote.transform.localPosition.y);
 			jukeboxNote.GetComponent<RectTransform>().anchoredPosition = new Vector2 (noteBarXPos, jukeboxNote.transform.localPosition.y);
-			jukeboxBarNotesText.text = notesToShow.ToString() + "/" + globals.s.JUKEBOX_CURRENT_PRICE.ToString ();
+			jukeboxBarNotesText.text = notesToShow.ToString("00") + "/" + globals.s.JUKEBOX_CURRENT_PRICE.ToString ();
 		}
 		else {
-			jukeboxNote.GetComponent<RectTransform>().anchoredPosition = new Vector2 (noteBarXPos + 40f, jukeboxNote.transform.localPosition.y);
+			jukeboxNote.GetComponent<RectTransform>().anchoredPosition = new Vector2 (noteBarXPos, jukeboxNote.transform.localPosition.y);
+			jukeboxBarNotesText.text =  notesToShow.ToString("00") + "/" + globals.s.JUKEBOX_CURRENT_PRICE.ToString ();
 
-			if (notesToShow < 10) {
-				jukeboxBarNotesText.text = "0" + notesToShow.ToString() + "/" + globals.s.JUKEBOX_CURRENT_PRICE.ToString ();
-			}
-			else
-				jukeboxBarNotesText.text = notesToShow.ToString() + "/" + globals.s.JUKEBOX_CURRENT_PRICE.ToString ();
+//			if (notesToShow < 10) {
+//				jukeboxBarNotesText.text = "0" + notesToShow.ToString() + "/" + globals.s.JUKEBOX_CURRENT_PRICE.ToString ();
+//			}
+//			else
+//				jukeboxBarNotesText.text = notesToShow.ToString() + "/" + globals.s.JUKEBOX_CURRENT_PRICE.ToString ();
 		}
 	}
 
@@ -313,7 +314,7 @@ public class GameOverController : MonoBehaviour {
 		diskBt.GetComponent<activate_pw_button> ().SetCountownState();
 	}
 
-	void SetDiskSpinNowState(){
+	public void SetDiskSpinNowState(){
 		diskBarGreen.SetActive (true);
 		diskFreeSpinNowText.SetActive (true);
 		diskTimeLeft.SetActive (false);

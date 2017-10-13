@@ -405,7 +405,6 @@ public class ball_hero : MonoBehaviour
 		if (my_trail != null) my_trail.transform.DOLocalRotate(new Vector3(0, 0, 0), 0.01f, RotateMode.Fast);
     }
 
-
 #region ========= COLLISIONS ================
 
 
@@ -580,7 +579,6 @@ public class ball_hero : MonoBehaviour
             b.is_destroyed = true;
 
         }
-
         bool with_high_score = false;
 
         if(my_floor > USER.s.BEST_SCORE)
@@ -750,7 +748,7 @@ public class ball_hero : MonoBehaviour
         globals.s.PW_SUPER_JUMP = false;
         squares_desappear();
         rb.gravityScale = 1;
-        main_camera.s.pw_super_jump_end();
+		main_camera.s.pw_super_jump_end();
 
         if (transform.position.x > 0)
             rb.velocity = new Vector2(-globals.s.BALL_SPEED_X, rb.velocity.y);
@@ -761,13 +759,9 @@ public class ball_hero : MonoBehaviour
         super.SetActive(false);
 
         Invoke("unactivate_squares", 0.3f);
-
-
     }
 
-    void activate_particles_floor()
-    {
-        
+    void activate_particles_floor() {  
         int i=0;
     	floor[] floors = null;
        	//floors = GameObject.FindObjectsOfType(typeof(floor)) as floor[];

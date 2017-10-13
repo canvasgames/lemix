@@ -71,7 +71,7 @@ public class game_controller : MonoBehaviour {
 
     //PW VARIABLES
     int pw_dont_create_for_n_floors = 5;
-    int pw_floors_not_created = 6;
+    int pw_floors_not_created = 2;
     bool first_pw_created = false;
 
     string killer_wave_to_report = "";
@@ -211,7 +211,7 @@ public class game_controller : MonoBehaviour {
 						wave_found = true;
 					}
 					else
-						wave_found = create_wave_easy(i);
+						wave_found = create_wave_super_easy(i);
 //						wave_found = create_wave_hard(i, 46);
                     break;
 				case 4:
@@ -223,7 +223,7 @@ public class game_controller : MonoBehaviour {
 
 					} else {
 						//wave_found = create_wave_easy (i);
-						wave_found = create_wave_easy (i);
+						wave_found = create_wave_super_easy (i);
 					}
 					break;
 				case 5:
@@ -232,12 +232,12 @@ public class game_controller : MonoBehaviour {
 						wave_found = create_hole (i, false, 0, true, ftu_spk_pos + globals.s.HOLE_SPK_DIST+ 0.3f);
 						//create_spike (ftu_spk_pos, globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * i, i, false, true);
 					} else
-						wave_found = create_wave_easy(i);
+						wave_found = create_wave_super_easy (i);
 					break;
 
                 default:
                         // Debug.Log(" DEFAULT FIRST WAVE:");
-                    wave_found = create_wave_easy(i);
+					wave_found = create_wave_super_easy (i);
                        // wave_found = create_wave_very_hard(i);
                         //create_corner_wall(i);
                     break;
@@ -424,17 +424,21 @@ public class game_controller : MonoBehaviour {
 
     #region ======= POWER UPS ==========
 	void create_power_up_logic(int floor = 0) {
-        int rand = Random.Range(0, 100);
+		int rand;
+		if(n_floor < 5)
+			rand = Random.Range(0, 60);
+		else
+			rand = Random.Range(0, 100);
         //rand = Random.Range(0, 10);
         // create chance check
 //        Debug.Log(" CREATE POWER UPS CHANCE: " + rand + " .. CONDITION: " + ((pw_floors_not_created - pw_dont_create_for_n_floors) * 7));
         // if (!QA.s.NO_PWS && pw_floors_not_created > pw_dont_create_for_n_floors && rand <= 15 && globals.s.PW_ACTIVE == true) {
-		if (!QA.s.NO_PWS && USER.s.TOTAL_GAMES >= 2 && USER.s.NEWBIE_PLAYER == 0 && ((pw_floors_not_created > pw_dont_create_for_n_floors &&
+		if ((1==1 && pw_floors_not_created > pw_dont_create_for_n_floors  ) || !QA.s.NO_PWS && USER.s.TOTAL_GAMES >= 2 && USER.s.NEWBIE_PLAYER == 0 && ((pw_floors_not_created > pw_dont_create_for_n_floors &&
             rand <= (pw_floors_not_created - pw_dont_create_for_n_floors) * 7) || (USER.s.FIRST_PW_CREATED == 0 && !first_pw_created))) {
 
             int my_type = 0;
             rand = Random.Range(0, 100);
-			if (rand < 20 || (USER.s.FIRST_PW_CREATED == 0 && !first_pw_created)) {
+			if (1==1 || rand < 20 || (USER.s.FIRST_PW_CREATED == 0 && !first_pw_created)) {
 				my_type = (int)PW_Types.Super;
 			} else if (rand < 60 && n_floor > 5) {
 				my_type = (int)PW_Types.Sight;
@@ -444,6 +448,7 @@ public class game_controller : MonoBehaviour {
 
 			//Debug.Log(globals.s.PW_ACTIVE + "  pw created RAND " + rand + " type: " + my_type);
             first_pw_created = true;
+			hud_controller.si.ActivateFirstPw ();
             // int my_type = Random.Range((int)PW_Types.Invencible, (int)PW_Types.Sight + 1);
 			Debug.Log ("---------- cREATE PW !! TYPE: " + my_type + " FIRST PW CREATED " + USER.s.FIRST_PW_CREATED);
 
@@ -539,7 +544,7 @@ public class game_controller : MonoBehaviour {
             create_power_up_logic();
         }
        
-        while (wave_found == false && count < 50)
+        while (wave_found == false && count < 80)
         {
             //hole_creation_failed = 9;
             count++;
@@ -554,8 +559,8 @@ public class game_controller : MonoBehaviour {
 				create_floor(0, n_floor);
 			}
 
-           else if (n_floor <= 7) {
-				wave_found = create_wave_easy(n_floor);
+           else if (n_floor <= 5) {
+				wave_found = create_wave_super_easy(n_floor);
 //                if (USER.s.TOTAL_GAMES > 4) rand = Random.Range(1, 3);
 //                else rand = 1;
 //				rand = 1; // PRESTA ATENÇÃO! É SEMPRE 1!! 
@@ -570,8 +575,25 @@ public class game_controller : MonoBehaviour {
 //                }
             }
 
+			else if (n_floor <= 10) {
+				wave_found = create_wave_super_easy(n_floor);
+				//                if (USER.s.TOTAL_GAMES > 4) rand = Random.Range(1, 3);
+				//                else rand = 1;
+				//				rand = 1; // PRESTA ATENÇÃO! É SEMPRE 1!! 
+				//                switch (rand) {
+				//                    case 1:
+				//                        wave_found = create_wave_easy(n_floor);
+				//                        //wave_found = create_wave_super_hard(n_floor);
+				//                        break;
+				//                    case 2:
+				//                        wave_found = create_wave_medium(n_floor);
+				//                        break;
+				//                }
+			}
+
+
             // USER HAD SOME PROGRESS
-            else if (n_floor <= 13) {
+            else if (n_floor <= 20) {
 				rand = Random.Range(1, 100);
 
 				if (rand <= 35)
@@ -584,7 +606,7 @@ public class game_controller : MonoBehaviour {
                 
             }
 
-			else if (n_floor <= 20) {
+			else if (n_floor <= 30) {
 				rand = Random.Range(1, 100);
 
 				if (rand <= 10)
@@ -658,6 +680,178 @@ public class game_controller : MonoBehaviour {
 		}
 		return true;
 	}
+
+
+	bool create_wave_super_easy(int n, int custom_wave = -1)
+	{
+		float actual_y = globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * n;
+		int rand = Random.Range(1, 100);
+		int hole_chance = define_hole_chance();
+//		if (QA.s.TRACE_PROFUNDITY >=2) Debug.Log("\n " + n + " ~~~~~~~~~~~~ TRY CREATE SUPER EASY HOLE! ~~~~~~~~~~~~ | rand " + rand + " HOLE CHANCE: " + hole_chance + " N FAILED: " + hole_creation_failed);
+		Debug.Log("\n " + n + " ~~~~~~~~~~~~ TRY CREATE SUPER EASY HOLE! ~~~~~~~~~~~~ | rand " + rand + " HOLE CHANCE: " + hole_chance + " N FAILED: " + hole_creation_failed);
+		if (USER.s.FIRST_HOLE_CREATED == 0) hole_chance = 101;
+
+		if (custom_wave == 1) {
+			wave_name = "tut_spk_mid_left";
+			if (QA.s.SHOW_WAVE_TYPE == true)
+			{
+				create_wave_name(0, actual_y, wave_name);
+			}
+			create_floor(0, n);
+			create_spike(corner_limit_right + 0.25f, actual_y, n);
+			last_spike_right = false;
+			last_spike_left = false;
+			last_hole = false;
+			last_wall = false;
+			return true;
+		}
+		else if (custom_wave == 2) {
+			wave_name = "tut_hole";
+			if (QA.s.SHOW_WAVE_TYPE == true)
+			{
+				create_wave_name(0, actual_y, wave_name);
+			}
+			bool not_hidden = true;
+			bool success = create_hole(n, not_hidden, screen_w / 4 - screen_w / 8);
+
+			if (success)
+			{
+				last_spike_right = false;
+				last_spike_left = false;
+				last_hole = true;
+				last_wall = false;
+			}
+
+			return success;
+		}
+
+		// HOLE NOT HIDDEN 
+		else if (!last_wall && !last_hole && rand > 0 && rand <= hole_chance)
+		{
+
+			rand = Random.Range(1, 100);
+			bool not_hidden = true;;
+//			if (rand < 60) not_hidden = true;
+//			else not_hidden = false;
+//			if (USER.s.FIRST_HOLE_CREATED == 0)
+//				not_hidden = false;
+
+			bool success = create_hole(n, not_hidden, screen_w/3 - screen_w/8);
+
+			if (success)
+			{
+				wave_name = "super_easy_hole";
+				if(QA.s.SHOW_WAVE_TYPE == true)
+				{
+					create_wave_name(0, actual_y, wave_name);
+				}
+				last_spike_right = false;
+				last_spike_left = false;
+				last_hole = true;
+				last_wall = false;
+			}
+
+			return success;
+		}
+		else
+		{
+			rand = Random.Range(1, 100);
+			if (QA.s.TRACE_PROFUNDITY >= 2) Debug.Log("\n " + n + " ======= CREATE WAVE EASY! ========== | rand: " + rand);
+
+			// WALL EXCEPTION
+			if (1==2 && USER.s.BEST_SCORE > 10 && !last_wall &&  ((USER.s.FIRST_WALL_CREATED == 0 && first_wall_already_created == false && USER.s.TOTAL_GAMES >= 1 && n_floor > 4 && rand < 95))) {
+				wave_name = "medium_wall_corner_1_spk";
+				if (QA.s.SHOW_WAVE_TYPE == true)
+				{
+					create_wave_name(0, actual_y, wave_name);
+				}
+				create_floor(0, n);
+				// Sort between normal spike, hidden spike or manual hidden spike
+				// float rand_x = Random.Range(-mid_area + 0.5f, mid_area - 0.5f);
+				float rand_x = Random.Range(-0.35f, 0.35f);
+				rand = Random.Range(1, 100);
+
+				if (rand < 60) // Normal spike
+				{
+					create_wall_corner(n);
+					create_spike(rand_x, actual_y, n);
+				}
+				else if (rand < 80) // Hidden Spike
+				{
+					create_wall_corner(n);
+					create_hidden_spike(rand_x, actual_y, n);
+				}
+				else // Hidden spike manual trigger
+				{
+					create_wall_corner(n, true);
+					create_hidden_spike(rand_x, actual_y, n, true);
+				}
+
+				last_spike_right = true;
+				last_spike_left = true;
+				last_wall = true;
+				last_hole = false;
+				return true;
+			}
+				
+			// 1 SPK MIDDLE |___^___|
+			if (rand > 0 && rand <= 43)
+			{
+				wave_name = "super_easy_spk_mid";
+				if (QA.s.SHOW_WAVE_TYPE == true)
+				{
+					create_wave_name(0, actual_y, wave_name);
+				}
+				create_floor(0, n);
+				create_spike(Random.Range(corner_limit_left + 1.4f, corner_limit_right - 1.4f), actual_y, n);
+				last_spike_right = false;
+				last_spike_left = false;
+				last_hole = false;
+				last_wall = false;
+				return true;
+			}
+
+
+			// 1 SPK NOT SO MIDDLE |___^___|
+			if (rand > 43 && rand <= 68)
+			{
+				wave_name = "super_easy_spk_not_mid";
+				if (QA.s.SHOW_WAVE_TYPE == true)
+				{
+					create_wave_name(0, actual_y, wave_name);
+				}
+				create_floor(0, n);
+
+				create_spike( 0 + Random.Range(screen_w/6, screen_w/6 + 0.2f)*SortSign(), actual_y, n);
+				last_spike_right = false;
+				last_spike_left = false;
+				last_hole = false;
+				last_wall = false;
+				return true;
+			}
+
+			// 1 TRIPLE SPK MIDDLE |___/\___|
+			if (rand > 68 && rand <= 100)
+			{
+				wave_name = "super_easy_triple_spk_mid";
+				if (QA.s.SHOW_WAVE_TYPE == true)
+				{
+					create_wave_name(0, actual_y, wave_name);
+				}
+				create_floor(0, n);
+				create_triple_spike(Random.Range(-screen_w / 3 + 0.8f, screen_w / 3 - 0.8f), actual_y, n);
+				last_spike_right = false;
+				last_spike_left = false;
+				last_hole = false;
+				last_wall = false;
+
+				return true;
+			}
+				
+			else return false;
+		}
+	}
+
 
     //SINGLE SPIKE SOMEWHERE
 	bool create_wave_easy(int n, int custom_wave = -1)
@@ -2048,6 +2242,7 @@ GameObject instance = Instantiate(Resources.Load("Prefabs/Bgs/Scenario2/bg_"+ran
 
 	bool create_hole(int n, bool not_hidden = false, float custom_rand = 0, bool repositionable = false, float custom_position = -999)
     {
+//		return false;
         // Debug.Log("tttttttttttttttttttttt TRYING TO CREATE HOLE AT FLOOR: " + n);
         float rand;
         if (custom_rand == 0) rand = Random.Range(-screen_w / 4, screen_w / 4);
@@ -2096,13 +2291,13 @@ GameObject instance = Instantiate(Resources.Load("Prefabs/Bgs/Scenario2/bg_"+ran
             else
             {
                 can_create = true;
-                //Debug.Log("[HOLE] THERE IS NO SPIKES BELOW! MY FLOOR: " + n + " JUST CREATE!");
+//                Debug.Log("[HOLE] THERE IS NO SPIKES BELOW! MY FLOOR: " + n + " JUST CREATE!");
             }
         }
         else
         {
             can_create = true;
-            //Debug.Log("[HOLE] THERE IS NO SPIKES AT ALL! JUST CREATE!"); 
+//            Debug.Log("[HOLE] THERE IS NO SPIKES AT ALL! JUST CREATE!"); 
         }
 
 
@@ -2143,7 +2338,8 @@ GameObject instance = Instantiate(Resources.Load("Prefabs/Bgs/Scenario2/bg_"+ran
             return true;
         }
         else {
-            if (QA.s.TRACE_PROFUNDITY >= 1) { Debug.Log(" FffffffffffffAILED TO CREATE HOLE..."); }
+//			if (QA.s.TRACE_PROFUNDITY >= 1) { Debug.Log(" FffffffffffffAILED TO CREATE HOLE..."); }
+            Debug.Log(" FffffffffffffAILED TO CREATE HOLE..."); 
             return false;
         }
     }
@@ -2163,6 +2359,14 @@ GameObject instance = Instantiate(Resources.Load("Prefabs/Bgs/Scenario2/bg_"+ran
         return true;
     }
 #endregion
+
+	int SortSign(){
+		int a = Random.Range (0, 2);
+		if (a == 0)
+			return -1;
+		else
+			return 1;
+	}
 
     void create_wave_name(float x_pos, float y_pos, string wave_name)
     {

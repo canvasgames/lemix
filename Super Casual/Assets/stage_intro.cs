@@ -71,7 +71,7 @@ public class stage_intro : MonoBehaviour {
 		newTitle.transform.localPosition = new Vector3 (newTitle.transform.localPosition.x + 2,
 			newTitle.transform.localPosition.y, newTitle.transform.localPosition.z);
 
-		newTitle.transform.DOLocalMoveX (0, 0.23f).SetEase (Ease.OutCubic);
+		newTitle.transform.DOLocalMoveX (newTitle.transform.localPosition.x  -2, 0.23f).SetEase (Ease.OutCubic);
 		ShowStars ();
 		Invoke ("LeaveScreen", 1.1f);
 	}

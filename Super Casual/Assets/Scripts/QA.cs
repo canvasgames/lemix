@@ -11,6 +11,7 @@ public class QA : MonoBehaviour {
 
 	public bool OLD_PLAYER;
 
+	public bool ALL_UNLOCKED;
 	bool sqMode = true;
     public bool INVENCIBLE ;
     public float TIMESCALE = 1;

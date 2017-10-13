@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-//using DeltaDNA;
+using DeltaDNA;
 
 public class AnalyticController : MonoBehaviour {
 
@@ -15,32 +15,32 @@ public class AnalyticController : MonoBehaviour {
         
         // Launch the SDK
         if (GD.s.AnalyticsLive == false) {
-//            DDNA.Instance.Settings.DebugMode = true;
-//            DDNA.Instance.Settings.OnInitSendGameStartedEvent = true;
-//            DDNA.Instance.ClientVersion = clientVersion;
-//            DDNA.Instance.StartSDK(
-//                "87199148446217602329834496314561",
-//                "http://collect7976sprcs.deltadna.net/collect/api",
-//                "http://engage7976sprcs.deltadna.net",
-//                "00"
-//            );
+            DDNA.Instance.Settings.DebugMode = true;
+            DDNA.Instance.Settings.OnInitSendGameStartedEvent = true;
+            DDNA.Instance.ClientVersion = clientVersion;
+            DDNA.Instance.StartSDK(
+                "87199148446217602329834496314561",
+                "http://collect7976sprcs.deltadna.net/collect/api",
+                "http://engage7976sprcs.deltadna.net",
+                "00"
+            );
         }
 
         else {
-            //DDNA.Instance.Settings.DebugMode = true;
-//            DDNA.Instance.ClientVersion = clientVersion;
-//            DDNA.Instance.StartSDK(
-//                "87199152274143954720021478014561",
-//                "http://collect7976sprcs.deltadna.net/collect/api",
-//                "http://engage7976sprcs.deltadna.net",
-//                DDNA.AUTO_GENERATED_USER_ID
-//                );
+            DDNA.Instance.Settings.DebugMode = true;
+            DDNA.Instance.ClientVersion = clientVersion;
+            DDNA.Instance.StartSDK(
+                "87199152274143954720021478014561",
+                "http://collect7976sprcs.deltadna.net/collect/api",
+                "http://engage7976sprcs.deltadna.net",
+                DDNA.AUTO_GENERATED_USER_ID
+                );
         }    
     }
 
     public void ReportGameStarted() {
         Debug.Log("[ANAL] REPORTING GAME STARTED");
-       
+//       
 //		EventBuilder eventParams = new EventBuilder();
 //        eventParams.AddParam("clientVersion", clientVersion);
 //        eventParams.AddParam("isTutorial", false);
@@ -55,8 +55,8 @@ public class AnalyticController : MonoBehaviour {
 //
 //		eventParams.AddParam("userCurrentCurrency", 0);
 //		eventParams.AddParam("userTotalCurrency", 0);
-//
-//		//new
+
+		//new
 //		eventParams.AddParam("userTotalSessionGames", 0);
 //
 //		eventParams.AddParam("userCurrentChar", "0");
@@ -79,8 +79,8 @@ public class AnalyticController : MonoBehaviour {
 //        eventParams.AddParam("userScore", globals.s.BALL_FLOOR);
 //        eventParams.AddParam("killerWaveName", killer_wave_name);
 //        eventParams.AddParam("gameDuration", duration);
-//
-//		//new
+
+		//new
 //		eventParams.AddParam("userTotalSessionGames", 0);
 //
 //		eventParams.AddParam("userCurrentChar", "0");
@@ -94,8 +94,8 @@ public class AnalyticController : MonoBehaviour {
 //		eventParams.AddParam("pwVisionCollected", 0);
 //		eventParams.AddParam("pwSuperJumpCollected", 0);
 //		eventParams.AddParam("withPowerUps", globals.s.PW_ACTIVE);
-//
-//
+
+
 //        DDNA.Instance.RecordEvent("missionCompleted", eventParams);
     }
 

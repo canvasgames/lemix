@@ -92,7 +92,7 @@ public class hud_controller : MonoBehaviour {
 			PlayerPrefs.SetInt("first_pw_created", 1);
 			//PlayerPrefs.SetInt(
 		}
-			
+
 	}
 
     void Start () {
@@ -114,14 +114,17 @@ public class hud_controller : MonoBehaviour {
 //			jukeboxBtMainMenu.SetActive (true);
 //			handTapToPlay.SetActive (false);
 
-			activate_pw_bt.GetComponent<activate_pw_button> ().HandTutLogic ();
+//			activate_pw_bt.GetComponent<activate_pw_button> ().HandTutLogic ();
 			//SETTING PW STATE
 			int temp_state = PlayerPrefs.GetInt ("PWState", 0);
 			if (temp_state == 1) {
 				globals.s.PW_ACTIVE = true;
+//				activate_pw_bt.GetComponent<Button> ().interactable = true;
 //				activate_pw_bt.GetComponent<activate_pw_button> ().SetCountownState ();
 			} else {
 				globals.s.PW_ACTIVE = false;
+//				activate_pw_bt.GetComponent<Button> ().interactable = false;
+
 //				activate_pw_bt.GetComponent<activate_pw_button> ().SetSPinNowState ();
 			}
 		} else {
@@ -146,6 +149,7 @@ public class hud_controller : MonoBehaviour {
             if (canRotate == 1)
             {
                 CAN_ROTATE_ROULETTE = true;
+				if(activate_pw_bt.activeInHierarchy) activate_pw_bt.GetComponent<Button> ().interactable = true;
 
                 Debug.Log("HUD: CAN ROTATE");
             }
@@ -153,6 +157,7 @@ public class hud_controller : MonoBehaviour {
             {
 
                 CAN_ROTATE_ROULETTE = false;
+				if(activate_pw_bt.activeInHierarchy) activate_pw_bt.GetComponent<Button> ().interactable = false;
 
                 Debug.Log("HUD: NO ROTATE");
 
@@ -162,6 +167,9 @@ public class hud_controller : MonoBehaviour {
         {
             CAN_ROTATE_ROULETTE = true;
             Debug.Log("HUD: vazio can rotate init");
+
+			if(activate_pw_bt.activeInHierarchy) activate_pw_bt.GetComponent<Button> ().interactable = true;
+
         }
 
 //
@@ -270,6 +278,7 @@ public class hud_controller : MonoBehaviour {
 
 	public IEnumerator start_game()
     {
+		handTapToPlay.SetActive (false);
         globals.s.FIRST_GAME = false;
         //floor.SetActive(true);
         //best.SetActive(true);
@@ -406,7 +415,7 @@ public class hud_controller : MonoBehaviour {
     {
         if (QA.s.TRACE_PROFUNDITY >= 3) Debug.Log(" NEW FLOOR!!!!!! ");
         //GetComponentInChildren<TextMesh>().text =  "Floor " + (n+1).ToString();
-        floor.GetComponent<Text>().text = "Floor " + (n + 1).ToString();
+        floor.GetComponent<Text>().text = "Floor " + (n + 1).ToString("00");
     }
 
     #region ============== GAME OVER ================
@@ -618,7 +627,7 @@ public class hud_controller : MonoBehaviour {
             PlayerPrefs.SetString("PWDate2ChangeState", PW_date);
             PlayerPrefs.SetInt("PWState", 1);
 
-			activate_pw_bt.GetComponent<activate_pw_button> ().SetCountownState ();
+//			activate_pw_bt.GetComponent<activate_pw_button> ().SetCountownState ();
         }
         else
         {
@@ -640,7 +649,7 @@ public class hud_controller : MonoBehaviour {
             PlayerPrefs.SetInt("PWState", 0);
 
 			activate_pw_bt.SetActive(true);
-			activate_pw_bt.GetComponent<activate_pw_button> ().SetSPinNowState ();
+//			activate_pw_bt.GetComponent<activate_pw_button> ().SetSPinNowState ();
 
         }
     }
@@ -726,13 +735,14 @@ public class hud_controller : MonoBehaviour {
 			}
 			if(diff.TotalSeconds > 0 && CAN_ROTATE_ROULETTE == false)
 			{
-				pw_time_left_title_on.GetComponent<Text>().text = diff.Minutes + ":" + diff.Seconds + "";
+				pw_time_left_title_on.GetComponent<Text>().text = diff.Minutes.ToString("00") + ":" + diff.Seconds.ToString("00") + "";
 			}
 
 		}
 		if(CAN_ROTATE_ROULETTE == true)
 		{
-			pw_time_left_title_on.GetComponent<Text>().text = " ROTATE NOW ";
+//			pw_time_left_title_on.GetComponent<Text>().text = " ROTATE NOW ";
+			GameOverController.s.SetDiskSpinNowState ();
 
 		}
 		//TimeSpan difference = tempDate.Subtract(tempcurDate);

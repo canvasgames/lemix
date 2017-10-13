@@ -12,6 +12,7 @@ public class sound_controller : MonoBehaviour
     public AudioSource efxSource, efxSource2, efxSource3;
 	public AudioSource musicSource, musicSource2, musicSource3, musicSource4, musicSource5, curFadeIn, curFadeOut;
     public AudioSource Jumptest;
+	public AudioSource Explosion2;
 
     public AudioClip Jump, Explosion, Collect, Alert;
     public AudioClip[]  Jumps;
@@ -42,7 +43,7 @@ public class sound_controller : MonoBehaviour
         if(temp_sound == 1)
         {
             muteMusic();
-            muteSFX();
+//            muteSFX();
 
             if(bt_sound != null)
             {
@@ -277,7 +278,7 @@ public class sound_controller : MonoBehaviour
 
 	public void special_event() {
 		//PlaySingle(Collect);
-		PlaySingle(Jumps[Random.Range(0, 7)]);
+		PlaySingle(Jumps[Random.Range(0, 7)], 1.5f);
 	}
 
 	public void play_collect_pw() {
@@ -290,7 +291,7 @@ public class sound_controller : MonoBehaviour
 		if (efxSource.volume > 0 && can_play_jump == true)
 		{
 			can_play_jump = false;
-			Debug.Log ("PLAY JUMP");
+//			Debug.Log ("PLAY JUMP");
 
 			PlaySingle(Jump);
 			//PlaySingle(Jumps[Random.Range(0,7)]);
@@ -304,37 +305,48 @@ public class sound_controller : MonoBehaviour
 	}
 	public void PlayExplosion()
 	{
-		if (efxSource.volume > 0)
-			PlaySingle(Explosion);
+//		Debug.Log ("PLAY EXPLOSION SOUNd!!!");
+		if (efxSource.volume > 0) {
+//			Debug.Log ("PLAY EXPLOSION SOUNd!!!2");
+
+//			PlaySingle (Explosion);
+			PlaySingle (Explosion, 2f);
+		}
 	}
 	#endregion
 
   
 	#region ==== Technical Stuff =====
     //#####################################################
-    void PlaySingle(AudioClip clip)
+    void PlaySingle(AudioClip clip, float volume = 3f)
 	{
         if (efxSource.isPlaying == false)
         {
+//			Debug.Log ("WOW1 " + clip.name);
             //Set the clip of our efxSource audio source to the clip passed in as a parameter.
             efxSource.clip = clip;
-			efxSource.volume = 3;
+			efxSource.volume = volume;
             //Play the clip.
             efxSource.PlayOneShot(clip);
+
         }
         else if (efxSource2.isPlaying == false)
         {
+//			Debug.Log ("WOW2");
+
             //Set the clip of our efxSource audio source to the clip passed in as a parameter.
             efxSource2.clip = clip;
-			efxSource.volume = 3f;
+			efxSource.volume = volume;
             //Play the clip.
             efxSource2.PlayOneShot(clip);
         }
         else 
         {
+//			Debug.Log ("WOW3");
+
             //Set the clip of our efxSource audio source to the clip passed in as a parameter.
             efxSource3.clip = clip;
-			efxSource.volume = 3f;
+			efxSource.volume = volume;
             //Play the clip.
             efxSource3.PlayOneShot(clip);
         }

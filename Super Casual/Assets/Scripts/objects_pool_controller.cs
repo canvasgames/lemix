@@ -16,7 +16,7 @@ public class objects_pool_controller : MonoBehaviour {
 
 	[HideInInspector] public GameObject[] power_ups_pool;
 	[HideInInspector] public PW_Collect[] pw_scripts;
-	int power_ups_pool_size = 4;
+	int power_ups_pool_size = 50;
 	int power_ups_actual_i = 0;
 
 	[HideInInspector] public GameObject[] note_pool;

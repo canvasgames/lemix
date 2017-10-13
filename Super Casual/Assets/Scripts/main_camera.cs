@@ -106,8 +106,13 @@ public class main_camera : MonoBehaviour {
     public void pw_super_jump_end()
     {
         //Debug.Log("[CAMERA] SUPER JUMP END !! ");
-        pw_super_jump = false;
+//        pw_super_jump = false;
+		Invoke("pw_super_jump_end_for_real", 0.3f);
     }
+
+	void pw_super_jump_end_for_real(){
+		pw_super_jump = false;
+	}
 
     public void on_ball_up(float ball_y) {
         if (!moving && ball_y > transform.position.y - globals.s.FLOOR_HEIGHT / 4)//Debug.Log("MY Y POS: " + transform.position.y);  if (globals.s.BALL_Y > transform.position.y)
@@ -136,7 +141,7 @@ public class main_camera : MonoBehaviour {
                 else
                 {
                     // ball is to high
-                    if (globals.s.GAME_STARTED && globals.s.BALL_FLOOR > 1 && globals.s.BALL_GROUNDED && globals.s.BALL_Y > transform.position.y + globals.s.FLOOR_HEIGHT + 1.5f) { 
+					if (globals.s.GAME_STARTED && globals.s.BALL_FLOOR > 1 && globals.s.BALL_GROUNDED && globals.s.PW_SUPER_JUMP == false && globals.s.BALL_Y > transform.position.y + globals.s.FLOOR_HEIGHT + 1.5f) { 
                         OnBallTooHigh();
                     }
 

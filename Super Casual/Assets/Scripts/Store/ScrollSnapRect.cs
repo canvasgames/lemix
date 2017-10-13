@@ -61,7 +61,7 @@ public class ScrollSnapRect : MonoBehaviour, IBeginDragHandler, IEndDragHandler,
     public Text charPrice;
     //------------------------------------------------------------------------
     void Start() {
-		Debug.Log("staaaaaaaaaaaaaaaart scrpççsasdl");
+//		Debug.Log("staaaaaaaaaaaaaaaart scrpççsasdl");
 
         _scrollRectComponent = GetComponent<ScrollRect>();
         _scrollRectRect = GetComponent<RectTransform>();
