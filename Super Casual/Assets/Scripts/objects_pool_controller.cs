@@ -16,7 +16,7 @@ public class objects_pool_controller : MonoBehaviour {
 
 	[HideInInspector] public GameObject[] power_ups_pool;
 	[HideInInspector] public PW_Collect[] pw_scripts;
-	int power_ups_pool_size = 50;
+	int power_ups_pool_size = 5;
 	int power_ups_actual_i = 0;
 
 	[HideInInspector] public GameObject[] note_pool;
@@ -109,14 +109,16 @@ public class objects_pool_controller : MonoBehaviour {
 		if (!globals.s.PW_SUPER_JUMP) {
 			foreach(GameObject bg in bgs1_pool){
 				if (bg !=null && bg.transform.position.x == 0 && bg.transform.position.y < main_camera.s.transform.position.y - 14f) {
-					Destroy(bg);
+//					Destroy(bg);
+					bg.SetActive(false);
 					//Debug.Log ("DESTROYING BG 1 =) ... My pos: "+ bg.transform.position.y + "  CAMERA POS: " +main_camera.s.transform.position.y );
 				}
 			}
 
 			foreach(GameObject bg in bgs2_pool){
 				if (bg !=null && bg.transform.position.x == 0 && bg.transform.position.y < main_camera.s.transform.position.y - 14f) {
-					Destroy(bg);
+					bg.SetActive(false);
+//					Destroy(bg);
 					//Debug.Log ("DESTROYING BG 2 =) ... My pos: "+ bg.transform.position.y + "  CAMERA POS: " +main_camera.s.transform.position.y );
 				}
 			}
@@ -398,7 +400,6 @@ public class objects_pool_controller : MonoBehaviour {
 	}
 
 	#endregion
-
 
     #region TRIPE SPIKE THINGS
     public GameObject reposite_triple_spikes(float x_pos, float y_pos)

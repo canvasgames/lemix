@@ -11,13 +11,14 @@ public class main_camera : MonoBehaviour {
     public bool pw_super_jump = false;
     public static main_camera s;
     public bool hitted_on_wall = false;
+	public float  yStart;
 
     void Awake (){ s = this; }
   
      // Use this for initialization
     void Start()
     {
-        
+		yStart = transform.position.y;
         rb = transform.GetComponent<Rigidbody2D>();
 
         // set the desired aspect ratio (the values in this example are

@@ -18,12 +18,18 @@ public class AnalyticController : MonoBehaviour {
             DDNA.Instance.Settings.DebugMode = true;
             DDNA.Instance.Settings.OnInitSendGameStartedEvent = true;
             DDNA.Instance.ClientVersion = clientVersion;
-            DDNA.Instance.StartSDK(
-                "87199148446217602329834496314561",
-                "http://collect7976sprcs.deltadna.net/collect/api",
-                "http://engage7976sprcs.deltadna.net",
-                "00"
-            );
+//            DDNA.Instance.StartSDK(
+//                "87199148446217602329834496314561",
+//                "http://collect7976sprcs.deltadna.net/collect/api",
+//                "http://engage7976sprcs.deltadna.net",
+//                "00"
+//            );
+			DDNA.Instance.StartSDK(
+				"95987570767871968875954773314796",
+				"https://collect10275mscrs.deltadna.net/collect/api",
+				"https://engage10275mscrs.deltadna.net",
+				"00"
+			);
         }
 
         else {
@@ -38,21 +44,56 @@ public class AnalyticController : MonoBehaviour {
         }    
     }
 
+	#region === Report Main Events ===
+
+	EventBuilder DefaultEvent(){
+		EventBuilder eventParams = new EventBuilder();
+
+		eventParams.AddParam("clientVersion", clientVersion);
+		if(USER.s.NEWBIE_PLAYER == 1)
+			eventParams.AddParam("isTutorial", true);
+		else
+			eventParams.AddParam("isTutorial", false);
+
+		eventParams.AddParam("platform", DDNA.Instance.Platform);
+
+		eventParams.AddParam("userHighScore", USER.s.BEST_SCORE);
+		eventParams.AddParam("userTotalVideosWatched", USER.s.TOTAL_VIDEOS_WATCHED);
+
+		eventParams.AddParam("userTotalGamesWithTutorial", USER.s.TOTAL_GAMES_WITH_TUTORIAL);
+		eventParams.AddParam("userTotalGames", USER.s.TOTAL_GAMES);
+		eventParams.AddParam("userTotalSessionGames", DataRecorderController.s.userSessionGames);
+		eventParams.AddParam("userSessionHighscore", DataRecorderController.s.userSessionHighscore);
+		eventParams.AddParam("userCurrentCurrency", USER.s.NOTES);
+		eventParams.AddParam("userTotalCurrency", USER.s.TOTAL_NOTES);
+		eventParams.AddParam("userCurrentChar", globals.s.ACTUAL_STYLE.ToString());
+		eventParams.AddParam("userTotalChars", store_controller.s.nCharsBuyed);
+
+//		eventParams.AddParam("userSessionCurrencyCollected", 0);  ADICIONAR
+//		eventParams.AddParam("userDisksSpinned", 0);  ADICIONAR
+
+
+		//		eventParams.AddParam("userCurrentChar", "0");
+
+		return eventParams;
+	}
+
     public void ReportGameStarted() {
         Debug.Log("[ANAL] REPORTING GAME STARTED");
 //       
 //		EventBuilder eventParams = new EventBuilder();
-//        eventParams.AddParam("clientVersion", clientVersion);
+		EventBuilder eventParams = DefaultEvent();
+
 //        eventParams.AddParam("isTutorial", false);
-//        eventParams.AddParam("missionName", "game started");
-//        //eventParams.AddParam("platform", DDNA.Instance.Platform);
+        eventParams.AddParam("missionName", "game started");
+        //eventParams.AddParam("platform", DDNA.Instance.Platform);
 //        eventParams.AddParam("userHighScore",USER.s.BEST_SCORE);
 //        eventParams.AddParam("userTotalGames", USER.s.TOTAL_GAMES);
 //        eventParams.AddParam("userTotalVideosWatched", USER.s.TOTAL_VIDEOS_WATCHED);
 //        eventParams.AddParam("siteName", siteName);
-//
+
 //		eventParams.AddParam("withPowerUps", globals.s.PW_ACTIVE);
-//
+
 //		eventParams.AddParam("userCurrentCurrency", 0);
 //		eventParams.AddParam("userTotalCurrency", 0);
 
@@ -67,37 +108,35 @@ public class AnalyticController : MonoBehaviour {
 
     public void ReportGameEnded(string killer_wave_name, int duration) {
         Debug.Log("[ANAL] REPORTING GAME ENDED");
-//        EventBuilder eventParams = new EventBuilder();
-//        eventParams.AddParam("clientVersion", clientVersion);
-//
-//        eventParams.AddParam("isTutorial", false);
-//        eventParams.AddParam("missionName", "game ended");
-//       // eventParams.AddParam("platform", DDNA.Instance.Platform);
-//        eventParams.AddParam("userHighScore", USER.s.BEST_SCORE);
-//        eventParams.AddParam("userTotalGames", USER.s.TOTAL_GAMES);
-//        eventParams.AddParam("userTotalVideosWatched", USER.s.TOTAL_VIDEOS_WATCHED);
-//        eventParams.AddParam("userScore", globals.s.BALL_FLOOR);
-//        eventParams.AddParam("killerWaveName", killer_wave_name);
-//        eventParams.AddParam("gameDuration", duration);
+//		EventBuilder eventParams = new EventBuilder();
+		EventBuilder eventParams = DefaultEvent();
+
+        eventParams.AddParam("missionName", "game ended");
+        eventParams.AddParam("userScore", globals.s.BALL_FLOOR+1);
+
+		string killerName = "";
+		if (killer_wave_name == "" || killer_wave_name == null)
+			killerName = "?";
+		else
+			killerName = killer_wave_name;
+			
+		eventParams.AddParam("killerWaveName", killerName);
+        eventParams.AddParam("gameDuration", duration);
 
 		//new
-//		eventParams.AddParam("userTotalSessionGames", 0);
 //
-//		eventParams.AddParam("userCurrentChar", "0");
-//		eventParams.AddParam("userTotalChars", 0);
-//
-//		eventParams.AddParam("userCurrentCurrency", 0);
-//		eventParams.AddParam("userTotalCurrency", 0);
-//		eventParams.AddParam("currencyCollected", 0);
-//
-//		eventParams.AddParam("pwShieldCollected", 0);
-//		eventParams.AddParam("pwVisionCollected", 0);
-//		eventParams.AddParam("pwSuperJumpCollected", 0);
-//		eventParams.AddParam("withPowerUps", globals.s.PW_ACTIVE);
+		eventParams.AddParam("currencyCollected", globals.s.NOTES_COLLECTED);
+		eventParams.AddParam("pwShieldCollected", globals.s.pwShieldCollected);
+		eventParams.AddParam("pwSuperJumpCollected", globals.s.pwSuperJumpCollected);
+		eventParams.AddParam("pwVisionCollected", globals.s.pwVisionCollected);
 
-
-//        DDNA.Instance.RecordEvent("missionCompleted", eventParams);
+        DDNA.Instance.RecordEvent("missionCompleted", eventParams);
     }
+
+	#endregion
+
+	#region === Report Ads ===
+
 
     public void ReportRevive(bool success) {
         Debug.Log("[ANAL] REPORTING REVIVE " + success);
@@ -130,7 +169,6 @@ public class AnalyticController : MonoBehaviour {
 
     public void ReportAdAction(string adName = "bomblast", string action = "closed") {
         Debug.Log("[ANAL] REPORTING AD ACTION");
-
 //        EventBuilder eventParams = new EventBuilder();
 //        eventParams.AddParam("action", action); // "clicked" or "closed"
 //        eventParams.AddParam("adName", adName); // "bomblast or battlepegs 
@@ -149,10 +187,8 @@ public class AnalyticController : MonoBehaviour {
     void Update() {
         if (Input.GetMouseButtonDown(0)) {
             //ReportTest();
-
         }
     }
-
 
     void ReportTest() {
         Debug.Log("REPORTING EVENT!! ");
@@ -183,5 +219,7 @@ public class AnalyticController : MonoBehaviour {
 //        DDNA.Instance.RecordEvent("zeptile", eventParams);
     }
 
+
+	#endregion
 
 }

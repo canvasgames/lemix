@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class Revive_menu_ctrl : MonoBehaviour {
     public GameObject my_time_bar;
     public Text my_text;
-    float duration_time_bar = 3f;
+    float duration_time_bar = 5f;
     float actual_duration;
     float end_time;
 

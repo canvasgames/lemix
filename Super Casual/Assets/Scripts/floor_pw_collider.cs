@@ -26,8 +26,6 @@ public class floor_pw_collider : MonoBehaviour {
                 {
                     daddy.GetComponentInParent<hole_behaviour>().colidded_super_pw();
                 }
-
         }
-
     }
 }

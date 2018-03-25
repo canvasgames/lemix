@@ -24,7 +24,7 @@ public class ball_hero : MonoBehaviour
 
     public Camera camerda;
 
-    private bool son_created = false;
+    public bool son_created = false;
     [HideInInspector]
     public GameObject my_son;
     public GameObject my_alert;
@@ -68,8 +68,9 @@ public class ball_hero : MonoBehaviour
     // START THE DANCE
     void Start()
     {
-        my_id = globals.s.BALL_ID; globals.s.BALL_ID++;
-        //Debug.Log("BALL CREATED! TIME: " + Time.time);
+        my_id = globals.s.BALL_ID; 
+		globals.s.BALL_ID++;
+        Debug.Log(my_id+ ": BALL STARTED TIME: " + Time.time );
         time_dif = Time.time;
 
         //camerda = FindObjectOfType<Camera>;
@@ -169,9 +170,29 @@ public class ball_hero : MonoBehaviour
 		init_my_skin ();
 	}
 
+	float nextTargetSuperJumpY=0;
+
     void Update()
     {
-		// SHOW ALERT
+		// ================= SUPER JUMP START!!!!!!!!!! =====================
+		if (globals.s.PW_SUPER_JUMP == true && transform.position.y >= nextTargetSuperJumpY)
+		{
+			Debug.Log ("passing through floor!!! N: " + my_floor);
+
+			my_floor++;
+			nextTargetSuperJumpY += globals.s.FLOOR_HEIGHT;
+			foreach( floor andar in objects_pool_controller.s.floor_scripts){
+
+				if (andar.my_floor == my_floor+1) {
+					Debug.Log ("FLOOR FOFFFOUNDO floor!!! N: " + andar.my_floor );
+					andar.colidded_super_pw ();
+					//Debug.Log ("PW TRIGGER!! MY FLOOR: " + my_floor);
+					game_controller.s.ball_up (my_floor);
+				}
+			}
+		}
+
+		// ========================  SHOW ALERT ======================
 		if (globals.s.ALERT_BALL == true && son_created == false && game_controller.s.alertDebug == true) {
             globals.s.ALERT_BALL = false;
 			//Debug.Log ("!!!!!!!!!!!!!!!!!!! SHOW ALERT NOW !! ");
@@ -179,7 +200,7 @@ public class ball_hero : MonoBehaviour
             //show_alert();
         }
 
-		// JUMP
+		// ===================== JUMP ============================
 		if (globals.s.GAME_STARTED == true) {
 			if ((Input.GetMouseButtonDown (0) || Input.GetKey ("space")) && globals.s.GAME_STARTED == true) {
 				StartCoroutine (Jump ());
@@ -195,7 +216,7 @@ public class ball_hero : MonoBehaviour
 //			}
 		} else {
 			if (QA.s.DONT_START_THE_GAME == false && globals.s.MENU_OPEN == false && globals.s.curGameScreen == GameScreen.MainMenu && 
-				(Input.GetMouseButtonDown (0) || Input.GetKey ("space")) && Input.mousePosition.y > 90 && Input.mousePosition.y < 430) {
+				(Input.GetMouseButtonDown (0) || Input.GetKey ("space")) && Input.mousePosition.y < 430) {
 //				&& Input.mousePosition.y > -7.3f && Input.mousePosition.y < 1.3f
 //				Debug.Log ("GAME NOT STARTED YET! MENU: " + globals.s.GIFT_ANIMATION);
 //				Debug.Log ("0JJJJJJJUMP! " + Input.mousePosition.y );
@@ -245,87 +266,91 @@ public class ball_hero : MonoBehaviour
         #region ================ Ball Up ====================
 
 		if (globals.s.PW_SUPER_JUMP == false && son_created == false && ((transform.position.x <= globals.s.LIMIT_LEFT + globals.s.BALL_R + 0.3f && rb.velocity.x < 0) ||
-                                     (transform.position.x >= globals.s.LIMIT_RIGHT - globals.s.BALL_R - 0.3f && rb.velocity.x > 0))) {
-            // my_light.SetActive(false);
-            // Destroy(my_light);
-            //Debug.Log ("END REACHED!!!!!!! MY POS: " + transform.position.x + " LEFT: " + globals.s.LIMIT_LEFT + " RIGHT: "  + globals.s.LIMIT_RIGHT);
-            son_created = true;
-            float x_new_pos = 0f;
+		    (transform.position.x >= globals.s.LIMIT_RIGHT - globals.s.BALL_R - 0.3f && rb.velocity.x > 0))) {
+			// my_light.SetActive(false);
+			// Destroy(my_light);
+			Debug.Log ("END REACHED!!!!!!! MY POS: " + transform.position.x + " LEFT: " + globals.s.LIMIT_LEFT + " RIGHT: " + globals.s.LIMIT_RIGHT);
+			son_created = true;
+			float x_new_pos = 0f;
 
-            // define the relative new pos
-            if (transform.position.x < 0) {
-                x_new_pos = globals.s.LIMIT_LEFT - Mathf.Abs(globals.s.LIMIT_LEFT - transform.position.x);
-                //x_new_pos = 0;
-            }
-            else {
-                x_new_pos = globals.s.LIMIT_RIGHT + Mathf.Abs(globals.s.LIMIT_RIGHT - transform.position.x);
-            }
+			// define the relative new pos
+			if (transform.position.x < 0) {
+				x_new_pos = globals.s.LIMIT_LEFT - Mathf.Abs (globals.s.LIMIT_LEFT - transform.position.x);
+				//x_new_pos = 0;
+			} else {
+				x_new_pos = globals.s.LIMIT_RIGHT + Mathf.Abs (globals.s.LIMIT_RIGHT - transform.position.x);
+			}
 
-            //Debug.Log("BALL DESTROYED TIME: " + Time.time + " .. TIME DIF: " + (Time.time - time_dif));
+			//Debug.Log("BALL DESTROYED TIME: " + Time.time + " .. TIME DIF: " + (Time.time - time_dif));
 
 
-            //instantiating my son at the other side of the screen
-            my_son = (GameObject)Instantiate(bola,
-                                              new Vector3(x_new_pos,
-                                                            // (transform.position.y + globals.s.FLOOR_HEIGHT+1), 
-                                                            transform.position.y + globals.s.FLOOR_HEIGHT,
-                                                              0),
-                                              transform.rotation);
+			//instantiating my son at the other side of the screen
+//            my_son = (GameObject)Instantiate(bola,
+//                                              new Vector3(x_new_pos,
+//                                                            // (transform.position.y + globals.s.FLOOR_HEIGHT+1), 
+//                                                            transform.position.y + globals.s.FLOOR_HEIGHT,
+//                                                              0),
+//                                              transform.rotation);
 
+			my_son = BallMaster.s.ReturnInactiveBall ();
+			my_son.transform.position = new Vector2 (x_new_pos, transform.position.y + globals.s.FLOOR_HEIGHT);
+			//                                                            transform.position.y + globals.s.FLOOR_HEIGHT,
             
 
-			PW_controller.s.add_ball(my_son.GetComponent<ball_hero>());
-			BallMaster.s.AddNewBall(my_son.GetComponent<ball_hero>());
+			PW_controller.s.add_ball (my_son.GetComponent<ball_hero> ());
+//			BallMaster.s.AddNewBall(my_son.GetComponent<ball_hero>());
 
-            my_son.GetComponent<Rigidbody2D>().velocity = new Vector2(-rb.velocity.x, rb.velocity.y);
-            //Debug.Log("MMMMMM MY SON VY " + my_son.GetComponent<Rigidbody2D>().velocity.y + " | MY VY: " + rb.velocity.y);
-            my_son.GetComponent<ball_hero>().my_floor = my_floor + 1;
-            my_son.GetComponent<ball_hero>().grounded = grounded;
-
-
-            globals.s.BALL_Y = my_son.transform.position.y;
-            globals.s.BALL_X = my_son.transform.position.x;
-            globals.s.CUR_BALL_SPEED = my_son.GetComponent<Rigidbody2D>().velocity.x;
-
-            my_son.GetComponent<ball_hero>().init_my_skin();
-            if (grounded == false) { 
-                //my_son.GetComponent<ball_hero>().my_skin.GetComponent<Animator>().Play("Jumping", 0,
-                //my_skin.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).normalizedTime);
-                my_skin.GetComponent<Animator>().SetBool("Jumping", true);
-                my_son.GetComponent<ball_hero>().my_skin.GetComponent<Animator>().SetBool("Jumping", true);
-                //Debug.Log("aaaaaaanimator: " + my_skin.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).normalizedTime);
-            }
+			my_son.GetComponent<Rigidbody2D> ().velocity = new Vector2 (-rb.velocity.x, rb.velocity.y);
+			//Debug.Log("MMMMMM MY SON VY " + my_son.GetComponent<Rigidbody2D>().velocity.y + " | MY VY: " + rb.velocity.y);
+			my_son.GetComponent<ball_hero> ().my_floor = my_floor + 1;
+			my_son.GetComponent<ball_hero> ().grounded = grounded;
 
 
-            // CALL GAME CONTROLLER
-            game_controller.s.ball_up(my_floor);
-            // CALL MAIN CAMERA
-            float pos = ((globals.s.BASE_Y + (my_floor+1) * globals.s.FLOOR_HEIGHT) ) + 1f;
-            //Debug.Log("================ CALCULATED POS: " + pos + " MYSON POS: " + globals.s.BALL_Y + "my pos: " + transform.position.y);
-            if (my_floor >= 1) main_camera.s.on_ball_up(pos);
+			globals.s.BALL_Y = my_son.transform.position.y;
+			globals.s.BALL_X = my_son.transform.position.x;
+			globals.s.CUR_BALL_SPEED = my_son.GetComponent<Rigidbody2D> ().velocity.x;
 
-            if(hitted_wall) main_camera.s.hitted_on_wall = false;
+			my_son.GetComponent<ball_hero> ().init_my_skin ();
+			if (grounded == false) { 
+				//my_son.GetComponent<ball_hero>().my_skin.GetComponent<Animator>().Play("Jumping", 0,
+				//my_skin.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).normalizedTime);
+				my_skin.GetComponent<Animator> ().SetBool ("Jumping", true);
+				my_son.GetComponent<ball_hero> ().my_skin.GetComponent<Animator> ().SetBool ("Jumping", true);
+				//Debug.Log("aaaaaaanimator: " + my_skin.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).normalizedTime);
+			}
 
-            // MAKE WALLS POSITION THEMSELVES
-            wall[] paredez = GameObject.FindObjectsOfType(typeof(wall)) as wall[];
-            foreach(wall p in paredez){
-                p.place_me_at_the_other_corner(-my_son.transform.position.x, my_floor + 2);
-            }
 
-			if(USER.s.BEST_SCORE <= 5){
+			// CALL GAME CONTROLLER
+			game_controller.s.ball_up (my_floor);
+			// CALL MAIN CAMERA
+			float pos = ((globals.s.BASE_Y + (my_floor + 1) * globals.s.FLOOR_HEIGHT)) + 1f;
+			//Debug.Log("================ CALCULATED POS: " + pos + " MYSON POS: " + globals.s.BALL_Y + "my pos: " + transform.position.y);
+			if (my_floor >= 1)
+				main_camera.s.on_ball_up (pos);
+
+			if (hitted_wall)
+				main_camera.s.hitted_on_wall = false;
+
+			// MAKE WALLS POSITION THEMSELVES
+			wall[] paredez = GameObject.FindObjectsOfType (typeof(wall)) as wall[];
+			foreach (wall p in paredez) {
+				p.place_me_at_the_other_corner (-my_son.transform.position.x, my_floor + 2);
+			}
+
+			if (USER.s.BEST_SCORE <= 5) {
 //				floor[] floors = GameObject.FindObjectsOfType(typeof(floor)) as floor[];
 //				foreach(floor p in floors){
 //					p.reposite_me_at_the_other_corner(-my_son.transform.position.x, my_floor + 2);
 //				}
 
-				hole_behaviour[] holes = GameObject.FindObjectsOfType(typeof(hole_behaviour)) as hole_behaviour[];
-				foreach(hole_behaviour p in holes){
-					p.reposite_me_at_the_other_corner(-my_son.transform.position.x, my_floor + 3);
+				hole_behaviour[] holes = GameObject.FindObjectsOfType (typeof(hole_behaviour)) as hole_behaviour[];
+				foreach (hole_behaviour p in holes) {
+					p.reposite_me_at_the_other_corner (-my_son.transform.position.x, my_floor + 3);
 				}
 
-				spike[] spks = GameObject.FindObjectsOfType(typeof(spike)) as spike[];
-				foreach(spike p in spks){
-					p.reposite_me_for_FTU(-my_son.transform.position.x, my_floor + 3);
+				spike[] spks = GameObject.FindObjectsOfType (typeof(spike)) as spike[];
+				foreach (spike p in spks) {
+					p.reposite_me_for_FTU (-my_son.transform.position.x, my_floor + 3);
 				}
 			}
 
@@ -335,24 +360,30 @@ public class ball_hero : MonoBehaviour
 				p.place_me_at_the_other_corner(-my_son.transform.position.x, my_floor + 2);
 			}*/
 
-            //my_son = (GameObject)Instantiate (ball_hero, new Vector3 (0, 0, 0), transform.rotation);
-            //Debug.Log("------------ NEW BALL CREATED! MY ID: " +my_id +" time: " + Time.time + " | pos y: " +my_son.transform.position.y + " CAMERA Y: " + main_camera.s.transform.position.y);
+			//my_son = (GameObject)Instantiate (ball_hero, new Vector3 (0, 0, 0), transform.rotation);
+			//Debug.Log("------------ NEW BALL CREATED! MY ID: " +my_id +" time: " + Time.time + " | pos y: " +my_son.transform.position.y + " CAMERA Y: " + main_camera.s.transform.position.y);
 
-        }
+		}
         #endregion
 
         else if (son_created == true && (transform.position.x < globals.s.LIMIT_LEFT - globals.s.BALL_D ||
-                                     transform.position.x > globals.s.LIMIT_RIGHT + globals.s.BALL_D))
-        {
-           // Debug.Log("Destroy me !!!! my pos:" + transform.position.x);
-			BallMaster.s.RemoveBall (this);
-            Destroy(gameObject);
+		               transform.position.x > globals.s.LIMIT_RIGHT + globals.s.BALL_D)) {
+			Debug.Log ("Destroy me !!!! my pos:" + transform.position.x);
+//			BallMaster.s.RemoveBall (this);
+//            Destroy(gameObject);
+			son_created = false;
 
-            //my_light.SetActive(false);
+			gameObject.SetActive (false);
+
+			//my_light.SetActive(false);
             
-        }
+		}
+//		else {
+//			Debug.Log (my_id + ": NEVER REACH HERE... SON CREATED: " + son_created);
+//		}
 
-        if (my_id == globals.s.BALL_ID - 1) {
+//		if (my_id == globals.s.BALL_ID - 1) {
+		if (my_id == BallMaster.s.currentBall) {
             globals.s.BALL_Y = transform.position.y;
             globals.s.BALL_X = transform.position.x;
             globals.s.CUR_BALL_SPEED = rb.velocity.x;
@@ -372,6 +403,8 @@ public class ball_hero : MonoBehaviour
 		if(!is_destroyed) Invoke("create_note_trail",0.07f);
 	}
     #endregion
+
+	#region ======= Jump ==========
 
 	public IEnumerator Jump()
     {
@@ -405,7 +438,9 @@ public class ball_hero : MonoBehaviour
 		if (my_trail != null) my_trail.transform.DOLocalRotate(new Vector3(0, 0, 0), 0.01f, RotateMode.Fast);
     }
 
-#region ========= COLLISIONS ================
+	#endregion
+
+	#region ============ COLLISIONS ================
 
 
 	void OnTriggerEnter2D(Collider2D coll){
@@ -443,6 +478,7 @@ public class ball_hero : MonoBehaviour
 
 		else if (coll.gameObject.CompareTag("Note")) {
 			USER.s.NOTES += 1;
+			USER.s.TOTAL_NOTES += 1;
 			globals.s.NOTES_COLLECTED += 1;
 			hud_controller.si.display_notes(USER.s.NOTES);
 			coll.transform.position = new Vector2 (-9909,-9999);
@@ -552,64 +588,65 @@ public class ball_hero : MonoBehaviour
             globals.s.CAN_REVIVE = true;
             Destroy(coll.gameObject);
         }
-        if (globals.s.PW_SUPER_JUMP == true)
-        {
-			if (coll.gameObject.CompareTag("PW_Trigger") && my_floor < my_floor_after_super_jump)
-            {
-				if (coll.gameObject.GetComponent<floor_pw_collider> () != null) {
-					coll.gameObject.GetComponent<floor_pw_collider> ().unactive_sprite_daddy ();
-					//Debug.Log ("PW TRIGGER!! MY FLOOR: " + my_floor);
-					game_controller.s.ball_up (my_floor);
-					my_floor++;
-				}
-            }
-        }
-
+//        if (globals.s.PW_SUPER_JUMP == true)
+//        {
+//			if (coll.gameObject.CompareTag("PW_Trigger") && my_floor < my_floor_after_super_jump)
+//            {
+//				if (coll.gameObject.GetComponent<floor_pw_collider> () != null) {
+//					coll.gameObject.GetComponent<floor_pw_collider> ().unactive_sprite_daddy ();
+//					//Debug.Log ("PW TRIGGER!! MY FLOOR: " + my_floor);
+//					game_controller.s.ball_up (my_floor);
+//					my_floor++;
+//				}
+//            }
+//        }
     }
 
-    #endregion
 
-    void destroy_me(string killer_wave_name)
-    {
-        ball_hero[] bolas = GameObject.FindObjectsOfType(typeof(ball_hero)) as ball_hero[];
+	void destroy_me(string killer_wave_name)
+	{
+		ball_hero[] bolas = GameObject.FindObjectsOfType(typeof(ball_hero)) as ball_hero[];
 
-        foreach (ball_hero b in bolas) {
-            //Destroy(b.gameObject);
-            b.gameObject.SetActive(false);
-            b.is_destroyed = true;
+		foreach (ball_hero b in bolas) {
+			//Destroy(b.gameObject);
+			b.gameObject.SetActive(false);
+			b.is_destroyed = true;
 
-        }
-        bool with_high_score = false;
+		}
+		bool with_high_score = false;
 
-        if(my_floor > USER.s.BEST_SCORE)
-        {
-            with_high_score = true;
-            floor[] chaozis = GameObject.FindObjectsOfType(typeof(floor)) as floor[];
-            int i;
-            for (i = 0; i < chaozis.Length; i++)
-            {
-                chaozis[i].create_score_game_over(my_floor, 1);
-            }
-        }
-        else if(my_floor > USER.s.DAY_SCORE)
-        {
-            with_high_score = true;
-            floor[] chaozis = GameObject.FindObjectsOfType(typeof(floor)) as floor[];
-            int i;
-            for (i = 0; i < chaozis.Length; i++)
-            {
-                chaozis[i].create_score_game_over(my_floor,2);
-            }
+		if(my_floor > USER.s.BEST_SCORE)
+		{
+			with_high_score = true;
+			floor[] chaozis = GameObject.FindObjectsOfType(typeof(floor)) as floor[];
+			int i;
+			for (i = 0; i < chaozis.Length; i++)
+			{
+				chaozis[i].create_score_game_over(my_floor, 1);
+			}
+		}
+		else if(my_floor > USER.s.DAY_SCORE)
+		{
+			with_high_score = true;
+			floor[] chaozis = GameObject.FindObjectsOfType(typeof(floor)) as floor[];
+			int i;
+			for (i = 0; i < chaozis.Length; i++)
+			{
+				chaozis[i].create_score_game_over(my_floor,2);
+			}
 
-        }
+		}
 
 		if(sound_controller.s != null) sound_controller.s.PlayExplosion();
-        Instantiate(explosion, new Vector3(transform.position.x, transform.position.y, transform.position.z), transform.rotation);
-       
+		Instantiate(explosion, new Vector3(transform.position.x, transform.position.y, transform.position.z), transform.rotation);
+
 		game_controller.s.game_over(killer_wave_name, bolas, with_high_score);
 
 
-    }
+	}
+
+
+    #endregion
 
     public void send_actual_balls()
     {
@@ -643,14 +680,17 @@ public class ball_hero : MonoBehaviour
         if (temp.pw_type == (int) PW_Types.Invencible)
         {
             PW_controller.s.invencible_start();
+			globals.s.pwShieldCollected++;
         }
         else if (temp.pw_type == (int)PW_Types.Super)
         {
             go_up_pw_start();
+			globals.s.pwSuperJumpCollected++;
         }
         else if((temp.pw_type == (int)PW_Types.Sight))
         {
             PW_controller.s.PW_sight_start();
+			globals.s.pwVisionCollected++;
         }
     }
 
@@ -670,6 +710,7 @@ public class ball_hero : MonoBehaviour
         rb.gravityScale = 0;
         rb.isKinematic = true;
 
+		nextTargetSuperJumpY = ((globals.s.BASE_Y + ((my_floor+2) * globals.s.FLOOR_HEIGHT) - 0.7f));
 		float pos = ((globals.s.BASE_Y + ((my_floor+1) * globals.s.FLOOR_HEIGHT) +  (5* globals.s.FLOOR_HEIGHT) + globals.s.FLOOR_HEIGHT / 2 ));
 		main_camera.s.init_PW_super_jump( pos,  (pos-transform.position.y)/20  + 0.5f);
 		target_y = (globals.s.BASE_Y + ((my_floor) * globals.s.FLOOR_HEIGHT) +  (5* globals.s.FLOOR_HEIGHT) + globals.s.FLOOR_HEIGHT / 2 - 0.6f );
@@ -735,7 +776,7 @@ public class ball_hero : MonoBehaviour
         //my_floor += 5;
         appear_floors();
 		if(QA.s.TRACE_PROFUNDITY >=2) Debug.Log ("TIME TO CREATE FLOOR FOR LANDING! !! ");
-		GameObject floor = game_controller.s.create_floor(12, my_floor, false, true);
+		GameObject floor = game_controller.s.create_floor(12, my_floor+1, false, true);
         destroy_spikes();
 		floor.GetComponent<floor> ().pauta.SetActive (false);
         floor.transform.DOMoveX(0, 0.3f);//.OnComplete(pw_super_end);
@@ -956,6 +997,7 @@ public class ball_hero : MonoBehaviour
     {
         symbols.SetActive(active);
     }
+
     #region =========== DEBUG ================
     void back_to_normal_color() {
         GetComponent<SpriteRenderer>().color = Color.white;

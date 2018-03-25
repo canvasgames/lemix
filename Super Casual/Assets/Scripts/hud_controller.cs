@@ -85,9 +85,9 @@ public class hud_controller : MonoBehaviour {
 
 	public void ActivateFirstPw(){
 		if (USER.s.FIRST_PW_CREATED == 0) {
-			firstPw.gameObject.SetActive (true);
-			firstPw.pw_type = 2;
-			firstPw.init_my_icon ();
+//			firstPw.gameObject.SetActive (true);
+//			firstPw.pw_type = 2;
+//			firstPw.init_my_icon ();
 			USER.s.FIRST_PW_CREATED = 1;
 			PlayerPrefs.SetInt("first_pw_created", 1);
 			//PlayerPrefs.SetInt(
@@ -218,7 +218,8 @@ public class hud_controller : MonoBehaviour {
 
 
 	public void Restart(){
-		SceneManager.LoadScene("Gameplay 1");
+//		SceneManager.LoadScene("Gameplay 1");
+		game_controller.s.RewindEffect();
 	}
 	// Update is called once per frame
 	void Update () {

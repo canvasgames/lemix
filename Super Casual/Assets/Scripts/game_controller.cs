@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 
 
 
@@ -8,6 +9,7 @@ public class game_controller : MonoBehaviour {
 
     #region ==== Variables Declaration =======
     public static game_controller s;
+
 
 	public int musicLayerN = 0;
 
@@ -86,6 +88,12 @@ public class game_controller : MonoBehaviour {
     void Awake (){
         
         s = this;
+
+		if (DataRecorderController.s == null) {
+			GameObject instance = Instantiate (Resources.Load ("Prefabs/DataRecorder",
+				                      typeof(GameObject)), Vector3.zero, transform.rotation) as GameObject;
+		}
+
         hole_size = hole_skin.transform.GetComponent<SpriteRenderer>().bounds.size.x;
 
         // Initialize Globals singleton
@@ -124,7 +132,7 @@ public class game_controller : MonoBehaviour {
         globals.s.CAN_RESTART = false;
         globals.s.GAME_STARTED = false;
 		if(sound_controller.s != null) sound_controller.s.play_music();
-       // print("AHHHHHHHHH CORNER LIMIT RIGHT: " + corner_limit_right);
+//        print("AHHHHHHHHH CORNER LIMIT RIGHT: " + corner_limit_right);
         //Time.timeScale = 0.3f;
         last_hole = false;
         last_spike_left = false;
@@ -135,7 +143,7 @@ public class game_controller : MonoBehaviour {
 
 		// Calculate ball speed(SLOT*4)/((480+25)/CASUAL_SPEED_X)
 		globals.s.CAMERA_SPEED = globals.s.FLOOR_HEIGHT / ((globals.s.LIMIT_RIGHT*2 )/ globals.s.BALL_SPEED_X);
-		Debug.Log ("\n============= NEW GAME !!!!!!!!!! =============== USER TOTAL GAMES: " + USER.s.TOTAL_GAMES);
+		Debug.Log ("\n============= NEW GAME !!!!!!!!!! =============== USER TOTAL GAMES: " + USER.s.TOTAL_GAMES_WITH_TUTORIAL);
 
         int count = 0;
         n_floor = 0;
@@ -211,7 +219,8 @@ public class game_controller : MonoBehaviour {
 						wave_found = true;
 					}
 					else
-						wave_found = create_wave_super_easy(i);
+//						wave_found = create_wave_super_easy(i);
+						wave_found = create_wave_easy(i);
 //						wave_found = create_wave_hard(i, 46);
                     break;
 				case 4:
@@ -244,7 +253,7 @@ public class game_controller : MonoBehaviour {
                 }
             }
 
-			if ( n_floor >= 2  && USER.s.TOTAL_GAMES >= 2  && USER.s.NEWBIE_PLAYER == 0 /* && globals.s.PW_ACTIVE*/) {
+			if ( n_floor >= 2  && USER.s.TOTAL_GAMES_WITH_TUTORIAL >= 2  && USER.s.NEWBIE_PLAYER == 0 /* && globals.s.PW_ACTIVE*/) {
                 //Debug.Log(" n floor: " + n_floor + " CREATE PW!! ");
                 create_power_up_logic();
             }
@@ -255,9 +264,10 @@ public class game_controller : MonoBehaviour {
             // if (i > 0) { create_spike_wave(i, globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * i); }
         }
 
-        ball[0].Init_first_ball();
+//		ball[0].Init_first_ball();
+		BallMaster.s.NewGameLogic();
         //wave_ctrl[0].create_new_wave(globals.s.BASE__Y + globals.s.FLOOR_HEIGHT * n_floor);
-
+		Debug.Log("\n ========= GAME MASTER NEW GAME START END ===========");
     }
 
     #endregion
@@ -349,18 +359,34 @@ public class game_controller : MonoBehaviour {
     }
 
 	public void game_over_for_real( bool showGameOverMenu = false) {
-        AnalyticController.s.ReportGameEnded(killer_wave_to_report, time_to_report);
-        PlayerPrefs.SetInt("total_games", USER.s.TOTAL_GAMES + 1);
-        PlayerPrefs.SetInt("notes", USER.s.NOTES);
+		DataRecorderController.s.userSessionGames++;
+		if (globals.s.BALL_FLOOR > DataRecorderController.s.userSessionHighscore)
+			DataRecorderController.s.userSessionHighscore = globals.s.BALL_FLOOR;
+
+		Debug.Log ("SESSION HIGHSCORE: " + DataRecorderController.s.userSessionHighscore + " GAMES : " + DataRecorderController.s.userSessionGames);
+
+		PlayerPrefs.SetInt("total_games", USER.s.TOTAL_GAMES_WITH_TUTORIAL + 1);
+		if(USER.s.NEWBIE_PLAYER == 0) PlayerPrefs.SetInt("total_games_without_tutorial", USER.s.TOTAL_GAMES + 1);
+
+		USER.s.SaveUserNotes ();
+		AnalyticController.s.ReportGameEnded(killer_wave_to_report, time_to_report);
 
 		if (showGameOverMenu) {
 			hud_controller.si.show_game_over (cur_floor + 1, true);
 		}
-
-
     }
+		
+	public void RewindEffect(){
+		main_camera.s.transform.DOMoveY (main_camera.s.yStart, 1f);
 
-    
+		StartCoroutine (RewindStuff ());
+	}
+
+	public IEnumerator RewindStuff(){
+		yield return new WaitForSeconds (1f);
+		Start ();
+	}
+
     #endregion
 
     #region ====== ACTIVATE/UNA LOGIC REVIVE ======
@@ -433,12 +459,12 @@ public class game_controller : MonoBehaviour {
         // create chance check
 //        Debug.Log(" CREATE POWER UPS CHANCE: " + rand + " .. CONDITION: " + ((pw_floors_not_created - pw_dont_create_for_n_floors) * 7));
         // if (!QA.s.NO_PWS && pw_floors_not_created > pw_dont_create_for_n_floors && rand <= 15 && globals.s.PW_ACTIVE == true) {
-		if ((1==1 && pw_floors_not_created > pw_dont_create_for_n_floors  ) || !QA.s.NO_PWS && USER.s.TOTAL_GAMES >= 2 && USER.s.NEWBIE_PLAYER == 0 && ((pw_floors_not_created > pw_dont_create_for_n_floors &&
+		if (!QA.s.NO_PWS && USER.s.TOTAL_GAMES_WITH_TUTORIAL >= 2 && USER.s.NEWBIE_PLAYER == 0 && ((pw_floors_not_created > pw_dont_create_for_n_floors &&
             rand <= (pw_floors_not_created - pw_dont_create_for_n_floors) * 7) || (USER.s.FIRST_PW_CREATED == 0 && !first_pw_created))) {
 
             int my_type = 0;
             rand = Random.Range(0, 100);
-			if (1==1 || rand < 20 || (USER.s.FIRST_PW_CREATED == 0 && !first_pw_created)) {
+			if ( rand < 20 || (USER.s.FIRST_PW_CREATED == 0 && !first_pw_created)) {
 				my_type = (int)PW_Types.Super;
 			} else if (rand < 60 && n_floor > 5) {
 				my_type = (int)PW_Types.Sight;
@@ -656,7 +682,7 @@ public class game_controller : MonoBehaviour {
 		if ((n_floor - 1) % 5 == 0 && n_floor < 25 )
 			return 0;
 
-        if(USER.s.FIRST_HOLE_CREATED == 0 && first_hole_already_created == false && USER.s.TOTAL_GAMES >=1 && n_floor >= 4 ) {
+        if(USER.s.FIRST_HOLE_CREATED == 0 && first_hole_already_created == false && USER.s.TOTAL_GAMES_WITH_TUTORIAL >=1 && n_floor >= 4 ) {
             hole_chance = 90;
         }
         else {
@@ -688,7 +714,7 @@ public class game_controller : MonoBehaviour {
 		int rand = Random.Range(1, 100);
 		int hole_chance = define_hole_chance();
 //		if (QA.s.TRACE_PROFUNDITY >=2) Debug.Log("\n " + n + " ~~~~~~~~~~~~ TRY CREATE SUPER EASY HOLE! ~~~~~~~~~~~~ | rand " + rand + " HOLE CHANCE: " + hole_chance + " N FAILED: " + hole_creation_failed);
-		Debug.Log("\n " + n + " ~~~~~~~~~~~~ TRY CREATE SUPER EASY HOLE! ~~~~~~~~~~~~ | rand " + rand + " HOLE CHANCE: " + hole_chance + " N FAILED: " + hole_creation_failed);
+//		Debug.Log("\n " + n + " ~~~~~~~~~~~~ TRY CREATE SUPER EASY HOLE! ~~~~~~~~~~~~ | rand " + rand + " HOLE CHANCE: " + hole_chance + " N FAILED: " + hole_creation_failed);
 		if (USER.s.FIRST_HOLE_CREATED == 0) hole_chance = 101;
 
 		if (custom_wave == 1) {
@@ -759,7 +785,7 @@ public class game_controller : MonoBehaviour {
 			if (QA.s.TRACE_PROFUNDITY >= 2) Debug.Log("\n " + n + " ======= CREATE WAVE EASY! ========== | rand: " + rand);
 
 			// WALL EXCEPTION
-			if (1==2 && USER.s.BEST_SCORE > 10 && !last_wall &&  ((USER.s.FIRST_WALL_CREATED == 0 && first_wall_already_created == false && USER.s.TOTAL_GAMES >= 1 && n_floor > 4 && rand < 95))) {
+			if (1==2 && USER.s.BEST_SCORE > 10 && !last_wall &&  ((USER.s.FIRST_WALL_CREATED == 0 && first_wall_already_created == false && USER.s.TOTAL_GAMES_WITH_TUTORIAL >= 1 && n_floor > 4 && rand < 95))) {
 				wave_name = "medium_wall_corner_1_spk";
 				if (QA.s.SHOW_WAVE_TYPE == true)
 				{
@@ -929,7 +955,7 @@ public class game_controller : MonoBehaviour {
             if (QA.s.TRACE_PROFUNDITY >= 2) Debug.Log("\n " + n + " ======= CREATE WAVE EASY! ========== | rand: " + rand);
 
             // WALL EXCEPTION
-            if (1==2 && USER.s.BEST_SCORE > 10 && !last_wall &&  ((USER.s.FIRST_WALL_CREATED == 0 && first_wall_already_created == false && USER.s.TOTAL_GAMES >= 1 && n_floor > 4 && rand < 95))) {
+            if (1==2 && USER.s.BEST_SCORE > 10 && !last_wall &&  ((USER.s.FIRST_WALL_CREATED == 0 && first_wall_already_created == false && USER.s.TOTAL_GAMES_WITH_TUTORIAL >= 1 && n_floor > 4 && rand < 95))) {
                 wave_name = "medium_wall_corner_1_spk";
                 if (QA.s.SHOW_WAVE_TYPE == true)
                 {
@@ -1117,7 +1143,7 @@ public class game_controller : MonoBehaviour {
             //rand = 50;
 
             // WALL CORNER + 1 SPK ||___^__|
-			if (!last_wall && n > 10 && ((rand > 0 && rand <= 25) || (USER.s.FIRST_WALL_CREATED == 0 && first_wall_already_created == false && USER.s.TOTAL_GAMES >= 1 && n_floor > 4 && rand < 95 ) )) {
+			if (!last_wall && n > 10 && ((rand > 0 && rand <= 25) || (USER.s.FIRST_WALL_CREATED == 0 && first_wall_already_created == false && USER.s.TOTAL_GAMES_WITH_TUTORIAL >= 1 && n_floor > 4 && rand < 95 ) )) {
                 wave_name = "medium_wall_corner_1_spk";
                 if (QA.s.SHOW_WAVE_TYPE == true)
                 {

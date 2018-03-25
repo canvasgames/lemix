@@ -6,11 +6,11 @@ public class BallMaster : MonoBehaviour {
 	public static BallMaster s;
 //	public ArrayList balls;
 	public List<ball_hero> balls;
+	public GameObject ballPrefab;
+	public int currentBall;
 	// Use this for initialization
 	void Awake(){
 		s = this;
-//		balls = new ArrayList();
-//		balls = new List<ball_hero>();
 	}
 
 	public void AddNewBall(ball_hero b){
@@ -19,6 +19,36 @@ public class BallMaster : MonoBehaviour {
 
 	public void RemoveBall(ball_hero b){
 		balls.Remove (b);
+	}
+
+
+	public void NewGameLogic(){
+		foreach(ball_hero b in balls.ToArray()){
+			b.grounded = false;
+			b.son_created = false;
+		}
+		currentBall = 0;
+
+		balls.ToArray () [1].gameObject.SetActive(false);
+
+		balls.ToArray () [0].gameObject.SetActive(true);
+		balls.ToArray () [0].transform.position = new Vector2 (-4.57f, -6.53f); 
+		balls.ToArray () [0].Init_first_ball ();
+	}
+
+
+	public GameObject ReturnInactiveBall(){
+
+		if (currentBall == 0) {
+			balls.ToArray ()[1].gameObject.SetActive(true);
+			currentBall = 1;
+
+		} else {
+			balls.ToArray ()[0].gameObject.SetActive(true);
+			currentBall = 0;
+		}
+
+		return balls.ToArray () [currentBall].gameObject;
 	}
 
 	public bool CheckIfBallAreGrounded(){

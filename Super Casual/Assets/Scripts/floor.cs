@@ -221,8 +221,8 @@ public class floor : scenario_objects {
     public void activate_colider_super_pw(int floor_actual)
     {
 		//if (gameObject.
-        colliderPW.SetActive(true);
-        colliderPW.GetComponent<Rigidbody2D>().isKinematic = false;
+//        colliderPW.SetActive(true);
+//        colliderPW.GetComponent<Rigidbody2D>().isKinematic = false;
 
         if(my_floor > floor_actual && my_floor < floor_actual+6 && transform.position.x>=0)
         {
@@ -232,7 +232,7 @@ public class floor : scenario_objects {
 
     public void unactivate_colider_super_pw()
     {
-        colliderPW.SetActive(false);
+//        colliderPW.SetActive(false);
     }
 
     public void colidded_super_pw()

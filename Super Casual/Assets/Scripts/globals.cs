@@ -18,6 +18,8 @@ public class globals : MonoBehaviour {
 	public GameScreen curGameScreen;
 	public GameScreen previousGameScreen;
 
+	public int pwSuperJumpCollected = 0, pwVisionCollected, pwShieldCollected = 0;
+
 	public int NOTES_COLLECTED = 0 ;
 	public float TIME_TO_ALLOW_TAP = 0.4f;
 

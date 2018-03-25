@@ -34,7 +34,7 @@ public class store_controller : MonoBehaviour {
 	[HideInInspector]public int rapAlreadyBuyed;
 
 	int[] alreadyBuyed;
-	int nCharsBuyed = 0;
+	public int nCharsBuyed = 0;
 
     public int popPrice = 70;
     public int rockPrice = 50;
@@ -524,7 +524,8 @@ public class store_controller : MonoBehaviour {
 			StartCoroutine (StartRoulleteAnimation ());
 
 			USER.s.NOTES -= globals.s.JUKEBOX_CURRENT_PRICE; 
-			PlayerPrefs.SetInt("notes", USER.s.NOTES);
+
+			USER.s.SaveUserNotes ();
 
 			FTUController.s.SetFirstSongPurchased ();
 

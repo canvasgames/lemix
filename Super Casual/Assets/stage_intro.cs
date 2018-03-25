@@ -54,7 +54,7 @@ public class stage_intro : MonoBehaviour {
 			newTitle.text = "DISCO\nPARTY";
 		}
 		if (stage == 5) {
-			newTitle.text = "BIG\nSHOW";
+			newTitle.text = "MEGA\nSHOW";
 		}
 
 		newTitle.gameObject.SetActive (false);

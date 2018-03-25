@@ -7,9 +7,9 @@ public class USER : MonoBehaviour {
 
 	[HideInInspector] 	public int PW_INTRODUCED, GIFT_INTRODUCED, NEWBIE_PLAYER;
     [HideInInspector]   public int BEST_SCORE, LAST_SCORE, DAY_SCORE;
-    [HideInInspector]   public int TOTAL_GAMES, TOTAL_VIDEOS_WATCHED;
+    [HideInInspector]   public int TOTAL_GAMES_WITH_TUTORIAL, TOTAL_GAMES, TOTAL_VIDEOS_WATCHED;
     [HideInInspector]   public int FIRST_PW_CREATED, FIRST_HOLE_CREATED, FIRST_WALL_CREATED;
-	[HideInInspector]   public int NOTES;
+	[HideInInspector]   public int NOTES, TOTAL_NOTES;
 //    [HideInInspector]   public int N_CHARS_PURCHASED;
     [HideInInspector]
     public int SOUND_MUTED;
@@ -24,12 +24,14 @@ public class USER : MonoBehaviour {
 		//PlayerPrefs.SetInt ("first_game", 0);
         SOUND_MUTED = PlayerPrefs.GetInt("sound_muted", 0);
 
-        NOTES = PlayerPrefs.GetInt("notes", 0);
+		NOTES = PlayerPrefs.GetInt("notes", 0);
+        TOTAL_NOTES = PlayerPrefs.GetInt("total_notes", 0);
 
         BEST_SCORE = PlayerPrefs.GetInt("best", 0);
         LAST_SCORE = PlayerPrefs.GetInt("last_score", 0);
         DAY_SCORE = PlayerPrefs.GetInt("day_best", 0);
-        TOTAL_GAMES = PlayerPrefs.GetInt("total_games", 0);
+		TOTAL_GAMES_WITH_TUTORIAL = PlayerPrefs.GetInt("total_games", 0);
+        TOTAL_GAMES = PlayerPrefs.GetInt("total_games_without_tutorial", 0);
         TOTAL_VIDEOS_WATCHED =  PlayerPrefs.GetInt("total_videos_watched", 0);
 
         // new user variables
@@ -37,14 +39,13 @@ public class USER : MonoBehaviour {
         FIRST_HOLE_CREATED =  PlayerPrefs.GetInt("first_hole_created", 0);
         FIRST_WALL_CREATED =  PlayerPrefs.GetInt("first_wall_created", 0);
 
-
 		PW_INTRODUCED =  PlayerPrefs.GetInt("pw_introduced", 0);
 		GIFT_INTRODUCED = PlayerPrefs.GetInt("gift_introduced", 0);
 		NEWBIE_PLAYER = PlayerPrefs.GetInt("newbie_player", 1); // player already passed through 'hole' tutorial
 
         s = this;
 
-		if (TOTAL_GAMES > 4 && FIRST_PW_CREATED == 1) {
+		if (TOTAL_GAMES_WITH_TUTORIAL > 4 && FIRST_PW_CREATED == 1) {
 			GIFT_INTRODUCED = 1;
 			PlayerPrefs.SetInt("gift_introduced", 1);
 		}
@@ -54,10 +55,12 @@ public class USER : MonoBehaviour {
 	public void AddNotes(int value){
 		Debug.Log ("::::::: USER ADD NOTES CALLED: " + value + " CURRENT NOTES BEFORE: "+ USER.s.NOTES);
 		USER.s.NOTES += value;
+		USER.s.TOTAL_NOTES += value;
 		hud_controller.si.display_notes(USER.s.NOTES);
 		store_controller.s.UpdateUserNotes ();
 
 		PlayerPrefs.SetInt("notes", USER.s.NOTES);
+		PlayerPrefs.SetInt("total_notes", USER.s.TOTAL_NOTES);
 
 //		if (GameOverController.s != null && globals.s.GAME_OVER == 1)
 //			GameOverController.s.Init ();
@@ -65,6 +68,7 @@ public class USER : MonoBehaviour {
 
 	public void SaveUserNotes(){
 		PlayerPrefs.SetInt("notes", USER.s.NOTES);
+		PlayerPrefs.SetInt("total_notes", USER.s.TOTAL_NOTES);
 	}
 
 
