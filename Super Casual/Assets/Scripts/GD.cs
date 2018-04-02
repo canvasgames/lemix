@@ -20,6 +20,8 @@ public class GD : MonoBehaviour {
 
     public static GD s;
 
+	public float FOLLOWER_DELAY = 0.7f;
+
 	public int JUKEBOX_PRICE = 50, JUKEBOX_FTU_PRICE = 5;
 
 	public int[] SCENERY_FLOOR_VALUES;

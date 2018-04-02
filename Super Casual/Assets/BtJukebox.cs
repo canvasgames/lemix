@@ -60,7 +60,7 @@ public class BtJukebox : MonoBehaviour {
 
 	IEnumerator ReadyAnimation(){
 
-		Debug.Log ("BT JUKEBOX MY READY ANIMATION!!!");
+		if (QA.s.TRACE_PROFUNDITY > 0) Debug.Log ("BT JUKEBOX MY READY ANIMATION!!!");
 		if (myReadyEffect) {
 			myReadyEffect.SetActive (true);
 			myReadyEffect.GetComponent<Animator> ().Play ("GlowBlueReadyAnim");

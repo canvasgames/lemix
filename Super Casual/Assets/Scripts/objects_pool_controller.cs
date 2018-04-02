@@ -14,6 +14,8 @@ public class objects_pool_controller : MonoBehaviour {
 
     public GameObject power_ups_prefab, note_trail_prefab, note_prefab, floor_prefab, double_spike_prefab, triple_spike_prefab, squares_floor_prefab, scores_floor_prefab;
 
+	[HideInInspector] public GameObject[] holesPool;
+
 	[HideInInspector] public GameObject[] power_ups_pool;
 	[HideInInspector] public PW_Collect[] pw_scripts;
 	int power_ups_pool_size = 5;
@@ -77,6 +79,50 @@ public class objects_pool_controller : MonoBehaviour {
 	#endregion
 
 	#region ===== INIT =====
+
+	public void ClearPoolForRestart(){
+		int i;
+		for(i=0; i<floor_pool_size; i++){
+			//			floor_pool [i].SetActive (false);
+			floor_pool [i].transform.position = new Vector2(-1000,-1000);
+		}
+		floor_pool_actual_i = 0;
+
+		for(i=0; i<note_pool_size; i++){
+			note_pool[i].transform.position = new Vector2(-1000,-1000);
+		}
+		note_pool_actual_i = 0;
+
+		for(i=0; i<note_trail_pool_size; i++){
+			note_trail_pool[i].transform.position = new Vector2(-1000,-1000);
+		}
+		note_trail_pool_actual_i = 0;
+
+		for (i = 0; i < double_spikes_pool_size; i++){
+			double_spikes_pool[i].transform.position = new Vector2(-1000,-1000);
+		}
+		double_spikes_pool_actual_i = 0;
+
+		for (i = 0; i < triple_spikes_pool_size; i++){
+			triple_spikes_pool[i].transform.position = new Vector2(-1000,-1000);
+		}
+		triple_spikes_pool_actual_i = 0;
+
+		for (i = 0; i < squares_floor_pool_size; i++){
+			squares_floor_pool[i].transform.position = new Vector2(-1000,-1000);
+		}
+		squares_floor_pool_actual_i = 0;
+
+		for (i = 0; i < scores_floor_pool_size; i++){
+			scores_floor_pool[i].transform.position = new Vector2(-1000,-1000);
+		}
+		scores_floor_pool_actual_i = 0;
+
+		for (i = 0; i < power_ups_pool_size; i++){
+			power_ups_pool[i].transform.position = new Vector2(-1000,-1000);
+		}
+		power_ups_actual_i = 0;
+	}
 
     void Awake()
     {
@@ -280,6 +326,7 @@ public class objects_pool_controller : MonoBehaviour {
             if (floor_pool[floor_pool_actual_i].GetComponent<floor>() !=null)
             {
                 floor_pool[floor_pool_actual_i].GetComponent<floor>().clear_flags_reposite();
+//				Debug.Log ("[OBJECTS POO] FLOOR: CLEAR FLAG REPOSITE!!");
             }
             else
             {
@@ -461,10 +508,6 @@ public class objects_pool_controller : MonoBehaviour {
                 squares_floor_pool_actual_i = 0;
             }
 
-
-           
-        
-
        // return repos_squares;
 
     }
@@ -509,7 +552,7 @@ public class objects_pool_controller : MonoBehaviour {
 
     public GameObject reposite_score(float x_pos, float y_pos)
     {
-        
+		scores_floor_pool [scores_floor_pool_actual_i].SetActive (true);
         scores_floor_pool[scores_floor_pool_actual_i].transform.position = new Vector3(x_pos, y_pos, 0);
         GameObject repositing_score = scores_floor_pool[scores_floor_pool_actual_i];
 

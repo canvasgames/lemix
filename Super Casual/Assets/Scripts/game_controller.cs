@@ -10,6 +10,7 @@ public class game_controller : MonoBehaviour {
     #region ==== Variables Declaration =======
     public static game_controller s;
 
+	bool firstNewGame = true;
 
 	public int musicLayerN = 0;
 
@@ -115,38 +116,29 @@ public class game_controller : MonoBehaviour {
         last_hole = false;
         last_wall = false;
 
-
     }
 
     #endregion
 
     #region ====== SCENE START =======
 	public bool alertDebug = false;
+
 	void Alert_unbug(){
 		globals.s.ALERT_BALL = false;
 		alertDebug = true;
 	}
     void Start () {
 		Invoke ("Alert_unbug", 3f);
-        globals.s.GAME_OVER = 0;
-        globals.s.CAN_RESTART = false;
-        globals.s.GAME_STARTED = false;
-		if(sound_controller.s != null) sound_controller.s.play_music();
-//        print("AHHHHHHHHH CORNER LIMIT RIGHT: " + corner_limit_right);
-        //Time.timeScale = 0.3f;
-        last_hole = false;
-        last_spike_left = false;
-        last_spike_right = false;
-        last_wall = false;
-        first_hole_already_created = false;
-        first_wall_already_created = false;
+		if(sound_controller.s != null && firstNewGame == true) sound_controller.s.play_music();
+        
+		ResetStuffForNewGame ();
 
 		// Calculate ball speed(SLOT*4)/((480+25)/CASUAL_SPEED_X)
 		globals.s.CAMERA_SPEED = globals.s.FLOOR_HEIGHT / ((globals.s.LIMIT_RIGHT*2 )/ globals.s.BALL_SPEED_X);
 		Debug.Log ("\n============= NEW GAME !!!!!!!!!! =============== USER TOTAL GAMES: " + USER.s.TOTAL_GAMES_WITH_TUTORIAL);
 
         int count = 0;
-        n_floor = 0;
+        
 		float ftu_spk_pos = 0;
         // create initial platforms
         for (int i = 0; i < 6; i++)
@@ -265,8 +257,10 @@ public class game_controller : MonoBehaviour {
         }
 
 //		ball[0].Init_first_ball();
-		BallMaster.s.NewGameLogic();
+//		BallMaster.s.NewGameLogic();
+		if(firstNewGame == true) BallMaster.s.NewGameLogic();
         //wave_ctrl[0].create_new_wave(globals.s.BASE__Y + globals.s.FLOOR_HEIGHT * n_floor);
+		firstNewGame = false;
 		Debug.Log("\n ========= GAME MASTER NEW GAME START END ===========");
     }
 
@@ -375,19 +369,81 @@ public class game_controller : MonoBehaviour {
 			hud_controller.si.show_game_over (cur_floor + 1, true);
 		}
     }
-		
-	public void RewindEffect(){
-		main_camera.s.transform.DOMoveY (main_camera.s.yStart, 1f);
 
+    #endregion
+
+	#region ==== RESTART====
+
+	public void RewindEffect(){
+		
 		StartCoroutine (RewindStuff ());
 	}
 
 	public IEnumerator RewindStuff(){
-		yield return new WaitForSeconds (1f);
+		GameOverController.s.gameObject.SetActive (false);
+		hud_controller.si.DisplayRestartLoading ();
+		BallMaster.s.DeactivateBallsForRestart ();
+
+
+		yield return new WaitForSeconds (0.35f);
+
+//		main_camera.s.transform.DOMoveY (main_camera.s.yStart, 1.5f);
+		main_camera.s.transform.position = new Vector2 (0, main_camera.s.yStart);
+
+		yield return new WaitForSeconds (0.01f);
+		objects_pool_controller.s.ClearPoolForRestart();
+
+		yield return new WaitForSeconds (1.5f);
+
+//		hud_controller.si.HideRestartLoading ();
+
+//		yield return new WaitForSeconds (0.35f);
+
+		hud_controller.si.MainMenuEntranceForRestart ();
+
+		//CLEAR THE POOL
+
+		//RESET THE MUSIC
+
+		// BLACK SCREEN AND MOTIVATIONAL PHRASE
+		ResetStuffForNewGame();
+
+		BallMaster.s.NewGameLogic();
+
 		Start ();
+
 	}
 
-    #endregion
+	void ResetStuffForNewGame(){
+		cur_floor = -1;
+		n_floor = 0;
+
+		globals.s.GAME_OVER = 0;
+		globals.s.CAN_RESTART = false;
+		globals.s.GAME_STARTED = false;
+
+		globals.s.MENU_OPEN = false;
+
+		globals.s.BALL_Y = -8f;
+		globals.s.BALL_X = -4f;
+		globals.s.BALL_FLOOR = 0;
+//		globals.s. = 0;
+
+		//        print("AHHHHHHHHH CORNER LIMIT RIGHT: " + corner_limit_right);
+		//Time.timeScale = 0.3f;
+
+		//
+
+		//Wave creation Stuff
+		last_hole = false;
+		last_spike_left = false;
+		last_spike_right = false;
+		last_wall = false;
+		first_hole_already_created = false;
+		first_wall_already_created = false;
+	}
+
+	#endregion
 
     #region ====== ACTIVATE/UNA LOGIC REVIVE ======
     public void store_unactive_balls(ball_hero[] ball_hero)
@@ -476,7 +532,7 @@ public class game_controller : MonoBehaviour {
             first_pw_created = true;
 			hud_controller.si.ActivateFirstPw ();
             // int my_type = Random.Range((int)PW_Types.Invencible, (int)PW_Types.Sight + 1);
-			Debug.Log ("---------- cREATE PW !! TYPE: " + my_type + " FIRST PW CREATED " + USER.s.FIRST_PW_CREATED);
+			if (QA.s.TRACE_PROFUNDITY > 0) Debug.Log ("---------- cREATE PW !! TYPE: " + my_type + " FIRST PW CREATED " + USER.s.FIRST_PW_CREATED);
 
             create_pw_icon(Random.Range(corner_limit_left + 0.7f, corner_limit_right - 0.7f), n_floor, my_type);
 

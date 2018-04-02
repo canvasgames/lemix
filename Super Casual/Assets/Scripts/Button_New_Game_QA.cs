@@ -11,8 +11,8 @@ public class Button_New_Game_QA : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (globals.s.GAME_STARTED)
-            Invoke("destroy_me", 1f);
+//        if (globals.s.GAME_STARTED)
+//            Invoke("destroy_me", 1f);
 
     }
 
@@ -22,6 +22,7 @@ public class Button_New_Game_QA : MonoBehaviour {
 
     public void click()
     {
+
         hud_controller.si.HUD_BUTTON_CLICKED = true;
         cont_click++;
         if (cont_click >= 1)

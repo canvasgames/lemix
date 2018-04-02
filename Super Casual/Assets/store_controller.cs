@@ -459,12 +459,13 @@ public class store_controller : MonoBehaviour {
 
     void changeActualCharSkin()
     {
-        ball_hero[] balls = FindObjectsOfType(typeof(ball_hero)) as ball_hero[];
-        for(int i=0;i<balls.Length;i++)
-        {
-//			balls[i].changeSkinChar();
-			balls[i].UpdateMySkin();
-        }
+		BallMaster.s.UpdateBallsSkin ();
+//        ball_hero[] balls = FindObjectsOfType(typeof(ball_hero)) as ball_hero[];
+//        for(int i=0;i<balls.Length;i++)
+//        {
+////			balls[i].changeSkinChar();
+//			balls[i].UpdateMySkin();
+//        }
     }
     #endregion
 

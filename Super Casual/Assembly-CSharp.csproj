@@ -73,6 +73,7 @@
      <Compile Include="Assets\Demigiant\DOTween\Examples\Sequences.cs" />
      <Compile Include="Assets\Demigiant\DOTween\MenuItems.cs" />
      <Compile Include="Assets\FTUController.cs" />
+     <Compile Include="Assets\Follower.cs" />
      <Compile Include="Assets\GameOverController.cs" />
      <Compile Include="Assets\GiftAnimationLogic.cs" />
      <Compile Include="Assets\GiftButton.cs" />

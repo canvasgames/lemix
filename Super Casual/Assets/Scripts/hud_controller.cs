@@ -7,47 +7,65 @@ using System;
 using UnityEngine.Advertisements;
 
 public class hud_controller : MonoBehaviour {
+
 	#region === Variables Declaration ===
+	public static hud_controller si;
 
 	public GameObject handTapToPlay;
 
 	public GameObject jukeboxBtMainMenu;
 
-	public PW_Collect firstPw;
-	public GameObject giftBt;
-	public GameObject giftAnimation;
-	public GameObject giftChar;
-    public static hud_controller si;
 
     [HideInInspector]
     public bool HUD_BUTTON_CLICKED = false;
 
 	public GameObject store_label;
 
+	[Space (5)]
+	[Header ("Restart")]
+	public GameObject restartScreen;
+	public GameObject restartBlackBG;
+	public GameObject restartMotivationalPhrase;
+	public GameObject restartDisk;
+	public GameObject restartDiskGroup;
+
+
+	[Space (5)]
+	[Header ("Career Over")]
     public GameObject game_over_text;
 	public GameObject game_over_score;
 	public GameObject game_over_best;
 
+	[Space (5)]
+	[Header ("GAMEPLAY")]
 	public GameObject gameplah_hud_label;
     public GameObject floor;
     public GameObject best;
     public GameObject notes;
 
+	[Space (5)]
+	[Header ("MAIN MENU")]
     public GameObject intro_label;
 
 	public GameObject header;
 	public GameObject game_title;
-	public GameObject pw_info;
 
+	public GameObject bottomLabel;
     public GameObject activate_pw_bt;
 
+	[Space (5)]
+	[Header ("REVIVE")]
     public GameObject revive;
     public GameObject video;
     public GameObject ready;
     //public GameObject v_pw_on;
+	public GameObject start_game_bt;
+
+	[Space (10)]
+	[Header ("SPIN DISK")]
+	public PwWheelMaster roda_a_roda;
 	public GameObject pw_time_bar;
 	public GameObject pw_time_left_title_on, roullete_time_left, gift_time_left;
-	public PwWheelMaster roda_a_roda;
 
 	public Text pw_Text_Header;
     public Text PW_time_text;
@@ -55,7 +73,6 @@ public class hud_controller : MonoBehaviour {
 	public bool giftAnimationEnded = false;
 
 
-	public GameObject start_game_bt;
 
     string PW_date, roullete_date, gift_date;
     DateTime tempDate;
@@ -71,6 +88,13 @@ public class hud_controller : MonoBehaviour {
     public bool runningRoullete;
 
     bool flagVideoPower = false, flagVideoRevive = false, flagVideoCoins = false;
+
+	public GameObject giftBt;
+	public GameObject giftAnimation;
+	public GameObject giftChar;
+
+	public PW_Collect firstPw;
+
     // Use this for initialization
     void Awake()
     {
@@ -98,6 +122,8 @@ public class hud_controller : MonoBehaviour {
     void Start () {
 		Advertisement.Initialize ("1194074");
 
+//		game_title_y = game_title.transform.position.y;
+		game_title_y = header.transform.position.y;
 		//Invoke ("GiftButtonClicked", 1f);
 
         display_best(USER.s.BEST_SCORE);
@@ -155,7 +181,6 @@ public class hud_controller : MonoBehaviour {
             }
             else
             {
-
                 CAN_ROTATE_ROULETTE = false;
 				if(activate_pw_bt.activeInHierarchy) activate_pw_bt.GetComponent<Button> ().interactable = false;
 
@@ -217,62 +242,6 @@ public class hud_controller : MonoBehaviour {
     }
 
 
-	public void Restart(){
-//		SceneManager.LoadScene("Gameplay 1");
-		game_controller.s.RewindEffect();
-	}
-	// Update is called once per frame
-	void Update () {
-
-        //GAME OVER GAME CASE
-        //if(Input.GetMouseButtonDown(0))
-        //   Debug.Log("ueeeeeeeeeeeeeeeeee epaaaaaaaaaaaaaaaaaaa epa, veja la como fala sua " + globals.s.CAN_RESTART);
-       // Debug.Log(globals.s.PW_ACTIVE);
-//        if (globals.s.CAN_RESTART && Input.GetMouseButtonDown(0))
-//        {
-//            //Application.LoadLevel("Gameplay");
-//            //Application.LoadLevel()
-//            
-//            SceneManager.LoadScene("Gameplay 1");
-//        }
-		if (USER.s.NEWBIE_PLAYER == 0 && globals.s.FIRST_GAME == false && globals.s.GAME_STARTED == false)
-        {
-			if (USER.s.NEWBIE_PLAYER == 0) {
-				show_pw_time ();
-				show_roullete_time ();
-			}
-			if ( USER.s.GIFT_INTRODUCED == 1)
-            	show_gift_time();
-        }
-
-
-		if (Input.GetKey ("space") && globals.s.curGameScreen == GameScreen.LevelEnd) {
-			Restart ();
-		}
-
-
-        if (globals.s.GAME_STARTED == false && globals.s.MENU_OPEN == false)
-        {
-			
-
-            if (Input.GetMouseButtonUp(0) && HUD_BUTTON_CLICKED == false)
-            {
-                //globals.s.GAME_STARTED = true;
-               // start_game();
-                
-            }
-            else if(Input.GetMouseButtonDown(0) && HUD_BUTTON_CLICKED == true)
-            {
-                HUD_BUTTON_CLICKED = false;
-            }
-        }
-		if (globals.s.GIFT_ANIMATION == true && giftAnimationEnded == true && Input.GetMouseButtonDown (0)) {
-			giftChar.SetActive (false);
-			giftAnimation.SetActive (false);
-			globals.s.GIFT_ANIMATION = false;
-		}
-    }
-
 	public void start_game_coroutine(){
 		StartCoroutine (start_game ());
 	}
@@ -293,16 +262,13 @@ public class hud_controller : MonoBehaviour {
 //			pw_info.transform.DOLocalMoveY (-GetComponent <RectTransform>().rect.height/2 - pw_info.GetComponent <RectTransform>().rect.height/2
 //				, 0.5f).SetEase (Ease.OutQuad).OnComplete (store_entrance);
 
-			game_title.transform.DOLocalMoveY (game_title.transform.localPosition.y + 700
-					, 0.5f).SetEase (Ease.OutQuart);
-			yield return new WaitForSeconds (0.15f);
+//			game_title.transform.DOLocalMoveY (game_title.transform.localPosition.y + 700
+//					, 0.5f).SetEase (Ease.OutQuart);
+//			yield return new WaitForSeconds (0.15f);
 
 			header.transform.DOLocalMoveY (game_title.transform.localPosition.y + 200
 				, 0.5f).SetEase (Ease.OutQuart);
 			yield return new WaitForSeconds (0.2f);
-
-
-
 
 			hud_entrance ();
 
@@ -315,6 +281,7 @@ public class hud_controller : MonoBehaviour {
 			header.transform.DOLocalMoveY (game_title.transform.localPosition.y + 500
 				, 0.5f).SetEase (Ease.OutQuart);
 			yield return new WaitForSeconds (0.2f);
+
 			hud_entrance ();
 		}
 
@@ -349,7 +316,148 @@ public class hud_controller : MonoBehaviour {
 	}
 
 	#endregion
-    
+
+	#region ==== RESTART ======
+
+	public void OnReplayButtonPressed(){
+		//		SceneManager.LoadScene("Gameplay 1");
+		game_controller.s.RewindEffect();
+	}
+
+	float posX = -2323;
+
+	public void DisplayRestartLoading(){
+//		restartBlackBG.SetActive (true);
+		restartScreen.SetActive (true);
+		restartBlackBG.GetComponent<Image> ().color = new Color (0, 0, 0, 0);
+//		restartBlackBG.GetComponent<Image> ().DOFade (1, 0.25f).OnComplete(RestartSpinDiskEnter);
+		restartBlackBG.GetComponent<Image> ().DOFade (1, 0.25f);
+
+//		restartMotivationalPhrase.GetComponent<Image> ().color = new Color (1, 1, 1, 0);
+//		restartMotivationalPhrase.GetComponent<Image> ().DOFade (1, 0.35f);
+
+		if(posX == -2323) posX = restartDiskGroup.transform.position.x;
+		restartDiskGroup.transform.position = new Vector2 (posX - 1100, 
+			restartDiskGroup.transform.position.y);
+		
+		RestartSpinDiskEnter ();
+	}
+
+	void RestartSpinDiskEnter(){
+
+		restartDiskGroup.transform.DOMoveX (posX, 0.4f).SetEase(Ease.OutCubic);
+
+		float tempo = UnityEngine.Random.Range (2f, 2.6f);
+		float angle = UnityEngine.Random.Range  (-1, -360);
+		float force = UnityEngine.Random.Range (240,250);
+		angle = angle * (force);
+
+		restartDisk.transform.DORotate (new Vector3 (0, 0, angle), 4f, RotateMode.WorldAxisAdd);
+	}
+
+
+
+	public void HideRestartLoading(){
+		//		restartBlackBG.SetActive (true);
+		Debug.Log ("gogogo disk");
+
+		restartBlackBG.GetComponent<Image> ().DOFade (0, 0.35f);
+
+		restartDiskGroup.transform.DOMoveX (posX + 1100f, 0.3f).SetEase(Ease.InCubic);
+//		Debug.Log ("gogogo disk2");
+
+//		restartMotivationalPhrase.GetComponent<Image> ().DOFade (0, 0.35f);
+	}
+
+
+	public void MainMenuEntranceForRestart(){
+
+		restartBlackBG.GetComponent<Image> ().DOFade (0, 0.35f);
+
+//		restartDiskGroup.transform.DOMoveX (posX + 1100f, 0.3f).SetEase(Ease.InCubic);
+//		Debug.Log ("gogogo diskss !! posx: " + posX + " TARGET: " + (posX + 1100f));
+//		restartDiskGroup.transform.DOMoveX ((posX + 1100f), 0.3f).SetEase(Ease.InCubic);
+		restartDiskGroup.transform.DOLocalMoveX ((1000f), 0.3f);
+
+		globals.s.curGameScreen = GameScreen.MainMenu;
+
+//		restartScreen.SetActive (false);
+		intro_label.SetActive (true);
+
+		header.transform.localPosition = new Vector2 (header.transform.localPosition.x, 
+			header.transform.localPosition.y + 450);
+		header.transform.DOMoveY (game_title_y, 0.5f).SetEase (Ease.OutQuad); // NAO TA CORRETO
+
+		float y_start = bottomLabel.transform.localPosition.y; // NAO TA CORRETO
+		bottomLabel.transform.localPosition = new Vector2 (bottomLabel.transform.localPosition.x, 
+			bottomLabel.transform.localPosition.y - 350);
+//		bottomLabel.transform.DOLocalMoveY (y_start, 0.3f).SetEase (Ease.OutQuad).OnComplete(() => restartScreen.SetActive(false));
+		bottomLabel.transform.DOLocalMoveY (y_start, 0.3f).SetEase (Ease.OutQuad);
+
+		handTapToPlay.SetActive (true);
+		Invoke ("DeactivateRestartScreen", 1.5f);
+	}
+
+	void DeactivateRestartScreen(){
+		restartScreen.SetActive (false);
+	}
+		
+	#endregion
+
+	#region ==== Update ====
+	// Update is called once per frame
+	void Update () {
+
+		//GAME OVER GAME CASE
+		//if(Input.GetMouseButtonDown(0))
+		//   Debug.Log("ueeeeeeeeeeeeeeeeee epaaaaaaaaaaaaaaaaaaa epa, veja la como fala sua " + globals.s.CAN_RESTART);
+		// Debug.Log(globals.s.PW_ACTIVE);
+		//        if (globals.s.CAN_RESTART && Input.GetMouseButtonDown(0))
+		//        {
+		//            //Application.LoadLevel("Gameplay");
+		//            //Application.LoadLevel()
+		//            
+		//            SceneManager.LoadScene("Gameplay 1");
+		//        }
+		if (USER.s.NEWBIE_PLAYER == 0 && globals.s.FIRST_GAME == false && globals.s.GAME_STARTED == false)
+		{
+			if (USER.s.NEWBIE_PLAYER == 0) {
+				show_pw_time ();
+				show_roullete_time ();
+			}
+			if ( USER.s.GIFT_INTRODUCED == 1)
+				show_gift_time();
+		}
+
+
+		if (Input.GetKey ("space") && globals.s.curGameScreen == GameScreen.LevelEnd) {
+			OnReplayButtonPressed ();
+		}
+
+
+		if (globals.s.GAME_STARTED == false && globals.s.MENU_OPEN == false)
+		{
+
+
+			if (Input.GetMouseButtonUp(0) && HUD_BUTTON_CLICKED == false)
+			{
+				//globals.s.GAME_STARTED = true;
+				// start_game();
+
+			}
+			else if(Input.GetMouseButtonDown(0) && HUD_BUTTON_CLICKED == true)
+			{
+				HUD_BUTTON_CLICKED = false;
+			}
+		}
+		if (globals.s.GIFT_ANIMATION == true && giftAnimationEnded == true && Input.GetMouseButtonDown (0)) {
+			giftChar.SetActive (false);
+			giftAnimation.SetActive (false);
+			globals.s.GIFT_ANIMATION = false;
+		}
+	}
+	#endregion
+
 	#region ========== Store ==========
 	float pw_info_y, game_title_y;
 

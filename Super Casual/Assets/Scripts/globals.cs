@@ -34,7 +34,7 @@ public class globals : MonoBehaviour {
 
     public int BALL_ID = 0;
     public float BALL_Y = -8f;
-    public float BALL_X;
+    public float BALL_X = -4f;
     public float CUR_BALL_SPEED;
     public int BALL_FLOOR = 0;
     public bool BALL_GROUNDED = true;
@@ -56,7 +56,6 @@ public class globals : MonoBehaviour {
 	[HideInInspector] public int JUKEBOX_CURRENT_PRICE;
 
 	[HideInInspector] public float CANVAS_X_LEFT, CANVAS_X_RIGHT, CANVAS_Y_TOP, CANVAS_Y_BOTTOM;
-
 
     [HideInInspector] public bool PW_ACTIVE;
     [HideInInspector] public bool PW_INVENCIBLE = false;

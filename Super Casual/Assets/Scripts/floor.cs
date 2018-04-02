@@ -5,6 +5,7 @@ using DG.Tweening;
 
 public class floor : scenario_objects {
 
+	#region === VARS ===
    // public int my_floor;
 	public hole_behaviour my_hole;
     public GameObject QA_wave_name;
@@ -20,10 +21,14 @@ public class floor : scenario_objects {
 	public bool already_placed = false;
 	public GameObject pauta;
 
+	#endregion
+
     // Use this for initialization
     void Start () {
         i_am_floor = true;
         //glow_animation_wait();
+
+//		Invoke ("clear_flags_reposite", 2f);
     }
 
     public void glow_animation_start() {
@@ -43,6 +48,7 @@ public class floor : scenario_objects {
 		my_lines_glow.GetComponent<SpriteRenderer>().DOFade(0,GD.s.GlowOutTime);
     }
 
+	#region === NEW HIGHSCORE === 
     public void check_if_have_score()
     {
         if(my_floor > 1)
@@ -158,8 +164,7 @@ public class floor : scenario_objects {
         create_score_text(score_type);
 
     }
-
-
+		
     public void create_score_text(int score_type)
     {
 
@@ -218,6 +223,10 @@ public class floor : scenario_objects {
 
     }
 
+	#endregion
+
+	#region === SUPER JUMP ===
+
     public void activate_colider_super_pw(int floor_actual)
     {
 		//if (gameObject.
@@ -242,14 +251,27 @@ public class floor : scenario_objects {
         my_skin.transform.GetComponent<SpriteRenderer>().enabled = false;
     }
 
+	public void reaper_post_PW_super(int floor)
+	{
+		if(my_floor > floor)
+		{
+			pw_super_collided = false;
+			transform.GetComponent<SpriteRenderer>().enabled = true;
+		}
+	}
+
+	#endregion
+
+	#region === POOL LOGIC ====
 
     public void clear_flags_reposite()
     {
+//        if(my_text != null)
+//        {
+//            Destroy(my_text);   
+//        }
+//		Invoke ("clear_flags_reposite", 2f);
 
-        if(my_text != null)
-        {
-            Destroy(my_text);   
-        }
 		my_hole = null;
         count_blink = 16;
 		repositionable = false;
@@ -257,8 +279,9 @@ public class floor : scenario_objects {
         my_skin.transform.GetComponent<SpriteRenderer>().enabled = true;
 		if(!pauta.activeInHierarchy) pauta.SetActive (true);
         my_skin.GetComponent<SpriteRenderer>().color = Color.black;
-        foreach( floor_note a in my_notes_fg) {
-            a.GetComponent<SpriteRenderer>().enabled = false;
+        
+		foreach(floor_note a in my_notes_fg) {
+			a.mySR.enabled = false;
             a.already_appeared = false;
         }
         
@@ -278,14 +301,8 @@ public class floor : scenario_objects {
 			//my_hole.transform.position = transform.position;
 	}
 
-    public void reaper_post_PW_super(int floor)
-    {
-        if(my_floor > floor)
-        {
-            pw_super_collided = false;
-            transform.GetComponent<SpriteRenderer>().enabled = true;
-        }
-    }
+	#endregion
+
    /* void destroy_me_baby()
     {
         Destroy(gameObject);

@@ -57,7 +57,7 @@ public class hole_behaviour : MonoBehaviour
     }
 
     void start_falling() {
-        my_skin.transform.DOMoveY(my_skin.transform.position.y - 8f, 0.8f).OnComplete(() => Destroy(my_skin));
+		my_skin.transform.DOMoveY(my_skin.transform.position.y - 8f, 0.8f).OnComplete(() => GetBacktoMeBaby());
         GetComponent<BoxCollider2D>().enabled = false;
 		already_fallen = true;
 
@@ -66,6 +66,18 @@ public class hole_behaviour : MonoBehaviour
 
 //		my_vision_effect.SetActive (false);
     }
+
+	void GetBacktoMeBaby(){
+		Invoke ("MissedYouSoMuch", 3f);
+	}
+	void MissedYousoMuch(){
+//		my_skin.transform.position.y + 8f;
+		gameObject.SetActive(false);
+//		my_skin.transform.localPosition = new Vector2 (0, 0.8000183f);
+//		already_fallen = false;
+//		GetComponent<BoxCollider2D>().enabled = true;
+	}
+
 
     public void activate_squares()
     {

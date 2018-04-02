@@ -11,6 +11,7 @@ public class BallMaster : MonoBehaviour {
 	// Use this for initialization
 	void Awake(){
 		s = this;
+		Invoke ("Test", 1f);
 	}
 
 	public void AddNewBall(ball_hero b){
@@ -21,13 +22,34 @@ public class BallMaster : MonoBehaviour {
 		balls.Remove (b);
 	}
 
+	public void UpdateBallsSkin(){
+		foreach(ball_hero b in balls.ToArray()){
+			b.UpdateMySkin();
+		}
+	}
+
+
+	public void DeactivateBallsForRestart(){
+		balls.ToArray () [1].gameObject.SetActive(false);
+		balls.ToArray () [0].gameObject.SetActive(false);
+	}
+
+	void Test(){
+		Debug.Log ("0 TTTTTTTEST CALLED");
+		balls.ToArray () [0].test ();
+		Debug.Log ("1 TTTTTTTEST CALLED");
+		balls.ToArray () [1].test ();
+	}
 
 	public void NewGameLogic(){
+		if (QA.s.TRACE_PROFUNDITY > 0) Debug.Log (" BALLMASTER! NEW GAME LOGIC");
 		foreach(ball_hero b in balls.ToArray()){
 			b.grounded = false;
 			b.son_created = false;
 		}
 		currentBall = 0;
+
+		if(balls.ToArray () [1].enabled) balls.ToArray () [1].UpdateMySkin ();
 
 		balls.ToArray () [1].gameObject.SetActive(false);
 
@@ -59,7 +81,6 @@ public class BallMaster : MonoBehaviour {
 
 		return false;
 	}
-
 
 	public void BallFirstJump(){
 		foreach(ball_hero b in balls.ToArray()){

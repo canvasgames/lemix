@@ -4,10 +4,10 @@ using DG.Tweening;
 
 public class floor_note : MonoBehaviour {
     public bool already_appeared = false;
-
+	public SpriteRenderer mySR ;
 	// Use this for initialization
 	void Start () {
-	
+		mySR = GetComponent<SpriteRenderer>();
 	}
 	
 	// Update is called once per frame
@@ -18,7 +18,7 @@ public class floor_note : MonoBehaviour {
             ((globals.s.CUR_BALL_SPEED < 0 && globals.s.BALL_X < transform.position.x)))
             ) {
             already_appeared = true;
-            SpriteRenderer mySR = GetComponent<SpriteRenderer>();
+          
             mySR.enabled = true;
             mySR.color = new Color(mySR.color.r, mySR.color.g, mySR.color.b, 0);
             mySR.DOFade(1, 0.3f);

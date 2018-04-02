@@ -28,7 +28,7 @@ public class activate_pw_button : MonoBehaviour {
 		interactable = false;
 		GetComponent<Button> ().interactable = false;
 
-		Debug.Log ("SET COUNTDOWN STATEWEEE");
+		if (QA.s.TRACE_PROFUNDITY > 0) Debug.Log ("SET COUNTDOWN STATEWEEE");
 
 		// deactivate light effect
 		if(myReadyEffect) myReadyEffect.SetActive (false);

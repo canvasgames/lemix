@@ -6,6 +6,9 @@ public class ball_hero : MonoBehaviour
 {
     #region ==== Variables Declaration =====
 
+	public Follower[] myFollowers;
+
+	MusicStyle myStyle;
 	public GameObject superJumpEffect;
 	public GameObject jetpack;
     public bool is_destroyed = false;
@@ -64,6 +67,9 @@ public class ball_hero : MonoBehaviour
         rb = transform.GetComponent<Rigidbody2D>();
         my_alert.SetActive(false);
     }
+	public void test(){
+		Debug.Log("AAAAAAAAAA");
+	}
 
     // START THE DANCE
     void Start()
@@ -86,10 +92,17 @@ public class ball_hero : MonoBehaviour
         UpdateMySkin();
     }
 
+	void OnEnable(){
+		if (my_skin.activeInHierarchy && myStyle != globals.s.ACTUAL_STYLE) {
+			UpdateMySkin ();
+		}
+	}
+
 	public void UpdateMySkin(){
 //		Debug.Log ("UPDATE MY SKIN: " + globals.s.ACTUAL_STYLE.ToString ());
 //		if(globals.s.ACTUAL_STYLE != MusicStyle.Eletro)
-		my_skin.GetComponent<Animator>().runtimeAnimatorController = 
+		myStyle = globals.s.ACTUAL_STYLE;
+	 	my_skin.GetComponent<Animator>().runtimeAnimatorController = 
 			Resources.Load("Sprites/Animations/" + globals.s.ACTUAL_STYLE.ToString()+"Animator") as RuntimeAnimatorController;
 //		else
 //			my_skin.GetComponent<Animator>().runtimeAnimatorController = Resources.Load("Sprites/Animations/EletronicHero") as RuntimeAnimatorController;
@@ -123,6 +136,10 @@ public class ball_hero : MonoBehaviour
 		}
     }
     
+	public void Init(){
+		my_alert.SetActive (false);
+	}
+
 	public void Init_first_ball()
     {
         if (first_ball == true)
@@ -136,6 +153,8 @@ public class ball_hero : MonoBehaviour
                 rb.velocity = new Vector2(-globals.s.BALL_SPEED_X, 0);
             }
             init_my_skin();
+
+			InitMyFollowersMovement ();
         } 
     }
     
@@ -152,7 +171,8 @@ public class ball_hero : MonoBehaviour
 
     #region ======= UPDATE ==========
 
-	void show_alert() {
+	IEnumerator ShowAlert() {
+		yield return new WaitForSeconds (0.05f);
 		Debug.Log("SHOWING ALERT!! MY FLOOR: " + my_floor);
 		my_alert.SetActive(true);
 		my_alert.transform.localScale = new Vector2(2.3f, 0);
@@ -160,7 +180,7 @@ public class ball_hero : MonoBehaviour
 		if(sound_controller.s != null) sound_controller.s.play_alert();
 	}
 
-	public void activate_pos_revive()
+	public void activate_pos_revive() // TBD FOLLOWERS
 	{
 		if (transform.position.x > 0)
 			rb.velocity = new Vector2(-globals.s.BALL_SPEED_X, rb.velocity.y);
@@ -196,7 +216,8 @@ public class ball_hero : MonoBehaviour
 		if (globals.s.ALERT_BALL == true && son_created == false && game_controller.s.alertDebug == true) {
             globals.s.ALERT_BALL = false;
 			//Debug.Log ("!!!!!!!!!!!!!!!!!!! SHOW ALERT NOW !! ");
-			Invoke("show_alert", 0.05f);
+			StartCoroutine(ShowAlert());
+//			Invoke("show_alert", 0.05f);
             //show_alert();
         }
 
@@ -269,7 +290,7 @@ public class ball_hero : MonoBehaviour
 		    (transform.position.x >= globals.s.LIMIT_RIGHT - globals.s.BALL_R - 0.3f && rb.velocity.x > 0))) {
 			// my_light.SetActive(false);
 			// Destroy(my_light);
-			Debug.Log ("END REACHED!!!!!!! MY POS: " + transform.position.x + " LEFT: " + globals.s.LIMIT_LEFT + " RIGHT: " + globals.s.LIMIT_RIGHT);
+			if (QA.s.TRACE_PROFUNDITY >=1) Debug.Log ("BALL UP: END REACHED!!!!!!! MY POS: " + transform.position.x + " LEFT: " + globals.s.LIMIT_LEFT + " RIGHT: " + globals.s.LIMIT_RIGHT);
 			son_created = true;
 			float x_new_pos = 0f;
 
@@ -319,6 +340,7 @@ public class ball_hero : MonoBehaviour
 				//Debug.Log("aaaaaaanimator: " + my_skin.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).normalizedTime);
 			}
 
+			StartCoroutine(my_son.GetComponent<ball_hero>().InitMyFollowersMovement());
 
 			// CALL GAME CONTROLLER
 			game_controller.s.ball_up (my_floor);
@@ -332,7 +354,7 @@ public class ball_hero : MonoBehaviour
 				main_camera.s.hitted_on_wall = false;
 
 			// MAKE WALLS POSITION THEMSELVES
-			wall[] paredez = GameObject.FindObjectsOfType (typeof(wall)) as wall[];
+			wall[] paredez = GameObject.FindObjectsOfType (typeof(wall)) as wall[]; // TBD
 			foreach (wall p in paredez) {
 				p.place_me_at_the_other_corner (-my_son.transform.position.x, my_floor + 2);
 			}
@@ -366,15 +388,17 @@ public class ball_hero : MonoBehaviour
 		}
         #endregion
 
+		// ===== DEACTIVATE MYSELF !!!!! ===========
         else if (son_created == true && (transform.position.x < globals.s.LIMIT_LEFT - globals.s.BALL_D ||
 		               transform.position.x > globals.s.LIMIT_RIGHT + globals.s.BALL_D)) {
-			Debug.Log ("Destroy me !!!! my pos:" + transform.position.x);
+//			Debug.Log ("Destroy me !!!! my pos:" + transform.position.x);
 //			BallMaster.s.RemoveBall (this);
 //            Destroy(gameObject);
 			son_created = false;
 
+			DeactivateMyFollowers ();
+			my_alert.SetActive(false);
 			gameObject.SetActive (false);
-
 			//my_light.SetActive(false);
             
 		}
@@ -419,7 +443,7 @@ public class ball_hero : MonoBehaviour
 		}
 
         //GetComponent<EdgeCollider2D>().enabled = false;
-        if (grounded == true)
+		if (grounded == true && gameObject.activeInHierarchy)
         {
             // my_trail.transform.localRotation = new Quaternion(0, 0, 110, 0);
 			if (my_trail != null) my_trail.transform.DOLocalRotate(new Vector3(0, 0, 90), 0.01f, RotateMode.Fast);
@@ -430,6 +454,8 @@ public class ball_hero : MonoBehaviour
 
            // my_skin.GetComponent<Animator>().Play("Jumping");
             my_skin.GetComponent<Animator>().SetBool("Jumping", true);
+
+			StartCoroutine (JumpMyFollowers ());
         }
         //else Debug.Log("ÇÇÇÇÇÇÇÇÇÇÇÇÇÇÇ CANT JUMP! I AM NOT GROUNDED");
     }
@@ -438,6 +464,40 @@ public class ball_hero : MonoBehaviour
 		if (my_trail != null) my_trail.transform.DOLocalRotate(new Vector3(0, 0, 0), 0.01f, RotateMode.Fast);
     }
 
+	#endregion
+
+	#region === FOLLOWERS ===
+
+	IEnumerator InitMyFollowersMovement(){
+		Vector2 myPos = transform.position;
+		int i = 1;
+		foreach (Follower f in myFollowers) {
+			yield return new WaitForSeconds (GD.s.FOLLOWER_DELAY * i);
+			f.gameObject.SetActive (true);
+			f.transform.position = myPos;
+			f.InitMovement (rb.velocity);
+			i++;
+		}
+	}
+
+	IEnumerator JumpMyFollowers(){
+		int i = 1;
+		foreach (Follower f in myFollowers) {
+			yield return new WaitForSeconds (GD.s.FOLLOWER_DELAY * i);
+			f.rb.velocity = new Vector2(rb.velocity.x, globals.s.BALL_SPEED_Y);
+			f.JumpOn ();
+			i++;
+		}
+	}
+
+	void DeactivateMyFollowers(){
+		int i = 1;
+		foreach (Follower f in myFollowers) {
+			StartCoroutine (f.DeactivateMe (GD.s.FOLLOWER_DELAY * i));
+			i++;
+		}
+	}
+		
 	#endregion
 
 	#region ============ COLLISIONS ================
