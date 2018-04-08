@@ -62,6 +62,7 @@ public class AnalyticController : MonoBehaviour {
 
 		eventParams.AddParam("userTotalGamesWithTutorial", USER.s.TOTAL_GAMES_WITH_TUTORIAL);
 		eventParams.AddParam("userTotalGames", USER.s.TOTAL_GAMES);
+		eventParams.AddParam("userTutorialGames", USER.s.TUTORIAL_GAMES);
 		eventParams.AddParam("userTotalSessionGames", DataRecorderController.s.userSessionGames);
 		eventParams.AddParam("userSessionHighscore", DataRecorderController.s.userSessionHighscore);
 		eventParams.AddParam("userCurrentCurrency", USER.s.NOTES);

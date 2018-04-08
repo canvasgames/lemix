@@ -15,8 +15,9 @@ public class FTUController : MonoBehaviour {
 		diskIntroduced = PlayerPrefs.GetInt ("diskIntroduced", 0);
 		firstSongPurchased = PlayerPrefs.GetInt ("firstSongPurchased", 0);
 	}
+
 	// Use this for initialization
-	void Start () {
+	public void Start () {
 		if (firstSongPurchased == 0)
 			globals.s.JUKEBOX_CURRENT_PRICE = 5;
 		else

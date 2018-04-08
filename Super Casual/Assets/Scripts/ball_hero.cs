@@ -72,8 +72,7 @@ public class ball_hero : MonoBehaviour
 	}
 
     // START THE DANCE
-    void Start()
-    {
+    void Start(){
         my_id = globals.s.BALL_ID; 
 		globals.s.BALL_ID++;
         Debug.Log(my_id+ ": BALL STARTED TIME: " + Time.time );
@@ -154,7 +153,7 @@ public class ball_hero : MonoBehaviour
             }
             init_my_skin();
 
-			InitMyFollowersMovement ();
+			StartCoroutine(InitMyFollowersMovement ());
         } 
     }
     
@@ -340,7 +339,8 @@ public class ball_hero : MonoBehaviour
 				//Debug.Log("aaaaaaanimator: " + my_skin.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).normalizedTime);
 			}
 
-			StartCoroutine(my_son.GetComponent<ball_hero>().InitMyFollowersMovement());
+//			StartCoroutine(my_son.GetComponent<ball_hero>().InitMyFollowersMovement());
+			my_son.GetComponent<ball_hero>().InitMyFollowers();
 
 			// CALL GAME CONTROLLER
 			game_controller.s.ball_up (my_floor);
@@ -462,30 +462,50 @@ public class ball_hero : MonoBehaviour
 
     void Land() {
 		if (my_trail != null) my_trail.transform.DOLocalRotate(new Vector3(0, 0, 0), 0.01f, RotateMode.Fast);
+
+		if (myFollowers.Length > 0) {
+			LandMyFollowers ();
+		}
     }
 
 	#endregion
 
 	#region === FOLLOWERS ===
 
-	IEnumerator InitMyFollowersMovement(){
+	public void InitMyFollowers(){
+		StartCoroutine(InitMyFollowersMovement());
+	}
+
+	public IEnumerator InitMyFollowersMovement(){
+//		Debug.Log ("IIIIINIT FL. TIME: " + Time.time + " MY POS: " + transform.position);
+
 		Vector2 myPos = transform.position;
-		int i = 1;
-		foreach (Follower f in myFollowers) {
-			yield return new WaitForSeconds (GD.s.FOLLOWER_DELAY * i);
+//		foreach (Follower f in myFollowers) {
+		for (int i=1 ; i <= myFollowers.Length ;  i++) {
+			yield return new WaitForSeconds (GD.s.FOLLOWER_DELAY);
+			Follower f = myFollowers[i-1];
+//			Debug.Log (i+" UPDATING POS FOR FOLLOWER " + myPos + " FOLLOWER LENGHT: " + myFollowers.Length + " TTTIME: "+  (GD.s.FOLLOWER_DELAY_BASE + GD.s.FOLLOWER_DELAY * i));
+//			Debug.Log ("REAL TIME: " +Time.time);
 			f.gameObject.SetActive (true);
 			f.transform.position = myPos;
 			f.InitMovement (rb.velocity);
-			i++;
 		}
 	}
 
 	IEnumerator JumpMyFollowers(){
+		int i = 0;
+		foreach (Follower f in myFollowers) {
+			yield return new WaitForSeconds (GD.s.FOLLOWER_DELAY );
+//			f.rb.velocity = new Vector2(rb.velocity.x, globals.s.BALL_SPEED_Y);
+			f.JumpOn ();
+			i++;
+		}
+	}
+
+	void LandMyFollowers(){
 		int i = 1;
 		foreach (Follower f in myFollowers) {
-			yield return new WaitForSeconds (GD.s.FOLLOWER_DELAY * i);
-			f.rb.velocity = new Vector2(rb.velocity.x, globals.s.BALL_SPEED_Y);
-			f.JumpOn ();
+			StartCoroutine (f.LandOn (GD.s.FOLLOWER_DELAY * i, transform.position.y));
 			i++;
 		}
 	}
@@ -540,6 +560,7 @@ public class ball_hero : MonoBehaviour
 			USER.s.NOTES += 1;
 			USER.s.TOTAL_NOTES += 1;
 			globals.s.NOTES_COLLECTED += 1;
+			globals.s.NOTES_COLLECTED_JUKEBOX += 1;
 			hud_controller.si.display_notes(USER.s.NOTES);
 			coll.transform.position = new Vector2 (-9909,-9999);
 			coll.GetComponent <note_behaviour> ().active = false;
@@ -663,7 +684,7 @@ public class ball_hero : MonoBehaviour
     }
 
 
-	void destroy_me(string killer_wave_name)
+	void destroy_me(string killer_wave_name) //TBD PEGAR A OUTRA BOLA DO BALL MASTER, PEGAR OS FLOOR DA POOL
 	{
 		ball_hero[] bolas = GameObject.FindObjectsOfType(typeof(ball_hero)) as ball_hero[];
 

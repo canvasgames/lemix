@@ -68,6 +68,7 @@ public class PwWheelMaster : MonoBehaviour {
 
 		if (globals.s.GAME_OVER == 1) {
 			globals.s.NOTES_COLLECTED += rewardToGive;
+			globals.s.NOTES_COLLECTED_JUKEBOX += rewardToGive;
 			GameOverController.s.Init ();
 		} else {
 			hud_controller.si.activate_pw_bt.GetComponent<Button> ().interactable = false;

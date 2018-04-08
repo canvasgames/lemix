@@ -37,6 +37,10 @@ public class hud_controller : MonoBehaviour {
 	public GameObject game_over_best;
 
 	[Space (5)]
+	[Header ("New Highscore")]
+	public NewHighscoreScreen myNewHighscoreScreen;
+
+	[Space (5)]
 	[Header ("GAMEPLAY")]
 	public GameObject gameplah_hud_label;
     public GameObject floor;
@@ -249,7 +253,6 @@ public class hud_controller : MonoBehaviour {
 	public IEnumerator start_game()
     {
 		handTapToPlay.SetActive (false);
-        globals.s.FIRST_GAME = false;
         //floor.SetActive(true);
         //best.SetActive(true);
         //notes.SetActive(true);
@@ -456,12 +459,20 @@ public class hud_controller : MonoBehaviour {
 			globals.s.GIFT_ANIMATION = false;
 		}
 	}
+
+	public void update_floor(int n)
+	{
+		if (QA.s.TRACE_PROFUNDITY >= 3) Debug.Log(" NEW FLOOR!!!!!! ");
+		//GetComponentInChildren<TextMesh>().text =  "Floor " + (n+1).ToString();
+		floor.GetComponent<Text>().text = "Floor " + (n + 1).ToString("00");
+	}
+
 	#endregion
 
 	#region ========== Store ==========
 	float pw_info_y, game_title_y;
 
-	public void store_bt_act(){
+		public void store_bt_act(){
 		//pw_info.transform.DOLocalMoveY(pw_info.transform.localPosition.y + pw_info.GetComponent <RectTransform>().rect.height
 		if (globals.s.AT_STORE == false && globals.s.MENU_OPEN == false) {
 			Debug.Log (" MENU HEIGHT: " + game_title.GetComponent <RectTransform>().rect.height + " POS: " + game_title.transform.position.y + " LOCAL Y: " + game_title.transform.localPosition.y);
@@ -478,7 +489,7 @@ public class hud_controller : MonoBehaviour {
 			
 		} else if(globals.s.AT_STORE == true && globals.s.MENU_OPEN == false) { // close store
 			globals.s.AT_STORE = false;
-			store_label.transform.DOLocalMoveY(store_label.GetComponent <RectTransform> ().rect.height
+			store_label.transform.DOLocalMoveY(-200 -store_label.GetComponent <RectTransform> ().rect.height
 				, 0.5f).SetEase (Ease.OutQuad);
 			Invoke ("store_closing", 0.35f);
 		}
@@ -493,7 +504,7 @@ public class hud_controller : MonoBehaviour {
 		store_label.SetActive (true);
 		if(storeY == 99999) storeY = store_label.transform.localPosition.y;
 		store_controller.s.OpenStore ();
-		store_label.transform.localPosition = new Vector3 (0, storeY + store_label.GetComponent <RectTransform> ().rect.height , store_label.transform.localPosition.z);
+		store_label.transform.localPosition = new Vector3 (0, storeY - store_label.GetComponent <RectTransform> ().rect.height , store_label.transform.localPosition.z);
 		store_label.transform.DOLocalMoveY(storeY
 			, 0.5f).SetEase (Ease.OutQuad);
 //		store_controller.s.changeAnimationEquipButton("eletronic");
@@ -520,34 +531,40 @@ public class hud_controller : MonoBehaviour {
 
 	#endregion
 
-	public void update_floor(int n)
-    {
-        if (QA.s.TRACE_PROFUNDITY >= 3) Debug.Log(" NEW FLOOR!!!!!! ");
-        //GetComponentInChildren<TextMesh>().text =  "Floor " + (n+1).ToString();
-        floor.GetComponent<Text>().text = "Floor " + (n + 1).ToString("00");
-    }
-
     #region ============== GAME OVER ================
 
 	public void show_game_over(int currentFloor, bool fromRevive = false)
     {
+		Debug.Log ("[HUD] CURRENT: " + currentFloor + " HIGHS: " + USER.s.BEST_SCORE);
+		if (currentFloor > USER.s.BEST_SCORE) {
+			ShowNewHighscoreScreen ();
 
-        int last_score = PlayerPrefs.GetInt("last_score", currentFloor);
-        int bestFloor = get_and_set_best_score(currentFloor);
-        int dayFloor = get_and_set_day_score(currentFloor);
+		} else {
 
-        PlayerPrefs.SetInt("last_score", currentFloor);
+			if (fromRevive == false)
+				Invoke ("appear_game_over", 0.6f);
+			else
+				Invoke ("appear_game_over", 0.1f);
+		}
 
-        temp_cur_floor = currentFloor;
-        temp_best_floor = bestFloor;
+		// TBD: PASSAR O CODIGO DE SALVAR PARA A CLASSE USER
+		int last_score = USER.s.LAST_SCORE;
+		int bestFloor = get_and_set_best_score(currentFloor);
+		int dayFloor = get_and_set_day_score(currentFloor);
 
-		if (fromRevive == false)
-			Invoke ("appear_game_over", 0.6f);
-		else
-			appear_game_over ();
+		USER.s.SaveLastFloor (currentFloor);
+
+		temp_cur_floor = currentFloor;
+		temp_best_floor = bestFloor;
+
     }
 
-    void appear_game_over()
+	void ShowNewHighscoreScreen(){
+		myNewHighscoreScreen.gameObject.SetActive (true);
+		myNewHighscoreScreen.Init ();
+	}
+
+	public void appear_game_over()
     {
         if(globals.s.GAME_OVER == 1)
         {
@@ -583,6 +600,7 @@ public class hud_controller : MonoBehaviour {
         {
             PlayerPrefs.SetInt("best", cur_floor);
             cur_best = cur_floor;
+			USER.s.BEST_SCORE = cur_floor;
         }
 
         return cur_best;
@@ -604,6 +622,7 @@ public class hud_controller : MonoBehaviour {
             if (cur_floor > day_best)
             {
                 PlayerPrefs.SetInt("day_best", cur_floor);
+				USER.s.DAY_SCORE = cur_floor;
                 day_best = cur_floor;
             }
         }

@@ -76,7 +76,7 @@ public class sound_controller : MonoBehaviour
     {
         if (curFadeIn != null) {
             if (curFadeIn.volume < 1) {
-				if (music_playing > 1) {
+				if (1==1 || music_playing > 1) {
 					curFadeIn.volume += 0.7f * Time.deltaTime;
 					if(curFadeOut != null) curFadeOut.volume -= 0.7f * Time.deltaTime;
 				}/* else {
@@ -181,6 +181,27 @@ public class sound_controller : MonoBehaviour
 	#endregion
 
 	#region ====== Music Update ======
+	public void RestartLogicForMusic() {
+		if (music_playing > 1) {
+			curFadeIn = musicSource;
+			curFadeIn.volume = 0;
+			//TBD CUIDAR A LOJA
+			Debug.Log ("[SOUND CONTROLLER RESTART MUSIC2!!!!! MUSIC PLAYING: " + music_playing);
+			if (music_playing == 2) {
+				curFadeOut = musicSource2;
+			} else if (music_playing == 3) {
+				curFadeOut = musicSource3;
+			} else if (music_playing == 4) {
+				curFadeOut = musicSource4;
+			} else if (music_playing == 5) {
+				curFadeOut = musicSource5;
+			}
+			curFadeIn.Play ();
+			curFadeIn.time = curFadeOut.time;
+			music_playing = 1;
+		}
+	}
+
 	public void update_music() {
 		if(USER.s.SOUND_MUTED == 0) update_music2();
 		/* music_playing++;

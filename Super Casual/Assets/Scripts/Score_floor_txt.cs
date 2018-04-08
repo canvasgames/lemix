@@ -21,7 +21,7 @@ public class Score_floor_txt : MonoBehaviour {
         if(floor == my_floor && type == my_type || destroy_now == true)
         {
             //Destroy(transform.gameObject);
-            transform.position = new Vector3 (50, 50, 0);
+            transform.position = new Vector3 (5000, 50, 0);
         }
     }
 

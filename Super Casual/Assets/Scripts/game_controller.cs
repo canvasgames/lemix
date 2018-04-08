@@ -248,6 +248,7 @@ public class game_controller : MonoBehaviour {
 			if ( n_floor >= 2  && USER.s.TOTAL_GAMES_WITH_TUTORIAL >= 2  && USER.s.NEWBIE_PLAYER == 0 /* && globals.s.PW_ACTIVE*/) {
                 //Debug.Log(" n floor: " + n_floor + " CREATE PW!! ");
                 create_power_up_logic();
+				//
             }
 
             n_floor = i+1;
@@ -335,17 +336,17 @@ public class game_controller : MonoBehaviour {
                 hud_controller.si.show_revive_menu();
                 globals.s.CAN_REVIVE = false;
             }
-            else {
+            else { // NO REVIVE DISPLAYED
                 globals.s.CAN_RESTART = true;
 				hud_controller.si.show_game_over(cur_floor + 1, temp_flag_high_score_game_over);
 
                 game_over_for_real();
             }
         }
-        else
+        else // SHOW VIDEO FOR REVIVE !!!! TBD = MAKE A WARNING OF THE VIDEO FIRST
         {
 			hud_controller.si.show_video_revive();
-			hud_controller.si.show_game_over(cur_floor + 1, temp_flag_high_score_game_over);
+//			hud_controller.si.show_game_over(cur_floor + 1, temp_flag_high_score_game_over);
             AnalyticController.s.ReportGameEnded(killer_wave_to_report, time_to_report);
             //globals.s.SHOW_VIDEO_AFTER = false;
             //globals.s.CAN_RESTART = true;
@@ -359,10 +360,14 @@ public class game_controller : MonoBehaviour {
 
 		Debug.Log ("SESSION HIGHSCORE: " + DataRecorderController.s.userSessionHighscore + " GAMES : " + DataRecorderController.s.userSessionGames);
 
-		PlayerPrefs.SetInt("total_games", USER.s.TOTAL_GAMES_WITH_TUTORIAL + 1);
-		if(USER.s.NEWBIE_PLAYER == 0) PlayerPrefs.SetInt("total_games_without_tutorial", USER.s.TOTAL_GAMES + 1);
-
+		// SAVE STUFF
+		if (USER.s.NEWBIE_PLAYER == 1)
+			PlayerPrefs.SetInt("total_games", USER.s.TOTAL_GAMES_WITH_TUTORIAL + 1);
+		USER.s.SaveUserTotalGames (USER.s.TOTAL_GAMES + 1);
 		USER.s.SaveUserNotes ();
+
+//		if (USER.s.NEWBIE_PLAYER == 0) USER.s.SaveUserTotalGames (USER.s.TOTAL_GAMES + 1);
+
 		AnalyticController.s.ReportGameEnded(killer_wave_to_report, time_to_report);
 
 		if (showGameOverMenu) {
@@ -391,9 +396,13 @@ public class game_controller : MonoBehaviour {
 		main_camera.s.transform.position = new Vector2 (0, main_camera.s.yStart);
 
 		yield return new WaitForSeconds (0.01f);
+		//CLEAR THE POOL
 		objects_pool_controller.s.ClearPoolForRestart();
 
-		yield return new WaitForSeconds (1.5f);
+		yield return new WaitForSeconds (0.75f);
+		//RESET THE MUSIC
+		sound_controller.s.RestartLogicForMusic();
+		yield return new WaitForSeconds (0.75f);
 
 //		hud_controller.si.HideRestartLoading ();
 
@@ -401,9 +410,7 @@ public class game_controller : MonoBehaviour {
 
 		hud_controller.si.MainMenuEntranceForRestart ();
 
-		//CLEAR THE POOL
-
-		//RESET THE MUSIC
+		FTUController.s.Start ();
 
 		// BLACK SCREEN AND MOTIVATIONAL PHRASE
 		ResetStuffForNewGame();
@@ -417,6 +424,8 @@ public class game_controller : MonoBehaviour {
 	void ResetStuffForNewGame(){
 		cur_floor = -1;
 		n_floor = 0;
+
+		globals.s.FIRST_GAME = false;
 
 		globals.s.GAME_OVER = 0;
 		globals.s.CAN_RESTART = false;
@@ -566,8 +575,9 @@ public class game_controller : MonoBehaviour {
             hud_controller.si.update_floor(cur_floor);
             globals.s.BALL_FLOOR = cur_floor;
 
-			if (USER.s.NEWBIE_PLAYER == 1 && cur_floor >= GD.s.FTU_NEWBIE_SCORE)
-				PlayerPrefs.SetInt ("newbie_player", 0);
+			if (USER.s.NEWBIE_PLAYER == 1 && cur_floor >= GD.s.FTU_NEWBIE_SCORE) {
+				USER.s.SetNotNewbiePlayer ();
+			}
 
 			// NEW STAGE WARNING
 			if (globals.s.PW_SUPER_JUMP == false) {
@@ -735,7 +745,8 @@ public class game_controller : MonoBehaviour {
     int define_hole_chance() {
         int hole_chance;
 
-		if ((n_floor - 1) % 5 == 0 && n_floor < 25 )
+		if (((n_floor - 1) % 5 == 0 && n_floor < 25) || 
+			n_floor == USER.s.DAY_SCORE || n_floor == USER.s.LAST_SCORE || n_floor == USER.s.BEST_SCORE || n_floor == USER.s.BEST_SCORE+1) 
 			return 0;
 
         if(USER.s.FIRST_HOLE_CREATED == 0 && first_hole_already_created == false && USER.s.TOTAL_GAMES_WITH_TUTORIAL >=1 && n_floor >= 4 ) {
@@ -2405,6 +2416,7 @@ GameObject instance = Instantiate(Resources.Load("Prefabs/Bgs/Scenario2/bg_"+ran
 				hole.GetComponent<hole_behaviour> ().floor_left = floor_left;
 				hole.GetComponent<hole_behaviour> ().floor_right = floor_right;
 				floor_left.GetComponent<floor> ().my_hole = hole.GetComponent<hole_behaviour> ();
+
             }
 
 

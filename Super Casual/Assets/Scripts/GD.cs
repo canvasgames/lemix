@@ -20,7 +20,7 @@ public class GD : MonoBehaviour {
 
     public static GD s;
 
-	public float FOLLOWER_DELAY = 0.7f;
+	public float FOLLOWER_DELAY = 0.7f, FOLLOWER_DELAY_BASE = 0.1f;
 
 	public int JUKEBOX_PRICE = 50, JUKEBOX_FTU_PRICE = 5;
 

@@ -8,10 +8,12 @@ public class Follower : MonoBehaviour {
 	public Rigidbody2D rb;
 	Animator mySkinAnimator;
 	[SerializeField] float followSharpness = 0.05f;
+	float myXScale;
 
 	void Awake(){
 		rb = GetComponent<Rigidbody2D> ();
 		mySkinAnimator = my_skin.GetComponent<Animator> ();
+		myXScale = my_skin.transform.localScale.x;
 	}
 	// Use this for initialization
 	void Start () {
@@ -32,12 +34,13 @@ public class Follower : MonoBehaviour {
 	}
 
 	public void InitMovement(Vector2 velocity){
+		rb.velocity = Vector2.zero;
 		rb.velocity = velocity;
 		if (velocity.x > 0) {
-			my_skin.transform.localScale = new Vector2(-3, my_skin.transform.localScale.y);
+			my_skin.transform.localScale = new Vector2(-myXScale, my_skin.transform.localScale.y);
 		}
 		else {
-			my_skin.transform.localScale = new Vector2(3, my_skin.transform.localScale.y);
+			my_skin.transform.localScale = new Vector2(myXScale, my_skin.transform.localScale.y);
 		}
 //		init_my_skin();
 	}
@@ -53,7 +56,12 @@ public class Follower : MonoBehaviour {
 			mySkinAnimator.SetBool("Jumping", true);
 	}
 
-
+	public IEnumerator LandOn(float time = 0.2f, float yPos = 0){
+		yield return new WaitForSeconds (time);
+//		transform.position = new Vector2 (transform.position.x, yPos); 
+//		rb.velocity = new Vector2(rb.velocity.x, 0);
+		mySkinAnimator.SetBool("Jumping", false);
+	}
 
 	public void init_my_skin() {
 		if (transform.position.x < 0 ) {

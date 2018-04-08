@@ -7,7 +7,7 @@ public class USER : MonoBehaviour {
 
 	[HideInInspector] 	public int PW_INTRODUCED, GIFT_INTRODUCED, NEWBIE_PLAYER;
     [HideInInspector]   public int BEST_SCORE, LAST_SCORE, DAY_SCORE;
-    [HideInInspector]   public int TOTAL_GAMES_WITH_TUTORIAL, TOTAL_GAMES, TOTAL_VIDEOS_WATCHED;
+    [HideInInspector]   public int TOTAL_GAMES_WITH_TUTORIAL, TOTAL_GAMES, TOTAL_VIDEOS_WATCHED, TUTORIAL_GAMES;
     [HideInInspector]   public int FIRST_PW_CREATED, FIRST_HOLE_CREATED, FIRST_WALL_CREATED;
 	[HideInInspector]   public int NOTES, TOTAL_NOTES;
 //    [HideInInspector]   public int N_CHARS_PURCHASED;
@@ -31,7 +31,9 @@ public class USER : MonoBehaviour {
         LAST_SCORE = PlayerPrefs.GetInt("last_score", 0);
         DAY_SCORE = PlayerPrefs.GetInt("day_best", 0);
 		TOTAL_GAMES_WITH_TUTORIAL = PlayerPrefs.GetInt("total_games", 0);
-        TOTAL_GAMES = PlayerPrefs.GetInt("total_games_without_tutorial", 0);
+//		TOTAL_GAMES = PlayerPrefs.GetInt("total_games_without_tutorial", 0);
+		TOTAL_GAMES = PlayerPrefs.GetInt("total_games", 0);
+		TUTORIAL_GAMES = PlayerPrefs.GetInt("total_tutorial_games", 0);
         TOTAL_VIDEOS_WATCHED =  PlayerPrefs.GetInt("total_videos_watched", 0);
 
         // new user variables
@@ -46,8 +48,8 @@ public class USER : MonoBehaviour {
         s = this;
 
 		if (TOTAL_GAMES_WITH_TUTORIAL > 4 && FIRST_PW_CREATED == 1) {
-			GIFT_INTRODUCED = 1;
-			PlayerPrefs.SetInt("gift_introduced", 1);
+//			GIFT_INTRODUCED = 1;
+//			PlayerPrefs.SetInt("gift_introduced", 1);
 		}
     } 
 
@@ -57,7 +59,7 @@ public class USER : MonoBehaviour {
 		USER.s.NOTES += value;
 		USER.s.TOTAL_NOTES += value;
 		hud_controller.si.display_notes(USER.s.NOTES);
-		store_controller.s.UpdateUserNotes ();
+//		store_controller.s.UpdateUserNotes ();
 
 		PlayerPrefs.SetInt("notes", USER.s.NOTES);
 		PlayerPrefs.SetInt("total_notes", USER.s.TOTAL_NOTES);
@@ -77,13 +79,26 @@ public class USER : MonoBehaviour {
 		globals.s.ACTUAL_STYLE = style;
 	}
 
-	// Use this for initialization
-	void Start () {
-       
-    }
-	
-	// Update is called once per frame
-	void Update () {
-	
+	public void SaveLastFloor(int currentFloor){
+		PlayerPrefs.SetInt("last_score", currentFloor);
+		LAST_SCORE = currentFloor;
 	}
+
+
+	public void SaveUserTotalGames(int n){
+//		PlayerPrefs.SetInt ("total_games_without_tutorial", n);
+		PlayerPrefs.SetInt ("total_games", n);
+		USER.s.TOTAL_GAMES = n;	
+	}
+
+	public void SaveUserTutorialGames(int n){
+		PlayerPrefs.SetInt ("total_games_without_tutorial", n);
+		USER.s.TUTORIAL_GAMES = n;
+	}
+
+	public void SetNotNewbiePlayer(){
+		PlayerPrefs.SetInt ("newbie_player", 0);
+		USER.s.NEWBIE_PLAYER = 0;
+	}
+
 }

@@ -78,44 +78,47 @@ public class GameOverController : MonoBehaviour {
 //			} else {
 //				SpinDiskTryToStartAnimation ();
 //			}
+
+
+			//Jukebox Logic
+
+			if ((USER.s.NOTES - globals.s.NOTES_COLLECTED) < globals.s.JUKEBOX_CURRENT_PRICE) {
+				//			jukeboxIcon.GetComponent<Image> ().color = Color.gray;
+				SetJukeboxProgressState ();
+
+				//			noteXStart = jukeboxNote.transform.localPosition.x;
+				//			float xDif = noteXEnd - noteXStart;
+				//			Debug.Log ("NOTE X START: " + noteXStart + "  NOTE X END: " + noteXEnd + " NOTE DIF: " + xDif);
+				//			float xCurrent = (USER.s.NOTES - globals.s.NOTES_COLLECTED) * xDif / globals.s.JUKEBOX_CURRENT_PRICE;
+				//			xTarget = (USER.s.NOTES) * xDif / globals.s.JUKEBOX_CURRENT_PRICE;
+				//			jukeboxNote.transform.localPosition = new Vector2 (noteXStart + xCurrent, jukeboxNote.transform.localPosition.y);
+
+				DisplayJukeboxNotes (USER.s.NOTES - globals.s.NOTES_COLLECTED);
+
+				float fillDif = 1 - jukeboxBarInitialFill;
+				float fillCurrent = (USER.s.NOTES - globals.s.NOTES_COLLECTED) * fillDif / globals.s.JUKEBOX_CURRENT_PRICE;
+
+				jukeboxGreenBar.GetComponent<Image> ().fillAmount = fillCurrent + jukeboxBarInitialFill;
+				fillTarget = (USER.s.NOTES) * fillDif / globals.s.JUKEBOX_CURRENT_PRICE;
+			} else {
+				StartCoroutine (JukeboxGetNow (0));
+				//			jukeboxNote.transform.localPosition = new Vector2 (xCurrent, 0);
+
+				//			jukeboxGetNow.SetActive (true);
+				//			jukeboxPauta.SetActive(false);
+				//
+				//			BlinkGetNow ();
+				//
+				//			jukeboxNote.transform.localPosition = new Vector2 (noteXEnd, jukeboxNote.transform.localPosition.y);
+				//		
+				//			jukeboxGreenBar.GetComponent<Image> ().fillAmount = 1;
+				//
+				//			jukeboxIcon.GetComponent<Animator>().Play("jukebox icon animation");
+			}
+
+			StartCoroutine (EnteringAnimations ());
+
 		}
-
-		//Jukebox Logic
-		if ((USER.s.NOTES - globals.s.NOTES_COLLECTED) < globals.s.JUKEBOX_CURRENT_PRICE) {
-			//			jukeboxIcon.GetComponent<Image> ().color = Color.gray;
-			SetJukeboxProgressState ();
-
-			//			noteXStart = jukeboxNote.transform.localPosition.x;
-			//			float xDif = noteXEnd - noteXStart;
-			//			Debug.Log ("NOTE X START: " + noteXStart + "  NOTE X END: " + noteXEnd + " NOTE DIF: " + xDif);
-			//			float xCurrent = (USER.s.NOTES - globals.s.NOTES_COLLECTED) * xDif / globals.s.JUKEBOX_CURRENT_PRICE;
-			//			xTarget = (USER.s.NOTES) * xDif / globals.s.JUKEBOX_CURRENT_PRICE;
-			//			jukeboxNote.transform.localPosition = new Vector2 (noteXStart + xCurrent, jukeboxNote.transform.localPosition.y);
-
-			DisplayJukeboxNotes (USER.s.NOTES - globals.s.NOTES_COLLECTED);
-
-			float fillDif = 1 - jukeboxBarInitialFill;
-			float fillCurrent = (USER.s.NOTES - globals.s.NOTES_COLLECTED) * fillDif / globals.s.JUKEBOX_CURRENT_PRICE;
-
-			jukeboxGreenBar.GetComponent<Image> ().fillAmount = fillCurrent + jukeboxBarInitialFill;
-			fillTarget = (USER.s.NOTES) * fillDif / globals.s.JUKEBOX_CURRENT_PRICE;
-		} else {
-			StartCoroutine (JukeboxGetNow (0));
-			//			jukeboxNote.transform.localPosition = new Vector2 (xCurrent, 0);
-
-			//			jukeboxGetNow.SetActive (true);
-			//			jukeboxPauta.SetActive(false);
-			//
-			//			BlinkGetNow ();
-			//
-			//			jukeboxNote.transform.localPosition = new Vector2 (noteXEnd, jukeboxNote.transform.localPosition.y);
-			//		
-			//			jukeboxGreenBar.GetComponent<Image> ().fillAmount = 1;
-			//
-			//			jukeboxIcon.GetComponent<Animator>().Play("jukebox icon animation");
-		}
-
-		StartCoroutine (EnteringAnimations ());
 
 	}
 
@@ -143,7 +146,7 @@ public class GameOverController : MonoBehaviour {
 //		Debug.Log ("22 x pos : "+  jukeboxGroup.transform.position +  " width "+ jukeboxGroup.GetComponent<RectTransform> ().rect.width);
 		}
 
-		if (FTUController.s.diskIntroduced == 1 || USER.s.NEWBIE_PLAYER == 0 || QA.s.OLD_PLAYER == true) {
+		if (globals.s.FIRST_GAME == false && FTUController.s.diskIntroduced == 1 && (USER.s.NEWBIE_PLAYER == 0 || QA.s.OLD_PLAYER == true)) {
 			diskGroup.GetComponent<RectTransform> ().DOLocalMoveX (0, 0.5f).SetEase (Ease.OutCubic).OnComplete(SpinDiskTryToStartAnimation);
 			yield return new WaitForSeconds (0.25f);
 

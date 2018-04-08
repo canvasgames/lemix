@@ -82,11 +82,14 @@
      <Compile Include="Assets\GlowController.cs" />
      <Compile Include="Assets\HandUpAndDown.cs" />
      <Compile Include="Assets\MusicLayers.cs" />
+     <Compile Include="Assets\NewHighscoreLights.cs" />
+     <Compile Include="Assets\NewHighscoreScreen.cs" />
      <Compile Include="Assets\NewStageStarBehaviour.cs" />
      <Compile Include="Assets\Platforms\Android\GcmClient.cs" />
      <Compile Include="Assets\Platforms\Android\GcmListener.cs" />
      <Compile Include="Assets\Platforms\Android\Utils.cs" />
      <Compile Include="Assets\PwWheelMaster.cs" />
+     <Compile Include="Assets\RestartRotatingDisks.cs" />
      <Compile Include="Assets\RewardScreen.cs" />
      <Compile Include="Assets\RewardSparkleBehaviour.cs" />
      <Compile Include="Assets\RythmController.cs" />
@@ -108,6 +111,9 @@
      <Compile Include="Assets\Scripts\StageIntro.cs" />
      <Compile Include="Assets\Scripts\Store\ScrollRectSnap_CS.cs" />
      <Compile Include="Assets\Scripts\Store\ScrollSnapRect.cs" />
+     <Compile Include="Assets\Scripts\TranslateMyImage.cs" />
+     <Compile Include="Assets\Scripts\TranslateMyText.cs" />
+     <Compile Include="Assets\Scripts\TranslationController.cs" />
      <Compile Include="Assets\Scripts\USER.cs" />
      <Compile Include="Assets\Scripts\activate_pw_button.cs" />
      <Compile Include="Assets\Scripts\ball_hero.cs" />
@@ -117,6 +123,7 @@
      <Compile Include="Assets\Scripts\collider_tutorial_left.cs" />
      <Compile Include="Assets\Scripts\collider_tutorial_right.cs" />
      <Compile Include="Assets\Scripts\external_link_bt.cs" />
+     <Compile Include="Assets\Scripts\fgCSVReader.cs" />
      <Compile Include="Assets\Scripts\floor.cs" />
      <Compile Include="Assets\Scripts\floor_pw_collider.cs" />
      <Compile Include="Assets\Scripts\floor_square_pw_destruct.cs" />

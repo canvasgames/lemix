@@ -6,6 +6,15 @@ public class store_controller : MonoBehaviour {
 	#region === Vars ===
     public static store_controller s;
 
+	[Header ("Bottom Coins")]
+
+	public Animator myCoinsFullAnimator;
+	[SerializeField] Text myCoinsQuantity;
+	[SerializeField]GameObject[] myCoins;
+	[SerializeField]GameObject myCoinsFalling, myCoinsPile;
+	[SerializeField]Animator CoinsFallingAnimator;
+	bool coinsAreFalling;
+
 	[SerializeField]Button myBackBt;
 
 	[SerializeField]GameObject myU, mYTitle, myBgLights;
@@ -52,11 +61,21 @@ public class store_controller : MonoBehaviour {
     int actualCharInScreen;
 	MusicStyle actualStyle, lastSortedStyle = MusicStyle.Eletro;
 
+	float yStartCoinsPile = -1068, yEndCoinsPile = -575, yIncCoinsPile;
+
 	#endregion
     // Use this for initialization
 
 	#region === Init ===
     void Start () {
+//		USER.s.NOTES = 101;
+		USER.s.NOTES = 104;
+		globals.s.NOTES_COLLECTED_JUKEBOX = 8 ;
+
+		SetPileOfCoinsInitalPosition ();
+
+//		StartCoroutine (InitCoinFallingAnimation (globals.s.NOTES_COLLECTED_JUKEBOX));
+
         s = this;
 //				USER.s.AddNotes (150);
 
@@ -141,7 +160,11 @@ public class store_controller : MonoBehaviour {
 
 	public void OpenStore(){
 		Invoke ("OpenStore2", 0.1f); 
-		DisplayNotes ();
+		if (globals.s.NOTES_COLLECTED_JUKEBOX > 0) {
+			StartCoroutine(InitCoinFallingAnimation(globals.s.NOTES_COLLECTED_JUKEBOX ));
+		}
+
+//		DisplayNotes ();
 //		changeAnimationEquipButtonNew(MusicStyle.Eletro);
 //		OnCharacterChangedNew((MusicStyle)actualCharInScreen);
 //		OnCharacterChangedNew((MusicStyle)actualCharInScreen);
@@ -472,31 +495,32 @@ public class store_controller : MonoBehaviour {
     #region === COINS ===
 
 	public void DisplayNotes(){
-		
+		myCoinsQuantity.text = USER.s.NOTES + "/"+globals.s.JUKEBOX_CURRENT_PRICE;
+
 		if (globals.s.JUKEBOX_CURRENT_PRICE == GD.s.JUKEBOX_FTU_PRICE) {
-			jukeboxBtNotesLow.gameObject.SetActive (true);
-			jukeboxBtNotesHigh.gameObject.SetActive (false);
-			jukeboxBtNotesLow.text = globals.s.JUKEBOX_CURRENT_PRICE.ToString ();
+//			jukeboxBtNotesLow.gameObject.SetActive (true);
+//			jukeboxBtNotesHigh.gameObject.SetActive (false);
+//			jukeboxBtNotesLow.text = globals.s.JUKEBOX_CURRENT_PRICE.ToString ();
 		} else {
-			jukeboxBtNotesLow.gameObject.SetActive (false);
-			jukeboxBtNotesHigh.gameObject.SetActive (true);
-			jukeboxBtNotesHigh.text = globals.s.JUKEBOX_CURRENT_PRICE.ToString ();
+//			jukeboxBtNotesLow.gameObject.SetActive (false);
+//			jukeboxBtNotesHigh.gameObject.SetActive (true);
+//			jukeboxBtNotesHigh.text = globals.s.JUKEBOX_CURRENT_PRICE.ToString ();
 		}
 
 
 		// CHECK IF IS FULL
-		if (nCharsBuyed >= GD.s.N_MUSIC) {
-			jukeboxBtNotesLow.gameObject.SetActive (false);
-			jukeboxBtNotesHigh.gameObject.SetActive (true);
-			jukeboxBt.interactable = false;
-			jukeboxBtNotesHigh.text = "full";
+		if (nCharsBuyed >= GD.s.N_MUSIC) { //TBD ARRUMAR
+//			jukeboxBtNotesLow.gameObject.SetActive (false);
+//			jukeboxBtNotesHigh.gameObject.SetActive (true);
+//			jukeboxBt.interactable = false;
+//			jukeboxBtNotesHigh.text = "full";
 		}
-		else if (USER.s.NOTES >= globals.s.JUKEBOX_CURRENT_PRICE) {
-			jukeboxBt.interactable = true;
-//			jukeboxBtNotes.text = USER.s.NOTES.ToString () + "/" + globals.s.JUKEBOX_CURRENT_PRICE.ToString ();
-		}
+//		else if (USER.s.NOTES >= globals.s.JUKEBOX_CURRENT_PRICE) {
+//			jukeboxBt.interactable = true;
+////			jukeboxBtNotes.text = USER.s.NOTES.ToString () + "/" + globals.s.JUKEBOX_CURRENT_PRICE.ToString ();
+//		}
 		else {
-			jukeboxBt.interactable = false;
+//			jukeboxBt.interactable = false;
 			if (USER.s.NOTES < 10) {
 //				jukeboxBtNotes.text = "0" + USER.s.NOTES.ToString () + "/" + globals.s.JUKEBOX_CURRENT_PRICE.ToString ();
 			}
@@ -504,6 +528,55 @@ public class store_controller : MonoBehaviour {
 //				jukeboxBtNotes.text = USER.s.NOTES.ToString () + "/" + globals.s.JUKEBOX_CURRENT_PRICE.ToString ();
 			}
 		}
+	}
+
+//	IEnumerator InitCoinsAnimationLogic(){
+////		yield new WaitUntil
+//	}
+
+
+	void SetPileOfCoinsInitalPosition(){
+		yIncCoinsPile = Mathf.Abs(yEndCoinsPile - yStartCoinsPile ) / globals.s.JUKEBOX_CURRENT_PRICE;
+
+		Debug.Log ("[JUKE] Y INC: " + yIncCoinsPile);
+		myCoinsPile.transform.localPosition = 
+			new Vector2 (myCoinsPile.transform.localPosition.x, yStartCoinsPile + yIncCoinsPile * (USER.s.NOTES - globals.s.NOTES_COLLECTED_JUKEBOX));
+	}
+
+
+	public IEnumerator InitCoinFallingAnimation(int nCoins = 0){
+		Debug.Log ("COIIIIIIIINS ANIMATION");
+		yield return new WaitForSeconds (0.5f);
+		int initialCoins = USER.s.NOTES - nCoins;
+		myCoinsFalling.SetActive (true);
+		myCoinsFalling.GetComponent<Animator> ().Play ("JukeboxCoinsFallingAnimation2");
+		for (int i = 0; i <= nCoins && initialCoins + i <= globals.s.JUKEBOX_CURRENT_PRICE; i++) {
+			myCoinsPile.transform.localPosition = new Vector2 (myCoinsPile.transform.localPosition.x, myCoinsPile.transform.localPosition.y + yIncCoinsPile);
+			myCoinsQuantity.text = initialCoins + i + "/"+globals.s.JUKEBOX_CURRENT_PRICE;
+			Debug.Log ("CCCCCCCC COINS: " + (initialCoins + i));
+			yield return new WaitForSeconds (0.17f);
+		}
+
+		myCoinsFalling.SetActive (false);
+		globals.s.NOTES_COLLECTED_JUKEBOX = 0;
+
+		yield return new WaitForSeconds (0.2f);
+
+		if ( USER.s.NOTES > globals.s.JUKEBOX_CURRENT_PRICE)
+			StartCoroutine (InitCoinsFullAnimation ());
+	}
+
+
+	public IEnumerator InitCoinsFullAnimation(){
+		jukeboxBt.gameObject.SetActive (true);
+		myCoinsFullAnimator.enabled = true;
+//		myCoinsFullAnimator.SetTrigger ("CoinsFull");
+
+		yield return new WaitForSeconds (1f);
+//		myCoinsFullAnimator.ResetTrigger ("CoinsFull");
+//
+		jukeboxBt.GetComponent<Button> ().interactable = true;
+
 	}
 
    
@@ -522,6 +595,7 @@ public class store_controller : MonoBehaviour {
 
 	public void BuyRandomCharacter(){
 		if (nCharsBuyed < GD.s.N_MUSIC) {
+			jukeboxBt.GetComponent<Button> ().interactable = false;
 			StartCoroutine (StartRoulleteAnimation ());
 
 			USER.s.NOTES -= globals.s.JUKEBOX_CURRENT_PRICE; 
@@ -543,6 +617,13 @@ public class store_controller : MonoBehaviour {
 	/// </summary>
 	/// <returns>The roullete animation.</returns>
 	public IEnumerator StartRoulleteAnimation(){
+
+		//FALLING COINS ANIMATION
+		myCoinsFullAnimator.SetTrigger("BuyButtonPressed");
+//		myCoinsFullAnimator.ResetTrigger("BuyButtonPressed");
+		yield return new WaitForSeconds (1.1f);
+
+
 		globals.s.JUKEBOX_SORT_ANIMATION = true;
 		int rand = Random.Range (10, 20);
 
@@ -605,6 +686,9 @@ public class store_controller : MonoBehaviour {
 		myU.GetComponent<Animator>().speed = 1f;
 		mYTitle.GetComponent<Animator>().speed = 1f;
 		myBgLights.GetComponent<Animator>().speed = 1f;
+		jukeboxBt.gameObject.SetActive (false);
+
+
 	}
 
 
@@ -615,10 +699,10 @@ public class store_controller : MonoBehaviour {
 		StartCoroutine (StartRoulleteAnimation ());
 	}
 
-	// Nice button pressed
+	// Collect button pressed
 	public void OnButtonRewardPressed(){
 //		jukeboxBt.interactable = true; //TBD: FAZER LOGICA QUE TESTA SE TODOS FORAM COMPRADOS E POR UM IF AQUI
-		UpdateUserNotes(); //TBD: FAZER LOGICA QUE TESTA SE TODOS FORAM COMPRADOS E POR UM IF AQUI
+//		UpdateUserNotes(); //TBD: FAZER LOGICA QUE TESTA SE TODOS FORAM COMPRADOS E POR UM IF AQUI
 		globals.s.MENU_OPEN = false;
 
 		globals.s.curGameScreen = GameScreen.Store;
@@ -633,6 +717,15 @@ public class store_controller : MonoBehaviour {
 
 		myBackBt.interactable = true;
 
+		myCoinsFullAnimator.enabled = false;
+		SetPileOfCoinsInitalPosition ();
+
+		// FALL THE EXTRA COINS
+		if (USER.s.NOTES > 0) {
+//			globals.s.NOTES_COLLECTED_JUKEBOX = USER.s.NOTES;
+		
+			StartCoroutine (InitCoinFallingAnimation (USER.s.NOTES));
+		}
 	}
 
 	#endregion

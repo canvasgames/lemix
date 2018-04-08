@@ -75,6 +75,10 @@ public class objects_pool_controller : MonoBehaviour {
 	public GameObject[] bgs_special_pool;
 	int bgs_special_actual_i = 0;
 
+	[Header ("FloorAnimationsPool")]
+	public GameObject FloorNewHighscoreObj;
+	public GameObject FloorLastScoreObj, FloorBestScoreObj, FloorDailyBestObj;
+
 
 	#endregion
 
@@ -82,8 +86,15 @@ public class objects_pool_controller : MonoBehaviour {
 
 	public void ClearPoolForRestart(){
 		int i;
+
+		FloorNewHighscoreObj.SetActive (false);
+		FloorBestScoreObj.SetActive (false);
+//		FloorLastScoreObj.SetActive (false);
+//		FloorDailyBestObj.SetActive (false);
+
 		for(i=0; i<floor_pool_size; i++){
 			//			floor_pool [i].SetActive (false);
+			floor_pool [i].GetComponent<floor>().clear_flags_reposite();
 			floor_pool [i].transform.position = new Vector2(-1000,-1000);
 		}
 		floor_pool_actual_i = 0;
@@ -122,6 +133,11 @@ public class objects_pool_controller : MonoBehaviour {
 			power_ups_pool[i].transform.position = new Vector2(-1000,-1000);
 		}
 		power_ups_actual_i = 0;
+
+		hole_behaviour[] holes = FindObjectsOfType<hole_behaviour>();
+		foreach (hole_behaviour obj in holes) {
+			obj.gameObject.SetActive (false);
+		}
 	}
 
     void Awake()
@@ -296,13 +312,30 @@ public class objects_pool_controller : MonoBehaviour {
 				bgs_special_actual_i= 0;
 
 		} 
-
 		return to_return;
-
-
 	}
 
-    #region FLOOR THINGS
+    #region === FLOOR THINGS ===
+	public GameObject RepositeFloorNewHighscore(){
+		FloorNewHighscoreObj.SetActive(true);
+		return FloorNewHighscoreObj;
+	}
+
+	public GameObject RepositeFloorLastScore(){
+		FloorLastScoreObj.SetActive(true);
+		return FloorLastScoreObj;
+	}
+
+	public GameObject RepositeFloorBestScore(){
+		FloorBestScoreObj.SetActive(true);
+		return FloorBestScoreObj;
+	}
+
+	public GameObject RepositeFloorDailyBest(){
+		FloorDailyBestObj.SetActive(true);
+		return FloorDailyBestObj;
+	}
+
     public GameObject reposite_floor(float x_pos, float y_pos)
     {
         clear_flags_floor();

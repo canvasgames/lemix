@@ -40,8 +40,8 @@ public class hole_behaviour : MonoBehaviour
             globals.s.ALERT_BALL = true;
         }
 
-        if (transform.position.y < globals.s.BALL_Y - globals.s.FLOOR_HEIGHT * 4)
-            Destroy(gameObject);
+		if (transform.position.y < globals.s.BALL_Y - globals.s.FLOOR_HEIGHT * 4)
+			destroy_me_baby ();
     }
 
 	void OnTriggerEnter2D(Collider2D coll)
@@ -68,7 +68,7 @@ public class hole_behaviour : MonoBehaviour
     }
 
 	void GetBacktoMeBaby(){
-		Invoke ("MissedYouSoMuch", 3f);
+//		Invoke ("MissedYouSoMuch", 3f);
 	}
 	void MissedYousoMuch(){
 //		my_skin.transform.position.y + 8f;

@@ -11,7 +11,7 @@ public class BallMaster : MonoBehaviour {
 	// Use this for initialization
 	void Awake(){
 		s = this;
-		Invoke ("Test", 1f);
+//		Invoke ("Test", 1f);
 	}
 
 	public void AddNewBall(ball_hero b){
@@ -35,10 +35,10 @@ public class BallMaster : MonoBehaviour {
 	}
 
 	void Test(){
-		Debug.Log ("0 TTTTTTTEST CALLED");
-		balls.ToArray () [0].test ();
-		Debug.Log ("1 TTTTTTTEST CALLED");
-		balls.ToArray () [1].test ();
+//		Debug.Log ("0 TTTTTTTEST CALLED");
+//		balls.ToArray () [0].test ();
+//		Debug.Log ("1 TTTTTTTEST CALLED");
+//		balls.ToArray () [1].test ();
 	}
 
 	public void NewGameLogic(){

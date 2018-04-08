@@ -55,29 +55,33 @@ public class floor : scenario_objects {
         {
             if (USER.s.BEST_SCORE == my_floor)
             {
-                //GameObject obj = (GameObject)Instantiate(scoreInfo, new Vector3(0, transform.position.y - 0.6f, transform.position.z), transform.rotation);
-                GameObject obj = objects_pool_controller.s.reposite_score(0, transform.position.y - my_txt_y_dif);
-                obj.GetComponentInChildren<TextMesh>().text = "YOUR BEST";
-                obj.GetComponentInChildren<Score_floor_txt>().my_floor = my_floor;
-                obj.GetComponentInChildren<Score_floor_txt>().my_type = 1;
+				GameObject myAnimation = objects_pool_controller.s.RepositeFloorBestScore ();
+				myAnimation.transform.parent = transform;
+				myAnimation.transform.localPosition = new Vector2 (0f, 0.08f);
+//                GameObject obj = objects_pool_controller.s.reposite_score(0, transform.position.y - my_txt_y_dif);
+//                obj.GetComponentInChildren<TextMesh>().text = "YOUR BEST";
+//                obj.GetComponentInChildren<Score_floor_txt>().my_floor = my_floor;
+//                obj.GetComponentInChildren<Score_floor_txt>().my_type = 1;
             }
             else if (USER.s.DAY_SCORE == my_floor)
             {
-
-                // GameObject obj = (GameObject)Instantiate(scoreInfo, new Vector3(0, transform.position.y - 0.6f, transform.position.z), transform.rotation);
-                GameObject obj = objects_pool_controller.s.reposite_score(0, transform.position.y - my_txt_y_dif);
-                obj.GetComponentInChildren<TextMesh>().text = "DAILY BEST";
-                obj.GetComponentInChildren<Score_floor_txt>().my_floor = my_floor;
-                obj.GetComponentInChildren<Score_floor_txt>().my_type = 2;
+				GameObject myAnimation = objects_pool_controller.s.RepositeFloorDailyBest ();
+				myAnimation.transform.parent = transform;
+				myAnimation.transform.localPosition = new Vector2 (0f, 0.08f);
+//                GameObject obj = objects_pool_controller.s.reposite_score(0, transform.position.y - my_txt_y_dif);
+//                obj.GetComponentInChildren<TextMesh>().text = "DAILY BEST";
+//                obj.GetComponentInChildren<Score_floor_txt>().my_floor = my_floor;
+//                obj.GetComponentInChildren<Score_floor_txt>().my_type = 2;
             }
             else if (USER.s.LAST_SCORE == my_floor)
             {
-
-                // GameObject obj = (GameObject)Instantiate(scoreInfo, new Vector3(0, transform.position.y - 0.6f, transform.position.z), transform.rotation);
-                GameObject obj = objects_pool_controller.s.reposite_score(0, transform.position.y - my_txt_y_dif);
-                obj.GetComponentInChildren<TextMesh>().text = "LAST GAME";
-                obj.GetComponentInChildren<Score_floor_txt>().my_floor = my_floor;
-                obj.GetComponentInChildren<Score_floor_txt>().my_type = 3;
+				GameObject myAnimation = objects_pool_controller.s.RepositeFloorLastScore ();
+				myAnimation.transform.parent = transform;
+				myAnimation.transform.localPosition = new Vector2 (0f, 0.08f);
+//                GameObject obj = objects_pool_controller.s.reposite_score(0, transform.position.y - my_txt_y_dif);
+//                obj.GetComponentInChildren<TextMesh>().text = "LAST GAME";
+//                obj.GetComponentInChildren<Score_floor_txt>().my_floor = my_floor;
+//                obj.GetComponentInChildren<Score_floor_txt>().my_type = 3;
             }
         }
 
@@ -90,7 +94,7 @@ public class floor : scenario_objects {
 //		}
 //    }
 
-    public void try_to_display_best_score()
+    public void try_to_display_best_score() // TBD FAZER UMA POOL DE SCENARIO OBJECTS
     {
        // Debug.Log("user day score: " + USER.s.DAY_SCORE);
         if (already_blinked == false && USER.s.DAY_SCORE >= 4 )
@@ -101,7 +105,7 @@ public class floor : scenario_objects {
             {
 
                 int i;
-                scenario_objects[] allScenario = GameObject.FindObjectsOfType(typeof(scenario_objects)) as scenario_objects[];
+//                scenario_objects[] allScenario = GameObject.FindObjectsOfType(typeof(scenario_objects)) as scenario_objects[];
 				count_blink = 35;
 //                for (i = 0; i < allScenario.Length; i++)
 //                {
@@ -110,12 +114,15 @@ public class floor : scenario_objects {
 //                    else
 //                       blink_color_mine();
 //                }
-				blink_color_mine();
+//				blink_color_mine();
 
 
                 if (USER.s.BEST_SCORE + 1 == my_floor)
                 {
-                    destroy_previous_score_create_new(1);
+					GameObject myAnimation = objects_pool_controller.s.RepositeFloorNewHighscore ();
+					myAnimation.transform.parent = transform;
+					myAnimation.transform.localPosition = new Vector2 (0.131f, 0.07f);
+//                    destroy_previous_score_create_new(1);
                 }
                 else if (USER.s.DAY_SCORE + 1 == my_floor)
                 {
@@ -126,7 +133,6 @@ public class floor : scenario_objects {
                     destroy_previous_score_create_new(3);  
                 }
             }
-               
         }
     }
 
@@ -137,6 +143,8 @@ public class floor : scenario_objects {
 		}
         Invoke("blink_back_mine", 0.15f);
     }
+
+
     void blink_back_mine() {
         count_blink -= 1;
         my_skin.GetComponent<SpriteRenderer>().color = Color.white;
@@ -144,9 +152,10 @@ public class floor : scenario_objects {
 			if (my_hole.my_skin !=null)  my_hole.my_skin_sprite.color = Color.white;
 		}
 
-
-        if (count_blink > 0)
-            Invoke("blink_color_mine", 0.15f);
+		if (count_blink > 0)
+			Invoke ("blink_color_mine", 0.15f);
+		else
+			my_skin.GetComponent<SpriteRenderer> ().color = Color.black;
     }
 
     //Under floor score destroy
@@ -165,9 +174,8 @@ public class floor : scenario_objects {
 
     }
 		
-    public void create_score_text(int score_type)
+    public void create_score_text(int score_type) // TBD BAD PERFORMANCE... PEGAR DA POOL
     {
-
         Score_floor_txt[] Score_txt = GameObject.FindObjectsOfType(typeof(Score_floor_txt)) as Score_floor_txt[];
         int i;
 
@@ -175,7 +183,6 @@ public class floor : scenario_objects {
         {
             Score_txt[i].destroy_same_floor(my_floor);
         }
-
 
        // my_text = (GameObject)Instantiate(scoreInfo, new Vector3(0, transform.position.y - 0.6f, transform.position.z), transform.rotation);
         my_text = objects_pool_controller.s.reposite_score(0, transform.position.y - my_txt_y_dif);
@@ -193,7 +200,7 @@ public class floor : scenario_objects {
         }
     }
 
-    public void create_score_game_over (int floor, int type)
+    public void create_score_game_over (int floor, int type) // TBD NAO USAR O FIND OBJECTS
     {
         if(floor == my_floor)
         {
