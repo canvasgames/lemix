@@ -424,6 +424,7 @@ public class game_controller : MonoBehaviour {
 	void ResetStuffForNewGame(){
 		cur_floor = -1;
 		n_floor = 0;
+		musicLayerN = 0;
 
 		globals.s.FIRST_GAME = false;
 

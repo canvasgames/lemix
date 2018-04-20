@@ -98,7 +98,7 @@ public class sound_controller : MonoBehaviour
 	#endregion
 
 	#region ===== Music Change =====
-	public void change_music(MusicStyle style){
+	public void change_music(MusicStyle style){ // PARAR DE INSTANCIAR 
 //		return;
 
 		GameObject instance = Instantiate(Resources.Load("Prefabs/Musics/"+style.ToString(),

@@ -472,29 +472,21 @@ public class hud_controller : MonoBehaviour {
 	#region ========== Store ==========
 	float pw_info_y, game_title_y;
 
-		public void store_bt_act(){
-		//pw_info.transform.DOLocalMoveY(pw_info.transform.localPosition.y + pw_info.GetComponent <RectTransform>().rect.height
+	public void OnJukeboxBtPressed(){
 		if (globals.s.AT_STORE == false && globals.s.MENU_OPEN == false) {
-			Debug.Log (" MENU HEIGHT: " + game_title.GetComponent <RectTransform>().rect.height + " POS: " + game_title.transform.position.y + " LOCAL Y: " + game_title.transform.localPosition.y);
+			Debug.Log (" MENU HEIGHT: " + game_title.GetComponent <RectTransform> ().rect.height + " POS: " + game_title.transform.position.y + " LOCAL Y: " + game_title.transform.localPosition.y);
 			globals.s.AT_STORE = true;
-//			pw_info_y = pw_info.transform.position.y;
-//			pw_info.transform.DOLocalMoveY (-GetComponent <RectTransform>().rect.height/2 - pw_info.GetComponent <RectTransform>().rect.height/2
-//				, 0.5f).SetEase (Ease.OutQuad);
+			//			pw_info_y = pw_info.transform.position.y;
+			//			pw_info.transform.DOLocalMoveY (-GetComponent <RectTransform>().rect.height/2 - pw_info.GetComponent <RectTransform>().rect.height/2
+			//				, 0.5f).SetEase (Ease.OutQuad);
 			Invoke ("store_entrance", 0.2f);
 
 			game_title_y = game_title.transform.position.y;
-			game_title.transform.DOLocalMoveY (GetComponent <RectTransform>().rect.height/2 + game_title.GetComponent <RectTransform>().rect.height/2
-			//game_title.transform.DOLocalMoveY (GetComponent <Rect>().height - game_title.transform.localPosition.y + 500
+			game_title.transform.DOLocalMoveY (GetComponent <RectTransform> ().rect.height / 2 + game_title.GetComponent <RectTransform> ().rect.height / 2
+				//game_title.transform.DOLocalMoveY (GetComponent <Rect>().height - game_title.transform.localPosition.y + 500
 				, 0.5f).SetEase (Ease.OutQuad);
-			
-		} else if(globals.s.AT_STORE == true && globals.s.MENU_OPEN == false) { // close store
-			globals.s.AT_STORE = false;
-			store_label.transform.DOLocalMoveY(-200 -store_label.GetComponent <RectTransform> ().rect.height
-				, 0.5f).SetEase (Ease.OutQuad);
-			Invoke ("store_closing", 0.35f);
 		}
 	}
-
 	float storeY = 99999;
 
 	void store_entrance(){
@@ -507,24 +499,52 @@ public class hud_controller : MonoBehaviour {
 		store_label.transform.localPosition = new Vector3 (0, storeY - store_label.GetComponent <RectTransform> ().rect.height , store_label.transform.localPosition.z);
 		store_label.transform.DOLocalMoveY(storeY
 			, 0.5f).SetEase (Ease.OutQuad);
-//		store_controller.s.changeAnimationEquipButton("eletronic");
-//        store_controller.s.changeAnimationEquipButtonNew((;
+		//		store_controller.s.changeAnimationEquipButton("eletronic");
+		//        store_controller.s.changeAnimationEquipButtonNew((;
+	}
 
-    }
 
-	void store_closing(){
-		globals.s.curGameScreen = globals.s.previousGameScreen;
+	public void OnJukeboxCloseBtPressed(bool fromBackBt = true){
+		if (globals.s.AT_STORE == true && globals.s.MENU_OPEN == false) { // close store
+			globals.s.AT_STORE = false;
+			store_label.transform.DOLocalMoveY (-200 - store_label.GetComponent <RectTransform> ().rect.height
+				, 0.5f).SetEase (Ease.OutQuad);
+//			Invoke ("store_closing", 0.35f);
+			StartCoroutine (StoreCloseForReal (fromBackBt));
 
-		store_controller.s.equipCharacterNew ();
-//		pw_info.transform.DOMoveY (pw_info_y, 0.5f).SetEase (Ease.OutQuad);
-		if(globals.s.curGameScreen == GameScreen.MainMenu) 
-			game_title.transform.DOMoveY (game_title_y, 0.5f).SetEase (Ease.OutQuad);
-		store_label.SetActive (false);
-
-		if(globals.s.curGameScreen == GameScreen.LevelEnd)
-		{
-			GameOverController.s.UpdateJukeboxInformation ();
+			store_controller.s.CloseStore (fromBackBt);
 		}
+	}
+
+
+	IEnumerator StoreCloseForReal(bool fromBackBt = true){
+		
+		if (globals.s.previousGameScreen == GameScreen.LevelEnd && fromBackBt == false) {
+//			hide_game_over ();
+			game_over_text.SetActive(false);
+			yield return new WaitForSeconds (0.35f);
+
+			yield return new WaitForSeconds (0.3f);
+
+//			globals.s.curGameScreen = globals.s.previousGameScreen;
+
+			game_controller.s.RewindEffect ();
+
+		} else {
+			yield return new WaitForSeconds (0.35f);
+
+			globals.s.curGameScreen = globals.s.previousGameScreen;
+			if(globals.s.curGameScreen == GameScreen.MainMenu) 
+				game_title.transform.DOMoveY (game_title_y, 0.5f).SetEase (Ease.OutQuad);
+			store_label.SetActive (false);
+
+
+			if(globals.s.curGameScreen == GameScreen.LevelEnd){
+				GameOverController.s.UpdateJukeboxInformation ();
+			}
+		}
+
+//		pw_info.transform.DOMoveY (pw_info_y, 0.5f).SetEase (Ease.OutQuad);
 
 	}
 

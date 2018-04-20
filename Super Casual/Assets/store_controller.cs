@@ -140,24 +140,6 @@ public class store_controller : MonoBehaviour {
 		actualStyle = globals.s.ACTUAL_STYLE;
 	}
 
-	void DefineActualCharOnTheScreen(){
-		if (globals.s.ACTUAL_CHAR.Equals ("electronic"))
-			actualCharInScreen = 0;
-		else if (globals.s.ACTUAL_CHAR.Equals ("rock"))
-			actualCharInScreen = 1;
-		else if (globals.s.ACTUAL_CHAR.Equals ("pop"))
-			actualCharInScreen = 2;
-		else if (globals.s.ACTUAL_CHAR.Equals ("popGaga"))
-			actualCharInScreen = 3;
-		else if (globals.s.ACTUAL_CHAR.Equals ("reggae"))
-			actualCharInScreen = 4;
-		else if (globals.s.ACTUAL_CHAR.Equals ("rap"))
-			actualCharInScreen = 5;
-
-//		else if(globalscu
-	
-	}
-
 	public void OpenStore(){
 		Invoke ("OpenStore2", 0.1f); 
 		if (globals.s.NOTES_COLLECTED_JUKEBOX > 0) {
@@ -171,8 +153,17 @@ public class store_controller : MonoBehaviour {
 	}
 
 	void OpenStore2(){
-		changeAnimationEquipButtonNew((MusicStyle)actualCharInScreen);
-		ScrollSnap.SetCurrentPage((MusicStyle)actualCharInScreen);
+		changeAnimationEquipButtonNew((MusicStyle)globals.s.ACTUAL_STYLE);
+		ScrollSnap.SetCurrentPage((MusicStyle)globals.s.ACTUAL_STYLE);
+		title.text = GD.s.GetStyleName ((MusicStyle)globals.s.ACTUAL_STYLE);
+	}
+
+
+	public void CloseStore(bool fromBackBt){
+		if(fromBackBt == true) sound_controller.s.change_music((MusicStyle)globals.s.ACTUAL_STYLE);
+		else equipCharacterNew ();
+
+
 	}
 
 
@@ -316,7 +307,6 @@ public class store_controller : MonoBehaviour {
     {
         buyButton.SetActive(false);
         equipButton.SetActive(true);
-//		equipCharacter();
         equipCharacterNew();
     }
     
@@ -332,7 +322,7 @@ public class store_controller : MonoBehaviour {
 
 	public void OnCharacterChangedNew(MusicStyle style, bool dontPlayMusic = false) {
 
-		Debug.Log ("Character changed new: " + style.ToString());
+		Debug.Log ("[JUKEBOX] Character changed new: " + style.ToString());
 		actualCharInScreen = (int)style;
 		actualStyle = style;
 
@@ -346,8 +336,7 @@ public class store_controller : MonoBehaviour {
 			equipButton.GetComponent<Animator> ().Play ("select off");
 			equipButton.GetComponent<Button> ().interactable = false;
 		}
-		else
-		{
+		else {
 			equipButton.GetComponent<Button> ().interactable = true;
 			changeAnimationEquipButtonNew(style);
 		}
@@ -635,7 +624,7 @@ public class store_controller : MonoBehaviour {
 		mYTitle.GetComponent<Animator>().speed = 3f;
 		myBgLights.GetComponent<Animator>().speed = 3f;
 
-		do {
+		do { // FAZER UM MINIMO 
 			for (int i = 0; i < rand; i++) {
 				//logica de não repetir
 				ScrollSnap.NextScreen ();
@@ -731,7 +720,23 @@ public class store_controller : MonoBehaviour {
 	#endregion
 
 	#region == Old ==
+	void DefineActualCharOnTheScreen(){
+		if (globals.s.ACTUAL_CHAR.Equals ("electronic"))
+			actualCharInScreen = 0;
+		else if (globals.s.ACTUAL_CHAR.Equals ("rock"))
+			actualCharInScreen = 1;
+		else if (globals.s.ACTUAL_CHAR.Equals ("pop"))
+			actualCharInScreen = 2;
+		else if (globals.s.ACTUAL_CHAR.Equals ("popGaga"))
+			actualCharInScreen = 3;
+		else if (globals.s.ACTUAL_CHAR.Equals ("reggae"))
+			actualCharInScreen = 4;
+		else if (globals.s.ACTUAL_CHAR.Equals ("rap"))
+			actualCharInScreen = 5;
 
+		//		else if(globalscu
+
+	}
 	public void watchedVideo()
 	{
 		USER.s.NOTES += 10;
