@@ -37,6 +37,22 @@ public class BallMaster : MonoBehaviour {
 		}
 	}
 
+	public void DeactivateUnnusedFollowers(){
+		if (globals.s.ACTUAL_SKIN.bandN > 0) {
+			for (int i = 0; i < followersBall1.Length; i++) {
+				if (i > globals.s.ACTUAL_SKIN.bandN - 1) {
+					followersBall1 [i].gameObject.SetActive (false);
+					followersBall2 [i].gameObject.SetActive (false);
+				}
+			}
+		} else {
+			for (int i = 0; i < followersBall1.Length; i++) {
+				followersBall1 [i].gameObject.SetActive(false);
+				followersBall2 [i].gameObject.SetActive(false);
+			}
+		}
+	}
+
 	#endregion
 
 	#region === INIT ===
@@ -54,12 +70,19 @@ public class BallMaster : MonoBehaviour {
 		currentBall = 0;
 
 		Debug.Log ("[BALLMASTER]! NEW GAME LOGIC - UPDATE BALL SKIN ");
-		if(balls.ToArray () [1].enabled) balls.ToArray () [1].UpdateMySkin ();
+		if (balls.ToArray () [1].enabled)
+			balls.ToArray () [1].UpdateMySkin ();
+		else {
+			balls.ToArray () [1].gameObject.SetActive (true);
+			balls.ToArray () [1].UpdateMySkin ();
+			balls.ToArray () [1].gameObject.SetActive (false);
+		}
 
 		balls.ToArray () [1].gameObject.SetActive(false);
 
 		balls.ToArray () [0].gameObject.SetActive(true);
 		balls.ToArray () [0].transform.position = new Vector2 (-4.57f, -6.53f); 
+		balls.ToArray () [0].UpdateMySkin();
 		balls.ToArray () [0].Init_first_ball ();
 	}
 

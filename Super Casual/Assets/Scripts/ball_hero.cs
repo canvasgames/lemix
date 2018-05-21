@@ -91,7 +91,7 @@ public class ball_hero : MonoBehaviour
         // INITIALIZE SKIN AND MUSIC HERE!!!
 		if(QA.s.CREATE_NOTE_TRAIL == true) create_note_trail();
 //		changeSkinChar();
-        UpdateMySkin();
+//        UpdateMySkin();
     }
 
 	void OnEnable() {
@@ -165,7 +165,6 @@ public class ball_hero : MonoBehaviour
 				Debug.Log (iAmLeft + i.ToString () + " uu3 UPDATE MY SKIN: " + globals.s.ACTUAL_STYLE.ToString ());
 				Debug.Log (i.ToString ()  + " my followER name : " + myFollowers[i].name + " NULL: "+ myFollowers[i] );
 
-
 				myFollowers [i].gameObject.SetActive (true);
 				myFollowers [i].UpdateMySkin (globals.s.ACTUAL_SKIN, i + 2, rb.velocity);
 
@@ -221,16 +220,15 @@ public class ball_hero : MonoBehaviour
 		my_alert.SetActive (false);
 	}
 
-	public void Init_first_ball()
-    {
-        if (first_ball == true)
-        {
+	public void Init_first_ball() {
+        if (first_ball == true) {
             if (transform.position.x < 0) {
                 rb.velocity = new Vector2(globals.s.BALL_SPEED_X, 0);
             }
             else {
                 rb.velocity = new Vector2(-globals.s.BALL_SPEED_X, 0);
             }
+
             init_my_skin();
 
 			if(myFollowers !=null) StartCoroutine(InitMyFollowersMovement ());

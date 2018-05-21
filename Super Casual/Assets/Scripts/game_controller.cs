@@ -259,11 +259,16 @@ public class game_controller : MonoBehaviour {
 
 //		ball[0].Init_first_ball();
 //		BallMaster.s.NewGameLogic();
-		if(firstNewGame == true) BallMaster.s.NewGameLogic();
+		if(firstNewGame == true) StartCoroutine(InitBallMaster());
         //wave_ctrl[0].create_new_wave(globals.s.BASE__Y + globals.s.FLOOR_HEIGHT * n_floor);
 		firstNewGame = false;
 		Debug.Log("\n ========= GAME MASTER NEW GAME START END ===========");
     }
+
+	IEnumerator InitBallMaster(){
+		yield return new WaitForEndOfFrame();
+		BallMaster.s.NewGameLogic();
+	}
 
     #endregion
 
