@@ -6,8 +6,11 @@ public class ball_hero : MonoBehaviour
 {
     #region ==== Variables Declaration =====
 
-	public Follower[] myFollowers;
+	public Follower[] myFollowers = null;
+	public bool iAmLeft;
 
+
+	Skin mySkinType;
 	MusicStyle myStyle;
 	public GameObject superJumpEffect;
 	public GameObject jetpack;
@@ -62,17 +65,17 @@ public class ball_hero : MonoBehaviour
 
     #region ====== Init ========
 
-    void Awake()
-    {
+    void Awake() {
+		myFollowers = null;
         rb = transform.GetComponent<Rigidbody2D>();
         my_alert.SetActive(false);
     }
-	public void test(){
+	public void test() {
 		Debug.Log("AAAAAAAAAA");
 	}
 
     // START THE DANCE
-    void Start(){
+    void Start() {
         my_id = globals.s.BALL_ID; 
 		globals.s.BALL_ID++;
         Debug.Log(my_id+ ": BALL STARTED TIME: " + Time.time );
@@ -91,50 +94,129 @@ public class ball_hero : MonoBehaviour
         UpdateMySkin();
     }
 
-	void OnEnable(){
-		if (my_skin.activeInHierarchy && myStyle != globals.s.ACTUAL_STYLE) {
+	void OnEnable() {
+		if (first_ball == false && my_skin.activeInHierarchy && myStyle != globals.s.ACTUAL_STYLE) {
+			Debug.Log (iAmLeft + "[BALL HERO] UPDATE BALL SKIN ON ENABLE");
 			UpdateMySkin ();
 		}
 	}
 
-	public void UpdateMySkin(){
-//		Debug.Log ("UPDATE MY SKIN: " + globals.s.ACTUAL_STYLE.ToString ());
+
+	 // FAZER CODIGO QUE PROCURA PRA VER SE "BANDN != NULL, E VAI ATRIBUINDO AS SKINS ATÉ SER NULL"
+	public void UpdateMySkin() {
+		Debug.Log (iAmLeft + " UPDATE MY SKIN: " + globals.s.ACTUAL_STYLE.ToString () +  " ACT SKIN " + globals.s.ACTUAL_SKIN.skinName + " id: "+globals.s.ACTUAL_SKIN.id );
 //		if(globals.s.ACTUAL_STYLE != MusicStyle.Eletro)
+
+//		if (globals.s.ACTUAL_STYLE == MusicStyle.Pop) {
+//			globals.s.ACTUAL_SKIN = GD.s.skins [8];
+//			globals.s.ACTUAL_STYLE = MusicStyle.Pop;
+//		}
+//
+//		if (globals.s.ACTUAL_STYLE == MusicStyle.Rock) {
+//			globals.s.ACTUAL_SKIN = GD.s.skins [5];
+//			globals.s.ACTUAL_STYLE = MusicStyle.Rock;
+//		}
+
 		myStyle = globals.s.ACTUAL_STYLE;
-	 	my_skin.GetComponent<Animator>().runtimeAnimatorController = 
-			Resources.Load("Sprites/Animations/" + globals.s.ACTUAL_STYLE.ToString()+"Animator") as RuntimeAnimatorController;
+		mySkinType = globals.s.ACTUAL_SKIN;
+		Debug.Log ("searching... " + globals.s.ACTUAL_STYLE.ToString () + globals.s.ACTUAL_SKIN.styleId + "Animator");
+
+		// RESET FOLLOWERS
+		if (myFollowers != null) {
+			Debug.Log ("[BALL] NO FOLLOWERS !!!!!, BUT HAD");
+			for (int i = 0; i < myFollowers.Length; i++) {
+				myFollowers [i].transform.position = new Vector2 (10000, 1000);
+			}
+		}
+		myFollowers = null;
+
+		if (globals.s.ACTUAL_SKIN.isBand == false && globals.s.ACTUAL_SKIN.isClothChanger == false) {
+			if (Resources.Load ("Sprites/Animations/" + globals.s.ACTUAL_STYLE.ToString () + globals.s.ACTUAL_SKIN.styleId + "Animator") as RuntimeAnimatorController != null) {
+				my_skin.GetComponent<Animator> ().runtimeAnimatorController = 
+					Resources.Load ("Sprites/Animations/" + globals.s.ACTUAL_STYLE.ToString () + globals.s.ACTUAL_SKIN.styleId + "Animator") as RuntimeAnimatorController;
+			} else {
+				Debug.Log ("BALL SKIN EEEEEEERROR!! ANIMATOR NOT FOUND!");
+				my_skin.GetComponent<Animator> ().runtimeAnimatorController = 
+					Resources.Load ("Sprites/Animations/" + globals.s.ACTUAL_STYLE.ToString () + "Animator") as RuntimeAnimatorController;
+			}
+		} else if (globals.s.ACTUAL_SKIN.isBand == true) {
+			if (Resources.Load ("Sprites/Animations/" + globals.s.ACTUAL_STYLE.ToString () + "Band1" + "Animator") as RuntimeAnimatorController != null) {
+				my_skin.GetComponent<Animator> ().runtimeAnimatorController = 
+					Resources.Load ("Sprites/Animations/" + globals.s.ACTUAL_STYLE.ToString () + "Band1" + "Animator") as RuntimeAnimatorController;
+			} else {
+				Debug.Log ("band error!!!!!! ! ");
+				my_skin.GetComponent<Animator> ().runtimeAnimatorController = 
+					Resources.Load ("Sprites/Animations/" + globals.s.ACTUAL_STYLE.ToString () + "Band1Animator") as RuntimeAnimatorController;
+			}
+				
+			//UPDATE BAND! USERSS!
+			myFollowers = new Follower[globals.s.ACTUAL_SKIN.bandN - 1];
+			Debug.Log ("[BALL BAND] INIT MY FOLLOWERS - SIZE: " + myFollowers.Length);
+//			myFollowers = BallMaster.s.GimmeMyFollowers (globals.s.ACTUAL_SKIN.bandN);
+
+			//ADD FOLLOWERS
+			for (int i = 0; i < myFollowers.Length; i++) {
+				Debug.Log (iAmLeft + i.ToString () + "  zz2 UPDATE MY SKIN: " + globals.s.ACTUAL_STYLE.ToString ());
+
+				if (iAmLeft)
+					myFollowers [i] = BallMaster.s.followersBall1 [i];
+				else
+					myFollowers [i] = BallMaster.s.followersBall2 [i];
+				Debug.Log (iAmLeft + i.ToString () + " uu3 UPDATE MY SKIN: " + globals.s.ACTUAL_STYLE.ToString ());
+				Debug.Log (i.ToString ()  + " my followER name : " + myFollowers[i].name + " NULL: "+ myFollowers[i] );
+
+
+				myFollowers [i].gameObject.SetActive (true);
+				myFollowers [i].UpdateMySkin (globals.s.ACTUAL_SKIN, i + 2, rb.velocity);
+
+				Debug.Log (iAmLeft + i.ToString () + "usd4 UPDATE MY SKIN: " + globals.s.ACTUAL_STYLE.ToString ());
+
+			} 
+		}
+		else if (globals.s.ACTUAL_SKIN.isClothChanger == true) {
+			my_skin.GetComponent<Animator> ().runtimeAnimatorController = 
+				Resources.Load ("Sprites/Animations/" + globals.s.ACTUAL_STYLE.ToString () + "Special1Animator") as RuntimeAnimatorController;
+		} 
+
+//		if (Resources.Load ("Sprites/Animations/" + globals.s.ACTUAL_STYLE.ToString () + QA.s.Phrase + "Animator") as RuntimeAnimatorController != null) {
+//			my_skin.GetComponent<Animator> ().runtimeAnimatorController = 
+//				Resources.Load ("Sprites/Animations/" + globals.s.ACTUAL_STYLE.ToString () + QA.s.Phrase + "Animator") as RuntimeAnimatorController;
+//		} else {
+//			my_skin.GetComponent<Animator> ().runtimeAnimatorController = 
+//			Resources.Load ("Sprites/Animations/" + globals.s.ACTUAL_STYLE.ToString () + "Animator") as RuntimeAnimatorController;
+//		}
 //		else
 //			my_skin.GetComponent<Animator>().runtimeAnimatorController = Resources.Load("Sprites/Animations/EletronicHero") as RuntimeAnimatorController;
 	}
-
-    public void changeSkinChar()
-    {
-        if (globals.s.ACTUAL_CHAR == "pop")
-        {
-            my_skin.GetComponent<Animator>().runtimeAnimatorController = Resources.Load("Sprites/Animations/PopAnimator") as RuntimeAnimatorController;
-        }
-        else if (globals.s.ACTUAL_CHAR == "rock")
-        {
-            my_skin.GetComponent<Animator>().runtimeAnimatorController = Resources.Load("Sprites/Animations/RockAnimator") as RuntimeAnimatorController;
-        }
-        else if (globals.s.ACTUAL_CHAR == "eletronic")
-        {
-            my_skin.GetComponent<Animator>().runtimeAnimatorController = Resources.Load("Sprites/Animations/EletronicHero") as RuntimeAnimatorController;
-        }
-		else if (globals.s.ACTUAL_CHAR == "popGaga")
-		{
-			my_skin.GetComponent<Animator>().runtimeAnimatorController = Resources.Load("Sprites/Animations/PopGagaAnimator") as RuntimeAnimatorController;
-		}
-		else if (globals.s.ACTUAL_CHAR == "reggae")
-		{
-			my_skin.GetComponent<Animator>().runtimeAnimatorController = Resources.Load("Sprites/Animations/ReggaeAnimator") as RuntimeAnimatorController;
-		}
-		else if (globals.s.ACTUAL_CHAR == "rap")
-		{
-			my_skin.GetComponent<Animator>().runtimeAnimatorController = Resources.Load("Sprites/Animations/RapAnimator") as RuntimeAnimatorController;
-		}
-    }
-    
+//
+//    public void changeSkinChar()
+//    {
+//        if (globals.s.ACTUAL_CHAR == "pop")
+//        {
+//            my_skin.GetComponent<Animator>().runtimeAnimatorController = Resources.Load("Sprites/Animations/PopAnimator") as RuntimeAnimatorController;
+//        }
+//        else if (globals.s.ACTUAL_CHAR == "rock")
+//        {
+//            my_skin.GetComponent<Animator>().runtimeAnimatorController = Resources.Load("Sprites/Animations/RockAnimator") as RuntimeAnimatorController;
+//        }
+//        else if (globals.s.ACTUAL_CHAR == "eletronic")
+//        {
+//            my_skin.GetComponent<Animator>().runtimeAnimatorController = Resources.Load("Sprites/Animations/EletronicHero") as RuntimeAnimatorController;
+//        }
+//		else if (globals.s.ACTUAL_CHAR == "popGaga")
+//		{
+//			my_skin.GetComponent<Animator>().runtimeAnimatorController = Resources.Load("Sprites/Animations/PopGagaAnimator") as RuntimeAnimatorController;
+//		}
+//		else if (globals.s.ACTUAL_CHAR == "reggae")
+//		{
+//			my_skin.GetComponent<Animator>().runtimeAnimatorController = Resources.Load("Sprites/Animations/ReggaeAnimator") as RuntimeAnimatorController;
+//		}
+//		else if (globals.s.ACTUAL_CHAR == "rap")
+//		{
+//			my_skin.GetComponent<Animator>().runtimeAnimatorController = Resources.Load("Sprites/Animations/RapAnimator") as RuntimeAnimatorController;
+//		}
+//    }
+//    
 	public void Init(){
 		my_alert.SetActive (false);
 	}
@@ -143,17 +225,15 @@ public class ball_hero : MonoBehaviour
     {
         if (first_ball == true)
         {
-            if (transform.position.x < 0)
-            {
+            if (transform.position.x < 0) {
                 rb.velocity = new Vector2(globals.s.BALL_SPEED_X, 0);
             }
-            else
-            {
+            else {
                 rb.velocity = new Vector2(-globals.s.BALL_SPEED_X, 0);
             }
             init_my_skin();
 
-			StartCoroutine(InitMyFollowersMovement ());
+			if(myFollowers !=null) StartCoroutine(InitMyFollowersMovement ());
         } 
     }
     
@@ -396,17 +476,15 @@ public class ball_hero : MonoBehaviour
 //            Destroy(gameObject);
 			son_created = false;
 
-			DeactivateMyFollowers ();
+			if(myFollowers != null) DeactivateMyFollowers ();
 			my_alert.SetActive(false);
 			gameObject.SetActive (false);
 			//my_light.SetActive(false);
-            
 		}
 //		else {
 //			Debug.Log (my_id + ": NEVER REACH HERE... SON CREATED: " + son_created);
 //		}
 
-//		if (my_id == globals.s.BALL_ID - 1) {
 		if (my_id == BallMaster.s.currentBall) {
             globals.s.BALL_Y = transform.position.y;
             globals.s.BALL_X = transform.position.x;
@@ -455,7 +533,7 @@ public class ball_hero : MonoBehaviour
            // my_skin.GetComponent<Animator>().Play("Jumping");
             my_skin.GetComponent<Animator>().SetBool("Jumping", true);
 
-			StartCoroutine (JumpMyFollowers ());
+			if(myFollowers != null) StartCoroutine (JumpMyFollowers ());
         }
         //else Debug.Log("ÇÇÇÇÇÇÇÇÇÇÇÇÇÇÇ CANT JUMP! I AM NOT GROUNDED");
     }
@@ -463,7 +541,7 @@ public class ball_hero : MonoBehaviour
     void Land() {
 		if (my_trail != null) my_trail.transform.DOLocalRotate(new Vector3(0, 0, 0), 0.01f, RotateMode.Fast);
 
-		if (myFollowers.Length > 0) {
+		if (myFollowers!= null) {
 			LandMyFollowers ();
 		}
     }
@@ -473,22 +551,25 @@ public class ball_hero : MonoBehaviour
 	#region === FOLLOWERS ===
 
 	public void InitMyFollowers(){
-		StartCoroutine(InitMyFollowersMovement());
+		if(myFollowers != null) StartCoroutine(InitMyFollowersMovement());
 	}
 
 	public IEnumerator InitMyFollowersMovement(){
 //		Debug.Log ("IIIIINIT FL. TIME: " + Time.time + " MY POS: " + transform.position);
-
-		Vector2 myPos = transform.position;
+		if (myFollowers != null && myFollowers.Length > 0) {
+			Vector2 myPos = transform.position;
 //		foreach (Follower f in myFollowers) {
-		for (int i=1 ; i <= myFollowers.Length ;  i++) {
-			yield return new WaitForSeconds (GD.s.FOLLOWER_DELAY);
-			Follower f = myFollowers[i-1];
+			for (int i = 1; i <= myFollowers.Length; i++) {
+				yield return new WaitForSeconds (GD.s.FOLLOWER_DELAY);
+				if (myFollowers != null) {
+					Follower f = myFollowers [i - 1];
 //			Debug.Log (i+" UPDATING POS FOR FOLLOWER " + myPos + " FOLLOWER LENGHT: " + myFollowers.Length + " TTTIME: "+  (GD.s.FOLLOWER_DELAY_BASE + GD.s.FOLLOWER_DELAY * i));
 //			Debug.Log ("REAL TIME: " +Time.time);
-			f.gameObject.SetActive (true);
-			f.transform.position = myPos;
-			f.InitMovement (rb.velocity);
+					f.gameObject.SetActive (true);
+					f.transform.position = myPos;
+					f.InitMovement (rb.velocity);
+				}
+			}
 		}
 	}
 
@@ -496,9 +577,11 @@ public class ball_hero : MonoBehaviour
 		int i = 0;
 		foreach (Follower f in myFollowers) {
 			yield return new WaitForSeconds (GD.s.FOLLOWER_DELAY );
+			if (f != null) {
 //			f.rb.velocity = new Vector2(rb.velocity.x, globals.s.BALL_SPEED_Y);
-			f.JumpOn ();
-			i++;
+				f.JumpOn ();
+				i++;
+			}
 		}
 	}
 
@@ -513,7 +596,16 @@ public class ball_hero : MonoBehaviour
 	void DeactivateMyFollowers(){
 		int i = 1;
 		foreach (Follower f in myFollowers) {
-			StartCoroutine (f.DeactivateMe (GD.s.FOLLOWER_DELAY * i));
+			f.DeactivateMe(GD.s.FOLLOWER_DELAY * i);
+			i++;
+		}
+	}
+
+	void KillMyFollowersWithPainfullDeathsAndSendTheirSoulsToOurMightySatan() {
+		int i = 1;
+		foreach (Follower f in myFollowers) {
+//			StartCoroutine (f.LetMeSacrificeMyselfForTheGreaterGood(GD.s.FOLLOWER_DELAY * i));
+			f.KillMe(GD.s.FOLLOWER_DELAY * i);
 			i++;
 		}
 	}
@@ -684,8 +776,12 @@ public class ball_hero : MonoBehaviour
     }
 
 
-	void destroy_me(string killer_wave_name) //TBD PEGAR A OUTRA BOLA DO BALL MASTER, PEGAR OS FLOOR DA POOL
-	{
+	void destroy_me(string killer_wave_name) { //TBD PEGAR A OUTRA BOLA DO BALL MASTER, PEGAR OS FLOOR DA POOL
+
+		if (myFollowers != null) {
+			KillMyFollowersWithPainfullDeathsAndSendTheirSoulsToOurMightySatan ();
+		}
+
 		ball_hero[] bolas = GameObject.FindObjectsOfType(typeof(ball_hero)) as ball_hero[];
 
 		foreach (ball_hero b in bolas) {
@@ -722,7 +818,6 @@ public class ball_hero : MonoBehaviour
 		Instantiate(explosion, new Vector3(transform.position.x, transform.position.y, transform.position.z), transform.rotation);
 
 		game_controller.s.game_over(killer_wave_name, bolas, with_high_score);
-
 
 	}
 
@@ -1063,8 +1158,7 @@ public class ball_hero : MonoBehaviour
         }
 
     }
-
-
+		
     public void set_symbols_alpha(float alpha)
     {
         if(symbols != null)

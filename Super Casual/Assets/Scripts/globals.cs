@@ -83,6 +83,7 @@ public class globals : MonoBehaviour {
     [HideInInspector]
     public string ACTUAL_CHAR;
 	public MusicStyle ACTUAL_STYLE;
+	public Skin ACTUAL_SKIN;
 
     public int ad_type = 0;
 
@@ -104,6 +105,8 @@ public class globals : MonoBehaviour {
 
 		curGameScreen = GameScreen.MainMenu;
 		previousGameScreen = GameScreen.MainMenu;
+
+		////
 
 
        // DontDestroyOnLoad (transform.gameObject);

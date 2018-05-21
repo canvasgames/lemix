@@ -18,6 +18,7 @@ public class USER : MonoBehaviour {
 //		PlayerPrefs.SetInt ("notes", 4);
 
 		globals.s.ACTUAL_STYLE = (MusicStyle) PlayerPrefs.GetInt ("curStyle", 0);
+		globals.s.ACTUAL_SKIN =  GD.s.skins[PlayerPrefs.GetInt ("curSkin", 0)];
 
         //PlayerPrefs.SetInt("total_games", 0);
 		//PlayerPrefs.SetInt("best", 0);
@@ -74,9 +75,12 @@ public class USER : MonoBehaviour {
 	}
 
 
-	public void SetCurrentSelectedMusic(MusicStyle style){
+	public void SetCurrentSelectedMusic(MusicStyle style, int skinId){
 		PlayerPrefs.SetInt ("curStyle", (int)style);
 		globals.s.ACTUAL_STYLE = style;
+		PlayerPrefs.SetInt ("curSkin", skinId);
+		globals.s.ACTUAL_SKIN = GD.s.skins[skinId];;
+		Debug.Log (" [USER] SET NEW SKIN: " + globals.s.ACTUAL_SKIN.skinName + " ID: " + globals.s.ACTUAL_SKIN.id);
 	}
 
 	public void SaveLastFloor(int currentFloor){

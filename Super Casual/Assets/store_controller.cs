@@ -119,7 +119,7 @@ public class store_controller : MonoBehaviour {
 //		DefineActualCharOnTheScreen ();
 		DefineActualCharOnTheScreenNew ();
 //		OnCharacterChanged(actualCharInScreen);
-		OnCharacterChangedNew((MusicStyle)actualCharInScreen);
+		OnCharacterChangedNew(actualCharInScreen);
 
 //        buyPrice.text = eletronicPrice.ToString();
 
@@ -136,7 +136,8 @@ public class store_controller : MonoBehaviour {
     }
 
 	void DefineActualCharOnTheScreenNew(){
-		actualCharInScreen = (int)globals.s.ACTUAL_STYLE;
+//		actualCharInScreen = (int)globals.s.ACTUAL_STYLE;
+		actualCharInScreen = globals.s.ACTUAL_SKIN.id;
 		actualStyle = globals.s.ACTUAL_STYLE;
 	}
 
@@ -154,8 +155,9 @@ public class store_controller : MonoBehaviour {
 
 	void OpenStore2(){
 		changeAnimationEquipButtonNew((MusicStyle)globals.s.ACTUAL_STYLE);
-		ScrollSnap.SetCurrentPage((MusicStyle)globals.s.ACTUAL_STYLE);
-		title.text = GD.s.GetStyleName ((MusicStyle)globals.s.ACTUAL_STYLE);
+//		ScrollSnap.SetCurrentPage((MusicStyle)globals.s.ACTUAL_STYLE);
+		ScrollSnap.SetCurrentPage(globals.s.ACTUAL_SKIN.id);
+		title.text = globals.s.ACTUAL_SKIN.skinName;
 	}
 
 
@@ -311,22 +313,26 @@ public class store_controller : MonoBehaviour {
     }
     
 	public void equipCharacterNew(bool dontChangeMusic = false){
-		USER.s.SetCurrentSelectedMusic ((MusicStyle)actualCharInScreen);
+//		USER.s.SetCurrentSelectedMusic ((MusicStyle)actualCharInScreen,  1);
+		USER.s.SetCurrentSelectedMusic (GD.s.skins[actualCharInScreen].musicStyle,  actualCharInScreen);
 		changeActualCharSkin ();
 
 //		changeAnimationEquipButton("eletronic");
 		changeAnimationEquipButtonNew((MusicStyle)actualCharInScreen);
-		if(dontChangeMusic == false) sound_controller.s.change_music((MusicStyle)actualCharInScreen);
+		if(dontChangeMusic == false) sound_controller.s.change_music(globals.s.ACTUAL_STYLE);
 	}
 
 
-	public void OnCharacterChangedNew(MusicStyle style, bool dontPlayMusic = false) {
+	public void OnCharacterChangedNew(int skinId, bool dontPlayMusic = false) {
+		MusicStyle style = GD.s.skins [skinId].musicStyle;
 
-		Debug.Log ("[JUKEBOX] Character changed new: " + style.ToString());
-		actualCharInScreen = (int)style;
+//		Debug.Log ("[JUKEBOX] Character changed new: " + style.ToString());
+		Debug.Log ("[JUKEBOX] Character changed new: " + GD.s.skins[skinId].skinName);
+		actualCharInScreen = skinId;
 		actualStyle = style;
 
-		title.text = GD.s.GetStyleName (style);
+//		title.text = GD.s.GetStyleName (style);
+		title.text = GD.s.skins[skinId].skinName;
 
 		if(globals.s.JUKEBOX_SORT_ANIMATION == false && dontPlayMusic == false) 
 //			sound_controller.s.change_music(style);
@@ -654,7 +660,7 @@ public class store_controller : MonoBehaviour {
 
 	IEnumerator GiveReward(){
 
-		OnCharacterChangedNew (actualStyle);
+		OnCharacterChangedNew ((int)actualStyle); // TBDCHAR
 		globals.s.curGameScreen = GameScreen.RewardCharacter;
 
 		GameObject curChar = null;
@@ -676,8 +682,6 @@ public class store_controller : MonoBehaviour {
 		mYTitle.GetComponent<Animator>().speed = 1f;
 		myBgLights.GetComponent<Animator>().speed = 1f;
 		jukeboxBt.gameObject.SetActive (false);
-
-
 	}
 
 
@@ -720,23 +724,7 @@ public class store_controller : MonoBehaviour {
 	#endregion
 
 	#region == Old ==
-	void DefineActualCharOnTheScreen(){
-		if (globals.s.ACTUAL_CHAR.Equals ("electronic"))
-			actualCharInScreen = 0;
-		else if (globals.s.ACTUAL_CHAR.Equals ("rock"))
-			actualCharInScreen = 1;
-		else if (globals.s.ACTUAL_CHAR.Equals ("pop"))
-			actualCharInScreen = 2;
-		else if (globals.s.ACTUAL_CHAR.Equals ("popGaga"))
-			actualCharInScreen = 3;
-		else if (globals.s.ACTUAL_CHAR.Equals ("reggae"))
-			actualCharInScreen = 4;
-		else if (globals.s.ACTUAL_CHAR.Equals ("rap"))
-			actualCharInScreen = 5;
 
-		//		else if(globalscu
-
-	}
 	public void watchedVideo()
 	{
 		USER.s.NOTES += 10;

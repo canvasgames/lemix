@@ -46,6 +46,7 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\AdsController.cs" />
+     <Compile Include="Assets\BallSkin.cs" />
      <Compile Include="Assets\BtJukebox.cs" />
      <Compile Include="Assets\CharGift.cs" />
      <Compile Include="Assets\DataRecorderController.cs" />

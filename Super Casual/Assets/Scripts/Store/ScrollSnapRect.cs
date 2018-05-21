@@ -225,26 +225,26 @@ public class ScrollSnapRect : MonoBehaviour, IBeginDragHandler, IEndDragHandler,
         _previousPageSelectionIndex = aPageIndex;
     }
 
-	public void SetCurrentPage(MusicStyle style){
+	public void SetCurrentPage(int skinId){
 //		Debug.Log("lerp to page : " + (int)style);
-		LerpToPage((int)style);
+		LerpToPage(skinId);
 //		LerpToPage(2);
 //		NextScreen();
 	}
     //------------------------------------------------------------------------
     public void NextScreen() {
-		if(_currentPage == GD.s.N_MUSIC-1)
+		if(_currentPage == GD.s.N_SKINS-1)
         {
 			Debug.Log ("NEXT SCREEN BT PRESSED");
 //			store_controller.s.OnCharacterChanged(0);
-			store_controller.s.OnCharacterChangedNew(MusicStyle.Eletro);
+			store_controller.s.OnCharacterChangedNew(0);
 
             LerpToPage(0);
         }
         else
         {
 //			store_controller.s.OnCharacterChanged(_currentPage + 1);
-			store_controller.s.OnCharacterChangedNew((MusicStyle)(_currentPage + 1));
+			store_controller.s.OnCharacterChangedNew((_currentPage + 1));
             LerpToPage(_currentPage + 1);
         }
     }
@@ -253,12 +253,12 @@ public class ScrollSnapRect : MonoBehaviour, IBeginDragHandler, IEndDragHandler,
     private void PreviousScreen() {
         if (_currentPage == 0)
         {
-			LerpToPage(GD.s.N_MUSIC - 1);
-			store_controller.s.OnCharacterChangedNew((MusicStyle)(GD.s.N_MUSIC - 1));
+			LerpToPage(GD.s.N_SKINS - 1);
+			store_controller.s.OnCharacterChangedNew((GD.s.N_SKINS - 1));
         }
         else
         {
-			store_controller.s.OnCharacterChangedNew((MusicStyle)(_currentPage - 1));
+			store_controller.s.OnCharacterChangedNew((_currentPage - 1));
             LerpToPage(_currentPage - 1);
         }
     }

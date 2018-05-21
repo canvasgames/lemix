@@ -5,6 +5,8 @@ using DG.Tweening;
 
 public class QA : MonoBehaviour {
 
+	public string Phrase;
+
     public static QA s;
 
 	public bool DONT_START_THE_GAME = false;

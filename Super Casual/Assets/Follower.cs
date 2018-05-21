@@ -20,8 +20,44 @@ public class Follower : MonoBehaviour {
 	
 	}
 
-	public IEnumerator DeactivateMe(float time = 1f){
-		yield return new WaitForSeconds (time);
+	public void UpdateMySkin(Skin skin, int bandPosition, Vector2 velocity){
+		if (skin.musicStyle == MusicStyle.Pop) {
+			if (bandPosition == 2) {
+				my_skin.transform.localPosition = new Vector2 (0.05f, 0.04f);
+			} else if (bandPosition == 3 || bandPosition == 4) {
+				my_skin.transform.localPosition = new Vector2 (0.05f, -0.24f);
+				my_skin.transform.localScale = new Vector2 (2.6679f, 2.6679f);
+			} else if (bandPosition == 5) {
+				my_skin.transform.localPosition = new Vector2 (0.05f, -0.075f);
+				my_skin.transform.localScale = new Vector2 (2.272163f, 2.272163f);
+			}
+		} else {
+			my_skin.transform.localPosition = new Vector2 (0.05f, 0.04f);
+			my_skin.transform.localScale = new Vector2 (3f, 3f);
+		}
+		myXScale = my_skin.transform.localScale.x;
+
+		if (velocity.x > 0) {
+			my_skin.transform.localScale = new Vector2(-myXScale, my_skin.transform.localScale.y);
+		}
+		else {
+			my_skin.transform.localScale = new Vector2(myXScale, my_skin.transform.localScale.y);
+		}
+
+		my_skin.GetComponent<Animator> ().runtimeAnimatorController = 
+			Resources.Load ("Sprites/Animations/" + globals.s.ACTUAL_STYLE.ToString () + "Band" + bandPosition + "Animator") as RuntimeAnimatorController;
+	}
+
+	public void DeactivateMe(float time){
+		StartCoroutine( DeactivateMeCoroutine(time));
+	}
+
+	public IEnumerator DeactivateMeCoroutine(float time = 1f){
+		Debug.Log (" DDDDDDDDDDDEACTIVATING FOLLOWER!!! time: " + time);
+
+//		yield return new WaitForSeconds (time);
+		yield return new WaitForSeconds (0.1f);
+		Debug.Log (" DEACTIVATING FOLLOWER!!! " + time);
 		gameObject.SetActive (false);
 	}
 	
@@ -65,12 +101,24 @@ public class Follower : MonoBehaviour {
 
 	public void init_my_skin() {
 		if (transform.position.x < 0 ) {
-			my_skin.transform.localScale = new Vector2(-3, my_skin.transform.localScale.y);
+			my_skin.transform.localScale = new Vector2(-my_skin.transform.localScale.x, my_skin.transform.localScale.y);
 		}
 		else if (transform.position.x > 0) {
-			my_skin.transform.localScale = new Vector2(3, my_skin.transform.localScale.y);
+			my_skin.transform.localScale = new Vector2(my_skin.transform.localScale.x, my_skin.transform.localScale.y);
 		}
 	}
+		
+	public void KillMe(float time){
+		StartCoroutine(LetMeSacrificeMyselfForTheGreaterGood(time));
+	}
 
+	public IEnumerator LetMeSacrificeMyselfForTheGreaterGood(float time = 1f){
+		Debug.Log ("iiiiiiiiiiiiii KILL MY FOLLOWE RMEEEEEES tim: " + time);
+		yield return new WaitForSeconds (time);
+//		if(sound_controller.s != null) sound_controller.s.PlayExplosion();
+		Debug.Log ("KILL MY FOLLOWE RMEEEEEES" + time);
+		BallMaster.s.CreateExplosion (transform.position);
+		gameObject.SetActive (false);
+	}
 
 }
