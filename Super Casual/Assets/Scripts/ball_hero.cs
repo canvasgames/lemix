@@ -96,7 +96,7 @@ public class ball_hero : MonoBehaviour
 
 	void OnEnable() {
 		if (first_ball == false && my_skin.activeInHierarchy && myStyle != globals.s.ACTUAL_STYLE) {
-			Debug.Log (iAmLeft + "[BALL HERO] UPDATE BALL SKIN ON ENABLE");
+			Debug.Log (iAmLeft + " [BALL HERO] UPDATE BALL SKIN ON ENABLE");
 			UpdateMySkin ();
 		}
 	}
@@ -169,14 +169,22 @@ public class ball_hero : MonoBehaviour
 				myFollowers [i].UpdateMySkin (globals.s.ACTUAL_SKIN, i + 2, rb.velocity);
 
 				Debug.Log (iAmLeft + i.ToString () + "usd4 UPDATE MY SKIN: " + globals.s.ACTUAL_STYLE.ToString ());
-
 			} 
 		}
 		else if (globals.s.ACTUAL_SKIN.isClothChanger == true) {
+			Debug.Log ("!!!!!!!!!IS CLOTH CHANGER");
 			my_skin.GetComponent<Animator> ().runtimeAnimatorController = 
-				Resources.Load ("Sprites/Animations/" + globals.s.ACTUAL_STYLE.ToString () + "Special1Animator") as RuntimeAnimatorController;
+				Resources.Load ("Sprites/Animations/" + globals.s.ACTUAL_STYLE.ToString ()
+					+ "Special" + BallMaster.s.clothChangerCurrent
+					+ "Animator") as RuntimeAnimatorController;
+
+//			BallMaster.s.clothChangerCurrent++;
+
+//			my_skin.GetComponent<Animator> ().runtimeAnimatorController = 
+//				Resources.Load ("Sprites/Animations/" + globals.s.ACTUAL_STYLE.ToString () + "Special1Animator") as RuntimeAnimatorController;
 		} 
 
+		BallMaster.s.DeactivateUnnusedFollowers ();
 //		if (Resources.Load ("Sprites/Animations/" + globals.s.ACTUAL_STYLE.ToString () + QA.s.Phrase + "Animator") as RuntimeAnimatorController != null) {
 //			my_skin.GetComponent<Animator> ().runtimeAnimatorController = 
 //				Resources.Load ("Sprites/Animations/" + globals.s.ACTUAL_STYLE.ToString () + QA.s.Phrase + "Animator") as RuntimeAnimatorController;
@@ -381,19 +389,8 @@ public class ball_hero : MonoBehaviour
 
 			//Debug.Log("BALL DESTROYED TIME: " + Time.time + " .. TIME DIF: " + (Time.time - time_dif));
 
-
-			//instantiating my son at the other side of the screen
-//            my_son = (GameObject)Instantiate(bola,
-//                                              new Vector3(x_new_pos,
-//                                                            // (transform.position.y + globals.s.FLOOR_HEIGHT+1), 
-//                                                            transform.position.y + globals.s.FLOOR_HEIGHT,
-//                                                              0),
-//                                              transform.rotation);
-
 			my_son = BallMaster.s.ReturnInactiveBall ();
 			my_son.transform.position = new Vector2 (x_new_pos, transform.position.y + globals.s.FLOOR_HEIGHT);
-			//                                                            transform.position.y + globals.s.FLOOR_HEIGHT,
-            
 
 			PW_controller.s.add_ball (my_son.GetComponent<ball_hero> ());
 //			BallMaster.s.AddNewBall(my_son.GetComponent<ball_hero>());
@@ -417,8 +414,10 @@ public class ball_hero : MonoBehaviour
 				//Debug.Log("aaaaaaanimator: " + my_skin.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).normalizedTime);
 			}
 
-//			StartCoroutine(my_son.GetComponent<ball_hero>().InitMyFollowersMovement());
 			my_son.GetComponent<ball_hero>().InitMyFollowers();
+
+			if(globals.s.ACTUAL_SKIN.isClothChanger) my_son.GetComponent<ball_hero>().UpdateMySkinAndMakeMeFabolous();
+
 
 			// CALL GAME CONTROLLER
 			game_controller.s.ball_up (my_floor);
@@ -470,8 +469,7 @@ public class ball_hero : MonoBehaviour
         else if (son_created == true && (transform.position.x < globals.s.LIMIT_LEFT - globals.s.BALL_D ||
 		               transform.position.x > globals.s.LIMIT_RIGHT + globals.s.BALL_D)) {
 //			Debug.Log ("Destroy me !!!! my pos:" + transform.position.x);
-//			BallMaster.s.RemoveBall (this);
-//            Destroy(gameObject);
+
 			son_created = false;
 
 			if(myFollowers != null) DeactivateMyFollowers ();
@@ -502,6 +500,28 @@ public class ball_hero : MonoBehaviour
 
 		if(!is_destroyed) Invoke("create_note_trail",0.07f);
 	}
+
+	int clothChangerSkin = 1;
+	void UpdateMySkinAndMakeMeFabolous(){
+		Invoke ("UpdateSkinGagaForReal", 0.01f);
+
+	}
+
+	void UpdateSkinGagaForReal(){
+		BallMaster.s.clothChangerCurrent++;
+		if (BallMaster.s.clothChangerCurrent > 3)
+			BallMaster.s.clothChangerCurrent = 1;
+		Debug.Log (iAmLeft + " !!!!!!!!!ccccccccccccc IS CLOTH CHANGER! cur: " + BallMaster.s.clothChangerCurrent);
+
+		my_skin.GetComponent<Animator> ().runtimeAnimatorController = 
+			Resources.Load ("Sprites/Animations/" + globals.s.ACTUAL_STYLE.ToString ()
+				+ "Special" + BallMaster.s.clothChangerCurrent
+				+ "Animator") as RuntimeAnimatorController;
+
+//		my_skin.GetComponent<Animator> ().SetBool ("jumping", false);
+//		my_skin.GetComponent<Animator> ().Play ("Running");
+	}
+
     #endregion
 
 	#region ======= Jump ==========
@@ -537,6 +557,8 @@ public class ball_hero : MonoBehaviour
     }
 
     void Land() {
+//		Debug.Log ("[BALL " + (iAmLeft) + "] LANDING!!!!");
+
 		if (my_trail != null) my_trail.transform.DOLocalRotate(new Vector3(0, 0, 0), 0.01f, RotateMode.Fast);
 
 		if (myFollowers!= null) {
@@ -548,8 +570,10 @@ public class ball_hero : MonoBehaviour
 
 	#region === FOLLOWERS ===
 
+
 	public void InitMyFollowers(){
-		if(myFollowers != null) StartCoroutine(InitMyFollowersMovement());
+		if(myFollowers != null) BallMaster.s.IEnumeratorInitFollowersMovement (iAmLeft, transform.position, rb.velocity);
+//		if(myFollowers != null) StartCoroutine(InitMyFollowersMovement());
 	}
 
 	public IEnumerator InitMyFollowersMovement(){
@@ -586,10 +610,20 @@ public class ball_hero : MonoBehaviour
 	void LandMyFollowers(){
 		int i = 1;
 		foreach (Follower f in myFollowers) {
-			StartCoroutine (f.LandOn (GD.s.FOLLOWER_DELAY * i, transform.position.y));
+//			StartCoroutine (f.LandOn (GD.s.FOLLOWER_DELAY * i, transform.position.y));
+			f.IenumeratorLandOn (GD.s.FOLLOWER_DELAY * i);
 			i++;
 		}
 	}
+
+	void WallCollisionForMyFollowers (){
+		int i = 1;
+		foreach (Follower f in myFollowers) {
+			f.IenumeratorWallCollision (GD.s.FOLLOWER_DELAY * i);
+			i++;
+		}
+	}
+
 
 	void DeactivateMyFollowers(){
 		int i = 1;
@@ -601,12 +635,16 @@ public class ball_hero : MonoBehaviour
 
 	void KillMyFollowersWithPainfullDeathsAndSendTheirSoulsToOurMightySatan() {
 		int i = 1;
-		foreach (Follower f in myFollowers) {
-//			StartCoroutine (f.LetMeSacrificeMyselfForTheGreaterGood(GD.s.FOLLOWER_DELAY * i));
-			f.KillMe(GD.s.FOLLOWER_DELAY * i);
-			i++;
-		}
+		BallMaster.s.IEnumeratorforDeath (iAmLeft, transform.position);
+
+//		foreach (Follower f in myFollowers) {
+////			StartCoroutine (f.LetMeSacrificeMyselfForTheGreaterGood(GD.s.FOLLOWER_DELAY * i));
+//			f.KillMe(GD.s.FOLLOWER_DELAY * i);
+//			i++;
+//		}
 	}
+
+
 		
 	#endregion
 
@@ -639,6 +677,9 @@ public class ball_hero : MonoBehaviour
 		{
 			rb.velocity = new Vector2(-rb.velocity.x, rb.velocity.y);
 			my_skin.transform.localScale = new Vector2(-my_skin.transform.localScale.x, my_skin.transform.localScale.y);
+
+			if (myFollowers != null)
+				WallCollisionForMyFollowers ();
 
 			if (transform.position.y < main_camera.s.transform.position.y - 10f) {
 				hitted_wall = true;
@@ -822,14 +863,12 @@ public class ball_hero : MonoBehaviour
 
     #endregion
 
-    public void send_actual_balls()
-    {
+    public void send_actual_balls() {
         ball_hero[] bolas = GameObject.FindObjectsOfType(typeof(ball_hero)) as ball_hero[];
 
         game_controller.s.store_unactive_balls(bolas);
 
-        foreach (ball_hero b in bolas)
-        {
+        foreach (ball_hero b in bolas) {
             //Destroy(b.gameObject);
             b.gameObject.SetActive(false);
         }

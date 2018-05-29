@@ -46,11 +46,7 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Demigiant\DOTween\Editor\MenusEditor.cs" />
-     <None Include="Assets\Demigiant\DOTween\readme.txt" />
      <None Include="Assets\Demigiant\DOTween\DOTween50.xml" />
-     <None Include="Assets\Demigiant\DOTween\DOTween46.xml" />
-     <None Include="Assets\Fonts\Aldo the Apache_Regular.xml" />
-     <None Include="Assets\Demigiant\DOTween\DOTween43.xml" />
  <Reference Include="UnityEngine.Advertisements">
  <HintPath>C:/Program Files/Unity 5.3.5f1 Real/Editor/Data/UnityExtensions/Unity/Advertisements/UnityEngine.Advertisements.dll</HintPath>
  </Reference>
@@ -103,8 +99,6 @@
   <ItemGroup>
     <ProjectReference Include="Assembly-CSharp-firstpass.csproj">
       <Project>{FC1182EE-617B-4E89-AB16-240DF938751B}</Project>      <Name>Assembly-CSharp-firstpass</Name>    </ProjectReference>
-    <ProjectReference Include="Assembly-CSharp.csproj">
-      <Project>{0C34E951-EB8D-E042-AFDA-F7DEA2EF6A7B}</Project>      <Name>Assembly-CSharp</Name>    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

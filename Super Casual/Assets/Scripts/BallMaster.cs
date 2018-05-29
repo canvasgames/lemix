@@ -11,6 +11,9 @@ public class BallMaster : MonoBehaviour {
 	public Follower[] followersBall1, followersBall2;
 	public GameObject ballPrefab;
 	public int currentBall;
+	public int clothChangerCurrent = 1;
+
+
 	void Awake(){
 		s = this;
 //		Invoke ("Test", 1f);
@@ -40,7 +43,10 @@ public class BallMaster : MonoBehaviour {
 	public void DeactivateUnnusedFollowers(){
 		if (globals.s.ACTUAL_SKIN.bandN > 0) {
 			for (int i = 0; i < followersBall1.Length; i++) {
-				if (i > globals.s.ACTUAL_SKIN.bandN - 1) {
+				Debug.Log ("DEactivate unnused!!!!! " + i);
+				if (i > globals.s.ACTUAL_SKIN.bandN - 2) {
+					Debug.Log ("DEppppppppppactivate unnused!!!!! " + i);
+
 					followersBall1 [i].gameObject.SetActive (false);
 					followersBall2 [i].gameObject.SetActive (false);
 				}
@@ -105,6 +111,37 @@ public class BallMaster : MonoBehaviour {
 
 	#endregion
 
+	public void IEnumeratorInitFollowersMovement(bool iAmLeft, Vector2 myPos, float speed){ 
+		StartCoroutine (InitFollowersMovement (iAmLeft, myPos, speed));
+	}
+
+
+	public IEnumerator InitFollowersMovement(bool iAmLeft, Vector2 myPos, float speed){
+		for (int i = 1; i <= globals.s.ACTUAL_SKIN.bandN - 1; i++) {
+			yield return new WaitForSeconds (GD.s.FOLLOWER_DELAY);
+			Follower f = null;
+			if (iAmLeft) {
+				if (followersBall1 [i].isActiveAndEnabled) {
+					f = followersBall1 [i];
+				} 
+				else
+					Debug.Log ("THIS SHOULD NEVER HAPPEN");
+			} else {
+				if (followersBall2 [i].isActiveAndEnabled) {
+					f = followersBall2 [i];
+				}
+				else
+					Debug.Log ("THIS SHOULD NEVER HAPPEN");
+			}
+
+			f.gameObject.SetActive (true);
+			f.transform.position = myPos;
+			f.InitMovement (speed);
+		}
+	}
+
+
+
 	public GameObject ReturnInactiveBall(){
 
 		if (currentBall == 0) {
@@ -119,6 +156,33 @@ public class BallMaster : MonoBehaviour {
 		return balls.ToArray () [currentBall].gameObject;
 	}
 
+	public void IEnumeratorforDeath(bool iAmLeft, Vector2 deathPos){
+		StartCoroutine(FollowerMariaVaiComAsOutras(iAmLeft, deathPos));
+	}
+
+	IEnumerator FollowerMariaVaiComAsOutras (bool iAmLeft, Vector2 deathPos) {
+
+		for(int i = 0; i < globals.s.ACTUAL_SKIN.bandN-1; i++){
+			yield return new WaitForSeconds(GD.s.FOLLOWER_DELAY);
+			 
+			if (iAmLeft) {
+				if (followersBall1 [i].isActiveAndEnabled) {
+					followersBall1 [i].gameObject.SetActive (false);
+					BallMaster.s.CreateExplosion (deathPos);
+				} 
+				else
+					Debug.Log ("THIS SHOULD NEVER HAPPEN");
+			} else {
+				if (followersBall2 [i].isActiveAndEnabled) {
+					followersBall2 [i].gameObject.SetActive (false);
+					BallMaster.s.CreateExplosion (deathPos);
+				}
+				else
+					Debug.Log ("THIS SHOULD NEVER HAPPEN");
+			}
+
+		}
+	}
 
 	public void CreateExplosion(Vector3 pos){
 		Instantiate(ballExplosion, pos, transform.rotation);

@@ -17,15 +17,15 @@ public class BallSkin : MonoBehaviour {
 
 
 	void LateUpdate () {
-		var subSprites = Resources.LoadAll<Sprite> ("Bethoven_Anim_Correndo");
-
-		foreach (var renderer in GetComponents<SpriteRenderer>()) {
-			string spriteName = renderer.sprite.name;
-
-			var newSprite = Array.Find (subSprites, item => item.name == spriteName);
-
-			if (newSprite)
-				renderer.sprite = newSprite;
-		}
+//		var subSprites = Resources.LoadAll<Sprite> ("Bethoven_Anim_Correndo");
+//
+//		foreach (var renderer in GetComponents<SpriteRenderer>()) {
+//			string spriteName = renderer.sprite.name;
+//
+//			var newSprite = Array.Find (subSprites, item => item.name == spriteName);
+//
+//			if (newSprite)
+//				renderer.sprite = newSprite;
+//		}
 	}
 }

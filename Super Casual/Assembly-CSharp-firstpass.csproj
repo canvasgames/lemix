@@ -46,11 +46,7 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Standard Assets\Utility\FPSCounter.cs" />
-     <None Include="Assets\Demigiant\DOTween\readme.txt" />
      <None Include="Assets\Demigiant\DOTween\DOTween50.xml" />
-     <None Include="Assets\Demigiant\DOTween\DOTween46.xml" />
-     <None Include="Assets\Fonts\Aldo the Apache_Regular.xml" />
-     <None Include="Assets\Demigiant\DOTween\DOTween43.xml" />
  <Reference Include="UnityEngine.Advertisements">
  <HintPath>C:/Program Files/Unity 5.3.5f1 Real/Editor/Data/UnityExtensions/Unity/Advertisements/UnityEngine.Advertisements.dll</HintPath>
  </Reference>
