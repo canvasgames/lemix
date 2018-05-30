@@ -111,12 +111,12 @@ public class BallMaster : MonoBehaviour {
 
 	#endregion
 
-	public void IEnumeratorInitFollowersMovement(bool iAmLeft, Vector2 myPos, float speed){ 
+	public void IEnumeratorInitFollowersMovement(bool iAmLeft, Vector2 myPos, Vector2 speed){ 
 		StartCoroutine (InitFollowersMovement (iAmLeft, myPos, speed));
 	}
 
 
-	public IEnumerator InitFollowersMovement(bool iAmLeft, Vector2 myPos, float speed){
+	public IEnumerator InitFollowersMovement(bool iAmLeft, Vector2 myPos, Vector2 speed){
 		for (int i = 1; i <= globals.s.ACTUAL_SKIN.bandN - 1; i++) {
 			yield return new WaitForSeconds (GD.s.FOLLOWER_DELAY);
 			Follower f = null;

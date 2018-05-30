@@ -149,7 +149,11 @@ public class main_camera : MonoBehaviour {
                     // stop camera
                     else if (moving && globals.s.BALL_Y < transform.position.y - globals.s.FLOOR_HEIGHT && globals.s.BALL_GROUNDED == true)
                     {
-                        rb.velocity = new Vector2(0, 0);
+                        
+                        if(globals.s.BALL_Y < transform.position.y - globals.s.FLOOR_HEIGHT - 2)
+                            rb.velocity = new Vector2(0, - globals.s.CAMERA_SPEED);
+                        else
+                            rb.velocity = new Vector2(0, 0);
                         moving = false;
                     }
 
@@ -163,7 +167,8 @@ public class main_camera : MonoBehaviour {
             }
             else
             {
-                rb.velocity = new Vector2(0, 0);
+               // rb.velocity = new Vector2(0, 0);
+                rb.velocity = new Vector2(0, -globals.s.CAMERA_SPEED);
                 moving = false;
             }
         }
