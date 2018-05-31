@@ -16,6 +16,8 @@ public class objects_pool_controller : MonoBehaviour {
 
 	[HideInInspector] public GameObject[] holesPool;
 
+	[HideInInspector] public GameObject[] wallsPool;
+
 	[HideInInspector] public GameObject[] power_ups_pool;
 	[HideInInspector] public PW_Collect[] pw_scripts;
 	int power_ups_pool_size = 5;
@@ -133,6 +135,17 @@ public class objects_pool_controller : MonoBehaviour {
 			power_ups_pool[i].transform.position = new Vector2(-1000,-1000);
 		}
 		power_ups_actual_i = 0;
+
+
+//		for (i = 0; i < wallsPool.Length; i++) {
+//			wallsPool[i].transform.position = new Vector2(-1000,-1000);
+//		}
+
+		wall[] walls = FindObjectsOfType<wall>();
+
+		foreach (wall w in walls) {
+			w.gameObject.SetActive (false);
+		}
 
 		hole_behaviour[] holes = FindObjectsOfType<hole_behaviour>();
 		foreach (hole_behaviour obj in holes) {

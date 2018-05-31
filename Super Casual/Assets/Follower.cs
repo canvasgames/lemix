@@ -66,7 +66,6 @@ public class Follower : MonoBehaviour {
 			Resources.Load ("Sprites/Animations/" + globals.s.ACTUAL_STYLE.ToString () + "Band" + bandPosition + "Animator") as RuntimeAnimatorController;
 	}
 
-
 	public void init_my_skin() {
 		if (transform.position.x < 0 ) {
 			my_skin.transform.localScale = new Vector2(-my_skin.transform.localScale.x, my_skin.transform.localScale.y);
@@ -78,7 +77,6 @@ public class Follower : MonoBehaviour {
 	}
 
 	#endregion
-
 
 	#region === Gameplay Events ====
 	public void JumpOn(){
@@ -110,13 +108,11 @@ public class Follower : MonoBehaviour {
 		StartCoroutine( WallCollision (time));
 	}
 
-
 	IEnumerator WallCollision(float time){
 		yield return new WaitForSeconds(time);
 		rb.velocity = -rb.velocity;
 		my_skin.transform.localScale = new Vector2(-my_skin.transform.localScale.x, my_skin.transform.localScale.y);
 	}
-
 
 	#endregion
 

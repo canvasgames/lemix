@@ -20,8 +20,11 @@ public class floor_note : MonoBehaviour {
             already_appeared = true;
           
             mySR.enabled = true;
-            mySR.color = new Color(mySR.color.r, mySR.color.g, mySR.color.b, 0);
-            mySR.DOFade(1, 0.3f);
+//            mySR.color = new Color(mySR.color.r, mySR.color.g, mySR.color.b, 0);
+//            mySR.DOFade(1, 0.3f);
+//			GetComponent<Animator>().Play("NoteFadeInAnimation");
+			GetComponent<Animator> ().enabled = true;
+			GetComponent<Animator> ().SetTrigger ("FadeIn");
             //Debug.Log("LET ME APPEAR! MY: " + transform.position.x + " BALL X: " + globals.s.BALL_X + "ball speed: " + globals.s.CUR_BALL_SPEED);
         }
 	

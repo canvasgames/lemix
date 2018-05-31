@@ -59,6 +59,49 @@ public class BallMaster : MonoBehaviour {
 		}
 	}
 
+
+	public void IEnumeratorInitFollowersMovement(bool iAmLeft, Vector2 myPos, Vector2 speed){ 
+		StartCoroutine (InitFollowersMovement (iAmLeft, myPos, speed));
+	}
+
+
+	public IEnumerator InitFollowersMovement(bool iAmLeft, Vector2 myPos, Vector2 speed){
+		for (int i = 0; i <= globals.s.ACTUAL_SKIN.bandN - 2; i++) {
+			yield return new WaitForSeconds (GD.s.FOLLOWER_DELAY);
+			Follower f = null;
+			if (iAmLeft) {
+				f = followersBall1 [i];
+
+			} else {
+				f = followersBall2 [i];
+			}
+
+			f.gameObject.SetActive (true);
+			f.transform.position = myPos;
+			f.InitMovement (speed);
+		}
+	}
+
+	public void IEnumeratorJumpMyFollowers(bool iAmLeft){
+		StartCoroutine (JumpMothaFockaJump (iAmLeft));
+
+	}
+
+	IEnumerator JumpMothaFockaJump(bool iAmLeft){
+		for (int i = 0; i <= globals.s.ACTUAL_SKIN.bandN - 2; i++) {
+			yield return new WaitForSeconds (GD.s.FOLLOWER_DELAY);
+			Follower f = null;
+			if (iAmLeft) {
+				f = followersBall1 [i];
+			} else {
+				f = followersBall2 [i];
+			}
+
+			f.JumpOn ();
+		}
+	}
+
+
 	#endregion
 
 	#region === INIT ===
@@ -110,36 +153,6 @@ public class BallMaster : MonoBehaviour {
 
 
 	#endregion
-
-	public void IEnumeratorInitFollowersMovement(bool iAmLeft, Vector2 myPos, Vector2 speed){ 
-		StartCoroutine (InitFollowersMovement (iAmLeft, myPos, speed));
-	}
-
-
-	public IEnumerator InitFollowersMovement(bool iAmLeft, Vector2 myPos, Vector2 speed){
-		for (int i = 1; i <= globals.s.ACTUAL_SKIN.bandN - 1; i++) {
-			yield return new WaitForSeconds (GD.s.FOLLOWER_DELAY);
-			Follower f = null;
-			if (iAmLeft) {
-				if (followersBall1 [i].isActiveAndEnabled) {
-					f = followersBall1 [i];
-				} 
-				else
-					Debug.Log ("THIS SHOULD NEVER HAPPEN");
-			} else {
-				if (followersBall2 [i].isActiveAndEnabled) {
-					f = followersBall2 [i];
-				}
-				else
-					Debug.Log ("THIS SHOULD NEVER HAPPEN");
-			}
-
-			f.gameObject.SetActive (true);
-			f.transform.position = myPos;
-			f.InitMovement (speed);
-		}
-	}
-
 
 
 	public GameObject ReturnInactiveBall(){

@@ -9,7 +9,6 @@ public class ball_hero : MonoBehaviour
 	public Follower[] myFollowers = null;
 	public bool iAmLeft;
 
-
 	Skin mySkinType;
 	MusicStyle myStyle;
 	public GameObject superJumpEffect;
@@ -33,14 +32,14 @@ public class ball_hero : MonoBehaviour
     public bool son_created = false;
     [HideInInspector]
     public GameObject my_son;
-    public GameObject my_alert;
+	public GameObject my_alert;
     public GameObject bola;
-    public GameObject heart, super, sight;
-    public GameObject symbols;
+
     public note_trail_behavior my_note_trail;
     bool sight_active = false;
     bool heart_active = false;
     bool facing_right = false;
+	public GameObject myShield;
 
     public GameObject my_skin;
 
@@ -551,7 +550,8 @@ public class ball_hero : MonoBehaviour
            // my_skin.GetComponent<Animator>().Play("Jumping");
             my_skin.GetComponent<Animator>().SetBool("Jumping", true);
 
-			if(myFollowers != null) StartCoroutine (JumpMyFollowers ());
+//			if(myFollowers != null) StartCoroutine (JumpMyFollowers ());
+			if(myFollowers != null) BallMaster.s.IEnumeratorJumpMyFollowers(iAmLeft);
         }
         //else Debug.Log("ÇÇÇÇÇÇÇÇÇÇÇÇÇÇÇ CANT JUMP! I AM NOT GROUNDED");
     }
@@ -912,8 +912,6 @@ public class ball_hero : MonoBehaviour
     {
 		if(QA.s.TRACE_PROFUNDITY >=2) Debug.Log ("PW GO UP START!! MY FLOOR: " + my_floor);
 		my_floor_after_super_jump = my_floor + 5;
-        symbols.transform.GetComponent<SpriteRenderer>().DOFade(0, 0);
-		super.SetActive(true);
 		jetpack.SetActive(true);
         my_alert.SetActive(false);
         rb.velocity = new Vector2(0, 0);
@@ -1010,7 +1008,6 @@ public class ball_hero : MonoBehaviour
             rb.velocity = new Vector2(globals.s.BALL_SPEED_X, rb.velocity.y);
 
 		init_my_skin ();
-        super.SetActive(false);
 
         Invoke("unactivate_squares", 0.3f);
     }
@@ -1134,81 +1131,26 @@ public class ball_hero : MonoBehaviour
     {
         if (globals.s.PW_SIGHT_BEYOND_SIGHT == true && sight_active == false)
         {
-            sight_start();
+           // sight_start();
         }
         else if ((globals.s.PW_SIGHT_BEYOND_SIGHT == false && sight_active == true))
         {
-            sight_end();
+           // sight_end();
         }
 
-        if (globals.s.PW_INVENCIBLE == true && heart_active == false)
-        {
-            heart_start();
+        if (globals.s.PW_INVENCIBLE == true && heart_active == false) {
+            //heart_start();
+			heart_active = true;
+			myShield.SetActive (true);
         }
-        else if (globals.s.PW_INVENCIBLE == false && heart_active == true)
-        {
-            heart_end();
+        else if (globals.s.PW_INVENCIBLE == false && heart_active == true) {
+            //heart_end();
+			myShield.SetActive (false);
+			heart_active = false;
         }
     }
     #endregion
 
-    #region POWER UP -> SIGHT BEYOND SIGHT 
-    public void sight_start()
-    {
-        symbols.transform.GetComponent<SpriteRenderer>().DOFade(0, 0);
-        sight_active = true;
-        sight.SetActive(true);
-        
-    }
-
-    void sight_end()
-    {
-        sight_active = false;
-        sight.SetActive(false);
-
-        
-    }
-    #endregion
-
-    #region POWER UP -> LIFE
-    void heart_start()
-    {
-        symbols.transform.GetComponent<SpriteRenderer>().DOFade(0, 0);
-        heart_active = true;
-        heart.SetActive(true);
-    }
-
-
-    void heart_end()
-    {
-        heart_active = false;
-        heart.SetActive(false);
-    }
-
-    #endregion
-
-    public void pw_ending_fade_symbol_mask(float alpha)
-    {
-        if (symbols != null)
-        {
-            symbols.transform.GetComponent<SpriteRenderer>().DOFade(alpha, 0);
-        }
-
-    }
-		
-    public void set_symbols_alpha(float alpha)
-    {
-        if(symbols != null)
-        {
-            symbols.transform.GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f, alpha);
-        }
-        
-    }
-
-    public void set_symbols_active(bool active)
-    {
-        symbols.SetActive(active);
-    }
 
     #region =========== DEBUG ================
     void back_to_normal_color() {

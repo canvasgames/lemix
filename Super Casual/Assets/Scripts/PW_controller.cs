@@ -174,16 +174,7 @@ public class PW_controller : MonoBehaviour
             previous_time = Time.time;
             temp_alpha = temp_alpha + 0.0025f;
         }
-
-
-        if (balls[0] != null)
-        {
-            balls[0].pw_ending_fade_symbol_mask(temp_alpha);
-        }
-        if (balls[1] != null)
-        {
-            balls[1].pw_ending_fade_symbol_mask(temp_alpha);
-        }
+			
     }
 
 
