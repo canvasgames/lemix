@@ -152,6 +152,7 @@
      <Compile Include="Assets\Stage4RythmBehaviour.cs" />
      <Compile Include="Assets\Stage5RythmBehaviour.cs" />
      <Compile Include="Assets\SuperJumpEffect.cs" />
+     <Compile Include="Assets\TransMaster.cs" />
      <Compile Include="Assets\floor_note.cs" />
      <Compile Include="Assets\floor_skin_bg.cs" />
      <Compile Include="Assets\note_behaviour.cs" />

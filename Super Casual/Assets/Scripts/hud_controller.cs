@@ -1206,6 +1206,8 @@ public class hud_controller : MonoBehaviour {
 
 
     }
+
+	// OLD GIFT ANIMATION LOGIC
     public void getGift()
     {
         PlayerPrefs.SetInt("CanGetGift", 0);
@@ -1237,7 +1239,7 @@ public class hud_controller : MonoBehaviour {
 				giftAnimation.SetActive (true);
 				
 //				StartCoroutine (GiveCharNew ((MusicStyle)rand));
-				StartCoroutine (GiveCharNew (styleToGive));
+//				StartCoroutine (GiveCharNew (styleToGive));
 
 				giftAnimation.GetComponent<GiftAnimationLogic> ().Init ();
 			}
@@ -1256,7 +1258,7 @@ public class hud_controller : MonoBehaviour {
 
 		giftChar.SetActive (true);
 		giftChar.GetComponent<CharGift> ().InitAnimation (style);
-		store_controller.s.GiveCharacterForFreeNew (style);
+//		store_controller.s.GiveCharacterForFreeNew (style);
 
 //		giftBt.GetComponent<GiftButton> ().SetCountownState ();
 		getGift ();

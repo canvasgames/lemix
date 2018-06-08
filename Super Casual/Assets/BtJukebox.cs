@@ -6,9 +6,13 @@ using DG.Tweening;
 public class BtJukebox : MonoBehaviour {
 
 	Button myButton;
+	public bool particlesAnimationIsOn;
 	Image myImage;
+	[SerializeField] GameObject[] myParticlesPool;
 	[SerializeField] ParticleSystem myParticles;
+	[SerializeField]  GameObject myParticlesNew;
 	[SerializeField] GameObject myReadyEffect;
+	[SerializeField] GameObject myTextImage;
 	// Use this for initialization
 	void Awake () {
 		myButton = GetComponent<Button> ();
@@ -16,7 +20,7 @@ public class BtJukebox : MonoBehaviour {
 
 //		SetNewStyleState ();
 //		SetChangeStyleState ();
-
+		BeginMyParticlesAnimation();
 	}
 	
 	// Update is called once per frame
@@ -24,10 +28,55 @@ public class BtJukebox : MonoBehaviour {
 
 	}
 
-	public void SetChangeStyleState(){
-		if(myParticles) myParticles.gameObject.SetActive (false);
 
-		Sprite img = Resources.Load<Sprite> ("Sprites/GameOver/change-style");
+	public void BeginMyParticlesAnimation(){
+		particlesAnimationIsOn = true;
+		StartCoroutine (ParticlesAnimation ());
+	}
+
+	IEnumerator ParticlesAnimation(){
+		float xLeft = -170, xRight = 170, xCur = 0, yCenter = 0;
+		int i = 0;
+		int xInc = 85;
+		xCur = xLeft;
+		while (particlesAnimationIsOn) {
+			yield return new WaitForSeconds (0.15f);
+
+			GameObject curParticle = myParticlesPool [i]; // pega a particula
+			curParticle.SetActive (true);
+			curParticle.transform.DOKill ();
+			int rand = xInc + Random.Range (-5, 5) * 10;
+			xCur = xCur + rand; // randomiza posição X
+			if (xCur > xRight)
+				xCur = xCur - xRight*2;
+			curParticle.transform.localPosition = new Vector2 (xCur, yCenter);  //seta a posição
+
+			float randS = Random.Range (0.7f, 1f);
+			curParticle.transform.localScale = new Vector3 (randS, randS, 1f); // randomiza a scale
+
+			int yTargetPos = Random.Range (100, 200); // Subir pra cima
+			curParticle.transform.DOLocalMoveY (curParticle.transform.localPosition.y + yTargetPos, 3f);
+//			curParticle.GetComponent<Image> ().DOFade (0, 2f);
+//				.OnComplete (() => DeactivateThisParticle(k));
+
+			i++;
+//			if (i == myParticlesPool.Length)
+			if (i == 13)
+				i = 0;
+		}
+	}
+
+	void DeactivateThisParticle(int a){
+		myParticlesPool [a].SetActive (false);
+	}
+
+
+	public void SetChangeStyleState(){
+//		if(myParticles) myParticles.gameObject.SetActive (false);
+		if(myParticlesNew) myParticlesNew.SetActive (false);
+		myTextImage.SetActive (false);
+
+		Sprite img = Resources.Load<Sprite> ("Sprites/"+TransMaster.s.actualLanguage.ToString() + "/GameOver/change-style");
 		Debug.Log ("IMG LOADED?  " + img);
 		myImage.sprite = img;
 
@@ -46,13 +95,15 @@ public class BtJukebox : MonoBehaviour {
 			Sprite img = Resources.Load<Sprite> ("Sprites/GameOver/new-style");
 			myImage.sprite = img;
 
-			Sprite sprt = Resources.Load<Sprite> ("Sprites/GameOver/new-style-press");
+			Sprite sprt = Resources.Load<Sprite> ("Sprites/"+TransMaster.s.actualLanguage.ToString() + "/GameOver/new-style-press");
 			SpriteState state = new SpriteState ();
 			state.pressedSprite = sprt;
 			myButton.spriteState = state;
 
 			//activate particles
-			myParticles.gameObject.SetActive (true);
+//			myParticles.gameObject.SetActive (true);
+			myParticlesNew.SetActive(true);
+			myTextImage.SetActive (true);
 		}
 		else
 			StartCoroutine (ReadyAnimation());
@@ -74,13 +125,15 @@ public class BtJukebox : MonoBehaviour {
 		Sprite img = Resources.Load<Sprite> ("Sprites/GameOver/new-style");
 		myImage.sprite = img;
 
-		Sprite sprt = Resources.Load<Sprite> ("Sprites/GameOver/new-style-press");
+		Sprite sprt = Resources.Load<Sprite> ("Sprites/"+TransMaster.s.actualLanguage.ToString() + "/GameOver/new-style-press");
 		SpriteState state = new SpriteState ();
 		state.pressedSprite = sprt;
 		myButton.spriteState = state;
 
 		//activate particles
-		myParticles.gameObject.SetActive (true);
+//		myParticles.gameObject.SetActive (true);
+		myParticlesNew.SetActive(true);
+		myTextImage.SetActive (true);
 
 	}
 }

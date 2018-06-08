@@ -62,8 +62,6 @@ public class GD : MonoBehaviour {
 	public int N_SKINS = 9;
 	public int SKINS_PER_MUSIC = 3;
 
-	public int [] AllSkins;
-
 	public bool[] musicStyleAllowed;
 	public Skin[] skins;
 	int curId = 0;

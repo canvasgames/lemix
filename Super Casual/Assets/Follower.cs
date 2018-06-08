@@ -123,26 +123,22 @@ public class Follower : MonoBehaviour {
 		StartCoroutine(LetMeSacrificeMyselfForTheGreaterGood(time));
 	}
 
-	public IEnumerator LetMeSacrificeMyselfForTheGreaterGood(float time = 1f){
-		Debug.Log ("iiiiiiiiiiiiii KILL MY FOLLOWE RMEEEEEES tim: " + time);
+	public IEnumerator LetMeSacrificeMyselfForTheGreaterGood(float time = 1f) {
+//		Debug.Log ("iiiiiiiiiiiiii KILL MY FOLLOWE RMEEEEEES tim: " + time);
 		yield return new WaitForSeconds (time);
 		//		if(sound_controller.s != null) sound_controller.s.PlayExplosion();
-		Debug.Log ("KILL MY FOLLOWE RMEEEEEES" + time);
+//		Debug.Log ("KILL MY FOLLOWE RMEEEEEES" + time);
 		BallMaster.s.CreateExplosion (transform.position);
 		gameObject.SetActive (false);
 	}
-
 
 	public void DeactivateMe(float time){
 		if(iAmDead == false) StartCoroutine( DeactivateMeCoroutine(time));
 	}
 
-	public IEnumerator DeactivateMeCoroutine(float time = 1f){
-		Debug.Log (myBandPosition+ " DDDDDDDDDDDEACTIVATING FOLLOWER!!! time: " + time);
-
+	public IEnumerator DeactivateMeCoroutine(float time = 1f) {
 		//		yield return new WaitForSeconds (time);
 		yield return new WaitForSeconds (time);
-		Debug.Log (myBandPosition+ " DEACTIVATING FOLLOWER!!! " + time);
 		if(iAmDead == false) gameObject.SetActive (false);
 	}
 

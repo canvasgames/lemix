@@ -40,7 +40,7 @@ public class TranslationController : MonoBehaviour
         if (PlayerPrefs.GetInt("language") == 0)
         {
             if (Application.internetReachability == NetworkReachability.NotReachable)
-                SetActualLanguage(Language.usa);
+                SetActualLanguage(Language.eng);
             else
             {
                 if (Application.systemLanguage == SystemLanguage.Portuguese)
@@ -58,7 +58,7 @@ public class TranslationController : MonoBehaviour
                 else if (Application.systemLanguage == SystemLanguage.Korean)
                     SetActualLanguage(Language.sk);
                 else
-                    SetActualLanguage(Language.usa);
+                    SetActualLanguage(Language.eng);
             }
         }
         else
@@ -152,18 +152,19 @@ public class TranslationController : MonoBehaviour
 
     void ErrorInLoadLanguage()
     {
-        SetActualLanguage(Language.usa);
+        SetActualLanguage(Language.eng);
     }
 
 
     public void ChangeLanguage()
     {
         if ((int)actualLanguage == 8)
-            actualLanguage = Language.usa;
+            actualLanguage = Language.eng;
         else
             actualLanguage++;
         SetActualLanguage(actualLanguage);
     }
+
     void LoadTranslationTxts()
     {
         if (actualLanguage == Language.ptbr)
@@ -211,18 +212,6 @@ public class TranslationController : MonoBehaviour
             return originalString;
     }
 
-}
-
-public enum Language
-{
-    usa = 1,
-    ptbr = 2,
-    cn = 3,
-    ar = 4,
-    ru = 5,
-    es = 6,
-    sk = 7,
-    jp = 8
 }
 
 public enum FontTypes
