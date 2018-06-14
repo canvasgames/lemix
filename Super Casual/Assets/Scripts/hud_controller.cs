@@ -124,6 +124,17 @@ public class hud_controller : MonoBehaviour {
 	}
 
     void Start () {
+		var studioSystem = FMODUnity.RuntimeManager.StudioSystem;
+		FMOD.Studio.CPU_USAGE cpuUsage;
+		studioSystem.getCPUUsage(out cpuUsage);
+
+		var lowlevelSystem = FMODUnity.RuntimeManager.LowlevelSystem;
+		uint version;
+		lowlevelSystem.getVersion(out version);
+		FMODUnity.RuntimeManager.PlayOneShot ("event:/JumpTest");
+
+//		lowlevelSystem.p
+
 		Advertisement.Initialize ("1194074");
 
 //		game_title_y = game_title.transform.position.y;

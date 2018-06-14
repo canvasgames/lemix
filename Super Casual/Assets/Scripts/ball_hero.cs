@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using DG.Tweening;
-
+using FMODUnity;
 public class ball_hero : MonoBehaviour
 {
     #region ==== Variables Declaration =====
@@ -71,6 +71,7 @@ public class ball_hero : MonoBehaviour
     }
 	public void test() {
 		Debug.Log("AAAAAAAAAA");
+
 	}
 
     // START THE DANCE

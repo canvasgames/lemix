@@ -81,6 +81,8 @@
      <Compile Include="Assets\GlowBehaviour.cs" />
      <Compile Include="Assets\GlowBehaviourUI.cs" />
      <Compile Include="Assets\GlowController.cs" />
+     <Compile Include="Assets\GoogleVR\Scripts\Audio\FmodGvrAudio.cs" />
+     <Compile Include="Assets\GoogleVR\Scripts\Audio\FmodGvrAudioRoom.cs" />
      <Compile Include="Assets\HandUpAndDown.cs" />
      <Compile Include="Assets\MusicLayers.cs" />
      <Compile Include="Assets\NewHighscoreLights.cs" />
@@ -90,6 +92,8 @@
      <Compile Include="Assets\Platforms\Android\GcmListener.cs" />
      <Compile Include="Assets\Platforms\Android\Utils.cs" />
      <Compile Include="Assets\PwWheelMaster.cs" />
+     <Compile Include="Assets\ResonanceAudio\Scripts\FmodResonanceAudio.cs" />
+     <Compile Include="Assets\ResonanceAudio\Scripts\FmodResonanceAudioRoom.cs" />
      <Compile Include="Assets\RestartRotatingDisks.cs" />
      <Compile Include="Assets\RewardScreen.cs" />
      <Compile Include="Assets\RewardSparkleBehaviour.cs" />
