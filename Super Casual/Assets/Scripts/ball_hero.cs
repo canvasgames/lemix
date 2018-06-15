@@ -681,7 +681,24 @@ public class ball_hero : MonoBehaviour
 				}
 			}
 		}
-		else if (coll.gameObject.CompareTag("Wall"))
+        else if (coll.gameObject.CompareTag("Saw"))
+        {
+            if (globals.s.PW_SUPER_JUMP == false && !QA.s.INVENCIBLE)
+            {
+                if (globals.s.PW_INVENCIBLE == false)
+                {
+                    destroy_me(coll.gameObject.GetComponent<saw>().wave_name);
+                    //coll.gameObject.transform.position = new Vector3(coll.gameObject.transform.position.x + 50, coll.gameObject.transform.position.y, coll.gameObject.transform.position.z);
+                }
+                else {
+                    // Destroy(coll.gameObject);
+                    Instantiate(spike_explosion, new Vector3(coll.transform.position.x, coll.transform.position.y, coll.transform.position.z), transform.rotation);
+                    PW_controller.s.invencible_end();
+                    coll.gameObject.transform.position = new Vector3(coll.gameObject.transform.position.x + 50, coll.gameObject.transform.position.y, coll.gameObject.transform.position.z);
+                }
+            }
+        }
+        else if (coll.gameObject.CompareTag("Wall"))
 		{
 			rb.velocity = new Vector2(-rb.velocity.x, rb.velocity.y);
 			my_skin.transform.localScale = new Vector2(-my_skin.transform.localScale.x, my_skin.transform.localScale.y);
