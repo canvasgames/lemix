@@ -10,17 +10,16 @@ public class BtJukebox : MonoBehaviour {
 	Image myImage;
 	[SerializeField] GameObject[] myParticlesPool;
 	[SerializeField] ParticleSystem myParticles;
-	[SerializeField]  GameObject myParticlesNew;
+	[SerializeField]  GameObject myParticlesGroup;
 	[SerializeField] GameObject myReadyEffect;
 	[SerializeField] GameObject myTextImage;
 	// Use this for initialization
 	void Awake () {
 		myButton = GetComponent<Button> ();
 		myImage = GetComponent<Image> ();
-
 //		SetNewStyleState ();
 //		SetChangeStyleState ();
-		BeginMyParticlesAnimation();
+
 	}
 	
 	// Update is called once per frame
@@ -31,6 +30,11 @@ public class BtJukebox : MonoBehaviour {
 
 	public void BeginMyParticlesAnimation(){
 		particlesAnimationIsOn = true;
+		myParticlesGroup.SetActive(true);
+		foreach (GameObject p in myParticlesPool) {
+			p.transform.localPosition = new Vector2 (0, 0);
+		}
+
 		StartCoroutine (ParticlesAnimation ());
 	}
 
@@ -73,7 +77,7 @@ public class BtJukebox : MonoBehaviour {
 
 	public void SetChangeStyleState(){
 //		if(myParticles) myParticles.gameObject.SetActive (false);
-		if(myParticlesNew) myParticlesNew.SetActive (false);
+		if(myParticlesGroup) myParticlesGroup.SetActive (false);
 		myTextImage.SetActive (false);
 
 		Sprite img = Resources.Load<Sprite> ("Sprites/"+TransMaster.s.actualLanguage.ToString() + "/GameOver/change-style");
@@ -84,6 +88,8 @@ public class BtJukebox : MonoBehaviour {
 		SpriteState state = new SpriteState ();
 		state.pressedSprite = sprt;
 		myButton.spriteState = state;
+
+		myParticlesGroup.SetActive (false);
 
 		if (myReadyEffect)
 			myReadyEffect.SetActive (false);
@@ -102,7 +108,6 @@ public class BtJukebox : MonoBehaviour {
 
 			//activate particles
 //			myParticles.gameObject.SetActive (true);
-			myParticlesNew.SetActive(true);
 			myTextImage.SetActive (true);
 		}
 		else
@@ -132,8 +137,9 @@ public class BtJukebox : MonoBehaviour {
 
 		//activate particles
 //		myParticles.gameObject.SetActive (true);
-		myParticlesNew.SetActive(true);
 		myTextImage.SetActive (true);
+
+		BeginMyParticlesAnimation();
 
 	}
 }

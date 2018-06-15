@@ -278,6 +278,8 @@ public class game_controller : MonoBehaviour {
 
         AnalyticController.s.ReportGameStarted();
         starting_time = Time.time;
+
+		USER.s.BEST_SCORE = 0;
     }
 
     #endregion

@@ -839,27 +839,26 @@ public class ball_hero : MonoBehaviour
 		}
 		bool with_high_score = false;
 
-		if(my_floor > USER.s.BEST_SCORE)
-		{
-			with_high_score = true;
-			floor[] chaozis = GameObject.FindObjectsOfType(typeof(floor)) as floor[];
-			int i;
-			for (i = 0; i < chaozis.Length; i++)
-			{
-				chaozis[i].create_score_game_over(my_floor, 1);
-			}
-		}
-		else if(my_floor > USER.s.DAY_SCORE)
-		{
-			with_high_score = true;
-			floor[] chaozis = GameObject.FindObjectsOfType(typeof(floor)) as floor[];
-			int i;
-			for (i = 0; i < chaozis.Length; i++)
-			{
-				chaozis[i].create_score_game_over(my_floor,2);
-			}
-
-		}
+//		if(my_floor > USER.s.BEST_SCORE)
+//		{
+//			with_high_score = true;
+//			floor[] chaozis = GameObject.FindObjectsOfType(typeof(floor)) as floor[];
+//			int i;
+//			for (i = 0; i < chaozis.Length; i++)
+//			{
+//				chaozis[i].create_score_game_over(my_floor, 1);
+//			}
+//		}
+//		else if(my_floor > USER.s.DAY_SCORE)
+//		{
+//			with_high_score = true;
+//			floor[] chaozis = GameObject.FindObjectsOfType(typeof(floor)) as floor[];
+//			int i;
+//			for (i = 0; i < chaozis.Length; i++)
+//			{
+//				chaozis[i].create_score_game_over(my_floor,2);
+//			}
+//		}
 
 		if(sound_controller.s != null) sound_controller.s.PlayExplosion();
 		Instantiate(explosion, new Vector3(transform.position.x, transform.position.y, transform.position.z), transform.rotation);

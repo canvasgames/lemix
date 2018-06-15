@@ -20,6 +20,7 @@ public class floor : scenario_objects {
 	public bool repositionable = false;
 	public bool already_placed = false;
 	public GameObject pauta;
+	public GameObject myHighscoreAnimation = null;
 
 	#endregion
 
@@ -55,9 +56,9 @@ public class floor : scenario_objects {
         {
             if (USER.s.BEST_SCORE == my_floor)
             {
-				GameObject myAnimation = objects_pool_controller.s.RepositeFloorBestScore ();
-				myAnimation.transform.parent = transform;
-				myAnimation.transform.localPosition = new Vector2 (0f, 0.08f);
+				myHighscoreAnimation = objects_pool_controller.s.RepositeFloorBestScore ();
+				myHighscoreAnimation.transform.parent = transform;
+				myHighscoreAnimation.transform.localPosition = new Vector2 (0f, 0.08f);
 //                GameObject obj = objects_pool_controller.s.reposite_score(0, transform.position.y - my_txt_y_dif);
 //                obj.GetComponentInChildren<TextMesh>().text = "YOUR BEST";
 //                obj.GetComponentInChildren<Score_floor_txt>().my_floor = my_floor;
@@ -65,9 +66,9 @@ public class floor : scenario_objects {
             }
             else if (USER.s.DAY_SCORE == my_floor)
             {
-				GameObject myAnimation = objects_pool_controller.s.RepositeFloorDailyBest ();
-				myAnimation.transform.parent = transform;
-				myAnimation.transform.localPosition = new Vector2 (0f, 0.08f);
+				myHighscoreAnimation = objects_pool_controller.s.RepositeFloorDailyBest ();
+				myHighscoreAnimation.transform.parent = transform;
+				myHighscoreAnimation.transform.localPosition = new Vector2 (0f, 0.08f);
 //                GameObject obj = objects_pool_controller.s.reposite_score(0, transform.position.y - my_txt_y_dif);
 //                obj.GetComponentInChildren<TextMesh>().text = "DAILY BEST";
 //                obj.GetComponentInChildren<Score_floor_txt>().my_floor = my_floor;
@@ -75,9 +76,9 @@ public class floor : scenario_objects {
             }
             else if (USER.s.LAST_SCORE == my_floor)
             {
-				GameObject myAnimation = objects_pool_controller.s.RepositeFloorLastScore ();
-				myAnimation.transform.parent = transform;
-				myAnimation.transform.localPosition = new Vector2 (0f, 0.08f);
+				myHighscoreAnimation = objects_pool_controller.s.RepositeFloorLastScore ();
+				myHighscoreAnimation.transform.parent = transform;
+				myHighscoreAnimation.transform.localPosition = new Vector2 (0f, 0.08f);
 //                GameObject obj = objects_pool_controller.s.reposite_score(0, transform.position.y - my_txt_y_dif);
 //                obj.GetComponentInChildren<TextMesh>().text = "LAST GAME";
 //                obj.GetComponentInChildren<Score_floor_txt>().my_floor = my_floor;
@@ -119,9 +120,10 @@ public class floor : scenario_objects {
 
                 if (USER.s.BEST_SCORE + 1 == my_floor)
                 {
-					GameObject myAnimation = objects_pool_controller.s.RepositeFloorNewHighscore ();
-					myAnimation.transform.parent = transform;
-					myAnimation.transform.localPosition = new Vector2 (0.131f, 0.07f);
+					Debug.Log ("!!!!NEW HIGHSCORE");
+					myHighscoreAnimation = objects_pool_controller.s.RepositeFloorNewHighscore ();
+					myHighscoreAnimation.transform.parent = transform;
+					myHighscoreAnimation.transform.localPosition = new Vector2 (0.131f, 0.07f);
 //                    destroy_previous_score_create_new(1);
                 }
                 else if (USER.s.DAY_SCORE + 1 == my_floor)
@@ -161,6 +163,8 @@ public class floor : scenario_objects {
     //Under floor score destroy
     void destroy_previous_score_create_new(int score_type)
     {
+		print (";;;;;;;;;;; DESTROY AND CREATE NEW");
+
         Score_floor_txt[] Score_txt = GameObject.FindObjectsOfType(typeof(Score_floor_txt)) as Score_floor_txt[];
         int i;
 
@@ -176,6 +180,8 @@ public class floor : scenario_objects {
 		
     public void create_score_text(int score_type) // TBD BAD PERFORMANCE... PEGAR DA POOL
     {
+		print (";;;;;;;;;;; CREATE SCORE TEXT");
+
         Score_floor_txt[] Score_txt = GameObject.FindObjectsOfType(typeof(Score_floor_txt)) as Score_floor_txt[];
         int i;
 
@@ -202,6 +208,7 @@ public class floor : scenario_objects {
 
     public void create_score_game_over (int floor, int type) // TBD NAO USAR O FIND OBJECTS
     {
+		print (";;;;;;;;;;; GAME OVER NEW HIGHSCORE");
         if(floor == my_floor)
         {
             //destroy previous scores
@@ -286,6 +293,10 @@ public class floor : scenario_objects {
         my_skin.transform.GetComponent<SpriteRenderer>().enabled = true;
 		if(!pauta.activeInHierarchy) pauta.SetActive (true);
         my_skin.GetComponent<SpriteRenderer>().color = Color.black;
+
+		if (myHighscoreAnimation != null) {
+			myHighscoreAnimation.transform.parent = null;
+		}
         
 		foreach(floor_note a in my_notes_fg) {
 			a.mySR.enabled = false;

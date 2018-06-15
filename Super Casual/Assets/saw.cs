@@ -25,8 +25,8 @@ public class saw : scenario_objects
         {
             show_me_pw_sight();
         }
-        else
-            my_vision_effect.SetActive(false);
+//        else
+//            my_vision_effect.SetActive(false);
     }
 	
 	// Update is called once per frame

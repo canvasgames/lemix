@@ -132,7 +132,6 @@ public class hud_controller : MonoBehaviour {
 		uint version;
 		lowlevelSystem.getVersion(out version);
 		FMODUnity.RuntimeManager.PlayOneShot ("event:/JumpTest");
-
 //		lowlevelSystem.p
 
 		Advertisement.Initialize ("1194074");
@@ -492,7 +491,7 @@ public class hud_controller : MonoBehaviour {
 			//				, 0.5f).SetEase (Ease.OutQuad);
 			Invoke ("store_entrance", 0.2f);
 
-			game_title_y = game_title.transform.position.y;
+			game_title_y = game_title.transform.localPosition.y;
 			game_title.transform.DOLocalMoveY (GetComponent <RectTransform> ().rect.height / 2 + game_title.GetComponent <RectTransform> ().rect.height / 2
 				//game_title.transform.DOLocalMoveY (GetComponent <Rect>().height - game_title.transform.localPosition.y + 500
 				, 0.5f).SetEase (Ease.OutQuad);

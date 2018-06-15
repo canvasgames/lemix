@@ -70,7 +70,7 @@ public class store_controller : MonoBehaviour {
 	#region === Init ===
     void Start () {
 //		USER.s.NOTES = 101;
-		USER.s.NOTES = 104;
+		USER.s.NOTES = 98;
 		globals.s.NOTES_COLLECTED_JUKEBOX = 8 ;
 
 		SetPileOfCoinsInitalPosition ();
@@ -143,7 +143,7 @@ public class store_controller : MonoBehaviour {
 	}
 
 	public void OpenStore(){
-		Invoke ("OpenStore2", 0.1f); 
+		Invoke ("OpenStore2", 0.1f);
 		if (globals.s.NOTES_COLLECTED_JUKEBOX > 0) {
 			StartCoroutine(InitCoinFallingAnimation(globals.s.NOTES_COLLECTED_JUKEBOX ));
 		}
@@ -161,14 +161,10 @@ public class store_controller : MonoBehaviour {
 		title.text = globals.s.ACTUAL_SKIN.skinName;
 	}
 
-
 	public void CloseStore(bool fromBackBt){
 		if(fromBackBt == true) sound_controller.s.change_music((MusicStyle)globals.s.ACTUAL_STYLE);
 		else equipCharacterNew ();
-
-
 	}
-
 
 	IEnumerator LightAnimations(){
 		int curLine = 0;
@@ -418,7 +414,7 @@ public class store_controller : MonoBehaviour {
 			myCoinsPile.transform.localPosition = new Vector2 (myCoinsPile.transform.localPosition.x, myCoinsPile.transform.localPosition.y + yIncCoinsPile);
 			myCoinsQuantity.text = initialCoins + i + "/"+globals.s.JUKEBOX_CURRENT_PRICE;
 			Debug.Log ("CCCCCCCC COINS: " + (initialCoins + i));
-			yield return new WaitForSeconds (0.17f);
+			yield return new WaitForSeconds (0.14f);
 		}
 
 		myCoinsFalling.SetActive (false);
@@ -426,7 +422,7 @@ public class store_controller : MonoBehaviour {
 
 		yield return new WaitForSeconds (0.2f);
 
-		if ( USER.s.NOTES > globals.s.JUKEBOX_CURRENT_PRICE)
+		if ( USER.s.NOTES >= globals.s.JUKEBOX_CURRENT_PRICE)
 			StartCoroutine (InitCoinsFullAnimation ());
 	}
 
@@ -458,7 +454,7 @@ public class store_controller : MonoBehaviour {
 
 
 	public void BuyRandomCharacter(){
-		if (nCharsBuyed < GD.s.N_MUSIC) {
+		if (nCharsBuyed < GD.s.N_SKINS) {
 			jukeboxBt.GetComponent<Button> ().interactable = false;
 			StartCoroutine (StartRoulleteAnimation ());
 
@@ -469,10 +465,11 @@ public class store_controller : MonoBehaviour {
 			FTUController.s.SetFirstSongPurchased ();
 
 //			DisplayNotes ();
-			UpdateUserNotes();
+//			UpdateUserNotes();
+			myCoinsQuantity.text = "0/"+globals.s.JUKEBOX_CURRENT_PRICE;
 //			}
 		} else {
-			Debug.Log ("[JK] WOOOOOOOOOOOW! all chars purchaseD!!");
+			Debug.Log ("[JK] WOOOOOOOOOOOW! all chars purchaseD!! nCharsBuyed: " + nCharsBuyed + " GD N SKINS: "+ GD.s.N_SKINS);
 		}
 	}
 
@@ -590,6 +587,10 @@ public class store_controller : MonoBehaviour {
 
 		myCoinsFullAnimator.enabled = false;
 		SetPileOfCoinsInitalPosition ();
+
+		myLockedBg.SetActive (false);
+		myBgLights.SetActive (true);
+		equipButton.GetComponent<Button> ().interactable = true;
 
 		// FALL THE EXTRA COINS
 		if (USER.s.NOTES > 0) {
