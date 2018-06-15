@@ -167,8 +167,10 @@ public class main_camera : MonoBehaviour {
             }
             else
             {
-               // rb.velocity = new Vector2(0, 0);
-                rb.velocity = new Vector2(0, -globals.s.CAMERA_SPEED);
+               if(globals.s.GAME_OVER == 1)
+                    rb.velocity = new Vector2(0, 0);
+               else
+                    rb.velocity = new Vector2(0, -globals.s.CAMERA_SPEED);
                 moving = false;
             }
         }

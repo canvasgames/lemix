@@ -12,7 +12,7 @@ public class objects_pool_controller : MonoBehaviour {
 	#region ======= Variables Declaration ========
     public static objects_pool_controller s;
 
-    public GameObject power_ups_prefab, note_trail_prefab, note_prefab, floor_prefab, double_spike_prefab, triple_spike_prefab, squares_floor_prefab, scores_floor_prefab;
+    public GameObject power_ups_prefab, note_trail_prefab, note_prefab, floor_prefab, double_spike_prefab, triple_spike_prefab, squares_floor_prefab, scores_floor_prefab, saw_prefab;
 
 	[HideInInspector] public GameObject[] holesPool;
 
@@ -45,6 +45,13 @@ public class objects_pool_controller : MonoBehaviour {
     [HideInInspector]public GameObject[] triple_spikes_pool;
     int triple_spikes_pool_size = 20;
     int triple_spikes_pool_actual_i = 0;
+
+    [HideInInspector]
+    public GameObject[] saw_pool;
+    [HideInInspector]
+    public saw[] saw_scripts;
+    int saw_pool_size = 20;
+    int saw_pool_actual_i = 0;
 
     [HideInInspector]
 	public GameObject[] squares_floor_pool;
@@ -231,8 +238,11 @@ public class objects_pool_controller : MonoBehaviour {
 		{
 			triple_spikes_pool[i] = (GameObject)Instantiate(triple_spike_prefab, new Vector3(55, 0, 0), transform.rotation);
 		}
-
-		for (i = 0; i < squares_floor_pool_size; i++)
+        for (i = 0; i < saw_pool_size; i++)
+        {
+            saw_pool[i] = (GameObject)Instantiate(saw_prefab, new Vector3(55, 0, 0), transform.rotation);
+        }
+        for (i = 0; i < squares_floor_pool_size; i++)
 		{
 			squares_floor_pool[i] = (GameObject)Instantiate(squares_floor_prefab, new Vector3(105, 10*i, 0), transform.rotation);
 		}
@@ -425,8 +435,45 @@ public class objects_pool_controller : MonoBehaviour {
     }
     #endregion
 
-	#region ====== NOTES =======
-	public GameObject reposite_power_up(float x_pos, float y_pos)
+    #region SAW THINGS
+    public GameObject reposite_saw(float x_pos, float y_pos)
+    {
+        clear_flags_saw();
+        saw_pool[saw_pool_actual_i].transform.position = new Vector3(x_pos, y_pos - 0.05f, 0);
+        GameObject repos_saw = saw_pool[saw_pool_actual_i];
+
+        saw_pool_actual_i++;
+        if (saw_pool_actual_i == saw_pool_size)
+        {
+            saw_pool_actual_i = 0;
+        }
+
+        return repos_saw;
+    }
+
+    public void clear_flags_saw()
+    {
+        if (saw_pool[saw_pool_actual_i] != null)
+        {
+            if (saw_pool[saw_pool_actual_i].GetComponent<saw>() != null)
+            {
+                saw_pool[saw_pool_actual_i].GetComponent<saw>().clear_flags_reposite();
+
+            }
+            else
+            {
+                Debug.Log("naum tem scripttttttttttttttttttttttttttttttttttttttttttttttttttttt");
+            }
+        }
+        else
+        {
+            Debug.Log("naum tem objetioooooooooooooooooooooooooooooooooooooooooooooooooooooooo");
+        }
+    }
+    #endregion
+
+    #region ====== NOTES =======
+    public GameObject reposite_power_up(float x_pos, float y_pos)
 	{
 		//clear_flags_notes();
 
