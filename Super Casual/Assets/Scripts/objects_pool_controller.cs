@@ -171,6 +171,8 @@ public class objects_pool_controller : MonoBehaviour {
         squares_floor_pool = new GameObject[squares_floor_pool_size];
         scores_floor_pool = new GameObject[scores_floor_pool_size];
 		power_ups_pool = new GameObject[power_ups_pool_size];
+        saw_pool = new GameObject[saw_pool_size];
+
         create_initial_tudo();
     }
 
@@ -439,7 +441,7 @@ public class objects_pool_controller : MonoBehaviour {
     public GameObject reposite_saw(float x_pos, float y_pos)
     {
         clear_flags_saw();
-        saw_pool[saw_pool_actual_i].transform.position = new Vector3(x_pos, y_pos - 0.05f, 0);
+        saw_pool[saw_pool_actual_i].transform.position = new Vector3(x_pos, y_pos - 0.2f, 0);
         GameObject repos_saw = saw_pool[saw_pool_actual_i];
 
         saw_pool_actual_i++;

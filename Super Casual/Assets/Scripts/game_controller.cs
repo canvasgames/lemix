@@ -648,8 +648,11 @@ public class game_controller : MonoBehaviour {
             count++;
 
             // ======== SORT INITIAL WAVES! ========
-
-			if(n_floor-1 == GD.s.SCENERY_FLOOR_VALUES[0] 
+            if(1==1)
+            {
+                wave_found = create_wave_saw(n_floor,1);
+            }
+            else if (n_floor-1 == GD.s.SCENERY_FLOOR_VALUES[0] 
 				|| n_floor-1 == GD.s.SCENERY_FLOOR_VALUES[1] 
 				|| n_floor-1 == GD.s.SCENERY_FLOOR_VALUES[2] 
 				|| n_floor-1 == GD.s.SCENERY_FLOOR_VALUES[3]){
@@ -2163,6 +2166,30 @@ public class game_controller : MonoBehaviour {
         }
     }
 
+    //SINGLE SPIKE SOMEWHERE
+    bool create_wave_saw(int n, int custom_wave = -1)
+    {
+        float actual_y = globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * n;
+        int rand = Random.Range(1, 100);
+        if (QA.s.TRACE_PROFUNDITY >= 2) Debug.Log("\n " + n + " ~~~~~~~~~~~~ TRY CREATE EASY HOLE! ~~~~~~~~~~~~ | rand " + rand  + " N FAILED: " + hole_creation_failed);
+
+        if (custom_wave == 1)
+        {
+            wave_name = "saw_simple";
+            if (QA.s.SHOW_WAVE_TYPE == true)
+            {
+                create_wave_name(0, actual_y, wave_name);
+            }
+            create_floor(0, n);
+            create_saw(corner_limit_right + 2f, actual_y, n);
+            last_spike_right = false;
+            last_spike_left = false;
+            last_hole = false;
+            last_wall = false;
+            return true;
+        }
+        return false;
+    }
     #endregion
 
     #region ======== WAVE ELEMENTS =======
@@ -2281,7 +2308,34 @@ public class game_controller : MonoBehaviour {
         }
     }
 
-	public void create_bg(int n, bool special_wave = false) {
+    void create_saw(float x, float y, int n, bool corner_repositionable = false, bool repositionable = false)
+    {
+        GameObject obj = objects_pool_controller.s.reposite_saw(x, y + globals.s.SLOT / 2);
+        saw saw = obj.GetComponent<saw>();
+
+        if (saw != null)
+        {
+            saw.my_floor = n;
+            saw.corner_repositionable = corner_repositionable;
+            saw.repositionable = repositionable;
+            saw.wave_name = wave_name;
+        }
+
+        ///////////////////////// CREATE NOTES OR NOT
+
+        int rand = Random.Range(1, 100);
+        if (rand <= 25)
+        {
+            //GameObject instance = Instantiate(Resources.Load("Prefabs/Note",
+            //typeof(GameObject)), new Vector3(x, y + globals.s.SLOT / 2 + 1.85f), transform.rotation) as GameObject;
+
+            GameObject objj = objects_pool_controller.s.reposite_note(x + Random.Range(-0.05f, 0.05f), y + globals.s.SLOT / 2 + 1.85f);
+
+        }
+    }
+
+
+    public void create_bg(int n, bool special_wave = false) {
 
 		//Debug.Log ("creating BG  n:  " +n + "  POS : " + ( globals.s.BASE_Y + globals.s.FLOOR_HEIGHT * n  + 2.45f) );
 		if (n <= GD.s.SCENERY_FLOOR_VALUES[0])

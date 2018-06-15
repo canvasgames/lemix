@@ -436,7 +436,14 @@ public class ball_hero : MonoBehaviour
 				p.place_me_at_the_other_corner (-my_son.transform.position.x, my_floor + 2);
 			}
 
-			if (USER.s.BEST_SCORE <= 5) {
+            // MAKE SAWS POSITION THEMSELVES
+            saw[] saws = GameObject.FindObjectsOfType(typeof(saw)) as saw[]; // TBD
+            foreach (saw p in saws)
+            {
+                p.place_me_at_the_other_corner(-my_son.transform.position.x, my_floor + 2);
+            }
+
+            if (USER.s.BEST_SCORE <= 5) {
 //				floor[] floors = GameObject.FindObjectsOfType(typeof(floor)) as floor[];
 //				foreach(floor p in floors){
 //					p.reposite_me_at_the_other_corner(-my_son.transform.position.x, my_floor + 2);
