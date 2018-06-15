@@ -32,7 +32,7 @@ public class BtJukebox : MonoBehaviour {
 		particlesAnimationIsOn = true;
 		myParticlesGroup.SetActive(true);
 		foreach (GameObject p in myParticlesPool) {
-			p.transform.localPosition = new Vector2 (0, 0);
+			p.transform.localPosition = new Vector3 (0, 0, 0);
 		}
 
 		StartCoroutine (ParticlesAnimation ());
