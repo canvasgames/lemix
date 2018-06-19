@@ -46,8 +46,6 @@ public class TransMaster : MonoBehaviour {
 	}
 
 
-
-
 //	public string GetGameOverStoreButtonSpritePath(){
 //		if (actualLanguage = Language.usa) {
 //			return 

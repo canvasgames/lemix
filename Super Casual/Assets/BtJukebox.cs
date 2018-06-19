@@ -19,21 +19,19 @@ public class BtJukebox : MonoBehaviour {
 		myImage = GetComponent<Image> ();
 //		SetNewStyleState ();
 //		SetChangeStyleState ();
-
-	}
-	
-	// Update is called once per frame
-	void Update () {
-
 	}
 
+	public void ResetMyParticles(){
+		if (myParticlesGroup.activeInHierarchy) {
+			foreach (GameObject p in myParticlesPool) {
+				p.transform.localPosition = new Vector3 (0, 0, 0);
+			}
+		}
+	}
 
 	public void BeginMyParticlesAnimation(){
 		particlesAnimationIsOn = true;
 		myParticlesGroup.SetActive(true);
-		foreach (GameObject p in myParticlesPool) {
-			p.transform.localPosition = new Vector3 (0, 0, 0);
-		}
 
 		StartCoroutine (ParticlesAnimation ());
 	}
@@ -81,13 +79,15 @@ public class BtJukebox : MonoBehaviour {
 		myTextImage.SetActive (false);
 
 		Sprite img = Resources.Load<Sprite> ("Sprites/"+TransMaster.s.actualLanguage.ToString() + "/GameOver/change-style");
-		Debug.Log ("IMG LOADED?  " + img);
-		myImage.sprite = img;
-
-		Sprite sprt = Resources.Load<Sprite> ("Sprites/GameOver/change-style-press");
-		SpriteState state = new SpriteState ();
-		state.pressedSprite = sprt;
-		myButton.spriteState = state;
+		Debug.Log ("IMG LOADED?  " + img + " AAA " + TransMaster.s.actualLanguage.ToString() );
+		if (img)
+			myImage.sprite = img;
+		else
+			Debug.Log ("EEEEEEERROR");
+//		Sprite sprt = Resources.Load<Sprite> ("Sprites/GameOver/change-style-press");
+//		SpriteState state = new SpriteState ();
+//		state.pressedSprite = sprt;
+//		myButton.spriteState = state;
 
 		myParticlesGroup.SetActive (false);
 
@@ -119,6 +119,7 @@ public class BtJukebox : MonoBehaviour {
 		if (QA.s.TRACE_PROFUNDITY > 0) Debug.Log ("BT JUKEBOX MY READY ANIMATION!!!");
 		if (myReadyEffect) {
 			myReadyEffect.SetActive (true);
+			myReadyEffect.GetComponent<Image> ().color = new Color (1, 1, 1, 1);
 			myReadyEffect.GetComponent<Animator> ().Play ("GlowBlueReadyAnim");
 		}
 

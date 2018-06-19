@@ -27,7 +27,8 @@ public class QA : MonoBehaviour {
 	public bool CREATE_NOTE_TRAIL = true;
 	public bool NO_MUSIC = false;
 
-	public float jokerf = 0;
+	public float jokerf = 0, jokerf2, jokerf3;
+	public int jokeri = 0, jokeri2, jokeri3;
 
 	public Ease ease1;
 

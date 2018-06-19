@@ -531,7 +531,7 @@ public class hud_controller : MonoBehaviour {
 		
 		if (globals.s.previousGameScreen == GameScreen.LevelEnd && fromBackBt == false) {
 //			hide_game_over ();
-			game_over_text.SetActive(false);
+//			game_over_text.SetActive(false);
 			yield return new WaitForSeconds (0.35f);
 
 			yield return new WaitForSeconds (0.3f);
@@ -598,14 +598,12 @@ public class hud_controller : MonoBehaviour {
     {
         if(globals.s.GAME_OVER == 1)
         {
-            game_over_text.SetActive(true);
-
             //if (game_over_text.GetComponent<Text>().IsActive()) print(" IS GAME OVER ACTIVE ");
-			//game_over_text.GetComponent<Text>().text = "GAME OVER\n\nSCORE: " + temp_cur_floor + "\n BEST: " + temp_best_floor;
-			game_over_score.GetComponent<Text>().text =  temp_cur_floor.ToString () ;
-			game_over_best.GetComponent<Text>().text =  temp_best_floor.ToString ();
-
-			GameOverController.s.Init ();
+//			game_over_text.GetComponent<Text>().text = "GAME OVER\n\nSCORE: " + temp_cur_floor + "\n BEST: " + temp_best_floor;
+//			game_over_score.GetComponent<Text>().text =  temp_cur_floor.ToString () ;
+//			game_over_best.GetComponent<Text>().text =  temp_best_floor.ToString ();
+			game_over_text.SetActive(true);
+			GameOverController.s.Init (temp_cur_floor, temp_best_floor);
         }
 
     }

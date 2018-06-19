@@ -69,8 +69,8 @@ public class store_controller : MonoBehaviour {
 
 	#region === Init ===
     void Start () {
-//		USER.s.NOTES = 101;
-		USER.s.NOTES = 98;
+		USER.s.NOTES = 101;
+//		USER.s.NOTES = 98;
 		globals.s.NOTES_COLLECTED_JUKEBOX = 8 ;
 
 		SetPileOfCoinsInitalPosition ();

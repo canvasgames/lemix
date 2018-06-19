@@ -5,8 +5,31 @@ public class NewHighscoreLights : MonoBehaviour {
 	[SerializeField] GameObject[] myLights;
 	// Use this for initialization
 	void OnEnable () {
+		StartCoroutine (LightsEnteringAnimation ());
+	}
+
+	IEnumerator LightsEnteringAnimation(){
+		int curLine = 0;
+		int max = 0;
+		for (int i = 0; i < myLights.Length; i++) {
+			myLights [i].SetActive (false);
+
+		}
+
+		for (int i = 0; i < myLights.Length ;i++) {
+//				myLights [i].SetActive (true);
+			myLights [i].SetActive (true);
+			//				lightsTopLine [i].SetActive (true);
+			//				lightsBottomtLine [i].SetActive (true);
+			yield return new WaitForSeconds (0.02f);
+
+			//				lightsTopLine [i].SetActive (false);
+			//				lightsBottomtLine [i].SetActive (false);
+
+		}
 		StartCoroutine (LightAnimations ());
 	}
+
 
 	IEnumerator LightAnimations(){
 		int curLine = 0;
@@ -27,7 +50,6 @@ public class NewHighscoreLights : MonoBehaviour {
 					i = -1;
 					yield return new WaitForSeconds (0.23f);
 				}
-
 
 			} else
 				break;

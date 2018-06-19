@@ -4,12 +4,13 @@ using System.Collections;
 using DG.Tweening;
 
 public class activate_pw_button : MonoBehaviour {
-
+	#region === VArs ===
 	public GameObject my_time, my_spin_now, myReadyInText; //, my_glow, my_icon_countdown, my_icon_spinnow;
 	public GameObject HandTut;
 	[SerializeField] GameObject myBar, myReadyEffect;
 	Button myBt;
 	bool interactable = false;
+	#endregion
 
 	// Use this for initialization
 	void Awake () {
@@ -77,6 +78,7 @@ public class activate_pw_button : MonoBehaviour {
 	IEnumerator ReadyAnimation(){
 		if (myReadyEffect) {
 			myReadyEffect.SetActive (true);
+			myReadyEffect.GetComponent<Image> ().color = new Color (1, 1, 1, 1);
 			myReadyEffect.GetComponent<Animator> ().Play ("GlowReadyAnim");
 		}
 

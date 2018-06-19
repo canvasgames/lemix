@@ -654,7 +654,8 @@ public class game_controller : MonoBehaviour {
             {
                 wave_found = create_wave_saw(n_floor,1);
             }
-            else if (n_floor-1 == GD.s.SCENERY_FLOOR_VALUES[0] 
+            else
+				if (n_floor-1 == GD.s.SCENERY_FLOOR_VALUES[0] 
 				|| n_floor-1 == GD.s.SCENERY_FLOOR_VALUES[1] 
 				|| n_floor-1 == GD.s.SCENERY_FLOOR_VALUES[2] 
 				|| n_floor-1 == GD.s.SCENERY_FLOOR_VALUES[3]){
