@@ -102,10 +102,7 @@ namespace DeltaDNA {
 				MatchCollection matches = Regex.Matches(www.error, ErrorRegex);
 				if (matches.Count > 0 && matches[0].Groups.Count > 0) {
 					statusCode = Convert.ToInt32(matches[0].Groups[1].Value);
-				} else if (Application.platform == RuntimePlatform.WindowsWebPlayer) {
-                    Logger.LogDebug("IE11 Webplayer workaround, assuming request succeeded");
-					statusCode = 204; // Bug in IE11, can't handle 204 which Collect returns.
-				} else {
+				}  else {
 					statusCode = 500; // Assume service is unavailable, likely no network connection.
 				}
 			}

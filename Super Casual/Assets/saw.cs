@@ -21,7 +21,7 @@ public class saw : scenario_objects
     // Use this for initialization
     void Start () {
         //my_skin.transform.localScale = new Vector3(1, 0, 0);
-        if (globals.s.PW_SIGHT_BEYOND_SIGHT == true)
+        if (1==1||globals.s.PW_SIGHT_BEYOND_SIGHT == true)
         {
             show_me_pw_sight();
         }
@@ -46,14 +46,13 @@ public class saw : scenario_objects
                 show_me();
             }
         }
-        }
+    }
 
     public void place_me_at_the_other_corner(float ball_x, int floor)
     {
         if (floor == my_floor)
         {
             //GetComponent<CircleCollider2D>().enabled = true;
-
             if ((ball_x > 0 ) )
             {
                 transform.position = new Vector2(0 - Mathf.Abs(0 - transform.position.x), transform.position.y);
@@ -70,32 +69,14 @@ public class saw : scenario_objects
 
     void show_me()
     {
-        //Debug.Log("\n NNNNNNNNNNNNNNNNNNNNNNNNNNNNNN SCALE ME UP! DIST: " + Mathf.Abs(transform.position.x - globals.s.BALL_X) );
         already_appeared = true;
         transform.GetComponent<CircleCollider2D>().enabled = true;
 
-        transform.DOLocalMoveY((transform.localPosition.y + 0.64f), 0.1f).SetEase(Ease.Linear); ;
+        transform.DOLocalMoveY((transform.localPosition.y + 0.64f), 0.1f).SetEase(Ease.Linear); 
         if(transform.position.x < 0)
             transform.DOMoveX((transform.position.x + 11f), QA.s.jokerf).SetEase(Ease.Linear);
         else
             transform.DOMoveX((transform.position.x - 11f), QA.s.jokerf).SetEase(Ease.Linear);
-
-        /*if (wall_trigger)
-       {
-           my_twin_wall.trigger_back = true;
-           wall_trigger = false;
-           my_twin_wall.GetComponent<BoxCollider2D>().enabled = true;
-       }
-
-
-   gameObject spk = FindObjectOfType<spike>.GetComponent("spike");
-   // Initialize Globals singleton
-   globals[] single2 = FindObjectsOfType(typeof(globals)) as globals[];
-   if (single2.Length == 0)
-   {
-       GameObject obj = (GameObject)Instantiate(single, new Vector3(0, 0, 0), transform.rotation);
-       globals final = obj.GetComponent<globals>();
-   }*/
     }
 
     public void unshow_me()
