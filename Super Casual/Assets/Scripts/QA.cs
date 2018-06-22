@@ -52,7 +52,7 @@ public class QA : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if(Time.timeScale != TIMESCALE) Time.timeScale = TIMESCALE;
+		if(Time.timeScale != TIMESCALE && globals.s.GAME_PAUSED == false) Time.timeScale = TIMESCALE;
     }
 
 	public void SwitchSquaresMode(){

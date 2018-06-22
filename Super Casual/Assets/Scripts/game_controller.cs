@@ -122,7 +122,7 @@ public class game_controller : MonoBehaviour {
 
     #region ====== SCENE START =======
 	public bool alertDebug = false;
-
+    
 	void Alert_unbug(){
 		globals.s.ALERT_BALL = false;
 		alertDebug = true;
@@ -282,6 +282,38 @@ public class game_controller : MonoBehaviour {
 		USER.s.BEST_SCORE = 0;
     }
 
+    #endregion
+
+    #region PAUSE
+    void Update()
+    {
+        if (Input.GetKeyDown("p"))
+        {
+            ClickedPauseButton();
+        }
+    }
+
+    public void ClickedPauseButton()
+    {
+        if (globals.s.GAME_PAUSED)
+            UnPauseGame();
+        else
+            PauseGame();
+    }
+
+    public void PauseGame()
+    {
+        Time.timeScale = 0;
+        globals.s.GAME_PAUSED = true;
+        hud_controller.si.OpenPauseMenu();
+    }
+
+    public void UnPauseGame()
+    {
+        Time.timeScale = 1;
+        globals.s.GAME_PAUSED = false;
+        hud_controller.si.ClosePauseMenu();
+    }
     #endregion
 
     #region ====== GAME END =======

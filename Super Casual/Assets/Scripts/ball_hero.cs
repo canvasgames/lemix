@@ -258,11 +258,13 @@ public class ball_hero : MonoBehaviour
 
 	IEnumerator ShowAlert() {
 		yield return new WaitForSeconds (0.05f);
-		Debug.Log("SHOWING ALERT!! MY FLOOR: " + my_floor);
-		my_alert.SetActive(true);
-		my_alert.transform.localScale = new Vector2(2.3f, 0);
-		my_alert.transform.DOScaleY(2.3f, 0.12f);
-		if(sound_controller.s != null) sound_controller.s.play_alert();
+
+            Debug.Log("SHOWING ALERT!! MY FLOOR: " + my_floor);
+            my_alert.SetActive(true);
+            my_alert.transform.localScale = new Vector2(2.3f, 0);
+            my_alert.transform.DOScaleY(2.3f, 0.12f);
+            if (sound_controller.s != null) sound_controller.s.play_alert();
+
 	}
 
 	public void activate_pos_revive() // TBD FOLLOWERS

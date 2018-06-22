@@ -21,7 +21,7 @@ public class saw : scenario_objects
     // Use this for initialization
     void Start () {
         //my_skin.transform.localScale = new Vector3(1, 0, 0);
-        if (1==1||globals.s.PW_SIGHT_BEYOND_SIGHT == true)
+        if (globals.s.PW_SIGHT_BEYOND_SIGHT == true)
         {
             show_me_pw_sight();
         }
@@ -71,6 +71,7 @@ public class saw : scenario_objects
     {
         already_appeared = true;
         transform.GetComponent<CircleCollider2D>().enabled = true;
+        back_original_color_pw_sight();
 
         transform.DOLocalMoveY((transform.localPosition.y + 0.64f), 0.1f).SetEase(Ease.Linear); 
         if(transform.position.x < 0)
